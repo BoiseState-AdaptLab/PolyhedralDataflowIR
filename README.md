@@ -1,5 +1,3 @@
-# PolyhedralDataflowIR
-
 # Polyhedral+Dataflow eDSL and IR
 
 This project contains an implementation of the Polyhedral+Dataflow graph intermediate representation (IR), and
