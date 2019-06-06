@@ -1399,11 +1399,18 @@ namespace pdfg {
         }
 
         Math size() const {
-            Math expr;// = diff;
+            Math expr;
             for (unsigned n = 0; n < _constraints.size(); n += 2) {
-                Expr lower = _constraints[n].lhs();
-                Expr upper = _constraints[n+1].rhs();
-                Math diff = (upper - lower) + Int(1);
+                Constr low = _constraints[n];
+                Constr high = _constraints[n+1];
+                Expr lower = low.lhs();
+                Expr upper = high.rhs();
+                
+                Math diff = (upper - lower);
+                if (high.relop().find('=') != string::npos) {
+                    diff = diff + Int(1);
+                }
+                
                 if (expr.empty()) {
                     expr = diff;
                 } else {
