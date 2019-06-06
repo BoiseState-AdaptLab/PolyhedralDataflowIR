@@ -245,7 +245,7 @@ public:
         _nnz = nnz;
         _order = order;
         _dims = (unsigned *) calloc(order, sizeof(unsigned));
-        _indices = (unsigned **) calloc(order, sizeof(unsigned *));
+        _indices = (unsigned **) calloc(order, sizeof(unsigned*));
         _vals = nullptr;
     }
 
@@ -582,13 +582,46 @@ private:
 
 class MatlabIO : public MatrixIO {
 public:
-    explicit MatlabIO(const string &filename = "") :  MatrixIO(filename) {
+    explicit MatlabIO(const string &filename = "", int nrows = 0, int ncols = 0) :  MatrixIO(filename) {
+        _dims[0] = nrows;
+        _dims[1] = ncols;
     }
 
     int read() {
+        char line[1024];
+        char *pch;
 
+        FILE *in = fopen(_filename.c_str(), "r");
+        if (_dims[0] < 1) {
+            // TODO: Read the file to count the number of rows...
 
-        return 0;
+            // TODO: Count the number of columns, from the first column
+
+            rewind(in);
+        }
+
+        unsigned nrows = _dims[0];
+        unsigned ncols = _dims[1];
+        _nnz = nrows * ncols;
+        _indices[0] = (unsigned*) calloc(_nnz, sizeof(int));
+        _indices[1] = (unsigned*) calloc(_nnz, sizeof(int));
+        _vals = (real*) calloc(_nnz, sizeof(real));
+
+        for (unsigned i = 0; i < _dims[0] && fgets(line, sizeof(line), in) != NULL; i++) {
+            // Tokenize the line...
+            pch = strtok(line, " ");
+            for (unsigned j = 0; j < _dims[1] && pch; j++) {
+                unsigned n = i * j;
+                _indices[0][n] = i;
+                _indices[1][n] = j;
+                _vals[n] = atof(pch);
+                pch = strtok(NULL, " ");
+            }
+        }
+
+        fclose(in);
+
+        return _nnz < 1;
     }
 };
 
@@ -604,6 +637,14 @@ public:
 
     unsigned* indices() const {
         return _indptr;
+    }
+
+    unsigned ntubes() const {
+        return _dims[2];
+    }
+
+    unsigned* dims() const {
+        return _dims;
     }
 
     int read() {
@@ -636,6 +677,7 @@ public:
             }
 
             // Tokenize 1st line and get order
+            _order = 0;
             for (pch = strtok(line, " "); pch != NULL; pch = strtok(NULL, " ")) {
                 _order += 1;
             }
