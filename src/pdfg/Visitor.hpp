@@ -159,46 +159,47 @@ namespace pdfg {
         }
 
         void enter(DataNode* node) override {
+            string label = node->label();
             if (!_graph->isReturn(node) && _graph->isSource(node)) {
                 // Input Data
                 string param = "const " + node->datatype();
                 if (!node->is_scalar()) {
                     param += "*";
                 }
-                param += " " + node->label();
+                param += " " + label;
                 _params.push_back(param);
             } else if (!_graph->isReturn(node) && _graph->isSink(node)) {
                 // Output Data
-                string param = node->datatype() + "* " + node->label();
+                string param = node->datatype() + "* " + label;
                 _params.push_back(param);
             } else if (node->alloc() != NONE) {
                 // Temporary Data
                 ostringstream os;
                 os << _indent;
                 if (node->is_scalar()) {
-                    os << node->datatype() << ' ' << node->label() << " = " << node->defval() << ';';
+                    os << node->datatype() << ' ' << label<< " = " << node->defval() << ';';
                 } else if (node->alloc() == DYNAMIC) {
-                    os << node->datatype() << "* restrict " << node->label() << " = calloc("
+                    os << node->datatype() << "* restrict " << label << " = calloc("
                        << *node->size() << ",sizeof(" << node->datatype() << "));";
                     _frees.push_back(node->label());
                 } else {
                     if (node->alloc() == STATIC) {
                         os << "static ";
                     }
-                    os << node->datatype() << ' ' << node->label() << '['
+                    os << node->datatype() << ' ' << label << '['
                        << *node->size() << "] = {" << node->defval() << "};";
                 }
                 string line = os.str();
                 _allocs.push_back(line);
                 if (node->alloc() == DYNAMIC && node->defval() != "0") {
                     os.str(_indent);
-                    os << "arrinit(" << node->label() << ',' << node->defval() << ',' << *node->size() << ");";
+                    os << "arrinit(" << label << ',' << node->defval() << ',' << *node->size() << ");";
                     line = os.str();
                     _allocs.push_back(line);
                 }
             }
             if (!node->mapping().empty()) {
-                define(node->label(), node->mapping());
+                define(label, node->mapping());
             }
         }
 

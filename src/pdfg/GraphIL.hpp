@@ -480,6 +480,66 @@ namespace pdfg {
         return os;
     }
 
+    struct Iter;
+    void addIterator(const Iter &iter);
+
+    struct Iter : public Expr {
+    public:
+        explicit Iter(const string &name = "") {
+            _name = _text = name;
+            _type = 'I';
+            addIterator(*this);
+        }
+
+        explicit Iter(const Expr &expr) : Iter(expr.text()) {
+        }
+
+        explicit Iter(char chr) : Iter(string(1, chr)) {
+        }
+
+        Iter(const Iter &other) {
+            copy(other);
+        }
+
+        Iter &operator=(const Expr &expr) override {
+            auto iter = dynamic_cast<const Iter *>(&expr);
+            copy(*iter); // calling Derived::copy()
+            return *this;
+        }
+
+        bool equals(const Iter &other) const {
+            return _name == other._name;
+        }
+
+        bool operator<(const Iter &other) const {
+            return _name < other._name;     // Lexicographic ordering...
+        }
+
+        bool operator==(const Iter &other) {
+            return _text == other._text;
+        }
+
+        explicit operator int() const {
+            return (int) _text.size();
+        }
+
+        bool is_iter() const override {
+            return true;
+        }
+
+        string name() const {
+            return _name;
+        }
+
+    protected:
+        void copy(const Iter &other) {
+            Expr::copy(other); // Let Base::copy() handle copying Base things
+            _name = other._name;
+        }
+
+        string _name;
+    };
+
     struct Func;
     void addFunction(const Func &func);
 
@@ -704,67 +764,6 @@ namespace pdfg {
         }
         return os;
     }
-
-    struct Iter;
-
-    void addIterator(const Iter &iter);
-
-    struct Iter : public Expr {
-    public:
-        explicit Iter(const string &name = "") {
-            _name = _text = name;
-            _type = 'I';
-            addIterator(*this);
-        }
-
-        explicit Iter(const Expr &expr) : Iter(expr.text()) {
-        }
-
-        explicit Iter(char chr) : Iter(string(1, chr)) {
-        }
-
-        Iter(const Iter &other) {
-            copy(other);
-        }
-
-        Iter &operator=(const Expr &expr) override {
-            auto iter = dynamic_cast<const Iter *>(&expr);
-            copy(*iter); // calling Derived::copy()
-            return *this;
-        }
-
-        bool equals(const Iter &other) const {
-            return _name == other._name;
-        }
-
-        bool operator<(const Iter &other) const {
-            return _name < other._name;     // Lexicographic ordering...
-        }
-
-        bool operator==(const Iter &other) {
-            return _text == other._text;
-        }
-
-        explicit operator int() const {
-            return (int) _text.size();
-        }
-
-        bool is_iter() const override {
-            return true;
-        }
-
-        string name() const {
-            return _name;
-        }
-
-    protected:
-        void copy(const Iter &other) {
-            Expr::copy(other); // Let Base::copy() handle copying Base things
-            _name = other._name;
-        }
-
-        string _name;
-    };
 
     struct Constr : public Expr {
     public:
@@ -1370,42 +1369,42 @@ namespace pdfg {
             return os.str();
         }
 
-        Space to_omega() const {
-            Space space(_name, _iterators);
-            map<string, int> counts;
-//            symbolic N,col(2),rp(1),rp1(1);
-//            Icsr := {[i,n,j]:j-col(i,n)=0&&i>=0&&n-rp(i)>=0&&N-1>=0&&-i+N-1>=0&&-n+rp1(i)-1>=0&&-rp(i)+rp1(i)-1>=0};
-//            codegen(Icsr) given {[i,n,j]: N-1>=0&&-rp(i)+rp1(i)-1>=0};
-            //os << this->name << "(" << this->arity << ") -> (";
-
-            for (const auto &constr : _constraints) {
-                array<Expr, 2> exprs = {constr.lhs(), constr.rhs()};
-                for (unsigned i = 0; i < exprs.size(); i++) { //const auto& expr : exprs) {
-                    if (exprs[i].is_func()) {
-                        string fxn = exprs[i].text();
-                        auto pos = fxn.find('(');
-                        string fname = fxn.substr(0, pos);
-                        string fargs = fxn.substr(pos + 1);
-                        fargs = fargs.substr(0, fargs.size() - 1);
-
-                        // TODO: Cases wherein we need a new fxn...
-                        // 1) Argument is a math operator, e.g., rp(i+1)
-                        // 2) Or in general, whenever arg is not an iterator!
-                        //for (const auto& arg : )
-                        if (counts.find(fname) != counts.end()) {
-                            fname += to_string(counts[fname]);
-                            counts[fname] += 1;
-                        } else {
-                            counts[fname] = 1;
-                        }
-                    }
-                }
-                Constr newcon(exprs[0], exprs[1], constr.relop());
-                space.add(newcon);
-            }
-
-            return space;
-        }
+//        Space to_omega() const {
+//            Space space(_name, _iterators);
+//            map<string, int> counts;
+////            symbolic N,col(2),rp(1),rp1(1);
+////            Icsr := {[i,n,j]:j-col(i,n)=0&&i>=0&&n-rp(i)>=0&&N-1>=0&&-i+N-1>=0&&-n+rp1(i)-1>=0&&-rp(i)+rp1(i)-1>=0};
+////            codegen(Icsr) given {[i,n,j]: N-1>=0&&-rp(i)+rp1(i)-1>=0};
+//            //os << this->name << "(" << this->arity << ") -> (";
+//
+//            for (const auto &constr : _constraints) {
+//                array<Expr, 2> exprs = {constr.lhs(), constr.rhs()};
+//                for (unsigned i = 0; i < exprs.size(); i++) { //const auto& expr : exprs) {
+//                    if (exprs[i].is_func()) {
+//                        string fxn = exprs[i].text();
+//                        auto pos = fxn.find('(');
+//                        string fname = fxn.substr(0, pos);
+//                        string fargs = fxn.substr(pos + 1);
+//                        fargs = fargs.substr(0, fargs.size() - 1);
+//
+//                        // TODO: Cases wherein we need a new fxn...
+//                        // 1) Argument is a math operator, e.g., rp(i+1)
+//                        // 2) Or in general, whenever arg is not an iterator!
+//                        //for (const auto& arg : )
+//                        if (counts.find(fname) != counts.end()) {
+//                            fname += to_string(counts[fname]);
+//                            counts[fname] += 1;
+//                        } else {
+//                            counts[fname] = 1;
+//                        }
+//                    }
+//                }
+//                Constr newcon(exprs[0], exprs[1], constr.relop());
+//                space.add(newcon);
+//            }
+//
+//            return space;
+//        }
 
         Math size() const {
             Math expr;
@@ -1420,10 +1419,10 @@ namespace pdfg {
                     diff = diff + Int(1);
                 }
 
+                Math rhs = Math(NullExpr, diff, "(");
                 if (expr.empty()) {
-                    expr = diff;
+                    expr = rhs;
                 } else {
-                    Math rhs = Math(NullExpr, diff, "(");
                     expr = expr * rhs;
                 }
             }
@@ -2659,61 +2658,68 @@ namespace pdfg {
             Expr* expr = nullptr;
             Math math;
             if (func.arity() > 0) {
-                for (Expr& arg : func.args()) {
-                    string argtxt = arg.text();
-                    bool isIter = (_iters.find(argtxt) != _iters.end());
-                    if (!isIter && hasIter(argtxt)) {
-                        istringstream is(argtxt);
-                        is >> math;
-                        argtxt = math.lhs().text();
-                        isIter = (_iters.find(argtxt) != _iters.end());
-                    }
-                    if (isIter) {
-                        Iter iter = _iters[argtxt];
-                        vector<Constr> constraints = comp.space().constraints(argtxt);
-                        Expr lower, upper;
-                        string oplow, opup;
-                        for (const Constr& constr : constraints) {
-                            if (constr.lhs().text() == iter.name()) {
-                                upper = constr.rhs();
-                                opup = constr.relop();
-                            } else if (constr.rhs().text() == iter.name()) {
-                                lower = constr.lhs();
-                                oplow = constr.relop();
-                            }
-                        }
-
-                        Math diff = (upper - lower);
-                        if (opup == "<=") {
-                            diff = Math(diff, Int(1), "+");
-                        }
-                        if (oplow == "<") {
-                            diff = Math(diff, Int(1), "-");
-                        }
-
-                        if (argtxt == math.lhs().text()) {
-                            math = Math(diff, math.rhs(), math.oper());
-                        } else if (!math.oper().empty()) {
-                            math = math * diff;
-                        } else {
-                            math = diff;
-                        }
-                    } else if (_consts.find(argtxt) != _consts.end()) {
-                        math = Math(_consts[argtxt], Int(0), "+");
-                    }
-                }
-                expr = new Math(math);
+                expr = new Math(getFuncSize(comp, func));
             } else if (_spaces.find(func.name()) != _spaces.end()) {
                 Space space = _spaces[func.name()];
                 if (!space.constraints().empty()) {
                     expr = new Math(space.size());
                 }
             }
-
             if (expr == nullptr) {
                 expr = new Int(1);      // Assume scalar
             }
             return expr;
+        }
+
+        Math getFuncSize(const Comp& comp, const Func& func) {
+            Math math;
+            for (Expr& arg : func.args()) {
+                string argtxt = arg.text();
+                auto mapkey = _iters.find(argtxt);
+                bool isIter = (mapkey != _iters.end());
+                if (!isIter && hasIter(argtxt)) {
+                    istringstream is(argtxt);
+                    is >> math;
+                    argtxt = math.lhs().text();
+                    mapkey = _iters.find(argtxt);
+                    isIter = (mapkey != _iters.end());
+                }
+                if (isIter) {
+                    Iter iter = mapkey->second;
+                    vector<Constr> constraints = comp.space().constraints(argtxt);
+                    Expr lower, upper;
+                    string oplow, opup;
+                    for (const Constr& constr : constraints) {
+                        if (constr.lhs().text() == iter.name()) {
+                            upper = constr.rhs();
+                            opup = constr.relop();
+                        } else if (constr.rhs().text() == iter.name()) {
+                            lower = constr.lhs();
+                            oplow = constr.relop();
+                        }
+                    }
+
+                    Math diff = (upper - lower);
+                    if (opup == "<=") {
+                        diff = Math(diff, Int(1), "+");
+                    }
+                    if (oplow == "<") {
+                        diff = Math(diff, Int(1), "-");
+                    }
+                    diff = Math(NullExpr, diff, "(");
+
+                    if (argtxt == math.lhs().text()) {
+                        math = Math(diff, math.rhs(), math.oper());
+                    } else if (!math.oper().empty()) {
+                        math = math * diff;
+                    } else {
+                        math = diff;
+                    }
+                } else if (_consts.find(argtxt) != _consts.end()) {
+                    math = Math(_consts[argtxt], Int(0), "+");
+                }
+            }
+            return math;
         }
 
         string getType(const Comp& comp, const Func& func) const {
@@ -2867,7 +2873,6 @@ namespace pdfg {
                     Comp ecomp = espace + statements;
                     cerr << ecomp << endl;
                 //}
-                int stop = 2;
             } else {
                 cerr << "ERROR: Circular data reference in computation!\n";
             }
