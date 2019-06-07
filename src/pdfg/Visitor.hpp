@@ -260,7 +260,7 @@ namespace pdfg {
             }
 
             if (!graph->returnName().empty()) {
-                line = _indent + "return (" + graph->returnName() + ");";
+                line = "\n" + _indent + "return (" + graph->returnName() + ");";
                 _body.push_back(line);      // Return value...
             }
 

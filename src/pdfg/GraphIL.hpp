@@ -351,7 +351,11 @@ namespace pdfg {
     }
 
     Math sqrt(const Expr& expr) {
-        return Math(expr, Int(0), "sqrt(");
+        return Math(NullExpr, expr, "sqrt(");
+    }
+
+    Math paren(const Expr& expr) {
+        return Math(NullExpr, expr, "(");
     }
 
     vector<Math> operator^(const Math& lhs, const Math& rhs) {
@@ -380,6 +384,11 @@ namespace pdfg {
 //    }
 
     Math operator+=(const Expr &lhs, const Expr &rhs) {
+//        if (lhs.empty()) {
+//            return Math(rhs, Int(0), "+");
+//        } else {
+//            return Math(lhs, rhs, "+");
+//        }
         addSpace(lhs);
         return Math(lhs, rhs, "+=");
     }
@@ -625,6 +634,10 @@ namespace pdfg {
             return _arity;
         }
 
+        Expr arg(unsigned pos) const {
+            return _args[pos];
+        }
+
         vector<Expr> args() const {
             return _args;
         }
@@ -697,14 +710,6 @@ namespace pdfg {
         return os;
     }
 
-    Math call(const Func& func) {
-        return Math(NullExpr, func, "");
-    }
-
-    Math call(const Expr& retval, const Func& func) {
-        return Math(retval, func, "=");
-    }
-
     struct Const;
     void addConstant(const Const &con);
 
@@ -763,6 +768,82 @@ namespace pdfg {
             os << constant.name();
         }
         return os;
+    }
+
+    struct Macro;
+    void addMacro(Macro& macro);
+
+    struct Macro : public Func {
+    public:
+        explicit Macro(const string &name = "", const vector<Expr>& args = {}, const vector<Expr>& exprs = {}) :
+                 Func(name, args.size()) {
+            _args = args;
+            _exprs = exprs;
+            _type = '#';
+            _text = stringify<Macro>(*this);
+        }
+
+        explicit Macro(const string &name, const vector<Iter>& iters, const vector<Expr>& exprs = {}) : Macro(name) {
+            _args = vector<Expr>(iters.begin(), iters.end());
+            _exprs = exprs;
+        }
+
+        Macro(const Macro& other) {
+            copy(other);
+        }
+
+        virtual Macro &operator=(const Func& func) {
+            auto macro = dynamic_cast<const Macro*>(&func);
+            copy(*macro); // calling Derived::copy()
+            return *this;
+        }
+
+        vector<Expr> expressions() const {
+            return _exprs;
+        }
+
+    protected:
+        void copy(const Macro& other) {
+            Func::copy(other); // Let Base::copy() handle copying Base things
+            _exprs = other._exprs;
+        }
+
+        vector<Expr> _exprs;
+    };
+
+    ostream &operator<<(ostream &os, const Macro& macro) {
+        os << macro.name() << '(';
+        vector<Expr> args = macro.args();
+        for (unsigned i = 0; i < args.size(); i++) {
+            os << args[i];
+            if (i < args.size() - 1) {
+                os << ',';
+            }
+        }
+        os << ") {\\\n";
+
+        vector<Expr> exprs = macro.expressions();
+        for (unsigned i = 0; i < exprs.size(); i++) {
+            string expr = exprs[i].text();
+            os << expr << ";\\\n";
+        }
+        os << '}';
+        return os;
+    }
+
+    Math call(const Func& func) {
+        return Math(NullExpr, func, "");
+    }
+
+    Math call(const Expr& retval, const Func& func) {
+        return Math(retval, func, "=");
+    }
+
+    Math call(const Expr& retval, Func& func, Macro& macro) {
+        addMacro(macro);
+        func.name(macro.name());
+        func.eval();
+        return Math(retval, func, "=");
     }
 
     struct Constr : public Expr {
@@ -1419,7 +1500,7 @@ namespace pdfg {
                     diff = diff + Int(1);
                 }
 
-                Math rhs = Math(NullExpr, diff, "(");
+                Math rhs = paren(diff); //Math(NullExpr, diff, "(");
                 if (expr.empty()) {
                     expr = rhs;
                 } else {
@@ -1568,10 +1649,10 @@ namespace pdfg {
 
         void init(const string &name, const vector<Iter> &iterators, const vector<Constr> &constraints) {
             _name = name;
-            if (_name.empty()) {
-                _name = "c" + to_string(_space_counter);
-                _space_counter += 1;
-            }
+//            if (_name.empty()) {
+//                _name = "c" + to_string(_space_counter);
+//                _space_counter += 1;
+//            }
             _text = _name;
             _constraints = constraints;
             _type = 'P';
@@ -1588,8 +1669,10 @@ namespace pdfg {
                 }
                 _iterators.push_back(iter);
             }
-            _spaces[_name] = this;
-            //addSpace(*this);
+            if (!_name.empty()) { // && _iterators.size() > 0) {
+                _spaces[_name] = new Space(*this);
+                //addSpace(*this);
+            }
         }
     };
 
@@ -1652,7 +1735,7 @@ namespace pdfg {
         unsigned size = access.tuple().size();
         Space space = access.space();
         os << space.name();
-        if (size > 0 && access.tuple().at(0).type() != 'N') {
+        if (size > 0) { //} && access.tuple().at(0).type() != 'N') {
             char refchar = access.refchar();
             os << refchar;
             if (size < 2) {
@@ -2495,7 +2578,10 @@ namespace pdfg {
         }
 
         void addSpace(const Space& space) {
-            _spaces[space.name()] = space;
+            string sname = space.name();
+            if (!sname.empty()) {
+                _spaces[sname] = space;
+            }
         }
 
         void addRel(const Rel& rel) {
@@ -2569,12 +2655,21 @@ namespace pdfg {
             }
         }
 
+        void addMacro(Macro& macro) {
+            string macname = macro.name();
+            if (_macros.find(macname) == _macros.end()) {
+                _macros[macname] = vector<Macro>();
+            }
+            macro.name(macname + to_string(_macros[macname].size() + 1));
+            _macros[macname].push_back(macro);
+        }
+
         void addMapping(const Access& access, const string& mapping) {
-            string name = access.space().name();
-            auto itr = _mappings.find(name);
+            string accname = access.space().name();
+            auto itr = _mappings.find(accname);
             if (itr == _mappings.end()) {
                 string accstr = stringify<Access>(access);
-                _mappings[name] = make_pair<string, string>(string(accstr), string(mapping));
+                _mappings[accname] = make_pair<string, string>(string(accstr), string(mapping));
             }
         }
 
@@ -2587,6 +2682,9 @@ namespace pdfg {
         }
 
         Space getSpace(const string& name) {
+            if (name.empty()) {
+                int stop = 1;
+            }
             return _spaces[name];
         }
 
@@ -2606,6 +2704,16 @@ namespace pdfg {
             CodeGenVisitor cgen(cpath); //, _iters.size());
             for (const auto& mapping : _mappings) {
                 cgen.define(mapping.second);
+            }
+
+            for (const auto& iter : _macros) {
+                for (const auto& macro : iter.second) {
+                    string code = stringify<Macro>(macro);
+                    size_t pos = code.find(' ');
+                    string lhs = code.substr(0, pos);
+                    string rhs = code.substr(pos + 1);
+                    cgen.define(lhs, rhs);
+                }
             }
 
             if (name.empty()) {
@@ -2706,7 +2814,7 @@ namespace pdfg {
                     if (oplow == "<") {
                         diff = Math(diff, Int(1), "-");
                     }
-                    diff = Math(NullExpr, diff, "(");
+                    diff = paren(diff); //Math(NullExpr, diff, "(");
 
                     if (argtxt == math.lhs().text()) {
                         math = Math(diff, math.rhs(), math.oper());
@@ -2932,6 +3040,8 @@ namespace pdfg {
         map<string, Rel> _relations;
         map<string, vector<Access> > _accesses;
         map<string, pair<string, string> > _mappings;
+        map<string, vector<Macro> > _macros;
+
         FlowGraph _flowGraph;
     };
 
@@ -2944,8 +3054,17 @@ namespace pdfg {
         GraphMaker::get().print(file);
     }
 
+    void clearSpaces() {
+        for (const auto& itr : _spaces) {
+            delete itr.second;
+        }
+        _spaces.clear();
+    }
+
     string codegen(const string& name = "") {
-        return GraphMaker::get().codegen(name);
+        string code = GraphMaker::get().codegen(name);
+        clearSpaces();
+        return code;
     }
 
     void addIterator(const Iter& iter) {
@@ -2963,6 +3082,12 @@ namespace pdfg {
     void addFunction(const Func& func) {
         if (!func.name().empty()) {
             GraphMaker::get().addFunc(func);
+        }
+    }
+
+    void addMacro(Macro& macro) {
+        if (!macro.name().empty()) {
+            GraphMaker::get().addMacro(macro);
         }
     }
 
