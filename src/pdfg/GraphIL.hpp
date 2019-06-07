@@ -1028,13 +1028,15 @@ namespace pdfg {
 
     struct Access : public Expr {
     public:
-        Access(const Space &space, initializer_list<Expr> tuple, char refchar = '(') : _space(space) {
-            init(tuple, refchar);
+        Access(const Space &space, initializer_list<Expr> tuple, char refchar = '(', const vector<int>& offsets = {}) :
+            _space(space) {
+            init(tuple, refchar, offsets);
             _text = stringify<Access>(*this);
         }
 
-        Access(const Space &space, const vector<Expr>& tuple, char refchar = '(') : _space(space) {
-            init(tuple, refchar);
+        Access(const Space &space, const vector<Expr>& tuple, char refchar = '(', const vector<int>& offsets = {}) :
+            _space(space) {
+            init(tuple, refchar, offsets);
             _text = stringify<Access>(*this);
         }
 
@@ -1064,13 +1066,18 @@ namespace pdfg {
             return _tuple;
         }
 
-    protected:
-        void init(initializer_list<Expr> tuple, char refchar) {
-            init(Lists::initListToVec<Expr>(tuple), refchar);
+        vector<int> offsets() const {
+            return _offsets;
         }
 
-        void init(const vector<Expr>& tuple, char refchar) {
+    protected:
+        void init(initializer_list<Expr> tuple, char refchar = '(', const vector<int>& offsets = {}) {
+            init(Lists::initListToVec<Expr>(tuple), refchar, offsets);
+        }
+
+        void init(const vector<Expr>& tuple, char refchar = '(', const vector<int>& offsets = {}) {
             _refchar = refchar;
+            _offsets = offsets;
             _type = 'A';
             for (const auto &expr : tuple) {
                 _tuple.push_back(expr);
@@ -1083,11 +1090,13 @@ namespace pdfg {
             Expr::copy(other); // Let Base::copy() handle copying Base things
             _refchar = other._refchar;
             _tuple = other._tuple;
+            _offsets = other._offsets;
         }
 
         const Space &_space;
         char _refchar;
         vector<Expr> _tuple;
+        vector<int> _offsets;
     };
 
     unsigned _iter_counter = 0;
@@ -1405,12 +1414,12 @@ namespace pdfg {
                 Constr high = _constraints[n+1];
                 Expr lower = low.lhs();
                 Expr upper = high.rhs();
-                
+
                 Math diff = (upper - lower);
                 if (high.relop().find('=') != string::npos) {
                     diff = diff + Int(1);
                 }
-                
+
                 if (expr.empty()) {
                     expr = diff;
                 } else {
@@ -2368,7 +2377,7 @@ namespace pdfg {
                         ((DataNode*) dataNode)->size(size);
                     } else {
                         // Make integer typed data node and add incoming edge to stmt node.
-                        dataNode = _flowGraph.add(new DataNode(&expr, expr.text(), size, _indexType)); //, getMapping(expr.text())));
+                        dataNode = _flowGraph.add(new DataNode(&expr, expr.text(), size, _indexType));
                         cerr << "Added read node '" << dataNode->label() << "'" << endl;
                     }
                     _flowGraph.add(dataNode, compNode);
@@ -2416,8 +2425,7 @@ namespace pdfg {
                     ((DataNode*) dataNode)->size(size);
                 } else {
                     // Create data node from Access object, and add incoming edge edge to statement node.
-                    //Expr* size = getSize(comp, Func(expr));
-                    dataNode = _flowGraph.add(new DataNode(&expr, expr.text(), size, type)); //, getMapping(expr.text())));
+                    dataNode = _flowGraph.add(new DataNode(&expr, expr.text(), size, type));
                     cerr << "Added read node '" << dataNode->label() << "'" << endl;
                 }
                 _flowGraph.add(dataNode, compNode);
@@ -2509,7 +2517,9 @@ namespace pdfg {
 
         void addAccess(const Access& access) {
             unsigned size = access.tuple().size();
+            vector<int> offsets = access.offsets();
             Space space = access.space();
+
             if (size > 0 && access.tuple().at(0).type() != 'N') {
                 string sname = space.name();
                 if (access.refchar() != '[') {
@@ -2518,10 +2528,23 @@ namespace pdfg {
                     if (size < 2) {
                         Expr expr = access.tuple().at(0);
                         os << expr;
+                        if (offsets.size() > 0 && offsets[0] != 0) {
+                            if (offsets[0] > 0) {
+                                os << '+';
+                            }
+                            os << offsets[0];
+                        }
                     } else {
                         os << "offset" << size << '(';
                         for (unsigned i = 0; i < size; i++) {
-                            os << '(' << access.tuple().at(i) << "),";
+                            os << '(' << access.tuple().at(i) << ')';
+                            if (offsets.size() > i && offsets[i] != 0) {
+                                if (offsets[i] > 0) {
+                                    os << '+';
+                                }
+                                os << offsets[i];
+                            }
+                            os << ',';
                         }
                         for (unsigned i = 1; i < size; i++) {
                             unsigned k = i * 2 + 1;
@@ -2539,7 +2562,9 @@ namespace pdfg {
                         os << ')';
                     }
                     os << ']';
-                    addMapping(access, os.str());
+
+                    string mapping = os.str();
+                    addMapping(access, mapping);
                 }
                 _accesses[sname].push_back(access);
             }
@@ -2965,9 +2990,9 @@ namespace pdfg {
         }
     }
 
-    void addAccess(const Access& acc) {
-        if (!acc.space().name().empty()) {
-            GraphMaker::get().addAccess(acc);
+    void addAccess(const Access& access) {
+        if (!access.space().name().empty()) {
+            GraphMaker::get().addAccess(access);
         }
     }
 
