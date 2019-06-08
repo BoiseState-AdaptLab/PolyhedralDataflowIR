@@ -5,10 +5,19 @@ r0 := {[i,j] -> [i,j,0,0]};
 r1 := {[i,j,k] -> [i,j,1,k,0]};
 codegen r0:gemm,r1:gemm given {[i,j,k]: M-1>=0&&N-1>=0&&P-1>=0};
 
-Good: 
+Good:
 >>> symbolic M,N,P;
 >>> init := {[i,j]:i>=0&&j>=0&&M-1>=0&&N-1>=0&&-i+N-1>=0&&-j+M-1>=0};
 >>> gemm := {[i,j,k]:i>=0&&j>=0&&k>=0&&M-1>=0&&N-1>=0&&P-1>=0&&-i+N-1>=0&&-j+M-1>=0&&-k+P-1>=0};
 >>> r0 := {[i,j] -> [i,j,0,0]};
 >>> r1 := {[i,j,k] -> [i,j,1,k]};
 >>> codegen r0:init,r1:gemm given {[i,j,k]: M-1>=0&&N-1>=0&&P-1>=0};
+
+===============================================================================================================
+
+SPLATT Default Options:
+  opts[SPLATT_OPTION_TOLERANCE]  = DEFAULT_TOL;
+  opts[SPLATT_OPTION_REGULARIZE] = 0.;
+  opts[SPLATT_OPTION_NITER]      = DEFAULT_ITS;
+  DEFAULT_TOL = 1e-5
+  DEFAULT_ITS = 50
