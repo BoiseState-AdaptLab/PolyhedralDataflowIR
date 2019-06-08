@@ -83,6 +83,14 @@ namespace poly {
             return outStr;
         }
 
+        string codegen(map<string, vector<string> >& statements,
+                       map<string, vector<string> >& guards,
+                       map<string, vector<string> >& schedules) {
+            // TODO: Implement me!
+            string code = "";
+            return code;
+        }
+
         string codegen(const string& setName, const string& iterType, const string& ompSched = "",
             bool defineMacros = false, const vector<string>& statements = {},
             const vector<string>& guards = {}, const vector<string>& schedules = {}) {

@@ -203,40 +203,40 @@ namespace pdfg {
             }
         }
 
-        void updateComp(Comp* comp, vector<string>& guards, vector<string>& statements, vector<string>& schedules) {
+        void updateComp(Comp* comp, map<string, vector<string> >& statements,
+                        map<string, vector<string> >& guards,
+                        map<string, vector<string> >& schedules) {
+            //string iegstr = Strings::replace(comp.space().to_iegen(), "N/8", "N_R");
+            string iegstr = comp->space().to_iegen();
+            string norm = _poly.add(iegstr);
+            string sname = comp->space().name();
+
             for (const Constr& guard : comp->guards()) {
-                guards.emplace_back(stringify<Constr>(guard));
+                guards[sname].emplace_back(stringify<Constr>(guard));
             }
             for (const Math& statement : comp->statements()) {
-                statements.emplace_back(stringify<Math>(statement));
+                statements[sname].emplace_back(stringify<Math>(statement));
             }
             for (const auto& schedule : comp->schedules()) {
-                schedules.push_back(schedule.to_iegen());
+                schedules[sname].push_back(schedule.to_iegen());
             }
         }
 
         void enter(CompNode* node) override {
-            vector<string> guards;
-            vector<string> statements;
-            vector<string> schedules;
+            map<string, vector<string> > guards;
+            map<string, vector<string> > statements;
+            map<string, vector<string> > schedules;
 
             Comp* comp = (Comp*) node->expr();
-            Space space = comp->space();
-            updateComp(comp, guards, statements, schedules);
+            updateComp(comp, statements, guards, schedules);
 
-            // TODO: Handle code gen for fused child nodes...
             for (CompNode* child : node->children()) {
                 comp = (Comp*) child->expr();
-                updateComp(comp, guards, statements, schedules);
-                if (comp->space().iterators().size() > space.iterators().size()) {
-                    space = comp->space();
-                }
+                updateComp(comp, statements, guards, schedules);
             }
 
-            //string iegstr = Strings::replace(comp.space().to_iegen(), "N/8", "N_R");
-            string iegstr = space.to_iegen();
-            string norm = _poly.add(iegstr);
-            string code = _poly.codegen(space.name(), "", "", true, statements, guards, schedules);
+            //string code = _poly.codegen(space.name(), "", "", true, statements, guards, schedules);
+            string code = _poly.codegen(statements, guards, schedules);
             code = "// " + node->label() + "\n" + code;
             _body.push_back(code);
         }
