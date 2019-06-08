@@ -626,7 +626,7 @@ namespace pdfg {
             _name = name;
         }
 
-        void eval() {
+        virtual void eval() {
             _text = stringify<Func>(*this);
         }
 
@@ -802,6 +802,10 @@ namespace pdfg {
             return _exprs;
         }
 
+        virtual void eval() {
+            _text = stringify<Macro>(*this);
+        }
+
     protected:
         void copy(const Macro& other) {
             Func::copy(other); // Let Base::copy() handle copying Base things
@@ -812,16 +816,7 @@ namespace pdfg {
     };
 
     ostream &operator<<(ostream &os, const Macro& macro) {
-        os << macro.name() << '(';
-        vector<Expr> args = macro.args();
-        for (unsigned i = 0; i < args.size(); i++) {
-            os << args[i];
-            if (i < args.size() - 1) {
-                os << ',';
-            }
-        }
-        os << ") {\\\n";
-
+        os << "{\\\n";
         vector<Expr> exprs = macro.expressions();
         for (unsigned i = 0; i < exprs.size(); i++) {
             string expr = exprs[i].text();
@@ -835,14 +830,13 @@ namespace pdfg {
         return Math(NullExpr, func, "");
     }
 
-    Math call(const Expr& retval, const Func& func) {
-        return Math(retval, func, "=");
+    Math call(Macro& macro) {
+        addMacro(macro);
+        macro.eval();
+        return Math(NullExpr, macro, "");
     }
 
-    Math call(const Expr& retval, Func& func, Macro& macro) {
-        addMacro(macro);
-        func.name(macro.name());
-        func.eval();
+    Math call(const Expr& retval, const Func& func) {
         return Math(retval, func, "=");
     }
 
@@ -2706,15 +2700,15 @@ namespace pdfg {
                 cgen.define(mapping.second);
             }
 
-            for (const auto& iter : _macros) {
-                for (const auto& macro : iter.second) {
-                    string code = stringify<Macro>(macro);
-                    size_t pos = code.find(' ');
-                    string lhs = code.substr(0, pos);
-                    string rhs = code.substr(pos + 1);
-                    cgen.define(lhs, rhs);
-                }
-            }
+//            for (const auto& iter : _macros) {
+//                for (const auto& macro : iter.second) {
+//                    string code = stringify<Macro>(macro);
+//                    size_t pos = code.find(' ');
+//                    string lhs = code.substr(0, pos);
+//                    string rhs = code.substr(pos + 1);
+//                    cgen.define(lhs, rhs);
+//                }
+//            }
 
             if (name.empty()) {
                 cgen.walk(&_flowGraph);
