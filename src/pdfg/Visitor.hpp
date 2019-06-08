@@ -203,25 +203,40 @@ namespace pdfg {
             }
         }
 
-        void enter(CompNode* node) override {
-            auto comp = (Comp*) node->expr();
-            vector<string> guards = stringify<Constr>(comp->guards());
-            vector<string> statements = stringify<Math>(comp->statements());
-
-            vector<string> schedules;
+        void updateComp(Comp* comp, vector<string>& guards, vector<string>& statements, vector<string>& schedules) {
+            for (const Constr& guard : comp->guards()) {
+                guards.emplace_back(stringify<Constr>(guard));
+            }
+            for (const Math& statement : comp->statements()) {
+                statements.emplace_back(stringify<Math>(statement));
+            }
             for (const auto& schedule : comp->schedules()) {
                 schedules.push_back(schedule.to_iegen());
             }
+        }
 
-            if (!node->children().empty()) {
-                // TODO: Handle code gen for fused child nodes...
-                int stop = 1;
+        void enter(CompNode* node) override {
+            vector<string> guards;
+            vector<string> statements;
+            vector<string> schedules;
+
+            Comp* comp = (Comp*) node->expr();
+            Space space = comp->space();
+            updateComp(comp, guards, statements, schedules);
+
+            // TODO: Handle code gen for fused child nodes...
+            for (CompNode* child : node->children()) {
+                comp = (Comp*) child->expr();
+                updateComp(comp, guards, statements, schedules);
+                if (comp->space().iterators().size() > space.iterators().size()) {
+                    space = comp->space();
+                }
             }
 
             //string iegstr = Strings::replace(comp.space().to_iegen(), "N/8", "N_R");
-            string iegstr = comp->space().to_iegen();
+            string iegstr = space.to_iegen();
             string norm = _poly.add(iegstr);
-            string code = _poly.codegen(comp->space().name(), "", "", true, statements, guards, schedules);
+            string code = _poly.codegen(space.name(), "", "", true, statements, guards, schedules);
             code = "// " + node->label() + "\n" + code;
             _body.push_back(code);
         }

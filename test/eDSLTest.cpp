@@ -563,8 +563,9 @@ TEST(eDSLTest, SGeMM) {
     Space a("a"), b("b");
 
     init("sgemm");
-    Comp init("init", s2d, (C(i,j) *= b(0)));
-    Comp gemm("gemm", s3d, (C(i,j) += a(0) * A(i,k) * B(k,j)));
+    //Comp init("init", s2d, (C(i,j) *= b(0)));
+    Comp init("init", s2d, (C(i,j) *= b));
+    Comp gemm("gemm", s3d, (C(i,j) += a * A(i,k) * B(k,j)));
     // This makes an excellent opportunity to implement fusion!
     // Desired Omega Input:
 //    >>> symbolic M,N,P;

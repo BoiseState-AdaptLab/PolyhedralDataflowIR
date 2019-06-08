@@ -282,14 +282,15 @@ namespace pdfg {
             _type = 'C';
         }
 
-//        Comp comp() const {
-//            return _comp;
-//        }
-//
-//        void comp(const Comp& comp) {
-//            _comp = comp;
-//        }
-//
+        Comp* comp() const {
+            return (Comp*) _expr;
+        }
+
+        void comp(Comp* comp) {
+            delete _expr;
+            _expr = comp;
+        }
+
 
         vector<CompNode*> children() const {
             return _children;
@@ -543,10 +544,12 @@ namespace pdfg {
             return outputs;
         }
 
-        void fuse(initializer_list<string> names) {
+        void fuse(initializer_list<Comp> comps) {
             vector<CompNode*> compNodes;
-            for (const string& name : names) {
-                compNodes.push_back((CompNode*) this->get(name));
+            for (const Comp& comp : comps) {
+                CompNode* node = (CompNode*) this->get(comp.name());
+                node->comp(new Comp(comp));
+                compNodes.push_back(node);
             }
             if (!compNodes.empty()) {
                 CompNode* first = compNodes[0];

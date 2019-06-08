@@ -1643,10 +1643,10 @@ namespace pdfg {
 
         void init(const string &name, const vector<Iter> &iterators, const vector<Constr> &constraints) {
             _name = name;
-//            if (_name.empty()) {
-//                _name = "c" + to_string(_space_counter);
-//                _space_counter += 1;
-//            }
+            if (_name.empty()) {
+                _name = "c" + to_string(_space_counter);
+                _space_counter += 1;
+            }
             _text = _name;
             _constraints = constraints;
             _type = 'P';
@@ -2428,7 +2428,7 @@ namespace pdfg {
         }
 
         void fuse(Comp& comp1, const Comp& comp2) {
-            _flowGraph.fuse({comp1.name(), comp2.name()});
+            _flowGraph.fuse({comp1, comp2});
         }
 
         void addComp(Comp& comp) {
