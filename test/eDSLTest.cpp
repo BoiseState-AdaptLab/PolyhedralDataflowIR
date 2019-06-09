@@ -557,23 +557,14 @@ TEST(eDSLTest, SGeMM) {
 
     Iter i('i'), j('j'), k('k');
     Const N('N'), M('M'), P('P');
-    Space s2d("s2d", 0 <= i < N ^ 0 <= j < M);
-    Space s3d("s3d", 0 <= i < N ^ 0 <= j < M ^ 0 <= k < P);
     Space A("A", N, P), B("B", P, M), C("C", N, M), D("D", N, M);
     Space a("a"), b("b");
 
     init("sgemm");
-    //Comp init("init", s2d, (C(i,j) *= b(0)));
-    Comp init("init", s2d, (C(i,j) *= b));
-    Comp gemm("gemm", s3d, (C(i,j) += a * A(i,k) * B(k,j)));
+    Comp init("init", (0 <= i < N ^ 0 <= j < M), (C(i,j) *= b));
+    Comp gemm("gemm", (0 <= i < N ^ 0 <= j < M ^ 0 <= k < P), (C(i,j) += a * A(i,k) * B(k,j)));
+
     // This makes an excellent opportunity to implement fusion!
-    // Desired Omega Input:
-//    >>> symbolic M,N,P;
-//    >>> init := {[i,j]:i>=0&&j>=0&&M-1>=0&&N-1>=0&&-i+N-1>=0&&-j+M-1>=0};
-//    >>> gemm := {[i,j,k]:i>=0&&j>=0&&k>=0&&M-1>=0&&N-1>=0&&P-1>=0&&-i+N-1>=0&&-j+M-1>=0&&-k+P-1>=0};
-//    >>> r0 := {[i,j] -> [i,j,0,0]};
-//    >>> r1 := {[i,j,k] -> [i,j,1,k]};
-//    >>> codegen r0:init,r1:gemm given {[i,j,k]: M-1>=0&&N-1>=0&&P-1>=0};
     init.fuse(gemm);
     print("out/sgemm.json");
     string result = codegen("out/sgemm.h");

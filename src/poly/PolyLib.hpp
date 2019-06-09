@@ -88,24 +88,29 @@ namespace poly {
                        map<string, vector<string> >& schedules,
                        const string& iterType = "", const string& ompSched = "",
                        bool defineMacros = false) {
-            // TODO: Implement me!
-            string code = "";
+            map<string, string> setdefs;
+            for (auto iter : schedules) {
+                string setname = iter.first;
+                vector<string> scheds = schedules[setname];
+                string outstr;
+                string setstr = _iegen.get(setname);
+
+                if (setstr.find("ERROR") == string::npos) {
+                    setdefs[setname] = _iegen.get(setname);
+                } else {
+                    return "ERROR: Set '" + setname + "' does not exist in 'codegen'.";
+                }
+            }
+
+            string code = _omega.codegen(setdefs, schedules);
+            cerr << code << endl;
 
             for (auto iter : statements) {
                 string setname = iter.first;
                 vector<string> stmts = iter.second;
                 vector<string> grds = guards[setname];
-                vector<string> scheds = schedules[setname];
-
-                string outstr;
-                string setstr = _iegen.get(setname);
-
-                if (setstr.find("ERROR") == string::npos) {
-                    outstr = _omega.codegen(setstr, setname, scheds);
-                } else {
-                    outstr = "ERROR: Set '" + setname + "' does not exist in 'codegen'.";
-                }
-                code += outstr;
+                // TODO: What now baby?
+                int stop = 1;
             }
 
 

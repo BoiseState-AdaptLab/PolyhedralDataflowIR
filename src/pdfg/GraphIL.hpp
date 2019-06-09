@@ -2038,6 +2038,16 @@ namespace pdfg {
 
     struct Comp : public Expr {
     public:
+        Comp(const string& name, const vector<Constr>& constrs, const Math &statement) {
+            Space space(name, constrs);
+            init(name, space, {statement});
+        }
+
+        Comp(const vector<Constr>& constrs, const Math &statement) {
+            Space space("", constrs);
+            init(space, {statement});
+        }
+
         Comp(const string& name, Space &space, const Math &statement) { //: _space(space) {
             init(name, space, {statement});
         }
@@ -2191,7 +2201,6 @@ namespace pdfg {
             }
 
             fuseComps(*this, other);
-
             return *this;
         }
 
