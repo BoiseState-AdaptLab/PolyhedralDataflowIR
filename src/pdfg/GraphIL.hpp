@@ -1448,6 +1448,39 @@ namespace pdfg {
             }
         }
 
+        void merge(const Space& other) {
+            vector<Iter> new_iters;
+            vector<Constr> new_constrs;
+
+            vector<Iter> other_iters = other.iterators();
+            for (unsigned i = 0; i < other_iters.size(); i++) {
+                Iter other_iter = other_iters[i];
+                string iter_name = other_iter.name();
+                vector<Constr> constrs;
+
+                bool exists = false;
+                for (unsigned j = 0; !exists && j < _iterators.size(); j++) {
+                    Iter this_iter = _iterators[j];
+                    exists = (this_iter.name() == iter_name);
+                    if (exists) {
+                        // Add this version
+                        new_iters.emplace_back(this_iter);
+                        constrs = constraints(iter_name);
+                    }
+                }
+                if (!exists) {
+                    new_iters.emplace_back(other_iter);
+                    constrs = other.constraints(iter_name);
+                }
+                for (const Constr& constr : constrs) {
+                    new_constrs.emplace_back(constr);
+                }
+            }
+
+            _iterators = new_iters;
+            _constraints = new_constrs;
+        }
+
         void add(const Range &range) {
             add(range.lower());
             add(range.upper());
