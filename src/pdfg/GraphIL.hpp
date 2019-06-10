@@ -1747,8 +1747,32 @@ namespace pdfg {
         return os;
     }
 
-    struct Rel;
+    Math mathSpace(const Space& space, const Access& acc, const string& oper) {
+        addSpace(space);
+        return Math(space, acc, oper);
+    }
 
+    Math operator+(const Space& space, const Access& acc) {
+        return mathSpace(space, acc, "+");
+    }
+
+    Math operator-(const Space& space, const Access& acc) {
+        return mathSpace(space, acc, "-");
+    }
+
+    Math operator*(const Space& space, const Access& acc) {
+        return mathSpace(space, acc, "*");
+    }
+
+    Math operator/(const Space& space, const Access& acc) {
+        return mathSpace(space, acc, "/");
+    }
+
+    Math operator%(const Space& space, const Access& acc) {
+        return mathSpace(space, acc, "%");
+    }
+
+    struct Rel;
     void addRelation(const Rel &rel);
 
     struct Rel : public Expr {

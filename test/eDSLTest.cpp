@@ -560,6 +560,7 @@ TEST(eDSLTest, SGeMM) {
     Space A("A", N, P), B("B", P, M), C("C", N, M), D("D", N, M);
     Space a("a"), b("b");
 
+    auto sub = a * A(i,k);
     init("sgemm");
     Comp init("init", (0 <= i < N ^ 0 <= j < M), (C(i,j) *= b));
     Comp gemm("gemm", (0 <= i < N ^ 0 <= j < M ^ 0 <= k < P), (C(i,j) += a * A(i,k) * B(k,j)));
@@ -568,7 +569,7 @@ TEST(eDSLTest, SGeMM) {
     init.fuse(gemm);
     print("out/sgemm.json");
     string result = codegen("out/sgemm.o");
-    cerr << result << endl;
+    //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
 
