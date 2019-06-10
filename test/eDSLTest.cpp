@@ -567,8 +567,8 @@ TEST(eDSLTest, SGeMM) {
     // This makes an excellent opportunity to implement fusion!
     init.fuse(gemm);
     print("out/sgemm.json");
-    string result = codegen("out/sgemm.h");
-    //cerr << result << endl;
+    string result = codegen("out/sgemm.o");
+    cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
 

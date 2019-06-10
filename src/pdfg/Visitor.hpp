@@ -105,6 +105,14 @@ namespace pdfg {
             _typedefs.push_back(make_pair<string, string>(string(type), string(alias)));
         }
 
+        string ompSchedule() const {
+            return _ompsched;
+        }
+
+        void ompSchedule(const string& schedule) {
+            _ompsched = schedule;
+        }
+
         string path() const {
             return _path;
         }
@@ -203,40 +211,22 @@ namespace pdfg {
             }
         }
 
-        void updateComp(Comp* comp, map<string, vector<string> >& statements,
-                        map<string, vector<string> >& guards,
-                        map<string, vector<string> >& schedules) {
-            //string iegstr = Strings::replace(comp.space().to_iegen(), "N/8", "N_R");
-            string iegstr = comp->space().to_iegen();
-            string norm = _poly.add(iegstr);
-            string sname = comp->space().name();
-
-            for (const Constr& guard : comp->guards()) {
-                guards[sname].emplace_back(stringify<Constr>(guard));
-            }
-            for (const Math& statement : comp->statements()) {
-                statements[sname].emplace_back(stringify<Math>(statement));
-            }
-            for (const auto& schedule : comp->schedules()) {
-                schedules[sname].push_back(schedule.to_iegen());
-            }
-        }
-
         void enter(CompNode* node) override {
+            vector<string> names;
             map<string, vector<string> > guards;
             map<string, vector<string> > statements;
             map<string, vector<string> > schedules;
 
             Comp* comp = (Comp*) node->expr();
-            updateComp(comp, statements, guards, schedules);
+            updateComp(comp, names, statements, guards, schedules);
 
             for (CompNode* child : node->children()) {
                 comp = (Comp*) child->expr();
-                updateComp(comp, statements, guards, schedules);
+                updateComp(comp, names, statements, guards, schedules);
             }
 
             //string code = _poly.codegen(space.name(), "", "", true, statements, guards, schedules);
-            string code = _poly.codegen(statements, guards, schedules);
+            string code = _poly.codegen(names, statements, guards, schedules, _ompsched);
             code = "// " + node->label() + "\n" + code;
             _body.push_back(code);
         }
@@ -328,6 +318,7 @@ namespace pdfg {
             }
 
             _indent = "    ";
+            //_ompsched = "runtime";
         }
 
         void addIncludes() {
@@ -391,11 +382,34 @@ namespace pdfg {
             }
         }
 
+        void updateComp(Comp* comp, vector<string>& names,
+                        map<string, vector<string> >& statements,
+                        map<string, vector<string> >& guards,
+                        map<string, vector<string> >& schedules) {
+            //string iegstr = Strings::replace(comp.space().to_iegen(), "N/8", "N_R");
+            string iegstr = comp->space().to_iegen();
+            string norm = _poly.add(iegstr);
+            string sname = comp->space().name();
+
+            names.push_back(sname);
+            for (const Constr& guard : comp->guards()) {
+                guards[sname].emplace_back(stringify<Constr>(guard));
+            }
+            for (const Math& statement : comp->statements()) {
+                statements[sname].emplace_back(stringify<Math>(statement));
+            }
+            for (const auto& schedule : comp->schedules()) {
+                schedules[sname].push_back(schedule.to_iegen());
+            }
+        }
+
         bool _profile;
         unsigned _niters;
+
         string _indent;
         string _lang;
         string _path;
+        string _ompsched;
 
         vector<pair<string, string> > _defines;
         vector<pair<string, string> > _typedefs;

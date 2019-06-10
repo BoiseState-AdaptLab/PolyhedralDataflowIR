@@ -95,6 +95,7 @@ protected:
                               "domain", "range", "hull", "codegen", "farkas", "forall", "given", "and",
                               "or", "not", "within", "subsetof", "supersetof", "symbolic"};
 
+    vector<string> _iterators;
     map<string, UninterpFunc> _ufuncs;
 
     bool isknown(const string& cond, const vector<string>& iters, const vector<string>& exists) const {
@@ -356,7 +357,20 @@ protected:
     }
 
 public:
-    string codegen(const map<string, string>& relmap, map<string, vector<string> >& schedmap) {
+    vector<string> in_iterators() const {
+        return _iterators;
+    }
+
+    vector<string> out_iterators() const {
+        vector<string> outiters;
+        for (unsigned i = 0; i < _iterators.size(); i++) {
+            outiters.emplace_back("t" + to_string(i + 1));
+        }
+        return outiters;
+    }
+
+    string codegen(const vector<string>& names, map<string, string>& relmap,
+                   map<string, vector<string> >& schedmap) {
         string iterlist;
         string symlist;
         string givens;
@@ -365,9 +379,9 @@ public:
         map<string, string> newmap;
         vector<string> allschedules;
 
-        for (const auto& iter : relmap) {
-            string relname = iter.first;
-            string relation = iter.second;
+        for (const string& name : names) {
+            string relname = name;
+            string relation = relmap[relname];
             vector<string> schedules = schedmap[relname];
 
             map<string, size_t> symcons;
@@ -410,6 +424,10 @@ public:
                     allschedules.push_back(sched);
                 }
                 cgexpr += codegen_expr(relname, schedules) + ',';
+
+                if (iters.size() > _iterators.size()) {
+                    _iterators = iters;
+                }
             }
 
             merge_ufuncs(ufuncs, _ufuncs);
@@ -421,8 +439,8 @@ public:
             oss << "symbolic " << symlist << ";\n";
         }
         if (!iterlist.empty()) {
-            for (const auto& iter : newmap) {
-                oss << iter.first << " := " << iter.second << ";\n";
+            for (const string& name : names) {
+                oss << name << " := " << newmap[name] << ";\n";
             }
             for (const auto& sched : allschedules) {
                 oss << sched << ";\n";

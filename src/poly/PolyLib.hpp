@@ -15,6 +15,63 @@ namespace poly {
         IEGenLib _iegen;
         OmegaLib _omega;
 
+    protected:
+        void addPragma(const string& schedule, const string& privates, string& code) {
+            string pragma = "#pragma omp parallel for schedule(" + schedule + ")";
+            if (!privates.empty()) {
+                pragma += " private(" + privates + ")";
+            }
+            code = pragma + "\n" + code;
+        }
+
+        void addStatements(unsigned count, const vector<string>& statements, const vector<string>& guards,
+                           const vector<string>& schedules, map<string, string>& macros, string& defines) {
+            if (!statements.empty()) {
+//                vector<string> iterList = _omega.in_iterators();
+//                string inIters = Strings::join(iterList, ",");
+//                unsigned nIters = inIters.size();
+
+                for (size_t i = 0; i < statements.size(); i++) {
+                    defines += "#undef s" + to_string(count + i) + "\n";
+                }
+
+                for (size_t i = 0; i < statements.size(); i++) {
+                    string schedule = schedules[i];
+                    size_t pos = schedule.find('[');
+                    string inIters = schedule.substr(pos + 1, schedule.find(']') - pos - 1);
+                    vector<string> iterList = Strings::split(inIters, ',');
+                    unsigned nIters = iterList.size();
+
+                    string statement = statements[i];
+                    for (unsigned n = 0; n <= nIters; n++) {
+                        string pattern = "#" + to_string(n+1);
+                        statement = Strings::replace(statement, pattern, iterList[n]);
+                    }
+
+                    string guard;
+                    if (i < guards.size()) {
+                        guard = guards[i];
+                    }
+
+                    if (!guard.empty()) {
+                        statement = "(" + guard + ") " + statement;
+                        addMacros(macros, guard);
+                    }
+
+                    for (const string& itr : iterList) {
+                        statement = Strings::replace(statement, itr, "(" + itr + ")", true);
+                    }
+
+                    if (!guard.empty()) {
+                        statement = "if " + statement;
+                    }
+
+                    defines += "#define s" + to_string(count + i) + '(';
+                    defines += inIters + ") " + statement + "\n";
+                }
+            }
+        }
+
     public:
         string add(const string &constStr, const string &name = "") {
             string result;
@@ -83,36 +140,49 @@ namespace poly {
             return outStr;
         }
 
-        string codegen(map<string, vector<string> >& statements,
-                       map<string, vector<string> >& guards,
-                       map<string, vector<string> >& schedules,
-                       const string& iterType = "", const string& ompSched = "",
-                       bool defineMacros = false) {
+        string codegen(const vector<string>& names, map<string, vector<string> >& schedules) {
             map<string, string> setdefs;
-            for (auto iter : schedules) {
-                string setname = iter.first;
-                vector<string> scheds = schedules[setname];
-                string outstr;
+            for (const string& setname : names) {
                 string setstr = _iegen.get(setname);
-
                 if (setstr.find("ERROR") == string::npos) {
                     setdefs[setname] = _iegen.get(setname);
                 } else {
                     return "ERROR: Set '" + setname + "' does not exist in 'codegen'.";
                 }
             }
+            return _omega.codegen(names, setdefs, schedules);
+        }
 
-            string code = _omega.codegen(setdefs, schedules);
-            cerr << code << endl;
+        string codegen(vector<string>& names, map<string, vector<string> >& statements,
+                       map<string, vector<string> >& guards, map<string, vector<string> >& schedules,
+                       const string& ompSched = "", const string& iterType = "", bool defineMacros = false) {
+            string code = codegen(names, schedules);
+            if (code.find("ERROR") == string::npos) {
+                string outIters = Strings::join(_omega.out_iterators(), ",");
 
-            for (auto iter : statements) {
-                string setname = iter.first;
-                vector<string> stmts = iter.second;
-                vector<string> grds = guards[setname];
-                // TODO: What now baby?
-                int stop = 1;
+                if (!ompSched.empty()) {
+                    addPragma(ompSched, outIters, code);
+                }
+
+                if (!iterType.empty() && !outIters.empty()) {
+                    code = iterType + " " + outIters + ";\n" + code;
+                }
+
+                map<string, string> macros;
+                if (defineMacros) {
+                    addMacros(macros, _omega.macros());
+                }
+
+                string defines = "";
+                unsigned nstatements = 0;
+                for (const string& setname : names) {
+                    addStatements(nstatements, statements[setname], guards[setname],
+                                  schedules[setname], macros, defines);
+                    nstatements += statements[setname].size();
+                }
+
+                code = defines + "\n" + code;
             }
-
 
             return code;
         }
