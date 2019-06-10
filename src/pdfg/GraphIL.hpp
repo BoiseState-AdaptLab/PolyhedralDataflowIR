@@ -2943,16 +2943,14 @@ namespace pdfg {
         Expr* getSize(const Comp& comp, const Func& func) {
             Expr* expr = nullptr;
             Math math;
-            if (func.arity() > 0) {
-                expr = new Math(getFuncSize(comp, func));
-            } else {
-                auto iter = _spaces.find(func.name());
-                if (iter != _spaces.end()) {
-                    Space space = iter->second;
-                    if (!space.constraints().empty()) {
-                        expr = new Math(space.size());
-                    }
+            auto iter = _spaces.find(func.name());
+            if (iter != _spaces.end()) {
+                Space space = iter->second;
+                if (!space.constraints().empty()) {
+                    expr = new Math(space.size());
                 }
+            } else if (func.arity() > 0) {
+                expr = new Math(getFuncSize(comp, func));
             }
             if (expr == nullptr) {
                 expr = new Int(1);      // Assume scalar
@@ -2973,6 +2971,7 @@ namespace pdfg {
                     mapkey = _iters.find(argtxt);
                     isIter = (mapkey != _iters.end());
                 }
+                
                 if (isIter) {
                     Iter iter = mapkey->second;
                     vector<Constr> constraints = comp.space().constraints(argtxt);
@@ -3008,6 +3007,7 @@ namespace pdfg {
                     math = Math(_consts[argtxt], Int(0), "+");
                 }
             }
+            
             return math;
         }
 
