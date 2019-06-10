@@ -306,13 +306,14 @@ namespace pdfg {
                     "absmin(x,y)", "((x)=min(abs((x)),abs((y))))",
                     "absmax(x,y)", "((x)=max(abs((x)),abs((y))))",
                     "floord(x,y)", "((x)/(y))",
+                    "sgn(x)", "((x)<0?-1:1)",
                     "offset2(i,j,M)", "((j)+(i)*(M))",
                     "offset3(i,j,k,M,N)", "((k)+((j)+(i)*(M))*(N))",
                     "offset4(i,j,k,l,M,N,P)", "((l)+((k)+((j)+(i)*(M))*(N))*(P))",
                     "arrinit(ptr,val,size)", "for(unsigned __i__=0;__i__<(size);__i__++) (ptr)[__i__]=(val)"});
 
             // Add includes...
-            include({"stdio", "stdlib", "stdint"});
+            include({"stdio", "stdlib", "stdint", "math"});
             if (_profile) {
                 include("sys/time");
             }

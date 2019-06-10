@@ -315,7 +315,7 @@ namespace pdfg {
     };
 
     Math abs(const Expr& expr) {
-        return Math(expr, Int(0), "abs(");
+        return Math(NullExpr, expr, "abs(");
     }
 
     Math min(const Expr &lhs, const Expr &rhs) {
@@ -347,11 +347,15 @@ namespace pdfg {
     }
 
     Math pinv(const Expr& expr) {
-        return Math(expr, Int(0), "pinv(");
+        return Math(NullExpr, expr, "pinv(");
+    }
+
+    Math sgn(const Expr& expr) {
+        return Math(NullExpr, expr, "sgn(");
     }
 
     Math urand(const Expr& expr) {
-        return Math(Int(0), expr, "urand(");
+        return Math(NullExpr, expr, "urand(");
     }
 
     Math urand() {
@@ -409,6 +413,11 @@ namespace pdfg {
         return Math(lhs, rhs, "-");
     }
 
+    // Unary minus:
+    Math operator-(const Expr &expr) {
+        return Math(NullExpr, expr, "-");
+    }
+
     Math operator-=(const Expr &expr, const unsigned val) {
         addSpace(expr);
         return Math(expr, Int(val), "-=");
@@ -425,6 +434,10 @@ namespace pdfg {
 
     Math operator*(const Expr &expr, const double val) {
         return Math(expr, Real(val), "*");
+    }
+
+    Math operator*(const double val, const Expr &expr) {
+        return Math(Real(val), expr, "*");
     }
 
     Math operator*(const Expr &lhs, const Expr &rhs) {
@@ -484,7 +497,10 @@ namespace pdfg {
                         oper = "+";
                         rhs = rhs.substr(1);
                     }
-                    os << oper << rhs;
+                    if (!lhs.empty()) {
+                        os << oper;
+                    }
+                    os << rhs;
                 }
             }
         } else {
@@ -1293,8 +1309,28 @@ namespace pdfg {
             return Access(*this, {one}, '(');
         }
 
+        Access operator()(const int &one, const Expr &two) {
+            return Access(*this, {Int(one), two}, '(');
+        }
+
+        Access operator()(const Expr &one, const int &two) {
+            return Access(*this, {one, Int(two)}, '(');
+        }
+
         Access operator()(const Expr &one, const Expr &two) {
             return Access(*this, {one, two}, '(');
+        }
+
+        Access operator()(const int &one, const Expr &two, const Expr &three) {
+            return Access(*this, {Int(one), two, three}, '(');
+        }
+
+        Access operator()(const Expr &one, const int &two, const Expr &three) {
+            return Access(*this, {one, Int(two), three}, '(');
+        }
+
+        Access operator()(const Expr &one, const Expr &two, const int &three) {
+            return Access(*this, {one, two, Int(three)}, '(');
         }
 
         Access operator()(const Expr &one, const Expr &two, const Expr &three) {
@@ -2553,7 +2589,6 @@ namespace pdfg {
                             }
                         }
                     }
-                    int stop = 1;
                 } else if (!stmt.rhs().is_scalar()) {
                     readExprs.push_back(stmt.rhs());
                 }
@@ -2640,7 +2675,7 @@ namespace pdfg {
 
         void addSpace(const Space& space) {
             string sname = space.name();
-            if (!sname.empty()) {
+            if (!sname.empty() && _spaces.find(sname) == _spaces.end()) {
                 _spaces[sname] = space;
             }
         }
@@ -2828,10 +2863,13 @@ namespace pdfg {
             Math math;
             if (func.arity() > 0) {
                 expr = new Math(getFuncSize(comp, func));
-            } else if (_spaces.find(func.name()) != _spaces.end()) {
-                Space space = _spaces[func.name()];
-                if (!space.constraints().empty()) {
-                    expr = new Math(space.size());
+            } else {
+                auto iter = _spaces.find(func.name());
+                if (iter != _spaces.end()) {
+                    Space space = iter->second;
+                    if (!space.constraints().empty()) {
+                        expr = new Math(space.size());
+                    }
                 }
             }
             if (expr == nullptr) {
