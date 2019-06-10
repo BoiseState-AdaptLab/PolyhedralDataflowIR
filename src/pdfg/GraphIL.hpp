@@ -81,7 +81,15 @@ namespace pdfg {
         }
 
         virtual bool is_func() const {
-            return _type == 'F' || _type == 'S';    // UFs & SCs
+            return _type == 'F' || _type == 'S';    // UFs, SCs, Macros
+        }
+
+        virtual bool is_macro() const {
+            return _type == '#';
+        }
+
+        virtual bool is_math() const {
+            return _type == 'M';
         }
 
         virtual bool is_scalar() const {
@@ -2497,29 +2505,55 @@ namespace pdfg {
             vector<Expr> readExprs;
             vector<Expr> writeExprs;
             for (Math& stmt : comp.statements()) {
-                if (stmt.oper().find('=') != string::npos) {
-                    // If operator has an equal sign, it is an assignment, so the LHS is an output node.
-                    writeExprs.push_back(stmt.lhs());
-                } else if (!stmt.lhs().text().empty()) {
-                    readExprs.push_back(stmt.lhs());
+                if (!stmt.lhs().empty()) {
+                    if (stmt.oper().find('=') != string::npos) {
+                        // If operator has an equal sign, it is an assignment, so the LHS is an output node.
+                        writeExprs.push_back(stmt.lhs());
+                    } else {
+                        readExprs.push_back(stmt.lhs());
+                    }
                 }
-                // Assume write hand side is a read...
-                char rtype = stmt.rhs().type();
-                if (rtype == 'M' || rtype == 'F') {
-                    // Math expressions may need to be broken into multiple accesses...
-                    string expr = stmt.rhs().text();
-                    for (const auto& sit : _spaces) {
+
+                string expr = stmt.rhs().text();
+                bool is_math = stmt.rhs().is_math();
+
+                if (is_math || stmt.rhs().is_func()) {
+                    // Assume write hand side contains reads...
+                    for (const auto &sit : _spaces) {
                         if (Strings::in(expr, sit.first, true)) {
                             readExprs.push_back(sit.second);
                         }
                     }
-                    if (rtype == 'M') {
+                    // Math expressions may need to be broken into multiple accesses...
+                    if (is_math) {
                         for (const auto &sit : _funcs) {
                             if (Strings::in(expr, sit.first, true)) {
                                 readExprs.push_back(sit.second);
                             }
                         }
                     }
+                } else if (stmt.rhs().is_macro()) {
+                    map<string, bool> marked;
+                    vector<string> lines = Strings::split(expr, "\n");
+                    for (const string& line : lines) {
+                        size_t pos = line.find('=');
+                        if (pos != string::npos) {
+                            string lhs = line.substr(0, pos);
+                            string rhs = line.substr(pos + 1);
+                            for (const auto &sit : _spaces) {
+                                if (marked.find(sit.first) == marked.end()) {
+                                    if (Strings::in(lhs, sit.first, true)) {
+                                        writeExprs.push_back(sit.second);
+                                        marked[sit.first] = true;
+                                    } else if (Strings::in(rhs, sit.first, true)) {
+                                        readExprs.push_back(sit.second);
+                                        marked[sit.first] = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    int stop = 1;
                 } else if (!stmt.rhs().is_scalar()) {
                     readExprs.push_back(stmt.rhs());
                 }
