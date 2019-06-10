@@ -497,7 +497,7 @@ namespace pdfg {
                         oper = "+";
                         rhs = rhs.substr(1);
                     }
-                    if (!lhs.empty()) {
+                    if (oper == "-" || !lhs.empty()) {
                         os << oper;
                     }
                     os << rhs;
@@ -975,6 +975,14 @@ namespace pdfg {
         return constr;
     }
 
+    Constr operator<(const double& lhs, const Expr& rhs) {
+        return Constr(Real(lhs), rhs, "<");
+    }
+
+    Constr operator<(const Expr& lhs, const double& rhs) {
+        return Constr(lhs, Real(rhs), "<");
+    }
+
     Constr operator>=(const Expr &lhs, const Expr &rhs) {
         Constr constr(lhs, rhs, ">=");
         return constr;
@@ -1115,6 +1123,47 @@ namespace pdfg {
 
     ostream &operator<<(ostream &os, const Range &range) {
         os << range.lower() << " && " << range.upper();
+        return os;
+    }
+
+    struct Condition : public Expr {
+    public:
+        explicit Condition(const Constr &cond, const Expr& true_expr, const Expr& false_expr) {
+            init(cond, true_expr, false_expr);
+            _text = stringify<Condition>(*this);
+        }
+
+        explicit Condition(const Constr &cond, const Expr& expr) : Condition(cond, expr, Int(0)) {
+        }
+
+        Constr condition() const {
+            return _cond;
+        }
+
+        Expr true_expr() const {
+            return _true;
+        }
+
+        Expr false_expr() const {
+            return _false;
+        }
+
+    protected:
+        void init(const Constr &cond, const Expr& true_expr, const Expr& false_expr) {
+            _cond = cond;
+            _true = true_expr;
+            _false = false_expr;
+        }
+
+        Constr _cond;
+        Expr _true;
+        Expr _false;
+    };
+
+    ostream &operator<<(ostream &os, const Condition& cond) {
+        if (!cond.true_expr().empty() && !cond.false_expr().empty()) {
+            os << '(' << cond.condition() << ") ? (" << cond.true_expr() << ") : (" << cond.false_expr() << ')';
+        }
         return os;
     }
 
