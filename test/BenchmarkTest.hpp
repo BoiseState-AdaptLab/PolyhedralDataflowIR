@@ -26,6 +26,10 @@ using namespace testing;
 #define omp_set_num_threads(n) n=n
 #endif
 
+#ifndef EPSILON
+#define EPSILON 0.001
+#endif
+
 namespace test {
     class BenchmarkTest : public ::testing::Test {
     public:
@@ -87,6 +91,17 @@ namespace test {
         virtual ~BenchmarkTest() {}
 
         virtual void SetUp(initializer_list<string> args) = 0;
+
+        virtual int Compare(const double* testData, const double* refData, unsigned size, double eps = EPSILON) {
+            int index = -1;
+            for (unsigned i = 0; i < size && index < 0; i++) {
+                //if (abs((testData[i] - refData[i])/refData[i]) >= eps) {
+                if (abs(testData[i] - refData[i]) >= eps) {
+                    index = i;
+                }
+            }
+            return index;
+        }
 
         string _name = "";
 
