@@ -82,12 +82,11 @@ namespace test {
         }
 
     protected:
-        BenchmarkTest(const string& name) : _name(name) {
-        }
+        BenchmarkTest(const string& name = "") : _name(name) {}
 
         virtual ~BenchmarkTest() {}
 
-        virtual void SetUp(initializer_list<string> args);
+        virtual void SetUp(initializer_list<string> args) = 0;
 
         string _name = "";
 

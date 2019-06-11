@@ -55,7 +55,7 @@ namespace pdfg {
 
     struct CodeGenVisitor: DFGVisitor {
     public:
-        explicit CodeGenVisitor(const string &path = "", unsigned niters = 5, const string &lang = "C", bool profile = true) :
+        explicit CodeGenVisitor(const string &path = "", const string &lang = "C", bool profile = false, unsigned niters = 5) :
                 _path(path), _niters(niters), _lang(lang), _profile(profile) {
             init();
         }
@@ -187,8 +187,16 @@ namespace pdfg {
                 if (node->is_scalar()) {
                     os << node->datatype() << ' ' << label<< " = " << node->defval() << ';';
                 } else if (node->alloc() == DYNAMIC) {
-                    os << node->datatype() << "* restrict " << label << " = calloc("
-                       << *node->size() << ",sizeof(" << node->datatype() << "));";
+                    os << node->datatype() << "* ";
+                    bool isC = (_lang.find("+") == string::npos);
+                    if (isC) {
+                        os << "restrict ";
+                    }
+                    os << label << " = ";
+                    if (!isC) {
+                        os << '(' << node->datatype() << "*) ";
+                    }
+                    os << "calloc("   << *node->size() << ",sizeof(" << node->datatype() << "));";
                     _frees.push_back(node->label());
                 } else {
                     if (node->alloc() == STATIC) {
