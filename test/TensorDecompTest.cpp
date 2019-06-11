@@ -12,7 +12,9 @@ using namespace testing;
 using util::MatlabIO;
 using util::TensorIO;
 
-namespace {
+#include "BenchmarkTest.hpp"
+
+namespace test {
     class TensorDecompTest : public ::testing::Test {
 
     protected:
