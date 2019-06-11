@@ -98,6 +98,7 @@ namespace test {
                 //if (abs((testData[i] - refData[i])/refData[i]) >= eps) {
                 if (abs(testData[i] - refData[i]) >= eps) {
                     index = i;
+                    cerr << "Found " << testData[i] << ", Expected " << refData[i] << ", Position " << i << endl;
                 }
             }
             return index;

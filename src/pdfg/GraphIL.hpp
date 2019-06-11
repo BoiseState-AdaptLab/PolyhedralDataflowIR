@@ -127,8 +127,8 @@ namespace pdfg {
 
     protected:
         void copy(const Expr &other) {
-            _text = other.text();
-            _type = other.type();
+            _text = other._text;
+            _type = other._type;
         }
 
         string _text;
@@ -1481,6 +1481,17 @@ namespace pdfg {
             _constraints = new_constrs;
         }
 
+        Space slice(unsigned bdim, unsigned edim) {
+            Space sub;
+            for (unsigned d = bdim; d <= edim && d < _iterators.size(); d++) {
+                sub.add(_iterators[d]);
+                for (unsigned k = d * 2; k < _constraints.size(); k++) {
+                    sub.add(_constraints[k]);
+                }
+            }
+            return sub;
+        }
+
         void add(const Range &range) {
             add(range.lower());
             add(range.upper());
@@ -1620,7 +1631,7 @@ namespace pdfg {
                     diff = diff + Int(1);
                 }
 
-                Math rhs = paren(diff); //Math(NullExpr, diff, "(");
+                Math rhs = paren(diff);
                 if (expr.empty()) {
                     expr = rhs;
                 } else {
@@ -2809,22 +2820,13 @@ namespace pdfg {
                             }
                             os << ',';
                         }
-                        for (unsigned i = 1; i < size; i++) {
-                            unsigned k = i * 2 + 1;
-                            Expr upper;
-                            if (space.constraints().size() < k) {
-                                upper = findUpperBound(Iter(access.tuple().at(i)));
-                            } else {
-                                upper = space.constraints().at(k).rhs();
-                            }
-                            os << '(' << upper << ')';
-                            if (i < size - 1) {
-                                os << ',';
-                            }
-                        }
-                        os << ')';
+
+                        vector<Iter> iters = space.iterators();
+                        vector<Iter> subs(iters.begin() + 1, iters.end());
+                        string subsize = Strings::replace(stringify<Math>(space.slice(1, size - 1).size()), "*", ",");
+                        os << subsize;
                     }
-                    os << ']';
+                    os << ")]";
 
                     string mapping = os.str();
                     addMapping(access, mapping);
@@ -2860,9 +2862,6 @@ namespace pdfg {
         }
 
         Space getSpace(const string& name) {
-            if (name.empty()) {
-                int stop = 1;
-            }
             return _spaces[name];
         }
 
