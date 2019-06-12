@@ -3306,6 +3306,23 @@ namespace pdfg {
         }
     }
 
+    Access addAccess(const Space &space, const vector<int>& offsets) {
+        vector<Expr> tuple;
+        vector<Iter> iters = space.iterators();
+        for (unsigned i = 0; i < iters.size(); i++) {
+            int offset = offsets[i];
+            if (offset == 0) {
+                tuple.push_back(iters[i]);
+            } else if (offset < 0) {
+                tuple.push_back(iters[i] - Int(-offset));
+            } else {
+                tuple.push_back(iters[i] + Int(offset));
+            }
+        }
+        Access access(space, tuple, '(');
+        return access;
+    }
+
     void fuseComps(Comp& comp1, const Comp& comp2) {
         if (!comp1.text().empty()) {
             GraphMaker::get().fuse(comp1, comp2);
