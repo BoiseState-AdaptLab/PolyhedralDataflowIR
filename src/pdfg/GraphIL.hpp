@@ -2883,19 +2883,11 @@ namespace pdfg {
                 cgen.define(mapping.second);
             }
 
-//            for (const auto& iter : _macros) {
-//                for (const auto& macro : iter.second) {
-//                    string code = stringify<Macro>(macro);
-//                    size_t pos = code.find(' ');
-//                    string lhs = code.substr(0, pos);
-//                    string rhs = code.substr(pos + 1);
-//                    cgen.define(lhs, rhs);
-//                }
-//            }
-
             if (name.empty()) {
+                _flowGraph.indexType(_indexType);
                 cgen.walk(&_flowGraph);
             } else {
+                _graphs[name].indexType(_indexType);
                 cgen.walk(&_graphs[name]);
             }
 

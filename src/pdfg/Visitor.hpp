@@ -260,7 +260,7 @@ namespace pdfg {
             _header.push_back("inline " + line + " {");
 
             // Define iterators.
-            line = _indent + "unsigned ";
+            line = _indent + _graph->indexType() + " ";
             for (unsigned i = 1; i < _niters; i++) {
                 line += "t" + to_string(i) + ",";
             }
@@ -318,7 +318,9 @@ namespace pdfg {
                     "offset2(i,j,M)", "((j)+(i)*(M))",
                     "offset3(i,j,k,M,N)", "((k)+((j)+(i)*(M))*(N))",
                     "offset4(i,j,k,l,M,N,P)", "((l)+((k)+((j)+(i)*(M))*(N))*(P))",
-                    "arrinit(ptr,val,size)", "for(unsigned __i__=0;__i__<(size);__i__++) (ptr)[__i__]=(val)"});
+                    "arrinit(ptr,val,size)", "for(unsigned __i__=0;__i__<(size);__i__++) (ptr)[__i__]=(val)",
+                    "arrprnt(name,arr,size)", "{\\\nfprintf(stderr,\"%s={\",(name));\\\nfor(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,\"%lg,\",(arr)[__i__]);\\\nfprintf(stderr,\"}\\n\");}"
+                   });
 
             // Add includes...
             include({"stdio", "stdlib", "stdint", "math"});

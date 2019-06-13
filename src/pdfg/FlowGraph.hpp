@@ -327,7 +327,7 @@ namespace pdfg {
     struct FlowGraph {
     public:
         explicit FlowGraph(const string& name = "", const string& returnType = "void", const string& returnName = "") :
-            _name(name), _returnType(returnType), _returnName(returnName) {
+            _name(name), _returnType(returnType), _returnName(returnName), _indexType("unsigned") {
             _nodes.reserve(100);
             _edges.reserve(100);
         }
@@ -452,6 +452,14 @@ namespace pdfg {
 
         const string& name() const {
             return _name;
+        }
+
+        const string& indexType() const {
+            return _indexType;
+        }
+
+        void indexType(const string& indexType) {
+            _indexType = indexType;
         }
 
         const string& returnName() const {
@@ -591,6 +599,7 @@ namespace pdfg {
         }
 
         string _name;
+        string _indexType;
         string _returnName;
         string _returnType;
         map<string, Node*> _symtable;
