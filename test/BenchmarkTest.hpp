@@ -42,6 +42,7 @@ namespace test {
         }
 
         void Start() noexcept {
+            _runTime = 0.0;
             _startTime = system_clock::now();
         }
 
@@ -91,6 +92,26 @@ namespace test {
         virtual ~BenchmarkTest() {}
 
         virtual void SetUp(initializer_list<string> args) = 0;
+
+        virtual void Evaluate() = 0;
+
+        virtual void Verify() {
+            _evalTime = 0.0;
+
+            Start();
+            Evaluate();
+            Stop();
+
+            // If evaluation function did not calculate its own runtime, compute it now...
+            if (_evalTime == 0.0) {
+                _evalTime = _runTime;
+            }
+        }
+
+        virtual void Run() {
+            SetUp({""});
+            Verify();
+        }
 
         virtual int Compare(const double* testData, const double* refData, unsigned size, double eps = EPSILON) {
             int index = -1;
