@@ -1,10 +1,6 @@
 #ifndef _BENCHMARKTEST_HPP_
 #define _BENCHMARKTEST_HPP_
 
-#include <chrono>
-using std::chrono::duration;
-using std::chrono::time_point;
-using std::chrono::system_clock;
 #include <initializer_list>
 using std::initializer_list;
 #include <string>
@@ -13,7 +9,11 @@ using std::to_string;
 #include <iostream>
 using std::cerr;
 using std::endl;
-
+//#include <chrono>
+//using std::chrono::duration;
+//using std::chrono::time_point;
+//using std::chrono::system_clock;
+#include <sys/time.h>
 #include <gtest/gtest.h>
 using namespace testing;
 
@@ -43,12 +43,12 @@ namespace test {
 
         void Start() noexcept {
             _runTime = 0.0;
-            _startTime = system_clock::now();
+            _startTime = Now(); //system_clock::now();
         }
 
         void Stop() noexcept {
-            _stopTime = system_clock::now();
-            _runTime = (_stopTime - _startTime).count();
+            _stopTime = Now(); //system_clock::now();
+            _runTime = (_stopTime - _startTime); //.count();
         }
 
         double Speedup() const {
@@ -97,21 +97,27 @@ namespace test {
 
         virtual void Verify() {
             _evalTime = 0.0;
+            double runTime = _runTime;
 
             Start();
             Evaluate();
             Stop();
 
-            // If evaluation function did not calculate its own runtime, compute it now...
-            if (_evalTime == 0.0) {
-                _evalTime = _runTime;
-            }
+            _evalTime = _runTime;
+            _runTime = runTime;
+
+            fprintf(stderr, "RunTime = %lg, EvalTime = %lg, Ratio = %lg\n", _runTime, _evalTime, _evalTime / _runTime);
         }
 
+        virtual void Execute() = 0;
+
         virtual void Run() {
-            SetUp({""});
-            Verify();
+            Start();
+            Execute();
+            Stop();
         }
+
+        virtual void Assert() {};
 
         virtual int Compare(const double* testData, const double* refData, unsigned size, double eps = EPSILON) {
             int index = -1;
@@ -125,10 +131,18 @@ namespace test {
             return index;
         }
 
+        double Now() {
+            struct timeval tval;
+            gettimeofday(&tval, NULL);
+            return (double) tval.tv_sec + (((double) tval.tv_usec) / 1000000);
+        }
+
         string _name = "";
 
-        time_point<system_clock> _startTime;
-        time_point<system_clock> _stopTime;
+//        time_point<system_clock> _startTime;
+//        time_point<system_clock> _stopTime;
+        double _startTime;
+        double _stopTime;
         double _runTime;
         double _evalTime;
     };
