@@ -168,6 +168,7 @@ namespace pdfg {
 
         void enter(DataNode* node) override {
             string label = node->label();
+            string defval = node->defval();
             if (!_graph->isReturn(node) && _graph->isSource(node)) {
                 // Input Data
                 string param = "const " + node->datatype();
@@ -185,7 +186,11 @@ namespace pdfg {
                 ostringstream os;
                 os << _indent;
                 if (node->is_scalar()) {
-                    os << node->datatype() << ' ' << label<< " = " << node->defval() << ';';
+                    os << node->datatype() << ' ' << label;
+                    if (!defval.empty()) {
+                        os << " = " << defval;
+                    }
+                    os << ';';
                 } else if (node->alloc() == DYNAMIC) {
                     os << node->datatype() << "* ";
                     bool isC = (_lang.find("+") == string::npos);
@@ -196,20 +201,24 @@ namespace pdfg {
                     if (!isC) {
                         os << '(' << node->datatype() << "*) ";
                     }
-                    os << "calloc("   << *node->size() << ",sizeof(" << node->datatype() << "));";
+                    if (defval == "0") {
+                        os << "calloc(" << *node->size() << ",sizeof(" << node->datatype() << "));";
+                    } else {
+                        os << "malloc(" << *node->size() << "*sizeof(" << node->datatype() << "));";
+                    }
                     _frees.push_back(node->label());
                 } else {
                     if (node->alloc() == STATIC) {
                         os << "static ";
                     }
                     os << node->datatype() << ' ' << label << '['
-                       << *node->size() << "] = {" << node->defval() << "};";
+                       << *node->size() << "] = {" << defval << "};";
                 }
                 string line = os.str();
                 _allocs.push_back(line);
-                if (node->alloc() == DYNAMIC && node->defval() != "0") {
+                if (node->alloc() == DYNAMIC && !defval.empty() && defval != "0") {
                     os.str(_indent);
-                    os << "arrinit(" << label << ',' << node->defval() << ',' << *node->size() << ");";
+                    os << "arrinit(" << label << ',' << defval << ',' << *node->size() << ");";
                     line = os.str();
                     _allocs.push_back(line);
                 }
@@ -434,6 +443,19 @@ namespace pdfg {
         vector<string> _frees;
 
         PolyLib _poly;
+        FlowGraph* _graph;
+    };
+
+    struct PerfModelVisitor: DFGVisitor {
+    public:
+        explicit PerfModelVisitor() {
+        }
+
+        void setup(FlowGraph* graph) override {
+            _graph = graph;
+        }
+
+    protected:
         FlowGraph* _graph;
     };
 }

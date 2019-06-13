@@ -8,11 +8,8 @@ using std::string;
 using std::to_string;
 #include <iostream>
 using std::cerr;
+using std::cout;
 using std::endl;
-//#include <chrono>
-//using std::chrono::duration;
-//using std::chrono::time_point;
-//using std::chrono::system_clock;
 #include <sys/time.h>
 #include <gtest/gtest.h>
 using namespace testing;
@@ -30,6 +27,9 @@ using namespace testing;
 #define EPSILON 0.001
 #endif
 
+#define GTEST_COUT cout << "[   INFO   ] "
+#define GTEST_CERR cerr << "[  ERROR   ] "
+
 namespace test {
     class BenchmarkTest : public ::testing::Test {
     public:
@@ -43,12 +43,12 @@ namespace test {
 
         void Start() noexcept {
             _runTime = 0.0;
-            _startTime = Now(); //system_clock::now();
+            _startTime = Now();
         }
 
         void Stop() noexcept {
-            _stopTime = Now(); //system_clock::now();
-            _runTime = (_stopTime - _startTime); //.count();
+            _stopTime = Now();
+            _runTime = (_stopTime - _startTime);
         }
 
         double Speedup() const {
@@ -106,7 +106,8 @@ namespace test {
             _evalTime = _runTime;
             _runTime = runTime;
 
-            fprintf(stderr, "RunTime = %lg, EvalTime = %lg, Ratio = %lg\n", _runTime, _evalTime, _evalTime / _runTime);
+            GTEST_COUT << "RunTime = " << _runTime << ", EvalTime = " << _evalTime
+                       << ", Ratio = " << _evalTime / _runTime << endl;
         }
 
         virtual void Execute() = 0;
@@ -125,26 +126,25 @@ namespace test {
                 //if (abs((testData[i] - refData[i])/refData[i]) >= eps) {
                 if (abs(testData[i] - refData[i]) >= eps) {
                     index = i;
-                    cerr << "Found " << testData[i] << ", Expected " << refData[i] << ", Position " << i << endl;
+                    GTEST_CERR << "Found " << testData[i] << ", Expected " << refData[i] << ", Position " << i << endl;
                 }
             }
             return index;
         }
 
+        string _name = "";
+
+        double _startTime;
+        double _stopTime;
+        double _runTime;
+        double _evalTime;
+
+    private:
         double Now() {
             struct timeval tval;
             gettimeofday(&tval, NULL);
             return (double) tval.tv_sec + (((double) tval.tv_usec) / 1000000);
         }
-
-        string _name = "";
-
-//        time_point<system_clock> _startTime;
-//        time_point<system_clock> _stopTime;
-        double _startTime;
-        double _stopTime;
-        double _runTime;
-        double _evalTime;
     };
 }
 
