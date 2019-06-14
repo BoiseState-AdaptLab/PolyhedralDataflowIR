@@ -484,7 +484,7 @@ namespace pdfg {
         if (oper.find('(') == string::npos) {
             string lhs = stringify<Expr>(math.lhs());
             // Wrap parens around sums to ensure proper precedence
-            if (lhs.find('(') == string::npos && (oper == "*" || oper == "/" || oper == "%") &&
+            if ((oper == "*" || oper == "/" || oper == "%") &&
                (lhs.find('+') != string::npos || lhs.find('-') != string::npos)) {
                 lhs = "(" + lhs + ")";
             }
@@ -2845,13 +2845,12 @@ namespace pdfg {
 
                         vector<Iter> iters = space.iterators();
                         vector<Iter> subs(iters.begin() + 1, iters.end());
-                        string subsize = Strings::replace(stringify<Math>(space.slice(1, size - 1).size()), "*", ",");
-                        os << subsize;
+                        string subsize = stringify<Math>(space.slice(1, size - 1).size());
+                        // Remove redundant parens...
+                        os << Strings::replace(Strings::fixParens(subsize), "*", ",");
                     }
                     os << ")]";
-
-                    string mapping = os.str();
-                    addMapping(access, mapping);
+                    addMapping(access, os.str());
                 }
                 _accesses[sname].push_back(access);
             }

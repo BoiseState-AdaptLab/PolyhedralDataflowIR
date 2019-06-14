@@ -333,6 +333,26 @@ public:
         }
         return num;
     }
+
+    static inline string fixParens(const string& input) {
+        string fixed = "";
+        char prev = 0;
+        for (char curr : input) {
+            if (!((curr == '(' || curr == ')') && curr == prev)) {
+                fixed += curr;
+            }
+            prev = curr;
+        }
+        return fixed;
+	}
+
+    template <typename T>
+    static inline T convert(const string& in) {
+	    T out;
+        istringstream is(in);
+        is >> out;
+        return out;
+	}
 };
 
 #endif /* STRINGS_HPP */

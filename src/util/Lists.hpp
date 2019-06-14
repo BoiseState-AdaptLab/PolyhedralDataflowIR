@@ -2,6 +2,8 @@
 #define POLYEXT_LISTS_HP
 
 #include <algorithm>
+using std::sort;
+using std::copy;
 #include <initializer_list>
 #include <map>
 #include <vector>
@@ -94,6 +96,34 @@ public:
             }
         }
         return matches;
+    }
+
+    template <typename T>
+    static inline void read(vector<T>& elems, const string& file, const char delim = ',') {
+        if (!file.empty()) {
+            char ch = ' ';
+            string token;
+            FILE* fp = fopen(file.c_str(), "r");
+
+            unsigned pos = 0;
+            while (ch != EOF) {
+                ch = (char) fgetc(fp);
+                if (ch == delim) {
+                    if (!token.empty()) {
+                        elems[pos++] = Strings::convert<T>(token);
+                        token = "";
+                    }
+                } else {
+                    token += ch;
+                }
+            }
+
+            if (!token.empty()) {
+                elems[pos++] = Strings::convert<T>(token);
+            }
+
+            fclose(fp);
+        }
     }
 };
 
