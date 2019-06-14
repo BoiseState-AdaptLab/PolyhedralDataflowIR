@@ -602,8 +602,10 @@ namespace pdfg {
         string _indexType;
         string _returnName;
         string _returnType;
+
         map<string, Node*> _symtable;
         map<string, Edge*> _edgemap;
+
         vector<Node*> _nodes;
         vector<Edge*> _edges;
     };

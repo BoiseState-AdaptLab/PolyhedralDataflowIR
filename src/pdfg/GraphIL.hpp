@@ -2879,6 +2879,11 @@ namespace pdfg {
             }
 
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
+
+            for (const auto& iter : _consts) {
+                cgen.define(iter.first, to_string(iter.second.val()));
+            }
+
             for (const auto& mapping : _mappings) {
                 cgen.define(mapping.second);
             }
@@ -2912,7 +2917,7 @@ namespace pdfg {
                 ofs << _flowGraph << endl;     // Emit the graph!
                 ofs.close();
             } else {
-                cerr << _flowGraph << endl;     // Emit the graph!
+                cerr << _flowGraph << endl;
             }
         }
 
@@ -3242,6 +3247,15 @@ namespace pdfg {
     void addIterator(const Iter& iter) {
         if (!iter.name().empty()) {
             GraphMaker::get().addIter(iter);
+        }
+    }
+
+    void addConstants(initializer_list<string> names, initializer_list<int> values) {
+        vector<string> cnames(names.begin(), names.end());
+        vector<int> cvals(values.begin(), values.end());
+        for (unsigned i = 0; i < cnames.size(); i++) {
+            Const con(cnames[i], (i < cvals.size()) ? cvals[i] : 0);
+            addConstant(con);
         }
     }
 
