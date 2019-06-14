@@ -3,6 +3,8 @@
 
 #include <initializer_list>
 using std::initializer_list;
+#include <map>
+using std::map;
 #include <string>
 using std::string;
 using std::to_string;
@@ -10,9 +12,12 @@ using std::to_string;
 using std::cerr;
 using std::cout;
 using std::endl;
+#include <vector>
+using std::vector;
 #include <sys/time.h>
 #include <gtest/gtest.h>
 using namespace testing;
+#include <util/Strings.hpp>
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -55,7 +60,7 @@ namespace test {
             double p = _runTime;
             double s = _evalTime;
             double r = 0.0;
-            //double n = (double) _config.getInt("num_threads");
+            //double n = (double) GetNumThreads();
 
             // Amdahl's Law:
             if (s != 0.0) {
@@ -91,7 +96,24 @@ namespace test {
 
         virtual ~BenchmarkTest() {}
 
-        virtual void SetUp(initializer_list<string> args) = 0;
+        virtual void SetUp(initializer_list<string> args) {
+            unsigned argc = args.size();
+            vector<string> argv(args.begin(), args.end());
+
+            string key, val;
+            for (unsigned i = 0; i < argc; i++) {
+                string arg = argv[i];
+                if (arg[0] == '-') {
+                    key = Strings::ltrim(arg);
+                } else {
+                    val = arg;
+                }
+                if (!key.empty()) {
+                    _args[key] = val;
+                    key = "";
+                }
+            }
+        }
 
         virtual void Evaluate() = 0;
 
@@ -138,6 +160,8 @@ namespace test {
         double _stopTime;
         double _runTime;
         double _evalTime;
+
+        map<string, string> _args;
 
     private:
         double Now() {

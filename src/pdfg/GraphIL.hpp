@@ -7,6 +7,7 @@
 
 #include <algorithm>
 using std::find;
+using std::reverse_copy;
 #include <array>
 using std::array;
 #include <deque>
@@ -483,8 +484,8 @@ namespace pdfg {
         if (oper.find('(') == string::npos) {
             string lhs = stringify<Expr>(math.lhs());
             // Wrap parens around sums to ensure proper precedence
-            if ((oper == "*" || oper == "/" || oper == "%") &&
-                (lhs.find('+') != string::npos || lhs.find('-') != string::npos)) {
+            if (lhs.find('(') == string::npos && (oper == "*" || oper == "/" || oper == "%") &&
+               (lhs.find('+') != string::npos || lhs.find('-') != string::npos)) {
                 lhs = "(" + lhs + ")";
             }
             os << lhs;
@@ -1384,6 +1385,27 @@ namespace pdfg {
 
         Access operator()(const Expr &one, const Expr &two, const Expr &three) {
             return Access(*this, {one, two, three}, '(');
+        }
+
+        Access makeAccess(const Expr &first, const vector<Expr>& rest) {
+            vector<Expr> tuple(rest.size() + 1);
+            tuple[0] = first;
+            for (unsigned i = 0; i < rest.size(); i++) {
+                tuple[i+1] = rest[i];
+            }
+            return Access(*this, tuple, '(');
+        }
+
+        Access operator()(const vector<Expr>& tuple) {
+            return Access(*this, tuple, '(');
+        }
+
+        Access operator()(const int &first, const vector<Expr>& rest) {
+            return makeAccess(Int(first), rest);
+        }
+
+        Access operator()(const Expr &first, const vector<Expr>& rest) {
+            return makeAccess(first, rest);
         }
 
         Access operator()(initializer_list<Expr> tuple) {
@@ -2880,9 +2902,9 @@ namespace pdfg {
 
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
 
-            for (const auto& iter : _consts) {
-                cgen.define(iter.first, to_string(iter.second.val()));
-            }
+//            for (const auto& iter : _consts) {
+//                cgen.define(iter.first, to_string(iter.second.val()));
+//            }
 
             for (const auto& mapping : _mappings) {
                 cgen.define(mapping.second);
