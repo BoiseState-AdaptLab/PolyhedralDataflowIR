@@ -10,7 +10,7 @@ using std::string;
 namespace util {
 class OS {
 public:
-string OS::run(const string& cmd) {
+static string run(const string& cmd) {
 	char buffer[BUFFSIZE];
 	string result = "";
 
@@ -27,7 +27,7 @@ string OS::run(const string& cmd) {
 	return result;
 }
 
-int OS::ncpus() {
+static int OS::ncpus() {
     int ncpus = 1;
 
 #ifdef _SC_NPROCESSORS_ONLN

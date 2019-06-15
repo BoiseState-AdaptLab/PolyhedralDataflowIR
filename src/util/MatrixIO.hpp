@@ -235,7 +235,7 @@ int mm_read_mtx_crd_entry(FILE *f, int *I, int *J, double *real, double *img,
 int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
                                double **val_, int **I_, int **J_);
 
-unsigned _coo_order;
+//unsigned _coo_order;
 
 namespace util {
 class MatrixIO {
@@ -626,6 +626,28 @@ public:
 };
 
 class TensorIO : public MatrixIO {
+protected:
+    unsigned _rank;
+    unsigned* _indptr;
+
+    typedef struct _coo_tnode {
+        unsigned* coords;
+        unsigned order;
+        real val;
+        struct _coo_tnode *next;
+    } coo_tnode;
+
+    static int coo_tnode_comp(const void* lhs, const void* rhs) {
+        int comp = 0;
+        coo_tnode *tn1 = (coo_tnode*) lhs;
+        coo_tnode *tn2 = (coo_tnode*) rhs;
+        unsigned order = tn1->order;
+        for (unsigned i = 0; i < order && !comp; i++) {
+            comp = tn1->coords[i] - tn2->coords[i];
+        }
+        return comp;
+    }
+
 public:
     explicit TensorIO(const string &filename = "", const int rank = 0) :  MatrixIO(filename) {
         _rank = rank;
@@ -694,6 +716,7 @@ public:
             nodes = (coo_tnode*) calloc(_nnz, sizeof(coo_tnode));
             for (unsigned i = 0; i < _nnz; i++) {
                 nodes[i].coords = (unsigned*) calloc(_order, sizeof(unsigned));
+                nodes[i].order = _order;
             }
             rewind(in);
 
@@ -723,7 +746,6 @@ public:
         }
 
         if (nodes != NULL) {
-            _coo_order = _order;
             qsort(nodes, _nnz, sizeof(coo_tnode), coo_tnode_comp);
 
             for (unsigned i = 0; i < _nnz; i++) {
@@ -743,28 +765,9 @@ public:
 
         return _nnz < 1;
     }
-
-protected:
-    unsigned _rank;
-    unsigned* _indptr;
-
-private:
-    typedef struct _coo_tnode {
-        unsigned* coords;
-        real val;
-        struct _coo_tnode *next;
-    } coo_tnode;
-
-    static int coo_tnode_comp(const void* lhs, const void* rhs) {
-        int comp = 0;
-        coo_tnode *tn1 = (coo_tnode*) lhs;
-        coo_tnode *tn2 = (coo_tnode*) rhs;
-        for (unsigned i = 0; i < _coo_order && !comp; i++) {
-            comp = tn1->coords[i] - tn2->coords[i];
-        }
-        return comp;
-    }
 };
 }
+
+//unsigned TensorIO::_coo_order;
 
 #endif    // _MATRIXIO_HPP_

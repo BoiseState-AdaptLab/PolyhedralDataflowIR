@@ -5,19 +5,11 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -DPIC -Xpreprocessor -ftree-vectorize -funroll-all-loops -std=c++11")
 
 include_directories(lib/iegenlib/src
-                    lib/isl
-                    lib/isl/imath
-                    lib/isl/include
-                    lib/isl/bld
-                    lib/isl/bld/include
-                    lib/chill
-                    lib/chill/omega/basic/include
-                    lib/chill/omega/omega_lib/include
-                    lib/chill/omega/code_gen/include
-                    lib/chill/omega/parser
-                    lib/gmp
-                    lib/gtest
-                    lib/gtest/include
+                    lib/isl lib/isl/imath lib/isl/include lib/isl/bld lib/isl/bld/include lib/gmp
+                    lib/chill lib/chill/omega/basic/include lib/chill/omega/omega_lib/include
+                    lib/chill/omega/code_gen/include lib/chill/omega/parser
+                    lib/gtest  lib/gtest/include
+                    lib/eigen lib/eigen/unsupported
                     src
 )
 
@@ -165,6 +157,7 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
 
 #unset(TESTING)
 set(TESTING "true")
+#set(MAKELIB "true")
 
 if (TESTING)
     #include_directories(../matrices/splatt/include)
@@ -178,13 +171,17 @@ if (TESTING)
                     lib/gtest/src/gtest-port.cc
     )
 
-    set(UNIT_TESTS test/eDSLTest.cpp test/driver.cpp test/TensorDecompTest.cpp)
+    set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp
+                   test/ConjGradTest.cpp test/TensorDecompTest.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -O0")
 
     enable_testing()
     add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
     target_link_libraries(edslTest m omp) # blas lapack lapacke splatt)
-    add_test(eDSLTest driver TensorDecompTest)
+    add_test(driver eDSLTest ConjGradTest TensorDecompTest)
+elseif (MAKELIB)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3")
+    add_library(polylib SHARED ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
 else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -O3 -Wno-deprecated -Wno-deprecated-declarations -Wno-format-overflow")
     set(DRIVER src/cgmain.c out/conjgrad.h src/util/mmio.h src/util/mmio.c)
