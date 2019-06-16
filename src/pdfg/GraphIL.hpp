@@ -61,8 +61,6 @@ namespace pdfg {
         return out;
     }
 
-    void init(const string &name);
-
     struct Expr {
     public:
         explicit Expr(const string &text = "", char type = 'E'): _text(text), _type(type) {
@@ -3243,9 +3241,20 @@ namespace pdfg {
         FlowGraph _flowGraph;
     };
 
-    void init(const string& name) {
+    void init(const string& name, const string& retname = "", const string& datatype = "",
+              const string& indextype = "") {
         pdfg::_spaces.clear();
         GraphMaker::get().newGraph(name);
+        if (!datatype.empty()) {
+            GraphMaker::get().dataType(datatype);
+        }
+        if (!indextype.empty()) {
+            GraphMaker::get().indexType(indextype);
+        }
+        if (!retname.empty()) {
+            GraphMaker::get().returnName(retname);
+        }
+
     }
 
     void print(const string& file = "") {

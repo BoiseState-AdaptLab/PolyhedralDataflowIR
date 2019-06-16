@@ -118,7 +118,7 @@ for(t1 = 0; t1 <= N-1; t1++) {
     free(s);
     free(d);
 
-    return(rs);
+    return (rs);
 }    // conj_grad
 
 #undef min

@@ -386,7 +386,7 @@ TEST(eDSLTest, ConjGrad) {
     Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0");
 
-    init("conj_grad");
+    init("conj_grad", "rs", "d");
     Comp copy("copy", vec, ((r[i]=b[i]+0) ^ (d0[i]=b[i]+0)));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d0[j]));
     Comp ddot("ddot", vec, (ds+=d0[i]*s[i]));

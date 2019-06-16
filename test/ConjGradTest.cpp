@@ -76,6 +76,12 @@ namespace test {
 
             _xVec.resize(_ncol);
             _bVec.resize(_nrow);
+
+            // Initialize b to something more interesting than 0
+            for (unsigned i = 0; i < _nrow; i++) {
+                _b[i] = (double) (i + 1);
+                _bVec(i) = _b[i];
+            }
         }
 
         virtual void Evaluate() {
