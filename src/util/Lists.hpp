@@ -11,6 +11,9 @@ using std::initializer_list;
 using std::string;
 using std::map;
 using std::vector;
+#include <sstream>
+using std::ostringstream;
+#include "Strings.hpp"
 
 class Lists {
 public:
@@ -122,6 +125,40 @@ public:
                 elems[pos++] = Strings::convert<T>(token);
             }
 
+            fclose(fp);
+        }
+    }
+
+    static inline void write(vector<int>& elems, const string& file, const char delim = ',') {
+        write<int>(elems, file, delim, "%d");
+    }
+
+    static inline void write(vector<unsigned>& elems, const string& file, const char delim = ',') {
+        write<unsigned>(elems, file, delim, "%u");
+    }
+
+    static inline void write(vector<float>& elems, const string& file, const char delim = ',') {
+        write<float>(elems, file, delim, "%g");
+    }
+
+    static inline void write(vector<double>& elems, const string& file, const char delim = ',') {
+        write<double>(elems, file, delim, "%lg");
+    }
+
+    template <typename T>
+    static inline void write(const vector<T>& elems, const string& file = "", const char delim = ',', const string pattern = "%s") {
+        FILE* fp = stderr;
+        if (!file.empty()) {
+            fp = fopen(file.c_str(), "w");
+        }
+        unsigned endpos = elems.size() - 1;
+        for (unsigned i = 0; i <= endpos; i++) {
+            fprintf(fp, pattern.c_str(), elems[i]);
+            if (i < endpos) {
+                fprintf(fp, "%c", delim);
+            }
+        }
+        if (!file.empty()) {
             fclose(fp);
         }
     }

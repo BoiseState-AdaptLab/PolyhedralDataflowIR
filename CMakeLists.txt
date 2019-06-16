@@ -10,7 +10,7 @@ include_directories(lib/iegenlib/src
                     lib/chill/omega/code_gen/include lib/chill/omega/parser
                     lib/gtest  lib/gtest/include
                     lib/eigen lib/eigen/unsupported
-                    src
+                    out src
 )
 
 set(EDSL_FILES   src/poly/PolyLib.hpp

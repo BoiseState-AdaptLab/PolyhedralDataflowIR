@@ -398,7 +398,7 @@ TEST(eDSLTest, ConjGrad) {
     Comp bdiv("bdiv", sca, (beta=rs/rs0));
     Comp dadd("dadd", vec, (d[i]=r[i]+beta*d0[i]));
     print("out/conjgrad.json");
-    string result = codegen("out/conjgrad.o");
+    string result = codegen("out/conjgrad.h", "", "C++");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

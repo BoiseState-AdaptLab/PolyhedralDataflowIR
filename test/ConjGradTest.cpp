@@ -19,11 +19,16 @@ typedef Eigen::Triplet<double> Triple;
 using util::MatrixIO;
 #include "BenchmarkTest.hpp"
 
+// Include generated code:
+#include "conjgrad.h"
+
 namespace test {
     class ConjGradTest : public BenchmarkTest {
 
     protected:
-        ConjGradTest() {}
+        ConjGradTest() {
+            _name = "ConjGradTest";
+        }
 
         virtual ~ConjGradTest() {}
 
@@ -39,6 +44,8 @@ namespace test {
 
             _maxiter = 100;
             _niter = _niter_ref = 0;
+            _tolerance = 1e-10;
+            _error = 1.0;
 
             // Copy arrays...
             unsigned nbytes = _nnz * sizeof(unsigned);
@@ -56,6 +63,7 @@ namespace test {
 
             // Initialize Eigen objects:
             _cg.setMaxIterations(_maxiter);
+            _cg.setTolerance(_tolerance);
 
             vector<Triple> triples;
             triples.reserve(_nnz);
@@ -75,19 +83,29 @@ namespace test {
             _xVec = _cg.solve(_bVec);
             _niter_ref = _cg.iterations();
             _err_ref = _cg.error();
+            _x_ref = _xVec.data();
+            _b_ref = _bVec.data();
             // TODO: This is from the Eigen docs, is it needed?
             // Update b, and solve again
             //x = cg.solve(b);
         }
 
         virtual void Execute() {
-            // TODO: Implement me too...
-            GTEST_COUT << "ConjGradTest::Execute TBD..." <<  endl;
+            for (unsigned t = 0; t < _maxiter && _error > _tolerance; t++) {
+                _error = conj_grad(_nrow, _b, _nnz, _rows, _cols, _vals, _x, _x); //, float * d);
+            }
         }
 
         virtual void Assert() {
-            ASSERT_LT(Compare(_x, _xVec.data(), _ncol), 0);
-            ASSERT_LT(Compare(_b, _bVec.data(), _nrow), 0);
+            vector<double> ref(_ncol);
+            copy(_x_ref, _x_ref + _ncol, ref.begin());
+            Write("data/matrix/x_ref.csv", ref);
+            ref.resize(_nrow);
+            copy(_b_ref, _b_ref + _nrow, ref.begin());
+            Write("data/matrix/b_ref.csv", ref);
+
+            ASSERT_LT(Compare(_x, _x_ref, _ncol), 0);
+            ASSERT_LT(Compare(_b, _b_ref, _nrow), 0);
             ASSERT_EQ(_niter, _niter_ref);
         }
 
@@ -104,10 +122,12 @@ namespace test {
         unsigned* _rows;
         unsigned* _cols;
 
-        double _error, _err_ref;
+        double _error, _err_ref, _tolerance;
         double* _vals;
         double* _x;
         double* _b;
+        const double* _x_ref;
+        const double* _b_ref;
 
         // Eigen Objects:
         VectorXd _xVec, _bVec;

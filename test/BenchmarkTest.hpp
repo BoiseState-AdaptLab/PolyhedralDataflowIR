@@ -154,6 +154,29 @@ namespace test {
             return index;
         }
 
+        template <typename T>
+        static inline void Write(const vector<T>& elems, const char delim = ',') {
+            Write(cerr, elems, delim);
+        }
+
+        template <typename T>
+        static inline void Write(const string& file, const vector<T>& elems, const char delim = ',') {
+            ofstream ofs(file.c_str());
+            Write(ofs, elems, delim);
+        }
+
+        template <typename T>
+        static inline void Write(ostream& os, const vector<T>& elems, const char delim = ',') {
+            unsigned endpos = elems.size() - 1;
+            for (unsigned i = 0; i <= endpos; i++) {
+                os << elems[i];
+                if (i < endpos) {
+                    os << delim;
+                }
+            }
+            os << endl;
+        }
+
         string _name = "";
 
         double _startTime;
