@@ -382,23 +382,25 @@ TEST(eDSLTest, ConjGrad) {
     Space mtx = coo;
 
     // Data spaces:
-    Space A("A", M), x0("x0", N), b("b", N), d0("d0", N), r("r", N), s("s", N), d("d", N), x("x", N);
+    //Space A("A", M), x0("x0", N), b("b", N), d0("d0", N), r("r", N), s("s", N), d("d", N), x("x", N);
+    Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
     Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0");
 
     init("conj_grad", "rs", "d");
-    Comp copy("copy", vec, ((r[i]=b[i]+0) ^ (d0[i]=b[i]+0)));
-    Comp spmv("spmv", mtx, (s[i] += A[n] * d0[j]));
-    Comp ddot("ddot", vec, (ds+=d0[i]*s[i]));
-    Comp rdot0("rdot0", vec, (rs0+=r[i]*r[i]));
-    Comp adiv("adiv", sca, (alpha=rs0/ds));
-    Comp xadd("xadd", vec, (x[i]=x0[i]+alpha*d0[i]));
-    Comp rsub("rsub", vec, (r[i]-=alpha*s[i]));
-    Comp rdot("rdot", vec, (rs+=r[i]*r[i]));
-    Comp bdiv("bdiv", sca, (beta=rs/rs0));
-    Comp dadd("dadd", vec, (d[i]=r[i]+beta*d0[i]));
+    //Comp copy("copy", vec, ((r[i]=b[i]+0) ^ (d[i]=b[i]+0)));
+    Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
+    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    Comp adiv("adiv", sca, (alpha = rs0/ds));
+    Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
+    Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
+    Comp rdot("rdot", vec, (rs += r[i]*r[i]));
+    Comp bdiv("bdiv", sca, (beta = rs / rs0));
+    Comp bmul("bmul", vec, (d[i] *= beta));
+    Comp dadd("dadd", vec, (d[i] += r[i]));
     print("out/conjgrad.json");
-    string result = codegen("out/conjgrad.h", "", "C++");
+    string result = codegen("out/conjgrad.o", "", "C++");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

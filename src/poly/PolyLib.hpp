@@ -276,9 +276,7 @@ namespace poly {
                     for (auto itr = macros.begin(); itr != macros.end(); ++itr) {
                         defines += "#define " + itr->first + " " + itr->second + "\n";
                     }
-                    //if (!defines.empty()) {
-                        code = defines + "\n" + code;
-                    //}
+                    code = defines + "\n" + code;
                 }
             }
 

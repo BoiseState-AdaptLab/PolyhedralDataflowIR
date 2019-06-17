@@ -677,7 +677,7 @@ public:
             omega_run(&iss, &oss);
             lines = Strings::filter(Strings::split(oss.str(), '\n'), PROMPT, true);
         } else {
-            lines.emplace_back("s0();");
+            lines.emplace_back("s0();\n");
         }
         return Strings::join(lines, "\n");
     }

@@ -197,7 +197,7 @@ namespace pdfg {
     struct DataNode : public Node {
     public:
         explicit DataNode(Expr* access, const string& label = "", Expr* size = nullptr, const string& type = "real",
-                          const string& mapping = "", const string& defval = "0", const MemAlloc& alloc = DYNAMIC) :
+                          const string& defval = "0", const string& mapping = "", const MemAlloc& alloc = DYNAMIC) :
             Node(new Expr(*access), label), _size(size), _datatype(type), _defval(defval), _alloc(alloc) {
             attr("shape", "box");
             attr("color", "gray");

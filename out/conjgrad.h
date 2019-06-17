@@ -18,36 +18,23 @@
 fprintf(stderr,"%s={",(name));\
 for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
-#define row(n) row[(n)]
-#define col(n) col[(n)]
+#define col(i) col[(i)]
+#define row(i) row[(i)]
+#define rp(i) rp[(i)]
 
-double conj_grad(const unsigned N, const double* b, const unsigned M, const unsigned* row, const unsigned* col, const double* A, const double* x0, double* x);
-inline double conj_grad(const unsigned N, const double* b, const unsigned M, const unsigned* row, const unsigned* col, const double* A, const double* x0, double* x) {
+double conj_grad(const unsigned M, const unsigned* row, const unsigned* col, const double* A, const unsigned N, double* d, double* r, double* x);
+inline double conj_grad(const unsigned M, const unsigned* row, const unsigned* col, const double* A, const unsigned N, double* d, double* r, double* x) {
     unsigned t1,t2,t3,t4,t5;
-    double* r = (double*) calloc((N),sizeof(double));
-    double* d0 = (double*) calloc((N),sizeof(double));
     double* s = (double*) calloc((N),sizeof(double));
-    double* d = (double*) calloc((N),sizeof(double));
     double ds = 0;
     double rs0 = 0;
     double alpha = 0;
     double rs = 0;
     double beta = 0;
 
-// copy
-#undef s0
-#undef s1
-#define s0(i) r[(i)]=b[(i)]
-#define s1(i) d0[(i)]=b[(i)]
-
-for(t1 = 0; t1 <= N-1; t1++) {
-  s0(t1);
-  s1(t1);
-}
-
 // spmv
 #undef s0
-#define s0(n,i,j) s[(i)]+=A[(n)]*d0[(j)]
+#define s0(n,i,j) s[(i)]+=A[(n)]*d[(j)]
 
 for(t1 = 0; t1 <= M-1; t1++) {
   t2=row(t1);
@@ -57,7 +44,7 @@ for(t1 = 0; t1 <= M-1; t1++) {
 
 // ddot
 #undef s0
-#define s0(i) ds+=d0[(i)]*s[(i)]
+#define s0(i) ds+=d[(i)]*s[(i)]
 
 for(t1 = 0; t1 <= N-1; t1++) {
   s0(t1);
@@ -76,9 +63,10 @@ for(t1 = 0; t1 <= N-1; t1++) {
 #define s0() alpha=rs0/ds
 
 s0();
+
 // xadd
 #undef s0
-#define s0(i) x[(i)]=x0[(i)]+alpha*d0[(i)]
+#define s0(i) x[(i)]+=alpha*d[(i)]
 
 for(t1 = 0; t1 <= N-1; t1++) {
   s0(t1);
@@ -105,18 +93,24 @@ for(t1 = 0; t1 <= N-1; t1++) {
 #define s0() beta=rs/rs0
 
 s0();
-// dadd
+
+// bmul
 #undef s0
-#define s0(i) d[(i)]=r[(i)]+beta*d0[(i)]
+#define s0(i) d[(i)]*=beta
 
 for(t1 = 0; t1 <= N-1; t1++) {
   s0(t1);
 }
 
-    free(r);
-    free(d0);
+// dadd
+#undef s0
+#define s0(i) d[(i)]+=r[(i)]
+
+for(t1 = 0; t1 <= N-1; t1++) {
+  s0(t1);
+}
+
     free(s);
-    free(d);
 
     return (rs);
 }    // conj_grad
@@ -133,4 +127,7 @@ for(t1 = 0; t1 <= N-1; t1++) {
 #undef offset4
 #undef arrinit
 #undef arrprnt
+#undef col
+#undef row
+#undef rp
 

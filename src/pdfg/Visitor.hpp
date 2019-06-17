@@ -297,6 +297,7 @@ namespace pdfg {
                 fout << str() << endl;
                 fout.close();
             }
+
             _graph = nullptr;
         }
 

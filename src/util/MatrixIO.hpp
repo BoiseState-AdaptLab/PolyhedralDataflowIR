@@ -244,8 +244,8 @@ public:
         _filename = filename;
         _nnz = nnz;
         _order = order;
-        _dims = (unsigned *) calloc(order, sizeof(unsigned));
-        _indices = (unsigned **) calloc(order, sizeof(unsigned*));
+        _dims = (unsigned*) calloc(order, sizeof(unsigned));
+        _indices = (unsigned**) calloc(order, sizeof(unsigned*));
         _vals = nullptr;
     }
 
@@ -267,15 +267,13 @@ public:
     virtual int read() {
         int retval = 0;
         FILE *fp = fopen(_filename.c_str(), "r");
-        int nrows, ncols, nnz;
-        int *rows;
-        int *cols;
+        int nrows, ncols, nnz, row, col;
 
         if (fp != NULL) {
             retval = mm_read_banner(fp, &_mtxcode);
-            if (retval != 0) {
-                fprintf(stderr, "Could not process Matrix Market banner.\n");
-            }
+//            if (retval != 0) {
+//                fprintf(stderr, "Could not process Matrix Market banner.\n");
+//            }
 
             if (mm_is_complex(_mtxcode) && mm_is_matrix(_mtxcode) && mm_is_sparse(_mtxcode)) {
                 fprintf(stderr, "This app does not support Market Market type: [%s]\n",
@@ -288,14 +286,15 @@ public:
                     _dims[1] = ncols;
                     _nnz = nnz;
 
-                    rows = (int *) malloc(_nnz * sizeof(int));
-                    cols = (int *) malloc(_nnz * sizeof(int));
+                    _indices[0] = (unsigned*) malloc(_nnz * sizeof(int));
+                    _indices[1] = (unsigned*) malloc(_nnz * sizeof(int));
                     _vals = (real *) malloc(_nnz * sizeof(real));
 
+                    int row, col;
                     for (unsigned i = 0; i < _nnz; i++) {
-                        if (fscanf(fp, "%d %d %lg\n", &rows[i], &cols[i], &_vals[i])) {
-                            _indices[0][i] = rows[i] - 1;  /* adjust from 1-based to 0-based */
-                            _indices[1][i] = cols[i] - 1;
+                        if (fscanf(fp, "%d %d %lg\n", &row, &col, &_vals[i])) {
+                            _indices[0][i] = row - 1;  /* adjust from 1-based to 0-based */
+                            _indices[1][i] = col - 1;
                         }
                     }
 
@@ -364,9 +363,9 @@ protected:
     string _filename;
     unsigned _nnz;
     unsigned _order;
-    unsigned *_dims;
-    unsigned **_indices;
-    real *_vals;
+    unsigned* _dims;
+    unsigned** _indices;
+    real* _vals;
     MM_typecode _mtxcode;
 
 private:

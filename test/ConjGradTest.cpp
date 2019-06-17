@@ -42,7 +42,7 @@ namespace test {
             _nrow = mtx.nrows();
             _ncol = mtx.ncols();
 
-            _maxiter = 100;
+            _maxiter = 1000;
             _niter = _niter_ref = 0;
             _tolerance = 1e-10;
             _error = 1.0;
@@ -57,9 +57,6 @@ namespace test {
             nbytes = _nnz * sizeof(double);
             _vals = (double*) malloc(nbytes);
             memcpy(_vals, mtx.vals(), nbytes);
-
-            _x = (double*) calloc(_ncol, sizeof(double));
-            _b = (double*) calloc(_nrow, sizeof(double));
 
             // Initialize Eigen objects:
             _cg.setMaxIterations(_maxiter);
@@ -76,6 +73,9 @@ namespace test {
 
             _xVec.resize(_ncol);
             _bVec.resize(_nrow);
+
+            _x = (double*) calloc(_ncol, sizeof(double));
+            _b = (double*) malloc(_nrow * sizeof(double));
 
             // Initialize b to something more interesting than 0
             for (unsigned i = 0; i < _nrow; i++) {
@@ -97,15 +97,29 @@ namespace test {
         }
 
         virtual void Execute() {
-            for (unsigned t = 0; t < _maxiter && _error > _tolerance; t++) {
-                _error = conj_grad(_nrow, _b, _nnz, _rows, _cols, _vals, _x, _x); //, float * d);
+            double* r = (double*) malloc(_nrow*sizeof(double));
+            double* d = (double*) malloc(_nrow*sizeof(double));
+
+            // copy
+            for (unsigned i = 0; i < _nrow; i++) {
+                r[i] = d[i] = _b[i];
             }
+
+            // conjgrad
+            unsigned t = 0;
+            for (; t < _maxiter && _error > _tolerance; t++) {
+                _error = conj_grad(_nnz, _rows, _cols, _vals, _nrow, r, d, _x);
+            }
+
+            free(r);
+            free(d);
         }
 
         virtual void Assert() {
             vector<double> ref(_ncol);
             copy(_x_ref, _x_ref + _ncol, ref.begin());
             Write("data/matrix/x_ref.csv", ref);
+
             ref.resize(_nrow);
             copy(_b_ref, _b_ref + _nrow, ref.begin());
             Write("data/matrix/b_ref.csv", ref);
@@ -142,7 +156,8 @@ namespace test {
     };
 
     TEST_F(ConjGradTest, CG) {
-        SetUp({"./data/matrix/cant.mtx"});
+        //SetUp({"./data/matrix/cant.mtx"});
+        SetUp({"./data/matrix/cg.mtx"});
         Run();
         Verify();
         Assert();

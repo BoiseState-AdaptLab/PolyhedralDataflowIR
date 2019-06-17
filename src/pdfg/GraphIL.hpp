@@ -1,4 +1,5 @@
 //
+//
 // Created by edavis on 4/8/19.
 //
 #pragma once
@@ -1174,6 +1175,13 @@ namespace pdfg {
 
     struct Access : public Expr {
     public:
+        Access(const Space &space, const vector<Iter>& iters, char refchar = '(', const vector<int>& offsets = {}) :
+               _space(space) {
+            vector<Expr> tuple(iters.begin(), iters.end());
+            init(tuple, refchar, offsets);
+            _text = stringify<Access>(*this);
+        }
+
         Access(const Space &space, initializer_list<Expr> tuple, char refchar = '(', const vector<int>& offsets = {}) :
             _space(space) {
             init(tuple, refchar, offsets);
@@ -1295,6 +1303,15 @@ namespace pdfg {
 //        Space(const string& name, const Expr& lower1, const Expr& upper1, const Expr& lower2, const Expr& upper2) {
 //            init(name, lower1, upper1, lower2, upper2);
 //        }
+
+        Space(const Func& func) {
+            string ichars = "ijkmnpqrsy";
+            vector<Iter> iters;
+            for (unsigned i = 0; i < func.arity(); i++) {
+                iters.emplace_back(Iter(ichars[i]));
+            }
+            init(func.name(), iters, {});
+        }
 
         Space(const string &name, const vector<Iter> &iterators) {
             init(name, iterators, {});
@@ -2821,7 +2838,7 @@ namespace pdfg {
                     os << sname << '[';
                     if (size < 2) {
                         Expr expr = access.tuple().at(0);
-                        os << expr;
+                        os << '(' << expr;
                         if (offsets.size() > 0 && offsets[0] != 0) {
                             if (offsets[0] > 0) {
                                 os << '+';
@@ -2903,8 +2920,16 @@ namespace pdfg {
 //                cgen.define(iter.first, to_string(iter.second.val()));
 //            }
 
-            for (const auto& mapping : _mappings) {
-                cgen.define(mapping.second);
+            // TODO: Replace this hack with a proper transformation from UF to data Space.
+            for (const auto& iter : _funcs) {
+                Func func = iter.second;
+                if (func.arity() == 1) {
+                    cgen.define(func.name() + "(i)", func.name() + "[(i)]");
+                }
+            }
+
+            for (const auto& iter : _mappings) {
+                cgen.define(iter.second);
             }
 
             if (name.empty()) {
