@@ -351,12 +351,22 @@ namespace pdfg {
 
         unsigned flops() const {
             unsigned nflops = 0;
+            vector<string> funcs({"exp", "log", "sqrt", "sin", "cos", "tan"});
 
             Comp* comp = (Comp*) _expr;
             for (const auto& stmt : comp->statements()) {
-                for (char ch : stmt.text()) {
+                string text = stmt.text();
+                for (char ch : text) {
                     if (ch == '^' || ch == '+' || ch == '-' || ch =='*' || ch == '/' || ch == '%') {
                         nflops += 1;
+                    }
+                }
+
+                for (const string& func : funcs) {
+                    size_t pos = text.find(func);
+                    while (pos != string::npos) {
+                        nflops += 10;                           // Add 10 flops for each transitive fxn
+                        pos = text.find(func, pos + func.size());
                     }
                 }
             }
