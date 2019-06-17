@@ -399,6 +399,7 @@ TEST(eDSLTest, ConjGrad) {
     Comp bdiv("bdiv", sca, (beta = rs / rs0));
     Comp bmul("bmul", vec, (d[i] *= beta));
     Comp dadd("dadd", vec, (d[i] += r[i]));
+    perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/conjgrad.json");
     string result = codegen("out/conjgrad.o", "", "C++");
     //cerr << result << endl;

@@ -114,9 +114,32 @@ namespace pdfg {
             return _type;
         }
 
-        friend ostream& operator<<(ostream& out, Node& node) {
-            out << "{ \"label\": \"" << node._label << "\", \"space\": \"" << *(node.expr()) << "\" }";
-            return out;
+        friend ostream& operator<<(ostream& os, Node& node) {
+            os << "{ \"label\": \"" << node._label << "\", \"space\": \"" << *(node.expr()) << "\"";
+            if (node._attrs.size() > 2) {
+                os << ", \"attrs\": { ";
+                unsigned n = 0, nattrs = node._attrs.size();
+                for (const auto& iter : node._attrs) {
+                    if (iter.first != "shape" && iter.first != "color") {
+                        os << "\"" << iter.first << "\": \"" << iter.second << "\"";
+                        if (n < nattrs - 1) {
+                            os << ", ";
+                        }
+                        n += 1;
+                    }
+                }
+                os << " }";
+            }
+            os << " }";
+            return os;
+        }
+
+        bool is_comp() {
+            return _type == 'C';
+        }
+
+        bool is_data() {
+            return _type == 'D';
         }
 
     protected:
@@ -229,6 +252,32 @@ namespace pdfg {
             _datatype = type;
         }
 
+        bool is_float() const {
+            return (_datatype[0] == 'd' || _datatype[0] == 'f');
+        }
+
+        bool is_int() const {
+            return (_datatype[0] == 'i' || _datatype[0] == 'u');
+        }
+
+        unsigned typesize() const {
+            char dtype = _datatype[0];
+            unsigned dsize = 1;
+            switch (dtype) {
+                case 'i':
+                case 'u':
+                    dsize = sizeof(int);
+                    break;
+                case 'f':
+                    dsize = sizeof(float);
+                    break;
+                case 'd':
+                    dsize = sizeof(double);
+                    break;
+            }
+            return dsize;
+        }
+
         string defval() const {
             return _defval;
         }
@@ -291,7 +340,6 @@ namespace pdfg {
             _expr = comp;
         }
 
-
         vector<CompNode*> children() const {
             return _children;
         }
@@ -299,6 +347,25 @@ namespace pdfg {
         void fuse(CompNode* other) {
             this->label(this->label() + "*" + other->label());
             _children.push_back(other);
+        }
+
+        unsigned flops() const {
+            unsigned nflops = 0;
+
+            Comp* comp = (Comp*) _expr;
+            for (const auto& stmt : comp->statements()) {
+                for (char ch : stmt.text()) {
+                    if (ch == '^' || ch == '+' || ch == '-' || ch =='*' || ch == '/' || ch == '%') {
+                        nflops += 1;
+                    }
+                }
+            }
+
+            for (CompNode* child : _children) {
+                nflops += child->flops();
+            }
+
+            return nflops;
         }
 
     protected:
@@ -486,7 +553,7 @@ namespace pdfg {
             return _edges;
         }
 
-        const vector<Edge*> inedges(const Node* node) const {
+        vector<Edge*> inedges(const Node* node) const {
             vector<Edge*> edges;
             for (Edge* edge : _edges) {
                 if (edge->dest()->label() == node->label()) {
@@ -496,7 +563,7 @@ namespace pdfg {
             return edges;
         }
 
-        const vector<Edge*> outedges(const Node* node) const {
+        vector<Edge*> outedges(const Node* node) const {
             vector<Edge*> edges;
             for (Edge* edge : _edges) {
                 if (edge->source()->label() == node->label()) {

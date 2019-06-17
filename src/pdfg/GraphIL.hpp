@@ -2955,6 +2955,15 @@ namespace pdfg {
             return "";
         }
 
+        void perfmodel(const string& name = "") {
+            PerfModelVisitor pmv;
+            if (name.empty()) {
+                pmv.walk(&_flowGraph);
+            } else {
+                pmv.walk(&_graphs[name]);
+            }
+        }
+
         void print(const string& file = "") {
             if (!file.empty()) {
                 ofstream ofs(file.c_str(), ofstream::out);
@@ -3297,6 +3306,10 @@ namespace pdfg {
         string code = GraphMaker::get().codegen(path, name, lang);
         clearSpaces();
         return code;
+    }
+
+    void perfmodel(const string& name = "") {
+        GraphMaker::get().perfmodel(name);
     }
 
     void addIterator(const Iter& iter) {

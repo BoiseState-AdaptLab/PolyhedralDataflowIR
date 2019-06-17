@@ -27,7 +27,22 @@ namespace pdfg {
             exit(node);
         }
 
-        virtual void enter(Node*) = 0;
+        virtual void enter(Node *node) {
+            cerr << "Visiting node '" << node->label() << "'" << endl;
+            switch (node->type()) {
+                case 'D':
+                    enter((DataNode *) node);
+                    break;
+                case 'C':
+                    enter((CompNode *) node);
+                    break;
+                case 'R':
+                    enter((RelNode *) node);
+                    break;
+                default:    // Throw exception, maybe?
+                    break;
+            }
+        }
 
         virtual void enter(CompNode*) = 0;
 
@@ -147,23 +162,6 @@ namespace pdfg {
             addDefines();
             addTypeDefs();
             addFunctions();
-        }
-
-        void enter(Node *node) override {
-            cerr << "Visiting node '" << node->label() << "'" << endl;
-            switch (node->type()) {
-                case 'D':
-                    enter((DataNode *) node);
-                    break;
-                case 'C':
-                    enter((CompNode *) node);
-                    break;
-                case 'R':
-                    enter((RelNode *) node);
-                    break;
-                default:    // Throw exception, maybe?
-                    break;
-            }
         }
 
         void enter(DataNode* node) override {
@@ -454,6 +452,105 @@ namespace pdfg {
 
         void setup(FlowGraph* graph) override {
             _graph = graph;
+        }
+
+        /// For each computation node, compute the amount of data read (loaded), written (stored), the number
+        /// of input and output streams, the number of int ops (IOPs), floating point ops (FLOPs).
+        /// This leads to an estimate for the amount of memory traffic (Q) and total work (W).
+        /// Arithmetic intensity can be computed as I = W/Q, the x-axis of the Roofline plot.
+        /// \param node Computation node
+        void enter(CompNode* node) override {
+            unsigned inStreamsI = 0, outStreamsI = 0, inStreamsF = 0, outStreamsF = 0, nIOPs = 0, nFLOPs = 0;
+            string inSizeExprI, outSizeExprI, inSizeExprF, outSizeExprF;
+
+            vector<Edge*> inedges = _graph->inedges(node);
+            for (Edge* edge : inedges) {
+                if (edge->source()->is_data()) {
+                    DataNode* source = (DataNode*) edge->source();
+                    if (!source->is_scalar()) {
+                        string sizeExpr = "+" + source->size()->text();
+                        if (source->is_int()) {
+                            inStreamsI += 1;
+                            inSizeExprI += sizeExpr;
+                        } else {
+                            inStreamsF += 1;
+                            inSizeExprF += sizeExpr;
+                        }
+                    }
+                }
+            }
+
+            if (!inSizeExprI.empty()) {
+                inSizeExprI = inSizeExprI.substr(1);
+                if (inSizeExprI.find('+') != string::npos) {
+                    inSizeExprI = "(" + inSizeExprI + ")";
+                }
+                inSizeExprI += "*" + to_string(sizeof(int));
+                node->attr("isize_in", inSizeExprI);
+                node->attr("istreams_in", to_string(inStreamsI));
+            }
+
+            if (!inSizeExprF.empty()) {
+                inSizeExprF = inSizeExprF.substr(1);
+                if (inSizeExprF.find('+') != string::npos) {
+                    inSizeExprF = "(" + inSizeExprF + ")";
+                }
+                inSizeExprF += "*" + to_string(sizeof(double));
+                node->attr("fsize_in", inSizeExprF);
+                node->attr("fstreams_in", to_string(inStreamsF));
+            }
+
+            vector<Edge*> outedges = _graph->outedges(node);
+            for (Edge* edge : outedges) {
+                DataNode* dest = (DataNode*) edge->dest();
+                if (!dest->is_scalar()) {
+                    string sizeExpr = "+" + dest->size()->text();
+                    if (dest->is_int()) {
+                        outStreamsI += 1;
+                        outSizeExprI += sizeExpr;
+                    } else {
+                        outStreamsF += 1;
+                        outSizeExprF += sizeExpr;
+                    }
+                }
+            }
+
+            if (!outSizeExprI.empty()) {
+                outSizeExprI = outSizeExprI.substr(1);
+                if (outSizeExprI.find('+') != string::npos) {
+                    outSizeExprI = "(" + outSizeExprI + ")";
+                }
+                outSizeExprI += "*" + to_string(sizeof(int));
+                node->attr("isize_out", outSizeExprI);
+                node->attr("istreams_out", to_string(outStreamsI));
+            }
+
+            if (!outSizeExprF.empty()) {
+                outSizeExprF = outSizeExprF.substr(1);
+                if (outSizeExprF.find('+') != string::npos) {
+                    outSizeExprF = "(" + outSizeExprF + ")";
+                }
+                outSizeExprF += "*" + to_string(sizeof(double));
+                node->attr("fsize_out", outSizeExprF);
+                node->attr("fstreams_out", to_string(outStreamsF));
+            }
+
+            // TODO: count int ops later (maybe), but assume at least one
+            nIOPs = 1;
+
+            // Count FLOPs...
+            nFLOPs = node->flops();
+
+            node->attr("flops", to_string(nFLOPs));
+            node->attr("iops", to_string(nIOPs));
+        }
+
+        void enter(DataNode* node) override {
+            // TODO: Do this method need to do any work?
+        }
+
+        void finish(FlowGraph* graph) override {
+            // TODO: Do this method need to do any work?
         }
 
     protected:
