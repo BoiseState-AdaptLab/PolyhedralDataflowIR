@@ -10,6 +10,7 @@ include_directories(lib/iegenlib/src
                     lib/chill/omega/code_gen/include lib/chill/omega/parser
                     lib/gtest  lib/gtest/include
                     lib/eigen lib/eigen/unsupported
+                    lib/papi/src
                     out src
 )
 
@@ -158,10 +159,12 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
 #unset(TESTING)
 set(TESTING "true")
 #set(MAKELIB "true")
+set(PAPI_ON, "true")
 
 if (TESTING)
-    #include_directories(../matrices/splatt/include)
-    #link_directories(../matrices/splatt/lib)
+    if (PAPI_ON)
+        link_directories(lib/papi/src lib/papi/src/libpfm4/lib)
+    endif()
 
     set(GTEST_FILES lib/gtest/src/gtest.cc
                     lib/gtest/src/gtest-filepath.cc
@@ -177,7 +180,12 @@ if (TESTING)
 
     enable_testing()
     add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
-    target_link_libraries(edslTest m omp) # blas lapack lapacke splatt)
+
+    target_link_libraries(edslTest m omp papi pfm) # blas lapack lapacke splatt)
+    if (PAPI_ON)
+        target_compile_definitions(edslTest PRIVATE PAPI_ON=1)
+    endif()
+
     add_test(driver eDSLTest ConjGradTest)   # TensorDecompTest)
     #add_test(driver ConjGradTest)# TensorDecompTest)
 elseif (MAKELIB)

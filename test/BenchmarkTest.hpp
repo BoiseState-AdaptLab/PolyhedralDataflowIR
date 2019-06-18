@@ -32,6 +32,10 @@ using namespace testing;
 #define EPSILON 0.001
 #endif
 
+#ifdef PAPI_ON
+#include "papi.h"
+#endif
+
 #define GTEST_COUT cout << "[   INFO   ] "
 #define GTEST_CERR cerr << "[  ERROR   ] "
 
@@ -115,6 +119,27 @@ namespace test {
             }
         }
 
+        virtual void Execute() = 0;
+
+        virtual void Run() {
+#ifdef PAPI_ON
+            int papi_retval = PAPI_OK;
+            if (PAPI_num_counters() < _papi_count) {
+                GTEST_CERR << "PAPI hardware counters not supported." << endl;
+            } else if ((papi_retval = PAPI_start_counters(_papi_events, _papi_count)) != PAPI_OK) {
+                GTEST_CERR << "PAPI failed to start counters: " << PAPI_strerror(papi_retval) << endl;
+            }
+#endif
+            Start();
+            Execute();
+            Stop();
+#ifdef PAPI_ON
+            if ((papi_retval = PAPI_stop_counters(_papi_values, _papi_count)) != PAPI_OK) {
+                GTEST_CERR << "PAPI failed to stop counters: " << PAPI_strerror(papi_retval) << endl;
+            }
+#endif
+        }
+
         virtual void Evaluate() = 0;
 
         virtual void Verify() {
@@ -130,14 +155,6 @@ namespace test {
 
             GTEST_COUT << "RunTime = " << _runTime << ", EvalTime = " << _evalTime
                        << ", Ratio = " << _evalTime / _runTime << endl;
-        }
-
-        virtual void Execute() = 0;
-
-        virtual void Run() {
-            Start();
-            Execute();
-            Stop();
         }
 
         virtual void Assert() {};
@@ -185,6 +202,14 @@ namespace test {
         double _evalTime;
 
         map<string, string> _args;
+
+#ifdef PAPI_ON
+        // PAPI Events
+        const int _papi_count = 3;
+        int _papi_events[3] = {PAPI_L1_DCM, PAPI_CA_SHR, PAPI_CA_CLN };
+        // PAPI Values
+        long_long _papi_values[3];
+#endif
 
     private:
         double Now() {
