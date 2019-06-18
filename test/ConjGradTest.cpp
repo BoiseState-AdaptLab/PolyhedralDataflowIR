@@ -21,7 +21,7 @@ using util::MatrixIO;
 
 // Include generated code:
 //#include "conjgrad.h"
-#include "conjgrad_fuse.h"
+#include "conjgrad_fuse2.h"
 
 namespace test {
     class ConjGradTest : public BenchmarkTest {
@@ -116,14 +116,6 @@ namespace test {
         }
 
         virtual void Assert() {
-//            vector<double> ref(_ncol);
-//            copy(_x_ref, _x_ref + _ncol, ref.begin());
-//            Write("data/matrix/x_ref.csv", ref);
-//
-//            ref.resize(_nrow);
-//            copy(_b_ref, _b_ref + _nrow, ref.begin());
-//            Write("data/matrix/b_ref.csv", ref);
-
             ASSERT_LT(Compare(_x, _x_ref, _ncol), 0);
             ASSERT_LT(Compare(&_error, &_err_ref, 1), 0);
             ASSERT_EQ(_niter, _niter_ref);
@@ -152,8 +144,8 @@ namespace test {
         // Eigen Objects:
         VectorXd _xVec, _bVec;
         SparseMatrix<double> _Aspm;
-        ConjugateGradient<SparseMatrix<double>, Lower|Upper> _cg;
         //ConjugateGradient<SparseMatrix<double>> _cg;
+        ConjugateGradient<SparseMatrix<double>, Lower|Upper> _cg;
     };
 
     TEST_F(ConjGradTest, CG) {
