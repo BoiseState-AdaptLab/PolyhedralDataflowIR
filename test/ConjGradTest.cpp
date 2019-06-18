@@ -91,10 +91,6 @@ namespace test {
             _niter_ref = _cg.iterations();
             _err_ref = _cg.error();
             _x_ref = _xVec.data();
-            //_b_ref = _bVec.data();
-            // TODO: This is from the Eigen docs, is it needed?
-            // Update b, and solve again
-            //x = cg.solve(b);
         }
 
         virtual void Execute() {
@@ -108,12 +104,15 @@ namespace test {
 
             // conjgrad
             unsigned t = 0;
-            for (; t < _maxiter && _error > _tolerance; t++) {
+            //for (; t < _maxiter && _error > _tolerance; t++) {
+            for (; t < _maxiter; t++) {
                 _error = conj_grad(_nnz, _rows, _cols, _vals, _nrow, r, d, _x);
             }
 
             free(r);
             free(d);
+
+            _niter = t;
         }
 
         virtual void Assert() {
@@ -153,8 +152,8 @@ namespace test {
         // Eigen Objects:
         VectorXd _xVec, _bVec;
         SparseMatrix<double> _Aspm;
-        //ConjugateGradient<SparseMatrix<double>, Lower|Upper> _cg;
-        ConjugateGradient<SparseMatrix<double>> _cg;
+        ConjugateGradient<SparseMatrix<double>, Lower|Upper> _cg;
+        //ConjugateGradient<SparseMatrix<double>> _cg;
     };
 
     TEST_F(ConjGradTest, CG) {
