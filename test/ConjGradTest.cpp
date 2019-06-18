@@ -20,7 +20,8 @@ using util::MatrixIO;
 #include "BenchmarkTest.hpp"
 
 // Include generated code:
-#include "conjgrad.h"
+//#include "conjgrad.h"
+#include "conjgrad_fuse.h"
 
 namespace test {
     class ConjGradTest : public BenchmarkTest {
@@ -90,7 +91,7 @@ namespace test {
             _niter_ref = _cg.iterations();
             _err_ref = _cg.error();
             _x_ref = _xVec.data();
-            _b_ref = _bVec.data();
+            //_b_ref = _bVec.data();
             // TODO: This is from the Eigen docs, is it needed?
             // Update b, and solve again
             //x = cg.solve(b);
@@ -125,7 +126,7 @@ namespace test {
 //            Write("data/matrix/b_ref.csv", ref);
 
             ASSERT_LT(Compare(_x, _x_ref, _ncol), 0);
-            ASSERT_LT(Compare(_b, _b_ref, _nrow), 0);
+            ASSERT_LT(Compare(&_error, &_err_ref, 1), 0);
             ASSERT_EQ(_niter, _niter_ref);
         }
 
@@ -152,7 +153,8 @@ namespace test {
         // Eigen Objects:
         VectorXd _xVec, _bVec;
         SparseMatrix<double> _Aspm;
-        ConjugateGradient<SparseMatrix<double>, Lower|Upper> _cg;
+        //ConjugateGradient<SparseMatrix<double>, Lower|Upper> _cg;
+        ConjugateGradient<SparseMatrix<double>> _cg;
     };
 
     TEST_F(ConjGradTest, CG) {
