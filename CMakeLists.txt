@@ -159,13 +159,13 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
 #unset(TESTING)
 set(TESTING "true")
 #set(MAKELIB "true")
-#set(PAPI_LIBS, "papi pfm")
+set(PAPI_ON "true")
+
+if (PAPI_ON)
+    link_directories(lib/papi/src lib/papi/src/libpfm4/lib)
+endif()
 
 if (TESTING)
-    #if (PAPI_LIBS)
-    link_directories(lib/papi/src lib/papi/src/libpfm4/lib)
-    #endif()
-
     set(GTEST_FILES lib/gtest/src/gtest.cc
                     lib/gtest/src/gtest-filepath.cc
                     lib/gtest/src/gtest-death-test.cc
@@ -181,10 +181,12 @@ if (TESTING)
     enable_testing()
     add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
 
-    #target_link_libraries(edslTest m omp ${PAPI_LIBS}) # blas lapack lapacke splatt)
-    target_link_libraries(edslTest m omp papi pfm)
-    if (PAPI_LIBS)
+    if (PAPI_ON)
+        target_link_libraries(edslTest m omp papi pfm)
         target_compile_definitions(edslTest PRIVATE PAPI_ON=1)
+    else()
+        #target_link_libraries(edslTest m omp ${PAPI_LIBS}) # blas lapack lapacke splatt)
+        target_link_libraries(edslTest m omp papi pfm)
     endif()
 
     #add_test(driver eDSLTest ConjGradTest)   # TensorDecompTest)

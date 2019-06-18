@@ -32,7 +32,7 @@ using namespace testing;
 #define EPSILON 0.001
 #endif
 
-#define PAPI_ON 1
+//#define PAPI_ON 1
 #ifdef PAPI_ON
 #include "papi.h"
 #endif
@@ -140,11 +140,12 @@ namespace test {
                 GTEST_CERR << "PAPI failed to stop counters: " << PAPI_strerror(papi_retval) << endl;
             } else {
                 _papi_data["L1DataMisses"] = papi_values[0];
-                _papi_data["PrefetchMisses"] = papi_values[1];
-                _papi_data["SingleFLOPs"] = papi_values[2];
-                _papi_data["DoubleFLOPs"] = papi_values[3];
-                _papi_data["SingleSIMDs"] = papi_values[4];
-                _papi_data["DoubleSIMDs"] = papi_values[5];
+                _papi_data["L2DataMisses"] = papi_values[1];
+                _papi_data["PrefetchMisses"] = papi_values[2];
+                _papi_data["SingleFLOPs"] = papi_values[3];
+                _papi_data["DoubleFLOPs"] = papi_values[4];
+                _papi_data["SingleSIMDs"] = papi_values[5];
+                _papi_data["DoubleSIMDs"] = papi_values[6];
             }
 #endif
         }
@@ -219,8 +220,8 @@ namespace test {
 
 #ifdef PAPI_ON
         // PAPI Events
-        const int _papi_count = 6;
-        int _papi_events[6] = {PAPI_L1_DCM, PAPI_PRF_DM, // PAPI_CA_SHR, PAPI_CA_CLN };
+        const int _papi_count = 7;
+        int _papi_events[7] = {PAPI_L1_DCM, PAPI_L2_DCM, PAPI_PRF_DM, // PAPI_CA_SHR, PAPI_CA_CLN };
                                PAPI_SP_OPS, PAPI_DP_OPS, PAPI_VEC_SP, PAPI_VEC_DP};
         // PAPI Values
         map<string, unsigned long> _papi_data;

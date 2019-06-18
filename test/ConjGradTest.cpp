@@ -42,7 +42,7 @@ namespace test {
             _nrow = mtx.nrows();
             _ncol = mtx.ncols();
 
-            _maxiter = 100;
+            _maxiter = 500;
             _niter = _niter_ref = 0;
             _tolerance = 1e-10;
             _error = 1.0;
