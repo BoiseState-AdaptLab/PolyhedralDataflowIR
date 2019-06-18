@@ -42,7 +42,7 @@ namespace test {
             _nrow = mtx.nrows();
             _ncol = mtx.ncols();
 
-            _maxiter = 1000;
+            _maxiter = 100;
             _niter = _niter_ref = 0;
             _tolerance = 1e-10;
             _error = 1.0;
@@ -79,7 +79,7 @@ namespace test {
 
             // Initialize b to something more interesting than 0
             for (unsigned i = 0; i < _nrow; i++) {
-                _b[i] = (double) (i + 1);
+                _b[i] = 1.0; //(double) (i + 1);
                 _bVec(i) = _b[i];
             }
         }
@@ -116,13 +116,13 @@ namespace test {
         }
 
         virtual void Assert() {
-            vector<double> ref(_ncol);
-            copy(_x_ref, _x_ref + _ncol, ref.begin());
-            Write("data/matrix/x_ref.csv", ref);
-
-            ref.resize(_nrow);
-            copy(_b_ref, _b_ref + _nrow, ref.begin());
-            Write("data/matrix/b_ref.csv", ref);
+//            vector<double> ref(_ncol);
+//            copy(_x_ref, _x_ref + _ncol, ref.begin());
+//            Write("data/matrix/x_ref.csv", ref);
+//
+//            ref.resize(_nrow);
+//            copy(_b_ref, _b_ref + _nrow, ref.begin());
+//            Write("data/matrix/b_ref.csv", ref);
 
             ASSERT_LT(Compare(_x, _x_ref, _ncol), 0);
             ASSERT_LT(Compare(_b, _b_ref, _nrow), 0);
@@ -156,8 +156,8 @@ namespace test {
     };
 
     TEST_F(ConjGradTest, CG) {
-        //SetUp({"./data/matrix/cant.mtx"});
-        SetUp({"./data/matrix/cg.mtx"});
+        SetUp({"./data/matrix/cant.mtx"});
+        //SetUp({"./data/matrix/cg.mtx"});
         Run();
         Verify();
         Assert();

@@ -32,6 +32,7 @@ using namespace testing;
 #define EPSILON 0.001
 #endif
 
+#define PAPI_ON 1
 #ifdef PAPI_ON
 #include "papi.h"
 #endif
@@ -124,6 +125,7 @@ namespace test {
         virtual void Run() {
 #ifdef PAPI_ON
             int papi_retval = PAPI_OK;
+            long_long papi_values[_papi_count];
             if (PAPI_num_counters() < _papi_count) {
                 GTEST_CERR << "PAPI hardware counters not supported." << endl;
             } else if ((papi_retval = PAPI_start_counters(_papi_events, _papi_count)) != PAPI_OK) {
@@ -134,8 +136,15 @@ namespace test {
             Execute();
             Stop();
 #ifdef PAPI_ON
-            if ((papi_retval = PAPI_stop_counters(_papi_values, _papi_count)) != PAPI_OK) {
+            if ((papi_retval = PAPI_stop_counters(papi_values, _papi_count)) != PAPI_OK) {
                 GTEST_CERR << "PAPI failed to stop counters: " << PAPI_strerror(papi_retval) << endl;
+            } else {
+                _papi_data["L1DataMisses"] = papi_values[0];
+                _papi_data["PrefetchMisses"] = papi_values[1];
+                _papi_data["SingleFLOPs"] = papi_values[2];
+                _papi_data["DoubleFLOPs"] = papi_values[3];
+                _papi_data["SingleSIMDs"] = papi_values[4];
+                _papi_data["DoubleSIMDs"] = papi_values[5];
             }
 #endif
         }
@@ -155,6 +164,11 @@ namespace test {
 
             GTEST_COUT << "RunTime = " << _runTime << ", EvalTime = " << _evalTime
                        << ", Ratio = " << _evalTime / _runTime << endl;
+#ifdef PAPI_ON
+            for (const auto& iter : _papi_data) {
+                GTEST_COUT << iter.first << " = " << iter.second << endl;
+            }
+#endif
         }
 
         virtual void Assert() {};
@@ -205,17 +219,18 @@ namespace test {
 
 #ifdef PAPI_ON
         // PAPI Events
-        const int _papi_count = 3;
-        int _papi_events[3] = {PAPI_L1_DCM, PAPI_CA_SHR, PAPI_CA_CLN };
+        const int _papi_count = 6;
+        int _papi_events[6] = {PAPI_L1_DCM, PAPI_PRF_DM, // PAPI_CA_SHR, PAPI_CA_CLN };
+                               PAPI_SP_OPS, PAPI_DP_OPS, PAPI_VEC_SP, PAPI_VEC_DP};
         // PAPI Values
-        long_long _papi_values[3];
+        map<string, unsigned long> _papi_data;
 #endif
 
     private:
         double Now() {
-            struct timeval tval;
-            gettimeofday(&tval, NULL);
-            return (double) tval.tv_sec + (((double) tval.tv_usec) / 1000000);
+            struct timeval tv;
+            gettimeofday(&tv, NULL);
+            return (double) tv.tv_sec + (((double) tv.tv_usec) * 1E-6);
         }
     };
 }
