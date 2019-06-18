@@ -17,6 +17,7 @@ using std::vector;
 #include <sys/time.h>
 #include <gtest/gtest.h>
 using namespace testing;
+
 #include <util/Strings.hpp>
 
 #ifdef _OPENMP
@@ -34,7 +35,8 @@ using namespace testing;
 
 //#define PAPI_ON 1
 #ifdef PAPI_ON
-#include "papi.h"
+#include <util/PAPI.hpp>
+using util::PAPI;
 #endif
 
 #define GTEST_COUT cout << "[   INFO   ] "
@@ -124,29 +126,13 @@ namespace test {
 
         virtual void Run() {
 #ifdef PAPI_ON
-            int papi_retval = PAPI_OK;
-            long_long papi_values[_papi_count];
-            if (PAPI_num_counters() < _papi_count) {
-                GTEST_CERR << "PAPI hardware counters not supported." << endl;
-            } else if ((papi_retval = PAPI_start_counters(_papi_events, _papi_count)) != PAPI_OK) {
-                GTEST_CERR << "PAPI failed to start counters: " << PAPI_strerror(papi_retval) << endl;
-            }
+            _papi.start();
 #endif
             Start();
             Execute();
             Stop();
 #ifdef PAPI_ON
-            if ((papi_retval = PAPI_stop_counters(papi_values, _papi_count)) != PAPI_OK) {
-                GTEST_CERR << "PAPI failed to stop counters: " << PAPI_strerror(papi_retval) << endl;
-            } else {
-                _papi_data["L1DataMisses"] = papi_values[0];
-                _papi_data["L2DataMisses"] = papi_values[1];
-                _papi_data["PrefetchMisses"] = papi_values[2];
-                _papi_data["SingleFLOPs"] = papi_values[3];
-                _papi_data["DoubleFLOPs"] = papi_values[4];
-                _papi_data["SingleSIMDs"] = papi_values[5];
-                _papi_data["DoubleSIMDs"] = papi_values[6];
-            }
+            _papi.stop();
 #endif
         }
 
@@ -166,9 +152,7 @@ namespace test {
             GTEST_COUT << "RunTime = " << _runTime << ", EvalTime = " << _evalTime
                        << ", Ratio = " << _evalTime / _runTime << endl;
 #ifdef PAPI_ON
-            for (const auto& iter : _papi_data) {
-                GTEST_COUT << iter.first << " = " << iter.second << endl;
-            }
+            _papi.report();
 #endif
         }
 
@@ -209,7 +193,7 @@ namespace test {
             os << endl;
         }
 
-        string _name = "";
+        string _name;
 
         double _startTime;
         double _stopTime;
@@ -217,14 +201,8 @@ namespace test {
         double _evalTime;
 
         map<string, string> _args;
-
 #ifdef PAPI_ON
-        // PAPI Events
-        const int _papi_count = 7;
-        int _papi_events[7] = {PAPI_L1_DCM, PAPI_L2_DCM, PAPI_PRF_DM, // PAPI_CA_SHR, PAPI_CA_CLN };
-                               PAPI_SP_OPS, PAPI_DP_OPS, PAPI_VEC_SP, PAPI_VEC_DP};
-        // PAPI Values
-        map<string, unsigned long> _papi_data;
+        PAPI _papi;
 #endif
 
     private:

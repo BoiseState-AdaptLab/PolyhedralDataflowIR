@@ -159,7 +159,7 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
 #unset(TESTING)
 set(TESTING "true")
 #set(MAKELIB "true")
-set(PAPI_ON "true")
+#set(PAPI_ON "true")
 
 if (PAPI_ON)
     link_directories(lib/papi/src lib/papi/src/libpfm4/lib)
