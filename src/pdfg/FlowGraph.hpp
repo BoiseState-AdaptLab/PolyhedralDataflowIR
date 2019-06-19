@@ -325,7 +325,6 @@ namespace pdfg {
 
     struct CompNode : public Node {
     public:
-        //explicit CompNode(const string& space, const string& label = "") : Node(space, label), _comp(comp) {
         explicit CompNode(Comp* comp, const string& label = "") : Node(new Comp(*comp), label) {
             attr("shape", "invtriangle");
             _type = 'C';
@@ -340,12 +339,16 @@ namespace pdfg {
             _expr = comp;
         }
 
+        bool is_parent() const {
+            return !_children.empty();
+        }
+
         vector<CompNode*> children() const {
             return _children;
         }
 
         void fuse(CompNode* other) {
-            this->label(this->label() + "*" + other->label());
+            this->label(this->label() + "+" + other->label());
             _children.push_back(other);
         }
 
@@ -459,8 +462,21 @@ namespace pdfg {
             if (itr != _symtable.end()) {
                 return itr->second;
             } else {
+                for (const auto& sym : _symtable) {
+                    if (sym.second->label().find(name) != string::npos) {
+                        return sym.second;
+                    }
+                }
                 return nullptr;
             }
+        }
+
+        CompNode* get(const Comp& comp) {
+            CompNode* node = (CompNode*) this->get(comp.name());
+            if (!node->is_parent() && node->expr() != &comp) {
+                node->comp(new Comp(comp));
+            }
+            return node;
         }
 
         Node* add(Node* node, const string& name = "") {
@@ -494,11 +510,6 @@ namespace pdfg {
             }
             return edge;
         }
-
-//        Edge* add(Edge* edge) {
-//            _edges.push_back(edge);
-//            return edge;
-//        }
 
         void remove(Node* node, const string& name = "") {
             string key;
@@ -629,40 +640,30 @@ namespace pdfg {
             return outputs;
         }
 
-        void fuse(Comp& other) {
-            fuse({other});
-        }
+        //void fuse(initializer_list<Comp> comps) {
+        void fuse(Comp& lhs, Comp& rhs) {
+            CompNode* first = this->get(lhs);
+            CompNode* next = this->get(rhs);
 
-        void fuse(initializer_list<Comp> comps) {
-            vector<CompNode*> compNodes;
-            for (const Comp& comp : comps) {
-                CompNode* node = (CompNode*) this->get(comp.name());
-                node->comp(new Comp(comp));
-                compNodes.push_back(node);
+            vector<Edge*> ins = inedges(next);
+            for (Edge* in : ins) {
+                cerr << "Removing edge '" << in->source()->label() << "' -> '" << in->dest()->label() << "'\n";
+                remove(in);
+                cerr << "Adding edge '" << in->source()->label() << "' -> '" << first->label() << "'\n";
+                add(in->source(), first, in->label());
             }
-            if (!compNodes.empty()) {
-                CompNode* first = compNodes[0];
-                for (unsigned i = 1; i < compNodes.size(); i++) {
-                    CompNode* next = compNodes[i];
-                    vector<Edge*> ins = inedges(next);
-                    for (Edge* in : ins) {
-                        cerr << "Removing edge '" << in->source()->label() << "' -> '" << in->dest()->label() << "'\n";
-                        remove(in);
-                        cerr << "Adding edge '" << in->source()->label() << "' -> '" << first->label() << "'\n";
-                        add(in->source(), first, in->label());
-                    }
-                    vector<Edge*> outs = outedges(next);
-                    for (Edge* out : outs) {
-                        cerr << "Removing edge '" << out->source()->label() << "' -> '" << out->dest()->label() << "'\n";
-                        remove(out);
-                        cerr << "Adding edge '" << first->label() << "' -> '" << out->dest()->label() << "'\n";
-                        add(first, out->dest(), out->label());
-                    }
-                    cerr << "Removing node '" << next->label() << "'\n";
-                    first->fuse(next);
-                    remove(next);
-                }
+
+            vector<Edge*> outs = outedges(next);
+            for (Edge* out : outs) {
+                cerr << "Removing edge '" << out->source()->label() << "' -> '" << out->dest()->label() << "'\n";
+                remove(out);
+                cerr << "Adding edge '" << first->label() << "' -> '" << out->dest()->label() << "'\n";
+                add(first, out->dest(), out->label());
             }
+
+            cerr << "Removing node '" << next->label() << "'\n";
+            first->fuse(next);
+            remove(next);
         }
 
     protected:

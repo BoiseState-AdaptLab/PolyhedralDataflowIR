@@ -577,11 +577,11 @@ namespace pdfg {
         }
 
         void name(const char name) {
-            _name = string(1, name);
+            _name = _text = string(1, name);
         }
 
         void name(const string& name) {
-            _name = name;
+            _name = _text = name;
         }
 
     protected:
@@ -2252,7 +2252,7 @@ namespace pdfg {
     struct Comp;
 
     void addComputation(Comp &comp);
-    void fuseComps(Comp& comp1, const Comp& comp2);
+    void fuseComps(Comp& comp1, Comp& comp2);
 
     struct Comp : public Expr {
     public:
@@ -2416,7 +2416,6 @@ namespace pdfg {
                             schedfxns[i][n].name(schedfxns[0][n].name()[0] + 1);
                         } else {
                             // TODO: What to do here, if anything?
-                            int stop = 1;
                         }
                     }
                 }
@@ -2434,7 +2433,6 @@ namespace pdfg {
             for (i = 0; i < other._schedules.size(); i++) {
                 Space dst = other._schedules[i].dest();
                 dst.iterators(schedfxns[n]);
-                other._schedules[i].name("r" + to_string(n));
                 other._schedules[i].dest(dst);
                 n += 1;
             }
@@ -2598,7 +2596,7 @@ namespace pdfg {
             for (unsigned n = 0; n < _statements.size(); n++) {
                 vector<Iter> destIters = srcIters;
                 destIters.emplace_back(Iter(to_string(n)));
-                _schedules.emplace_back(Rel("r" + to_string(n), srcIters, destIters));
+                _schedules.emplace_back(Rel("r" + to_string(n) + name(), srcIters, destIters));
             }
         }
 
@@ -2684,8 +2682,8 @@ namespace pdfg {
             _graphs[name] = _flowGraph;
         }
 
-        void fuse(Comp& comp1, const Comp& comp2) {
-            _flowGraph.fuse({comp1, comp2});
+        void fuse(Comp& comp1, Comp& comp2) {
+            _flowGraph.fuse(comp1, comp2);
         }
 
         void addComp(Comp& comp) {
@@ -3447,15 +3445,28 @@ namespace pdfg {
         return access;
     }
 
-    void fuse(initializer_list<Comp> clist) {
-        if (clist.size() > 0) {
-            Comp first = *clist.begin();
-            vector<Comp> comps(clist.begin() + 1, clist.end());
-            first.fuse(comps);
+    void fuse(Comp& comp1, Comp& comp2) {
+        comp1.fuse(comp2);
+    }
+
+    void fuse(Comp& comp1, Comp& comp2, Comp& comp3) {
+        comp1.fuse(comp2);
+        comp2.fuse(comp3);
+    }
+
+    void fuse(Comp& comp1, Comp& comp2, Comp& comp3, Comp& comp4) {
+        comp1.fuse(comp2);
+        comp2.fuse(comp3);
+        comp3.fuse(comp4);
+    }
+
+    void fuse(Comp& first, vector<Comp>& others) {
+        if (others.size() > 0) {
+            first.fuse(others);
         }
     }
 
-    void fuseComps(Comp& comp1, const Comp& comp2) {
+    void fuseComps(Comp& comp1, Comp& comp2) {
         if (!comp1.text().empty()) {
             GraphMaker::get().fuse(comp1, comp2);
         }
