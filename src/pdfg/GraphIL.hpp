@@ -2851,6 +2851,10 @@ namespace pdfg {
             _flowGraph.returnType(_dataType);
         }
 
+        void outputs(initializer_list<string> outputs) {
+            _flowGraph.outputs(outputs);
+        }
+
         void addSpace(const Space& space) {
             string sname = space.name();
             if (!sname.empty() && _spaces.find(sname) == _spaces.end()) {
@@ -3324,7 +3328,7 @@ namespace pdfg {
     };
 
     void init(const string& name, const string& retname = "", const string& datatype = "",
-              const string& indextype = "") {
+              const string& indextype = "", initializer_list<string> outputs = {}) {
         pdfg::_spaces.clear();
         GraphMaker::get().newGraph(name);
         if (!datatype.empty()) {
@@ -3336,7 +3340,9 @@ namespace pdfg {
         if (!retname.empty()) {
             GraphMaker::get().returnName(retname);
         }
-
+        if (outputs.size() > 0) {
+            GraphMaker::get().outputs(outputs);
+        }
     }
 
     void print(const string& file = "") {

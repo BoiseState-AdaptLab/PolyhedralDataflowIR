@@ -566,6 +566,28 @@ namespace pdfg {
             _returnType = returnType;
         }
 
+        int output(const string& name) {
+           auto itr = _outputs.find(name);
+           if (itr != _outputs.end()) {
+               return itr->second;
+           }
+           return -1;
+        }
+
+        vector<string> outputs() const {
+            vector<string> outs(_outputs.size(), "");
+            for (const auto& itr : _outputs) {
+                outs[itr.second] = itr.first;
+            }
+            return outs;
+        }
+
+        void outputs(initializer_list<string> outputs) {
+            for (const string& output : outputs) {
+                _outputs[output] = _outputs.size();
+            }
+        }
+
         const vector<Node*>& nodes() const {
             return _nodes;
         }
@@ -687,6 +709,7 @@ namespace pdfg {
 
         map<string, Node*> _symtable;
         map<string, Edge*> _edgemap;
+        map<string, unsigned> _outputs;
 
         vector<Node*> _nodes;
         vector<Edge*> _edges;

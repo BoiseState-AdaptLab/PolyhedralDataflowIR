@@ -175,7 +175,7 @@ namespace pdfg {
                 }
                 param += " " + label;
                 _params.push_back(param);
-            } else if (!_graph->isReturn(node) && _graph->isSink(node)) {
+            } else if ((!_graph->isReturn(node) && _graph->isSink(node)) || _graph->output(label) >= 0) {
                 // Output Data
                 string param = node->datatype() + "* " + label;
                 _params.push_back(param);
@@ -254,6 +254,7 @@ namespace pdfg {
             // Create header
             string line = graph->returnType() + " " + graph->name() + "(";
             unsigned n = 0, nparams = _params.size();
+            std::sort(_params.begin(), _params.end());
             for (const string& param : _params) {
                 line += param;
                 if (n < nparams - 1) {
