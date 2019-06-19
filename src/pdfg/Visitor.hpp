@@ -240,7 +240,6 @@ namespace pdfg {
                 updateComp(comp, names, statements, guards, schedules);
             }
 
-            //string code = _poly.codegen(space.name(), "", "", true, statements, guards, schedules);
             string code = _poly.codegen(names, statements, guards, schedules, _ompsched);
             code = "// " + node->label() + "\n" + code;
             _body.push_back(code);

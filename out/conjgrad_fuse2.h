@@ -22,8 +22,8 @@ fprintf(stderr,"}\n");}
 #define row(i) row[(i)]
 #define rp(i) rp[(i)]
 
-double conj_grad(const unsigned M, const unsigned* row, const unsigned* col, const double* A, const unsigned N, double* d, double* r, double* x);
-inline double conj_grad(const unsigned M, const unsigned* row, const unsigned* col, const double* A, const unsigned N, double* d, double* r, double* x) {
+double conj_grad(const double* A, const unsigned M, const unsigned N, const unsigned* col, const unsigned* row, double* d, double* r, double* x);
+inline double conj_grad(const double* A, const unsigned M, const unsigned N, const unsigned* col, const unsigned* row, double* d, double* r, double* x) {
     unsigned t1,t2,t3,t4,t5;
     double* s = (double*) calloc((N),sizeof(double));
     double ds = 0;
@@ -36,50 +36,56 @@ inline double conj_grad(const unsigned M, const unsigned* row, const unsigned* c
 #undef s0
 #define s0(n,i,j) s[(i)]+=A[(n)]*d[(j)]
 #undef s1
-#define s1(n,i,j) ds+=d[(i)]*s[(i)]
+#define s1(n,i) ds+=d[(i)]*s[(i)]
 #undef s2
-#define s2(n,i,j) rs0+=r[(i)]*r[(i)]
+#define s2(n,i) rs0+=r[(i)]*r[(i)]
 
-#pragma omp parallel for schedule(auto) private(t1)
+#pragma omp parallel for schedule(auto) private(t1,t2,t4)
 for(t1 = 0; t1 <= M-1; t1++) {
   t2=row(t1);
-  t3=col(t1);
-  s0(t1,t2,t3);
-  s1(t1,t2,t3);
-  s2(t1,t2,t3);
+  t4=col(t1);
+  s0(t1,t2,t4);
+  s1(t1,t2);
+  s2(t1,t2);
 }
 
-// adiv+xadd+rsub+rdot
+// adiv
 #undef s0
 #define s0() alpha=rs0/ds
-#undef s1
-#define s1(i) x[(i)]+=alpha*d[(i)]
-#undef s2
-#define s2(i) r[(i)]-=alpha*s[(i)]
-#undef s3
-#define s3(i) rs+=r[(i)]*r[(i)]
 
 s0();
+
+// xadd+rsub+rdot
+#undef s0
+#define s0(i) x[(i)]+=alpha*d[(i)]
+#undef s1
+#define s1(i) r[(i)]-=alpha*s[(i)]
+#undef s2
+#define s2(i) rs+=r[(i)]*r[(i)]
+
 #pragma omp parallel for schedule(auto) private(t1)
 for(t1 = 0; t1 <= N-1; t1++) {
+  s0(t1);
   s1(t1);
   s2(t1);
-  s3(t1);
 }
 
-// bdiv+bmul+dadd
+// bdiv
 #undef s0
 #define s0() beta=rs/rs0
-#undef s1
-#define s1(i) d[(i)]*=beta
-#undef s2
-#define s2(i) d[(i)]+=r[(i)]
 
 s0();
+
+// bmul+dadd
+#undef s0
+#define s0(i) d[(i)]*=beta
+#undef s1
+#define s1(i) d[(i)]+=r[(i)]
+
 #pragma omp parallel for schedule(auto) private(t1)
 for(t1 = 0; t1 <= N-1; t1++) {
+  s0(t1);
   s1(t1);
-  s2(t1);
 }
 
     free(s);

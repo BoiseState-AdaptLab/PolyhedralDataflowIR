@@ -106,7 +106,7 @@ namespace test {
             unsigned t = 0;
             //for (; t < _maxiter && _error > _tolerance; t++) {
             for (; t < _maxiter; t++) {
-                _error = conj_grad(_nnz, _rows, _cols, _vals, _nrow, r, d, _x);
+                _error = conj_grad(_vals, _nnz, _nrow, _cols, _rows, d, r, _x);
             }
 
             free(r);

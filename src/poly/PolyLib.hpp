@@ -11,17 +11,20 @@ using omglib::OmegaLib;
 
 namespace poly {
     struct PolyLib {
-    private:
+    protected:
+        const int _max_iters = 10;      // TODO: Actually calculate this from the relation...
+
         IEGenLib _iegen;
         OmegaLib _omega;
 
-    protected:
         void addPragma(const string& schedule, const string& privates, string& code) {
-            string pragma = "#pragma omp parallel for schedule(" + schedule + ")";
-            if (!privates.empty()) {
-                pragma += " private(" + privates + ")";
+            if (code.find("for(") != string::npos) {
+                string pragma = "#pragma omp parallel for schedule(" + schedule + ")";
+                if (!privates.empty()) {
+                    pragma += " private(" + privates + ")";
+                }
+                code = pragma + "\n" + code;
             }
-            code = pragma + "\n" + code;
         }
 
         void addStatements(unsigned count, const vector<string>& statements, const vector<string>& guards,
@@ -70,6 +73,20 @@ namespace poly {
                     defines += inIters + ") " + statement + "\n";
                 }
             }
+        }
+
+        string out_iterators(const string& code) {
+            string iters = "";
+            for (unsigned i = 0; i < _max_iters; i++) {
+                string iter = "t" + to_string(i);
+                if (code.find("(" + iter) != string::npos || code.find("," + iter) != string::npos) {
+                    iters += "," + iter;
+                }
+            }
+            if (!iters.empty()) {
+                iters = iters.substr(1);
+            }
+            return iters;
         }
 
     public:
@@ -158,7 +175,7 @@ namespace poly {
                        const string& ompSched = "", const string& iterType = "", bool defineMacros = false) {
             string code = codegen(names, schedules);
             if (code.find("ERROR") == string::npos) {
-                string outIters = Strings::join(_omega.out_iterators(), ",");
+                string outIters = out_iterators(code);
 
                 if (!ompSched.empty()) {
                     addPragma(ompSched, outIters, code);

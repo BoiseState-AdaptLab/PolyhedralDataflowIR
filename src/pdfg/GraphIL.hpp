@@ -2957,7 +2957,8 @@ namespace pdfg {
             return _spaces;
         }
 
-        string codegen(const string& path = "", const string& name = "", const string& lang = "C") {
+        string codegen(const string& path = "", const string& name = "",
+                       const string& lang = "C", const string& ompsched = "") {
             string cpath = path;
             bool isobj = (cpath.find(".o") != string::npos);
             if (!cpath.empty() && cpath.find('.') == string::npos) {
@@ -2967,6 +2968,7 @@ namespace pdfg {
             }
 
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
+            cgen.ompSchedule(ompsched);
 
 //            for (const auto& iter : _consts) {
 //                cgen.define(iter.first, to_string(iter.second.val()));
@@ -3356,8 +3358,9 @@ namespace pdfg {
         _spaces.clear();
     }
 
-    string codegen(const string& path = "", const string& name = "", const string& lang = "C") {
-        string code = GraphMaker::get().codegen(path, name, lang);
+    string codegen(const string& path = "", const string& name = "",
+                   const string& lang = "C", const string& ompsched = "") {
+        string code = GraphMaker::get().codegen(path, name, lang, ompsched);
         clearSpaces();
         return code;
     }
