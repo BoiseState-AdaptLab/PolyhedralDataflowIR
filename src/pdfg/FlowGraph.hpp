@@ -629,6 +629,10 @@ namespace pdfg {
             return outputs;
         }
 
+        void fuse(Comp& other) {
+            fuse({other});
+        }
+
         void fuse(initializer_list<Comp> comps) {
             vector<CompNode*> compNodes;
             for (const Comp& comp : comps) {

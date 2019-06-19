@@ -379,10 +379,10 @@ TEST(eDSLTest, ConjGrad) {
     Space vec("vec", 0 <= i < N);
     Space csr("csr", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
     Space coo("coo", 0 <= n < M ^ i==row(n) ^ j==col(n));
+    Space spv("spv", 0 <= n < M ^ i==row(n));   // Sparse vector, to enable fusion of dot products with SpMV.
     Space mtx = coo;
 
     // Data spaces:
-    //Space A("A", M), x0("x0", N), b("b", N), d0("d0", N), r("r", N), s("s", N), d("d", N), x("x", N);
     Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
     Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0");
@@ -390,8 +390,10 @@ TEST(eDSLTest, ConjGrad) {
     init("conj_grad", "rs", "d");
     //Comp copy("copy", vec, ((r[i]=b[i]+0) ^ (d[i]=b[i]+0)));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
-    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
-    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    //Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    Comp ddot("ddot", spv, (ds += d[i]*s[i]));
+    //Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    Comp rdot0("rdot0", spv, (rs0 += r[i]*r[i]));
     Comp adiv("adiv", sca, (alpha = rs0/ds));
     Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
     Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
@@ -399,6 +401,12 @@ TEST(eDSLTest, ConjGrad) {
     Comp bdiv("bdiv", sca, (beta = rs / rs0));
     Comp bmul("bmul", vec, (d[i] *= beta));
     Comp dadd("dadd", vec, (d[i] += r[i]));
+
+    // Perform fusions
+    fuse({spmv, ddot, rdot0});
+    fuse({adiv, xadd, rsub, rdot});
+    fuse({bdiv, bmul, dadd});
+
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/conjgrad.json");
     string result = codegen("out/conjgrad.o", "", "C++");

@@ -116,6 +116,10 @@ namespace pdfg {
             return _text < other._text;     // Lexicographic ordering...
         }
 
+        virtual bool equals(const string &text) const {
+            return _text == text;
+        }
+
         virtual bool equals(const Expr &other) const {
             return _text == other._text;
         }
@@ -540,6 +544,10 @@ namespace pdfg {
             return *this;
         }
 
+        bool equals(const string &name) const {
+            return _name == name;
+        }
+
         bool equals(const Iter &other) const {
             return _name == other._name;
         }
@@ -560,8 +568,20 @@ namespace pdfg {
             return true;
         }
 
+        bool is_int() const {
+            return !_text.empty() && (_text[0] >= '0' && _text[0] <= '9');
+        }
+
         string name() const {
             return _name;
+        }
+
+        void name(const char name) {
+            _name = string(1, name);
+        }
+
+        void name(const string& name) {
+            _name = name;
         }
 
     protected:
@@ -2342,6 +2362,8 @@ namespace pdfg {
         }
 
         Comp fuse(Comp &other) {
+            unsigned i, j, n;
+
             vector<vector<Iter> > schedfxns;
             for (const Rel& rel : _schedules) {
                 schedfxns.push_back(rel.dest().iterators());
@@ -2351,46 +2373,65 @@ namespace pdfg {
             }
 
             unsigned maxiter = 0;
-            for (unsigned i = 0; i < schedfxns.size(); i++) {
+            for (i = 0; i < schedfxns.size(); i++) {
                 unsigned niter = schedfxns[i].size();
                 maxiter = (niter > maxiter) ? niter : maxiter;
             }
 
-            // Find the deepest common level
+            // 1) Find the deepest common level
             unsigned level = 0;
-            unsigned n = 0;
-            for (; n < maxiter; n++) {
-                if (n < schedfxns[0].size()) {
-                    unsigned ndx = 0;
-                    Iter iter = schedfxns[0][n];
-                    for (unsigned i = 1; i < schedfxns.size() && ndx < 1; i++) {
-                        if (!(n < schedfxns[i].size() && schedfxns[i][n] == iter)) {
+            for (n = 0; n < maxiter && level < 1; n++) {
+                unsigned ndx = 0;
+                if (!schedfxns[0][n].is_int()) {
+                    for (i = 1; i < schedfxns.size() && ndx < 1; i++) {
+                        if (n < schedfxns[i].size() && schedfxns[i][n] == schedfxns[0][n]) {
                             ndx = i;
                         }
                     }
-                    if (ndx < 1) {
-                        level = n + 1;
-                    } else {
-                        // 1) Insert a tuple for each statement in each schedule
-                        for (unsigned i = 0; i < schedfxns.size(); i++) {
-                            schedfxns[i].insert(schedfxns[i].begin() + level, Iter(i + '0'));
+                }
+                if (ndx < 1) {
+                    level = n;
+                }
+            }
+
+            // 2) Ensure same tuple sizes
+            for (i = 0; i < schedfxns.size(); i++) {
+                if (schedfxns[i].size() < maxiter) {
+                    schedfxns[i].insert(schedfxns[i].begin() + level, Iter('0'));
+                }
+            }
+
+            // 3) Increment latter schedules to ensure lexicographic ordering.
+            for (n = level; n < maxiter; n++) {
+                for (i = 1; i < schedfxns.size(); i++) {
+                    if (schedfxns[i][n].is_int()) {
+                        for (j = n; j < maxiter && !schedfxns[0][j].is_int(); j++);
+                        if (j > n && j < maxiter) {
+                            // Swap iterators...
+                            Iter tmp = schedfxns[0][j];
+                            schedfxns[0][j] = schedfxns[0][n];
+                            schedfxns[0][n] = tmp;
                         }
-                        // 2) Bust outta this loop...
-                        n = maxiter;
+                        if (schedfxns[0][n].is_int()) {
+                            schedfxns[i][n].name(schedfxns[0][n].name()[0] + 1);
+                        } else {
+                            // TODO: What to do here, if anything?
+                            int stop = 1;
+                        }
                     }
                 }
             }
 
             // Replace schedules with updated tuples...
             n = 0;
-            for (unsigned i = 0; i < _schedules.size(); i++) {
+            for (i = 0; i < _schedules.size(); i++) {
                 Space dst = _schedules[i].dest();
                 dst.iterators(schedfxns[n]);
                 _schedules[i].dest(dst);
                 n += 1;
             }
 
-            for (unsigned i = 0; i < other._schedules.size(); i++) {
+            for (i = 0; i < other._schedules.size(); i++) {
                 Space dst = other._schedules[i].dest();
                 dst.iterators(schedfxns[n]);
                 other._schedules[i].name("r" + to_string(n));
@@ -2399,6 +2440,15 @@ namespace pdfg {
             }
 
             fuseComps(*this, other);
+            return *this;
+        }
+
+        Comp fuse(vector<Comp>& others) {
+            Comp& comp = *this;
+            for (unsigned i = 0; i < others.size(); i++) {
+                comp.fuse(others[i]);
+                comp = others[i];
+            }
             return *this;
         }
 
@@ -3395,6 +3445,14 @@ namespace pdfg {
         }
         Access access(space, tuple, '(');
         return access;
+    }
+
+    void fuse(initializer_list<Comp> clist) {
+        if (clist.size() > 0) {
+            Comp first = *clist.begin();
+            vector<Comp> comps(clist.begin() + 1, clist.end());
+            first.fuse(comps);
+        }
     }
 
     void fuseComps(Comp& comp1, const Comp& comp2) {
