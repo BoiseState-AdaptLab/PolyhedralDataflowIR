@@ -14,14 +14,10 @@ using Eigen::Lower;
 using Eigen::Upper;
 typedef Eigen::Triplet<double> Triple;
 
+#include <util/LIKWID.hpp>
 #include <util/MatrixIO.hpp>
 using util::MatrixIO;
 #include "BenchmarkTest.hpp"
-
-#define LIKWID_PERFMON
-#ifdef LIKWID_PERFMON
-#include <likwid.h>
-#endif
 
 // Include generated code:
 //#include "conjgrad.h"
