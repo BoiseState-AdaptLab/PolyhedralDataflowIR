@@ -12,12 +12,16 @@ using Eigen::SparseMatrix;
 using Eigen::ConjugateGradient;
 using Eigen::Lower;
 using Eigen::Upper;
-
 typedef Eigen::Triplet<double> Triple;
 
 #include <util/MatrixIO.hpp>
 using util::MatrixIO;
 #include "BenchmarkTest.hpp"
+
+#define LIKWID_PERFMON
+#ifdef LIKWID_PERFMON
+#include <likwid.h>
+#endif
 
 // Include generated code:
 //#include "conjgrad.h"
@@ -94,6 +98,7 @@ namespace test {
         }
 
         virtual void Execute() {
+            LIKWID_MARKER_INIT;
             double* r = (double*) malloc(_nrow*sizeof(double));
             double* d = (double*) malloc(_nrow*sizeof(double));
 
@@ -102,17 +107,20 @@ namespace test {
                 r[i] = d[i] = _b[i];
             }
 
+            LIKWID_MARKER_START("conj_grad");
             // conjgrad
             unsigned t = 0;
             //for (; t < _maxiter && _error > _tolerance; t++) {
             for (; t < _maxiter; t++) {
                 _error = conj_grad(_vals, _nnz, _nrow, _cols, _rows, d, r, _x);
             }
+            LIKWID_MARKER_STOP("conj_grad");
 
             free(r);
             free(d);
 
             _niter = t;
+            LIKWID_MARKER_CLOSE;
         }
 
         virtual void Assert() {

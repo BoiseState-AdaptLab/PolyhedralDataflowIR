@@ -409,7 +409,7 @@ TEST(eDSLTest, ConjGrad) {
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/conjgrad.json");
-    string result = codegen("out/conjgrad.o", "", "C++", "auto");
+    string result = codegen("out/conjgrad.o", "", "C++"); //, "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

@@ -185,7 +185,7 @@ if (TESTING)
         target_link_libraries(edslTest m omp papi pfm)
         target_compile_definitions(edslTest PRIVATE PAPI_ON=1)
     else()
-        target_link_libraries(edslTest m omp papi pfm) # blas lapack lapacke splatt)
+        target_link_libraries(edslTest m omp likwid papi pfm) # blas lapack lapacke splatt)
     endif()
 
     add_test(driver eDSLTest ConjGradTest)   # TensorDecompTest)
