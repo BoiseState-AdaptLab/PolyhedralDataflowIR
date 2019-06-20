@@ -2686,6 +2686,14 @@ namespace pdfg {
             _flowGraph.fuse(comp1, comp2);
         }
 
+        Comp* getComp(const string& name) {
+            CompNode* node = (CompNode*) _flowGraph.get(name);
+            if (node != nullptr) {
+                return (Comp*) node->expr();
+            }
+            return nullptr;
+        }
+
         void addComp(Comp& comp) {
             Node *compNode, *dataNode;
 
@@ -3473,6 +3481,31 @@ namespace pdfg {
         if (others.size() > 0) {
             first.fuse(others);
         }
+    }
+
+    void fuse(const string& name1, const string& name2) {
+        GraphMaker& gm = GraphMaker::get();
+        fuse(*gm.getComp(name1), *gm.getComp(name2));
+    }
+
+    void fuse(const string& name1, const string& name2, const string& name3) {
+        GraphMaker& gm = GraphMaker::get();
+        fuse(*gm.getComp(name1), *gm.getComp(name2), *gm.getComp(name3));
+    }
+
+    void fuse(const string& name1, const string& name2, const string& name3, const string& name4) {
+        GraphMaker& gm = GraphMaker::get();
+        fuse(*gm.getComp(name1), *gm.getComp(name2), *gm.getComp(name3), *gm.getComp(name4));
+    }
+
+    void fuse(initializer_list<string> names) {
+        GraphMaker& gm = GraphMaker::get();
+        Comp first = *gm.getComp(*names.begin());
+        vector<Comp> rest;
+        for (auto itr = names.begin() + 1; itr != names.end(); ++itr) {
+            rest.push_back(*gm.getComp(*itr));
+        }
+        fuse(first, rest);
     }
 
     void fuseComps(Comp& comp1, Comp& comp2) {

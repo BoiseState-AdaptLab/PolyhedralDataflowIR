@@ -7,6 +7,8 @@
 #include <string>
 using std::string;
 
+#define BUFFSIZE 1024
+
 namespace util {
 class OS {
 public:
@@ -27,18 +29,35 @@ static string run(const string& cmd) {
 	return result;
 }
 
-static int OS::ncpus() {
+static int ncpus() {
     int ncpus = 1;
-
 #ifdef _SC_NPROCESSORS_ONLN
     ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #endif
-
     return ncpus;
 }
 
-private:
-    const int BUFFSIZE 1024;
+static string username() {
+    return getenv("USER");
+}
+
+static string hostname() {
+    return getenv("HOST");
+}
+
+static string timestamp() {
+    char buffer[BUFFSIZE];
+    time_t rawtime;
+    struct tm *ti;
+
+    time(&rawtime);
+    ti = localtime(&rawtime);
+
+    sprintf(buffer, "%02d/%02d/%04d %02d:%02d:%02d", ti->tm_mon + 1, ti->tm_mday,
+            ti->tm_year + 1900, ti->tm_hour, ti->tm_min, ti->tm_sec);
+
+    return string(buffer);
+}
 };
 }
 

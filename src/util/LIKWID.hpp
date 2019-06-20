@@ -1,7 +1,6 @@
 #ifndef _LIKWID_HPP_
 #define _LIKWID_HPP_
 
-#define LIKWID_PERFMON
 #ifdef LIKWID_PERFMON
 #include <likwid.h>
 #else

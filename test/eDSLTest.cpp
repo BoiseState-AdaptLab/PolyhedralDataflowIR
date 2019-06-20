@@ -403,9 +403,12 @@ TEST(eDSLTest, ConjGrad) {
     Comp dadd("dadd", vec, (d[i] += r[i]));
 
     // Perform fusions
-    fuse(spmv, ddot, rdot0);
-    fuse(xadd, rsub, rdot);
-    fuse(bmul, dadd);
+//    fuse(spmv, ddot, rdot0);
+//    fuse(xadd, rsub, rdot);
+//    fuse(bmul, dadd);
+    fuse("spmv", "ddot", "rdot0");
+    fuse("xadd", "rsub", "rdot");
+    fuse("bmul", "dadd");
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/conjgrad.json");
