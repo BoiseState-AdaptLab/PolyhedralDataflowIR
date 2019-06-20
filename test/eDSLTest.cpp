@@ -333,7 +333,7 @@ TEST(eDSLTest, COO_CSR_Insp_Fuse) {
     string result = Codegen("").gen(inspN);
     Comp insp_rp = insp2 + (n >= rp(i+1)) + (rp(i+1) = n+1);
     Comp insp_rp2 = insp2 + (rp(i) >= rp(i+1)) + (rp(i+1) = rp(i)+0);
-    insp_rp.fuse(insp_rp2);
+    pdfg::fuse(insp_rp, insp_rp2);
     result += Codegen("").gen(insp_rp);
 //    inspN.fuse(insp_rp);
 //    result = Codegen("").gen(inspN);
@@ -403,16 +403,13 @@ TEST(eDSLTest, ConjGrad) {
     Comp dadd("dadd", vec, (d[i] += r[i]));
 
     // Perform fusions
-//    fuse(spmv, ddot, rdot0);
-//    fuse(xadd, rsub, rdot);
-//    fuse(bmul, dadd);
     fuse("spmv", "ddot", "rdot0");
     fuse("xadd", "rsub", "rdot");
     fuse("bmul", "dadd");
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/conjgrad.json");
-    string result = codegen("out/conjgrad.o", "", "C++"); //, "auto");
+    string result = codegen("out/conjgrad.o", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
@@ -580,7 +577,7 @@ TEST(eDSLTest, SGeMM) {
     Comp gemm("gemm", (0 <= i < N ^ 0 <= j < M ^ 0 <= k < P), (C(i,j) += a * A(i,k) * B(k,j)));
 
     // This makes an excellent opportunity to implement fusion!
-    init.fuse(gemm);
+    pdfg::fuse(init, gemm);
     print("out/sgemm.json");
     string result = codegen("out/sgemm.o");
     //cerr << result << endl;

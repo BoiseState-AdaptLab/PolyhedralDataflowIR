@@ -1193,9 +1193,11 @@ namespace pdfg {
     struct Access;
     void addAccess(const Access& access);
 
+    typedef vector<Iter> Tuple;
+
     struct Access : public Expr {
     public:
-        Access(const Space &space, const vector<Iter>& iters, char refchar = '(', const vector<int>& offsets = {}) :
+        Access(const Space &space, const Tuple& iters, char refchar = '(', const vector<int>& offsets = {}) :
                _space(space) {
             vector<Expr> tuple(iters.begin(), iters.end());
             init(tuple, refchar, offsets);
@@ -1326,7 +1328,7 @@ namespace pdfg {
 
         Space(const Func& func) {
             string ichars = "ijkmnpqrsy";
-            vector<Iter> iters;
+            Tuple iters;
             for (unsigned i = 0; i < func.arity(); i++) {
                 iters.emplace_back(Iter(ichars[i]));
             }
@@ -1476,11 +1478,11 @@ namespace pdfg {
             _name = name;
         }
 
-        vector<Iter> iterators() const {
+        Tuple iterators() const {
             return _iterators;
         }
 
-        void iterators(const vector<Iter>& iters) {
+        void iterators(const Tuple& iters) {
             _iterators = iters;
         }
 
@@ -1506,10 +1508,10 @@ namespace pdfg {
         }
 
         void merge(const Space& other) {
-            vector<Iter> new_iters;
+            Tuple new_iters;
             vector<Constr> new_constrs;
 
-            vector<Iter> other_iters = other.iterators();
+            Tuple other_iters = other.iterators();
             for (unsigned i = 0; i < other_iters.size(); i++) {
                 Iter other_iter = other_iters[i];
                 string iter_name = other_iter.name();
@@ -1786,7 +1788,7 @@ namespace pdfg {
         }
 
         void init(const string &name, initializer_list<Iter> iterators, initializer_list<Constr> constraints) {
-            vector<Iter> ivec;
+            Tuple ivec;
             for (const auto &iter : iterators) {
                 ivec.push_back(iter);
             }
@@ -1868,6 +1870,37 @@ namespace pdfg {
         Space spc = lhs;
         spc.add(rhs);
         return spc;
+    }
+
+    Tuple tupleMath(const Tuple& lhs, const Tuple& rhs, const char oper) {
+        unsigned minLen, maxLen;
+        if (lhs.size() > rhs.size()) {
+            maxLen = lhs.size();
+            minLen = rhs.size();
+        } else {
+            maxLen = rhs.size();
+            minLen = lhs.size();
+        }
+
+        Tuple res(maxLen, Iter('0'));
+        for (unsigned i = 0; i < minLen; i++) {
+            if (oper == '+') {
+                res[i] = lhs[i] + rhs[i];
+            } else if (oper == '-') {
+                res[i] = lhs[i] - rhs[i];
+            } else {
+                // throw UnsupportedOperationException
+            }
+        }
+        return res;
+    }
+
+    Tuple operator-(const Tuple& lhs, const Tuple& rhs) {
+        return tupleMath(lhs, rhs, '-');
+    }
+
+    Tuple operator+(const Tuple& lhs, const Tuple& rhs) {
+        return tupleMath(lhs, rhs, '+');
     }
 
     ostream &operator<<(ostream &os, const Space &space) {
@@ -2250,9 +2283,7 @@ namespace pdfg {
     }
 
     struct Comp;
-
     void addComputation(Comp &comp);
-    void fuseComps(Comp& comp1, Comp& comp2);
 
     struct Comp : public Expr {
     public:
@@ -2349,6 +2380,14 @@ namespace pdfg {
             return _schedules;
         }
 
+        Rel schedule(unsigned index) const {
+            return _schedules[index];
+        }
+
+        unsigned nschedules() const {
+            return _schedules.size();
+        }
+
         deque<Rel> transforms() const {
             return _transforms;
         }
@@ -2361,93 +2400,10 @@ namespace pdfg {
             _statements.push_back(statement);
         }
 
-        Comp fuse(Comp &other) {
-            unsigned i, j, n;
-
-            vector<vector<Iter> > schedfxns;
-            for (const Rel& rel : _schedules) {
-                schedfxns.push_back(rel.dest().iterators());
-            }
-            for (const Rel& rel : other._schedules) {
-                schedfxns.push_back(rel.dest().iterators());
-            }
-
-            unsigned maxiter = 0;
-            for (i = 0; i < schedfxns.size(); i++) {
-                unsigned niter = schedfxns[i].size();
-                maxiter = (niter > maxiter) ? niter : maxiter;
-            }
-
-            // 1) Find the deepest common level
-            unsigned level = 0;
-            for (n = 0; n < maxiter && level < 1; n++) {
-                unsigned ndx = 0;
-                if (!schedfxns[0][n].is_int()) {
-                    for (i = 1; i < schedfxns.size() && ndx < 1; i++) {
-                        if (n < schedfxns[i].size() && schedfxns[i][n] == schedfxns[0][n]) {
-                            ndx = i;
-                        }
-                    }
-                }
-                if (ndx < 1) {
-                    level = n;
-                }
-            }
-
-            // 2) Ensure same tuple sizes
-            for (i = 0; i < schedfxns.size(); i++) {
-                if (schedfxns[i].size() < maxiter) {
-                    schedfxns[i].insert(schedfxns[i].begin() + level, Iter('0'));
-                }
-            }
-
-            // 3) Increment latter schedules to ensure lexicographic ordering.
-            for (n = level; n < maxiter; n++) {
-                for (i = 1; i < schedfxns.size(); i++) {
-                    if (schedfxns[i][n].is_int()) {
-                        for (j = n; j < maxiter && !schedfxns[0][j].is_int(); j++);
-                        if (j > n && j < maxiter) {
-                            // Swap iterators...
-                            Iter tmp = schedfxns[0][j];
-                            schedfxns[0][j] = schedfxns[0][n];
-                            schedfxns[0][n] = tmp;
-                        }
-                        if (schedfxns[0][n].is_int()) {
-                            schedfxns[i][n].name(schedfxns[0][n].name()[0] + 1);
-                        } else {
-                            // TODO: What to do here, if anything?
-                        }
-                    }
-                }
-            }
-
-            // Replace schedules with updated tuples...
-            n = 0;
-            for (i = 0; i < _schedules.size(); i++) {
-                Space dst = _schedules[i].dest();
-                dst.iterators(schedfxns[n]);
-                _schedules[i].dest(dst);
-                n += 1;
-            }
-
-            for (i = 0; i < other._schedules.size(); i++) {
-                Space dst = other._schedules[i].dest();
-                dst.iterators(schedfxns[n]);
-                other._schedules[i].dest(dst);
-                n += 1;
-            }
-
-            fuseComps(*this, other);
-            return *this;
-        }
-
-        Comp fuse(vector<Comp>& others) {
-            Comp& comp = *this;
-            for (unsigned i = 0; i < others.size(); i++) {
-                comp.fuse(others[i]);
-                comp = others[i];
-            }
-            return *this;
+        void reschedule(unsigned index, const Tuple& tuple) {
+            Space dst = _schedules[index].dest();
+            dst.iterators(tuple);
+            _schedules[index].dest(dst);
         }
 
         string make_dense(const Range &dnsConstr) {
@@ -2455,10 +2411,6 @@ namespace pdfg {
             sdense.name("Idense");
             sdense ^= dnsConstr;
             Rel rdense("Tdense", _space, sdense);
-//            cerr << sdense.to_iegen() << endl;
-//            cerr << rdense.to_iegen() << endl;
-//            Comp comp = apply(rdense, sdense.name());
-//            return comp;
             return apply(rdense, sdense.name());
         }
 
@@ -2975,6 +2927,9 @@ namespace pdfg {
                 cpath = Strings::replace(cpath, ".o", ".c");
             }
 
+            // Need to run scheduling pass first.
+            reschedule(name);
+
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
             cgen.ompSchedule(ompsched);
 
@@ -3033,6 +2988,15 @@ namespace pdfg {
                 ofs.close();
             } else {
                 cerr << _flowGraph << endl;
+            }
+        }
+
+        void reschedule(const string& name = "") {
+            ScheduleVisitor scheduler;
+            if (name.empty()) {
+                scheduler.walk(&_flowGraph);
+            } else {
+                scheduler.walk(&_graphs[name]);
             }
         }
 
@@ -3377,6 +3341,10 @@ namespace pdfg {
         GraphMaker::get().perfmodel(name);
     }
 
+    void reschedule(const string& name = "") {
+        GraphMaker::get().reschedule(name);
+    }
+
     void addIterator(const Iter& iter) {
         if (!iter.name().empty()) {
             GraphMaker::get().addIter(iter);
@@ -3463,23 +3431,27 @@ namespace pdfg {
     }
 
     void fuse(Comp& comp1, Comp& comp2) {
-        comp1.fuse(comp2);
+        if (!comp1.text().empty()) {
+            GraphMaker::get().fuse(comp1, comp2);
+        }
     }
 
     void fuse(Comp& comp1, Comp& comp2, Comp& comp3) {
-        comp1.fuse(comp2);
-        comp2.fuse(comp3);
+        fuse(comp1, comp2);
+        fuse(comp2, comp3);
     }
 
     void fuse(Comp& comp1, Comp& comp2, Comp& comp3, Comp& comp4) {
-        comp1.fuse(comp2);
-        comp2.fuse(comp3);
-        comp3.fuse(comp4);
+        fuse(comp1, comp2);
+        fuse(comp2, comp3);
+        fuse(comp3, comp4);
     }
 
     void fuse(Comp& first, vector<Comp>& others) {
-        if (others.size() > 0) {
-            first.fuse(others);
+        Comp& comp = first;
+        for (unsigned i = 0; i < others.size(); i++) {
+            fuse(comp, others[i]);
+            comp = others[i];
         }
     }
 
@@ -3506,12 +3478,6 @@ namespace pdfg {
             rest.push_back(*gm.getComp(*itr));
         }
         fuse(first, rest);
-    }
-
-    void fuseComps(Comp& comp1, Comp& comp2) {
-        if (!comp1.text().empty()) {
-            GraphMaker::get().fuse(comp1, comp2);
-        }
     }
 }
 
