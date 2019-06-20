@@ -18,8 +18,6 @@ using std::vector;
 #include <gtest/gtest.h>
 using namespace testing;
 
-#include <util/Strings.hpp>
-
 #ifdef _OPENMP
 #include <omp.h>
 #else
@@ -29,14 +27,17 @@ using namespace testing;
 #define omp_set_num_threads(n) n=n
 #endif
 
-#ifndef EPSILON
-#define EPSILON 0.001
-#endif
-
+#include <util/LIKWID.hpp>
 //#define PAPI_ON 1
 #ifdef PAPI_ON
 #include <util/PAPI.hpp>
 using util::PAPI;
+#endif
+
+#include <util/Strings.hpp>
+
+#ifndef EPSILON
+#define EPSILON 0.001
 #endif
 
 #define GTEST_COUT cout << "[   INFO   ] "
@@ -128,9 +129,13 @@ namespace test {
 #ifdef PAPI_ON
             _papi.start();
 #endif
+            LIKWID_MARKER_INIT;
             Start();
+            LIKWID_MARKER_START("BenchmarkTest");
             Execute();
+            LIKWID_MARKER_STOP("conj_grad");
             Stop();
+            LIKWID_MARKER_CLOSE;
 #ifdef PAPI_ON
             _papi.stop();
 #endif
