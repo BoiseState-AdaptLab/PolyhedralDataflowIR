@@ -2647,7 +2647,9 @@ namespace pdfg {
         }
 
         void addComp(Comp& comp) {
-            Node *compNode, *dataNode;
+            CompNode* compNode;
+            DataNode* dataNode;
+            //Node *compNode, *dataNode;
 
             // 1) Make statement node for comp.
             compNode = new CompNode(&comp, comp.space().name());
@@ -2664,11 +2666,11 @@ namespace pdfg {
                 if (expr.is_func()) {
                     Expr* size = getSize(comp, Func(expr));
                     if (_flowGraph.contains(expr.text())) {
-                        dataNode = _flowGraph.get(expr.text());
-                        ((DataNode*) dataNode)->size(size);
+                        dataNode = (DataNode*) _flowGraph.get(expr.text());
+                        dataNode->size(size);
                     } else {
                         // Make integer typed data node and add incoming edge to stmt node.
-                        dataNode = _flowGraph.add(new DataNode(&expr, expr.text(), size, _indexType));
+                        dataNode = (DataNode*) _flowGraph.add(new DataNode(&expr, expr.text(), size, _indexType));
                         cerr << "Added read node '" << dataNode->label() << "'" << endl;
                     }
                     _flowGraph.add(dataNode, compNode);
@@ -2732,19 +2734,28 @@ namespace pdfg {
                 }
             }
 
+            // 4) Create read nodes.
             for (Expr& expr : readExprs) {
                 Func func = Func(expr);
                 Expr* size = getSize(comp, func);
                 string type = getType(comp, func);
                 if (_flowGraph.contains(expr.text())) {
-                    dataNode = _flowGraph.get(expr.text());
-                    ((DataNode*) dataNode)->size(size);
+                    dataNode = (DataNode*) _flowGraph.get(expr.text());
+                    dataNode->size(size);
                 } else {
                     // Create data node from Access object, and add incoming edge edge to statement node.
-                    dataNode = _flowGraph.add(new DataNode(&expr, expr.text(), size, type));
+                    dataNode = (DataNode*) _flowGraph.add(new DataNode(&expr, expr.text(), size, type));
                     cerr << "Added read node '" << dataNode->label() << "'" << endl;
                 }
                 _flowGraph.add(dataNode, compNode);
+
+                auto itr = _accesses.find(dataNode->label());
+                if (itr != _accesses.end()) {
+                    for (unsigned i = 0; i < itr->second.size(); i++) {
+                        cerr << "Adding read access '" << itr->second[i] << "'" << endl;
+                        compNode->add_read(itr->second[i]);
+                    }
+                }
             }
 
             _flowGraph.add(compNode);
@@ -2755,12 +2766,12 @@ namespace pdfg {
                 Expr* size = getSize(comp, func);
                 string type = getType(comp, func);
                 if (_flowGraph.contains(expr.text())) {
-                    dataNode = _flowGraph.get(expr.text());
-                    ((DataNode*) dataNode)->size(size);
+                    dataNode = (DataNode*) _flowGraph.get(expr.text());
+                    dataNode->size(size);
                 } else {
                     // Create data node from Access object, and add outgoing edge edge to statement node.
                     // Mark output node as persistent (immutable) or temporary (optimizable) -- how to tell?
-                    dataNode = _flowGraph.add(new DataNode(&expr, expr.text(), size, type)); //, getMapping(expr.text())));
+                    dataNode = (DataNode*) _flowGraph.add(new DataNode(&expr, expr.text(), size, type));
                     cerr << "Added write node '" << dataNode->label() << "'" << endl;
                 }
                 if (_flowGraph.contains(dataNode, compNode)) {
@@ -2771,7 +2782,18 @@ namespace pdfg {
                 } else {
                     _flowGraph.add(compNode, dataNode);
                 }
+
+                auto itr = _accesses.find(dataNode->label());
+                if (itr != _accesses.end()) {
+                    for (unsigned i = 0; i < itr->second.size(); i++) {
+                        cerr << "Adding write access '" << itr->second[i] << "'" << endl;
+                        compNode->add_write(itr->second[i]);
+                    }
+                }
             }
+
+            // Clear accesses for next computation.
+            _accesses.clear();
         }
 
         string indexType() const {
@@ -2840,45 +2862,8 @@ namespace pdfg {
 
         void addAccess(const Access& access) {
             unsigned size = access.tuple().size();
-            vector<int> offsets = access.offsets();
-            Space space = access.space();
-
             if (size > 0 && access.tuple().at(0).type() != 'N') {
-                string sname = space.name();
-                if (access.refchar() != '[') {
-                    ostringstream os;
-                    os << sname << '[';
-                    if (size < 2) {
-                        Expr expr = access.tuple().at(0);
-                        os << '(' << expr;
-                        if (offsets.size() > 0 && offsets[0] != 0) {
-                            if (offsets[0] > 0) {
-                                os << '+';
-                            }
-                            os << offsets[0];
-                        }
-                    } else {
-                        os << "offset" << size << '(';
-                        for (unsigned i = 0; i < size; i++) {
-                            os << '(' << access.tuple().at(i) << ')';
-                            if (offsets.size() > i && offsets[i] != 0) {
-                                if (offsets[i] > 0) {
-                                    os << '+';
-                                }
-                                os << offsets[i];
-                            }
-                            os << ',';
-                        }
-
-                        vector<Iter> iters = space.iterators();
-                        vector<Iter> subs(iters.begin() + 1, iters.end());
-                        string subsize = stringify<Math>(space.slice(1, size - 1).size());
-                        // Remove redundant parens...
-                        os << Strings::replace(Strings::fixParens(subsize), "*", ",");
-                    }
-                    os << ")]";
-                    addMapping(access, os.str());
-                }
+                string sname = access.space().name();
                 _accesses[sname].push_back(access);
             }
         }
@@ -2891,24 +2876,7 @@ namespace pdfg {
             macro.name(macname + to_string(_macros[macname].size() + 1));
             _macros[macname].push_back(macro);
         }
-
-        void addMapping(const Access& access, const string& mapping) {
-            string accname = access.space().name();
-            auto itr = _mappings.find(accname);
-            if (itr == _mappings.end()) {
-                string accstr = stringify<Access>(access);
-                _mappings[accname] = make_pair<string, string>(string(accstr), string(mapping));
-            }
-        }
-
-        pair<string, string> getMapping(const string& name) {
-            auto itr = _mappings.find(name);
-            if (itr != _mappings.end()) {
-                return itr->second;
-            }
-            return make_pair<string, string>("", "");
-        }
-
+        
         Space getSpace(const string& name) {
             return _spaces[name];
         }
@@ -2943,10 +2911,6 @@ namespace pdfg {
                 if (func.arity() == 1) {
                     cgen.define(func.name() + "(i)", func.name() + "[(i)]");
                 }
-            }
-
-            for (const auto& iter : _mappings) {
-                cgen.define(iter.second);
             }
 
             if (name.empty()) {
@@ -2992,7 +2956,7 @@ namespace pdfg {
         }
 
         void reschedule(const string& name = "") {
-            ScheduleVisitor scheduler(_accesses);
+            ScheduleVisitor scheduler;
             if (name.empty()) {
                 scheduler.walk(&_flowGraph);
             } else {
@@ -3295,7 +3259,7 @@ namespace pdfg {
         map<string, Space> _spaces;
         map<string, Rel> _relations;
         map<string, vector<Access> > _accesses;
-        map<string, pair<string, string> > _mappings;
+       // map<string, pair<string, string> > _mappings;
         map<string, vector<Macro> > _macros;
 
         FlowGraph _flowGraph;

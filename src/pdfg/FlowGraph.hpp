@@ -220,11 +220,10 @@ namespace pdfg {
     struct DataNode : public Node {
     public:
         explicit DataNode(Expr* access, const string& label = "", Expr* size = nullptr, const string& type = "real",
-                          const string& defval = "0", const string& mapping = "", const MemAlloc& alloc = DYNAMIC) :
+                          const string& defval = "0", const MemAlloc& alloc = DYNAMIC) :
             Node(new Expr(*access), label), _size(size), _datatype(type), _defval(defval), _alloc(alloc) {
             attr("shape", "box");
             attr("color", "gray");
-            _mapping = mapping;
             _type = 'D';
         }
 
@@ -286,14 +285,6 @@ namespace pdfg {
             _defval = val;
         }
 
-        string mapping() const {
-            return _mapping;
-        }
-
-        void mapping(const string& mapping) {
-            _mapping = mapping;
-        }
-
         MemAlloc alloc() const {
             return _alloc;
         }
@@ -319,7 +310,6 @@ namespace pdfg {
         Expr* _size;
         string _datatype;
         string _defval;
-        string _mapping;
         MemAlloc _alloc;
     };
 
@@ -328,6 +318,16 @@ namespace pdfg {
         explicit CompNode(Comp* comp, const string& label = "") : Node(new Comp(*comp), label) {
             attr("shape", "invtriangle");
             _type = 'C';
+        }
+
+        ~CompNode() {
+            delete _expr;
+            for (Access* read : _reads) {
+                delete read;
+            }
+            for (Access* write : _writes) {
+                delete write;
+            }
         }
 
         Comp* comp() const {
@@ -341,6 +341,33 @@ namespace pdfg {
 
         bool is_parent() const {
             return !_children.empty();
+        }
+
+        vector<Access*> accesses() const {
+            vector<Access*> accs;
+            for (Access* read : _reads) {
+                accs.push_back(read);
+            }
+            for (Access* write : _writes) {
+                accs.push_back(write);
+            }
+            return accs;
+        }
+
+        vector<Access*> reads() const {
+            return _reads;
+        }
+
+        vector<Access*> writes() const {
+            return _writes;
+        }
+
+        void add_read(const Access& read) {
+            _reads.push_back(new Access(read));
+        }
+
+        void add_write(const Access& read) {
+            _writes.push_back(new Access(read));
         }
 
         vector<CompNode*> children() const {
@@ -383,6 +410,8 @@ namespace pdfg {
 
     protected:
         vector<CompNode*> _children;
+        vector<Access*> _reads;
+        vector<Access*> _writes;
     };
 
     struct RelNode : public Node {
