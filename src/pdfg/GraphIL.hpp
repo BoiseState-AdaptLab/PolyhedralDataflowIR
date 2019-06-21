@@ -2992,7 +2992,7 @@ namespace pdfg {
         }
 
         void reschedule(const string& name = "") {
-            ScheduleVisitor scheduler;
+            ScheduleVisitor scheduler(_accesses);
             if (name.empty()) {
                 scheduler.walk(&_flowGraph);
             } else {

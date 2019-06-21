@@ -563,7 +563,9 @@ namespace pdfg {
 
     struct ScheduleVisitor : public DFGVisitor {
     public:
-        explicit ScheduleVisitor() {}
+        explicit ScheduleVisitor(map<string, vector<Access> > accesses) {
+            _accesses = accesses;
+        }
 
         /// For each computation node, generate and assign a scheduling (scattering) function.
         /// \param node Computation node
@@ -572,6 +574,11 @@ namespace pdfg {
             unsigned level = 0;
             unsigned maxiter = 0;
             vector<Tuple> schedfxns;
+
+            // Skip if no fusion for now...
+            if (node->children().size() < 1) {
+                return;
+            }
 
             Comp* comp = node->comp();
 
@@ -621,12 +628,12 @@ namespace pdfg {
                         for (j = n; j < maxiter && !schedfxns[0][j].is_int(); j++);
                         if (j > n && j < maxiter) {
                             // Swap iterators...
-                            Iter tmp = schedfxns[0][j];
-                            schedfxns[0][j] = schedfxns[0][n];
-                            schedfxns[0][n] = tmp;
+                            Iter tmp = schedfxns[i-1][j];
+                            schedfxns[i-1][j] = schedfxns[i-1][n];
+                            schedfxns[i-1][n] = tmp;
                         }
-                        if (schedfxns[0][n].is_int()) {
-                            schedfxns[i][n].name(schedfxns[0][n].name()[0] + 1);
+                        if (schedfxns[i-1][n].is_int()) {
+                            schedfxns[i][n].name(schedfxns[i-1][n].name()[0] + 1);
                         } else {
                             // TODO: What to do here, if anything?
                         }
@@ -640,7 +647,6 @@ namespace pdfg {
                 comp->reschedule(i, schedfxns[n]);
                 n += 1;
             }
-
             for (CompNode* child : node->children()) {
                 Comp* other = child->comp();
                 for (i = 0; i < other->nschedules(); i++) {
@@ -653,6 +659,9 @@ namespace pdfg {
         void enter(DataNode* node) override {
             // TODO: Do this method need to do any work?
         }
+
+    protected:
+        map<string, vector<Access> > _accesses;
     };
 }
 
