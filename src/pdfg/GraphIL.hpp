@@ -1189,6 +1189,7 @@ namespace pdfg {
 
     struct Space;
     void addSpace(const Space &space);
+    Space getSpace(const string& name);
 
     struct Access;
     void addAccess(const Access& access);
@@ -1197,20 +1198,20 @@ namespace pdfg {
 
     struct Access : public Expr {
     public:
-        Access(const Space &space, const Tuple& iters, char refchar = '(', const vector<int>& offsets = {}) :
+        Access(const string &space, const Tuple& iters, char refchar = '(', const vector<int>& offsets = {}) :
                _space(space) {
             vector<Expr> tuple(iters.begin(), iters.end());
             init(tuple, refchar, offsets);
             _text = stringify<Access>(*this);
         }
 
-        Access(const Space &space, initializer_list<Expr> tuple, char refchar = '(', const vector<int>& offsets = {}) :
+        Access(const string &space, initializer_list<Expr> tuple, char refchar = '(', const vector<int>& offsets = {}) :
             _space(space) {
             init(tuple, refchar, offsets);
             _text = stringify<Access>(*this);
         }
 
-        Access(const Space &space, const vector<Expr>& tuple, char refchar = '(', const vector<int>& offsets = {}) :
+        Access(const string &space, const vector<Expr>& tuple, char refchar = '(', const vector<int>& offsets = {}) :
             _space(space) {
             init(tuple, refchar, offsets);
             _text = stringify<Access>(*this);
@@ -1230,7 +1231,7 @@ namespace pdfg {
             return Math(*this, math, "=");
         }
 
-        const Space &space() const {
+        const string &space() const {
             return _space;
         }
 
@@ -1258,18 +1259,19 @@ namespace pdfg {
             for (const auto &expr : tuple) {
                 _tuple.push_back(expr);
             }
-            addSpace(_space);
+            //addSpace(_space);
             addAccess(*this);
         }
 
         void copy(const Access& other) {
             Expr::copy(other); // Let Base::copy() handle copying Base things
+            //_space = other._space;
             _refchar = other._refchar;
             _tuple = other._tuple;
             _offsets = other._offsets;
         }
 
-        const Space &_space;
+        string _space;
         char _refchar;
         vector<Expr> _tuple;
         vector<int> _offsets;
@@ -1277,8 +1279,6 @@ namespace pdfg {
 
     unsigned _iter_counter = 0;
     unsigned _space_counter = 0;
-
-    map<string, Space*> _spaces;
 
     struct Space : public Expr {
     public:
@@ -1389,39 +1389,39 @@ namespace pdfg {
         // overload function calls
         Access operator()(int index) {
             Iter iter("i" + to_string(_iter_counter++));
-            return Access(*this, {Int(index)}, '(');
+            return Access(_name, {Int(index)}, '(');
         }
 
         Access operator()(const Expr &one) {
-            return Access(*this, {one}, '(');
+            return Access(_name, {one}, '(');
         }
 
         Access operator()(const int &one, const Expr &two) {
-            return Access(*this, {Int(one), two}, '(');
+            return Access(_name, {Int(one), two}, '(');
         }
 
         Access operator()(const Expr &one, const int &two) {
-            return Access(*this, {one, Int(two)}, '(');
+            return Access(_name, {one, Int(two)}, '(');
         }
 
         Access operator()(const Expr &one, const Expr &two) {
-            return Access(*this, {one, two}, '(');
+            return Access(_name, {one, two}, '(');
         }
 
         Access operator()(const int &one, const Expr &two, const Expr &three) {
-            return Access(*this, {Int(one), two, three}, '(');
+            return Access(_name, {Int(one), two, three}, '(');
         }
 
         Access operator()(const Expr &one, const int &two, const Expr &three) {
-            return Access(*this, {one, Int(two), three}, '(');
+            return Access(_name, {one, Int(two), three}, '(');
         }
 
         Access operator()(const Expr &one, const Expr &two, const int &three) {
-            return Access(*this, {one, two, Int(three)}, '(');
+            return Access(_name, {one, two, Int(three)}, '(');
         }
 
         Access operator()(const Expr &one, const Expr &two, const Expr &three) {
-            return Access(*this, {one, two, three}, '(');
+            return Access(_name, {one, two, three}, '(');
         }
 
         Access makeAccess(const Expr &first, const vector<Expr>& rest) {
@@ -1430,11 +1430,11 @@ namespace pdfg {
             for (unsigned i = 0; i < rest.size(); i++) {
                 tuple[i+1] = rest[i];
             }
-            return Access(*this, tuple, '(');
+            return Access(_name, tuple, '(');
         }
 
         Access operator()(const vector<Expr>& tuple) {
-            return Access(*this, tuple, '(');
+            return Access(_name, tuple, '(');
         }
 
         Access operator()(const int &first, const vector<Expr>& rest) {
@@ -1446,20 +1446,20 @@ namespace pdfg {
         }
 
         Access operator()(initializer_list<Expr> tuple) {
-            return Access(*this, tuple, '(');
+            return Access(_name, tuple, '(');
         }
 
         // overload array indexing
         Access operator[](int index) {
-            return Access(*this, {Int(index)}, '[');
+            return Access(_name, {Int(index)}, '[');
         }
 
         Access operator[](const Expr &one) {
-            return Access(*this, {one}, '[');
+            return Access(_name, {one}, '[');
         }
 
         Access operator[](initializer_list<Expr> tuple) {
-            return Access(*this, tuple, '[');
+            return Access(_name, tuple, '[');
         }
 
         void operator^=(const Range &rng) {
@@ -1859,10 +1859,6 @@ namespace pdfg {
                 }
                 _iterators.push_back(iter);
             }
-            if (!_name.empty()) { // && _iterators.size() > 0) {
-                _spaces[_name] = new Space(*this);
-                //addSpace(*this);
-            }
         }
     };
 
@@ -1940,21 +1936,9 @@ namespace pdfg {
         return os;
     }
 
-    Expr findUpperBound(const Iter &iter) {
-        for (const auto& keyval : _spaces) {
-            Space* space = keyval.second;
-            for (const auto& constr : space->constraints(iter.name())) {
-                if (constr.lhs().equals(iter)) {
-                    return constr.rhs();
-                }
-            }
-        }
-        return Expr();
-    }
-
     ostream &operator<<(ostream &os, const Access &access) {
         unsigned size = access.tuple().size();
-        Space space = access.space();
+        Space space = getSpace(access.space());
         os << space.name();
         if (size > 0) { //} && access.tuple().at(0).type() != 'N') {
             char refchar = access.refchar();
@@ -2749,11 +2733,11 @@ namespace pdfg {
                 }
                 _flowGraph.add(dataNode, compNode);
 
-                auto itr = _accesses.find(dataNode->label());
-                if (itr != _accesses.end()) {
-                    for (unsigned i = 0; i < itr->second.size(); i++) {
-                        cerr << "Adding read access '" << itr->second[i] << "'" << endl;
-                        compNode->add_read(itr->second[i]);
+                auto itr = _accessMap.find(dataNode->label());
+                if (itr != _accessMap.end()) {
+                    for (const auto& access : itr->second) {
+                        cerr << "Adding read access '" << access << "'" << endl;
+                        compNode->add_read(access);
                     }
                 }
             }
@@ -2783,17 +2767,17 @@ namespace pdfg {
                     _flowGraph.add(compNode, dataNode);
                 }
 
-                auto itr = _accesses.find(dataNode->label());
-                if (itr != _accesses.end()) {
-                    for (unsigned i = 0; i < itr->second.size(); i++) {
-                        cerr << "Adding write access '" << itr->second[i] << "'" << endl;
-                        compNode->add_write(itr->second[i]);
+                auto itr = _accessMap.find(dataNode->label());
+                if (itr != _accessMap.end()) {
+                    for (const auto& access : itr->second) {
+                        cerr << "Adding write access '" << access << "'" << endl;
+                        compNode->add_write(access);
                     }
                 }
             }
 
             // Clear accesses for next computation.
-            _accesses.clear();
+            _accessMap.clear();
         }
 
         string indexType() const {
@@ -2862,9 +2846,18 @@ namespace pdfg {
 
         void addAccess(const Access& access) {
             unsigned size = access.tuple().size();
-            if (size > 0 && access.tuple().at(0).type() != 'N') {
-                string sname = access.space().name();
-                _accesses[sname].push_back(access);
+            if (size > 0) { // && access.tuple().at(0).type() != 'N') {
+                _accessMap[access.space()].push_back(access);
+            }
+        }
+
+        void printAccesses() {
+            for (const auto& itr : _accessMap) {
+                string sname = itr.first;
+                vector<Access> accesses = itr.second;
+                for (const auto& access : accesses) {
+                    cerr << "'" << sname << "' -> '" << access << "'" << endl;
+                }
             }
         }
 
@@ -3071,7 +3064,7 @@ namespace pdfg {
         }
 
         void makeHierarchical(CompNode* compNode, DataNode* dataNode) {
-            vector<Access> accs = _accesses[dataNode->label()];
+            vector<Access> accs = _accessMap[dataNode->label()];
             vector<int> rdist = calcReuseDist(accs);
             // Find first nonzero reuse distance
             unsigned ipos = rdist.size();
@@ -3155,7 +3148,7 @@ namespace pdfg {
                             if (pos != string::npos && expr.substr(0, pos) == dname) {
                                 for (const auto& acc : accs) {
                                     if (expr == stringify<Access>(acc)) {
-                                        Access newacc(dspace, acc.tuple(), acc.refchar());
+                                        Access newacc(dspace.name(), acc.tuple(), acc.refchar());
                                         Math newstmt(newacc, stmt.rhs(), stmt.oper());
                                         statements.push_back(newstmt);
                                         break;
@@ -3258,8 +3251,7 @@ namespace pdfg {
         map<string, FlowGraph> _graphs;
         map<string, Space> _spaces;
         map<string, Rel> _relations;
-        map<string, vector<Access> > _accesses;
-       // map<string, pair<string, string> > _mappings;
+        map<string, vector<Access> > _accessMap;
         map<string, vector<Macro> > _macros;
 
         FlowGraph _flowGraph;
@@ -3267,7 +3259,6 @@ namespace pdfg {
 
     void init(const string& name, const string& retname = "", const string& datatype = "",
               const string& indextype = "", initializer_list<string> outputs = {}) {
-        pdfg::_spaces.clear();
         GraphMaker::get().newGraph(name);
         if (!datatype.empty()) {
             GraphMaker::get().dataType(datatype);
@@ -3287,17 +3278,9 @@ namespace pdfg {
         GraphMaker::get().print(file);
     }
 
-    void clearSpaces() {
-        for (const auto& itr : _spaces) {
-            delete itr.second;
-        }
-        _spaces.clear();
-    }
-
     string codegen(const string& path = "", const string& name = "",
                    const string& lang = "C", const string& ompsched = "") {
         string code = GraphMaker::get().codegen(path, name, lang, ompsched);
-        clearSpaces();
         return code;
     }
 
@@ -3361,7 +3344,6 @@ namespace pdfg {
     }
 
     Space getSpace(const string& name) {
-        //return *_spaces[name];
         return GraphMaker::get().getSpace(name);
     }
 
@@ -3372,7 +3354,7 @@ namespace pdfg {
     }
 
     void addAccess(const Access& access) {
-        if (!access.space().name().empty()) {
+        if (!access.space().empty()) {
             GraphMaker::get().addAccess(access);
         }
     }
@@ -3390,8 +3372,12 @@ namespace pdfg {
                 tuple.push_back(iters[i] + Int(offset));
             }
         }
-        Access access(space, tuple, '(');
+        Access access(space.name(), tuple, '(');
         return access;
+    }
+
+    void printAccesses() {
+        GraphMaker::get().printAccesses();
     }
 
     void fuse(Comp& comp1, Comp& comp2) {

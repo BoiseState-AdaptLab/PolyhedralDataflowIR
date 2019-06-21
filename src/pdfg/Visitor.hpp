@@ -452,7 +452,7 @@ namespace pdfg {
             vector<Expr> tuple = access->tuple();
             unsigned size = tuple.size();
             vector<int> offsets = access->offsets();
-            Space space = access->space();
+            Space space = getSpace(access->space());
             ostringstream os;
 
             if (size > 0 && tuple.at(0).type() != 'N' && access->refchar() != '[') {
