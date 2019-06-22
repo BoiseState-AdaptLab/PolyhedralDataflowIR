@@ -1,5 +1,5 @@
-//#ifndef _CONJGRADTEST_HPP_
-//#define _CONJGRADTEST_HPP_
+#ifndef _CONJGRADTEST_HPP_
+#define _CONJGRADTEST_HPP_
 
 #include <string>
 using std::string;
@@ -19,18 +19,14 @@ typedef Eigen::Triplet<double> Triple;
 
 #include <util/MatrixIO.hpp>
 using util::MatrixIO;
-
-#include "BenchmarkTest.hpp"
-// Include generated code:
-//#include "conjgrad.h"
-#include "conjgrad_fuse2.h"
+//#include "BenchmarkTest.hpp"
+#include "InspExecTest.hpp"
 
 namespace test {
-    class ConjGradTest : public BenchmarkTest {
+    class ConjGradTest : public InspExecTest { //BenchmarkTest {
 
     protected:
-        ConjGradTest() {
-            _name = "ConjGradTest";
+        ConjGradTest(const string& name = "ConjGradTest") : InspExecTest(name) {
         }
 
         virtual ~ConjGradTest() {}
@@ -87,34 +83,14 @@ namespace test {
             }
         }
 
+        virtual void Inspect() {}
+
         virtual void Evaluate() {
             _cg.compute(_Aspm);
             _xVec = _cg.solve(_bVec);
             _niter_ref = _cg.iterations();
             _err_ref = _cg.error();
             _x_ref = _xVec.data();
-        }
-
-        virtual void Execute() {
-            double* r = (double*) malloc(_nrow*sizeof(double));
-            double* d = (double*) malloc(_nrow*sizeof(double));
-
-            // copy
-            for (unsigned i = 0; i < _nrow; i++) {
-                r[i] = d[i] = _b[i];
-            }
-
-            // conjgrad
-            unsigned t = 0;
-            //for (; t < _maxiter && _error > _tolerance; t++) {
-            for (; t < _maxiter; t++) {
-                _error = conj_grad(_vals, _nnz, _nrow, _cols, _rows, d, r, _x);
-            }
-
-            free(r);
-            free(d);
-
-            _niter = t;
         }
 
         virtual void Assert() {
@@ -149,15 +125,6 @@ namespace test {
         //ConjugateGradient<SparseMatrix<double>> _cg;
         ConjugateGradient<SparseMatrix<double>, Lower|Upper> _cg;
     };
-
-    TEST_F(ConjGradTest, CG) {
-        SetUp({"./data/matrix/cant.mtx"});
-        //SetUp({"./data/matrix/cg.mtx"});
-        Run();
-        Verify();
-        Assert();
-        int stop = 1;
-    }
 }
 
-//#endif // _CONJGRADTEST_HPP_
+#endif // _CONJGRADTEST_HPP_

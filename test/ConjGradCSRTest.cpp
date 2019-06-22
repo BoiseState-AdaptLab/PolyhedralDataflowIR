@@ -1,17 +1,14 @@
-//#ifndef _CONJGRADCSRTEST_HPP_
-//#define _CONJGRADCSRTEST_HPP_
-
 #include "InspExecTest.hpp"
-#include "ConjGradTest.cpp"
+#include "ConjGradTest.hpp"
 // Include generated code:
 #include "coo_csr_insp.h"
 #include "conjgrad_csr.h"
 
 namespace test {
-class ConjGradCSRTest : public InspExecTest, public ConjGradTest {
+class ConjGradCSRTest : public ConjGradTest {
 
 protected:
-    ConjGradCSRTest() : InspExecTest("ConjGradCSRTest") {
+    ConjGradCSRTest() : ConjGradTest("ConjGradCSRTest") {
         _rowptr = nullptr;
     }
 
@@ -62,5 +59,3 @@ TEST_F(ConjGradCSRTest, CG) {
     int stop = 1;
 }
 }
-
-// _CONJGRADCSRTEST_HPP_

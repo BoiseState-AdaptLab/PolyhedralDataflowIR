@@ -176,8 +176,9 @@ if (TESTING)
     )
 
     #set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
-    #        test/ConjGradTest.cpp test/ConjGradCSRTest.cpp) # test/TensorDecompTest.cpp)
-    set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.cpp test/ConjGradCSRTest.cpp)
+    #        test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp) # test/TensorDecompTest.cpp)
+    set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
+                   test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -O0")
 
     enable_testing()
@@ -192,7 +193,7 @@ if (TESTING)
     endif()
 
     #add_test(driver eDSLTest ConjGradTest ConjGradCSRTest)   # TensorDecompTest)
-    add_test(driver ConjGradCSRTest)# TensorDecompTest)
+    add_test(driver ConjGradCOOTest ConjGradCSRTest)# TensorDecompTest)
 elseif (MAKELIB)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3")
     add_library(polylib SHARED ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
