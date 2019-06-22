@@ -322,11 +322,11 @@ namespace pdfg {
 
         ~CompNode() {
             delete _expr;
-            for (Access* read : _reads) {
-                delete read;
+            for (auto& read : _reads) {
+                delete read.second;
             }
-            for (Access* write : _writes) {
-                delete write;
+            for (auto& write : _writes) {
+                delete write.second;
             }
         }
 
@@ -345,29 +345,37 @@ namespace pdfg {
 
         vector<Access*> accesses() const {
             vector<Access*> accs;
-            for (Access* read : _reads) {
-                accs.push_back(read);
+            for (auto& read : _reads) {
+                accs.push_back(read.second);
             }
-            for (Access* write : _writes) {
-                accs.push_back(write);
+            for (auto& write : _writes) {
+                accs.push_back(write.second);
             }
             return accs;
         }
 
-        vector<Access*> reads() const {
+        map<string, Access*> reads() const {
             return _reads;
         }
 
-        vector<Access*> writes() const {
+        map<string, Access*> writes() const {
             return _writes;
         }
 
         void add_read(const Access& read) {
-            _reads.push_back(new Access(read));
+            string key = read.text();
+            auto itr = _reads.find(key);
+            if (itr == _reads.end()) {
+                _reads[key] = new Access(read);
+            }
         }
 
-        void add_write(const Access& read) {
-            _writes.push_back(new Access(read));
+        void add_write(const Access& write) {
+            string key = write.text();
+            auto itr = _writes.find(key);
+            if (itr == _writes.end()) {
+                _writes[key] = new Access(write);
+            }
         }
 
         vector<CompNode*> children() const {
@@ -410,27 +418,23 @@ namespace pdfg {
 
     protected:
         vector<CompNode*> _children;
-        vector<Access*> _reads;
-        vector<Access*> _writes;
+        map<string, Access*> _reads;
+        map<string, Access*> _writes;
     };
 
     struct RelNode : public Node {
     public:
-        //explicit RelNode(const Rel& rel, const string& label = "") : Node(rel.source(), label), _rel(rel) {
         explicit RelNode(Expr* rel, const string& label = "") : Node(rel, label) { //}, _rel(rel) {
             _type = 'R';
         }
 
-//        Rel relation() const {
-//            return _rel;
-//        }
-//
-//        void relation(const Rel& rel) {
-//            _rel = rel;
-//        }
-//
-//    protected:
-//        Rel _rel;
+        Rel* relation() const {
+            return (Rel*) _expr;
+        }
+
+        void relation(Rel* rel) {
+            _expr = rel;
+        }
     };
 
     struct FlowGraph {

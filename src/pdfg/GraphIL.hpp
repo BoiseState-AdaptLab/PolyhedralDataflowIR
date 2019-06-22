@@ -104,6 +104,10 @@ namespace pdfg {
             return _text;
         }
 
+        virtual void text(const string& text) {
+            _text = text;
+        }
+
         bool empty() const {
             return _text.empty();
         }
@@ -112,8 +116,12 @@ namespace pdfg {
             return _type;
         }
 
-        virtual bool operator<(const Expr &other) const {
+        virtual bool less(const Expr &other) const {
             return _text < other._text;     // Lexicographic ordering...
+        }
+
+        virtual bool operator<(const Expr &other) const {
+            return less(other);
         }
 
         virtual bool equals(const string &text) const {
@@ -317,6 +325,10 @@ namespace pdfg {
         Expr _rhs;
         string _oper;
     };
+
+    inline int abs(const int& val) {
+        return (val < 0) ? -val : val;
+    }
 
     Math abs(const Expr& expr) {
         return Math(NullExpr, expr, "abs(");
@@ -1195,6 +1207,7 @@ namespace pdfg {
     void addAccess(const Access& access);
 
     typedef vector<Iter> Tuple;
+    typedef vector<Expr> ExprTuple;
 
     struct Access : public Expr {
     public:
@@ -1202,19 +1215,16 @@ namespace pdfg {
                _space(space) {
             vector<Expr> tuple(iters.begin(), iters.end());
             init(tuple, refchar, offsets);
-            _text = stringify<Access>(*this);
         }
 
         Access(const string &space, initializer_list<Expr> tuple, char refchar = '(', const vector<int>& offsets = {}) :
             _space(space) {
             init(tuple, refchar, offsets);
-            _text = stringify<Access>(*this);
         }
 
         Access(const string &space, const vector<Expr>& tuple, char refchar = '(', const vector<int>& offsets = {}) :
             _space(space) {
             init(tuple, refchar, offsets);
-            _text = stringify<Access>(*this);
         }
 
         Access(const Access &other) : _space(other._space) {
@@ -1261,6 +1271,7 @@ namespace pdfg {
             }
             //addSpace(_space);
             addAccess(*this);
+            _text = stringify<Access>(*this);
         }
 
         void copy(const Access& other) {
@@ -1269,6 +1280,7 @@ namespace pdfg {
             _refchar = other._refchar;
             _tuple = other._tuple;
             _offsets = other._offsets;
+            _text = stringify<Access>(*this);
         }
 
         string _space;
@@ -1640,43 +1652,6 @@ namespace pdfg {
             return os.str();
         }
 
-//        Space to_omega() const {
-//            Space space(_name, _iterators);
-//            map<string, int> counts;
-////            symbolic N,col(2),rp(1),rp1(1);
-////            Icsr := {[i,n,j]:j-col(i,n)=0&&i>=0&&n-rp(i)>=0&&N-1>=0&&-i+N-1>=0&&-n+rp1(i)-1>=0&&-rp(i)+rp1(i)-1>=0};
-////            codegen(Icsr) given {[i,n,j]: N-1>=0&&-rp(i)+rp1(i)-1>=0};
-//            //os << this->name << "(" << this->arity << ") -> (";
-//
-//            for (const auto &constr : _constraints) {
-//                array<Expr, 2> exprs = {constr.lhs(), constr.rhs()};
-//                for (unsigned i = 0; i < exprs.size(); i++) { //const auto& expr : exprs) {
-//                    if (exprs[i].is_func()) {
-//                        string fxn = exprs[i].text();
-//                        auto pos = fxn.find('(');
-//                        string fname = fxn.substr(0, pos);
-//                        string fargs = fxn.substr(pos + 1);
-//                        fargs = fargs.substr(0, fargs.size() - 1);
-//
-//                        // TODO: Cases wherein we need a new fxn...
-//                        // 1) Argument is a math operator, e.g., rp(i+1)
-//                        // 2) Or in general, whenever arg is not an iterator!
-//                        //for (const auto& arg : )
-//                        if (counts.find(fname) != counts.end()) {
-//                            fname += to_string(counts[fname]);
-//                            counts[fname] += 1;
-//                        } else {
-//                            counts[fname] = 1;
-//                        }
-//                    }
-//                }
-//                Constr newcon(exprs[0], exprs[1], constr.relop());
-//                space.add(newcon);
-//            }
-//
-//            return space;
-//        }
-
         Math size() const {
             Math expr;
             for (unsigned n = 0; n < _constraints.size(); n += 2) {
@@ -1868,37 +1843,6 @@ namespace pdfg {
         return spc;
     }
 
-    Tuple tupleMath(const Tuple& lhs, const Tuple& rhs, const char oper) {
-        unsigned minLen, maxLen;
-        if (lhs.size() > rhs.size()) {
-            maxLen = lhs.size();
-            minLen = rhs.size();
-        } else {
-            maxLen = rhs.size();
-            minLen = lhs.size();
-        }
-
-        Tuple res(maxLen, Iter('0'));
-        for (unsigned i = 0; i < minLen; i++) {
-            if (oper == '+') {
-                res[i] = lhs[i] + rhs[i];
-            } else if (oper == '-') {
-                res[i] = lhs[i] - rhs[i];
-            } else {
-                // throw UnsupportedOperationException
-            }
-        }
-        return res;
-    }
-
-    Tuple operator-(const Tuple& lhs, const Tuple& rhs) {
-        return tupleMath(lhs, rhs, '-');
-    }
-
-    Tuple operator+(const Tuple& lhs, const Tuple& rhs) {
-        return tupleMath(lhs, rhs, '+');
-    }
-
     ostream &operator<<(ostream &os, const Space &space) {
         os << space.name() << '(';
         unsigned i = 0, niters = space.iterators().size();
@@ -1957,6 +1901,124 @@ namespace pdfg {
         }
         return os;
     }
+
+    ExprTuple tupleMath(const ExprTuple& lhs, const ExprTuple& rhs, const char oper) {
+        unsigned minLen, maxLen;
+        if (lhs.size() > rhs.size()) {
+            maxLen = lhs.size();
+            minLen = rhs.size();
+        } else {
+            maxLen = rhs.size();
+            minLen = lhs.size();
+        }
+
+        ExprTuple res(maxLen, Int(0));
+        for (unsigned i = 0; i < minLen; i++) {
+            if (oper == '+') {
+                res[i] = lhs[i] + rhs[i];
+            } else if (oper == '-') {
+                string lexpr = lhs[i].text();
+                string rexpr = rhs[i].text();
+                size_t pos = lexpr.find(rexpr);
+                if (pos != string::npos) {
+                    lexpr.erase(pos, rexpr.size());
+                    if (lexpr.empty()) {
+                        res[i] = Int(0);
+                    } else {
+                        res[i] = lhs[i];
+                        res[i].text(lexpr);
+                    }
+
+                } else if (Strings::isDigit(lexpr) && Strings::isDigit(rexpr)) {
+                    res[i] = Int(unstring<int>(lexpr) - unstring<int>(rexpr));
+                } else {
+                    res[i] = lhs[i] - rhs[i];
+                }
+            } else {
+                // throw UnsupportedOperationException
+            }
+        }
+        return res;
+    }
+
+    Tuple tupleMath(const Tuple& lhs, const Tuple& rhs, const char oper) {
+        unsigned minLen, maxLen;
+        if (lhs.size() > rhs.size()) {
+            maxLen = lhs.size();
+            minLen = rhs.size();
+        } else {
+            maxLen = rhs.size();
+            minLen = lhs.size();
+        }
+
+        Tuple res(maxLen, Iter('0'));
+        for (unsigned i = 0; i < minLen; i++) {
+            if (oper == '+') {
+                res[i] = lhs[i] + rhs[i];
+            } else if (oper == '-') {
+                res[i] = lhs[i] - rhs[i];
+            } else {
+                // throw UnsupportedOperationException
+            }
+        }
+        return res;
+    }
+
+    ExprTuple operator-(const ExprTuple& lhs, const ExprTuple& rhs) {
+        return tupleMath(lhs, rhs, '-');
+    }
+
+    Tuple operator-(const Tuple& lhs, const Tuple& rhs) {
+        return tupleMath(lhs, rhs, '-');
+    }
+
+    ExprTuple operator+(const ExprTuple& lhs, const ExprTuple& rhs) {
+        return tupleMath(lhs, rhs, '+');
+    }
+
+    Tuple operator+(const Tuple& lhs, const Tuple& rhs) {
+        return tupleMath(lhs, rhs, '+');
+    }
+
+    ExprTuple abs(const ExprTuple& tuple) {
+        ExprTuple abstuple = tuple;
+        for (unsigned i = 0; i < abstuple.size(); i++) {
+            if (abstuple[i].text()[0] == '-') {
+                abstuple[i].text(abstuple[i].text().substr(1));
+            }
+        }
+        return abstuple;
+    }
+
+    bool operator<(const ExprTuple& lhs, const ExprTuple& rhs) {
+        bool result = false;
+        if (lhs.size() < rhs.size()) {
+            result = true;
+        } else if (lhs.size() == rhs.size()) {
+            for (unsigned i = 0; i < lhs.size() && !result; i++) {
+                string lexpr = lhs[i].text();
+                string rexpr = rhs[i].text();
+                if (lexpr != rexpr) {
+                    result = lexpr < rexpr;
+                }
+            }
+        }
+        return result;
+    }
+
+    ostream &operator<<(ostream &os, const Tuple &tuple) {
+        os << '[';
+        unsigned last = tuple.size() - 1;
+        for (unsigned i = 0; i <= last; i++) {
+            os << tuple[i];
+            if (i < last) {
+                os << ',';
+            }
+        }
+        os << ']';
+        return os;
+    }
+
 
     Math mathSpace(const Space& space, const Access& acc, const string& oper) {
         addSpace(space);

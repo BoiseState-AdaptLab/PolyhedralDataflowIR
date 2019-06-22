@@ -5,7 +5,7 @@
 #include <sstream>
 #include <pdfg/Codegen.hpp>
 #include <pdfg/GraphIL.hpp>
-//#include <poly/PolyLib.hpp>
+#include <poly/PolyLib.hpp>
 //#include <pdfg/FlowGraph.hpp>
 //#include <isl/IntSetLib.hpp>
 //#include <solve/Z3Lib.hpp>

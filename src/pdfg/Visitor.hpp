@@ -622,6 +622,36 @@ namespace pdfg {
         explicit ScheduleVisitor() {
         }
 
+        void maxOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& max_offsets) {
+            // Size up the max_offsets vector.
+            for (unsigned i = 0; i < schedule.size(); i++) {
+                if (max_offsets.size() <= i) {
+                    max_offsets.push_back(0);
+                }
+
+                for (const auto& itr : accmap) {
+                    Access *acc = itr.second;
+                    string space = acc->space();
+                    ExprTuple tuple = acc->tuple();
+
+                    bool match = false;
+                    for (unsigned j = 0; j < tuple.size() && !match; j++) {
+                        string expr = tuple[j].text();
+                        string iter = schedule[i].text();
+                        size_t pos = expr.find(iter);
+                        match = (pos != string::npos);
+                        if (match && expr != iter) {
+                            expr.erase(pos, iter.size());
+                            int offset = unstring<int>(expr);
+                            if (abs(offset) > abs(max_offsets[i])) {
+                                max_offsets[i] = offset;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         /// For each computation node, generate and assign a scheduling (scattering) function.
         /// \param node Computation node
         void enter(CompNode* node) override {
@@ -629,6 +659,7 @@ namespace pdfg {
             unsigned level = 0;
             unsigned maxiter = 0;
             vector<Tuple> schedfxns;
+            vector<int> offsets;
 
             // Skip if no fusion for now...
             if (node->children().size() < 1) {
@@ -637,14 +668,16 @@ namespace pdfg {
 
             Comp* comp = node->comp();
 
-            // 0) Collect current schedules
+            // 0) Collect current schedules and offsets
             for (const Rel& rel : comp->schedules()) {
-                schedfxns.push_back(rel.dest().iterators());
+                Tuple sched = rel.dest().iterators();
+                schedfxns.push_back(sched);
             }
             for (CompNode* child : node->children()) {
                 Comp* other = child->comp();
                 for (const Rel& rel : other->schedules()) {
-                    schedfxns.push_back(rel.dest().iterators());
+                    Tuple sched = rel.dest().iterators();
+                    schedfxns.push_back(sched);
                 }
             }
 
@@ -654,6 +687,46 @@ namespace pdfg {
                 maxiter = (niter > maxiter) ? niter : maxiter;
             }
 
+            // 2) Determine fusion type and calculate maximum offset from each iterator.
+            n = 0;
+            CompNode* prev = node;
+            for (CompNode* child : node->children()) {
+                map<string, Access*> isect = intersect(prev->writes(), child->reads());
+                if (!isect.empty()) {   // P-C Fuse
+                    maxOffsets(schedfxns[n], prev->writes(), offsets);
+                    maxOffsets(schedfxns[n], child->reads(), offsets);
+                    int stop = 1;
+                } else {
+                    isect = intersect(prev->reads(), child->reads());
+                    if (!isect.empty()) {   // R-R Fuse
+                        // This might be a don't-care, these are just reads so order should not matter.
+//                        maxOffsets(schedfxns[n], prev->reads(), offsets);
+//                        maxOffsets(schedfxns[n], child->reads(), offsets);
+                        int stop = 2;
+                    } else {
+                        isect = intersect(prev->writes(), child->writes());
+                        if (!isect.empty()) {   // W-W Fuse
+                            // Potential WAW hazard -- how to handle this case? Error?
+                            maxOffsets(schedfxns[n], prev->writes(), offsets);
+                            maxOffsets(schedfxns[n], child->reads(), offsets);
+                            int stop = 3;
+                        }
+                    }
+                }
+                prev = child;
+                n += 1;
+            }
+
+            for (n = 0; n < maxiter && level < 1; n++) {
+                if (offsets[n] != 0) {
+                    // This means insert a tuple here! Or perhaps it means a shift, need to determine when shifts are possible.
+                    for (i = 0; i < schedfxns.size(); i++) {
+                        schedfxns[i].insert(schedfxns[i].begin() + n, Iter('0'));
+                    }
+                    maxiter += 1;
+                }
+            }
+            
             // 2) Find the deepest common level
             for (n = 0; n < maxiter && level < 1; n++) {
                 unsigned ndx = 0;
@@ -668,7 +741,7 @@ namespace pdfg {
                     level = n;
                 }
             }
-
+            
             // 3) Ensure same tuple sizes
             for (i = 0; i < schedfxns.size(); i++) {
                 if (schedfxns[i].size() < maxiter) {
@@ -713,6 +786,52 @@ namespace pdfg {
 
         void enter(DataNode* node) override {
             // TODO: Do this method need to do any work?
+        }
+
+    protected:
+        map<string, Access*> intersect(const map<string, Access*> lhs, const map<string, Access*> rhs) const {
+            map<string, Access*> isect;
+            for (const auto& itr : lhs) {
+                auto pos = rhs.find(itr.first);
+                if (pos != rhs.end()) {
+                    isect[pos->first] = pos->second;
+                }
+            }
+            return isect;
+        }
+
+        map<string, ExprTuple> absMaxDist(const map<string, Access*> accmap) const {
+            map<string, ExprTuple> distmap;
+            map<string, ExprTuple> maxmap;
+
+            // Initialize distances to zero...
+            ExprTuple zeros;
+            for (const auto& itr : accmap) {
+                Access* acc = itr.second;
+                string space = acc->space();
+                if (distmap.find(space) == distmap.end()) {
+                    zeros = ExprTuple(acc->tuple().size(), Int(0));
+                    distmap[space] = zeros;
+                    ExprTuple tmax(zeros.begin(), zeros.end());
+                    maxmap[space] = tmax;
+                }
+            }
+
+            // Find max delta for each tuple.
+            for (const auto& itr : accmap) {
+                Access* acc = itr.second;
+                string space = acc->space();
+                ExprTuple tuple = acc->tuple();
+                ExprTuple tmax = maxmap[space];
+
+                ExprTuple diff = abs(tuple - tmax);
+                if (distmap[space] < diff) {
+                    distmap[space] = diff;
+                    maxmap[space] = tuple;
+                }
+            }
+
+            return distmap;
         }
     };
 }
