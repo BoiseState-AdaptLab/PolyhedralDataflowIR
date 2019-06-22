@@ -24,7 +24,7 @@ using std::string;
 #define MatrixMarketBanner "%%MatrixMarket"
 #define MM_MAX_TOKEN_LENGTH 64
 
-typedef double real;
+typedef double dtype;
 typedef char MM_typecode[4];
 
 /********************* MM_typecode query fucntions ***************************/
@@ -288,7 +288,7 @@ public:
 
                     _indices[0] = (unsigned*) malloc(_nnz * sizeof(int));
                     _indices[1] = (unsigned*) malloc(_nnz * sizeof(int));
-                    _vals = (real *) malloc(_nnz * sizeof(real));
+                    _vals = (dtype *) malloc(_nnz * sizeof(dtype));
 
                     int row, col;
                     for (unsigned i = 0; i < _nnz; i++) {
@@ -351,7 +351,7 @@ public:
         return _indices[1];
     }
 
-    real *vals() const {
+    dtype *vals() const {
         return _vals;
     }
 
@@ -365,7 +365,7 @@ protected:
     unsigned _order;
     unsigned* _dims;
     unsigned** _indices;
-    real* _vals;
+    dtype* _vals;
     MM_typecode _mtxcode;
 
 private:
@@ -604,7 +604,7 @@ public:
         _nnz = nrows * ncols;
         _indices[0] = (unsigned*) calloc(_nnz, sizeof(int));
         _indices[1] = (unsigned*) calloc(_nnz, sizeof(int));
-        _vals = (real*) calloc(_nnz, sizeof(real));
+        _vals = (dtype*) calloc(_nnz, sizeof(dtype));
 
         for (unsigned i = 0; i < _dims[0] && fgets(line, sizeof(line), in) != NULL; i++) {
             // Tokenize the line...
@@ -632,7 +632,7 @@ protected:
     typedef struct _coo_tnode {
         unsigned* coords;
         unsigned order;
-        real val;
+        dtype val;
         struct _coo_tnode *next;
     } coo_tnode;
 
@@ -721,7 +721,7 @@ public:
 
             _indptr = (unsigned*) calloc(_nnz * _order, sizeof(unsigned));
             _dims = (unsigned*) calloc(_order, sizeof(unsigned));
-            _vals = (real*) calloc(_nnz, sizeof(real));
+            _vals = (dtype*) calloc(_nnz, sizeof(dtype));
 
             while (fgets(line, sizeof(line), in) != NULL) {
                 if (strlen(line) > 0 && line[0] != '#') {
@@ -735,7 +735,7 @@ public:
                             }
                             nodes[lnum].coords[pos] = ndx - 1;
                         } else {
-                            nodes[lnum].val = (real) atof(pch);
+                            nodes[lnum].val = (dtype) atof(pch);
                         }
                         pos += 1;
                     }

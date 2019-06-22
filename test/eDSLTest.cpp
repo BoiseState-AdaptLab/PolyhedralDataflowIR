@@ -319,43 +319,6 @@ TEST(eDSLTest, COO_CSR_Insp_Opt) {
     ASSERT_EQ(result, expected);
 }
 
-TEST(eDSLTest, COO_CSR_Insp_Fuse) {
-    Iter i('i'), n('n'), j('j'), m('m');
-    Func rp("rp"), row("row"), col("col");
-    Const N("N"), NNZ("NNZ");
-
-    // Here we add the constraint: row(i-1) <= row(i), 1 <= i < N (i.e., row is sorted)
-
-    // COO->CSR Inspector:
-    Space insp1("I_N");
-    Space insp2("Irp", 0 <= n < NNZ ^ i==row(n));
-    Comp inspN = insp1 + (N=row(NNZ-1)+1);
-    string result = Codegen("").gen(inspN);
-    Comp insp_rp = insp2 + (n >= rp(i+1)) + (rp(i+1) = n+1);
-    Comp insp_rp2 = insp2 + (rp(i) >= rp(i+1)) + (rp(i+1) = rp(i)+0);
-    pdfg::fuse(insp_rp, insp_rp2);
-    result += Codegen("").gen(insp_rp);
-//    inspN.fuse(insp_rp);
-//    result = Codegen("").gen(inspN);
-//    cerr << result << endl;
-    string expected = "\n#undef s0\n"
-                      "#define s0() N=row(NNZ-1)+1\n\n"
-                      "s0();\n"
-                      "#define row(n) row[(n)]\n"
-                      "#define rp(i) rp[(i)]\n\n"
-                      "#undef s0\n"
-                      "#undef s1\n"
-                      "#define s0(n,i) if ((n) >= rp((i)+1)) rp((i)+1)=(n)+1\n"
-                      "#define s1(n,i) if (rp((i)) >= rp((i)+1)) rp((i)+1)=rp((i))\n\n"
-                      "unsigned t1,t2;\n"
-                      "for(t1 = 0; t1 <= NNZ-1; t1++) {\n"
-                      "  t2=row(t1);\n"
-                      "  s0(t1,t2);\n"
-                      "  s1(t1,t2);\n"
-                      "}\n";
-    ASSERT_EQ(result, expected);
-}
-
 TEST(eDSLTest, Jacobi2D) {
     Iter t('t'), i('i'), j('j');
     Const T('T'), N('N');   // N=#rows/cols, M=#nnz, K=#iterations
@@ -366,6 +329,25 @@ TEST(eDSLTest, Jacobi2D) {
     print("out/jacobi2d.json");
     string result = codegen("out/jacobi2d.o");
     //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, COO_CSR_Insp_Fuse) {
+    // COO->CSR Inspector:
+    // Here we assume the constraint: row(i-1) <= row(i), 1 <= i < N (i.e., row is sorted)
+    Iter i('i'), n('n'), j('j'), m('m');
+    Func rp("rp"), row("row"), col("col");
+    Const N("N"), NNZ("NNZ");
+    Space insp1("I_N");
+    Space insp2("Irp", 0 <= n < NNZ ^ i==row(n));
+
+    pdfg::init("coo_csr_insp", "N", "d", "u", {"rp"});
+    Comp inspN("inspN", insp1, (N=row(NNZ-1)+1));
+    Comp insp_rp("insp_rp", insp2, (n >= rp(i+1)), (rp(i+1) = n+1));
+    Comp insp_rp2("insp_rp2", insp2, (rp(i) >= rp(i+1)), (rp(i+1) = rp(i)+0));
+    pdfg::fuse(insp_rp, insp_rp2);
+    print("out/coo_csr_insp.json");
+    string result = codegen("out/coo_csr_insp.h", "", "C++"); //, "auto");
     ASSERT_TRUE(!result.empty());
 }
 
@@ -380,21 +362,23 @@ TEST(eDSLTest, ConjGrad) {
     Space csr("csr", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
     Space coo("coo", 0 <= n < M ^ i==row(n) ^ j==col(n));
     Space spv("spv", 0 <= n < M ^ i==row(n));   // Sparse vector, to enable fusion of dot products with SpMV.
-    Space mtx = coo;
+    //Space mtx = coo;
+    Space mtx = csr;
 
     // Data spaces:
     Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
     Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0");
 
-    init("conj_grad", "rs", "d", "", {"d", "r"});
+    string name = "conjgrad_csr";
+    init(name, "rs", "d", "", {"d", "r"});
 
     //Comp copy("copy", vec, ((r[i]=b[i]+0) ^ (d[i]=b[i]+0)));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
-    //Comp ddot("ddot", vec, (ds += d[i]*s[i]));
-    Comp ddot("ddot", spv, (ds += d[i]*s[i]));
-    //Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
-    Comp rdot0("rdot0", spv, (rs0 += r[i]*r[i]));
+    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    //Comp ddot("ddot", spv, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    //Comp rdot0("rdot0", spv, (rs0 += r[i]*r[i]));
     Comp adiv("adiv", sca, (alpha = rs0/ds));
     Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
     Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
@@ -409,8 +393,8 @@ TEST(eDSLTest, ConjGrad) {
     fuse("bmul", "dadd");
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
-    print("out/conjgrad.json");
-    string result = codegen("out/conjgrad.o", "", "C++", "auto");
+    print("out/" + name + ".json");
+    string result = codegen("out/" + name + ".o", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

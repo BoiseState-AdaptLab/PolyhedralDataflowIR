@@ -439,8 +439,9 @@ namespace pdfg {
 
     struct FlowGraph {
     public:
-        explicit FlowGraph(const string& name = "", const string& returnType = "void", const string& returnName = "") :
-            _name(name), _returnType(returnType), _returnName(returnName), _indexType("unsigned") {
+        explicit FlowGraph(const string& name = "", const string& retType = "void", const string& retName = "",
+                           bool ignoreCycles = true) : _name(name), _returnType(retType), _returnName(retName),
+                           _indexType("unsigned"), _ignoreCycles(ignoreCycles) {
             _nodes.reserve(100);
             _edges.reserve(100);
         }
@@ -519,6 +520,7 @@ namespace pdfg {
             } else {
                 key = node->label();
             }
+
             auto iter = _symtable.find(key);
             if (iter == _symtable.end()) {
                 _symtable[key] = node;
@@ -527,6 +529,11 @@ namespace pdfg {
                 auto pos = find(_nodes.begin(), _nodes.end(), iter->second);
                 _nodes[distance(_nodes.begin(), pos)] = node;
             }
+
+            if (node->is_data() && isReturn(node)) {
+                returnType(((DataNode*) node)->datatype());
+            }
+
             return node;
         }
 
@@ -721,6 +728,14 @@ namespace pdfg {
             remove(next);
         }
 
+        bool ignoreCycles() const {
+            return _ignoreCycles;
+        }
+
+        void ignoreCycles(bool status) {
+            _ignoreCycles = status;
+        }
+
     protected:
         string formatName(const string& name) const {
             string fname = name;
@@ -739,6 +754,8 @@ namespace pdfg {
         string _indexType;
         string _returnName;
         string _returnType;
+
+        bool _ignoreCycles;
 
         map<string, Node*> _symtable;
         map<string, Edge*> _edgemap;

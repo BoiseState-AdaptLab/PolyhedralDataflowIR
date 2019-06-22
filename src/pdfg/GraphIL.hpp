@@ -2365,7 +2365,12 @@ namespace pdfg {
             init(space, {statement});
         }
 
-        Comp(const Space &space, const Math &statement, const Constr &guard) : _space(space) {
+        Comp(const string& name, const Space &space, const Constr &guard, const Math &statement) : _space(space) {
+            //Space cpy = space;
+            init(name, _space, {statement}, {guard});
+        }
+
+        Comp(const Space &space, const Constr &guard, const Math &statement) : _space(space) {
             init(space, {statement}, {guard});
         }
 
@@ -2566,14 +2571,8 @@ namespace pdfg {
         }
 
         void init(const Space &space, initializer_list<Math> statements, initializer_list<Constr> guards) {
-            vector<Math> stmts;
-            vector<Constr> grds;
-            for (const auto &expr : statements) {
-                stmts.push_back(expr);
-            }
-            for (const auto &constr : guards) {
-                grds.push_back(constr);
-            }
+            vector<Math> stmts(statements.begin(), statements.end());
+            vector<Constr> grds(guards.begin(), guards.end());
             init(space, stmts, grds);
         }
 
@@ -2833,13 +2832,13 @@ namespace pdfg {
                     dataNode = (DataNode*) _flowGraph.add(new DataNode(&expr, expr.text(), size, type));
                     cerr << "Added write node '" << dataNode->label() << "'" << endl;
                 }
-                if (_flowGraph.contains(dataNode, compNode)) {
+                if (!_flowGraph.contains(dataNode, compNode)) {
+                    _flowGraph.add(compNode, dataNode);
+                } else if (!_flowGraph.ignoreCycles()) {
                     // Cycle! => create hierarchical node
                     _flowGraph.remove(compNode);
                     cerr << "Removed comp node '" << compNode->label() << "' to prevent cycle" << endl;
                     makeHierarchical((CompNode*) compNode, (DataNode*) dataNode);
-                } else {
-                    _flowGraph.add(compNode, dataNode);
                 }
 
                 auto itr = _accessMap.find(dataNode->label());
@@ -3123,18 +3122,18 @@ namespace pdfg {
         }
 
         string getType(const Comp& comp, const Func& func) const {
-            if (_consts.find(func.name()) != _consts.end()) {
-                // Assume symbolic constants are ints...
+            // Assume symbolic constants and uninterpreted functions have index type...
+            if (func.is_func() || _consts.find(func.name()) != _consts.end()) {
                 return _indexType;
             } else {
                 for (const Math& stmt : comp.statements()) {
                     // Assignment to a symbolic constant or iter, or vice versa...
                     if ((stmt.rhs().text().rfind(func.name(), 0) == 0 &&
-                        (_consts.find(stmt.lhs().text()) != _consts.end() ||
-                         _iters.find(stmt.lhs().text()) != _iters.end())) ||
-                        (stmt.lhs().text().rfind(func.name(), 0) == 0 &&
-                        (_consts.find(stmt.rhs().text()) != _consts.end() ||
-                         _iters.find(stmt.rhs().text()) != _iters.end()))) {
+                    (_consts.find(stmt.lhs().text()) != _consts.end() ||
+                    _iters.find(stmt.lhs().text()) != _iters.end())) ||
+                    (stmt.lhs().text().rfind(func.name(), 0) == 0 &&
+                    (_consts.find(stmt.rhs().text()) != _consts.end() ||
+                    _iters.find(stmt.rhs().text()) != _iters.end()))) {
                         return _indexType;
                     }
                 }

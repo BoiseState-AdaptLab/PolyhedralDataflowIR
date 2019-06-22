@@ -161,6 +161,7 @@ set(TESTING "true")
 #set(MAKELIB "true")
 #set(PAPI_ON "true")
 
+link_directories(lib)
 if (PAPI_ON)
     link_directories(lib/papi/src lib/papi/src/libpfm4/lib)
 endif()
@@ -174,19 +175,20 @@ if (TESTING)
                     lib/gtest/src/gtest-port.cc
     )
 
-    set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
-            test/ConjGradTest.hpp test/ConjGradCSRTest.hpp) # test/TensorDecompTest.cpp)
-    #set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/ConjGradTest.cpp)
+    #set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
+    #        test/ConjGradTest.cpp test/ConjGradCSRTest.cpp) # test/TensorDecompTest.cpp)
+    set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.cpp test/ConjGradCSRTest.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -O0")
 
     enable_testing()
-    add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
+    add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES}) # ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
 
+    target_link_libraries(edslTest m omp polylib)
     if (PAPI_ON)
-        target_link_libraries(edslTest m omp papi pfm)
+        target_link_libraries(edslTest papi pfm)
         target_compile_definitions(edslTest PRIVATE PAPI_ON=1)
     else()
-        target_link_libraries(edslTest m omp likwid) # papi pfm) # blas lapack lapacke splatt)
+        target_link_libraries(edslTest likwid) # blas lapack lapacke splatt)
     endif()
 
     #add_test(driver eDSLTest ConjGradTest ConjGradCSRTest)   # TensorDecompTest)

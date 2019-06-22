@@ -1,5 +1,5 @@
-#ifndef _CONJGRADTEST_HPP_
-#define _CONJGRADTEST_HPP_
+//#ifndef _CONJGRADTEST_HPP_
+//#define _CONJGRADTEST_HPP_
 
 #include <string>
 using std::string;
@@ -115,7 +115,6 @@ namespace test {
             free(d);
 
             _niter = t;
-
         }
 
         virtual void Assert() {
@@ -161,4 +160,4 @@ namespace test {
     }
 }
 
-#endif // _CONJGRADTEST_HPP_
+//#endif // _CONJGRADTEST_HPP_
