@@ -54,16 +54,6 @@ namespace test {
             return _runTime;
         }
 
-        void Start() noexcept {
-            _runTime = 0.0;
-            _startTime = Now();
-        }
-
-        void Stop() noexcept {
-            _stopTime = Now();
-            _runTime = (_stopTime - _startTime);
-        }
-
         double Speedup() const {
             double p = _runTime;
             double s = _evalTime;
@@ -121,6 +111,22 @@ namespace test {
                     key = "";
                 }
             }
+        }
+
+        void Start() noexcept {
+            _runTime = 0.0;
+            _startTime = Now();
+        }
+
+        void Stop() noexcept {
+            _stopTime = Now();
+            _runTime = (_stopTime - _startTime);
+        }
+
+        double Now() {
+            struct timeval tv;
+            gettimeofday(&tv, NULL);
+            return (double) tv.tv_sec + (((double) tv.tv_usec) * 1E-6);
         }
 
         virtual void Execute() = 0;
@@ -210,12 +216,6 @@ namespace test {
         PAPI _papi;
 #endif
 
-    private:
-        double Now() {
-            struct timeval tv;
-            gettimeofday(&tv, NULL);
-            return (double) tv.tv_sec + (((double) tv.tv_usec) * 1E-6);
-        }
     };
 }
 

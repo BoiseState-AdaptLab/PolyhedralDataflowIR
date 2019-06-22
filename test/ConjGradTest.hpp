@@ -1,3 +1,6 @@
+#ifndef _CONJGRADTEST_HPP_
+#define _CONJGRADTEST_HPP_
+
 #include <string>
 using std::string;
 using std::to_string;
@@ -16,8 +19,8 @@ typedef Eigen::Triplet<double> Triple;
 
 #include <util/MatrixIO.hpp>
 using util::MatrixIO;
-#include "BenchmarkTest.hpp"
 
+#include "BenchmarkTest.hpp"
 // Include generated code:
 //#include "conjgrad.h"
 #include "conjgrad_fuse2.h"
@@ -157,3 +160,5 @@ namespace test {
         int stop = 1;
     }
 }
+
+#endif // _CONJGRADTEST_HPP_
