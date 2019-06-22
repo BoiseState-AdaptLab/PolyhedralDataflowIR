@@ -1269,9 +1269,8 @@ namespace pdfg {
             for (const auto &expr : tuple) {
                 _tuple.push_back(expr);
             }
-            //addSpace(_space);
-            addAccess(*this);
             _text = stringify<Access>(*this);
+            addAccess(*this);
         }
 
         void copy(const Access& other) {
@@ -1401,38 +1400,47 @@ namespace pdfg {
         // overload function calls
         Access operator()(int index) {
             Iter iter("i" + to_string(_iter_counter++));
+            addSpace(*this);
             return Access(_name, {Int(index)}, '(');
         }
 
         Access operator()(const Expr &one) {
+            addSpace(*this);
             return Access(_name, {one}, '(');
         }
 
         Access operator()(const int &one, const Expr &two) {
+            addSpace(*this);
             return Access(_name, {Int(one), two}, '(');
         }
 
         Access operator()(const Expr &one, const int &two) {
+            addSpace(*this);
             return Access(_name, {one, Int(two)}, '(');
         }
 
         Access operator()(const Expr &one, const Expr &two) {
+            addSpace(*this);
             return Access(_name, {one, two}, '(');
         }
 
         Access operator()(const int &one, const Expr &two, const Expr &three) {
+            addSpace(*this);
             return Access(_name, {Int(one), two, three}, '(');
         }
 
         Access operator()(const Expr &one, const int &two, const Expr &three) {
+            addSpace(*this);
             return Access(_name, {one, Int(two), three}, '(');
         }
 
         Access operator()(const Expr &one, const Expr &two, const int &three) {
+            addSpace(*this);
             return Access(_name, {one, two, Int(three)}, '(');
         }
 
         Access operator()(const Expr &one, const Expr &two, const Expr &three) {
+            addSpace(*this);
             return Access(_name, {one, two, three}, '(');
         }
 
@@ -1442,10 +1450,12 @@ namespace pdfg {
             for (unsigned i = 0; i < rest.size(); i++) {
                 tuple[i+1] = rest[i];
             }
+            addSpace(*this);
             return Access(_name, tuple, '(');
         }
 
         Access operator()(const vector<Expr>& tuple) {
+            addSpace(*this);
             return Access(_name, tuple, '(');
         }
 
@@ -1458,19 +1468,23 @@ namespace pdfg {
         }
 
         Access operator()(initializer_list<Expr> tuple) {
+            addSpace(*this);
             return Access(_name, tuple, '(');
         }
 
         // overload array indexing
         Access operator[](int index) {
+            addSpace(*this);
             return Access(_name, {Int(index)}, '[');
         }
 
         Access operator[](const Expr &one) {
+            addSpace(*this);
             return Access(_name, {one}, '[');
         }
 
         Access operator[](initializer_list<Expr> tuple) {
+            addSpace(*this);
             return Access(_name, tuple, '[');
         }
 
@@ -2695,7 +2709,6 @@ namespace pdfg {
         void addComp(Comp& comp) {
             CompNode* compNode;
             DataNode* dataNode;
-            //Node *compNode, *dataNode;
 
             // 1) Make statement node for comp.
             compNode = new CompNode(&comp, comp.space().name());
@@ -2933,7 +2946,11 @@ namespace pdfg {
         }
         
         Space getSpace(const string& name) {
-            return _spaces[name];
+            if (_spaces.find(name) != _spaces.end()) {
+                return _spaces[name];
+            }
+            cerr << "ERROR: Could not find space '" << name << "'.\n";
+            return Space(name);
         }
 
         map<string, Space>& spaces() {

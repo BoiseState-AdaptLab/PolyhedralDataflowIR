@@ -718,7 +718,7 @@ namespace pdfg {
             }
 
             for (n = 0; n < maxiter && level < 1; n++) {
-                if (offsets[n] != 0) {
+                if (n < offsets.size() && offsets[n] != 0) {
                     // This means insert a tuple here! Or perhaps it means a shift, need to determine when shifts are possible.
                     for (i = 0; i < schedfxns.size(); i++) {
                         schedfxns[i].insert(schedfxns[i].begin() + n, Iter('0'));
