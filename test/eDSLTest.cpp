@@ -345,9 +345,10 @@ TEST(eDSLTest, COO_CSR_Insp_Fuse) {
     Comp inspN("inspN", insp1, (N=row(NNZ-1)+1));
     Comp insp_rp("insp_rp", insp2, (n >= rp(i+1)), (rp(i+1) = n+1));
     Comp insp_rp2("insp_rp2", insp2, (rp(i) > rp(i+1)), (rp(i+1) = rp(i)+0));
+
     pdfg::fuse(insp_rp, insp_rp2);
     print("out/coo_csr_insp.json");
-    string result = codegen("out/coo_csr_insp.h", "", "C++"); //, "auto");
+    string result = codegen("out/coo_csr_insp.h", "", "C++", "simd");
     ASSERT_TRUE(!result.empty());
 }
 
@@ -360,8 +361,8 @@ TEST(eDSLTest, ConjGrad) {
     Space sca("sca");
     Space vec("vec", 0 <= i < N);
     Space csr("csr", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
-    Space coo("coo", 0 <= n < M ^ i==row(n) ^ j==col(n));
-    Space spv("spv", 0 <= n < M ^ i==row(n));   // Sparse vector, to enable fusion of dot products with SpMV.
+    //Space coo("coo", 0 <= n < M ^ i==row(n) ^ j==col(n));
+    //Space spv("spv", 0 <= n < M ^ i==row(n));   // Sparse vector, to enable fusion of dot products with SpMV.
     //Space mtx = coo;
     Space mtx = csr;
 
@@ -371,6 +372,7 @@ TEST(eDSLTest, ConjGrad) {
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0");
 
     string name = "conjgrad_csr";
+    //string name = "conjgrad_coo";
     init(name, "rs", "d", "", {"d", "r"});
 
     //Comp copy("copy", vec, ((r[i]=b[i]+0) ^ (d[i]=b[i]+0)));

@@ -721,6 +721,7 @@ namespace pdfg {
                 n += 1;
             }
 
+            // 2) Handle nonzero offsets...
             for (n = 0; n < maxiter && level < 1; n++) {
                 if (n < offsets.size() && offsets[n] != 0) {
                     // This means insert a tuple here! Or perhaps it means a shift, need to determine when shifts are possible.
@@ -731,7 +732,7 @@ namespace pdfg {
                 }
             }
             
-            // 2) Find the deepest common level
+            // 3) Find the deepest common level
             for (n = 0; n < maxiter && level < 1; n++) {
                 unsigned ndx = 0;
                 if (!schedfxns[0][n].is_int()) {
@@ -745,31 +746,13 @@ namespace pdfg {
                     level = n;
                 }
             }
-            
-            // 3) Ensure same tuple sizes
-            for (i = 0; i < schedfxns.size(); i++) {
-                if (schedfxns[i].size() < maxiter) {
-                    schedfxns[i].insert(schedfxns[i].begin() + level, Iter('0'));
-                }
-            }
 
             // 4) Increment latter schedules to ensure lexicographic ordering.
-            for (n = level; n < maxiter; n++) {
-                for (i = 1; i < schedfxns.size(); i++) {
-                    if (schedfxns[i][n].is_int()) {
-                        for (j = n; j < maxiter && !schedfxns[0][j].is_int(); j++);
-                        if (j > n && j < maxiter) {
-                            // Swap iterators...
-                            Iter tmp = schedfxns[i-1][j];
-                            schedfxns[i-1][j] = schedfxns[i-1][n];
-                            schedfxns[i-1][n] = tmp;
-                        }
-                        if (schedfxns[i-1][n].is_int()) {
-                            schedfxns[i][n].name(schedfxns[i-1][n].name()[0] + 1);
-                        } else {
-                            // TODO: What to do here, if anything?
-                        }
-                    }
+            for (unsigned i = 0; i < schedfxns.size(); i++) {
+                Iter iter('0' + i);
+                schedfxns[i].insert(schedfxns[i].begin() + level, iter);
+                if (schedfxns[i].size() > maxiter) {
+                    schedfxns[i].pop_back();
                 }
             }
 
