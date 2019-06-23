@@ -2976,14 +2976,6 @@ namespace pdfg {
 //                cgen.define(iter.first, to_string(iter.second.val()));
 //            }
 
-            // TODO: Replace this hack with a proper transformation from UF to data Space.
-            for (const auto& iter : _funcs) {
-                Func func = iter.second;
-                if (func.arity() == 1) {
-                    cgen.define(func.name() + "(i)", func.name() + "[(i)]");
-                }
-            }
-
             if (name.empty()) {
                 _flowGraph.indexType(_indexType);
                 cgen.walk(&_flowGraph);

@@ -175,14 +175,14 @@ if (TESTING)
                     lib/gtest/src/gtest-port.cc
     )
 
-    #set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
-    #        test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp) # test/TensorDecompTest.cpp)
-    set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
-                   test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
+    set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
+            test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp) # test/TensorDecompTest.cpp)
+    #set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
+    #               test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -O0")
 
     enable_testing()
-    add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES}) # ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
+    add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES})
 
     target_link_libraries(edslTest m omp polylib)
     if (PAPI_ON)
@@ -192,7 +192,7 @@ if (TESTING)
         target_link_libraries(edslTest likwid) # blas lapack lapacke splatt)
     endif()
 
-    #add_test(driver eDSLTest ConjGradTest ConjGradCSRTest)   # TensorDecompTest)
+    #add_test(driver eDSLTest ConjGradCOOTest ConjGradCSRTest)   # TensorDecompTest)
     add_test(driver ConjGradCOOTest ConjGradCSRTest)# TensorDecompTest)
 elseif (MAKELIB)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3")

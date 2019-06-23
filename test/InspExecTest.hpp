@@ -24,9 +24,15 @@ protected:
     virtual void Run() {
         _inspTime = Now();
         Inspect();
-        _inspTime = (Now() - _inspTime);
-
+        _inspTime = Now() - _inspTime;
         BenchmarkTest::Run();
+    }
+
+    virtual void Verify() {
+        if (_inspTime > 0.0) {
+            GTEST_COUT << "InspTime = " << _inspTime << endl;
+        }
+        BenchmarkTest::Verify();
     }
 
     double _inspTime;

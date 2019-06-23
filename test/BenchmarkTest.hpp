@@ -139,7 +139,7 @@ namespace test {
             Start();
             LIKWID_MARKER_START("BenchmarkTest");
             Execute();
-            LIKWID_MARKER_STOP("conj_grad");
+            LIKWID_MARKER_STOP("BenchmarkTest");
             Stop();
             LIKWID_MARKER_CLOSE;
 #ifdef PAPI_ON

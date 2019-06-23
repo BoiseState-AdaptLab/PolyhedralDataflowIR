@@ -21,8 +21,7 @@ protected:
     virtual void Inspect() {
         // Run COO->CSR Inspector!
         _rowptr = (unsigned*) calloc(_nrow + 1, sizeof(unsigned));
-        unsigned nrow = coo_csr_insp(_nnz, _rows, _rowptr);
-        int stop = 1;
+        coo_csr_insp(_nnz, _rows, _rowptr);
     }
 
     virtual void Execute() {
@@ -40,11 +39,10 @@ protected:
         for (; t < _maxiter; t++) {
             _error = conjgrad_csr(_vals, _nrow, _cols, _rowptr, d, r, _x);
         }
+        _niter = t;
 
         free(r);
         free(d);
-
-        _niter = t;
     }
 
     unsigned* _rowptr;
@@ -52,7 +50,6 @@ protected:
 
 TEST_F(ConjGradCSRTest, CG) {
     ConjGradTest::SetUp({"./data/matrix/cant.mtx"});
-    Inspect();
     ConjGradTest::Run();
     ConjGradTest::Verify();
     ConjGradTest::Assert();

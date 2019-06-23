@@ -14,26 +14,29 @@ namespace poly {
     protected:
         const int _max_iters = 10;      // TODO: Actually calculate this from the relation...
 
+        map<string, string> _macros;
+
         IEGenLib _iegen;
         OmegaLib _omega;
 
         void addPragma(const string& schedule, const string& privates, string& code) {
             if (code.find("for(") != string::npos) {
-                string pragma = "#pragma omp parallel for schedule(" + schedule + ")";
-                if (!privates.empty()) {
-                    pragma += " private(" + privates + ")";
+                string pragma = "#pragma omp ";
+                if (schedule.find("simd") != string::npos) {
+                    pragma += schedule;
+                } else {
+                    pragma += "parallel for schedule(" + schedule + ")";
+                    if (!privates.empty()) {
+                        pragma += " private(" + privates + ")";
+                    }
                 }
                 code = pragma + "\n" + code;
             }
         }
 
         void addStatements(unsigned count, const vector<string>& statements, const vector<string>& guards,
-                           const vector<string>& schedules, map<string, string>& macros, string& defines) {
+                           const vector<string>& schedules, string& defines) {
             if (!statements.empty()) {
-//                vector<string> iterList = _omega.in_iterators();
-//                string inIters = Strings::join(iterList, ",");
-//                unsigned nIters = inIters.size();
-
                 for (size_t i = 0; i < statements.size(); i++) {
                     defines += "#undef s" + to_string(count + i) + "\n";
                 }
@@ -58,7 +61,7 @@ namespace poly {
 
                     if (!guard.empty()) {
                         statement = "(" + guard + ") " + statement;
-                        addMacros(macros, guard);
+                        addMacros(_macros, guard);
                     }
 
                     for (const string& itr : iterList) {
@@ -90,6 +93,10 @@ namespace poly {
         }
 
     public:
+        map<string, string>& macros() {
+            return _macros;
+        }
+
         string add(const string &constStr, const string &name = "") {
             string result;
             if (constStr.find(":=") == string::npos && !name.empty()) {
@@ -185,16 +192,14 @@ namespace poly {
                     code = iterType + " " + outIters + ";\n" + code;
                 }
 
-                map<string, string> macros;
                 if (defineMacros) {
-                    addMacros(macros, _omega.macros());
+                    addMacros(_macros, _omega.macros());
                 }
 
                 string defines = "";
                 unsigned nstatements = 0;
                 for (const string& setname : names) {
-                    addStatements(nstatements, statements[setname], guards[setname],
-                                  schedules[setname], macros, defines);
+                    addStatements(nstatements, statements[setname], guards[setname], schedules[setname], defines);
                     nstatements += statements[setname].size();
                 }
 

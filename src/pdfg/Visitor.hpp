@@ -253,7 +253,7 @@ namespace pdfg {
                 }
             }
 
-            string code = _poly.codegen(names, statements, guards, schedules, _ompsched);
+            string code = _poly.codegen(names, statements, guards, schedules, _ompsched, "", true);
             code = "// " + node->label() + "\n" + code;
             _body.push_back(code);
         }
@@ -380,6 +380,10 @@ namespace pdfg {
         }
 
         void addDefines() {
+            for (const auto& itr : _poly.macros()) {
+                define(itr);
+            }
+
             if (!_defines.empty()) {
                 for (auto& define : _defines) {
                     string line = "#define " + define.first + " " + define.second;

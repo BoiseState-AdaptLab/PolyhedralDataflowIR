@@ -344,7 +344,7 @@ TEST(eDSLTest, COO_CSR_Insp_Fuse) {
     pdfg::init("coo_csr_insp", "N", "d", "u", {"rp"});
     Comp inspN("inspN", insp1, (N=row(NNZ-1)+1));
     Comp insp_rp("insp_rp", insp2, (n >= rp(i+1)), (rp(i+1) = n+1));
-    Comp insp_rp2("insp_rp2", insp2, (rp(i) >= rp(i+1)), (rp(i+1) = rp(i)+0));
+    Comp insp_rp2("insp_rp2", insp2, (rp(i) > rp(i+1)), (rp(i+1) = rp(i)+0));
     pdfg::fuse(insp_rp, insp_rp2);
     print("out/coo_csr_insp.json");
     string result = codegen("out/coo_csr_insp.h", "", "C++"); //, "auto");

@@ -1,8 +1,7 @@
 #include "InspExecTest.hpp"
 #include "ConjGradTest.hpp"
 // Include generated code:
-//#include "conjgrad.h"
-#include "conjgrad_fuse2.h"
+#include "conjgrad_coo.h"
 
 namespace test {
 class ConjGradCOOTest : public ConjGradTest {
