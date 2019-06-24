@@ -236,21 +236,12 @@ namespace pdfg {
             map<string, vector<string> > statements;
             map<string, vector<string> > schedules;
 
-            Comp* comp = (Comp*) node->expr();
-            updateComp(comp, names, statements, guards, schedules);
+            updateComp((Comp*) node->expr(), names, statements, guards, schedules);
+            addMappings(node);
 
             for (CompNode* child : node->children()) {
-                comp = (Comp*) child->expr();
-                updateComp(comp, names, statements, guards, schedules);
-            }
-
-            // Define data mappings
-            for (Access* access : node->accesses()) {
-                string mapping = createMapping(access);
-                if (!mapping.empty()) {
-                    string accstr = stringify<Access>(*access);
-                    define(accstr, mapping);
-                }
+                updateComp((Comp*) child->expr(), names, statements, guards, schedules);
+                addMappings(child);
             }
 
             string code = _poly.codegen(names, statements, guards, schedules, _ompsched, "", true);
@@ -452,6 +443,18 @@ namespace pdfg {
             }
         }
 
+        void addMappings(CompNode* node) {
+            // Define data mappings (one per space)
+            for (Access* access : node->accesses()) {
+                string mapping = createMapping(access);
+                if (!mapping.empty() && access->has_iters() &&_mappings.find(access->space()) == _mappings.end()) {
+                    string accstr = stringify<Access>(*access);
+                    define(accstr, mapping);
+                    _mappings[access->space()] = mapping;
+                }
+            }
+        }
+
         string createMapping(const Access* access) {
             vector<Expr> tuple = access->tuple();
             unsigned size = tuple.size();
@@ -503,6 +506,7 @@ namespace pdfg {
         string _path;
         string _ompsched;
 
+        map<string, string> _mappings;
         vector<pair<string, string> > _defines;
         vector<pair<string, string> > _typedefs;
         vector<pair<string, string> > _functions;

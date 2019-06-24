@@ -1257,6 +1257,15 @@ namespace pdfg {
             return _offsets;
         }
 
+        bool has_iters() const {
+            for (const auto &expr : _tuple) {
+                if (!expr.is_iter()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
     protected:
         void init(initializer_list<Expr> tuple, char refchar = '(', const vector<int>& offsets = {}) {
             init(Lists::initListToVec<Expr>(tuple), refchar, offsets);
