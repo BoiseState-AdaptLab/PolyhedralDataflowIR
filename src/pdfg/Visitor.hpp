@@ -726,13 +726,24 @@ namespace pdfg {
             }
 
             // 2) Handle nonzero offsets...
+            // TODO: This approach produces correct code, though not optimal. Loops can actually be fused in
+            //   groups depending on the offsets. I think this code should be refactored to call maxOffets
+            //   between fused nodes. If no nonzero offsets exist between two subsequent fusions, then the
+            //   outer schedule iter does not need to be incremented, and the inner one incremented relative
+            //   to the outer. For example:
+            //lap := {[c,y,x] -> [c,y,0,x,0]}
+            //inc := {[c,y,x] -> [c,y,0,x,1]}
+            //il1 := {[c,y,x] -> [c,y,1,x,0]}
+            //ih1 := {[c,y,x] -> [c,y,1,x,1]}
+            bool updated = false;
             for (n = 0; n < maxiter && level < 1; n++) {
                 if (n < offsets.size() && offsets[n] != 0) {
                     // This means insert a tuple here! Or perhaps it means a shift, need to determine when shifts are possible.
                     for (i = 0; i < schedfxns.size(); i++) {
-                        schedfxns[i].insert(schedfxns[i].begin() + n, Iter('0'));
+                        schedfxns[i].insert(schedfxns[i].begin() + n, Iter(i + '0'));
                     }
                     maxiter += 1;
+                    updated = true;
                 }
             }
             
@@ -752,11 +763,13 @@ namespace pdfg {
             }
 
             // 4) Increment latter schedules to ensure lexicographic ordering.
-            for (unsigned i = 0; i < schedfxns.size(); i++) {
-                Iter iter('0' + i);
-                schedfxns[i].insert(schedfxns[i].begin() + level, iter);
-                if (schedfxns[i].size() > maxiter) {
-                    schedfxns[i].pop_back();
+            if (!updated) {
+                for (unsigned i = 0; i < schedfxns.size(); i++) {
+                    Iter iter('0' + i);
+                    schedfxns[i].insert(schedfxns[i].begin() + level, iter);
+                    if (schedfxns[i].size() > maxiter) {
+                        schedfxns[i].pop_back();
+                    }
                 }
             }
 
