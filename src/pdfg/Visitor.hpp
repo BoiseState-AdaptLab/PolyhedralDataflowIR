@@ -644,20 +644,43 @@ namespace pdfg {
 
                     bool match = false;
                     for (unsigned j = 0; j < tuple.size() && !match; j++) {
-                        string expr = tuple[j].text();
-                        string iter = schedule[i].text();
-                        size_t pos = expr.find(iter);
-                        match = (pos != string::npos);
-                        if (match && expr != iter) {
-                            expr.erase(pos, iter.size());
-                            int offset = unstring<int>(expr);
-                            if (abs(offset) > abs(max_offsets[i])) {
-                                max_offsets[i] = offset;
+                        if (!schedule[i].is_int()) {
+                            string expr = tuple[j].text();
+                            string iter = schedule[i].text();
+                            size_t pos = expr.find(iter);
+                            match = (pos != string::npos);
+                            if (match && expr != iter) {
+                                expr.erase(pos, iter.size());
+                                int offset = unstring<int>(expr);
+                                if (abs(offset) > abs(max_offsets[i])) {
+                                    max_offsets[i] = offset;
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+
+        unsigned getCommonLevel(const vector<Tuple>& tuples, int* ndx = nullptr) {
+            unsigned i, n, level = 0;
+            for (n = 0; n < tuples[0].size(); n++) {
+                if (!tuples[0][n].is_int()) {
+                    bool match = true;
+                    for (i = 1; i < tuples.size() && match; i++) {
+                        if (tuples[i].size() < n || !tuples[i][n].equals(tuples[0][n])) {
+                            match = false;
+                            if (ndx != nullptr) {
+                                *ndx = i;
+                            }
+                        }
+                    }
+                    if (match) {
+                        level = n + 1;
+                    }
+                }
+            }
+            return level;
         }
 
         /// For each computation node, generate and assign a scheduling (scattering) function.
@@ -726,25 +749,25 @@ namespace pdfg {
 //                        }
 //                    }
 //                }
-                nodes[i++] = prev = child;
-            }
-
-            // 3) Find the deepest common level
-            for (n = 0; n < maxiter && level < 1; n++) {
-                unsigned ndx = 0;
-                if (!schedfxns[0][n].is_int()) {
-                    for (i = 1; i < schedfxns.size() && ndx < 1; i++) {
-                        if (n < schedfxns[i].size() && schedfxns[i][n] == schedfxns[0][n]) {
-                            ndx = i;
-                        }
-                    }
-                }
-                if (ndx < 1) {
-                    level = n;
-                }
+//                prev = child;
+                nodes[i++] = child;
             }
 
             vector<Tuple> newfxns = schedfxns;
+
+            // 3) Find the deepest common level
+            int index = -1;
+            level = getCommonLevel(newfxns, &index);
+
+            // Handle case w/o common iterators.
+            Iter first;
+            bool interchange = (level < 1);
+            if (interchange) {
+                first = newfxns[index][0];
+                newfxns[index].erase(newfxns[index].begin());
+                level = getCommonLevel(newfxns);
+            }
+
             for (i = 0; i < nschedules; i++) {
                 if (!newfxns[i][level].is_int()) {
                     newfxns[i].insert(newfxns[i].begin() + level, Iter(i + '0'));
@@ -759,13 +782,7 @@ namespace pdfg {
             //   groups depending on the offsets. I think this code should be refactored to call maxOffets
             //   between fused nodes. If no nonzero offsets exist between two subsequent fusions, then the
             //   outer schedule iter does not need to be incremented, and the inner one incremented relative
-            //   to the outer. For example:
-            //lap := {[c,y,x] -> [c,y,0,x,0]}
-            //inc := {[c,y,x] -> [c,y,0,x,1]}
-            //il1 := {[c,y,x] -> [c,y,1,x,0]}
-            //ih1 := {[c,y,x] -> [c,y,1,x,1]}
-            //il2 := {[c,y,x] -> [c,y,2,x,0]}
-            //ih2 := {[c,y,x] -> [c,y,2,x,1]}
+            //   to the outer.
             unsigned group = 0;
             vector<bool> shifted(maxiter, false);
             for (i = 1; i < nschedules; i++) {
@@ -798,12 +815,16 @@ namespace pdfg {
             }
 
             // 5) Increment last tuple item to ensure lexicographic ordering.
-            // Ideally, the last tuple should be in group order, but the generated code should be the same.
+            // TODO: Ideally, the last tuple should be in group order, but the generated code should be the same.
             for (unsigned i = 0; i < nschedules; i++) {
                 unsigned last = newfxns[i].size() - 1;
                 if (newfxns[i][last].is_int()) {
                     newfxns[i][last] = Iter(i + '0');
                 }
+            }
+
+            if (interchange) {
+                newfxns[index].push_back(first);
             }
 
             // 6) Replace schedules with updated tuples...
