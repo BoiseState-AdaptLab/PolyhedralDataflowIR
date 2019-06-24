@@ -690,63 +690,45 @@ namespace pdfg {
             }
 
             // 1) Calculate maximum # of iterators in tuples.
-            for (i = 0; i < schedfxns.size(); i++) {
+            unsigned nschedules = schedfxns.size();
+            for (i = 0; i < nschedules; i++) {
                 unsigned niter = schedfxns[i].size();
                 maxiter = (niter > maxiter) ? niter : maxiter;
             }
 
             // 2) Determine fusion type and calculate maximum offset from each iterator.
-            n = 0;
+            char fuseType = 'S';        // Simple loop-only fusion if no data dependences
             CompNode* prev = node;
+            vector<CompNode*> nodes(nschedules, nullptr);
+            nodes[0] = node;
+
+            i = 1;
             for (CompNode* child : node->children()) {
-                map<string, Access*> isect = intersect(prev->writes(), child->reads());
-                if (!isect.empty()) {   // P-C Fuse
-                    maxOffsets(schedfxns[n], prev->writes(), offsets);
-                    maxOffsets(schedfxns[n], child->reads(), offsets);
-                    int stop = 1;
-                } else {
-                    isect = intersect(prev->reads(), child->reads());
-                    if (!isect.empty()) {   // R-R Fuse
-                        // This might be a don't-care, these are just reads so order should not matter.
-//                        maxOffsets(schedfxns[n], prev->reads(), offsets);
-//                        maxOffsets(schedfxns[n], child->reads(), offsets);
-                        int stop = 2;
-                    } else {
-                        isect = intersect(prev->writes(), child->writes());
-                        if (!isect.empty()) {   // W-W Fuse
-                            // Potential WAW hazard -- how to handle this case? Error?
-                            maxOffsets(schedfxns[n], prev->writes(), offsets);
-                            maxOffsets(schedfxns[n], child->reads(), offsets);
-                            int stop = 3;
-                        }
-                    }
-                }
-                prev = child;
-                n += 1;
+//                map<string, Access*> isect = intersect(prev->writes(), child->reads());
+//                if (!isect.empty()) {   // P-C Fuse
+////                    maxOffsets(schedfxns[n], prev->writes(), offsets);
+////                    maxOffsets(schedfxns[n], child->reads(), offsets);
+//                    fuseType = 'P';
+//                } else {
+//                    isect = intersect(prev->reads(), child->reads());
+//                    if (!isect.empty()) {   // R-R Fuse
+//                        // This might be a don't-care, these are just reads so order should not matter.
+////                        maxOffsets(schedfxns[n], prev->reads(), offsets);
+////                        maxOffsets(schedfxns[n], child->reads(), offsets);
+//                        fuseType = 'R';
+//                    } else {
+//                        isect = intersect(prev->writes(), child->writes());
+//                        if (!isect.empty()) {   // W-W Fuse
+//                            // Potential WAW hazard -- how to handle this case? Error?
+////                            maxOffsets(schedfxns[n], prev->writes(), offsets);
+////                            maxOffsets(schedfxns[n], child->reads(), offsets);
+//                            fuseType = 'W';
+//                        }
+//                    }
+//                }
+                nodes[i++] = prev = child;
             }
 
-            // 2) Handle nonzero offsets...
-            // TODO: This approach produces correct code, though not optimal. Loops can actually be fused in
-            //   groups depending on the offsets. I think this code should be refactored to call maxOffets
-            //   between fused nodes. If no nonzero offsets exist between two subsequent fusions, then the
-            //   outer schedule iter does not need to be incremented, and the inner one incremented relative
-            //   to the outer. For example:
-            //lap := {[c,y,x] -> [c,y,0,x,0]}
-            //inc := {[c,y,x] -> [c,y,0,x,1]}
-            //il1 := {[c,y,x] -> [c,y,1,x,0]}
-            //ih1 := {[c,y,x] -> [c,y,1,x,1]}
-            bool updated = false;
-            for (n = 0; n < maxiter && level < 1; n++) {
-                if (n < offsets.size() && offsets[n] != 0) {
-                    // This means insert a tuple here! Or perhaps it means a shift, need to determine when shifts are possible.
-                    for (i = 0; i < schedfxns.size(); i++) {
-                        schedfxns[i].insert(schedfxns[i].begin() + n, Iter(i + '0'));
-                    }
-                    maxiter += 1;
-                    updated = true;
-                }
-            }
-            
             // 3) Find the deepest common level
             for (n = 0; n < maxiter && level < 1; n++) {
                 unsigned ndx = 0;
@@ -762,27 +744,78 @@ namespace pdfg {
                 }
             }
 
-            // 4) Increment latter schedules to ensure lexicographic ordering.
-            if (!updated) {
-                for (unsigned i = 0; i < schedfxns.size(); i++) {
-                    Iter iter('0' + i);
-                    schedfxns[i].insert(schedfxns[i].begin() + level, iter);
-                    if (schedfxns[i].size() > maxiter) {
-                        schedfxns[i].pop_back();
+            vector<Tuple> newfxns = schedfxns;
+            for (i = 0; i < nschedules; i++) {
+                if (!newfxns[i][level].is_int()) {
+                    newfxns[i].insert(newfxns[i].begin() + level, Iter(i + '0'));
+                    if (newfxns[i].size() > maxiter) {
+                        newfxns[i].pop_back();
                     }
                 }
             }
 
-            // 5) Replace schedules with updated tuples...
+            // 4) Handle nonzero offsets...
+            // TODO: This approach produces correct code, though not optimal. Loops can actually be fused in
+            //   groups depending on the offsets. I think this code should be refactored to call maxOffets
+            //   between fused nodes. If no nonzero offsets exist between two subsequent fusions, then the
+            //   outer schedule iter does not need to be incremented, and the inner one incremented relative
+            //   to the outer. For example:
+            //lap := {[c,y,x] -> [c,y,0,x,0]}
+            //inc := {[c,y,x] -> [c,y,0,x,1]}
+            //il1 := {[c,y,x] -> [c,y,1,x,0]}
+            //ih1 := {[c,y,x] -> [c,y,1,x,1]}
+            //il2 := {[c,y,x] -> [c,y,2,x,0]}
+            //ih2 := {[c,y,x] -> [c,y,2,x,1]}
+            unsigned group = 0;
+            vector<bool> shifted(maxiter, false);
+            for (i = 1; i < nschedules; i++) {
+                // Check whether offset exists at this level
+                map<string, Access*> isect = intersect(nodes[i-1]->writes(), nodes[i]->reads());
+                if (!isect.empty()) {
+                    maxOffsets(schedfxns[i], nodes[i-1]->writes(), offsets);
+                    maxOffsets(schedfxns[i], nodes[i]->reads(), offsets);
+                }
+                for (n = 0; n < offsets.size(); n++) {
+                    if (offsets[n] != 0) {
+                        if (!shifted[n]) {
+                            // This means insert a tuple here! Or perhaps it means a shift,
+                            //   need to determine when shifts are possible.
+                            for (j = 0; j < nschedules; j++) {
+                                newfxns[j].insert(newfxns[j].begin() + n, Iter(group + '0'));
+                            }
+                            group += 1;
+                            maxiter += 1;
+                            shifted[n] = true;
+                        }
+                        // If dimension is already shifted, just increment the group.
+                        for (j = i; j < nschedules; j++) {
+                            newfxns[j][n] = Iter(group + '0');
+                        }
+                        group += 1;
+                        offsets[n] = 0;
+                    }
+                }
+            }
+
+            // 5) Increment last tuple item to ensure lexicographic ordering.
+            // Ideally, the last tuple should be in group order, but the generated code should be the same.
+            for (unsigned i = 0; i < nschedules; i++) {
+                unsigned last = newfxns[i].size() - 1;
+                if (newfxns[i][last].is_int()) {
+                    newfxns[i][last] = Iter(i + '0');
+                }
+            }
+
+            // 6) Replace schedules with updated tuples...
             n = 0;
             for (i = 0; i < comp->nschedules(); i++) {
-                comp->reschedule(i, schedfxns[n]);
+                comp->reschedule(i, newfxns[n]);
                 n += 1;
             }
             for (CompNode* child : node->children()) {
                 Comp* other = child->comp();
                 for (i = 0; i < other->nschedules(); i++) {
-                    other->reschedule(i, schedfxns[n]);
+                    other->reschedule(i, newfxns[n]);
                     n += 1;
                 }
             }
