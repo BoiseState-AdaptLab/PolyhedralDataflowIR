@@ -758,11 +758,14 @@ namespace pdfg {
             // 3) Find the deepest common level
             int index = -1;
             level = getCommonLevel(newfxns, &index);
-
+            
             // Handle case w/o common iterators.
             Iter first;
             bool interchange = (level < 1);
             if (interchange) {
+                if (newfxns[level].size() > newfxns[index].size()) {
+                    index = level;
+                }
                 first = newfxns[index][0];
                 newfxns[index].erase(newfxns[index].begin());
                 level = getCommonLevel(newfxns);
@@ -778,11 +781,6 @@ namespace pdfg {
             }
 
             // 4) Handle nonzero offsets...
-            // TODO: This approach produces correct code, though not optimal. Loops can actually be fused in
-            //   groups depending on the offsets. I think this code should be refactored to call maxOffets
-            //   between fused nodes. If no nonzero offsets exist between two subsequent fusions, then the
-            //   outer schedule iter does not need to be incremented, and the inner one incremented relative
-            //   to the outer.
             unsigned group = 0;
             vector<bool> shifted(maxiter, false);
             for (i = 1; i < nschedules; i++) {
