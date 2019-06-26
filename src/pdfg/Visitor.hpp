@@ -466,10 +466,10 @@ namespace pdfg {
             unsigned size = tuple.size();
 
             ostringstream os;
-            os << sname;
-
-            if (size > 0 && tuple.at(0).type() != 'N' && access->refchar() != '[') {
-                os << '[';
+            if (size < 1) {
+                os << sname;
+            } else if (tuple.at(0).type() != 'N' && access->refchar() != '[') {
+                os << sname << '[';
                 if (size > 1) {
                     os << "offset" << size << '(';
                 }
@@ -909,7 +909,6 @@ namespace pdfg {
             }
 
             if (reducible) {
-                //cerr << "DataNode '" << node->label() << "' may be reducible.\n";
                 Access nodeAcc = Access::from_str(node->expr()->text());
                 IntTuple intTuple = to_int(nodeAcc.tuple());
 
