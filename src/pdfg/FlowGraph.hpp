@@ -153,7 +153,6 @@ namespace pdfg {
             _type = 'N';
         }
 
-        //string _space;
         Expr* _expr;
         string _label;
         char _type;
@@ -208,7 +207,7 @@ namespace pdfg {
     struct DataNode : public Node {
     public:
         explicit DataNode(Expr* access, const string& label = "", Expr* size = nullptr, const string& type = "real",
-                          const string& defval = "0", const MemAlloc& alloc = DYNAMIC) :
+                          const string& defval = "", const MemAlloc& alloc = DYNAMIC) :
             Node(new Expr(*access), label), _size(size), _datatype(type), _defval(defval), _alloc(alloc) {
             attr("shape", "box");
             attr("color", "gray");
@@ -290,6 +289,7 @@ namespace pdfg {
         friend ostream& operator<<(ostream& out, DataNode& node) {
             out << "{ \"label\": \"" << node._label << "\", ";
             out << "\"size\": " << node._size << ", ";
+            out << "\"defval\": " << node._defval << ", ";
             out << "\"type\": \"" << node._datatype << "\" }";
             return out;
         }
@@ -436,8 +436,9 @@ namespace pdfg {
     struct FlowGraph {
     public:
         explicit FlowGraph(const string& name = "", const string& retType = "void", const string& retName = "",
-                           bool ignoreCycles = true) : _name(name), _returnType(retType), _returnName(retName),
-                           _indexType("unsigned"), _ignoreCycles(ignoreCycles) {
+                           const string& defVal = "", bool ignoreCycles = true) : _name(name),
+                           _returnType(retType), _returnName(retName), _indexType("unsigned"),
+                           _defaultVal(defVal), _ignoreCycles(ignoreCycles) {
             _nodes.reserve(100);
             _edges.reserve(100);
         }
@@ -526,8 +527,14 @@ namespace pdfg {
                 _nodes[distance(_nodes.begin(), pos)] = node;
             }
 
-            if (node->is_data() && isReturn(node)) {
-                returnType(((DataNode*) node)->datatype());
+            if (node->is_data()) {
+                DataNode* dnode = (DataNode*) node;
+                if (isReturn(node)) {
+                    returnType(dnode->datatype());
+                }
+                if (dnode->defval().empty() && !_defaultVal.empty()) {
+                    dnode->defval(_defaultVal);
+                }
             }
 
             return node;
@@ -600,6 +607,14 @@ namespace pdfg {
 
         void returnType(const string& returnType) {
             _returnType = returnType;
+        }
+
+        const string& defaultValue() const {
+            return _defaultVal;
+        }
+
+        void defaultValue(const string& defVal) {
+            _defaultVal = defVal;
         }
 
         int output(const string& name) {
@@ -750,6 +765,7 @@ namespace pdfg {
         string _indexType;
         string _returnName;
         string _returnType;
+        string _defaultVal;
 
         bool _ignoreCycles;
 

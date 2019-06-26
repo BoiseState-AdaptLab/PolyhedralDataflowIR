@@ -373,7 +373,7 @@ TEST(eDSLTest, ConjGrad) {
 
     string name = "conjgrad_csr";
     //string name = "conjgrad_coo";
-    init(name, "rs", "d", "", {"d", "r"});
+    init(name, "rs", "d", "", {"d", "r"}, to_string(0));
 
     //Comp copy("copy", vec, ((r[i]=b[i]+0) ^ (d[i]=b[i]+0)));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));

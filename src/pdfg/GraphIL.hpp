@@ -2970,6 +2970,14 @@ namespace pdfg {
             }
         }
 
+        string defaultValue() const {
+            return _flowGraph.defaultValue();
+        }
+
+        void defaultValue(const string& defVal) {
+            _flowGraph.defaultValue(defVal);
+        }
+        
         string returnName() const {
             return _flowGraph.returnName();
         }
@@ -3432,7 +3440,7 @@ namespace pdfg {
     };
 
     void init(const string& name, const string& retname = "", const string& datatype = "",
-              const string& indextype = "", initializer_list<string> outputs = {}) {
+              const string& indextype = "", initializer_list<string> outputs = {}, const string& defval = "") {
         GraphMaker::get().newGraph(name);
         if (!datatype.empty()) {
             GraphMaker::get().dataType(datatype);
@@ -3446,6 +3454,7 @@ namespace pdfg {
         if (outputs.size() > 0) {
             GraphMaker::get().outputs(outputs);
         }
+        GraphMaker::get().defaultValue(defval);
     }
 
     void print(const string& file = "") {
