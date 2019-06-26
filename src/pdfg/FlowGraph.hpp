@@ -436,9 +436,9 @@ namespace pdfg {
     struct FlowGraph {
     public:
         explicit FlowGraph(const string& name = "", const string& retType = "void", const string& retName = "",
-                           const string& defVal = "", bool ignoreCycles = true) : _name(name),
-                           _returnType(retType), _returnName(retName), _indexType("unsigned"),
-                           _defaultVal(defVal), _ignoreCycles(ignoreCycles) {
+                           const string& defVal = "", unsigned tileSize = 0, bool ignoreCycles = true) :
+                           _name(name), _returnType(retType), _returnName(retName), _indexType("unsigned"),
+                           _defaultVal(defVal), _tileSize(tileSize), _ignoreCycles(ignoreCycles) {
             _nodes.reserve(100);
             _edges.reserve(100);
         }
@@ -453,7 +453,7 @@ namespace pdfg {
         }
 
         friend ostream& operator<<(ostream& os, FlowGraph& graph) {
-            os << "{ \"name\": \"" << graph._name << "\", \"nodes\": [\n";
+            os << "{ \"name\": \"" << graph._name << "\", \"tilesize\": " << graph._tileSize << ", \"nodes\": [\n";
             unsigned n = 0, size = graph._nodes.size();
             for (Node* node : graph._nodes) {
                 os << *node;
@@ -747,6 +747,14 @@ namespace pdfg {
             _ignoreCycles = status;
         }
 
+        unsigned tileSize() const {
+            return _tileSize;
+        }
+
+        void tileSize(unsigned size) {
+            _tileSize = size;
+        }
+
     protected:
         string formatName(const string& name) const {
             string fname = name;
@@ -768,6 +776,7 @@ namespace pdfg {
         string _defaultVal;
 
         bool _ignoreCycles;
+        unsigned _tileSize;
 
         map<string, Node*> _symtable;
         map<pair<Node*, Node*>, Edge*> _edgemap;

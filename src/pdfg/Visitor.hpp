@@ -174,6 +174,8 @@ namespace pdfg {
         void enter(DataNode* node) override {
             string label = node->label();
             string defval = node->defval();
+            unsigned tilesize = _graph->tileSize();
+
             if (!_graph->isReturn(node) && _graph->isSource(node)) {
                 // Input Data
                 string param = "const " + node->datatype();
@@ -209,7 +211,12 @@ namespace pdfg {
                     if (defval == "0") {
                         os << "calloc(" << *node->size() << ",sizeof(" << node->datatype() << "));";
                     } else {
-                        os << "malloc(" << *node->size() << "*sizeof(" << node->datatype() << "));";
+                        if (tilesize > 0) {
+                            os << "aligned_alloc(" << tilesize << ",(";
+                        } else {
+                            os << "malloc(";
+                        }
+                        os << *node->size() << "*sizeof(" << node->datatype() << "));";
                     }
                     _frees.push_back(node->label());
                 } else {
