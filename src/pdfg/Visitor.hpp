@@ -458,49 +458,44 @@ namespace pdfg {
         }
 
         string createMapping(const Access* access) {
-            cerr << "Create mapping for '" << access->text() << "'\n";
-            if (access->space() ==   "u") {
-                int stop = 1;
-            }
-            vector<Expr> tuple = access->tuple();
+            string sname = access->space();
+            map<string, int> offsets = access->offset_map();
+
+            Space space = getSpace(sname);
+            Tuple tuple = space.iterators();
             unsigned size = tuple.size();
-            vector<int> offsets = access->offsets();
-            Space space = getSpace(access->space());
+
             ostringstream os;
+            os << sname;
 
             if (size > 0 && tuple.at(0).type() != 'N' && access->refchar() != '[') {
-                string sname = space.name();
-                os << sname << '[';
-                if (size < 2) {
-                    Expr expr = tuple.at(0);
-                    os << '(' << expr;
-                    if (offsets.size() > 0 && offsets[0] != 0) {
-                        if (offsets[0] > 0) {
+                os << '[';
+                if (size > 1) {
+                    os << "offset" << size << '(';
+                }
+                for (unsigned i = 0; i < size; i++) {
+                    string iter = tuple.at(i).text();
+                    os << '(' << iter << ')';
+                    auto offset = offsets.find(iter);
+                    if (offset != offsets.end() && offset->second != 0) {
+                        if (offset->second > 0) {
                             os << '+';
                         }
-                        os << offsets[0];
+                        os << offset->second;
                     }
-                } else {
-                    os << "offset" << size << '(';
-                    for (unsigned i = 0; i < size; i++) {
-                        os << '(' << tuple.at(i) << ')';
-                        if (offsets.size() > i && offsets[i] != 0) {
-                            if (offsets[i] > 0) {
-                                os << '+';
-                            }
-                            os << offsets[i];
-                        }
+                    if (size > 1) {
                         os << ',';
                     }
-
-                    vector<Iter> iters = space.iterators();
-                    vector<Iter> subs(iters.begin() + 1, iters.end());
-                    string subsize = stringify<Math>(space.slice(1, size - 1).size());
-                    // Remove redundant parens...
-                    os << Strings::replace(Strings::fixParens(subsize), "*", ",");
                 }
-                os << ")]";
+                if (size > 1) {
+                    vector<Iter> subs(tuple.begin() + 1, tuple.end());
+                    string subsize = stringify<Math>(space.slice(1, size - 1).size());
+                    subsize = Strings::fixParens(subsize);   // Remove redundant parens...
+                    os << Strings::replace(subsize, "*", ",") << ')';
+                }
+                os << ']';
             }
+
             return os.str();
         }
 
@@ -914,7 +909,7 @@ namespace pdfg {
             }
 
             if (reducible) {
-                cerr << "DataNode '" << node->label() << "' may be reducible.\n";
+                //cerr << "DataNode '" << node->label() << "' may be reducible.\n";
                 Access nodeAcc = Access::from_str(node->expr()->text());
                 IntTuple intTuple = to_int(nodeAcc.tuple());
 
@@ -926,14 +921,6 @@ namespace pdfg {
                         IntTuple accTuple = to_int(accesses[i]->tuple());
                         maxTuple = absmax(maxTuple, accTuple);
                     }
-
-                    // Update the node size...
-//                    IntTuple sizeTuple = maxTuple + IntTuple(maxTuple.size(), 1);
-//                    Math resize = Int(sizeTuple[0]) + 0;
-//                    for (unsigned i = 1; i < sizeTuple.size(); i++) {
-//                        resize = resize * Int(sizeTuple[i]);
-//                    }
-//                    node->size(new Expr(resize));
 
                     // Update the data space...
                     Space space = getSpace(node->label());

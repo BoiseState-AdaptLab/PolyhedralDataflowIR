@@ -1261,6 +1261,14 @@ namespace pdfg {
             return _offsets;
         }
 
+        map<string, int> offset_map() const {
+            map<string, int> offmap;
+            for (unsigned i = 0; i < _offsets.size(); i++) {
+                offmap[_tuple[i].text()] = _offsets[i];
+            }
+            return offmap;
+        }
+
         bool has_iters() const {
             for (const auto &expr : _tuple) {
                 if (!expr.is_iter()) {
