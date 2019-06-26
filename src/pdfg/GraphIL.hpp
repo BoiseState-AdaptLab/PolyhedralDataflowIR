@@ -1202,12 +1202,16 @@ namespace pdfg {
     struct Space;
     void addSpace(const Space &space);
     Space getSpace(const string& name);
+    void newSpace(const Space& space);
 
     struct Access;
     void addAccess(const Access& access);
 
     typedef vector<Iter> Tuple;
     typedef vector<Expr> ExprTuple;
+    typedef vector<int> IntTuple;
+    typedef vector<double> RealTuple;
+    typedef vector<Constr> ConstrTuple;
 
     struct Access : public Expr {
     public:
@@ -1264,6 +1268,26 @@ namespace pdfg {
                 }
             }
             return true;
+        }
+
+        static Access from_str(const string& text) {
+            string iter;
+            string space;
+            char refchar = '\0';
+            Tuple tuple;
+            for (char chr : text) {
+                if (chr == '(' || chr == '[') {
+                    refchar = chr;
+                } else if (refchar == '\0') {
+                    space += chr;
+                } else if (chr != ')' && chr != ']' && chr != ',') {
+                    iter += chr;
+                } else {
+                    tuple.push_back(Iter(iter));
+                    iter = "";
+                }
+            }
+            return Access(space, tuple, refchar);
         }
 
     protected:
@@ -2029,6 +2053,45 @@ namespace pdfg {
         return result;
     }
 
+    ExprTuple max(const ExprTuple& lhs, const ExprTuple& rhs) {
+        if (lhs < rhs) {
+            return rhs;
+        } else {
+            return lhs;
+        }
+    }
+
+    IntTuple to_int(const ExprTuple& tuple) {
+        IntTuple ints(tuple.size(), 0);
+        for (unsigned i = 0; i < tuple.size(); i++) {
+            ints[i] = atoi(Strings::number(tuple[i].text()).c_str());
+        }
+        return ints;
+    }
+
+    IntTuple absmax(const IntTuple& lhs, const IntTuple& rhs) {
+        unsigned minsize = (lhs.size() < rhs.size()) ? lhs.size() : rhs.size();
+        unsigned maxsize = (lhs.size() > rhs.size()) ? lhs.size() : rhs.size();
+        IntTuple amax(maxsize, 0);
+        for (unsigned i = 0; i < minsize; i++) {
+            if (labs(lhs[i]) > abs(rhs[i])) {
+                amax[i] = lhs[i];
+            } else {
+                amax[i] = rhs[i];
+            }
+        }
+        return amax;
+    }
+
+    IntTuple operator+(const IntTuple& lhs, const IntTuple& rhs) {
+        unsigned size = (lhs.size() < rhs.size()) ? lhs.size() : rhs.size();
+        IntTuple sum(size, 0);
+        for (unsigned i = 0; i < size; i++) {
+            sum[i] = lhs[i] + rhs[i];
+        }
+        return sum;
+    }
+
     ostream &operator<<(ostream &os, const Tuple &tuple) {
         os << '[';
         unsigned last = tuple.size() - 1;
@@ -2353,6 +2416,7 @@ namespace pdfg {
 
     struct Comp;
     void addComputation(Comp &comp);
+    Expr* getSize(const Comp& comp, const Func& func);
 
     struct Comp : public Expr {
     public:
@@ -2961,6 +3025,13 @@ namespace pdfg {
             return Space(name);
         }
 
+        void newSpace(const Space& space) {
+            string sname = space.name();
+            if (!sname.empty()) { // && _spaces.find(sname) == _spaces.end()) {
+                _spaces[sname] = space;
+            }
+        }
+
         map<string, Space>& spaces() {
             return _spaces;
         }
@@ -2975,8 +3046,8 @@ namespace pdfg {
                 cpath = Strings::replace(cpath, ".o", ".c");
             }
 
-            // Need to run scheduling pass first.
-            reschedule(name);
+            reschedule(name);       // Run scheduling pass.
+            datareduce(name);       // Run data redux pass.
 
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
             cgen.ompSchedule(ompsched);
@@ -3008,15 +3079,6 @@ namespace pdfg {
             return "";
         }
 
-        void perfmodel(const string& name = "") {
-            PerfModelVisitor pmv;
-            if (name.empty()) {
-                pmv.walk(&_flowGraph);
-            } else {
-                pmv.walk(&_graphs[name]);
-            }
-        }
-
         void print(const string& file = "") {
             if (!file.empty()) {
                 ofstream ofs(file.c_str(), ofstream::out);
@@ -3024,6 +3086,15 @@ namespace pdfg {
                 ofs.close();
             } else {
                 cerr << _flowGraph << endl;
+            }
+        }
+
+        void perfmodel(const string& name = "") {
+            PerfModelVisitor pmv;
+            if (name.empty()) {
+                pmv.walk(&_flowGraph);
+            } else {
+                pmv.walk(&_graphs[name]);
             }
         }
 
@@ -3036,19 +3107,13 @@ namespace pdfg {
             }
         }
 
-    protected:
-        GraphMaker() {
-            _indexType = "unsigned";
-            _dataType = "float";
-        }
-
-        bool hasIter(const string& expr) {
-            for (const auto& keyval : _iters) {
-                if (expr.rfind(keyval.first, 0) == 0) {
-                    return true;
-                }
+        void datareduce(const string& name = "") {
+            DataReduceVisitor reducer;
+            if (name.empty()) {
+                reducer.walk(&_flowGraph);
+            } else {
+                reducer.walk(&_graphs[name]);
             }
-            return false;
         }
 
         Expr* getSize(const Comp& comp, const Func& func) {
@@ -3082,7 +3147,7 @@ namespace pdfg {
                     mapkey = _iters.find(argtxt);
                     isIter = (mapkey != _iters.end());
                 }
-                
+
                 if (isIter) {
                     Iter iter = mapkey->second;
                     vector<Constr> constraints = comp.space().constraints(argtxt);
@@ -3118,7 +3183,7 @@ namespace pdfg {
                     math = Math(_consts[argtxt], Int(0), "+");
                 }
             }
-            
+
             return math;
         }
 
@@ -3130,16 +3195,31 @@ namespace pdfg {
                 for (const Math& stmt : comp.statements()) {
                     // Assignment to a symbolic constant or iter, or vice versa...
                     if ((stmt.rhs().text().rfind(func.name(), 0) == 0 &&
-                    (_consts.find(stmt.lhs().text()) != _consts.end() ||
-                    _iters.find(stmt.lhs().text()) != _iters.end())) ||
-                    (stmt.lhs().text().rfind(func.name(), 0) == 0 &&
-                    (_consts.find(stmt.rhs().text()) != _consts.end() ||
-                    _iters.find(stmt.rhs().text()) != _iters.end()))) {
+                         (_consts.find(stmt.lhs().text()) != _consts.end() ||
+                          _iters.find(stmt.lhs().text()) != _iters.end())) ||
+                        (stmt.lhs().text().rfind(func.name(), 0) == 0 &&
+                         (_consts.find(stmt.rhs().text()) != _consts.end() ||
+                          _iters.find(stmt.rhs().text()) != _iters.end()))) {
                         return _indexType;
                     }
                 }
             }
             return _dataType;
+        }
+
+    protected:
+        GraphMaker() {
+            _indexType = "unsigned";
+            _dataType = "float";
+        }
+
+        bool hasIter(const string& expr) {
+            for (const auto& keyval : _iters) {
+                if (expr.rfind(keyval.first, 0) == 0) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         void makeHierarchical(CompNode* compNode, DataNode* dataNode) {
@@ -3359,8 +3439,7 @@ namespace pdfg {
 
     string codegen(const string& path = "", const string& name = "",
                    const string& lang = "C", const string& ompsched = "") {
-        string code = GraphMaker::get().codegen(path, name, lang, ompsched);
-        return code;
+        return GraphMaker::get().codegen(path, name, lang, ompsched);
     }
 
     void perfmodel(const string& name = "") {
@@ -3369,6 +3448,10 @@ namespace pdfg {
 
     void reschedule(const string& name = "") {
         GraphMaker::get().reschedule(name);
+    }
+
+    void datareduce(const string& name = "") {
+        GraphMaker::get().datareduce(name);
     }
 
     void addIterator(const Iter& iter) {
@@ -3426,6 +3509,10 @@ namespace pdfg {
         return GraphMaker::get().getSpace(name);
     }
 
+    void newSpace(const Space& space) {
+        GraphMaker::get().newSpace(space);
+    }
+
     void addRelation(const Rel& rel) {
         if (!rel.name().empty()) {
             GraphMaker::get().addRel(rel);
@@ -3457,6 +3544,10 @@ namespace pdfg {
 
     void printAccesses() {
         GraphMaker::get().printAccesses();
+    }
+
+    Expr* getSize(const Comp& comp, const Func& func) {
+        return GraphMaker::get().getSize(comp, func);
     }
 
     void fuse(Comp& comp1, Comp& comp2) {

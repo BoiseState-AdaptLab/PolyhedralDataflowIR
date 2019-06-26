@@ -46,9 +46,9 @@ namespace pdfg {
             }
         }
 
-        virtual void enter(CompNode*) = 0;
+        virtual void enter(CompNode*) {}
 
-        virtual void enter(DataNode*) = 0;
+        virtual void enter(DataNode*) {}
 
         virtual void exit(Node*) {}
 
@@ -616,71 +616,16 @@ namespace pdfg {
             node->attr("iops", to_string(nIOPs));
         }
 
-        void enter(DataNode* node) override {
-            // TODO: Do this method need to do any work?
-        }
-
-        void finish(FlowGraph* graph) override {
-            // TODO: Do this method need to do any work?
-        }
+//        void enter(DataNode* node) override {
+//        }
+//
+//        void finish(FlowGraph* graph) override {
+//        }
     };
 
     struct ScheduleVisitor : public DFGVisitor {
     public:
         explicit ScheduleVisitor() {
-        }
-
-        void maxOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& max_offsets) {
-            // Size up the max_offsets vector.
-            for (unsigned i = 0; i < schedule.size(); i++) {
-                if (max_offsets.size() <= i) {
-                    max_offsets.push_back(0);
-                }
-
-                for (const auto& itr : accmap) {
-                    Access *acc = itr.second;
-                    string space = acc->space();
-                    ExprTuple tuple = acc->tuple();
-
-                    bool match = false;
-                    for (unsigned j = 0; j < tuple.size() && !match; j++) {
-                        if (!schedule[i].is_int()) {
-                            string expr = tuple[j].text();
-                            string iter = schedule[i].text();
-                            size_t pos = expr.find(iter);
-                            match = (pos != string::npos);
-                            if (match && expr != iter) {
-                                expr.erase(pos, iter.size());
-                                int offset = unstring<int>(expr);
-                                if (abs(offset) > abs(max_offsets[i])) {
-                                    max_offsets[i] = offset;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        unsigned getCommonLevel(const vector<Tuple>& tuples, int* ndx = nullptr) {
-            unsigned i, n, level = 0;
-            for (n = 0; n < tuples[0].size(); n++) {
-                if (!tuples[0][n].is_int()) {
-                    bool match = true;
-                    for (i = 1; i < tuples.size() && match; i++) {
-                        if (tuples[i].size() < n || !tuples[i][n].equals(tuples[0][n])) {
-                            match = false;
-                            if (ndx != nullptr) {
-                                *ndx = i;
-                            }
-                        }
-                    }
-                    if (match) {
-                        level = n + 1;
-                    }
-                }
-            }
-            return level;
         }
 
         /// For each computation node, generate and assign a scheduling (scattering) function.
@@ -758,7 +703,7 @@ namespace pdfg {
             // 3) Find the deepest common level
             int index = -1;
             level = getCommonLevel(newfxns, &index);
-            
+
             // Handle case w/o common iterators.
             Iter first;
             bool interchange = (level < 1);
@@ -840,10 +785,6 @@ namespace pdfg {
             }
         }
 
-        void enter(DataNode* node) override {
-            // TODO: Do this method need to do any work?
-        }
-
     protected:
         map<string, Access*> intersect(const map<string, Access*> lhs, const map<string, Access*> rhs) const {
             map<string, Access*> isect;
@@ -888,6 +829,127 @@ namespace pdfg {
             }
 
             return distmap;
+        }
+
+        void maxOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& max_offsets) {
+            // Size up the max_offsets vector.
+            for (unsigned i = 0; i < schedule.size(); i++) {
+                if (max_offsets.size() <= i) {
+                    max_offsets.push_back(0);
+                }
+
+                for (const auto& itr : accmap) {
+                    Access *acc = itr.second;
+                    string space = acc->space();
+                    ExprTuple tuple = acc->tuple();
+
+                    bool match = false;
+                    for (unsigned j = 0; j < tuple.size() && !match; j++) {
+                        if (!schedule[i].is_int()) {
+                            string expr = tuple[j].text();
+                            string iter = schedule[i].text();
+                            size_t pos = expr.find(iter);
+                            match = (pos != string::npos);
+                            if (match && expr != iter) {
+                                expr.erase(pos, iter.size());
+                                int offset = unstring<int>(expr);
+                                if (abs(offset) > abs(max_offsets[i])) {
+                                    max_offsets[i] = offset;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        unsigned getCommonLevel(const vector<Tuple>& tuples, int* ndx = nullptr) {
+            unsigned i, n, level = 0;
+            for (n = 0; n < tuples[0].size(); n++) {
+                if (!tuples[0][n].is_int()) {
+                    bool match = true;
+                    for (i = 1; i < tuples.size() && match; i++) {
+                        if (tuples[i].size() < n || !tuples[i][n].equals(tuples[0][n])) {
+                            match = false;
+                            if (ndx != nullptr) {
+                                *ndx = i;
+                            }
+                        }
+                    }
+                    if (match) {
+                        level = n + 1;
+                    }
+                }
+            }
+            return level;
+        }
+    };
+
+    struct DataReduceVisitor : public DFGVisitor {
+    public:
+        explicit DataReduceVisitor() {
+        }
+
+        void enter(DataNode* node) override {
+            vector<Edge*> ins = _graph->inedges(node);
+            vector<Edge*> outs = _graph->outedges(node);
+
+            // A node with no incoming edges is an input, and no outgoing is an output, these cannot be reduced.
+            unsigned size = ins.size();
+            vector<CompNode*> prodNodes(size);
+            bool reducible = (size > 0 && size == outs.size());
+
+            if (reducible) {
+                for (unsigned i = 0; i < size && reducible; i++) {
+                    prodNodes[i] = (CompNode*) ins[i]->source();
+                    CompNode* consumer = (CompNode*) outs[i]->dest();
+                    reducible = (prodNodes[i]->label() == consumer->label());
+                }
+            }
+
+            if (reducible) {
+                cerr << "DataNode '" << node->label() << "' may be reducible.\n";
+                Access nodeAcc = Access::from_str(node->expr()->text());
+                IntTuple intTuple = to_int(nodeAcc.tuple());
+
+                //for (CompNode* producer : prodNodes) {
+                    CompNode* producer = prodNodes[0];
+                    vector<Access*> accesses = producer->accesses(node->label());
+                    IntTuple maxTuple(intTuple.size(), 0);
+                    for (unsigned i = 0; i < accesses.size(); i++) {
+                        maxTuple = absmax(intTuple, to_int(accesses[i]->tuple()));
+                    }
+
+                    // Update the node size...
+//                    IntTuple sizeTuple = maxTuple + IntTuple(maxTuple.size(), 1);
+//                    Math resize = Int(sizeTuple[0]) + 0;
+//                    for (unsigned i = 1; i < sizeTuple.size(); i++) {
+//                        resize = resize * Int(sizeTuple[i]);
+//                    }
+//                    node->size(new Expr(resize));
+
+                    // Update the data space...
+                    Space space = getSpace(node->label());
+                    Tuple iters = space.iterators();
+                    ConstrTuple constrs = space.constraints();
+                    Space newspace(space.name());
+
+                    for (unsigned i = 0; i < maxTuple.size(); i++) {
+                        if (maxTuple[i] != 0) {
+                            newspace.add(iters[i]);
+                            for (const Constr& constr : space.constraints()) {
+                                if (constr.lhs().equals(iters[i]) || constr.rhs().equals(iters[i])) {
+                                    newspace.add(constr);
+                                }
+                            }
+                        }
+                    }
+
+                    newSpace(newspace);
+                    Math* resize = (Math*) getSize(*producer->comp(), Func(newspace));
+                    node->size(resize);
+                //}
+            }
         }
     };
 }

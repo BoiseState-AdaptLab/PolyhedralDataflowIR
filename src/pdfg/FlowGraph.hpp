@@ -78,17 +78,9 @@ namespace pdfg {
             return _label;
         }
 
-//        const string& space() const {
-//            return _space;
-//        }
-
         Expr* expr() const {
             return _expr;
         }
-
-//        void name(const string& name) {
-//            _space.name(name);
-//        }
 
         void label(const string& label) {
             size_t pos = label.find('(');
@@ -101,10 +93,6 @@ namespace pdfg {
                 _label = label;
             }
         }
-
-//        void space(const string& space) {
-//            _space = space;
-//        }
 
         void expr(Expr* expr) {
             _expr = expr;
@@ -343,15 +331,23 @@ namespace pdfg {
             return !_children.empty();
         }
 
-        vector<Access*> accesses() const {
-            vector<Access*> accs;
+        vector<Access*> accesses(const string& space = "") const {
+            vector<Access*> accesses;
             for (auto& read : _reads) {
-                accs.push_back(read.second);
+                if (space.empty() || read.first.find(space + read.second->refchar()) == 0) {
+                    accesses.push_back(read.second);
+                }
             }
             for (auto& write : _writes) {
-                accs.push_back(write.second);
+                if (space.empty() || write.first.find(space + write.second->refchar()) == 0) {
+                    accesses.push_back(write.second);
+                }
             }
-            return accs;
+            for (CompNode* child : _children) {
+                vector<Access*> childAccs = child->accesses(space);
+                accesses.insert(accesses.end(), childAccs.begin(), childAccs.end());
+            }
+            return accesses;
         }
 
         map<string, Access*> reads() const {
