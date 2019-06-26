@@ -2070,11 +2070,18 @@ namespace pdfg {
     }
 
     IntTuple absmax(const IntTuple& lhs, const IntTuple& rhs) {
-        unsigned minsize = (lhs.size() < rhs.size()) ? lhs.size() : rhs.size();
-        unsigned maxsize = (lhs.size() > rhs.size()) ? lhs.size() : rhs.size();
+        unsigned minsize, maxsize;
+        if (lhs.size() > rhs.size()) {
+            maxsize = lhs.size();
+            minsize = rhs.size();
+        } else {
+            maxsize = rhs.size();
+            minsize = lhs.size();
+        }
+
         IntTuple amax(maxsize, 0);
         for (unsigned i = 0; i < minsize; i++) {
-            if (labs(lhs[i]) > abs(rhs[i])) {
+            if (abs(lhs[i]) > abs(rhs[i])) {
                 amax[i] = lhs[i];
             } else {
                 amax[i] = rhs[i];

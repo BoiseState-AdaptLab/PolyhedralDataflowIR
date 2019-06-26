@@ -446,16 +446,22 @@ namespace pdfg {
         void addMappings(CompNode* node) {
             // Define data mappings (one per space)
             for (Access* access : node->accesses()) {
-                string mapping = createMapping(access);
-                if (!mapping.empty() && access->has_iters() &&_mappings.find(access->space()) == _mappings.end()) {
-                    string accstr = stringify<Access>(*access);
-                    define(accstr, mapping);
-                    _mappings[access->space()] = mapping;
+                if (access->has_iters() && _mappings.find(access->space()) == _mappings.end()) {
+                    string mapping = createMapping(access);
+                    if (!mapping.empty()) {
+                        string accstr = stringify<Access>(*access);
+                        define(accstr, mapping);
+                        _mappings[access->space()] = mapping;
+                    }
                 }
             }
         }
 
         string createMapping(const Access* access) {
+            cerr << "Create mapping for '" << access->text() << "'\n";
+            if (access->space() ==   "u") {
+                int stop = 1;
+            }
             vector<Expr> tuple = access->tuple();
             unsigned size = tuple.size();
             vector<int> offsets = access->offsets();
@@ -917,7 +923,8 @@ namespace pdfg {
                     vector<Access*> accesses = producer->accesses(node->label());
                     IntTuple maxTuple(intTuple.size(), 0);
                     for (unsigned i = 0; i < accesses.size(); i++) {
-                        maxTuple = absmax(intTuple, to_int(accesses[i]->tuple()));
+                        IntTuple accTuple = to_int(accesses[i]->tuple());
+                        maxTuple = absmax(maxTuple, accTuple);
                     }
 
                     // Update the node size...

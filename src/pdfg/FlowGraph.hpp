@@ -482,7 +482,7 @@ namespace pdfg {
         }
 
         bool contains(Node* source, Node* dest, const string& label = "") {
-            string key = source->label() + "-" + label + ">" + dest->label();
+            pair<Node*, Node*> key = make_pair(source, dest);
             return _edgemap.find(key) != _edgemap.end();
         }
 
@@ -535,7 +535,7 @@ namespace pdfg {
 
         Edge* add(Node* source, Node* dest, const string& label = "") {
             Edge* edge;
-            string key = source->label() + "-" + label + ">" + dest->label();
+            pair<Node*, Node*> key = make_pair(source, dest);
             auto iter = _edgemap.find(key);
             if (iter == _edgemap.end()) {
                 edge = new Edge(source, dest, label);
@@ -566,7 +566,7 @@ namespace pdfg {
         }
 
         void remove(Node* source, Node* dest, const string& label = "") {
-            string key = source->label() + "-" + label + ">" + dest->label();
+            pair<Node*, Node*> key = make_pair(source, dest);
             auto iter = _edgemap.find(key);
             if (iter != _edgemap.end()) {
                 _edges.erase(find(_edges.begin(), _edges.end(), iter->second));
@@ -754,7 +754,7 @@ namespace pdfg {
         bool _ignoreCycles;
 
         map<string, Node*> _symtable;
-        map<string, Edge*> _edgemap;
+        map<pair<Node*, Node*>, Edge*> _edgemap;
         map<string, unsigned> _outputs;
 
         vector<Node*> _nodes;
