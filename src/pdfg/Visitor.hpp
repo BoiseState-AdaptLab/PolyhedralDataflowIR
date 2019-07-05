@@ -542,12 +542,16 @@ namespace pdfg {
             unsigned inStreamsI = 0, outStreamsI = 0, inStreamsF = 0, outStreamsF = 0, nIOPs = 0, nFLOPs = 0;
             string inSizeExprI, outSizeExprI, inSizeExprF, outSizeExprF;
 
+//            if (node->label() == "smul_d1") {
+//                int stop = 1;
+//            }
+
             vector<Edge*> inedges = _graph->inedges(node);
             for (Edge* edge : inedges) {
                 if (edge->source()->is_data()) {
                     DataNode* source = (DataNode*) edge->source();
                     if (!source->is_scalar()) {
-                        string sizeExpr = "+" + source->size()->text();
+                        string sizeExpr = "+" + Strings::fixParens(source->size()->text());
                         if (source->is_int()) {
                             inStreamsI += 1;
                             inSizeExprI += sizeExpr;
@@ -581,16 +585,19 @@ namespace pdfg {
 
             vector<Edge*> outedges = _graph->outedges(node);
             for (Edge* edge : outedges) {
-                DataNode* dest = (DataNode*) edge->dest();
-                if (!dest->is_scalar()) {
-                    string sizeExpr = "+" + dest->size()->text();
-                    if (dest->is_int()) {
-                        outStreamsI += 1;
-                        outSizeExprI += sizeExpr;
-                    } else {
-                        outStreamsF += 1;
-                        outSizeExprF += sizeExpr;
-                    }
+                DataNode *dest = (DataNode *) edge->dest();
+                string sizeExpr;
+                if (dest->is_scalar()) {
+                    sizeExpr = "1";
+                } else {
+                    sizeExpr = "+" + Strings::fixParens(dest->size()->text());
+                }
+                if (dest->is_int()) {
+                    outStreamsI += 1;
+                    outSizeExprI += sizeExpr;
+                } else {
+                    outStreamsF += 1;
+                    outSizeExprF += sizeExpr;
                 }
             }
 
@@ -614,21 +621,12 @@ namespace pdfg {
                 node->attr("fstreams_out", to_string(outStreamsF));
             }
 
-            // TODO: count int ops later (maybe), but assume at least one
-            nIOPs = 1;
-
-            // Count FLOPs...
-            nFLOPs = node->flops();
+            nIOPs = 1;                  // TODO: count int ops later (maybe), but assume at least one
+            nFLOPs = node->flops();     // Count FLOPs...
 
             node->attr("flops", to_string(nFLOPs));
             node->attr("iops", to_string(nIOPs));
         }
-
-//        void enter(DataNode* node) override {
-//        }
-//
-//        void finish(FlowGraph* graph) override {
-//        }
     };
 
     struct ScheduleVisitor : public DFGVisitor {
