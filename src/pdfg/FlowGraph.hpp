@@ -103,7 +103,10 @@ namespace pdfg {
         }
 
         friend ostream& operator<<(ostream& os, Node& node) {
-            os << "{ \"label\": \"" << node._label << "\", \"space\": \"" << *(node.expr()) << "\"";
+            ostringstream ss;
+            ss << *(node.expr());
+            os << "{ \"label\": \"" << node._label << "\", \"space\": \""
+               << Strings::replace(ss.str(), "\\\n", " ") << "\"";
             if (node._attrs.size() > 2) {
                 os << ", \"attrs\": { ";
                 unsigned n = 0, nattrs = node._attrs.size();

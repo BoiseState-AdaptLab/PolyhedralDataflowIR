@@ -2898,7 +2898,7 @@ namespace pdfg {
                 auto itr = _accessMap.find(dataNode->label());
                 if (itr != _accessMap.end()) {
                     for (const auto& access : itr->second) {
-                        cerr << "Adding read access '" << access << "'" << endl;
+                        //cerr << "Adding read access '" << access << "'" << endl;
                         compNode->add_read(access);
                     }
                 }
@@ -2932,7 +2932,7 @@ namespace pdfg {
                 auto itr = _accessMap.find(dataNode->label());
                 if (itr != _accessMap.end()) {
                     for (const auto& access : itr->second) {
-                        cerr << "Adding write access '" << access << "'" << endl;
+                        //cerr << "Adding write access '" << access << "'" << endl;
                         compNode->add_write(access);
                     }
                 }

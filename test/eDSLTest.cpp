@@ -332,6 +332,20 @@ TEST(eDSLTest, Jacobi2D) {
     ASSERT_TRUE(!result.empty());
 }
 
+TEST(eDSLTest, Jac2D) {
+    init("jacobi2d");
+    Iter t('t'), i('i'), j('j');
+    Const M('M'), N('N');
+    Space jac("jac", 1 <= i <= M ^ 1 <= j <= N);
+    Space A("A", M+2, N+2);
+    Space B("B", M+2, N+2);
+    Comp stencil = jac + (A(i,j) = (A(i,j) + A(i,j-1) + A(i,j+1) + A(i-1,j) + A(i+1,j))*0.2);
+    print("out/jacobi2d.json");
+    string result = codegen("out/jacobi2d.o");
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
 TEST(eDSLTest, COO_CSR_Insp_Fuse) {
     // COO->CSR Inspector:
     // Here we assume the constraint: row(i-1) <= row(i), 1 <= i < N (i.e., row is sorted)
