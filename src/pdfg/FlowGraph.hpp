@@ -111,13 +111,13 @@ namespace pdfg {
                 os << ", \"attrs\": { ";
                 unsigned n = 0, nattrs = node._attrs.size();
                 for (const auto& iter : node._attrs) {
-                    if (iter.first != "shape" && iter.first != "color") {
-                        os << "\"" << iter.first << "\": \"" << iter.second << "\"";
-                        if (n < nattrs - 1) {
-                            os << ", ";
-                        }
-                        n += 1;
+                    //if (iter.first != "shape" && iter.first != "color") {
+                    os << "\"" << iter.first << "\": \"" << iter.second << "\"";
+                    if (n < nattrs - 1) {
+                        os << ", ";
                     }
+                    n += 1;
+                    //}
                 }
                 os << " }";
             }
