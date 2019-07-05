@@ -54,6 +54,14 @@ namespace test {
             return _runTime;
         }
 
+        unsigned NumRuns() const {
+            return _nRuns;
+        }
+
+        void NumRuns(unsigned nRuns) {
+            _nRuns = nRuns;
+        }
+
         double Speedup() const {
             double p = _runTime;
             double s = _evalTime;
@@ -68,15 +76,15 @@ namespace test {
             return r;
         }
 
-        virtual int GetMaxThreads() const {
+        virtual int MaxThreads() const {
             return omp_get_max_threads();
         }
 
-        virtual int GetNumThreads() const {
+        virtual int NumThreads() const {
             return omp_get_num_threads();
         }
 
-        virtual bool SetNumThreads(int nThreads) {
+        virtual bool NumThreads(int nThreads) {
             bool result = false;
             if (nThreads > omp_get_max_threads()) {
                 cerr << "--num_threads cannot be more than \n" << omp_get_max_threads();
@@ -85,12 +93,15 @@ namespace test {
             } else {
                 omp_set_num_threads(nThreads);
                 result = true;
+                _nThreads = nThreads;
             }
             return result;
         }
 
     protected:
-        BenchmarkTest(const string& name = "") : _name(name) {}
+        BenchmarkTest(const string& name = "", unsigned nRuns = 1, unsigned nThreads = 1) : _name(name), _nRuns(nRuns) {
+            NumThreads(nThreads);
+        }
 
         virtual ~BenchmarkTest() {}
 
@@ -132,35 +143,41 @@ namespace test {
         virtual void Execute() = 0;
 
         virtual void Run() {
+            double  timeSum = 0.0;
+            for (unsigned i = 0; i < _nRuns; i++) {
 #ifdef PAPI_ON
-            _papi.start();
+                _papi.start();
 #endif
-            LIKWID_MARKER_INIT;
-            Start();
-            LIKWID_MARKER_START("BenchmarkTest");
-            Execute();
-            LIKWID_MARKER_STOP("BenchmarkTest");
-            Stop();
-            LIKWID_MARKER_CLOSE;
+                LIKWID_MARKER_INIT;
+                Start();
+                LIKWID_MARKER_START("BenchmarkTest");
+                Execute();
+                LIKWID_MARKER_STOP("BenchmarkTest");
+                Stop();
+                LIKWID_MARKER_CLOSE;
 #ifdef PAPI_ON
-            _papi.stop();
+                _papi.stop();
 #endif
+                timeSum += _runTime;
+            }
+            _runTime = timeSum / (double) _nRuns;
         }
 
         virtual void Evaluate() = 0;
 
         virtual void Verify() {
-            _evalTime = 0.0;
-            double runTime = _runTime;
+            double saveTime = _runTime;
+            double  timeSum = 0.0;
+            for (unsigned i = 0; i < _nRuns; i++) {
+                Start();
+                Evaluate();
+                Stop();
+                timeSum += _runTime;
+            }
+            _evalTime = timeSum / (double) _nRuns;
+            _runTime = saveTime;
 
-            Start();
-            Evaluate();
-            Stop();
-
-            _evalTime = _runTime;
-            _runTime = runTime;
-
-            GTEST_COUT << "RunTime = " << _runTime << ", EvalTime = " << _evalTime
+            GTEST_COUT << "RunTime(" << _nRuns << ") = " << _runTime << ", EvalTime = " << _evalTime
                        << ", Ratio = " << _evalTime / _runTime << endl;
 #ifdef PAPI_ON
             _papi.report();
@@ -205,6 +222,9 @@ namespace test {
         }
 
         string _name;
+
+        unsigned _nRuns;
+        unsigned _nThreads;
 
         double _startTime;
         double _stopTime;
