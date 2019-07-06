@@ -219,9 +219,6 @@ namespace pdfg {
 
         ~DataNode() {
             delete _size;
-            _size = 0;
-            delete _expr;
-            _expr = 0;
         }
 
         Expr* size() const {
@@ -312,7 +309,6 @@ namespace pdfg {
         }
 
         ~CompNode() {
-            delete _expr;
             for (auto& read : _reads) {
                 delete read.second;
             }

@@ -17,14 +17,17 @@ public:
 protected:
     InspExecTest(const string& name = "") : BenchmarkTest(name) {
         _inspTime = 0.0;
+        _inspFlag = true;
     }
 
     virtual void Inspect() = 0;
 
     virtual void Run() {
-        _inspTime = Now();
-        Inspect();
-        _inspTime = Now() - _inspTime;
+        if (_inspFlag) {
+            _inspTime = Now();
+            Inspect();
+            _inspTime = Now() - _inspTime;
+        }
         BenchmarkTest::Run();
     }
 
@@ -35,6 +38,7 @@ protected:
         BenchmarkTest::Verify();
     }
 
+    bool _inspFlag;
     double _inspTime;
 };
 }

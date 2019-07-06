@@ -8,6 +8,7 @@ class ConjGradCOOTest : public ConjGradTest {
 
 protected:
     ConjGradCOOTest() : ConjGradTest("ConjGradCOOTest") {
+        _inspFlag = false;          // No inspector needed on this one.
     }
 
     virtual void Execute() {
