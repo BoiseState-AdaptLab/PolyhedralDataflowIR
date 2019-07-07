@@ -415,6 +415,55 @@ TEST(eDSLTest, ConjGrad) {
     ASSERT_TRUE(!result.empty());
 }
 
+TEST(eDSLTest, ConjGradTime) {
+    Iter t('t'), i('i'), j('j'), n('n');
+    Const N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
+    Func rp("rp"), row("row"), col("col");
+
+    // Iteration spaces:
+    Space sca("sca");
+    Space vec("vec", 0 <= i < N);
+    Space csr("csr", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    //Space coo("coo", 0 <= n < M ^ i==row(n) ^ j==col(n));
+    //Space spv("spv", 0 <= n < M ^ i==row(n));   // Sparse vector, to enable fusion of dot products with SpMV.
+    //Space mtx = coo;
+    Space mtx = csr;
+
+    // Data spaces:
+    Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
+    Space v1("v1", N), v2("v2", N), v3("v3", N);
+    Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0");
+
+    string name = "conjgrad_csr";
+    //string name = "conjgrad_coo";
+    init(name, "rs", "d", "", {"d", "r"}, to_string(0));
+
+    //Comp copy("copy", vec, ((r[i]=b[i]+0) ^ (d[i]=b[i]+0)));
+    Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
+    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    //Comp ddot("ddot", spv, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    //Comp rdot0("rdot0", spv, (rs0 += r[i]*r[i]));
+    Comp adiv("adiv", sca, (alpha = rs0/ds));
+    Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
+    Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
+    Comp rdot("rdot", vec, (rs += r[i]*r[i]));
+    Comp bdiv("bdiv", sca, (beta = rs / rs0));
+    Comp bmul("bmul", vec, (d[i] *= beta));
+    Comp dadd("dadd", vec, (d[i] += r[i]));
+
+    // Perform fusions
+    fuse("spmv", "ddot", "rdot0");
+    fuse("xadd", "rsub", "rdot");
+    fuse("bmul", "dadd");
+
+    perfmodel();        // perfmodel annotates graph with performance attributes.
+    print("out/" + name + ".json");
+    string result = codegen("out/" + name + ".o", "", "C++", "auto");
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
 TEST(eDSLTest, ConjGrad2) {
     Iter t('t'), i('i'), j('j'), n('n');
     Const N('N'), M('M'), T('T');   // N=#rows/cols, M=#nnz, K=#iterations
@@ -446,6 +495,34 @@ TEST(eDSLTest, ConjGrad2) {
     Comp dadd("dadd", vec, (d(t,i)=r(t,i)+beta*d(t-1,i)));
     print("out/conjgrad2.json");
     string result = codegen("out/conjgrad2.o");
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, JacobiMethod) {
+    Iter t('t'), s('s'), i('i'), j('j'), n('n');
+    Const N('N'), M('M'), T('T');
+
+    // Data spaces:
+    Space A("A", N, N), x("x", T, N), b("b", N), err("err", 1.0), tol("tol", 1E-6);
+    // UFs:
+    Func rp("rp"), row("row"), col("col");
+    Macro check("check", {t}, {Constr(tol, err, "<")});
+    // Iteration space
+    Space sca("sca", {0 <= t < T ^ check(t) > 0});
+    Space vec("vec", {0 <= t < T ^ check(t) > 0 ^ 0 <= i < N});
+    Space mtx("mtx", 0 <= t < T ^ check(t) > 0 ^ 0 <= i < N ^ 0 <= j < N ^ i != j);
+    //Comp jac("jac", mtx, ((x(t,i) = b(i)+0) ^ (x(t,i) += -A(i,j) * x(t-1,j)) ^ (x(t,i) /= A(i,j))));
+    Comp init("init", vec, (x(t,i) = b(i)+0));
+    Comp dot("dot", mtx, (x(t,i) += -A(i,j) * x(t-1,j)));
+    Comp div("div", vec, (x(t,i) /= A(i,i)));
+    Comp ssq("ssq", vec, (err += (x(t,i) - x(t-1,i)) * (x(t,i) - x(t-1,i))));
+    Comp norm("norm", sca, err = sqrt(err));
+    // Perform fusions
+    fuse({"init", "dot", "div", "ssq", "norm"});
+
+    print("out/jacobi.json");
+    string result = codegen("out/jacobi.h");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

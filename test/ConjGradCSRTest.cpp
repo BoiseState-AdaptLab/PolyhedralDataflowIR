@@ -45,6 +45,10 @@ protected:
         free(d);
     }
 
+    virtual void Evaluate() {
+// TODO: Call ConjGradCOOTest::Execute.
+    }
+
     unsigned* _rowptr;
 };
 

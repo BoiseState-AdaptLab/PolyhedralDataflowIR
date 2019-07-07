@@ -390,6 +390,12 @@ namespace pdfg {
         return vector<Math>({lhs, rhs});
     }
 
+    vector<Math> operator^(const vector<Math> &lhs, const Math &rhs) {
+        vector<Math> cpy = lhs;
+        cpy.push_back(rhs);
+        return cpy;
+    }
+
     Math operator+(const Expr &expr, const unsigned val) {
         return Math(expr, Int(val), "+");
     }
@@ -839,7 +845,12 @@ namespace pdfg {
             _text = stringify<Macro>(*this);
         }
 
-        explicit Macro(const string &name, const vector<Iter>& iters, const vector<Expr>& exprs = {}) : Macro(name) {
+        Macro(const string &name, initializer_list<Iter> iters, initializer_list<Expr> exprs) : Macro(name) {
+            _args = vector<Expr>(iters.begin(), iters.end());
+            _exprs = vector<Expr>(exprs.begin(), exprs.end());
+        }
+
+        Macro(const string &name, const vector<Iter>& iters, const vector<Expr>& exprs = {}) : Macro(name) {
             _args = vector<Expr>(iters.begin(), iters.end());
             _exprs = exprs;
         }
@@ -997,22 +1008,31 @@ namespace pdfg {
         return constr;
     }
 
+    Constr operator>(const Expr &expr, int val) {
+        Constr constr(expr, Int(val), ">");
+        return constr;
+    }
+
     Constr operator<=(const Expr &lhs, const Expr &rhs) {
         Constr constr(lhs, rhs, "<=");
         return constr;
     }
 
-    Constr operator<(const Expr &lhs, const Expr &rhs) {
+    Constr less(const Expr &lhs, const Expr &rhs) {
         Constr constr(lhs, rhs, "<");
         return constr;
     }
 
+    Constr operator<(const Expr &lhs, const Expr &rhs) {
+        return less(lhs, rhs);
+    }
+
     Constr operator<(const double& lhs, const Expr& rhs) {
-        return Constr(Real(lhs), rhs, "<");
+        return less(Real(lhs), rhs);
     }
 
     Constr operator<(const Expr& lhs, const double& rhs) {
-        return Constr(lhs, Real(rhs), "<");
+        return less(lhs, Real(rhs));
     }
 
     Constr operator>=(const Expr &lhs, const Expr &rhs) {
@@ -1032,6 +1052,16 @@ namespace pdfg {
 
     Constr operator==(const Expr &lhs, const Expr &rhs) {
         Constr constr(lhs, rhs, "=");
+        return constr;
+    }
+
+    Constr operator!=(const Iter &iter, const int val) {
+        Constr constr(iter, Int(val), "!=");
+        return constr;
+    }
+
+    Constr operator!=(const Expr &lhs, const Expr &rhs) {
+        Constr constr(lhs, rhs, "!=");
         return constr;
     }
 
@@ -1370,6 +1400,16 @@ namespace pdfg {
             init(name, lower1, upper1, lower2, upper2);
         }
 
+        Space(const string &name, double defval) {
+            init(name, {}, {});
+            _defaultVal = Real(defval);
+        }
+
+        Space(const string &name, const Real& defval) {
+            init(name, {}, {});
+            _defaultVal = defval;
+        }
+
 //        Space(const string& name, const int lower1, const Expr& upper1, const int lower2, const Expr& upper2) {
 //            init(name, Int(lower1), upper1, Int(lower2), upper2);
 //        }
@@ -1566,6 +1606,14 @@ namespace pdfg {
                 constraints = _constraints;
             }
             return constraints;
+        }
+
+        Expr defaultValue() const {
+            return _defaultVal;
+        }
+
+        void defaultValue(const Expr& defVal) {
+            _defaultVal = defVal;
         }
 
         void add(const Iter &iter) {
@@ -1781,6 +1829,7 @@ namespace pdfg {
         vector<Iter> _iterators;
         vector<Constr> _constraints;
         map<string, vector<size_t>> _itermap;
+        Expr _defaultVal;
 
     private:
         void init(const string &name, const Expr &lower, const Expr &upper) {
