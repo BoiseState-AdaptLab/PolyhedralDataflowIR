@@ -17,6 +17,7 @@ include_directories(lib/iegenlib/src
 set(EDSL_FILES   src/poly/PolyLib.hpp
                  src/iegenlib/IEGenLib.hpp
                  src/omega/OmegaLib.hpp
+                 src/pdfg/Digraph.hpp
                  src/pdfg/GraphIL.hpp
                  src/pdfg/Codegen.hpp
                  src/pdfg/InspGen.hpp

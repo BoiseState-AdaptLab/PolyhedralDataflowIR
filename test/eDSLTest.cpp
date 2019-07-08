@@ -4,6 +4,7 @@
 #include <map>
 #include <sstream>
 #include <pdfg/Codegen.hpp>
+#include <pdfg/Digraph.hpp>
 #include <pdfg/GraphIL.hpp>
 #include <poly/PolyLib.hpp>
 //#include <pdfg/FlowGraph.hpp>
@@ -471,38 +472,51 @@ TEST(eDSLTest, ConjGradTime) {
     ASSERT_TRUE(!result.empty());
 }
 
-TEST(eDSLTest, ConjGrad2) {
-    Iter t('t'), i('i'), j('j'), n('n');
-    Const N('N'), M('M'), T('T');   // N=#rows/cols, M=#nnz, K=#iterations
-    Func rp("rp"), row("row"), col("col");
+TEST(eDSLTest, IterGraph) {
+    Digraph cgg("CG_IG");
+    cgg.attr("rankdir", "LR");
+    cgg.node("r", "*", {"shape", "none"});
+    cgg.node("i0", "i");
+    cgg.node("c", "copy", {"shape","rect"});
+    cgg.node("i1", "i");
+    cgg.node("n", "n");
+    cgg.node("j", "j");
+    cgg.node("s", "spmv", {"shape","rect"});
+    cgg.node("a", "adiv", {"shape","rect"});
+    cgg.node("d", "ddot", {"shape","rect"});
+    cgg.node("r0", "rdot0", {"shape","rect"});
+    cgg.node("i2", "i");
+    cgg.node("x", "xadd", {"shape","rect"});
+    cgg.node("r1", "rsub", {"shape","rect"});
+    cgg.node("r2", "rdot", {"shape","rect"});
+    cgg.node("b", "bdiv", {"shape","rect"});
+    cgg.node("i3", "i");
+    cgg.node("b1", "bmul", {"shape","rect"});
+    cgg.node("d1", "dadd", {"shape","rect"});
 
-    // Iteration spaces:
-    Space cpy("cpy", t==0 ^ 0 <= i < N);
-    Space sca("sca", 1 <= t <= T);
-    Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
-    Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
-    Space coo("coo", 1 <= t <= T ^ 0 <= n < M ^ i==row(n) ^ j==col(n));
-    Space mtx = coo;
+    cgg.edge("r", "i0", 0);
+    cgg.edge("i0", "c", 0);
+    cgg.edge("r", "t", 1);
+    cgg.edge("t", "i1", 0);
+    cgg.edge("i1", "n", 0);
+    cgg.edge("n", "j", 0);
+    cgg.edge("j", "s", 0);
+    cgg.edge("t", "a", 1);
+    cgg.edge("i1", "d", 1);
+    cgg.edge("i1", "r0", 2);
+    cgg.edge("t", "i2", 2);
+    cgg.edge("i2", "x", 0);
+    cgg.edge("i2", "r1", 1);
+    cgg.edge("i2", "r2", 2);
+    cgg.edge("t", "b", 3);
+    cgg.edge("t", "i3", 4);
+    cgg.edge("i3", "b1", 0);
+    cgg.edge("i3", "d1", 1);
 
-    // Data spaces:
-    Space A("A", M), x("x", T, N), b("b", N), d("d", T, N), r("r", T, N), s("s", N);
-    Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs", T);
-
-    init("conjgrad2");
-    Comp copy("copy", cpy, ((r(t,i)=b(i)+0) ^ (d(t,i)=b(i)+0)));
-    Comp spmv("spmv", mtx, (s(i) += A(n) * d(t-1,j)));
-    Comp ddot("ddot", vec, (ds+=d(t-1,i)*s(i)));
-    Comp rdot0("rdot0", vec, (rs(t-1)+=r(t-1,i)*r(t-1,i)));
-    Comp adiv("adiv", sca, (alpha=rs(t-1)/ds));
-    Comp xadd("xadd", vec, (x(t,i)=x(t-1,i)+alpha*d(t-1,i)));
-    Comp rsub("rsub", vec, (r(t,i)-=alpha*s(i)));
-    // Add exit predicate for tolerance check here...
-    Comp rdot("rdot", vec, (rs(t)+=r(t,i)*r(t,i)));
-    Comp bdiv("bdiv", sca, (beta=rs(t)/rs(t-1)));
-    Comp dadd("dadd", vec, (d(t,i)=r(t,i)+beta*d(t-1,i)));
-    print("out/conjgrad2.json");
-    string result = codegen("out/conjgrad2.o");
-    //cerr << result << endl;
+//    ostringstream os;
+//    os << cgg;
+    string result = cgg.to_dot(); //os.str();
+    cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
 
