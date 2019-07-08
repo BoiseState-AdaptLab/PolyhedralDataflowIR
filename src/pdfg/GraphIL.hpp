@@ -578,6 +578,10 @@ namespace pdfg {
             return _text == other._text;
         }
 
+        Math operator=(const Math &math) {
+            return Math(*this, math, "=");
+        }
+
         explicit operator int() const {
             return (int) _text.size();
         }
@@ -2876,7 +2880,7 @@ namespace pdfg {
             vector<Expr> readExprs;
             vector<Expr> writeExprs;
             for (Math& stmt : comp.statements()) {
-                if (!stmt.lhs().empty()) {
+                if (!stmt.lhs().empty() && !stmt.lhs().is_iter()) {
                     if (stmt.oper().find('=') != string::npos) {
                         // If operator has an equal sign, it is an assignment, so the LHS is an output node.
                         writeExprs.push_back(stmt.lhs());

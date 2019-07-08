@@ -505,24 +505,35 @@ TEST(eDSLTest, JacobiMethod) {
 
     // Data spaces:
     Space A("A", N, N), x("x", T, N), b("b", N), err("err", 1.0), tol("tol", 1E-6);
-    // UFs:
-    Func rp("rp"), row("row"), col("col");
-    Macro check("check", {t}, {Constr(tol, err, "<")});
+
     // Iteration space
-    Space sca("sca", {0 <= t < T ^ check(t) > 0});
-    Space vec("vec", {0 <= t < T ^ check(t) > 0 ^ 0 <= i < N});
-    Space mtx("mtx", 0 <= t < T ^ check(t) > 0 ^ 0 <= i < N ^ 0 <= j < N ^ i != j);
-    //Comp jac("jac", mtx, ((x(t,i) = b(i)+0) ^ (x(t,i) += -A(i,j) * x(t-1,j)) ^ (x(t,i) /= A(i,j))));
+    Space sca("sca", 1 <= t <= T);
+    Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
+    Space mtx("mtx", 1 <= t <= T ^ 0 <= i < N ^ 0 <= j < N);
+
+    string name = "jacobi";
+    pdfg::init(name, "x", "d"); //, "", {"d", "r"}, to_string(0));
+    Comp clear("clear", sca, Math(err, Real(0.), "="));
     Comp init("init", vec, (x(t,i) = b(i)+0));
-    Comp dot("dot", mtx, (x(t,i) += -A(i,j) * x(t-1,j)));
+    Comp dot("dot", mtx, (i != j), (x(t,i) += -A(i,j) * x(t-1,j)));
     Comp div("div", vec, (x(t,i) /= A(i,i)));
-    Comp ssq("ssq", vec, (err += (x(t,i) - x(t-1,i)) * (x(t,i) - x(t-1,i))));
-    Comp norm("norm", sca, err = sqrt(err));
+    Comp norm("norm", vec, (err += (x(t,i) - x(t-1,i)) * (x(t,i) - x(t-1,i))));
+    // TODO: This works, but need to formalize exit predicates...
+    Comp check("check", sca, (sqrt(err) <= tol), (t=T+1));
     // Perform fusions
-    fuse({"init", "dot", "div", "ssq", "norm"});
+    fuse({"clear", "init", "dot", "div", "norm", "check"});
+
+    // TODO Items:
+    // 1) Fix schedule visitor to produce correct schedules (as in out/jacobi.in).
+    // 2) Fix data mapping functions -- observe that reuse distance of x means only 2*N data needed.
+    // 3) Do not define sqrt!
+    // 4) 'err' should not be an output, and 'x' should.
+    // 5) 'tol' should be an input.
+    // 6) 'x' alloc size is wrong.
+    // 7) Do  not free the return value!
 
     print("out/jacobi.json");
-    string result = codegen("out/jacobi.h");
+    string result = codegen("out/jacobi.h", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

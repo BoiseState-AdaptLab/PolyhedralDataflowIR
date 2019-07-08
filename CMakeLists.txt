@@ -176,7 +176,8 @@ if (TESTING)
     )
 
     set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
-            test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp) # test/TensorDecompTest.cpp)
+            test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp
+            test/JacobiTest.cpp) # test/TensorDecompTest.cpp)
     #set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
     #               test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O0")
@@ -192,7 +193,7 @@ if (TESTING)
         target_link_libraries(edslTest likwid) # blas lapack lapacke splatt)
     endif()
 
-    add_test(driver eDSLTest ConjGradCOOTest ConjGradCSRTest)   # TensorDecompTest)
+    add_test(driver eDSLTest ConjGradCOOTest ConjGradCSRTest JacobiTest)   # TensorDecompTest)
     #add_test(driver ConjGradCOOTest ConjGradCSRTest)# TensorDecompTest)
 elseif (MAKELIB)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3")
