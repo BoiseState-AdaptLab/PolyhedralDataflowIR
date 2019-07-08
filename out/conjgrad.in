@@ -1,0 +1,27 @@
+symbolic N,T,col(3),rp(2),rp1(2);
+copy := {[i]:i>=0&&N-1>=0&&-i+N-1>=0};
+spmv := {[t,i,n,j]:j-col(t,i,n)=0&&i>=0&&-t+T>=0&&t-1>=0&&n-rp(t,i)>=0&&N-1>=0&&T-1>=0&&-i+N-1>=0&&-n+rp1(t,i)-1>=0&&-rp(t,i)+rp1(t,i)-1>=0};
+ddot := {[t,i]:i>=0&&-t+T>=0&&t-1>=0&&N-1>=0&&T-1>=0&&-i+N-1>=0};
+rdot0 := {[t,i]:i>=0&&-t+T>=0&&t-1>=0&&N-1>=0&&T-1>=0&&-i+N-1>=0};
+adiv := {[t]:-t+T>=0&&t-1>=0&&T-1>=0};
+xadd := {[t,i]:i>=0&&-t+T>=0&&t-1>=0&&N-1>=0&&T-1>=0&&-i+N-1>=0};
+rsub := {[t,i]:i>=0&&-t+T>=0&&t-1>=0&&N-1>=0&&T-1>=0&&-i+N-1>=0};
+rdot := {[t,i]:i>=0&&-t+T>=0&&t-1>=0&&N-1>=0&&T-1>=0&&-i+N-1>=0};
+bdiv := {[t]:-t+T>=0&&t-1>=0&&T-1>=0};
+bmul := {[t,i]:i>=0&&-t+T>=0&&t-1>=0&&N-1>=0&&T-1>=0&&-i+N-1>=0};
+dadd := {[t,i]:i>=0&&-t+T>=0&&t-1>=0&&N-1>=0&&T-1>=0&&-i+N-1>=0};
+
+r0copy := {[i] -> [0,i,0]};
+r0spmv := {[t,i,n,j] -> [1,t,0,i,0,n,j]};
+r0ddot := {[t,i] -> [1,t,0,i,1]};
+r0rdot0 := {[t,i] -> [1,t,0,i,2]};
+r0adiv := {[t] -> [1,t,1]};
+r0xadd := {[t,i] -> [1,t,2,i,0]};
+r0rsub := {[t,i] -> [1,t,2,i,1]};
+r0rdot := {[t,i] -> [1,t,2,i,2]};
+r0bdiv := {[t] -> [1,t,3]};
+r0bmul := {[t,i] -> [1,t,4,i,0]};
+r0dadd := {[t,i] -> [1,t,4,i,1]};
+
+codegen r0copy:copy, r0spmv:spmv, r0ddot:ddot, r0rdot0:rdot0, r0adiv:adiv, r0xadd:xadd,r0rsub:rsub, r0rdot:rdot, r0bdiv:bdiv, r0bmul:bmul, r0dadd:dadd given {[t,i,n,j]: N-1>=0&&T-1>=0&&-rp(t,i)+rp1(t,i)-1>=0};
+

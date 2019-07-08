@@ -25,24 +25,7 @@ protected:
     }
 
     virtual void Execute() {
-        unsigned nbytes = _nrow * sizeof(double);
-        double* r = (double*) malloc(nbytes);
-        double* d = (double*) malloc(nbytes);
-
-        // copy
-        memcpy(r, _b, nbytes);
-        memcpy(d, r, nbytes);
-
-        // conjgrad
-        unsigned t = 0;
-        //for (; t < _maxiter && _error > _tolerance; t++) {
-        for (; t < _maxiter; t++) {
-            _error = conjgrad_csr(_vals, _nrow, _cols, _rowptr, d, r, _x);
-        }
-        _niter = t;
-
-        free(r);
-        free(d);
+        _error = conjgrad_csr(_vals, _b, _nrow, _maxiter, _cols, _rowptr, _x);
     }
 
     virtual void Evaluate() {

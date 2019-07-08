@@ -404,7 +404,7 @@ public:
             ufuncs = update_ufuncs(result, iters, symlist, ufuncs);
             update_relations(ufuncs, result, given);
 
-            if (!given.empty()) {
+            if (!given.empty() && givens.find(given) == string::npos) {
                 if (!givens.empty()) {
                     givens += "&&";
                 }

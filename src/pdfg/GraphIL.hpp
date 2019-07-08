@@ -3173,7 +3173,7 @@ namespace pdfg {
             string compCmd = "/usr/bin/gcc -g -O3 -c " + src + " -o " + obj;
             cerr << "compile: '" << compCmd << "'\n";
             int stat = system(compCmd.c_str());
-            return "";
+            return compCmd;
         }
 
         void print(const string& file = "") {

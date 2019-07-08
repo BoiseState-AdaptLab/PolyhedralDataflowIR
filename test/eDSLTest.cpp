@@ -417,28 +417,29 @@ TEST(eDSLTest, ConjGrad) {
 
 TEST(eDSLTest, ConjGradTime) {
     Iter t('t'), i('i'), j('j'), n('n');
-    Const N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
+    Const T('T'), N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
     Func rp("rp"), row("row"), col("col");
 
     // Iteration spaces:
-    Space sca("sca");
-    Space vec("vec", 0 <= i < N);
-    Space csr("csr", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
-    //Space coo("coo", 0 <= n < M ^ i==row(n) ^ j==col(n));
-    //Space spv("spv", 0 <= n < M ^ i==row(n));   // Sparse vector, to enable fusion of dot products with SpMV.
+    Space cpy("cpy", 0 <= i < N);
+    Space sca("sca", 1 <= t <= T);
+    Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
+    Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    //Space coo("coo", 1 <= t <= T ^ 0 <= n < M ^ i==row(n) ^ j==col(n));
+    //Space spv("spv", 1 <= t <= T ^ 0 <= n < M ^ i==row(n));  // Sparse vector enables fusing dot products with SpMV.
     //Space mtx = coo;
     Space mtx = csr;
 
     // Data spaces:
     Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
     Space v1("v1", N), v2("v2", N), v3("v3", N);
-    Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0");
+    Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
 
     string name = "conjgrad_csr";
     //string name = "conjgrad_coo";
-    init(name, "rs", "d", "", {"d", "r"}, to_string(0));
+    init(name, "rs", "d", "", {string("tol")}, to_string(0));
 
-    //Comp copy("copy", vec, ((r[i]=b[i]+0) ^ (d[i]=b[i]+0)));
+    Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
     Comp ddot("ddot", vec, (ds += d[i]*s[i]));
     //Comp ddot("ddot", spv, (ds += d[i]*s[i]));
@@ -451,11 +452,17 @@ TEST(eDSLTest, ConjGradTime) {
     Comp bdiv("bdiv", sca, (beta = rs / rs0));
     Comp bmul("bmul", vec, (d[i] *= beta));
     Comp dadd("dadd", vec, (d[i] += r[i]));
+    //Comp check("check", sca, (rs <= tol), (t=T+1));
 
     // Perform fusions
-    fuse("spmv", "ddot", "rdot0");
-    fuse("xadd", "rsub", "rdot");
-    fuse("bmul", "dadd");
+//    fuse("spmv", "ddot", "rdot0");
+//    fuse("xadd", "rsub", "rdot");
+//    fuse("bmul", "dadd");
+    fuse({"spmv", "ddot", "rdot0", "xadd", "rsub", "rdot", "bmul", "dadd"});
+
+    // TODO:
+    // 1) Again, fix ScheduleVisitor.
+    // 2) DataReduceVisitor is incorrectly scalarizing 's'.
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/" + name + ".json");

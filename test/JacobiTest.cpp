@@ -88,7 +88,7 @@ namespace test {
         virtual void Inspect() {}
 
         virtual void Execute() {
-            _x = jacobi(_vals, _b, _tolerance, _nrow, _maxiter);
+            _x = jacobi(_tolerance, _vals, _b, _nrow, _maxiter);
         }
 
         virtual void Evaluate() {
