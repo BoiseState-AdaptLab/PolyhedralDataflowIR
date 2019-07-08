@@ -119,7 +119,7 @@ public:
         return oss.str();
 	}
 
-    static vector<std::string> filter(const vector<string>& items, string pattern, bool negate = false) {
+    static vector<std::string> filter(const vector<string>& items, const string& pattern, bool negate = false) {
 	    vector<string> matches;
 	    if (!pattern.empty()) {
             for (string item : items) {

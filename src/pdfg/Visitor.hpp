@@ -116,7 +116,9 @@ namespace pdfg {
         }
 
         void define(const string &name, const string &defn = "") {
-            _defines.push_back(make_pair<string, string>(string(name), string(defn)));
+            if (!Strings::in(_mathFunctions, name.substr(0, name.find('(')), true)) {
+                _defines.push_back(make_pair<string, string>(string(name), string(defn)));
+            }
         }
 
         void function(const string &header, const string &body) {
@@ -324,7 +326,18 @@ namespace pdfg {
         }
 
         void addHeader() {
-            string line = _graph->returnType() + " " + _graph->name() + "(";
+            // Check return type...
+            string returnName = _graph->returnName();
+            string returnType = _graph->returnType();
+            if (!returnName.empty()) {
+                DataNode* returnNode = (DataNode*) _graph->get(returnName);
+                string returnSize = returnNode->size()->text();
+                if (!returnSize.empty() && atoi(returnSize.c_str()) != 1) {
+                    returnType += "*";
+                }
+            }
+
+            string line = returnType + " " + _graph->name() + "(";
             unsigned n = 0, nparams = _params.size();
             std::sort(_params.begin(), _params.end());
             for (const string& param : _params) {
@@ -351,8 +364,10 @@ namespace pdfg {
         void addFooter() {
             string line;
             for (const string& free : _frees) {
-                line = _indent + "free(" + free + ");";
-                _body.push_back(line);
+                if (free != _graph->returnName()) {
+                    line = _indent + "free(" + free + ");";
+                    _body.push_back(line);
+                }
             }
 
             if (!_graph->returnName().empty()) {
@@ -381,7 +396,6 @@ namespace pdfg {
             for (const auto& itr : _poly.macros()) {
                 define(itr);
             }
-
             if (!_defines.empty()) {
                 for (auto& define : _defines) {
                     string line = "#define " + define.first + " " + define.second;
@@ -509,6 +523,8 @@ namespace pdfg {
         bool _profile;
         unsigned _niters;
 
+        const string _mathFunctions = "sqrt|log|log10|pow|sin|cos|tan";
+
         string _indent;
         string _lang;
         string _path;
@@ -547,6 +563,7 @@ namespace pdfg {
 //            }
 
             vector<Edge*> inedges = _graph->inedges(node);
+            map<string, Access*> reads = node->reads();
             for (Edge* edge : inedges) {
                 if (edge->source()->is_data()) {
                     DataNode* source = (DataNode*) edge->source();
@@ -571,6 +588,8 @@ namespace pdfg {
                 inSizeExprI += "*" + to_string(sizeof(int));
                 node->attr("isize_in", inSizeExprI);
                 node->attr("istreams_in", to_string(inStreamsI));
+            } else {
+                inSizeExprI = to_string(sizeof(int));
             }
 
             if (!inSizeExprF.empty()) {
@@ -581,9 +600,12 @@ namespace pdfg {
                 inSizeExprF += "*" + to_string(sizeof(double));
                 node->attr("fsize_in", inSizeExprF);
                 node->attr("fstreams_in", to_string(inStreamsF));
+            } else {
+                inSizeExprF = to_string(sizeof(double));
             }
 
             vector<Edge*> outedges = _graph->outedges(node);
+            map<string, Access*> writes = node->writes();
             for (Edge* edge : outedges) {
                 DataNode *dest = (DataNode *) edge->dest();
                 string sizeExpr;

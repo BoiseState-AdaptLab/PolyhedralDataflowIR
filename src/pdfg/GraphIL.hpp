@@ -1423,7 +1423,7 @@ namespace pdfg {
 //        }
 
         Space(const Func& func) {
-            string ichars = "ijkmnpqrsy";
+            string ichars = "ijkmnpqrsyx";
             Tuple iters;
             for (unsigned i = 0; i < func.arity(); i++) {
                 iters.emplace_back(Iter(ichars[i]));
@@ -1837,17 +1837,17 @@ namespace pdfg {
 
     private:
         void init(const string &name, const Expr &lower, const Expr &upper) {
-            Iter iter("i" + to_string(_iter_counter));
-            _iter_counter += 1;
+            Iter iter("i"); // + to_string(_iter_counter));
+            //_iter_counter += 1;
             Constr lhs(lower, iter, "<=");
             Constr rhs(iter, upper, "<");
             init(name, {iter}, {lhs, rhs});
         }
 
         void init(const string &name, const Expr &lower1, const Expr &upper1, const Expr &lower2, const Expr &upper2) {
-            Iter iter1("i" + to_string(_iter_counter));
-            Iter iter2("j" + to_string(_iter_counter));
-            _iter_counter += 1;
+            Iter iter1("i"); // + to_string(_iter_counter));
+            Iter iter2("j"); // + to_string(_iter_counter));
+            //_iter_counter += 1;
             Constr lhs1(lower1, iter1, "<=");
             Constr rhs1(iter1, upper1, "<");
             Constr lhs2(lower2, iter2, "<=");
@@ -1857,10 +1857,10 @@ namespace pdfg {
 
         void init(const string &name, const Expr &lower1, const Expr &upper1, const Expr &lower2, const Expr &upper2,
                   const Expr &lower3, const Expr &upper3) {
-            Iter iter1("i" + to_string(_iter_counter));
-            Iter iter2("j" + to_string(_iter_counter));
-            Iter iter3("k" + to_string(_iter_counter));
-            _iter_counter += 1;
+            Iter iter1("i"); // + to_string(_iter_counter));
+            Iter iter2("j"); // + to_string(_iter_counter));
+            Iter iter3("k"); // + to_string(_iter_counter));
+            //_iter_counter += 1;
             Constr lhs1(lower1, iter1, "<=");
             Constr rhs1(iter1, upper1, "<");
             Constr lhs2(lower2, iter2, "<=");
@@ -2727,6 +2727,16 @@ namespace pdfg {
             _type = '0';
             _statements = statements;
             _guards = guards;
+
+            for (Constr& guard : _guards) {
+                if (guard.lhs().is_space()) {
+                    addSpace(guard.lhs());
+                }
+                if (guard.rhs().is_space()) {
+                    addSpace(guard.rhs());
+                }
+            }
+
             while (_guards.size() < _statements.size()) {
                 _guards.emplace_back(Constr());
             }
@@ -2930,6 +2940,17 @@ namespace pdfg {
                     }
                 } else if (!stmt.rhs().is_scalar()) {
                     readExprs.push_back(stmt.rhs());
+                }
+            }
+
+            for (Constr& constr : comp.guards()) {
+                string guard = constr.text();
+                if (!guard.empty()) {
+                    for (const auto &sit : _spaces) {
+                        if (Strings::in(guard, sit.first, true)) {
+                            readExprs.push_back(sit.second);
+                        }
+                    }
                 }
             }
 

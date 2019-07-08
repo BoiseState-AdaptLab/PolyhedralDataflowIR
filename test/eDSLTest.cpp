@@ -512,10 +512,11 @@ TEST(eDSLTest, JacobiMethod) {
     Space mtx("mtx", 1 <= t <= T ^ 0 <= i < N ^ 0 <= j < N);
 
     string name = "jacobi";
-    pdfg::init(name, "x", "d"); //, "", {"d", "r"}, to_string(0));
+    pdfg::init(name, "x", "d", "", {"tol"}, to_string(0));
     Comp clear("clear", sca, Math(err, Real(0.), "="));
     Comp init("init", vec, (x(t,i) = b(i)+0));
     Comp dot("dot", mtx, (i != j), (x(t,i) += -A(i,j) * x(t-1,j)));
+    //Comp dot("dot", mtx, x(t,i) += -A(i,j) * x(t-1,j));
     Comp div("div", vec, (x(t,i) /= A(i,i)));
     Comp norm("norm", vec, (err += (x(t,i) - x(t-1,i)) * (x(t,i) - x(t-1,i))));
     // TODO: This works, but need to formalize exit predicates...
@@ -526,14 +527,11 @@ TEST(eDSLTest, JacobiMethod) {
     // TODO Items:
     // 1) Fix schedule visitor to produce correct schedules (as in out/jacobi.in).
     // 2) Fix data mapping functions -- observe that reuse distance of x means only 2*N data needed.
-    // 3) Do not define sqrt!
-    // 4) 'err' should not be an output, and 'x' should.
-    // 5) 'tol' should be an input.
-    // 6) 'x' alloc size is wrong.
-    // 7) Do  not free the return value!
+    // 3) Fix data allocation as well (e.g., 'x' alloc size is wrong).
+    // 4) Make it sparse!
 
-    print("out/jacobi.json");
-    string result = codegen("out/jacobi.h", "", "C++", "auto");
+    print("out/" + name + ".json");
+    string result = codegen("out/" + name + ".c", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
