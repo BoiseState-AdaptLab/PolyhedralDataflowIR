@@ -87,7 +87,7 @@ namespace test {
         virtual bool NumThreads(int nThreads) {
             bool result = false;
             if (nThreads > omp_get_max_threads()) {
-                cerr << "--num_threads cannot be more than \n" << omp_get_max_threads();
+                cerr << "--num_threads cannot be more than " << omp_get_max_threads() << "\n";
             } else if (nThreads < 1) {
                 cerr << "--num_threads cannot be less than 1\n";
             } else {
