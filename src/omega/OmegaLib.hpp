@@ -371,13 +371,14 @@ public:
 
     string codegen(const vector<string>& names, map<string, string>& relmap,
                    map<string, vector<string> >& schedmap) {
-        string iterlist;
+        //string iterlist;
         string symlist;
         string givens;
         string cgexpr;
 
         map<string, string> newmap;
         vector<string> allschedules;
+        vector<string> maxiters;
 
         for (const string& name : names) {
             string relname = name;
@@ -412,12 +413,16 @@ public:
             }
 
             if (!iters.empty()) {
-                for (const string& iter : iters) {
-                    if (iterlist.empty()) {
-                        iterlist = iter;
-                    } else if (iterlist.find(iter) == string::npos) {
-                        iterlist += "," + iter;
-                    }
+//                for (const string& iter : iters) {
+//                    if (iterlist.empty()) {
+//                        iterlist = iter;
+//                    } else if (iterlist.find(iter) == string::npos) {
+//                        iterlist += "," + iter;
+//                    }
+//                }
+
+                if (iters.size() > maxiters.size()) {
+                    maxiters = iters;
                 }
 
                 for (const string& sched : schedules) {
@@ -438,7 +443,8 @@ public:
         if (!symlist.empty()) {
             oss << "symbolic " << symlist << ";\n";
         }
-        if (!iterlist.empty()) {
+        //if (!iterlist.empty()) {
+        if (!maxiters.empty()) {
             for (const string& name : names) {
                 oss << name << " := " << newmap[name] << ";\n";
             }
@@ -448,7 +454,8 @@ public:
             cgexpr = cgexpr.substr(0, cgexpr.size() - 1);
             oss << "codegen" << cgexpr;
             if (!givens.empty()) {
-                oss << " given " << "{[" << iterlist << "]: " << givens << "}";
+                //oss << " given " << "{[" << iterlist << "]: " << givens << "}";
+                oss << " given " << "{" << Strings::str<string>(maxiters) << ": " << givens << "}";
             }
             oss << ";\n";
         }

@@ -80,7 +80,7 @@ namespace pdfg {
 
     struct CodeGenVisitor: DFGVisitor {
     public:
-        explicit CodeGenVisitor(const string &path = "", const string &lang = "C", bool profile = false, unsigned niters = 5) :
+        explicit CodeGenVisitor(const string &path = "", const string &lang = "C", bool profile = false, unsigned niters = 10) :
                 _path(path), _niters(niters), _lang(lang), _profile(profile) {
             init();
         }
@@ -662,9 +662,13 @@ namespace pdfg {
         void walk(FlowGraph* graph) override {
             // Walk iteration graph if present...
             if (_itergraph) {
-                walk(_itergraph);
+                // TODO: How to associate iteration graphs with CompNodes, for now assume all nodes are fused...
+                CompNode* node =  graph->comp_nodes()[0];
+                node->iter_graph(_itergraph);
+                walk(node);
+            } else {
+                DFGVisitor::walk(graph);
             }
-            DFGVisitor::walk(graph);
         }
 
         /// For each computation node, generate and assign a scheduling (scattering) function.
@@ -673,7 +677,6 @@ namespace pdfg {
             unsigned i, j, n;
             unsigned level = 0;
             unsigned maxiter = 0;
-            vector<Tuple> schedfxns;
             vector<int> offsets;
 
             // Skip if no fusion for now...
@@ -684,22 +687,12 @@ namespace pdfg {
             Comp* comp = node->comp();
 
             // 0) Collect current schedules and offsets
-            for (const Rel& rel : comp->schedules()) {
-                Tuple sched = rel.dest().iterators();
-                schedfxns.push_back(sched);
-            }
-            for (CompNode* child : node->children()) {
-                Comp* other = child->comp();
-                for (const Rel& rel : other->schedules()) {
-                    Tuple sched = rel.dest().iterators();
-                    schedfxns.push_back(sched);
-                }
-            }
+            _schedules = node->schedules();
 
             // 1) Calculate maximum # of iterators in tuples.
-            unsigned nschedules = schedfxns.size();
+            unsigned nschedules = _schedules.size();
             for (i = 0; i < nschedules; i++) {
-                unsigned niter = schedfxns[i].size();
+                unsigned niter = _schedules[i].size();
                 maxiter = (niter > maxiter) ? niter : maxiter;
             }
 
@@ -713,22 +706,22 @@ namespace pdfg {
             for (CompNode* child : node->children()) {
 //                map<string, Access*> isect = intersect(prev->writes(), child->reads());
 //                if (!isect.empty()) {   // P-C Fuse
-////                    maxOffsets(schedfxns[n], prev->writes(), offsets);
-////                    maxOffsets(schedfxns[n], child->reads(), offsets);
+////                    maxOffsets(_schedules[n], prev->writes(), offsets);
+////                    maxOffsets(_schedules[n], child->reads(), offsets);
 //                    fuseType = 'P';
 //                } else {
 //                    isect = intersect(prev->reads(), child->reads());
 //                    if (!isect.empty()) {   // R-R Fuse
 //                        // This might be a don't-care, these are just reads so order should not matter.
-////                        maxOffsets(schedfxns[n], prev->reads(), offsets);
-////                        maxOffsets(schedfxns[n], child->reads(), offsets);
+////                        maxOffsets(_schedules[n], prev->reads(), offsets);
+////                        maxOffsets(_schedules[n], child->reads(), offsets);
 //                        fuseType = 'R';
 //                    } else {
 //                        isect = intersect(prev->writes(), child->writes());
 //                        if (!isect.empty()) {   // W-W Fuse
 //                            // Potential WAW hazard -- how to handle this case? Error?
-////                            maxOffsets(schedfxns[n], prev->writes(), offsets);
-////                            maxOffsets(schedfxns[n], child->reads(), offsets);
+////                            maxOffsets(_schedules[n], prev->writes(), offsets);
+////                            maxOffsets(_schedules[n], child->reads(), offsets);
 //                            fuseType = 'W';
 //                        }
 //                    }
@@ -737,7 +730,7 @@ namespace pdfg {
                 nodes[i++] = child;
             }
 
-            vector<Tuple> newfxns = schedfxns;
+            vector<Tuple> newfxns = _schedules;
 
             // 3) Find the deepest common level
             int index = -1;
@@ -771,8 +764,8 @@ namespace pdfg {
                 // Check whether offset exists at this level
                 map<string, Access*> isect = intersect(nodes[i-1]->writes(), nodes[i]->reads());
                 if (!isect.empty()) {
-                    maxOffsets(schedfxns[i], nodes[i-1]->writes(), offsets);
-                    maxOffsets(schedfxns[i], nodes[i]->reads(), offsets);
+                    maxOffsets(_schedules[i], nodes[i-1]->writes(), offsets);
+                    maxOffsets(_schedules[i], nodes[i]->reads(), offsets);
                 }
                 for (n = 0; n < offsets.size(); n++) {
                     if (offsets[n] != 0) {
@@ -825,88 +818,35 @@ namespace pdfg {
         }
 
     protected:
-//        void walk(Digraph* graph) {
-//            unsigned size = graph->nodes().size();
-//
-//            stack<string> nodes;
-//            map<string, bool> visited;
-//            string root = graph->root();
-//            nodes.push(root);
-//            cerr << "push(" << root << ")\n";
-//
-//            string tuple = "";
-//            string path = "";
-//            while (!nodes.empty()) {
-//                // Pop a vertex from stack and print it
-//                string node = nodes.top();
-//                vector<Pair> edges = graph->edges(node);
-//
-//                cerr << "visit(" << node << ")\n";
-//
-//                if (node != graph->root() && path.find(dest) == string::npos) {
-//                    path += " " + node;
-//                }
-//
-//                if (edges.size() < 1) {      // leaf
-//                    string rel = "r_" + graph->label(node) + " := [" + tuple + "]";
-//                    cerr << rel << endl;
-//                    size_t pos = tuple.rfind(' ');
-//                    tuple = tuple.substr(0, pos - 1);
-//                    nodes.pop();
-//                    cerr << "pop(" << node << ")\n";
-//                } else {
-//                    bool added = false;
-//                    for (unsigned i = 0; i < edges.size() && !added; i++) {
-//                        Pair edge = edges[i];
-//                        string dest = edge.first;
-//                        string label = edge.second;
-//                        tuple += " " + label;
-//                        if (path.find(dest) == string::npos) {
-//                            cerr << "push(" << dest << ")\n";
-//                            nodes.push(dest);
-//                            added = true;
-//                        }
-//                    }
-//
-//                    if (!added) {
-//                        // No new edges on this path ...
-//                        size_t pos = path.rfind(' ');
-//                        path = path.substr(0, pos - 1);
-//                        nodes.pop();
-//                        cerr << "pop(" << node << ")\n";
-//                    }
-//                }
-//            }
-//
-//            cerr << endl;
-//            int stop =1 ;
-//        }
-
-        void walk(Digraph* graph) {
-            string tuple;
+        void walk(CompNode* node) {
+            // 1) Traverse the iteration graph
+            Tuple tuple;
+            Digraph* graph = node->iter_graph();
             visit(graph, graph->root(), tuple);
-            int stop = 1;
+
+            // 2) Replace schedules with updated tuples...
+            node->schedules(_schedules);
         }
 
-        void visit(Digraph* graph, const string& node, string& tuple) {
-            tuple += " " + graph->label(node);
-
+        void visit(Digraph* graph, const string& node, Tuple& tuple) {
+            string label = graph->label(node);
+            tuple.push_back(Iter(label));
             vector<Pair> edges = graph->edges(node);
+
             if (edges.size() < 1) {     // Leaf node
-                size_t pos = tuple.rfind(' ');
-                string stmt = tuple.substr(pos + 1);
-                tuple = tuple.substr(0, pos);
-                string rel = "r_" + stmt + " := [" + tuple + "]";
-                _schedules.push_back(rel);
-                cerr << rel << endl;
+                Iter stmt = tuple.back();
+                tuple.pop_back();
+                Tuple schedule(tuple.begin() + 1, tuple.end());
+                cerr << "r0" << stmt << " := " << schedule << endl;
+                _schedules.push_back(schedule);
             } else {                    // Visit children
                 for (Pair& edge : edges) {
-                    string label = edge.second;
-                    tuple += " " + label;
+                    label = edge.second;
+                    tuple.push_back(Iter(label));
                     visit(graph, edge.first, tuple);
-                    tuple = tuple.substr(0, tuple.rfind(' '));
+                    tuple.pop_back();
                 }
-                tuple = tuple.substr(0, tuple.rfind(' '));
+                tuple.pop_back();
             }
         }
 
@@ -1009,7 +949,7 @@ namespace pdfg {
         }
 
         Digraph* _itergraph;
-        vector<string> _schedules;
+        vector<Tuple> _schedules;
     };
 
     struct DataReduceVisitor : public DFGVisitor {

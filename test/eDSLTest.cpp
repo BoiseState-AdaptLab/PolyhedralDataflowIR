@@ -418,36 +418,31 @@ TEST(eDSLTest, ConjGrad) {
     ASSERT_TRUE(!result.empty());
 }
 
-TEST(eDSLTest, ConjGradTime) {
+TEST(eDSLTest, ConjGradCOO) {
     Iter t('t'), i('i'), j('j'), n('n');
     Const T('T'), N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
-    Func rp("rp"), row("row"), col("col");
+    Func row("row"), col("col");
 
     // Iteration spaces:
     Space cpy("cpy", 0 <= i < N);
     Space sca("sca", 1 <= t <= T);
     Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
-    Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
-    //Space coo("coo", 1 <= t <= T ^ 0 <= n < M ^ i==row(n) ^ j==col(n));
-    //Space spv("spv", 1 <= t <= T ^ 0 <= n < M ^ i==row(n));  // Sparse vector enables fusing dot products with SpMV.
-    //Space mtx = coo;
-    Space mtx = csr;
+    Space coo("coo", 1 <= t <= T ^ 0 <= n < M ^ i==row(n) ^ j==col(n));
+    Space spv("spv", 1 <= t <= T ^ 0 <= n < M ^ i==row(n));  // Sparse vector enables fusing dot products with SpMV.
+    Space mtx = coo;
 
     // Data spaces:
     Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
     Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
 
-    string name = "conjgrad_csr";
-    //string name = "conjgrad_coo";
+    string name = "conjgrad_coo";
     init(name, "rs", "d", "", {string("tol")}, to_string(0));
 
     Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
-    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
-    //Comp ddot("ddot", spv, (ds += d[i]*s[i]));
-    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
-    //Comp rdot0("rdot0", spv, (rs0 += r[i]*r[i]));
+    Comp ddot("ddot", spv, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", spv, (rs0 += r[i]*r[i]));
     Comp adiv("adiv", sca, (alpha = rs0/ds));
     Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
     Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
@@ -461,11 +456,55 @@ TEST(eDSLTest, ConjGradTime) {
 //    fuse("spmv", "ddot", "rdot0");
 //    fuse("xadd", "rsub", "rdot");
 //    fuse("bmul", "dadd");
-    fuse({"spmv", "ddot", "rdot0", "xadd", "rsub", "rdot", "bmul", "dadd"});
+    fuse();
 
-    // TODO:
-    // 1) Again, fix ScheduleVisitor.
-    // 2) DataReduceVisitor is incorrectly scalarizing 's'.
+    perfmodel();        // perfmodel annotates graph with performance attributes.
+    print("out/" + name + ".json");
+    Digraph itergraph = ConjGradTest::IterGraph();
+    reschedule(itergraph);
+    string result = codegen("out/" + name + ".o", "", "C++", "auto");
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, ConjGrad2) { //CSR) {
+    Iter t('t'), i('i'), j('j'), n('n');
+    Const T('T'), N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
+    Func rp("rp"), col("col");
+
+    // Iteration spaces:
+    Space cpy("cpy", 0 <= i < N);
+    Space sca("sca", 1 <= t <= T);
+    Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
+    Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    Space mtx = csr;
+
+    // Data spaces:
+    Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
+    Space v1("v1", N), v2("v2", N), v3("v3", N);
+    Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
+
+    string name = "conjgrad_csr";
+    init(name, "rs", "d", "", {string("tol")}, to_string(0));
+
+    Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
+    Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
+    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    Comp adiv("adiv", sca, (alpha = rs0/ds));
+    Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
+    Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
+    Comp rdot("rdot", vec, (rs += r[i]*r[i]));
+    Comp bdiv("bdiv", sca, (beta = rs / rs0));
+    Comp bmul("bmul", vec, (d[i] *= beta));
+    Comp dadd("dadd", vec, (d[i] += r[i]));
+    //Comp check("check", sca, (rs <= tol), (t=T+1));
+
+    // Perform fusions
+//    fuse("spmv", "ddot", "rdot0");
+//    fuse("xadd", "rsub", "rdot");
+//    fuse("bmul", "dadd");
+    fuse();
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/" + name + ".json");

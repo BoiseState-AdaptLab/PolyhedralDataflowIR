@@ -2173,7 +2173,6 @@ namespace pdfg {
         return os;
     }
 
-
     Math mathSpace(const Space& space, const Access& acc, const string& oper) {
         addSpace(space);
         return Math(space, acc, oper);
@@ -2845,6 +2844,15 @@ namespace pdfg {
             _scheduled = _reduced = false;
         }
 
+        void fuse() {
+            vector<CompNode*> nodes = _flowGraph.comp_nodes();
+            CompNode* node = nodes[0];
+            for (unsigned i = 1; i < nodes.size(); i++) {
+                _flowGraph.fuse(*node->comp(), *nodes[i]->comp());
+                node = nodes[i];
+            }
+        }
+
         void fuse(Comp& comp1, Comp& comp2) {
             _flowGraph.fuse(comp1, comp2);
         }
@@ -3145,6 +3153,7 @@ namespace pdfg {
             }
 
             reschedule(name);       // Run scheduling pass if needed.
+            _reduced = true;        // Disable data-reduce visitor for now...
             datareduce(name);       // Run data redux pass if needed.
 
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
@@ -3660,6 +3669,11 @@ namespace pdfg {
 
     Expr* getSize(const Comp& comp, const Func& func) {
         return GraphMaker::get().getSize(comp, func);
+    }
+
+    void fuse() {
+        GraphMaker &gm = GraphMaker::get();
+        gm.fuse();
     }
 
     void fuse(Comp& comp1, Comp& comp2) {

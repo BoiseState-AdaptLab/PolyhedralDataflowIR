@@ -342,6 +342,39 @@ namespace pdfg {
             _itergraph = graph;
         }
 
+        vector<Tuple> schedules() const {
+            Comp* comp = this->comp();
+            vector<Tuple> tuples;
+            for (const Rel& rel : comp->schedules()) {
+                Tuple sched = rel.dest().iterators();
+                tuples.push_back(sched);
+            }
+            for (CompNode* child : this->children()) {
+                Comp* other = child->comp();
+                for (const Rel& rel : other->schedules()) {
+                    Tuple sched = rel.dest().iterators();
+                    tuples.push_back(sched);
+                }
+            }
+            return tuples;
+        }
+
+        void schedules(const vector<Tuple>& tuples) {
+            unsigned i, n = 0;
+            Comp* comp = this->comp();
+            for (i = 0; i < comp->nschedules(); i++) {
+                comp->reschedule(i, tuples[n]);
+                n += 1;
+            }
+            for (CompNode* child : this->children()) {
+                Comp* other = child->comp();
+                for (i = 0; i < other->nschedules(); i++) {
+                    other->reschedule(i, tuples[n]);
+                    n += 1;
+                }
+            }
+        }
+
         vector<Access*> accesses(const string& space = "") const {
             vector<Access*> accesses;
             for (auto& read : _reads) {
@@ -677,6 +710,26 @@ namespace pdfg {
                 }
             }
             return edges;
+        }
+
+        vector<CompNode*> comp_nodes() const {
+            vector<CompNode*> nodes;
+            for (Node* node : _nodes) {
+                if (node->is_comp()) {
+                    nodes.push_back((CompNode*) node);
+                }
+            }
+            return nodes;
+        }
+
+        vector<CompNode*> data_nodes() const {
+            vector<CompNode*> nodes;
+            for (Node* node : _nodes) {
+                if (node->is_data()) {
+                    nodes.push_back((CompNode*) node);
+                }
+            }
+            return nodes;
         }
 
         bool isReturn(Node* node) const {

@@ -346,6 +346,21 @@ public:
         return fixed;
 	}
 
+    template<typename T>
+    static inline string str(const vector<T> &tuple) {
+	    ostringstream os;
+        os << '[';
+        unsigned last = tuple.size() - 1;
+        for (unsigned i = 0; i <= last; i++) {
+            os << tuple[i];
+            if (i < last) {
+                os << ',';
+            }
+        }
+        os << ']';
+        return os.str();
+    }
+
     template <typename T>
     static inline T convert(const string& in) {
 	    T out;
