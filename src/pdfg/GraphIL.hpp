@@ -2842,6 +2842,7 @@ namespace pdfg {
         void newGraph(const string& name) {
             _flowGraph = FlowGraph(name);
             _graphs[name] = _flowGraph;
+            _scheduled = _reduced = false;
         }
 
         void fuse(Comp& comp1, Comp& comp2) {
@@ -3143,8 +3144,8 @@ namespace pdfg {
                 cpath = Strings::replace(cpath, ".o", ".c");
             }
 
-            reschedule(name);       // Run scheduling pass.
-            datareduce(name);       // Run data redux pass.
+            reschedule(name);       // Run scheduling pass if needed.
+            datareduce(name);       // Run data redux pass if needed.
 
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
             cgen.ompSchedule(ompsched);
@@ -3195,21 +3196,27 @@ namespace pdfg {
             }
         }
 
-        void reschedule(const string& name = "") {
-            ScheduleVisitor scheduler;
-            if (name.empty()) {
-                scheduler.walk(&_flowGraph);
-            } else {
-                scheduler.walk(&_graphs[name]);
+        void reschedule(const string& name = "", Digraph* itergraph = nullptr) {
+            if (!_scheduled) {
+                ScheduleVisitor scheduler(itergraph);
+                if (name.empty()) {
+                    scheduler.walk(&_flowGraph);
+                } else {
+                    scheduler.walk(&_graphs[name]);
+                }
+                _scheduled = true;
             }
         }
 
         void datareduce(const string& name = "") {
-            DataReduceVisitor reducer;
-            if (name.empty()) {
-                reducer.walk(&_flowGraph);
-            } else {
-                reducer.walk(&_graphs[name]);
+            if (!_reduced) {
+                DataReduceVisitor reducer;
+                if (name.empty()) {
+                    reducer.walk(&_flowGraph);
+                } else {
+                    reducer.walk(&_graphs[name]);
+                }
+                _reduced = true;
             }
         }
 
@@ -3498,6 +3505,9 @@ namespace pdfg {
             return rdist;
         }
 
+        bool _scheduled;
+        bool _reduced;
+
         string _indexType;
         string _dataType;
 
@@ -3542,6 +3552,10 @@ namespace pdfg {
 
     void perfmodel(const string& name = "") {
         GraphMaker::get().perfmodel(name);
+    }
+
+    void reschedule(Digraph& itergraph) {
+        GraphMaker::get().reschedule("", &itergraph);
     }
 
     void reschedule(const string& name = "") {

@@ -19,9 +19,9 @@ using std::pair;
 using std::make_pair;
 
 namespace pdfg {
-    class Digraph {
-        typedef pair<string, string> Pair;
+    typedef pair<string, string> Pair;
 
+    class Digraph {
         friend ostream& operator<<(ostream& out, Digraph& g) {
             out << "{ \"name\": \"" << g._name << "\", \"nodes\": { ";
             unsigned m = 0;
@@ -61,6 +61,33 @@ namespace pdfg {
             return _name;
         }
 
+        string root() const {
+            if (!_nodes.empty()) {
+                return _nodes[0];
+            }
+            return "";
+        }
+
+        bool is_root(const string& node) const {
+            return node == root();
+        }
+
+        bool is_leaf(const string& node) const {
+            return this->edges(node).size() < 1;
+        }
+
+        vector<string>& nodes() {
+            return _nodes;
+        }
+
+        vector<Pair> edges(const string& name) const {
+            auto itr = _indices.find(name);
+            if (itr != _indices.end()) {
+                return _edges[itr->second];
+            }
+            return vector<Pair>();
+        }
+
         string label(const string& name) const {
             auto itr = _labels.find(name);
             if (itr != _labels.end()) {
@@ -88,9 +115,9 @@ namespace pdfg {
                 _nodes.push_back(name);
             }
 
-            if (!label.empty()) {
+            //if (!label.empty()) {
                 _labels[name] = label;
-            }
+            //}
 
             unsigned nattrs = attrs.size();
             if (nattrs > 0) {

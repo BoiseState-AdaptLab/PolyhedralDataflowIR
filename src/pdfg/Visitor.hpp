@@ -14,8 +14,11 @@
  * Contact: eddiedavis@boisestate.edu
  */
 
-#ifndef POLYEXT_VISITOR_H
-#define POLYEXT_VISITOR_H
+#ifndef _VISITOR_H_
+#define _VISITOR_H_
+
+#include <stack>
+using std::stack;
 
 #include <pdfg/GraphIL.hpp>
 #include <util/OS.hpp>
@@ -523,7 +526,7 @@ namespace pdfg {
         bool _profile;
         unsigned _niters;
 
-        const string _mathFunctions = "sqrt|log|log10|pow|sin|cos|tan";
+        const string _mathFunctions = "sqrt|log|log10|exp|pow|sin|cos|tan";
 
         string _indent;
         string _lang;
@@ -653,7 +656,15 @@ namespace pdfg {
 
     struct ScheduleVisitor : public DFGVisitor {
     public:
-        explicit ScheduleVisitor() {
+        explicit ScheduleVisitor(Digraph* itergraph = nullptr) : _itergraph(itergraph) {
+        }
+
+        void walk(FlowGraph* graph) override {
+            // Walk iteration graph if present...
+            if (_itergraph) {
+                walk(_itergraph);
+            }
+            DFGVisitor::walk(graph);
         }
 
         /// For each computation node, generate and assign a scheduling (scattering) function.
@@ -814,6 +825,91 @@ namespace pdfg {
         }
 
     protected:
+//        void walk(Digraph* graph) {
+//            unsigned size = graph->nodes().size();
+//
+//            stack<string> nodes;
+//            map<string, bool> visited;
+//            string root = graph->root();
+//            nodes.push(root);
+//            cerr << "push(" << root << ")\n";
+//
+//            string tuple = "";
+//            string path = "";
+//            while (!nodes.empty()) {
+//                // Pop a vertex from stack and print it
+//                string node = nodes.top();
+//                vector<Pair> edges = graph->edges(node);
+//
+//                cerr << "visit(" << node << ")\n";
+//
+//                if (node != graph->root() && path.find(dest) == string::npos) {
+//                    path += " " + node;
+//                }
+//
+//                if (edges.size() < 1) {      // leaf
+//                    string rel = "r_" + graph->label(node) + " := [" + tuple + "]";
+//                    cerr << rel << endl;
+//                    size_t pos = tuple.rfind(' ');
+//                    tuple = tuple.substr(0, pos - 1);
+//                    nodes.pop();
+//                    cerr << "pop(" << node << ")\n";
+//                } else {
+//                    bool added = false;
+//                    for (unsigned i = 0; i < edges.size() && !added; i++) {
+//                        Pair edge = edges[i];
+//                        string dest = edge.first;
+//                        string label = edge.second;
+//                        tuple += " " + label;
+//                        if (path.find(dest) == string::npos) {
+//                            cerr << "push(" << dest << ")\n";
+//                            nodes.push(dest);
+//                            added = true;
+//                        }
+//                    }
+//
+//                    if (!added) {
+//                        // No new edges on this path ...
+//                        size_t pos = path.rfind(' ');
+//                        path = path.substr(0, pos - 1);
+//                        nodes.pop();
+//                        cerr << "pop(" << node << ")\n";
+//                    }
+//                }
+//            }
+//
+//            cerr << endl;
+//            int stop =1 ;
+//        }
+
+        void walk(Digraph* graph) {
+            string tuple;
+            visit(graph, graph->root(), tuple);
+            int stop = 1;
+        }
+
+        void visit(Digraph* graph, const string& node, string& tuple) {
+            tuple += " " + graph->label(node);
+
+            vector<Pair> edges = graph->edges(node);
+            if (edges.size() < 1) {     // Leaf node
+                size_t pos = tuple.rfind(' ');
+                string stmt = tuple.substr(pos + 1);
+                tuple = tuple.substr(0, pos);
+                string rel = "r_" + stmt + " := [" + tuple + "]";
+                _schedules.push_back(rel);
+                cerr << rel << endl;
+            } else {                    // Visit children
+                for (Pair& edge : edges) {
+                    string label = edge.second;
+                    tuple += " " + label;
+                    visit(graph, edge.first, tuple);
+                    tuple = tuple.substr(0, tuple.rfind(' '));
+                }
+                tuple = tuple.substr(0, tuple.rfind(' '));
+            }
+        }
+
         map<string, Access*> intersect(const map<string, Access*> lhs, const map<string, Access*> rhs) const {
             map<string, Access*> isect;
             for (const auto& itr : lhs) {
@@ -911,6 +1007,9 @@ namespace pdfg {
             }
             return level;
         }
+
+        Digraph* _itergraph;
+        vector<string> _schedules;
     };
 
     struct DataReduceVisitor : public DFGVisitor {
@@ -974,4 +1073,4 @@ namespace pdfg {
     };
 }
 
-#endif  // POLYEXT_VISITOR_H
+#endif  // _VISITOR_H_

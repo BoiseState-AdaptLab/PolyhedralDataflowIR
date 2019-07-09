@@ -10,6 +10,8 @@
 //#include <pdfg/FlowGraph.hpp>
 //#include <isl/IntSetLib.hpp>
 //#include <solve/Z3Lib.hpp>
+#include <ConjGradTest.hpp>
+using test::ConjGradTest;
 
 using namespace pdfg;
 using namespace poly;
@@ -467,52 +469,15 @@ TEST(eDSLTest, ConjGradTime) {
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/" + name + ".json");
+    Digraph itergraph = ConjGradTest::IterGraph();
+    reschedule(itergraph);
     string result = codegen("out/" + name + ".o", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
 
 TEST(eDSLTest, IterGraph) {
-    Digraph cgg("CG_IG");
-    cgg.attr("rankdir", "LR");
-    cgg.node("r", "*", {"shape", "none"});
-    cgg.node("i0", "i");
-    cgg.node("c", "copy", {"shape","rect"});
-    cgg.node("i1", "i");
-    cgg.node("n", "n");
-    cgg.node("j", "j");
-    cgg.node("s", "spmv", {"shape","rect"});
-    cgg.node("a", "adiv", {"shape","rect"});
-    cgg.node("d", "ddot", {"shape","rect"});
-    cgg.node("r0", "rdot0", {"shape","rect"});
-    cgg.node("i2", "i");
-    cgg.node("x", "xadd", {"shape","rect"});
-    cgg.node("r1", "rsub", {"shape","rect"});
-    cgg.node("r2", "rdot", {"shape","rect"});
-    cgg.node("b", "bdiv", {"shape","rect"});
-    cgg.node("i3", "i");
-    cgg.node("b1", "bmul", {"shape","rect"});
-    cgg.node("d1", "dadd", {"shape","rect"});
-
-    cgg.edge("r", "i0", 0);
-    cgg.edge("i0", "c", 0);
-    cgg.edge("r", "t", 1);
-    cgg.edge("t", "i1", 0);
-    cgg.edge("i1", "n", 0);
-    cgg.edge("n", "j", 0);
-    cgg.edge("j", "s", 0);
-    cgg.edge("t", "a", 1);
-    cgg.edge("i1", "d", 1);
-    cgg.edge("i1", "r0", 2);
-    cgg.edge("t", "i2", 2);
-    cgg.edge("i2", "x", 0);
-    cgg.edge("i2", "r1", 1);
-    cgg.edge("i2", "r2", 2);
-    cgg.edge("t", "b", 3);
-    cgg.edge("t", "i3", 4);
-    cgg.edge("i3", "b1", 0);
-    cgg.edge("i3", "d1", 1);
-
+    Digraph cgg = ConjGradTest::IterGraph();
 //    ostringstream os;
 //    os << cgg;
     string result = cgg.to_dot(); //os.str();

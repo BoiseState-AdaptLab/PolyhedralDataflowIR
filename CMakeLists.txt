@@ -11,7 +11,7 @@ include_directories(lib/iegenlib/src
                     lib/gtest  lib/gtest/include
                     lib/eigen lib/eigen/unsupported
                     lib/papi/src
-                    out src
+                    out src test
 )
 
 set(EDSL_FILES   src/poly/PolyLib.hpp

@@ -42,6 +42,7 @@ using std::pair;
 #include <ctype.h>
 #include <unistd.h>
 // My Includes:
+#include <pdfg/Digraph.hpp>
 #include <util/Strings.hpp>
 
 namespace pdfg {
@@ -306,6 +307,7 @@ namespace pdfg {
         explicit CompNode(Comp* comp, const string& label = "") : Node(new Comp(*comp), label) {
             attr("shape", "invtriangle");
             _type = 'C';
+            _itergraph = nullptr;
         }
 
         ~CompNode() {
@@ -315,6 +317,7 @@ namespace pdfg {
             for (auto& write : _writes) {
                 delete write.second;
             }
+            delete _itergraph;
         }
 
         Comp* comp() const {
@@ -328,6 +331,15 @@ namespace pdfg {
 
         bool is_parent() const {
             return !_children.empty();
+        }
+
+        Digraph* iter_graph() {
+            return _itergraph;
+        }
+
+        void iter_graph(Digraph* graph) {
+            delete _itergraph;
+            _itergraph = graph;
         }
 
         vector<Access*> accesses(const string& space = "") const {
@@ -415,6 +427,7 @@ namespace pdfg {
         vector<CompNode*> _children;
         map<string, Access*> _reads;
         map<string, Access*> _writes;
+        Digraph* _itergraph;
     };
 
     struct RelNode : public Node {
