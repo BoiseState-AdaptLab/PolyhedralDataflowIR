@@ -314,7 +314,7 @@ namespace pdfg {
                    });
 
             // Add includes...
-            include({"stdio", "stdlib", "stdint", "math"});
+            include({"stdio", "stdlib", "stdint", "math", "string"});
             if (_profile) {
                 include("sys/time");
             }

@@ -317,7 +317,7 @@ namespace pdfg {
             for (auto& write : _writes) {
                 delete write.second;
             }
-            delete _itergraph;
+            //delete _itergraph;
         }
 
         Comp* comp() const {

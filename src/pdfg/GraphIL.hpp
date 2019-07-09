@@ -869,6 +869,10 @@ namespace pdfg {
             return *this;
         }
 
+        void add(const Expr& expr) {
+            _exprs.push_back(expr);
+        }
+
         vector<Expr> expressions() const {
             return _exprs;
         }
@@ -3531,6 +3535,14 @@ namespace pdfg {
 
         FlowGraph _flowGraph;
     };
+
+    Math memSet(const Space& space, const Expr& val = Int(0)) {
+        Macro macro("memSet", {space});
+        ostringstream os;
+        os << "memset(" << space.name() << "," << val << "," << space.size() << "*sizeof(" << GraphMaker::get().dataType() << "))";
+        macro.add(Expr(os.str()));
+        return call(macro);
+    }
 
     void init(const string& name, const string& retname = "", const string& datatype = "",
               const string& indextype = "", initializer_list<string> outputs = {}, const string& defval = "") {

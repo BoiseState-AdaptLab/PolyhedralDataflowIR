@@ -437,9 +437,10 @@ TEST(eDSLTest, ConjGradCOO) {
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
 
     string name = "conjgrad_coo";
-    init(name, "rs", "d", "", {string("tol")}, to_string(0));
+    init(name, "rs", "d", "", {string("tol")}); //, to_string(0));
 
     Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
+    Comp mset("mset", sca, memSet(s));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
     Comp ddot("ddot", spv, (ds += d[i]*s[i]));
     Comp rdot0("rdot0", spv, (rs0 += r[i]*r[i]));
@@ -460,14 +461,14 @@ TEST(eDSLTest, ConjGradCOO) {
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/" + name + ".json");
-    Digraph itergraph = ConjGradTest::IterGraph();
+    Digraph itergraph = ConjGradTest::COOGraph();
     reschedule(itergraph);
     string result = codegen("out/" + name + ".o", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
 
-TEST(eDSLTest, ConjGrad2) { //CSR) {
+TEST(eDSLTest, ConjGradCSR) {
     Iter t('t'), i('i'), j('j'), n('n');
     Const T('T'), N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
     Func rp("rp"), col("col");
@@ -488,6 +489,7 @@ TEST(eDSLTest, ConjGrad2) { //CSR) {
     init(name, "rs", "d", "", {string("tol")}, to_string(0));
 
     Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
+    Comp mset("mset", sca, memSet(s));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
     Comp ddot("ddot", vec, (ds += d[i]*s[i]));
     Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
@@ -508,7 +510,7 @@ TEST(eDSLTest, ConjGrad2) { //CSR) {
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/" + name + ".json");
-    Digraph itergraph = ConjGradTest::IterGraph();
+    Digraph itergraph = ConjGradTest::CSRGraph();
     reschedule(itergraph);
     string result = codegen("out/" + name + ".o", "", "C++", "auto");
     //cerr << result << endl;
@@ -516,10 +518,8 @@ TEST(eDSLTest, ConjGrad2) { //CSR) {
 }
 
 TEST(eDSLTest, IterGraph) {
-    Digraph cgg = ConjGradTest::IterGraph();
-//    ostringstream os;
-//    os << cgg;
-    string result = cgg.to_dot(); //os.str();
+    Digraph cgg = ConjGradTest::COOGraph();
+    string result = cgg.to_dot();
     cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

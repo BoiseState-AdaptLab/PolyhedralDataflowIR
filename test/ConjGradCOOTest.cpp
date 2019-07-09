@@ -12,25 +12,8 @@ protected:
     }
 
     virtual void Execute() {
-        double* r = (double*) malloc(_nrow*sizeof(double));
-        double* d = (double*) malloc(_nrow*sizeof(double));
-
-        // copy
-        for (unsigned i = 0; i < _nrow; i++) {
-            r[i] = d[i] = _b[i];
-        }
-
-        // conjgrad
-        unsigned t = 0;
-        //for (; t < _maxiter && _error > _tolerance; t++) {
-        for (; t < _maxiter; t++) {
-            _error = conj_grad(_vals, _nnz, _nrow, _cols, _rows, d, r, _x);
-        }
-
-        free(r);
-        free(d);
-
-        _niter = t;
+        _error = conjgrad_coo(_vals, _b, _nnz, _nrow, _maxiter, _cols, _rows, _x);
+        _niter = _maxiter;
     }
 };
 
@@ -40,6 +23,5 @@ TEST_F(ConjGradCOOTest, CG) {
     Run();
     Verify();
     Assert();
-    int stop = 1;
 }
 }
