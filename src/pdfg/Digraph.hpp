@@ -6,17 +6,17 @@
 #define _DIGRAPH_HPP_
 
 #include <iostream>
-#include <map>
-#include <string>
-#include <vector>
-#include <utility>
-
 using std::ostream;
+#include <map>
 using std::map;
+#include <string>
 using std::string;
+#include <vector>
 using std::vector;
+#include <utility>
 using std::pair;
 using std::make_pair;
+#include <util/Lists.hpp>
 
 namespace pdfg {
     typedef pair<string, string> Pair;
@@ -121,24 +121,25 @@ namespace pdfg {
             return find(node, key, path);
         }
 
-        string find(const string& node, const string& key, vector<int>& path) {
+        string find(const string& node, const string& key, vector<int>& path, const vector<string>& skips = {}) {
             string label = this->label(node);
-            if (label.find(key) != string::npos) {
+            //if (label.find(key) != string::npos) {
+            if (label == key && Lists::index<string>(skips, node) < 0) {
                 return node;
             } else {    // Visit children
                 vector<Pair> edges = this->edges(node);
                 int n = 0;
                 for (Pair& edge : edges) {
                     path.push_back(n);
-                    string sub = find(edge.first, key, path);
+                    string sub = find(edge.first, key, path, skips);
                     if (!sub.empty()) {
                         return sub;
                     }
                     n += 1;
                 }
-            }
-            if (!path.empty()) {
-                path.pop_back();
+                if (!path.empty()) {
+                    path.pop_back();
+                }
             }
             return "";
         }
@@ -230,7 +231,7 @@ namespace pdfg {
             for (const string& name : _nodes) {
                 string label = this->label(name);
                 map<string, string> attrs = _attrs[name];
-                os << "  " << name << " [label=\"" << label << "\"";
+                os << "  \"" << name << "\" [label=\"" << label << "\"";
                 for (auto itr : attrs) {
                     os << " " << itr.first << "=\"" << itr.second << "\"";
                 }
@@ -244,7 +245,7 @@ namespace pdfg {
                 for (Pair e : edges) {
                     string dest = e.first;
                     string label = e.second;
-                    os << "  " << name << " -> " << dest << " [label=\"" << label << "\"]\n";
+                    os << "  \"" << name << "\" -> \"" << dest << "\" [label=\"" << label << "\"]\n";
                 }
             }
 

@@ -651,149 +651,25 @@ namespace pdfg {
         }
 
         void walk(FlowGraph* graph) override {
-            // Walk iteration graph if present...
+            // Assign iteration graph if present...
             if (_itergraph) {
-                // TODO: How to associate iteration graphs with CompNodes, for now assume all nodes are fused...
                 CompNode* node =  graph->comp_nodes()[0];
                 node->iter_graph(_itergraph);
-                walk(node);
-            } else {
-                DFGVisitor::walk(graph);
             }
+            DFGVisitor::walk(graph);
         }
 
         void enter(CompNode* node) override {
-            unsigned i, j, n;
-            unsigned level = 0;
-            unsigned maxiter = 0;
-            vector<int> offsets;
+            Digraph* igraph = node->iter_graph();
+            if (igraph) {
+                //cerr << igraph->to_dot() << endl;
+                // 1) Traverse the iteration graph
+                Tuple tuple;
+                visit(igraph, igraph->root(), tuple);
 
-            // Skip if no fusion for now...
-            if (node->children().size() < 1) {
-                return;
+                // 2) Replace schedules with updated tuples...
+                node->schedules(_schedules);
             }
-
-            Comp* comp = node->comp();
-
-            // 0) Collect current schedules and offsets
-            _schedules = node->schedules();
-
-            // 1) Calculate maximum # of iterators in tuples.
-            unsigned nschedules = _schedules.size();
-            for (i = 0; i < nschedules; i++) {
-                unsigned niter = _schedules[i].size();
-                maxiter = (niter > maxiter) ? niter : maxiter;
-            }
-
-            // 2) Determine fusion type and calculate maximum offset from each iterator.
-            char fuseType = 'S';        // Simple loop-only fusion if no data dependences
-            vector<CompNode*> nodes(nschedules, nullptr);
-            nodes[0] = node;
-
-            i = 1;
-            for (CompNode* child : node->children()) {
-                nodes[i++] = child;
-            }
-
-            // Let's build a graph...
-            Digraph* ig = new Digraph();
-            string iroot = ig->node("r", "", {"shape", "none"});
-            string inode = iroot;
-            string inext, iprev;
-            Tuple prev_sched;
-            IntTuple prev_offsets, prev_orders, prev_pos;
-            map<string, Access*> prev_deps;
-
-            // TODO: Figure out data dependences!
-//            CompNode *curr, *prev;
-//            for (i = 0; i < nodes.size(); i++) {
-//                int order = 0;
-//                int pos = 0;
-//                string iter;
-//
-//                curr = nodes[i];
-//
-//                vector<Edge*> ins = _graph->inedges(node);
-//                for (Edge* edge : ins) {
-//                    DataNode* dnode = (DataNode*) edge->source();
-//                    int stop = 1;
-//                }
-//
-//                Tuple sched = _schedules[i];
-//                IntTuple offsets;
-//                IntTuple orders(sched.size());
-//                IntTuple positions(sched.size());
-//
-//                map<string, Access*> rwdeps;
-//                if (i > 0) {
-//                    rwdeps = intersect(prev->writes(), curr->reads());
-//                    if (!rwdeps.empty()) {
-//                        maxOffsets(sched, prev->writes(), offsets);
-//                        maxOffsets(sched, curr->reads(), offsets);
-//                    }
-//                }
-//
-//                for (j = 0; j < sched.size() - 1; j++) {
-//                    iter = sched[j].text();
-//                    inext = ig->find(inode, iter, &order, &pos);
-//
-//                    if (inext.empty()) {    // Iterator not found on current path, create a new one...
-//                        inext = ig->node(iter, iter);
-//                        order += 1;
-//                        pos = ig->size(inode);
-//                        cerr << inode << " -> " << pos << " -> " << inext << endl;
-//                        ig->edge(inode, inext, pos);
-//                    }
-//
-//                    orders[j] = order;
-//                    positions[j] = pos;
-//                    iprev = inode;
-//                    inode = inext;
-//                }
-
-//                int depth = sched.size() - 2;
-//                if (!rwdeps.empty()) {
-//                    // Find minimium starting depth to check for dependences...
-//                    for (const auto& itr : rwdeps) {
-//                        ExprTuple acc_tuple = itr.second->tuple();
-//                        for (Expr expr : acc_tuple) {       // Find iterator within schedule...
-//                            int dpos = Lists::index<string>(stringify<Iter>(sched), expr.text());
-//                            if (dpos < depth) {
-//                                depth = dpos;
-//                            }
-//                        }
-//                    }
-//
-//                    if (positions[depth] < prev_pos[depth]) {
-//                        // Insert a new iter node before previous to prevent dependence violation.
-//                        inode = iprev;
-//                        inext = ig->node(iter, iter);
-//                        pos = ig->size(inode);
-//                        cerr << inode << " -> " << pos << " -> " << inext << endl;
-//                        ig->edge(inode, inext, pos);
-//                        positions[depth] = pos;
-//                        inode = inext;
-//                    }
-//                }
-
-                // Add leaf node (the statement)
-//                inext = ig->node("s" + to_string(i));
-//                pos = ig->size(inode);
-//                cerr << inode << " -> " << pos << " -> " << inext << endl;
-//                ig->edge(inode, inext, pos);
-//                positions[sched.size()-1] = pos;        // Leaf pos
-//                inode = iroot;
-//
-//                prev = curr;
-//                prev_sched = sched;
-//                prev_offsets = offsets;
-//                prev_orders = orders;
-//                prev_pos = positions;
-//            }
-
-//            _itergraph = ig;
-//            node->iter_graph(_itergraph);
-            walk(node);
         }
 
         /// For each computation node, generate and assign a scheduling (scattering) function.
@@ -943,16 +819,6 @@ namespace pdfg {
 //        }
 
     protected:
-        void walk(CompNode* node) {
-            // 1) Traverse the iteration graph
-            Tuple tuple;
-            Digraph* graph = node->iter_graph();
-            visit(graph, graph->root(), tuple);
-
-            // 2) Replace schedules with updated tuples...
-            node->schedules(_schedules);
-        }
-
         void visit(Digraph* graph, const string& node, Tuple& tuple) {
             string label = graph->label(node);
             tuple.push_back(Iter(label));
@@ -962,7 +828,7 @@ namespace pdfg {
                 Iter stmt = tuple.back();
                 tuple.pop_back();
                 Tuple schedule(tuple.begin() + 1, tuple.end());
-                cerr << "r0" << stmt << " := " << schedule << endl;
+                //cerr << "r0" << stmt << " := " << schedule << endl;
                 _schedules.push_back(schedule);
             } else {                    // Visit children
                 for (Pair& edge : edges) {
@@ -975,103 +841,103 @@ namespace pdfg {
             }
         }
 
-        map<string, Access*> intersect(const map<string, Access*> lhs, const map<string, Access*> rhs) const {
-            map<string, Access*> isect;
-            for (const auto& itr : lhs) {
-                auto pos = rhs.find(itr.first);
-                if (pos != rhs.end()) {
-                    isect[pos->first] = pos->second;
-                }
-            }
-            return isect;
-        }
+//        map<string, Access*> intersect(const map<string, Access*> lhs, const map<string, Access*> rhs) const {
+//            map<string, Access*> isect;
+//            for (const auto& itr : lhs) {
+//                auto pos = rhs.find(itr.first);
+//                if (pos != rhs.end()) {
+//                    isect[pos->first] = pos->second;
+//                }
+//            }
+//            return isect;
+//        }
 
-        map<string, ExprTuple> absMaxDist(const map<string, Access*> accmap) const {
-            map<string, ExprTuple> distmap;
-            map<string, ExprTuple> maxmap;
+//        map<string, ExprTuple> absMaxDist(const map<string, Access*> accmap) const {
+//            map<string, ExprTuple> distmap;
+//            map<string, ExprTuple> maxmap;
+//
+//            // Initialize distances to zero...
+//            ExprTuple zeros;
+//            for (const auto& itr : accmap) {
+//                Access* acc = itr.second;
+//                string space = acc->space();
+//                if (distmap.find(space) == distmap.end()) {
+//                    zeros = ExprTuple(acc->tuple().size(), Int(0));
+//                    distmap[space] = zeros;
+//                    ExprTuple tmax(zeros.begin(), zeros.end());
+//                    maxmap[space] = tmax;
+//                }
+//            }
+//
+//            // Find max delta for each tuple.
+//            for (const auto& itr : accmap) {
+//                Access* acc = itr.second;
+//                string space = acc->space();
+//                ExprTuple tuple = acc->tuple();
+//                ExprTuple tmax = maxmap[space];
+//
+//                ExprTuple diff = abs(tuple - tmax);
+//                if (distmap[space] < diff) {
+//                    distmap[space] = diff;
+//                    maxmap[space] = tuple;
+//                }
+//            }
+//
+//            return distmap;
+//        }
 
-            // Initialize distances to zero...
-            ExprTuple zeros;
-            for (const auto& itr : accmap) {
-                Access* acc = itr.second;
-                string space = acc->space();
-                if (distmap.find(space) == distmap.end()) {
-                    zeros = ExprTuple(acc->tuple().size(), Int(0));
-                    distmap[space] = zeros;
-                    ExprTuple tmax(zeros.begin(), zeros.end());
-                    maxmap[space] = tmax;
-                }
-            }
+//        void maxOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& max_offsets) {
+//            // Size up the max_offsets vector.
+//            for (unsigned i = 0; i < schedule.size(); i++) {
+//                if (max_offsets.size() <= i) {
+//                    max_offsets.push_back(0);
+//                }
+//
+//                for (const auto& itr : accmap) {
+//                    Access *acc = itr.second;
+//                    string space = acc->space();
+//                    ExprTuple tuple = acc->tuple();
+//
+//                    bool match = false;
+//                    for (unsigned j = 0; j < tuple.size() && !match; j++) {
+//                        if (!schedule[i].is_int()) {
+//                            string expr = tuple[j].text();
+//                            string iter = schedule[i].text();
+//                            size_t pos = expr.find(iter);
+//                            match = (pos != string::npos);
+//                            if (match && expr != iter) {
+//                                expr.erase(pos, iter.size());
+//                                int offset = unstring<int>(expr);
+//                                if (abs(offset) > abs(max_offsets[i])) {
+//                                    max_offsets[i] = offset;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
-            // Find max delta for each tuple.
-            for (const auto& itr : accmap) {
-                Access* acc = itr.second;
-                string space = acc->space();
-                ExprTuple tuple = acc->tuple();
-                ExprTuple tmax = maxmap[space];
-
-                ExprTuple diff = abs(tuple - tmax);
-                if (distmap[space] < diff) {
-                    distmap[space] = diff;
-                    maxmap[space] = tuple;
-                }
-            }
-
-            return distmap;
-        }
-
-        void maxOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& max_offsets) {
-            // Size up the max_offsets vector.
-            for (unsigned i = 0; i < schedule.size(); i++) {
-                if (max_offsets.size() <= i) {
-                    max_offsets.push_back(0);
-                }
-
-                for (const auto& itr : accmap) {
-                    Access *acc = itr.second;
-                    string space = acc->space();
-                    ExprTuple tuple = acc->tuple();
-
-                    bool match = false;
-                    for (unsigned j = 0; j < tuple.size() && !match; j++) {
-                        if (!schedule[i].is_int()) {
-                            string expr = tuple[j].text();
-                            string iter = schedule[i].text();
-                            size_t pos = expr.find(iter);
-                            match = (pos != string::npos);
-                            if (match && expr != iter) {
-                                expr.erase(pos, iter.size());
-                                int offset = unstring<int>(expr);
-                                if (abs(offset) > abs(max_offsets[i])) {
-                                    max_offsets[i] = offset;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        unsigned getCommonLevel(const vector<Tuple>& tuples, int* ndx = nullptr) {
-            unsigned i, n, level = 0;
-            for (n = 0; n < tuples[0].size(); n++) {
-                if (!tuples[0][n].is_int()) {
-                    bool match = true;
-                    for (i = 1; i < tuples.size() && match; i++) {
-                        if (tuples[i].size() < n || !tuples[i][n].equals(tuples[0][n])) {
-                            match = false;
-                            if (ndx != nullptr) {
-                                *ndx = i;
-                            }
-                        }
-                    }
-                    if (match) {
-                        level = n + 1;
-                    }
-                }
-            }
-            return level;
-        }
+//        unsigned getCommonLevel(const vector<Tuple>& tuples, int* ndx = nullptr) {
+//            unsigned i, n, level = 0;
+//            for (n = 0; n < tuples[0].size(); n++) {
+//                if (!tuples[0][n].is_int()) {
+//                    bool match = true;
+//                    for (i = 1; i < tuples.size() && match; i++) {
+//                        if (tuples[i].size() < n || !tuples[i][n].equals(tuples[0][n])) {
+//                            match = false;
+//                            if (ndx != nullptr) {
+//                                *ndx = i;
+//                            }
+//                        }
+//                    }
+//                    if (match) {
+//                        level = n + 1;
+//                    }
+//                }
+//            }
+//            return level;
+//        }
 
         Digraph* _itergraph;
         vector<Tuple> _schedules;

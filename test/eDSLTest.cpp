@@ -454,15 +454,11 @@ TEST(eDSLTest, ConjGradCOO) {
     //Comp check("check", sca, (rs <= tol), (t=T+1));
 
     // Perform fusions
-//    fuse("spmv", "ddot", "rdot0");
-//    fuse("xadd", "rsub", "rdot");
-//    fuse("bmul", "dadd");
     fuse();
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/" + name + ".json");
-    Digraph itergraph = ConjGradTest::COOGraph();
-    reschedule(itergraph);
+//    reschedule(itergraph);
     string result = codegen("out/" + name + ".o", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
@@ -502,14 +498,11 @@ TEST(eDSLTest, ConjGradCSR) {
     Comp dadd("dadd", vec, (d[i] += r[i]));
     //Comp check("check", sca, (rs <= tol), (t=T+1));
 
-    print("out/" + name + ".json");
     // Perform fusions
-//    fuse("spmv", "ddot", "rdot0");
-//    fuse("xadd", "rsub", "rdot");
-//    fuse("bmul", "dadd");
     fuse();
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
+    print("out/" + name + ".json");
     //Digraph itergraph = ConjGradTest::CSRGraph();
     //reschedule(itergraph);
     string result = codegen("out/" + name + ".o", "", "C++", "auto");

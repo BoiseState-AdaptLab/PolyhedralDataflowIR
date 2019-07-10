@@ -793,74 +793,33 @@ namespace pdfg {
             return outputs;
         }
 
-        vector<CompNode*> getProducers(CompNode* prev, CompNode* curr) {
-            vector<CompNode*> producers;
-            for (Edge* edge : this->inedges(curr)) {
-                DataNode* dnode = (DataNode*) edge->source();
-                vector<Edge*> ins = this->inedges(dnode);
-                for (Edge* in : ins) {
-                    // Search for child node that produces this dest...
-                    if (in->source() == prev) {
-                        CompNode* child = prev->find_child(in->dest()->label());
-                        if (child) {
-                            producers.push_back(child);
-                        }
-                    }
-                }
-            }
-            return producers;
-        }
-
-        string insertSchedule(Digraph* ig, const Tuple& sched, IntTuple& path) {
-            string inode = ig->root();
-            for (unsigned j = 0; j < sched.size() - 1; j++) {
-                string iter = sched[j].text();
-                string inext = ig->find(inode, iter, path);
-                if (inext.empty()) {    // Iterator not found on current path, create a new one...
-                    inext = ig->node(iter, iter);
-                    unsigned pos = ig->size(inode);
-                    cerr << inode << " -> " << pos << " -> " << inext << endl;
-                    ig->edge(inode, inext, pos);
-                }
-                //iprev = inode;
-                inode = inext;
-            }
-            return inode;
-        }
-
-        string insertLeaf(Digraph* ig, const string& inode, const string& label, IntTuple& path) {
-            string inext = ig->node(label);
-            unsigned pos = ig->size(inode);
-            cerr << inode << " -> " << pos << " -> " << inext << endl;
-            ig->edge(inode, inext, pos);
-            path.push_back(pos);
-            return inext;
-        }
-
         void updateIterGraph(CompNode* prev, CompNode* curr) {
-            // Construct set of data dependences...
-            vector<CompNode*> producers = getProducers(prev, curr);
-
             string inode, inext, iprev, iter;
-            int order = 0, pos = 0;
+            int pos = 0;
             Tuple sched;
             IntTuple path;
-
             vector<Tuple> schedules = prev->schedules();
-            Digraph* ig = prev->iter_graph();
 
+            Digraph* ig = prev->iter_graph();
             if (ig == nullptr) {
-                ig = new Digraph();
+                ig = new Digraph(_name);
                 inode = ig->node("*", "", {"shape", "none"});
                 prev->iter_graph(ig);
 
-                // Add first node (this one)
-                inode = insertSchedule(ig, schedules[0], path);
-
-                // Add leaf node (the statement)
-                inext = insertLeaf(ig, inode, prev->label(), path);
+                inode = insertSchedule(ig, schedules[0], path);         // Add first node (this one)
+                inext = insertLeaf(ig, inode, prev->label(), path);     // Add leaf node (the statement)
             }
 
+            // Construct set of data dependences...
+            vector<CompNode*> producers = getProducers(prev, curr);
+            map<string, IntTuple> prod_paths;
+            for (CompNode* prod : producers) {
+                IntTuple prod_path;
+                ig->find(prod->label(), prod_path);
+                prod_paths[prod->label()] = prod_path;
+            }
+
+            // TODO: Assuming the node to be fused has only one schedule for now...
             sched = curr->schedules()[0];
             path.clear();
 
@@ -868,34 +827,35 @@ namespace pdfg {
             for (unsigned j = 0; j < sched.size() - 1; j++) {
                 iter = sched[j].text();
                 inext = ig->find(inode, iter, path);
+
+                // Check producer paths for dependence violations...
+                for (const auto& itr : prod_paths) {
+                    IntTuple prod_path = itr.second;
+                    iprev = inext;
+                    vector<string> skips;
+                    while (!inext.empty() && path[j] < prod_path[j]) {
+                        // Find next valid iterator node, skipping those already visited...
+                        path.resize(j);
+                        skips.push_back(inext);
+                        inext = ig->find(inode, iter, path, skips);
+                    }
+                    if (iprev != inext) {
+                        break;
+                    }
+                }
+
                 if (inext.empty()) {    // Iterator not found on current path, create a new one...
                     inext = ig->node(iter, iter);
-                    order += 1;
                     pos = ig->size(inode);
                     cerr << inode << " -> " << pos << " -> " << inext << endl;
                     ig->edge(inode, inext, pos);
                 }
+
                 iprev = inode;
                 inode = inext;
             }
 
-            for (CompNode* prod : producers) {
-                // Find path through graph for each producer...
-                IntTuple prodPath;
-                string node = ig->find(prod->label(), prodPath);
-                for (unsigned i = 0; i < path.size() && i < prodPath.size(); i++) {
-                    // If inserting node here puts current node's path before it's consumer, we have a problem!
-                    if (path[i] < prodPath[i]) {
-                        int stop =1;
-                    }
-                }
-            }
-
-            // Add leaf node (the statement)
-            inext = ig->node(curr->label());
-            pos = ig->size(inode);
-            cerr << inode << " -> " << pos << " -> " << inext << endl;
-            ig->edge(inode, inext, pos);
+            insertLeaf(ig, inode, curr->label(), path);         // Add leaf node (the statement)
         }
 
         //void fuse(initializer_list<Comp> comps) {
@@ -958,6 +918,49 @@ namespace pdfg {
                 fname = fname.substr(0, pos);
             }
             return fname;
+        }
+
+        vector<CompNode*> getProducers(CompNode* prev, CompNode* curr) {
+            vector<CompNode*> producers;
+            for (Edge* edge : this->inedges(curr)) {
+                DataNode* dnode = (DataNode*) edge->source();
+                vector<Edge*> ins = this->inedges(dnode);
+                for (Edge* in : ins) {
+                    if (in->source() == prev) {     // Search for child node that produces this dest...
+                        CompNode* child = prev->find_child(in->dest()->label());
+                        if (child) {
+                            producers.push_back(child);
+                        }
+                    }
+                }
+            }
+            return producers;
+        }
+
+        string insertSchedule(Digraph* ig, const Tuple& sched, IntTuple& path) {
+            string inode = ig->root();
+            for (unsigned j = 0; j < sched.size() - 1; j++) {
+                string iter = sched[j].text();
+                string inext = ig->find(inode, iter, path);
+                if (inext.empty()) {    // Iterator not found on current path, create a new one...
+                    inext = ig->node(iter, iter);
+                    unsigned pos = ig->size(inode);
+                    cerr << inode << " -> " << pos << " -> " << inext << endl;
+                    ig->edge(inode, inext, pos);
+                }
+                inode = inext;
+            }
+            return inode;
+        }
+
+        string insertLeaf(Digraph* ig, const string& inode, const string& label, IntTuple& path) {
+            string inext = ig->node(label);
+            ig->attr(inext, "shape", "rect");
+            unsigned pos = ig->size(inode);
+            cerr << inode << " -> " << pos << " -> " << inext << endl;
+            ig->edge(inode, inext, pos);
+            path.push_back(pos);
+            return inext;
         }
 
         string _name;
