@@ -570,36 +570,47 @@ namespace pdfg {
             unsigned nWritesF = 0;
             unsigned nWritesI = 0;
 
-            map<string, Access*> reads = node->reads();
-            for (const auto& itr : reads) {
-                Access* access = itr.second;
-                DataNode* source = (DataNode*) _graph->get(access->space());
-                if (source->is_int()) {
-                    nReadsI += 1;
-                    if (!source->is_scalar()) {
-                        inStreamsI += 1;
-                    }
-                } else {
-                    nReadsF += 1;
-                    if (!source->is_scalar()) {
-                        inStreamsF += 1;
-                    }
-                }
+            unsigned nchildren = node->children().size();
+            vector<CompNode*> nodes(nchildren + 1);
+            unsigned i = 0;
+            nodes[i++] = node;
+            for (CompNode* child : node->children()) {
+                nodes[i++] = child;
             }
 
-            map<string, Access*> writes = node->writes();
-            for (const auto& itr : writes) {
-                Access* access = itr.second;
-                DataNode* dest = (DataNode*) _graph->get(access->space());
-                if (dest->is_int()) {
-                    nWritesI += 1;
-                    if (!dest->is_scalar()) {
-                        outStreamsI += 1;
+            for (i = 0; i < nodes.size(); i++) {
+                node = nodes[i];
+                map<string, Access *> reads = node->reads();
+                for (const auto &itr : reads) {
+                    Access *access = itr.second;
+                    DataNode *source = (DataNode *) _graph->get(access->space());
+                    if (source->is_int()) {
+                        nReadsI += 1;
+                        if (!source->is_scalar()) {
+                            inStreamsI += 1;
+                        }
+                    } else {
+                        nReadsF += 1;
+                        if (!source->is_scalar()) {
+                            inStreamsF += 1;
+                        }
                     }
-                } else {
-                    nWritesF += 1;
-                    if (!dest->is_scalar()) {
-                        outStreamsF += 1;
+                }
+
+                map<string, Access *> writes = node->writes();
+                for (const auto &itr : writes) {
+                    Access *access = itr.second;
+                    DataNode *dest = (DataNode *) _graph->get(access->space());
+                    if (dest->is_int()) {
+                        nWritesI += 1;
+                        if (!dest->is_scalar()) {
+                            outStreamsI += 1;
+                        }
+                    } else {
+                        nWritesF += 1;
+                        if (!dest->is_scalar()) {
+                            outStreamsF += 1;
+                        }
                     }
                 }
             }
@@ -613,6 +624,7 @@ namespace pdfg {
             string outSizeExprF = to_string(nWritesF) + "*" + floatSize + "*(" + isSizeExpr + ")";
             string outSizeExprI = to_string(nWritesI) + "*" + intSize + "*(" + isSizeExpr + ")";
 
+            node = nodes[0];
             nIOPs = 1;                  // TODO: count int ops later (maybe), but assume at least one
             nFLOPs = node->flops();     // Count FLOPs...
             string flopsExpr = to_string(nFLOPs) + "*(" + isSizeExpr + ")";
@@ -630,87 +642,6 @@ namespace pdfg {
 
             node->attr("flops", flopsExpr);
             node->attr("iops", iopsExpr);
-
-            // Comment out old code for now...
-
-//            vector<Edge*> inedges = _graph->inedges(node);
-//            for (Edge* edge : inedges) {
-//                if (edge->source()->is_data()) {
-//                    DataNode* source = (DataNode*) edge->source();
-//                    if (!source->is_scalar()) {
-//                        string sizeExpr = "+" + Strings::fixParens(source->size()->text());
-//                        if (source->is_int()) {
-//                            inStreamsI += 1;
-//                            inSizeExprI += sizeExpr;
-//                        } else {
-//                            inStreamsF += 1;
-//                            inSizeExprF += sizeExpr;
-//                        }
-//                    }
-//                }
-//            }
-
-//            if (!inSizeExprI.empty()) {
-//                inSizeExprI = inSizeExprI.substr(1);
-//                if (inSizeExprI.find('+') != string::npos) {
-//                    inSizeExprI = "(" + inSizeExprI + ")";
-//                }
-//                inSizeExprI += "*" + to_string(sizeof(int));
-//                node->attr("isize_in", inSizeExprI);
-//                node->attr("istreams_in", to_string(inStreamsI));
-//            } else {
-//                inSizeExprI = to_string(sizeof(int));
-//            }
-
-//            if (!inSizeExprF.empty()) {
-//                inSizeExprF = inSizeExprF.substr(1);
-//                if (inSizeExprF.find('+') != string::npos) {
-//                    inSizeExprF = "(" + inSizeExprF + ")";
-//                }
-//                inSizeExprF += "*" + to_string(sizeof(double));
-//                node->attr("fsize_in", inSizeExprF);
-//                node->attr("fstreams_in", to_string(inStreamsF));
-//            } else {
-//                inSizeExprF = to_string(sizeof(double));
-//            }
-
-//            vector<Edge*> outedges = _graph->outedges(node);
-//            for (Edge* edge : outedges) {
-//                DataNode *dest = (DataNode *) edge->dest();
-//                string sizeExpr;
-//                if (dest->is_scalar()) {
-//                    sizeExpr = "1";
-//                } else {
-//                    sizeExpr = "+" + Strings::fixParens(dest->size()->text());
-//                }
-//                if (dest->is_int()) {
-//                    outStreamsI += 1;
-//                    outSizeExprI += sizeExpr;
-//                } else {
-//                    outStreamsF += 1;
-//                    outSizeExprF += sizeExpr;
-//                }
-//            }
-
-//            if (!outSizeExprI.empty()) {
-//                outSizeExprI = outSizeExprI.substr(1);
-//                if (outSizeExprI.find('+') != string::npos) {
-//                    outSizeExprI = "(" + outSizeExprI + ")";
-//                }
-//                outSizeExprI += "*" + to_string(sizeof(int));
-//                node->attr("isize_out", outSizeExprI);
-//                node->attr("istreams_out", to_string(outStreamsI));
-//            }
-
-//            if (!outSizeExprF.empty()) {
-//                outSizeExprF = outSizeExprF.substr(1);
-//                if (outSizeExprF.find('+') != string::npos) {
-//                    outSizeExprF = "(" + outSizeExprF + ")";
-//                }
-//                outSizeExprF += "*" + to_string(sizeof(double));
-//                node->attr("fsize_out", outSizeExprF);
-//                node->attr("fstreams_out", to_string(outStreamsF));
-//            }
         }
     };
 
