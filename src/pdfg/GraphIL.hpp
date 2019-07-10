@@ -2850,10 +2850,10 @@ namespace pdfg {
 
         void fuse() {
             vector<CompNode*> nodes = _flowGraph.comp_nodes();
-            CompNode* node = nodes[0];
+            CompNode* first = nodes[0];
             for (unsigned i = 1; i < nodes.size(); i++) {
-                _flowGraph.fuse(*node->comp(), *nodes[i]->comp());
-                node = nodes[i];
+                _flowGraph.fuse(*first->comp(), *nodes[i]->comp());
+                //node = nodes[i];
             }
         }
 

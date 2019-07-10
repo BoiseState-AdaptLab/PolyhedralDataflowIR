@@ -108,12 +108,20 @@ namespace pdfg {
             return map<string,string>();
         }
 
-        string find(const string& node, const string& key) {
-            int order = 0, pos = 0;
-            return find(node, key, &order, &pos);
+        string find(const string& key) {
+            return find(root(), key);
         }
 
-        string find(const string& node, const string& key, int* order, int* pos) {
+        string find(const string& key, vector<int>& path) {
+            return find(root(), key, path);
+        }
+
+        string find(const string& node, const string& key) {
+            vector<int> path;
+            return find(node, key, path);
+        }
+
+        string find(const string& node, const string& key, vector<int>& path) {
             string label = this->label(node);
             if (label.find(key) != string::npos) {
                 return node;
@@ -121,14 +129,16 @@ namespace pdfg {
                 vector<Pair> edges = this->edges(node);
                 int n = 0;
                 for (Pair& edge : edges) {
-                    *order += 1;
-                    *pos = n;
-                    string sub = find(edge.first, key, order, pos);
+                    path.push_back(n);
+                    string sub = find(edge.first, key, path);
                     if (!sub.empty()) {
                         return sub;
                     }
                     n += 1;
                 }
+            }
+            if (!path.empty()) {
+                path.pop_back();
             }
             return "";
         }
