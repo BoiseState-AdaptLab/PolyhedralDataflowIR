@@ -510,15 +510,15 @@ TEST(eDSLTest, ConjGradCSR) {
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/" + name + ".json");
-    Digraph itergraph = ConjGradTest::CSRGraph();
-    reschedule(itergraph);
+    //Digraph itergraph = ConjGradTest::CSRGraph();
+    //reschedule(itergraph);
     string result = codegen("out/" + name + ".o", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
 
 TEST(eDSLTest, IterGraph) {
-    Digraph cgg = ConjGradTest::COOGraph();
+    Digraph cgg = ConjGradTest::CSRGraph();
     string result = cgg.to_dot();
     cerr << result << endl;
     ASSERT_TRUE(!result.empty());

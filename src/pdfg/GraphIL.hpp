@@ -2982,12 +2982,16 @@ namespace pdfg {
                 }
                 _flowGraph.add(dataNode, compNode);
 
-                auto itr = _accessMap.find(dataNode->label());
+                string space = dataNode->label();
+                auto itr = _accessMap.find(space);
                 if (itr != _accessMap.end()) {
                     for (const auto& access : itr->second) {
                         //cerr << "Adding read access '" << access << "'" << endl;
                         compNode->add_read(access);
                     }
+                } else {
+                    Access access(space, {Int(0)});
+                    compNode->add_read(access);
                 }
             }
 
@@ -3016,12 +3020,16 @@ namespace pdfg {
                     makeHierarchical((CompNode*) compNode, (DataNode*) dataNode);
                 }
 
-                auto itr = _accessMap.find(dataNode->label());
+                string space = dataNode->label();
+                auto itr = _accessMap.find(space);
                 if (itr != _accessMap.end()) {
                     for (const auto& access : itr->second) {
                         //cerr << "Adding write access '" << access << "'" << endl;
                         compNode->add_write(access);
                     }
+                } else {
+                    Access access(space, {Int(0)});
+                    compNode->add_write(access);
                 }
             }
 
@@ -3131,7 +3139,7 @@ namespace pdfg {
             if (_spaces.find(name) != _spaces.end()) {
                 return _spaces[name];
             }
-            cerr << "ERROR: Could not find space '" << name << "'.\n";
+            //cerr << "ERROR: Could not find space '" << name << "'.\n";
             return Space(name);
         }
 

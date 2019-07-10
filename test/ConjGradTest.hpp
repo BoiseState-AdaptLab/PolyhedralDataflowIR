@@ -21,7 +21,6 @@ typedef Eigen::Triplet<double> Triple;
 using pdfg::Digraph;
 #include <util/MatrixIO.hpp>
 using util::MatrixIO;
-//#include "BenchmarkTest.hpp"
 #include "InspExecTest.hpp"
 
 namespace test {

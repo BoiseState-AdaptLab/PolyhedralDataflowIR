@@ -559,98 +559,158 @@ namespace pdfg {
         /// \param node Computation node
         void enter(CompNode* node) override {
             unsigned inStreamsI = 0, outStreamsI = 0, inStreamsF = 0, outStreamsF = 0, nIOPs = 0, nFLOPs = 0;
-            string inSizeExprI, outSizeExprI, inSizeExprF, outSizeExprF;
+            Comp* comp = node->comp();
 
 //            if (node->label() == "smul_d1") {
 //                int stop = 1;
 //            }
 
-            vector<Edge*> inedges = _graph->inedges(node);
+            unsigned nReadsF = 0;
+            unsigned nReadsI = 0;
+            unsigned nWritesF = 0;
+            unsigned nWritesI = 0;
+
             map<string, Access*> reads = node->reads();
-            for (Edge* edge : inedges) {
-                if (edge->source()->is_data()) {
-                    DataNode* source = (DataNode*) edge->source();
+            for (const auto& itr : reads) {
+                Access* access = itr.second;
+                DataNode* source = (DataNode*) _graph->get(access->space());
+                if (source->is_int()) {
+                    nReadsI += 1;
                     if (!source->is_scalar()) {
-                        string sizeExpr = "+" + Strings::fixParens(source->size()->text());
-                        if (source->is_int()) {
-                            inStreamsI += 1;
-                            inSizeExprI += sizeExpr;
-                        } else {
-                            inStreamsF += 1;
-                            inSizeExprF += sizeExpr;
-                        }
+                        inStreamsI += 1;
+                    }
+                } else {
+                    nReadsF += 1;
+                    if (!source->is_scalar()) {
+                        inStreamsF += 1;
                     }
                 }
             }
 
-            if (!inSizeExprI.empty()) {
-                inSizeExprI = inSizeExprI.substr(1);
-                if (inSizeExprI.find('+') != string::npos) {
-                    inSizeExprI = "(" + inSizeExprI + ")";
-                }
-                inSizeExprI += "*" + to_string(sizeof(int));
-                node->attr("isize_in", inSizeExprI);
-                node->attr("istreams_in", to_string(inStreamsI));
-            } else {
-                inSizeExprI = to_string(sizeof(int));
-            }
-
-            if (!inSizeExprF.empty()) {
-                inSizeExprF = inSizeExprF.substr(1);
-                if (inSizeExprF.find('+') != string::npos) {
-                    inSizeExprF = "(" + inSizeExprF + ")";
-                }
-                inSizeExprF += "*" + to_string(sizeof(double));
-                node->attr("fsize_in", inSizeExprF);
-                node->attr("fstreams_in", to_string(inStreamsF));
-            } else {
-                inSizeExprF = to_string(sizeof(double));
-            }
-
-            vector<Edge*> outedges = _graph->outedges(node);
             map<string, Access*> writes = node->writes();
-            for (Edge* edge : outedges) {
-                DataNode *dest = (DataNode *) edge->dest();
-                string sizeExpr;
-                if (dest->is_scalar()) {
-                    sizeExpr = "1";
-                } else {
-                    sizeExpr = "+" + Strings::fixParens(dest->size()->text());
-                }
+            for (const auto& itr : writes) {
+                Access* access = itr.second;
+                DataNode* dest = (DataNode*) _graph->get(access->space());
                 if (dest->is_int()) {
-                    outStreamsI += 1;
-                    outSizeExprI += sizeExpr;
+                    nWritesI += 1;
+                    if (!dest->is_scalar()) {
+                        outStreamsI += 1;
+                    }
                 } else {
-                    outStreamsF += 1;
-                    outSizeExprF += sizeExpr;
+                    nWritesF += 1;
+                    if (!dest->is_scalar()) {
+                        outStreamsF += 1;
+                    }
                 }
             }
 
-            if (!outSizeExprI.empty()) {
-                outSizeExprI = outSizeExprI.substr(1);
-                if (outSizeExprI.find('+') != string::npos) {
-                    outSizeExprI = "(" + outSizeExprI + ")";
-                }
-                outSizeExprI += "*" + to_string(sizeof(int));
-                node->attr("isize_out", outSizeExprI);
-                node->attr("istreams_out", to_string(outStreamsI));
-            }
+            string intSize = to_string(sizeof(int));
+            string floatSize = to_string(sizeof(double));
+            string isSizeExpr = Strings::fixParens(comp->space().size().text());
 
-            if (!outSizeExprF.empty()) {
-                outSizeExprF = outSizeExprF.substr(1);
-                if (outSizeExprF.find('+') != string::npos) {
-                    outSizeExprF = "(" + outSizeExprF + ")";
-                }
-                outSizeExprF += "*" + to_string(sizeof(double));
-                node->attr("fsize_out", outSizeExprF);
-                node->attr("fstreams_out", to_string(outStreamsF));
-            }
+            string inSizeExprF = to_string(nReadsF) + "*" + floatSize + "*(" + isSizeExpr + ")";
+            string inSizeExprI = to_string(nReadsI) + "*" + intSize + "*(" + isSizeExpr + ")";
+            string outSizeExprF = to_string(nWritesF) + "*" + floatSize + "*(" + isSizeExpr + ")";
+            string outSizeExprI = to_string(nWritesI) + "*" + intSize + "*(" + isSizeExpr + ")";
 
             nIOPs = 1;                  // TODO: count int ops later (maybe), but assume at least one
             nFLOPs = node->flops();     // Count FLOPs...
+            string flopsExpr = to_string(nFLOPs) + "*(" + isSizeExpr + ")";
+            string iopsExpr = to_string(nIOPs) + "*(" + isSizeExpr + ")";
 
-            node->attr("flops", to_string(nFLOPs));
-            node->attr("iops", to_string(nIOPs));
+            node->attr("isize_in", inSizeExprI);
+            node->attr("istreams_in", to_string(inStreamsI));
+            node->attr("fsize_in", inSizeExprF);
+            node->attr("fstreams_in", to_string(inStreamsF));
+
+            node->attr("isize_out", outSizeExprI);
+            node->attr("istreams_out", to_string(outStreamsI));
+            node->attr("fsize_out", outSizeExprF);
+            node->attr("fstreams_out", to_string(outStreamsF));
+
+            node->attr("flops", flopsExpr);
+            node->attr("iops", iopsExpr);
+
+            // Comment out old code for now...
+
+//            vector<Edge*> inedges = _graph->inedges(node);
+//            for (Edge* edge : inedges) {
+//                if (edge->source()->is_data()) {
+//                    DataNode* source = (DataNode*) edge->source();
+//                    if (!source->is_scalar()) {
+//                        string sizeExpr = "+" + Strings::fixParens(source->size()->text());
+//                        if (source->is_int()) {
+//                            inStreamsI += 1;
+//                            inSizeExprI += sizeExpr;
+//                        } else {
+//                            inStreamsF += 1;
+//                            inSizeExprF += sizeExpr;
+//                        }
+//                    }
+//                }
+//            }
+
+//            if (!inSizeExprI.empty()) {
+//                inSizeExprI = inSizeExprI.substr(1);
+//                if (inSizeExprI.find('+') != string::npos) {
+//                    inSizeExprI = "(" + inSizeExprI + ")";
+//                }
+//                inSizeExprI += "*" + to_string(sizeof(int));
+//                node->attr("isize_in", inSizeExprI);
+//                node->attr("istreams_in", to_string(inStreamsI));
+//            } else {
+//                inSizeExprI = to_string(sizeof(int));
+//            }
+
+//            if (!inSizeExprF.empty()) {
+//                inSizeExprF = inSizeExprF.substr(1);
+//                if (inSizeExprF.find('+') != string::npos) {
+//                    inSizeExprF = "(" + inSizeExprF + ")";
+//                }
+//                inSizeExprF += "*" + to_string(sizeof(double));
+//                node->attr("fsize_in", inSizeExprF);
+//                node->attr("fstreams_in", to_string(inStreamsF));
+//            } else {
+//                inSizeExprF = to_string(sizeof(double));
+//            }
+
+//            vector<Edge*> outedges = _graph->outedges(node);
+//            for (Edge* edge : outedges) {
+//                DataNode *dest = (DataNode *) edge->dest();
+//                string sizeExpr;
+//                if (dest->is_scalar()) {
+//                    sizeExpr = "1";
+//                } else {
+//                    sizeExpr = "+" + Strings::fixParens(dest->size()->text());
+//                }
+//                if (dest->is_int()) {
+//                    outStreamsI += 1;
+//                    outSizeExprI += sizeExpr;
+//                } else {
+//                    outStreamsF += 1;
+//                    outSizeExprF += sizeExpr;
+//                }
+//            }
+
+//            if (!outSizeExprI.empty()) {
+//                outSizeExprI = outSizeExprI.substr(1);
+//                if (outSizeExprI.find('+') != string::npos) {
+//                    outSizeExprI = "(" + outSizeExprI + ")";
+//                }
+//                outSizeExprI += "*" + to_string(sizeof(int));
+//                node->attr("isize_out", outSizeExprI);
+//                node->attr("istreams_out", to_string(outStreamsI));
+//            }
+
+//            if (!outSizeExprF.empty()) {
+//                outSizeExprF = outSizeExprF.substr(1);
+//                if (outSizeExprF.find('+') != string::npos) {
+//                    outSizeExprF = "(" + outSizeExprF + ")";
+//                }
+//                outSizeExprF += "*" + to_string(sizeof(double));
+//                node->attr("fsize_out", outSizeExprF);
+//                node->attr("fstreams_out", to_string(outStreamsF));
+//            }
         }
     };
 
@@ -671,8 +731,6 @@ namespace pdfg {
             }
         }
 
-        /// For each computation node, generate and assign a scheduling (scattering) function.
-        /// \param node Computation node
         void enter(CompNode* node) override {
             unsigned i, j, n;
             unsigned level = 0;
@@ -698,124 +756,210 @@ namespace pdfg {
 
             // 2) Determine fusion type and calculate maximum offset from each iterator.
             char fuseType = 'S';        // Simple loop-only fusion if no data dependences
-            CompNode* prev = node;
             vector<CompNode*> nodes(nschedules, nullptr);
             nodes[0] = node;
 
             i = 1;
             for (CompNode* child : node->children()) {
-//                map<string, Access*> isect = intersect(prev->writes(), child->reads());
-//                if (!isect.empty()) {   // P-C Fuse
-////                    maxOffsets(_schedules[n], prev->writes(), offsets);
-////                    maxOffsets(_schedules[n], child->reads(), offsets);
-//                    fuseType = 'P';
-//                } else {
-//                    isect = intersect(prev->reads(), child->reads());
-//                    if (!isect.empty()) {   // R-R Fuse
-//                        // This might be a don't-care, these are just reads so order should not matter.
-////                        maxOffsets(_schedules[n], prev->reads(), offsets);
-////                        maxOffsets(_schedules[n], child->reads(), offsets);
-//                        fuseType = 'R';
-//                    } else {
-//                        isect = intersect(prev->writes(), child->writes());
-//                        if (!isect.empty()) {   // W-W Fuse
-//                            // Potential WAW hazard -- how to handle this case? Error?
-////                            maxOffsets(_schedules[n], prev->writes(), offsets);
-////                            maxOffsets(_schedules[n], child->reads(), offsets);
-//                            fuseType = 'W';
-//                        }
-//                    }
-//                }
-//                prev = child;
                 nodes[i++] = child;
             }
 
-            vector<Tuple> newfxns = _schedules;
+            // Let's build a graph...
+            Digraph* ig = new Digraph();
+            string iroot = ig->node("r", "", {"shape", "none"});
+            string inode = iroot;
+            string inext, iprev;
+            int prev_depth;
 
-            // 3) Find the deepest common level
-            int index = -1;
-            level = getCommonLevel(newfxns, &index);
+            // TODO: Figure out data dependences!
+            CompNode *curr, *prev;
+            for (i = 0; i < nodes.size(); i++) {
+                curr = nodes[i];
+                Tuple sched = _schedules[i];
+                IntTuple offsets;
 
-            // Handle case w/o common iterators.
-            Iter first;
-            bool interchange = (level < 1);
-            if (interchange) {
-                if (newfxns[level].size() > newfxns[index].size()) {
-                    index = level;
+                map<string, Access *> rwdeps;
+                if (i > 0) {
+                    rwdeps = intersect(prev->writes(), curr->reads());
+//                    if (!rwdeps.empty()) {
+//                        maxOffsets(sched, prev->writes(), offsets);
+//                        maxOffsets(sched, curr->reads(), offsets);
+//                    }
                 }
-                first = newfxns[index][0];
-                newfxns[index].erase(newfxns[index].begin());
-                level = getCommonLevel(newfxns);
-            }
 
-            for (i = 0; i < nschedules; i++) {
-                if (!newfxns[i][level].is_int()) {
-                    newfxns[i].insert(newfxns[i].begin() + level, Iter(i + '0'));
-                    if (newfxns[i].size() > maxiter) {
-                        newfxns[i].pop_back();
+                int depth = 0;
+                for (j = 0; j < sched.size() - 1; j++) {
+                    string iter = sched[j].text();
+                    inext = ig->find(inode, iter, &depth);
+                    if (inext.empty()) {    // Iterator not found on current path, create a new one...
+                        inext = ig->node(iter, iter);
+                        cerr << inode << " -> " << ig->size(inode) << " -> " << inext << endl;
+                        ig->edge(inode, inext, ig->size(inode));
                     }
+                    iprev = inode;
+                    inode = inext;
                 }
+
+                // Add leaf node (the statement)
+                inext = ig->node("s" + to_string(i));
+                cerr << inode << " -> " << ig->size(inode) << " -> " << inext << endl;
+                ig->edge(inode, inext, ig->size(inode));
+
+                inode = iroot;
+                prev = curr;
+                prev_depth = depth;
             }
 
-            // 4) Handle nonzero offsets...
-            unsigned group = 0;
-            vector<bool> shifted(maxiter, false);
-            for (i = 1; i < nschedules; i++) {
-                // Check whether offset exists at this level
-                map<string, Access*> isect = intersect(nodes[i-1]->writes(), nodes[i]->reads());
-                if (!isect.empty()) {
-                    maxOffsets(_schedules[i], nodes[i-1]->writes(), offsets);
-                    maxOffsets(_schedules[i], nodes[i]->reads(), offsets);
-                }
-                for (n = 0; n < offsets.size(); n++) {
-                    if (offsets[n] != 0) {
-                        if (!shifted[n]) {
-                            // This means insert a tuple here! Or perhaps it means a shift,
-                            //   need to determine when shifts are possible.
-                            for (j = 0; j < nschedules; j++) {
-                                newfxns[j].insert(newfxns[j].begin() + n, Iter(group + '0'));
-                            }
-                            group += 1;
-                            maxiter += 1;
-                            shifted[n] = true;
-                        }
-                        // If dimension is already shifted, just increment the group.
-                        for (j = i; j < nschedules; j++) {
-                            newfxns[j][n] = Iter(group + '0');
-                        }
-                        group += 1;
-                        offsets[n] = 0;
-                    }
-                }
-            }
-
-            // 5) Increment last tuple item to ensure lexicographic ordering.
-            // TODO: Ideally, the last tuple should be in group order, but the generated code should be the same.
-            for (unsigned i = 0; i < nschedules; i++) {
-                unsigned last = newfxns[i].size() - 1;
-                if (newfxns[i][last].is_int()) {
-                    newfxns[i][last] = Iter(i + '0');
-                }
-            }
-
-            if (interchange) {
-                newfxns[index].push_back(first);
-            }
-
-            // 6) Replace schedules with updated tuples...
-            n = 0;
-            for (i = 0; i < comp->nschedules(); i++) {
-                comp->reschedule(i, newfxns[n]);
-                n += 1;
-            }
-            for (CompNode* child : node->children()) {
-                Comp* other = child->comp();
-                for (i = 0; i < other->nschedules(); i++) {
-                    other->reschedule(i, newfxns[n]);
-                    n += 1;
-                }
-            }
+            _itergraph = ig;
+            node->iter_graph(_itergraph);
+            walk(node);
         }
+
+        /// For each computation node, generate and assign a scheduling (scattering) function.
+        /// \param node Computation node
+//        void enter(CompNode* node) override {
+//            unsigned i, j, n;
+//            unsigned level = 0;
+//            unsigned maxiter = 0;
+//            vector<int> offsets;
+//
+//            // Skip if no fusion for now...
+//            if (node->children().size() < 1) {
+//                return;
+//            }
+//
+//            Comp* comp = node->comp();
+//
+//            // 0) Collect current schedules and offsets
+//            _schedules = node->schedules();
+//
+//            // 1) Calculate maximum # of iterators in tuples.
+//            unsigned nschedules = _schedules.size();
+//            for (i = 0; i < nschedules; i++) {
+//                unsigned niter = _schedules[i].size();
+//                maxiter = (niter > maxiter) ? niter : maxiter;
+//            }
+//
+//            // 2) Determine fusion type and calculate maximum offset from each iterator.
+//            char fuseType = 'S';        // Simple loop-only fusion if no data dependences
+//            CompNode* prev = node;
+//            vector<CompNode*> nodes(nschedules, nullptr);
+//            nodes[0] = node;
+//
+//            i = 1;
+//            for (CompNode* child : node->children()) {
+////                map<string, Access*> isect = intersect(prev->writes(), child->reads());
+////                if (!isect.empty()) {   // P-C Fuse
+//////                    maxOffsets(_schedules[n], prev->writes(), offsets);
+//////                    maxOffsets(_schedules[n], child->reads(), offsets);
+////                    fuseType = 'P';
+////                } else {
+////                    isect = intersect(prev->reads(), child->reads());
+////                    if (!isect.empty()) {   // R-R Fuse
+////                        // This might be a don't-care, these are just reads so order should not matter.
+//////                        maxOffsets(_schedules[n], prev->reads(), offsets);
+//////                        maxOffsets(_schedules[n], child->reads(), offsets);
+////                        fuseType = 'R';
+////                    } else {
+////                        isect = intersect(prev->writes(), child->writes());
+////                        if (!isect.empty()) {   // W-W Fuse
+////                            // Potential WAW hazard -- how to handle this case? Error?
+//////                            maxOffsets(_schedules[n], prev->writes(), offsets);
+//////                            maxOffsets(_schedules[n], child->reads(), offsets);
+////                            fuseType = 'W';
+////                        }
+////                    }
+////                }
+////                prev = child;
+//                nodes[i++] = child;
+//            }
+//
+//            vector<Tuple> newfxns = _schedules;
+//
+//            // 3) Find the deepest common level
+//            int index = -1;
+//            level = getCommonLevel(newfxns, &index);
+//
+//            // Handle case w/o common iterators.
+//            Iter first;
+//            bool interchange = (level < 1);
+//            if (interchange) {
+//                if (newfxns[level].size() > newfxns[index].size()) {
+//                    index = level;
+//                }
+//                first = newfxns[index][0];
+//                newfxns[index].erase(newfxns[index].begin());
+//                level = getCommonLevel(newfxns);
+//            }
+//
+//            for (i = 0; i < nschedules; i++) {
+//                if (!newfxns[i][level].is_int()) {
+//                    newfxns[i].insert(newfxns[i].begin() + level, Iter(i + '0'));
+//                    if (newfxns[i].size() > maxiter) {
+//                        newfxns[i].pop_back();
+//                    }
+//                }
+//            }
+//
+//            // 4) Handle nonzero offsets...
+//            unsigned group = 0;
+//            vector<bool> shifted(maxiter, false);
+//            for (i = 1; i < nschedules; i++) {
+//                // Check whether offset exists at this level
+//                map<string, Access*> isect = intersect(nodes[i-1]->writes(), nodes[i]->reads());
+//                if (!isect.empty()) {
+//                    maxOffsets(_schedules[i], nodes[i-1]->writes(), offsets);
+//                    maxOffsets(_schedules[i], nodes[i]->reads(), offsets);
+//                }
+//                for (n = 0; n < offsets.size(); n++) {
+//                    if (offsets[n] != 0) {
+//                        if (!shifted[n]) {
+//                            // This means insert a tuple here! Or perhaps it means a shift,
+//                            //   need to determine when shifts are possible.
+//                            for (j = 0; j < nschedules; j++) {
+//                                newfxns[j].insert(newfxns[j].begin() + n, Iter(group + '0'));
+//                            }
+//                            group += 1;
+//                            maxiter += 1;
+//                            shifted[n] = true;
+//                        }
+//                        // If dimension is already shifted, just increment the group.
+//                        for (j = i; j < nschedules; j++) {
+//                            newfxns[j][n] = Iter(group + '0');
+//                        }
+//                        group += 1;
+//                        offsets[n] = 0;
+//                    }
+//                }
+//            }
+//
+//            // 5) Increment last tuple item to ensure lexicographic ordering.
+//            // TODO: Ideally, the last tuple should be in group order, but the generated code should be the same.
+//            for (unsigned i = 0; i < nschedules; i++) {
+//                unsigned last = newfxns[i].size() - 1;
+//                if (newfxns[i][last].is_int()) {
+//                    newfxns[i][last] = Iter(i + '0');
+//                }
+//            }
+//
+//            if (interchange) {
+//                newfxns[index].push_back(first);
+//            }
+//
+//            // 6) Replace schedules with updated tuples...
+//            n = 0;
+//            for (i = 0; i < comp->nschedules(); i++) {
+//                comp->reschedule(i, newfxns[n]);
+//                n += 1;
+//            }
+//            for (CompNode* child : node->children()) {
+//                Comp* other = child->comp();
+//                for (i = 0; i < other->nschedules(); i++) {
+//                    other->reschedule(i, newfxns[n]);
+//                    n += 1;
+//                }
+//            }
+//        }
 
     protected:
         void walk(CompNode* node) {

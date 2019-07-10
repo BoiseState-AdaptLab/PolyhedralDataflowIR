@@ -82,10 +82,14 @@ namespace pdfg {
 
         vector<Pair> edges(const string& name) const {
             auto itr = _indices.find(name);
-            if (itr != _indices.end()) {
+            if (itr != _indices.end() && itr->second < _edges.size()) {
                 return _edges[itr->second];
             }
             return vector<Pair>();
+        }
+
+        unsigned size(const string& name) const {
+            return edges(name).size();
         }
 
         string label(const string& name) const {
@@ -104,20 +108,56 @@ namespace pdfg {
             return map<string,string>();
         }
 
-        void node(const string& name, int label = 0, initializer_list<string> attrs = {}) {
-            node(name, to_string(label), attrs);
+        string find(const string& node, const string& key) {
+            int depth = 0;
+            return find(node, key, &depth);
         }
 
-        void node(const string& name, const string& label = "", initializer_list<string> attrs = {}) {
-            auto itr = _indices.find(name);
-            if (itr == _indices.end()) {
-                _indices[name] = _nodes.size();
-                _nodes.push_back(name);
+        string find(const string& node, const string& key, int* depth) {
+            string label = this->label(node);
+            if (label.find(key) != string::npos) {
+                return node;
+            } else {    // Visit children
+                vector<Pair> edges = this->edges(node);
+                int n = 0;
+                for (Pair& edge : edges) {
+                    *depth += 1;
+                    string sub = find(edge.first, key, depth);
+                    if (!sub.empty()) {
+                        return sub;
+                    }
+                    n += 1;
+                }
+            }
+            return "";
+        }
+
+        string node(string name) {
+            return node(name, name);
+        }
+
+        string node(string name, int label, initializer_list<string> attrs = {}) {
+            return node(name, to_string(label), attrs);
+        }
+
+        string node(string name, const string& label, initializer_list<string> attrs = {}) {
+            // Find a unique name, labels can be repeated.
+            string uname = name;
+            auto itr = _indices.find(uname);
+            unsigned count = 0;
+            while (itr != _indices.end()) {
+                uname = name + to_string(count);
+                itr = _indices.find(uname);
+                count += 1;
             }
 
-            //if (!label.empty()) {
-                _labels[name] = label;
+            name = uname;
+            //if (itr == _indices.end()) {
+                _indices[name] = _nodes.size();
+                _nodes.push_back(name);
             //}
+
+            _labels[name] = label;
 
             unsigned nattrs = attrs.size();
             if (nattrs > 0) {
@@ -131,6 +171,16 @@ namespace pdfg {
                     attr(name, key, val);
                 }
             }
+
+            return name;
+        }
+
+        int index(const string& name) {
+            auto itr = _indices.find(name);
+            if (itr != _indices.end()) {
+                return itr->second;
+            }
+            return -1;
         }
 
         void edge(const string& src, const string& dest, const int label) {
