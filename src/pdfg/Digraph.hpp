@@ -110,10 +110,11 @@ namespace pdfg {
 
         string find(const string& node, const string& key) {
             int depth = 0;
-            return find(node, key, &depth);
+            int pos;
+            return find(node, key, &depth, &pos);
         }
 
-        string find(const string& node, const string& key, int* depth) {
+        string find(const string& node, const string& key, int* depth, int* pos) {
             string label = this->label(node);
             if (label.find(key) != string::npos) {
                 return node;
@@ -122,7 +123,8 @@ namespace pdfg {
                 int n = 0;
                 for (Pair& edge : edges) {
                     *depth += 1;
-                    string sub = find(edge.first, key, depth);
+                    *pos = n;
+                    string sub = find(edge.first, key, depth, pos);
                     if (!sub.empty()) {
                         return sub;
                     }

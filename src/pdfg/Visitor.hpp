@@ -700,11 +700,14 @@ namespace pdfg {
             string iroot = ig->node("r", "", {"shape", "none"});
             string inode = iroot;
             string inext, iprev;
-            int prev_depth;
+            int prev_depth, prev_pos;
 
             // TODO: Figure out data dependences!
             CompNode *curr, *prev;
             for (i = 0; i < nodes.size(); i++) {
+                int depth = 0;
+                int pos = 0;
+
                 curr = nodes[i];
                 Tuple sched = _schedules[i];
                 IntTuple offsets;
@@ -718,10 +721,15 @@ namespace pdfg {
 //                    }
                 }
 
-                int depth = 0;
                 for (j = 0; j < sched.size() - 1; j++) {
+                    depth = 0;
                     string iter = sched[j].text();
-                    inext = ig->find(inode, iter, &depth);
+                    inext = ig->find(inode, iter, &depth, &pos);
+
+                    if (curr->label() == "xadd") {
+                        int stop = 1;
+                    }
+
                     if (inext.empty()) {    // Iterator not found on current path, create a new one...
                         inext = ig->node(iter, iter);
                         cerr << inode << " -> " << ig->size(inode) << " -> " << inext << endl;
@@ -739,6 +747,7 @@ namespace pdfg {
                 inode = iroot;
                 prev = curr;
                 prev_depth = depth;
+                prev_pos = pos;
             }
 
             _itergraph = ig;

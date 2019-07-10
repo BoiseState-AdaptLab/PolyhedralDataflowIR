@@ -1765,7 +1765,7 @@ namespace pdfg {
 
         Math size() const {
             Math expr;
-            for (unsigned n = 0; n < _constraints.size(); n += 2) {
+            for (unsigned n = 0; n + 1 < _constraints.size(); n += 2) {
                 Constr low = _constraints[n];
                 Constr high = _constraints[n+1];
                 Expr lower = low.lhs();
