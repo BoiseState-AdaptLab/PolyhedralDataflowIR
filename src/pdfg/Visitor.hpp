@@ -700,54 +700,87 @@ namespace pdfg {
             string iroot = ig->node("r", "", {"shape", "none"});
             string inode = iroot;
             string inext, iprev;
-            int prev_depth, prev_pos;
+            Tuple prev_sched;
+            IntTuple prev_offsets, prev_orders, prev_pos;
 
             // TODO: Figure out data dependences!
             CompNode *curr, *prev;
             for (i = 0; i < nodes.size(); i++) {
-                int depth = 0;
+                int order = 0;
                 int pos = 0;
+                string iter;
 
                 curr = nodes[i];
                 Tuple sched = _schedules[i];
                 IntTuple offsets;
+                IntTuple orders(sched.size());
+                IntTuple positions(sched.size());
 
                 map<string, Access *> rwdeps;
                 if (i > 0) {
                     rwdeps = intersect(prev->writes(), curr->reads());
-//                    if (!rwdeps.empty()) {
-//                        maxOffsets(sched, prev->writes(), offsets);
-//                        maxOffsets(sched, curr->reads(), offsets);
-//                    }
+                    if (!rwdeps.empty()) {
+                        maxOffsets(sched, prev->writes(), offsets);
+                        maxOffsets(sched, curr->reads(), offsets);
+                    }
                 }
 
                 for (j = 0; j < sched.size() - 1; j++) {
-                    depth = 0;
-                    string iter = sched[j].text();
-                    inext = ig->find(inode, iter, &depth, &pos);
-
-                    if (curr->label() == "xadd") {
-                        int stop = 1;
-                    }
+                    iter = sched[j].text();
+                    inext = ig->find(inode, iter, &order, &pos);
 
                     if (inext.empty()) {    // Iterator not found on current path, create a new one...
                         inext = ig->node(iter, iter);
-                        cerr << inode << " -> " << ig->size(inode) << " -> " << inext << endl;
-                        ig->edge(inode, inext, ig->size(inode));
+                        order += 1;
+                        pos = ig->size(inode);
+                        cerr << inode << " -> " << pos << " -> " << inext << endl;
+                        ig->edge(inode, inext, pos);
                     }
+
+                    orders[j] = order;
+                    positions[j] = pos;
                     iprev = inode;
                     inode = inext;
                 }
 
+                int depth = sched.size() - 2;
+                if (!rwdeps.empty()) {
+                    // Find minimium starting depth to check for dependences...
+                    for (const auto& itr : rwdeps) {
+                        ExprTuple acc_tuple = itr.second->tuple();
+                        for (Expr expr : acc_tuple) {       // Find iterator within schedule...
+                            int dpos = Lists::index<string>(stringify<Iter>(sched), expr.text());
+                            if (dpos < depth) {
+                                depth = dpos;
+                            }
+                        }
+                    }
+
+                    if (positions[depth] < prev_pos[depth]) {
+                        // Insert a new iter node before previous to prevent dependence violation.
+                        inode = iprev;
+                        inext = ig->node(iter, iter);
+                        pos = ig->size(inode);
+                        cerr << inode << " -> " << pos << " -> " << inext << endl;
+                        ig->edge(inode, inext, pos);
+                        positions[depth] = pos;
+                        inode = inext;
+                    }
+                }
+
                 // Add leaf node (the statement)
                 inext = ig->node("s" + to_string(i));
-                cerr << inode << " -> " << ig->size(inode) << " -> " << inext << endl;
-                ig->edge(inode, inext, ig->size(inode));
-
+                pos = ig->size(inode);
+                cerr << inode << " -> " << pos << " -> " << inext << endl;
+                ig->edge(inode, inext, pos);
+                positions[sched.size()-1] = pos;        // Leaf pos
                 inode = iroot;
+
                 prev = curr;
-                prev_depth = depth;
-                prev_pos = pos;
+                prev_sched = sched;
+                prev_offsets = offsets;
+                prev_orders = orders;
+                prev_pos = positions;
             }
 
             _itergraph = ig;

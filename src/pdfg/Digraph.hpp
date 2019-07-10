@@ -109,12 +109,11 @@ namespace pdfg {
         }
 
         string find(const string& node, const string& key) {
-            int depth = 0;
-            int pos;
-            return find(node, key, &depth, &pos);
+            int order = 0, pos = 0;
+            return find(node, key, &order, &pos);
         }
 
-        string find(const string& node, const string& key, int* depth, int* pos) {
+        string find(const string& node, const string& key, int* order, int* pos) {
             string label = this->label(node);
             if (label.find(key) != string::npos) {
                 return node;
@@ -122,9 +121,9 @@ namespace pdfg {
                 vector<Pair> edges = this->edges(node);
                 int n = 0;
                 for (Pair& edge : edges) {
-                    *depth += 1;
+                    *order += 1;
                     *pos = n;
-                    string sub = find(edge.first, key, depth, pos);
+                    string sub = find(edge.first, key, order, pos);
                     if (!sub.empty()) {
                         return sub;
                     }
