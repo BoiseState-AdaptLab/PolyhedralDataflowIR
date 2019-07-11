@@ -641,6 +641,14 @@ namespace pdfg {
             }
         }
 
+        const string& alignIter() const {
+            return _alignIter;
+        }
+
+        void alignIter(const string& iter) {
+            _alignIter = iter;
+        }
+
         const string& name() const {
             return _name;
         }
@@ -793,12 +801,21 @@ namespace pdfg {
             return outputs;
         }
 
+        void alignIterators(vector<Tuple>& lhsTuples, vector<Tuple>& rhsTuples) {
+            if (!_alignIter.empty()) {
+                int stop = 1;
+            }
+        }
+
         void updateIterGraph(CompNode* prev, CompNode* curr) {
             string inode, inext, iprev, iter;
             int pos = 0;
             Tuple sched;
             IntTuple path;
-            vector<Tuple> schedules = prev->schedules();
+
+            vector<Tuple> prevScheds = prev->schedules();
+            vector<Tuple> currScheds = curr->schedules();
+            alignIterators(prevScheds, currScheds);
 
             Digraph* ig = prev->iter_graph();
             if (ig == nullptr) {
@@ -806,7 +823,7 @@ namespace pdfg {
                 inode = ig->node("*", "", {"shape", "none"});
                 prev->iter_graph(ig);
 
-                inode = insertSchedule(ig, schedules[0], path);         // Add first node (this one)
+                inode = insertSchedule(ig, prevScheds[0], path);         // Add first node (this one)
                 inext = insertLeaf(ig, inode, prev->label(), path);     // Add leaf node (the statement)
             }
 
@@ -820,7 +837,7 @@ namespace pdfg {
             }
 
             // TODO: Assuming the node to be fused has only one schedule for now...
-            sched = curr->schedules()[0];
+            sched = currScheds[0];
             path.clear();
 
             inode = ig->root();
@@ -964,6 +981,7 @@ namespace pdfg {
         }
 
         string _name;
+        string _alignIter;
         string _indexType;
         string _returnName;
         string _returnType;

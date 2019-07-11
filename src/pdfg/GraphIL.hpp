@@ -2848,6 +2848,10 @@ namespace pdfg {
             _scheduled = _reduced = false;
         }
 
+        void align(const string& iter) {
+            _flowGraph.alignIter(iter);
+        }
+
         void fuse() {
             vector<CompNode*> nodes = _flowGraph.comp_nodes();
             CompNode* first = nodes[0];
@@ -3552,6 +3556,14 @@ namespace pdfg {
         return call(macro);
     }
 
+    Math memCopy(const Space& dest, const Space& src) {
+        Macro macro("memCopy", {dest, src});
+        ostringstream os;
+        os << "memcpy(" << dest.name() << "," << src.name() << "," << src.size() << "*sizeof(" << GraphMaker::get().dataType() << "))";
+        macro.add(Expr(os.str()));
+        return call(macro);
+    }
+
     void init(const string& name, const string& retname = "", const string& datatype = "",
               const string& indextype = "", initializer_list<string> outputs = {}, const string& defval = "") {
         GraphMaker::get().newGraph(name);
@@ -3714,10 +3726,11 @@ namespace pdfg {
     }
 
     void fuse(Comp& first, vector<Comp>& others) {
-        Comp& comp = first;
+        //Comp& comp = first;
         for (unsigned i = 0; i < others.size(); i++) {
-            fuse(comp, others[i]);
-            comp = others[i];
+            //fuse(comp, others[i]);
+            fuse(first, others[i]);
+            //comp = others[i];
         }
     }
 
@@ -3744,6 +3757,10 @@ namespace pdfg {
             rest.push_back(*gm.getComp(*itr));
         }
         fuse(first, rest);
+    }
+
+    void align(const string& iter) {
+        GraphMaker::get().align(iter);
     }
 }
 
