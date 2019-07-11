@@ -801,27 +801,12 @@ namespace pdfg {
             return outputs;
         }
 
-        void alignIterators(vector<Tuple>& tuples) {
-            if (!_alignIter.empty()) {
-                for (Tuple& tuple : tuples) {
-                    while (tuple[0].text() != _alignIter) {
-                        tuple.insert(tuple.end() - 1, tuple[0]);
-                        tuple.erase(tuple.begin());
-                    }
-                }
-            }
-        }
-
         void updateIterGraph(CompNode* prev, CompNode* curr) {
             string inode, inext, iprev, iter;
             int pos = 0;
             Tuple sched;
             IntTuple path;
-
-            vector<Tuple> prevScheds = prev->schedules();
-            //alignIterators(prevScheds);
-            vector<Tuple> currScheds = curr->schedules();
-            alignIterators(currScheds);
+            IntTuple offsets;
 
             Digraph* ig = prev->iter_graph();
             if (ig == nullptr) {
@@ -829,9 +814,18 @@ namespace pdfg {
                 inode = ig->node("*", "", {"shape", "none"});
                 prev->iter_graph(ig);
 
+                vector<Tuple> prevScheds = prev->schedules();
+                alignIterators(prevScheds);
                 inode = insertSchedule(ig, prevScheds[0], path);         // Add first node (this one)
                 inext = insertLeaf(ig, inode, prev->label(), path);     // Add leaf node (the statement)
             }
+
+            vector<Tuple> currScheds = curr->schedules();
+            alignIterators(currScheds);
+
+            // TODO: Assuming the node to be fused has only one schedule for now...
+            sched = currScheds[0];
+            path.clear();
 
             // Construct set of data dependences...
             vector<CompNode*> producers = getProducers(prev, curr);
@@ -840,11 +834,10 @@ namespace pdfg {
                 IntTuple prod_path;
                 ig->find(prod->label(), prod_path);
                 prod_paths[prod->label()] = prod_path;
-            }
 
-            // TODO: Assuming the node to be fused has only one schedule for now...
-            sched = currScheds[0];
-            path.clear();
+                maxOffsets(sched, prod->writes(), offsets);
+                maxOffsets(sched, curr->reads(), offsets);
+            }
 
             inode = ig->root();
             for (unsigned j = 0; j < sched.size() - 1; j++) {
@@ -861,6 +854,10 @@ namespace pdfg {
                         path.resize(j);
                         skips.push_back(inext);
                         inext = ig->find(inode, iter, path, skips);
+                    }
+                    if (!inext.empty() && offsets[j] != 0) {
+                        // TODO: Later, this become shifts, for now we have to split the tree at 'x'
+                        inext = ig->split(inext);
                     }
                     if (iprev != inext) {
                         break;
@@ -958,6 +955,50 @@ namespace pdfg {
                 }
             }
             return producers;
+        }
+
+        void alignIterators(vector<Tuple>& tuples) {
+            if (!_alignIter.empty()) {
+                for (Tuple& tuple : tuples) {
+                    if (find(tuple.begin(), tuple.end(), Iter(_alignIter)) != tuple.end()) {
+                        while (tuple[0].text() != _alignIter) {
+                            tuple.insert(tuple.end() - 1, tuple[0]);
+                            tuple.erase(tuple.begin());
+                        }
+                    }
+                }
+            }
+        }
+
+        void maxOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& max_offsets) {
+            for (unsigned i = 0; i < schedule.size(); i++) {
+                if (max_offsets.size() <= i) {
+                    max_offsets.push_back(0);
+                }
+
+                for (const auto& itr : accmap) {
+                    Access *acc = itr.second;
+                    string space = acc->space();
+                    ExprTuple tuple = acc->tuple();
+
+                    bool match = false;
+                    for (unsigned j = 0; j < tuple.size() && !match; j++) {
+                        if (!schedule[i].is_int()) {
+                            string expr = tuple[j].text();
+                            string iter = schedule[i].text();
+                            size_t pos = expr.find(iter);
+                            match = (pos != string::npos);
+                            if (match && expr != iter) {
+                                expr.erase(pos, iter.size());
+                                int offset = unstring<int>(expr);
+                                if (abs(offset) > abs(max_offsets[i])) {
+                                    max_offsets[i] = offset;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         string insertSchedule(Digraph* ig, const Tuple& sched, IntTuple& path) {

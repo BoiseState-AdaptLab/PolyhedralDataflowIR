@@ -662,13 +662,15 @@ namespace pdfg {
         void enter(CompNode* node) override {
             Digraph* igraph = node->iter_graph();
             if (igraph) {
-                //cerr << igraph->to_dot() << endl;
-                // 1) Traverse the iteration graph
                 Tuple tuple;
-                visit(igraph, igraph->root(), tuple);
+                vector<Tuple> schedules;
+                //cerr << igraph->to_dot() << endl;
+
+                // 1) Traverse the iteration graph
+                visit(igraph, igraph->root(), tuple, schedules);
 
                 // 2) Replace schedules with updated tuples...
-                node->schedules(_schedules);
+                node->schedules(schedules);
             }
         }
 
@@ -819,7 +821,7 @@ namespace pdfg {
 //        }
 
     protected:
-        void visit(Digraph* graph, const string& node, Tuple& tuple) {
+        void visit(Digraph* graph, const string& node, Tuple& tuple, vector<Tuple>& schedules) {
             string label = graph->label(node);
             tuple.push_back(Iter(label));
             vector<Pair> edges = graph->edges(node);
@@ -828,13 +830,13 @@ namespace pdfg {
                 Iter stmt = tuple.back();
                 tuple.pop_back();
                 Tuple schedule(tuple.begin() + 1, tuple.end());
-                //cerr << "r0" << stmt << " := " << schedule << endl;
-                _schedules.push_back(schedule);
+                cerr << "r0" << stmt << " := " << schedule << endl;
+                schedules.push_back(schedule);
             } else {                    // Visit children
                 for (Pair& edge : edges) {
                     label = edge.second;
                     tuple.push_back(Iter(label));
-                    visit(graph, edge.first, tuple);
+                    visit(graph, edge.first, tuple, schedules);
                     tuple.pop_back();
                 }
                 tuple.pop_back();
@@ -886,38 +888,6 @@ namespace pdfg {
 //            return distmap;
 //        }
 
-//        void maxOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& max_offsets) {
-//            // Size up the max_offsets vector.
-//            for (unsigned i = 0; i < schedule.size(); i++) {
-//                if (max_offsets.size() <= i) {
-//                    max_offsets.push_back(0);
-//                }
-//
-//                for (const auto& itr : accmap) {
-//                    Access *acc = itr.second;
-//                    string space = acc->space();
-//                    ExprTuple tuple = acc->tuple();
-//
-//                    bool match = false;
-//                    for (unsigned j = 0; j < tuple.size() && !match; j++) {
-//                        if (!schedule[i].is_int()) {
-//                            string expr = tuple[j].text();
-//                            string iter = schedule[i].text();
-//                            size_t pos = expr.find(iter);
-//                            match = (pos != string::npos);
-//                            if (match && expr != iter) {
-//                                expr.erase(pos, iter.size());
-//                                int offset = unstring<int>(expr);
-//                                if (abs(offset) > abs(max_offsets[i])) {
-//                                    max_offsets[i] = offset;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
 //        unsigned getCommonLevel(const vector<Tuple>& tuples, int* ndx = nullptr) {
 //            unsigned i, n, level = 0;
 //            for (n = 0; n < tuples[0].size(); n++) {
@@ -940,7 +910,6 @@ namespace pdfg {
 //        }
 
         Digraph* _itergraph;
-        vector<Tuple> _schedules;
     };
 
     struct DataReduceVisitor : public DFGVisitor {

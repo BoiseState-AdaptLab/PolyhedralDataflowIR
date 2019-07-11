@@ -100,6 +100,14 @@ namespace pdfg {
             return name;
         }
 
+        string parent(const string& name) const {
+            auto itr = _parents.find(name);
+            if (itr != _parents.end()) {
+                return itr->second;
+            }
+            return name;
+        }
+
         map<string, string> attrs(const string& name) {
             auto itr = _attrs.find(name);
             if (itr != _attrs.end()) {
@@ -164,11 +172,8 @@ namespace pdfg {
             }
 
             name = uname;
-            //if (itr == _indices.end()) {
-                _indices[name] = _nodes.size();
-                _nodes.push_back(name);
-            //}
-
+            _indices[name] = _nodes.size();
+            _nodes.push_back(name);
             _labels[name] = label;
 
             unsigned nattrs = attrs.size();
@@ -213,6 +218,16 @@ namespace pdfg {
                 _edges.resize(_indices.size());
             }
             _edges[ndx].push_back(make_pair(dest, label));
+            _parents[dest] = src;
+        }
+
+        string edge(const string& src, const string& dest) {
+            string label;
+            auto itr = _indices.find(src);
+            if (itr != _indices.end()) {
+                label = itr->second;
+            }
+            return label;
         }
 
         void attr(const string& name, const string& val) {
@@ -221,6 +236,29 @@ namespace pdfg {
 
         void attr(const string& node, const string& name, const string& val) {
             _attrs[node][name] = val;
+        }
+
+        string split(const string& node) {
+            string new_node;
+            if (_split_nodes.find(node) == _split_nodes.end()) {
+                // Create new node with same label but new name.
+                string label = this->label(node);
+                new_node = this->node(node, label);
+
+                // Connect parent to new node.
+                string parent = this->parent(node);
+                int edge_num = unstring<int>(edge(parent, node));
+                this->edge(parent, new_node, edge_num + 1);
+
+                // Copy attributes to new node.
+                _attrs[new_node] = _attrs[node];
+
+                // Mark node as split, so it does not get split again...
+                _split_nodes[new_node] = true;
+            } else {
+                new_node = node;
+            }
+            return new_node;
         }
 
         string to_dot() {
@@ -261,7 +299,9 @@ namespace pdfg {
         map<string, unsigned> _indices;
         vector<string> _nodes;
         map<string, string> _labels;
+        map<string, string> _parents;
         map<string, map<string, string> > _attrs;
+        unordered_map<string, bool> _split_nodes;
     };
 }
 
