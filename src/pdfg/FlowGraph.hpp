@@ -801,9 +801,14 @@ namespace pdfg {
             return outputs;
         }
 
-        void alignIterators(vector<Tuple>& lhsTuples, vector<Tuple>& rhsTuples) {
+        void alignIterators(vector<Tuple>& tuples) {
             if (!_alignIter.empty()) {
-                int stop = 1;
+                for (Tuple& tuple : tuples) {
+                    while (tuple[0].text() != _alignIter) {
+                        tuple.insert(tuple.end() - 1, tuple[0]);
+                        tuple.erase(tuple.begin());
+                    }
+                }
             }
         }
 
@@ -814,8 +819,9 @@ namespace pdfg {
             IntTuple path;
 
             vector<Tuple> prevScheds = prev->schedules();
+            //alignIterators(prevScheds);
             vector<Tuple> currScheds = curr->schedules();
-            alignIterators(prevScheds, currScheds);
+            alignIterators(currScheds);
 
             Digraph* ig = prev->iter_graph();
             if (ig == nullptr) {

@@ -241,11 +241,13 @@ namespace pdfg {
 
             for (const string& name : _nodes) {
                 unsigned ndx = _indices[name];
-                vector<Pair> edges = _edges[ndx];
-                for (Pair e : edges) {
-                    string dest = e.first;
-                    string label = e.second;
-                    os << "  \"" << name << "\" -> \"" << dest << "\" [label=\"" << label << "\"]\n";
+                if (ndx < _edges.size()) {
+                    vector<Pair> edges = _edges[ndx];
+                    for (Pair e : edges) {
+                        string dest = e.first;
+                        string label = e.second;
+                        os << "  \"" << name << "\" -> \"" << dest << "\" [label=\"" << label << "\"]\n";
+                    }
                 }
             }
 
