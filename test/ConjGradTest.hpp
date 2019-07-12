@@ -28,7 +28,7 @@ namespace test {
     public:
         static Digraph COOGraph() {
             Digraph cgg("CG_COO");
-            cgg.attr("rankdir", "LR");
+            cgg.graph_attr("rankdir", "LR");
             cgg.node("r", "", {"shape", "none"});
             cgg.node("i0", "i");
             cgg.node("c", "copy", {"shape","rect"});

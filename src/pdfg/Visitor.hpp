@@ -664,7 +664,7 @@ namespace pdfg {
             if (igraph) {
                 Tuple tuple;
                 vector<Tuple> schedules;
-                //cerr << igraph->to_dot() << endl;
+                cerr << igraph->to_dot() << endl;
 
                 // 1) Traverse the iteration graph
                 visit(igraph, igraph->root(), tuple, schedules);
@@ -830,8 +830,14 @@ namespace pdfg {
                 Iter stmt = tuple.back();
                 tuple.pop_back();
                 Tuple schedule(tuple.begin() + 1, tuple.end());
-                cerr << "r0" << stmt << " := " << schedule << endl;
+
+                // Check for shift...
+                string shift = graph->attr(node, "shift");
+                if (!shift.empty()) {
+                    applyShift(schedule, shift);
+                }
                 schedules.push_back(schedule);
+                //cerr << "r0" << stmt << " := " << schedule << endl;
             } else {                    // Visit children
                 for (Pair& edge : edges) {
                     label = edge.second;
@@ -840,6 +846,22 @@ namespace pdfg {
                     tuple.pop_back();
                 }
                 tuple.pop_back();
+            }
+        }
+
+        void applyShift(Tuple& tuple, const string& shift) {
+            vector<string> shifts = Strings::split(shift, ',');
+            unsigned ndx = 0;
+            for (Iter& iter : tuple) {
+                if (!iter.empty() && !iter.is_int()) {
+                    int shift_val = atoi(shifts[ndx].c_str());
+                    if (shift_val < 0) {
+                        iter.text(iter.text() + "-" + to_string(shift_val));
+                    } else if (shift_val > 0) {
+                        iter.text(iter.text() + "+" + to_string(shift_val));
+                    }
+                    ndx += 1;
+                }
             }
         }
 

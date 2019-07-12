@@ -9,6 +9,8 @@
 using std::ostream;
 #include <map>
 using std::map;
+#include <unordered_map>
+using std::unordered_map;
 #include <string>
 using std::string;
 #include <vector>
@@ -230,8 +232,23 @@ namespace pdfg {
             return label;
         }
 
-        void attr(const string& name, const string& val) {
-            _attrs["Digraph"][name] = val;
+        string graph_attr(const string& name) {
+            return attr("Digraph", name);
+        }
+
+        void graph_attr(const string& name, const string& val) {
+            attr("Digraph", name, val);
+        }
+
+        string attr(const string& node, const string& name) {
+            auto itr1 = _attrs.find(node);
+            if (itr1 != _attrs.end()) {
+                auto itr2 = itr1->second.find(name);
+                if (itr2 != itr1->second.end()) {
+                    return itr2->second;
+                }
+            }
+            return "";
         }
 
         void attr(const string& node, const string& name, const string& val) {
@@ -239,7 +256,7 @@ namespace pdfg {
         }
 
         string split(const string& node) {
-            string new_node;
+            string new_node = node;
             if (_split_nodes.find(node) == _split_nodes.end()) {
                 // Create new node with same label but new name.
                 string label = this->label(node);
@@ -247,7 +264,7 @@ namespace pdfg {
 
                 // Connect parent to new node.
                 string parent = this->parent(node);
-                int edge_num = unstring<int>(edge(parent, node));
+                int edge_num = atoi(edge(parent, node).c_str());
                 this->edge(parent, new_node, edge_num + 1);
 
                 // Copy attributes to new node.
@@ -255,8 +272,6 @@ namespace pdfg {
 
                 // Mark node as split, so it does not get split again...
                 _split_nodes[new_node] = true;
-            } else {
-                new_node = node;
             }
             return new_node;
         }

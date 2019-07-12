@@ -806,7 +806,7 @@ namespace pdfg {
             int pos = 0;
             Tuple sched;
             IntTuple path;
-            IntTuple offsets;
+            IntTuple offsets, shifts;
 
             Digraph* ig = prev->iter_graph();
             if (ig == nullptr) {
@@ -835,11 +835,21 @@ namespace pdfg {
                 ig->find(prod->label(), prod_path);
                 prod_paths[prod->label()] = prod_path;
 
-                maxOffsets(sched, prod->writes(), offsets);
-                maxOffsets(sched, curr->reads(), offsets);
+                IntTuple max_offsets, min_offsets;
+                getOffsets(sched, prod->writes(), max_offsets);
+                getOffsets(sched, curr->reads(), max_offsets);
+                getOffsets(sched, prod->writes(), min_offsets, -1);
+                getOffsets(sched, curr->reads(), min_offsets, -1);
+
+                for (unsigned i = 0; i < max_offsets.size() && i < min_offsets.size(); i++) {
+                    int offset = max_offsets[i] - min_offsets[i];
+                    offsets.push_back(offset);
+                    shifts.push_back(min_offsets[i] + offset);
+                }
             }
 
             inode = ig->root();
+            bool shifted = false;
             for (unsigned j = 0; j < sched.size() - 1; j++) {
                 iter = sched[j].text();
                 inext = ig->find(inode, iter, path);
@@ -855,9 +865,10 @@ namespace pdfg {
                         skips.push_back(inext);
                         inext = ig->find(inode, iter, path, skips);
                     }
-                    if (!inext.empty() && offsets[j] != 0) {
-                        // TODO: Later, this become shifts, for now we have to split the tree at 'x'
+                    if (!inext.empty() && j > 0 && shifts[j-1] != 0) {
+                        // Split the tree if parent has an offset.
                         inext = ig->split(inext);
+                        shifted = true;
                     }
                     if (iprev != inext) {
                         break;
@@ -875,7 +886,12 @@ namespace pdfg {
                 inode = inext;
             }
 
-            insertLeaf(ig, inode, curr->label(), path);         // Add leaf node (the statement)
+            inode = insertLeaf(ig, inode, curr->label(), path);         // Add leaf node (the statement)
+
+            if (shifted) {
+                string shift = Strings::str<int>(shifts).substr(1);
+                ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
+            }
         }
 
         //void fuse(initializer_list<Comp> comps) {
@@ -970,10 +986,10 @@ namespace pdfg {
             }
         }
 
-        void maxOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& max_offsets) {
+        void getOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& offsets, int comp = 1) {
             for (unsigned i = 0; i < schedule.size(); i++) {
-                if (max_offsets.size() <= i) {
-                    max_offsets.push_back(0);
+                if (offsets.size() <= i) {
+                    offsets.push_back(0);
                 }
 
                 for (const auto& itr : accmap) {
@@ -991,8 +1007,9 @@ namespace pdfg {
                             if (match && expr != iter) {
                                 expr.erase(pos, iter.size());
                                 int offset = unstring<int>(expr);
-                                if (abs(offset) > abs(max_offsets[i])) {
-                                    max_offsets[i] = offset;
+                                if ((comp > 0 && offset > offsets[i]) ||
+                                    (comp < 0 && offset < offsets[i])) {
+                                    offsets[i] = offset;
                                 }
                             }
                         }
