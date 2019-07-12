@@ -865,10 +865,11 @@ namespace pdfg {
                         skips.push_back(inext);
                         inext = ig->find(inode, iter, path, skips);
                     }
-                    if (!inext.empty() && j > 0 && shifts[j-1] != 0) {
+                    //if (!inext.empty() && j > 0 && shifts[j-1] != 0) {
+                    if (!inext.empty() && shifts[j] != 0) {
                         // Split the tree if parent has an offset.
                         inext = ig->split(inext);
-                        shifted = true;
+                        //shifted = true;
                     }
                     if (iprev != inext) {
                         break;
