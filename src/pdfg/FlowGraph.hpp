@@ -308,6 +308,7 @@ namespace pdfg {
             attr("shape", "invtriangle");
             _type = 'C';
             _igraph = nullptr;
+            _shifts = nullptr;
         }
 
         ~CompNode() {
@@ -318,6 +319,7 @@ namespace pdfg {
                 delete write.second;
             }
             delete _igraph;
+            delete _shifts;
         }
 
         Comp* comp() const {
@@ -417,6 +419,15 @@ namespace pdfg {
             return _writes;
         }
 
+        IntTuple* shifts() const {
+            return _shifts;
+        }
+
+        void shifts(const IntTuple& shifts) {
+            delete _shifts;
+            _shifts = new IntTuple(shifts);
+        }
+
         void add_read(const Access& read) {
             string key = read.text();
             auto itr = _reads.find(key);
@@ -475,6 +486,7 @@ namespace pdfg {
         vector<CompNode*> _children;
         map<string, Access*> _reads;
         map<string, Access*> _writes;
+        IntTuple* _shifts;
         Digraph* _igraph;
     };
 
@@ -806,7 +818,7 @@ namespace pdfg {
             int pos = 0;
             Tuple sched;
             IntTuple path;
-            IntTuple offsets, shifts;
+            IntTuple shifts;
 
             Digraph* ig = prev->iter_graph();
             if (ig == nullptr) {
@@ -843,8 +855,14 @@ namespace pdfg {
 
                 for (unsigned i = 0; i < max_offsets.size() && i < min_offsets.size(); i++) {
                     int offset = max_offsets[i] - min_offsets[i];
-                    offsets.push_back(offset);
                     shifts.push_back(min_offsets[i] + offset);
+                }
+
+                IntTuple* prod_shifts = prod->shifts();
+                if (prod_shifts) {
+                    for (unsigned i = 0; i < shifts.size() && i < prod_shifts->size(); i++) {
+                        shifts[i] += prod_shifts->at(i);
+                    }
                 }
             }
 
@@ -865,11 +883,11 @@ namespace pdfg {
                         skips.push_back(inext);
                         inext = ig->find(inode, iter, path, skips);
                     }
-                    //if (!inext.empty() && j > 0 && shifts[j-1] != 0) {
-                    if (!inext.empty() && shifts[j] != 0) {
+                    //if (!inext.empty() && shifts[j] != 0) {
+                    if (!inext.empty() && j > 0 && shifts[j-1] != 0) {
                         // Split the tree if parent has an offset.
                         inext = ig->split(inext);
-                        //shifted = true;
+                        shifted = true;
                     }
                     if (iprev != inext) {
                         break;
@@ -890,6 +908,7 @@ namespace pdfg {
             inode = insertLeaf(ig, inode, curr->label(), path);         // Add leaf node (the statement)
 
             if (shifted) {
+                curr->shifts(shifts);
                 string shift = Strings::str<int>(shifts).substr(1);
                 ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
             }

@@ -948,6 +948,8 @@ namespace pdfg {
             vector<CompNode*> prodNodes(size);
             bool reducible = (size > 0 && size == outs.size());
 
+            //reducible &= (node->label() != "u"); //.find("F_lap_f_d1") == string::npos);
+
             if (reducible) {
                 for (unsigned i = 0; i < size && reducible; i++) {
                     prodNodes[i] = (CompNode*) ins[i]->source();
