@@ -29,6 +29,8 @@ using std::ofstream;
 using std::map;
 //#include <memory>
 //using std::unique_ptr;
+#include <numeric>
+using std::accumulate;
 #include <string>
 using std::string;
 #include <vector>
@@ -820,20 +822,27 @@ namespace pdfg {
             IntTuple path;
             IntTuple shifts;
 
+            vector<Tuple> prevScheds = prev->schedules();
+            unsigned nPrevScheds = prevScheds[0].size();
+            vector<Tuple> currScheds = curr->schedules();
+            unsigned nCurrScheds = currScheds[0].size();
+
+            if (nPrevScheds != nCurrScheds && !Lists::match<Iter>(prevScheds[0], currScheds[0], nPrevScheds - 1)) {
+                if (nPrevScheds < nCurrScheds) {
+                    alignIterators(currScheds, prevScheds[0][0]);
+                } else {
+                    alignIterators(prevScheds, currScheds[0][0]);
+                }
+            }
+
             Digraph* ig = prev->iter_graph();
             if (ig == nullptr) {
                 ig = new Digraph(_name);
                 inode = ig->node("*", "", {"shape", "none"});
                 prev->iter_graph(ig);
-
-                vector<Tuple> prevScheds = prev->schedules();
-                alignIterators(prevScheds);
                 inode = insertSchedule(ig, prevScheds[0], path);         // Add first node (this one)
                 inext = insertLeaf(ig, inode, prev->label(), path);     // Add leaf node (the statement)
             }
-
-            vector<Tuple> currScheds = curr->schedules();
-            alignIterators(currScheds);
 
             // TODO: Assuming the node to be fused has only one schedule for now...
             sched = currScheds[0];
@@ -860,10 +869,9 @@ namespace pdfg {
 
                 IntTuple* prod_shifts = prod->shifts();
                 if (prod_shifts) {
-                    for (unsigned i = 0; i < shifts.size() && i < prod_shifts->size(); i++) {
-                        if (shifts[i] == 0) {
-                            shifts[i] = prod_shifts->at(i);
-                        }
+                    int sum = accumulate(shifts.begin(), shifts.end(), 0);
+                    if (sum == 0) {
+                        shifts = *prod_shifts;
                     }
                 }
             }
@@ -995,11 +1003,14 @@ namespace pdfg {
             return producers;
         }
 
-        void alignIterators(vector<Tuple>& tuples) {
-            if (!_alignIter.empty()) {
+        void alignIterators(vector<Tuple>& tuples, Iter& iter) {
+            if (iter.empty()) {
+                iter = Iter(_alignIter);
+            }
+            if (!iter.empty()) {
                 for (Tuple& tuple : tuples) {
-                    if (find(tuple.begin(), tuple.end(), Iter(_alignIter)) != tuple.end()) {
-                        while (tuple[0].text() != _alignIter) {
+                    if (find(tuple.begin(), tuple.end(), iter) != tuple.end()) {
+                        while (!tuple[0].equals(iter)) {
                             tuple.insert(tuple.end() - 1, tuple[0]);
                             tuple.erase(tuple.begin());
                         }

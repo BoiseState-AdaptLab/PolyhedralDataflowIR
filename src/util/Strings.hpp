@@ -347,12 +347,12 @@ public:
 	}
 
     template<typename T>
-    static inline string str(const vector<T> &tuple) {
+    static inline string str(const vector<T> &vec) {
 	    ostringstream os;
         os << '[';
-        unsigned last = tuple.size() - 1;
+        unsigned last = vec.size() - 1;
         for (unsigned i = 0; i <= last; i++) {
-            os << tuple[i];
+            os << vec[i];
             if (i < last) {
                 os << ',';
             }

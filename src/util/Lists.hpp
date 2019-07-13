@@ -61,9 +61,6 @@ public:
     template <typename T>
     static inline vector<T> slice(const vector<T>& in, int start, int stop = -1) {
         vector<T> out;
-//        if (stop < 0) {
-//            stop = in.size() - 1;
-//        }
         if (stop >= 0) {
             out.reserve(stop - start);
             for (int i = start; i <= stop; i++) {
@@ -71,6 +68,15 @@ public:
             }
         }
         return out;
+    }
+
+    template <typename T>
+    static inline bool equal(const vector<T>& lhs, const vector<T>& rhs, unsigned size) {
+        bool equal = true;
+        for (unsigned i = 0; i < size && i < lhs.size() && i < rhs.size() && equal; i++) {
+            equal &= (lhs[i] == rhs[i]);
+        }
+        return equal;
     }
 
     template <typename T>
@@ -99,6 +105,19 @@ public:
             }
         }
         return matches;
+    }
+
+    template <typename T>
+    static inline bool match(const vector<T>& lhs, const vector<T>& rhs, unsigned size = string::npos) {
+        bool result = true;
+        for (unsigned i = 0; i < size && i < lhs.size() && i < rhs.size() && result; i++) {
+            ostringstream lstr;
+            lstr << lhs[i];
+            ostringstream rstr;
+            rstr << rhs[i];
+            result &= (lstr.str() == rstr.str());
+        }
+        return result;
     }
 
     template <typename T>
