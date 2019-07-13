@@ -861,7 +861,9 @@ namespace pdfg {
                 IntTuple* prod_shifts = prod->shifts();
                 if (prod_shifts) {
                     for (unsigned i = 0; i < shifts.size() && i < prod_shifts->size(); i++) {
-                        shifts[i] += prod_shifts->at(i);
+                        if (shifts[i] == 0) {
+                            shifts[i] = prod_shifts->at(i);
+                        }
                     }
                 }
             }

@@ -3169,7 +3169,7 @@ namespace pdfg {
             }
 
             reschedule(name);       // Run scheduling pass if needed.
-            _reduced = true;        // Disable data-reduce visitor for now...
+            //_reduced = true;        // Disable data-reduce visitor for now...
             datareduce(name);       // Run data redux pass if needed.
 
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
