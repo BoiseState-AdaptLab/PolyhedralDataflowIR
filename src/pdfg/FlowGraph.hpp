@@ -817,7 +817,6 @@ namespace pdfg {
 
         void updateIterGraph(CompNode* prev, CompNode* curr) {
             string inode, inext, iprev, iter;
-            int pos = 0;
             Tuple sched;
             IntTuple path;
             IntTuple shifts;
@@ -851,6 +850,8 @@ namespace pdfg {
             // Construct set of data dependences...
             vector<CompNode*> producers = getProducers(prev, curr);
             map<string, IntTuple> prod_paths;
+            int shift_sum = 0;
+
             for (CompNode* prod : producers) {
                 IntTuple prod_path;
                 ig->find(prod->label(), prod_path);
@@ -866,18 +867,16 @@ namespace pdfg {
                     int offset = max_offsets[i] - min_offsets[i];
                     shifts.push_back(min_offsets[i] + offset);
                 }
+                shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
 
                 IntTuple* prod_shifts = prod->shifts();
-                if (prod_shifts) {
-                    int sum = accumulate(shifts.begin(), shifts.end(), 0);
-                    if (sum == 0) {
-                        shifts = *prod_shifts;
-                    }
+                if (prod_shifts && !shift_sum) {
+                    shifts = *prod_shifts;
+                    shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
                 }
             }
 
             inode = ig->root();
-            bool shifted = false;
             for (unsigned j = 0; j < sched.size() - 1; j++) {
                 iter = sched[j].text();
                 inext = ig->find(inode, iter, path);
@@ -897,7 +896,6 @@ namespace pdfg {
                     if (!inext.empty() && j > 0 && shifts[j-1] != 0) {
                         // Split the tree if parent has an offset.
                         inext = ig->split(inext);
-                        shifted = true;
                     }
                     if (iprev != inext) {
                         break;
@@ -906,7 +904,7 @@ namespace pdfg {
 
                 if (inext.empty()) {    // Iterator not found on current path, create a new one...
                     inext = ig->node(iter, iter);
-                    pos = ig->size(inode);
+                    int pos = ig->size(inode);
                     cerr << inode << " -> " << pos << " -> " << inext << endl;
                     ig->edge(inode, inext, pos);
                 }
@@ -916,8 +914,7 @@ namespace pdfg {
             }
 
             inode = insertLeaf(ig, inode, curr->label(), path);         // Add leaf node (the statement)
-
-            if (shifted) {
+            if (shift_sum) {
                 curr->shifts(shifts);
                 string shift = Strings::str<int>(shifts).substr(1);
                 ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
