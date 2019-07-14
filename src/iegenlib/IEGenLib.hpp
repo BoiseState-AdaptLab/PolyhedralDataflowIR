@@ -263,16 +263,30 @@ public:
         }
 
         //Create a set from the given set string
-        iegenlib::Set* set = new iegenlib::Set(setDef);
-        std::ostringstream oss;
-        oss << set->prettyPrintString();
-        string out = oss.str();
-
-        if (name.empty()) {
-            delete set;                                 // Delete the allocated set
+        iegenlib::Set* set = nullptr;
+#ifdef CATCH_EXCEPTIONS
+        try {
+            set = new iegenlib::Set(setDef);
+        } catch (iegenlib::parse_exception& ex) {
+            cerr << "ERROR: " << ex.what() << "\n";
+        }
+#else
+        set = new iegenlib::Set(setDef);
+#endif
+        string out;
+        if (set != nullptr) {
+            std::ostringstream oss;
+            oss << set->prettyPrintString();
+            out = oss.str();
+            if (name.empty()) {
+                delete set;                        // Delete the allocated set
+            } else {
+                _sets[name] = set;                   // Save set in the map
+                out = name + " " + ASN_OP + " " + out;
+            }
         } else {
-            _sets[name] = set;                   // Save set in the map
-            out = name + " " + ASN_OP + " " + out;
+            _setStrings[name] = setDef;
+            out = setStr;
         }
 
         return out;
@@ -301,7 +315,6 @@ public:
 #else
         relation = new iegenlib::Relation(relDef);
 #endif
-
         string out;
         if (relation != nullptr) {
             std::ostringstream oss;

@@ -369,6 +369,71 @@ TEST(eDSLTest, COO_CSR_Insp_Fuse) {
     ASSERT_TRUE(!result.empty());
 }
 
+TEST(eDSLTest, COO_CSB_Insp) {
+    Iter i("i"), j("j"), k("k"), n("n"), b("b"), bi("bi"), bj("bj");
+    Const B("B", 8), NB("NB"), N('N'), M('M');
+
+    Func bp("bp"), brow("brow"), bcol("bcol"), erow("erow"), ecol("ecol");
+    Func row("row"), col("col");
+
+    // Iteration spaces:
+    Space insp1("insp1", 0 <= n < M ^ i==row(n) ^ j==col(n) ^ bi==i/B ^ bj==j/B);
+    Space insp2("insp2", 0 <= b < NB ^ bi==brow(b) ^ bj==bcol(b));
+    Space exec("exec", 0 <= b < NB ^ bp(b) <= n < bp(b+1) ^ i==brow(b)*B+erow(n) ^ j==bcol(b)*B+ecol(n));
+
+    string name = "coo_csb_insp";
+    pdfg::init(name, "NB", "f", "u", {"bp", "brow", "bcol", "erow", "ecol"});
+
+    //Comp bset_put("bset_put", insp1, bset_put(n,bi,bj,b,NB));
+    Comp brow_put("brow_put", insp1, (brow(b)=bi+0));
+    Comp bcol_put("bcol_put", insp1, (bcol(b)=bj+0));
+    Comp nb_count("nb_count", insp1, (b >= NB), (NB=b+1));
+
+    pdfg::fuse();
+    pdfg::print("out/" + name + ".json");
+    string result = pdfg::codegen("out/" + name + ".h", "", "C++", "simd");
+    ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, CSR_BSR_Insp) {
+    Iter i('i'), j('j'), n('n');
+    Const N("N"), M("M"), NNZ("NNZ"), NB("NB");
+    Const R("R", 8), C("C", 8);
+    Iter b("b"), ii("ii"), jj("jj"), ri("ri"), cj("cj");
+    Func rp("rp"), col("col"), bp("bp"), bcol("bcol"); //, min("min", 2);
+    Space icsr("Icsr", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    Space val("val", NNZ), x("x", N), y("y", N), bval("bval"); //, NB, R, C);
+
+    string name = "csr_bsr_insp";
+    pdfg::init(name, "NB", "d", "u", {"bp", "bcol"});
+//    Comp csr = icsr + (y[i] += val[n] * x[j]);
+//    cerr << csr << endl;
+
+    Space ibsr("Ibsr", 0 <= ii < N/R ^ bp(ii) <= b < bp(ii+1) ^ jj==bcol(b) ^ 0 <= ri < R ^ 0 <= cj < C ^ i==ii*R+ri ^ j==jj*C+cj);
+    Comp bsr = ibsr + (y[i] += bval(b,ri,cj) * x[j]);
+    cerr << bsr << endl;
+    string result = pdfg::codegen("out/" + name + ".h", "", "C++", "simd");
+    cerr << result << endl;
+
+    Comp count = icsr + (NB += 1);
+    result = count.tile(i, R, ii);
+    //Space insp("Iin", 0 <= ii < N/R ^ ii*R <= i < R*ii+R ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    cerr << result << endl;
+    //result = Codegen("").gen(result);
+    cerr << result << endl;
+
+    // make-dense 1st:
+//    result = csr.make_dense(0 <= j < M);
+//    cerr << result << endl;
+//    result = csr.tile(i, j, R, C, ii, jj);
+//    cerr << result << endl;
+
+    pdfg::fuse();
+    pdfg::print("out/" + name + ".json");
+    result = pdfg::codegen("out/" + name + ".h", "", "C++", "simd");
+    ASSERT_TRUE(!result.empty());
+}
+
 TEST(eDSLTest, ConjGrad) {
     Iter t('t'), i('i'), j('j'), n('n');
     Const N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
@@ -540,7 +605,7 @@ TEST(eDSLTest, JacobiMethod) {
     // TODO: This works, but need to formalize exit predicates...
     Comp check("check", sca, (sqrt(err) <= tol), (t=T+1));
     // Perform fusions
-    fuse({"clear", "init", "dot", "div", "norm", "check"});
+    fuse(); //{"clear", "init", "dot", "div", "norm", "check"});
 
     // TODO Items:
     // 1) Fix schedule visitor to produce correct schedules (as in out/jacobi.in).
@@ -792,37 +857,4 @@ TEST(eDSLTest, CSR_COO_Insp) {
                       "\n"
                       "}    // csr_coo_insp\n";
     ASSERT_EQ(result, expected);
-}
-
-TEST(eDSLTest, CSR_BSR_Insp) {
-    Iter i('i'), j('j'), n('n');
-    Const N("N"), M("M"), NNZ("NNZ"), NB("NB");
-    Const R("R", 8), C("C", 8);
-    Iter b("b"), ii("ii"), jj("jj"), ri("ri"), cj("cj");
-    Func rp("rp"), col("col"), bp("bp"), bcol("bcol"); //, min("min", 2);
-    Space icsr("Icsr", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
-    Space val("val", NNZ), x("x", N), y("y", N), bval("bval"); //, NB, R, C);
-    Comp csr = icsr + (y[i] += val[n] * x[j]);
-    cerr << csr << endl;
-
-    Space ibsr("Ibsr", 0 <= ii < N/R ^ bp(ii) <= b < bp(ii+1) ^ jj==bcol(b) ^ 0 <= ri < R ^ 0 <= cj < C ^ i==ii*R+ri ^ j==jj*C+cj);
-    Comp bsr = ibsr + (y[i] += bval(b,ri,cj) * x[j]);
-    cerr << bsr << endl;
-    string result = Codegen().gen(bsr);
-    cerr << result << endl;
-
-    Comp count = csr + (NB += 1);
-    result = count.tile(i, R, ii);
-    //Space insp("Iin", 0 <= ii < N/R ^ ii*R <= i < R*ii+R ^ rp(i) <= n < rp(i+1) ^ j==col(n));
-    cerr << result << endl;
-    result = Codegen("").gen(result);
-    cerr << result << endl;
-
-    // make-dense 1st:
-    result = csr.make_dense(0 <= j < M);
-    cerr << result << endl;
-    result = csr.tile(i, j, R, C, ii, jj);
-    cerr << result << endl;
-
-    ASSERT_TRUE(!result.empty());
 }
