@@ -370,24 +370,34 @@ TEST(eDSLTest, COO_CSR_Insp_Fuse) {
 }
 
 TEST(eDSLTest, COO_CSB_Insp) {
-    Iter i("i"), j("j"), k("k"), n("n"), b("b"), bi("bi"), bj("bj");
-    Const B("B", 8), NB("NB"), N('N'), M('M');
+    Iter i('i'), j('j'), k('k'), n('n'), b('b'), bi("bi"), bj("bj"), m('m'), ei("ei"), ej("ej");
+    Const B("B", 8), NB("NB"), N('N'), M('M'), p('p', 0);
 
     Func bp("bp"), brow("brow"), bcol("bcol"), erow("erow"), ecol("ecol");
+    Func bid("bid", 2), bsize("bsize", 2), bmap("bmap", 3);
     Func row("row"), col("col");
 
     // Iteration spaces:
     Space insp1("insp1", 0 <= n < M ^ i==row(n) ^ j==col(n) ^ bi==i/B ^ bj==j/B);
-    Space insp2("insp2", 0 <= b < NB ^ bi==brow(b) ^ bj==bcol(b));
+    Space insp2("insp2", 0 <= b < NB ^ bi==brow(b) ^ bj==bcol(b) ^ 0 <= m < bsize(bi, bj) ^ n==bmap({bi,bj,m}) ^ ei=row(n)-B*bi ^ ej=col(n)-B*bj);
     Space exec("exec", 0 <= b < NB ^ bp(b) <= n < bp(b+1) ^ i==brow(b)*B+erow(n) ^ j==bcol(b)*B+ecol(n));
+
+    // Data spaces:
+    Space val("val", NNZ), bval("bval", NNZ);
 
     string name = "coo_csb_insp";
     pdfg::init(name, "NB", "f", "u", {"bp", "brow", "bcol", "erow", "ecol"});
 
-    //Comp bset_put("bset_put", insp1, bset_put(n,bi,bj,b,NB));
-    Comp brow_put("brow_put", insp1, (brow(b)=bi+0));
-    Comp bcol_put("bcol_put", insp1, (bcol(b)=bj+0));
-    Comp nb_count("nb_count", insp1, (b >= NB), (NB=b+1));
+    Comp bs_put("bs_put", insp1, b=bid(bi,bj)+0); //(n,bi,bj,b,NB));
+    Comp br_ut("br_put", insp1, (brow(b)=bi+0));
+    Comp bc_put("bc_put", insp1, (bcol(b)=bj+0));
+    Comp nb_cnt("nb_cnt", insp1, (b >= NB), (NB=b+1));
+
+    Comp bp_put("bp_put", insp2, (p >= bp(b+1)), (bp(b+1)=p+1));
+    Comp er_ut("er_put", insp2, (erow(p)=ei+0));
+    Comp ec_put("ec_put", insp2, (ecol(p)=ej+0));
+    Comp bv_put("bv_put", insp2, (bval(p)=val(n)+0));
+    Comp p_inc("p_inc", insp2, (p += 1));
 
     pdfg::fuse();
     pdfg::print("out/" + name + ".json");
