@@ -285,17 +285,18 @@ protected:
                 ufunc.oldArity = ufunc.arity;
                 vector<string> newargs;
                 for (const string& arg : ufunc.args) {
-                    if (IN(iters, arg)) {
-                        newargs = Lists::slice<string>(iters, 0, Lists::index<string>(iters, arg) - 1);
+                    int ipos = Lists::index<string>(iters, arg);
+                    if (ipos >= 0) {
+                        newargs = Lists::slice<string>(iters, 0, ipos - 1);
                         break;
                     }
                 }
-                ufunc.arity += LEN(newargs);
-                if (LEN(ufunc.oldArgs) < 1) {
+                if (ufunc.oldArgs.empty()) {
                     ufunc.oldArgs = ufunc.args;
                 }
-                for (const string& arg : newargs) {
-                    ufunc.args.insert(ufunc.args.end() - 1, arg);
+                if (!newargs.empty()) {
+                    ufunc.arity += newargs.size();
+                    ufunc.args.insert(ufunc.args.begin(), newargs.begin(), newargs.end());
                 }
             }
             string ufstr = ufunc.name + '(' + to_string(ufunc.arity) + ')';

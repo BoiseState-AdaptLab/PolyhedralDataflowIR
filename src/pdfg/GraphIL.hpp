@@ -2848,8 +2848,8 @@ namespace pdfg {
             _scheduled = _reduced = false;
         }
 
-        void align(const string& iter) {
-            _flowGraph.alignIter(iter);
+        void align_iters(bool align = true) {
+            _flowGraph.alignIters(align);
         }
 
         void fuse() {
@@ -3169,8 +3169,7 @@ namespace pdfg {
             }
 
             reschedule(name);       // Run scheduling pass if needed.
-            //_reduced = true;        // Disable data-reduce visitor for now...
-            datareduce(name);       // Run data redux pass if needed.
+            //datareduce(name);       // Run data redux pass if needed.
 
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
             cgen.ompSchedule(ompsched);
@@ -3726,11 +3725,8 @@ namespace pdfg {
     }
 
     void fuse(Comp& first, vector<Comp>& others) {
-        //Comp& comp = first;
         for (unsigned i = 0; i < others.size(); i++) {
-            //fuse(comp, others[i]);
             fuse(first, others[i]);
-            //comp = others[i];
         }
     }
 
@@ -3759,8 +3755,8 @@ namespace pdfg {
         fuse(first, rest);
     }
 
-    void align(const string& iter) {
-        GraphMaker::get().align(iter);
+    void align_iters(bool align = true) {
+        GraphMaker::get().align_iters(align);
     }
 }
 

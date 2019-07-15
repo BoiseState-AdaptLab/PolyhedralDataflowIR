@@ -370,7 +370,7 @@ TEST(eDSLTest, COO_CSR_Insp_Fuse) {
 }
 
 TEST(eDSLTest, COO_CSB_Insp) {
-    Iter i('i'), j('j'), k('k'), n('n'), b('b'), bi("bi"), bj("bj"), m('m'), ei("ei"), ej("ej");
+    Iter i('i'), j('j'), k('k'), n('n'), b('b'), m('m'), bi("bi"), bj("bj"), ei("ei"), ej("ej");
     Const B("B", 8), NB("NB"), N('N'), M('M'), p('p', 0);
 
     Func bp("bp"), brow("brow"), bcol("bcol"), erow("erow"), ecol("ecol");
@@ -378,30 +378,36 @@ TEST(eDSLTest, COO_CSB_Insp) {
     Func row("row"), col("col");
 
     // Iteration spaces:
-    Space insp1("insp1", 0 <= n < M ^ i==row(n) ^ j==col(n) ^ bi==i/B ^ bj==j/B);
-    Space insp2("insp2", 0 <= b < NB ^ bi==brow(b) ^ bj==bcol(b) ^ 0 <= m < bsize(bi, bj) ^ n==bmap({bi,bj,m}) ^ ei=row(n)-B*bi ^ ej=col(n)-B*bj);
+    Space insp1("insp1", 0 <= n < M ^ i==row(n) ^ j==col(n));
+    Space insp2("insp2", 0 <= b < NB ^ bi==brow(b) ^ bj==bcol(b) ^ 0 <= m < bsize(bi, bj) ^ n==bmap({bi,bj,m}));
     Space exec("exec", 0 <= b < NB ^ bp(b) <= n < bp(b+1) ^ i==brow(b)*B+erow(n) ^ j==bcol(b)*B+ecol(n));
 
     // Data spaces:
-    Space val("val", NNZ), bval("bval", NNZ);
+    Space val("val", M), bval("bval", M);
 
     string name = "coo_csb_insp";
-    pdfg::init(name, "NB", "f", "u", {"bp", "brow", "bcol", "erow", "ecol"});
+    pdfg::init(name, "NB", "f", "u", {"bp", "brow", "bcol", "erow", "ecol"}, "0");
 
-    Comp bs_put("bs_put", insp1, b=bid(bi,bj)+0); //(n,bi,bj,b,NB));
-    Comp br_ut("br_put", insp1, (brow(b)=bi+0));
-    Comp bc_put("bc_put", insp1, (bcol(b)=bj+0));
+    Comp bs_put("bs_put", insp1, b=bid(i/B,j/B)+0);
+    Comp br_ut("br_put", insp1, (brow(b)=i/B));
+    Comp bc_put("bc_put", insp1, (bcol(b)=j/B));
     Comp nb_cnt("nb_cnt", insp1, (b >= NB), (NB=b+1));
 
     Comp bp_put("bp_put", insp2, (p >= bp(b+1)), (bp(b+1)=p+1));
-    Comp er_ut("er_put", insp2, (erow(p)=ei+0));
-    Comp ec_put("ec_put", insp2, (ecol(p)=ej+0));
+    Comp er_ut("er_put", insp2, (erow(p)=row(n)-B*bi));
+    Comp ec_put("ec_put", insp2, (ecol(p)=col(n)-B*bj));
     Comp bv_put("bv_put", insp2, (bval(p)=val(n)+0));
     Comp p_inc("p_inc", insp2, (p += 1));
 
-    pdfg::fuse();
+    pdfg::fuse({"bs_put", "br_put", "bc_put", "nb_cnt"});
+    pdfg::fuse({"bp_put", "er_put", "ec_put", "bv_put", "p_inc"});
+
+    // TODO:
+    //  1) OmegaLib is getting order wrong in uninterpreted functions, e.g,. 'bsize(bi,b,bj)' should be bsize(b,bi,bj).
+    //  2) Implement dynamic data spaces.
+
     pdfg::print("out/" + name + ".json");
-    string result = pdfg::codegen("out/" + name + ".h", "", "C++", "simd");
+    string result = pdfg::codegen("out/" + name + ".h", "", "C++", "auto");
     ASSERT_TRUE(!result.empty());
 }
 
@@ -422,7 +428,7 @@ TEST(eDSLTest, CSR_BSR_Insp) {
     Space ibsr("Ibsr", 0 <= ii < N/R ^ bp(ii) <= b < bp(ii+1) ^ jj==bcol(b) ^ 0 <= ri < R ^ 0 <= cj < C ^ i==ii*R+ri ^ j==jj*C+cj);
     Comp bsr = ibsr + (y[i] += bval(b,ri,cj) * x[j]);
     cerr << bsr << endl;
-    string result = pdfg::codegen("out/" + name + ".h", "", "C++", "simd");
+    string result = pdfg::codegen("out/" + name + ".h", "0", "C++", "simd");
     cerr << result << endl;
 
     Comp count = icsr + (NB += 1);
@@ -533,7 +539,6 @@ TEST(eDSLTest, ConjGradCOO) {
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/" + name + ".json");
-//    reschedule(itergraph);
     string result = codegen("out/" + name + ".o", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());

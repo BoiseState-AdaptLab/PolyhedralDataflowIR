@@ -515,6 +515,7 @@ namespace pdfg {
                            _defaultVal(defVal), _tileSize(tileSize), _ignoreCycles(ignoreCycles) {
             _nodes.reserve(100);
             _edges.reserve(100);
+            _alignIters = false;
         }
 
         virtual ~FlowGraph() {
@@ -655,12 +656,12 @@ namespace pdfg {
             }
         }
 
-        const string& alignIter() const {
-            return _alignIter;
+        bool alignIters() const {
+            return _alignIters;
         }
 
-        void alignIter(const string& iter) {
-            _alignIter = iter;
+        void alignIters(bool align) {
+            _alignIters = align;
         }
 
         const string& name() const {
@@ -822,15 +823,17 @@ namespace pdfg {
             IntTuple shifts;
 
             vector<Tuple> prevScheds = prev->schedules();
-            unsigned nPrevScheds = prevScheds[0].size();
             vector<Tuple> currScheds = curr->schedules();
-            unsigned nCurrScheds = currScheds[0].size();
 
-            if (nPrevScheds != nCurrScheds && !Lists::match<Iter>(prevScheds[0], currScheds[0], nPrevScheds - 1)) {
-                if (nPrevScheds < nCurrScheds) {
-                    alignIterators(currScheds, prevScheds[0][0]);
-                } else {
-                    alignIterators(prevScheds, currScheds[0][0]);
+            if (_alignIters) {
+                unsigned nPrevScheds = prevScheds[0].size();
+                unsigned nCurrScheds = currScheds[0].size();
+                if (nPrevScheds != nCurrScheds && !Lists::match<Iter>(prevScheds[0], currScheds[0], nPrevScheds - 1)) {
+                    if (nPrevScheds < nCurrScheds) {
+                        alignIterators(currScheds, prevScheds[0][0]);
+                    } else {
+                        alignIterators(prevScheds, currScheds[0][0]);
+                    }
                 }
             }
 
@@ -1001,9 +1004,6 @@ namespace pdfg {
         }
 
         void alignIterators(vector<Tuple>& tuples, Iter& iter) {
-            if (iter.empty()) {
-                iter = Iter(_alignIter);
-            }
             if (!iter.empty()) {
                 for (Tuple& tuple : tuples) {
                     if (find(tuple.begin(), tuple.end(), iter) != tuple.end()) {
@@ -1075,12 +1075,12 @@ namespace pdfg {
         }
 
         string _name;
-        string _alignIter;
         string _indexType;
         string _returnName;
         string _returnType;
         string _defaultVal;
 
+        bool _alignIters;
         bool _ignoreCycles;
         unsigned _tileSize;
 
