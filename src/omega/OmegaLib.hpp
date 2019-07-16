@@ -700,10 +700,14 @@ public:
     void omega_cmd(const string& code, ostream& os) {
         string exec = "/usr/local/bin/omegacalc";
         string file = "/tmp/omega.in";
+
         ofstream ofs(file.c_str());
         ofs << code << endl;
         ofs.close();
-        os << OS::run(exec + " < " + file);
+
+        string cmd = exec + " " + file;
+        string res = OS::run(cmd);
+        os << res;
     }
 
     map<string, string> macros() {

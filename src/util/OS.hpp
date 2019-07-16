@@ -24,6 +24,8 @@ static string run(const string& cmd) {
             }
 		}
 		pclose(pipe);
+	} else {
+	    fprintf(stderr, "ERROR: Cannot run command: %s\n", strerror(errno));
 	}
 
 	return result;

@@ -20,7 +20,7 @@ namespace pdfg {
             return _poly.add(space.to_iegen());
         }
 
-        string gen(const Comp& comp) {
+        string gen(Comp& comp) {
             vector<string> guards;
             for (const auto& guard : comp.guards()) {
                 guards.push_back(stringify<Constr>(guard));
@@ -32,7 +32,7 @@ namespace pdfg {
             }
 
             vector<string> schedules;
-            for (const auto& schedule : comp.schedules()) {
+            for (auto& schedule : comp.schedules()) {
                 schedules.push_back(schedule.to_iegen());
             }
 
