@@ -14,6 +14,8 @@ using std::sort;
 
 #include <util/Lists.hpp>
 #include <util/Strings.hpp>
+#include <util/OS.hpp>
+using util::OS;
 
 #include <basic/Dynamic_Array.h>
 #include <basic/Iterator.h>
@@ -682,12 +684,26 @@ public:
         if (!code.empty()) {
             istringstream iss(code);
             ostringstream oss;
-            omega_run(&iss, &oss);
+            // TODO: The 'exists' keyword gives a syntax error w/ 'omega_run' but works from command, fix this hack!
+            if (code.find("exists(") == string::npos) {
+                omega_run(&iss, &oss);
+            } else {
+                omega_cmd(code, oss);
+            }
             lines = Strings::filter(Strings::split(oss.str(), '\n'), PROMPT, true);
         } else {
             lines.emplace_back("s0();\n");
         }
         return Strings::join(lines, "\n");
+    }
+
+    void omega_cmd(const string& code, ostream& os) {
+        string exec = "/usr/local/bin/omegacalc";
+        string file = "/tmp/omega.in";
+        ofstream ofs(file.c_str());
+        ofs << code << endl;
+        ofs.close();
+        os << OS::run(exec + " < " + file);
     }
 
     map<string, string> macros() {

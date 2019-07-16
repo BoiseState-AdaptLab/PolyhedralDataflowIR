@@ -1135,7 +1135,9 @@ namespace pdfg {
             // a = b ^ b < c -> a < c    (9)
             // a < b ^ b = c -> a < c   (10)
             //if (!Strings::isDigit(_upper.rhs().text())) {
-            _trans = Constr(_lower.lhs(), _upper.rhs(), _upper.relop());
+            if (!(_lower.lhs().is_scalar() && _upper.rhs().is_scalar())) {
+                _trans = Constr(_lower.lhs(), _upper.rhs(), _upper.relop());
+            }
             //}
         }
 
@@ -1145,23 +1147,42 @@ namespace pdfg {
     };
 
     vector<Constr> operator^(const Range &lhs, const Range &rhs) {
-        return vector<Constr>({lhs.lower(), lhs.upper(), lhs.trans(),
-                               rhs.lower(), rhs.upper(), rhs.trans()});
+        vector<Constr> constrs = {lhs.lower(), lhs.upper()};
+        if (!lhs.trans().empty()) {
+            constrs.push_back(lhs.trans());
+        }
+        constrs.push_back(rhs.lower());
+        constrs.push_back(rhs.upper());
+        if (!rhs.trans().empty()) {
+            constrs.push_back(rhs.trans());
+        }
+        return constrs;
     }
 
     vector<Constr> operator^(const Range &lhs, const Constr &rhs) {
-        return vector<Constr>({lhs.lower(), lhs.upper(), lhs.trans(), rhs});
+        vector<Constr> constrs = {lhs.lower(), lhs.upper()};
+        if (!lhs.trans().empty()) {
+            constrs.push_back(lhs.trans());
+        }
+        constrs.push_back(rhs);
+        return constrs;
     }
 
     vector<Constr> operator^(const Constr &lhs, const Range &rhs) {
-        return vector<Constr>({lhs, rhs.lower(), rhs.upper(), rhs.trans()});
+        vector<Constr> constrs = {lhs, rhs.lower(), rhs.upper()};
+        if (!rhs.trans().empty()) {
+            constrs.push_back(rhs.trans());
+        }
+        return constrs;
     }
 
     vector<Constr> operator^(const vector<Constr> &lhs, const Range &rhs) {
         vector<Constr> cpy = lhs;
         cpy.push_back(rhs.lower());
         cpy.push_back(rhs.upper());
-        cpy.push_back(rhs.trans());
+        if (!rhs.trans().empty()) {
+            cpy.push_back(rhs.trans());
+        }
         return cpy;
     }
 
@@ -1614,6 +1635,10 @@ namespace pdfg {
                 constraints = _constraints;
             }
             return constraints;
+        }
+
+        void constraints(const vector<Constr>& constraints) {
+            _constraints = constraints;
         }
 
         Expr defaultValue() const {
@@ -2459,7 +2484,7 @@ namespace pdfg {
         }
 
         if (!relCons.empty()) {
-            os << " : ";
+            os << ": ";
             n = 0;
             unsigned nconstrs = relCons.size();
             for (const auto &constr : relCons) {
@@ -2585,7 +2610,7 @@ namespace pdfg {
             return _guards;
         }
 
-        vector<Rel> schedules() const {
+        vector<Rel>& schedules() {
             return _schedules;
         }
 
@@ -2857,12 +2882,15 @@ namespace pdfg {
             CompNode* first = nodes[0];
             for (unsigned i = 1; i < nodes.size(); i++) {
                 _flowGraph.fuse(*first->comp(), *nodes[i]->comp());
-                //node = nodes[i];
             }
         }
 
         void fuse(Comp& comp1, Comp& comp2) {
             _flowGraph.fuse(comp1, comp2);
+        }
+
+        void tile(initializer_list<string> iters, initializer_list<unsigned> sizes) {
+            _flowGraph.tile(iters, sizes);
         }
 
         Comp* getComp(const string& name) {
@@ -3753,6 +3781,10 @@ namespace pdfg {
             rest.push_back(*gm.getComp(*itr));
         }
         fuse(first, rest);
+    }
+
+    void tile(initializer_list<string> iters, initializer_list<unsigned> sizes) {
+        GraphMaker::get().tile(iters, sizes);
     }
 
     void align_iters(bool align = true) {

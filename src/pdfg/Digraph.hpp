@@ -82,6 +82,26 @@ namespace pdfg {
             return _nodes;
         }
 
+        bool remove_edge(const string& src, const string& dest) {
+            int pos = -1;
+            auto itr = _indices.find(src);
+            if (itr != _indices.end() && itr->second < _edges.size()) {
+                vector<Pair> edges = _edges[itr->second];
+                unsigned n = 0;
+                for (const Pair& pair : _edges[itr->second]) {
+                    if (pair.first == dest) {
+                        pos = n;
+                        break;
+                    }
+                    n += 1;
+                }
+                if (pos >= 0) {
+                    _edges[itr->second].erase(_edges[itr->second].begin() + pos);
+                }
+            }
+            return (pos >= 0);
+        }
+
         vector<Pair> edges(const string& name) const {
             auto itr = _indices.find(name);
             if (itr != _indices.end() && itr->second < _edges.size()) {
@@ -152,6 +172,22 @@ namespace pdfg {
                 }
             }
             return "";
+        }
+
+        string insert(const string& before, string name, const string& label, initializer_list<string> attrs = {}) {
+            string parent = this->parent(before);
+            string node = this->node(name, label, attrs);
+
+            // Delete edge from 'parent' to 'before'
+            this->remove_edge(parent, before);
+
+            // Create edge from 'parent' to 'node'
+            this->edge(parent, node, this->size(parent));
+
+            // Create edge from 'node' to 'before'
+            this->edge(node, before, 0);
+
+            return node;
         }
 
         string node(string name) {

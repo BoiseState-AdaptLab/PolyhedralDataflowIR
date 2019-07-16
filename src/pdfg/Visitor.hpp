@@ -80,8 +80,8 @@ namespace pdfg {
 
     struct CodeGenVisitor: DFGVisitor {
     public:
-        explicit CodeGenVisitor(const string &path = "", const string &lang = "C", bool profile = false, unsigned niters = 10) :
-                _path(path), _niters(niters), _lang(lang), _profile(profile) {
+        explicit CodeGenVisitor(const string &path = "", const string &lang = "C", bool profile = false,
+                unsigned niters = 15) : _path(path), _niters(niters), _lang(lang), _profile(profile) {
             init();
         }
 
@@ -671,6 +671,17 @@ namespace pdfg {
 
                 // 2) Replace schedules with updated tuples...
                 node->schedules(schedules);
+
+                // 3) Apply tiling if applicable...
+                applyTiling(node);
+
+                // 4) Update node attributes
+                if (!_shifts.empty()) {
+                    node->attr("shifts", "[(" + Strings::join(_shifts, "),(") + ")]");
+                }
+                if (!_tile_sizes.empty()) {
+                    node->attr("tiles", Strings::str<unsigned>(_tile_sizes));
+                }
             }
         }
 
@@ -839,6 +850,15 @@ namespace pdfg {
                 schedules.push_back(schedule);
                 //cerr << "r0" << stmt << " := " << schedule << endl;
             } else {                    // Visit children
+                // Check for tiling...
+                string tile_iter = graph->attr(node, "tile_iter");
+                if (!tile_iter.empty() && !isTileIter(tile_iter)) {
+                    _tile_iters.push_back(tile_iter);
+                    _orig_iters.push_back(graph->attr(node, "orig_iter"));
+                    _rem_iters.push_back(graph->attr(node, "rem_iter"));
+                    _tile_sizes.push_back(atoi(graph->attr(node, "tile_size").c_str()));
+                }
+
                 for (Pair& edge : edges) {
                     label = edge.second;
                     tuple.push_back(Iter(label));
@@ -853,7 +873,7 @@ namespace pdfg {
             vector<string> shifts = Strings::split(shift, ',');
             unsigned ndx = 0;
             for (Iter& iter : tuple) {
-                if (!iter.empty() && !iter.is_int()) {
+                if (!iter.empty() && !iter.is_int() && !isTileIter(iter.name())) {
                     int shift_val = atoi(shifts[ndx].c_str());
                     if (shift_val < 0) {
                         iter.text(iter.text() + "-" + to_string(shift_val));
@@ -863,6 +883,45 @@ namespace pdfg {
                     ndx += 1;
                 }
             }
+            _shifts.push_back(shift);
+        }
+
+        void applyTiling(CompNode* node) {
+            Comp* comp = node->comp();
+            for (Rel& schedule : comp->schedules()) {
+                Space dest = schedule.dest();
+                vector<Constr> constraints;
+
+                // Build tiling constraints...
+                for (unsigned i = 0; i < _tile_iters.size(); i++) {
+                    Int tile_size(_tile_sizes[i]);
+                    Iter rem_iter(_rem_iters[i]);
+
+                    Iter orig_iter, tile_iter;
+                    for (Iter& iter : dest.iterators()) {
+                        if (iter.name() == _tile_iters[i]) {
+                            tile_iter = iter;
+                        } else if (iter.name() == _orig_iters[i]) {
+                            orig_iter = iter;
+                            break;
+                        }
+                    }
+
+                    auto constrs = exists(0 <= rem_iter < tile_size ^ orig_iter==tile_iter*tile_size+rem_iter);
+                    constraints.insert(constraints.end(), constrs.begin(), constrs.end());
+                }
+
+                dest.constraints(constraints);
+                schedule.dest(dest);
+            }
+
+            for (CompNode* child : node->children()) {
+                applyTiling(child);
+            }
+        }
+
+        bool isTileIter(const string& iter) {
+            return find(_tile_iters.begin(), _tile_iters.end(), iter) != _tile_iters.end();
         }
 
 //        map<string, Access*> intersect(const map<string, Access*> lhs, const map<string, Access*> rhs) const {
@@ -932,6 +991,12 @@ namespace pdfg {
 //        }
 
         Digraph* _itergraph;
+
+        vector<string> _shifts;
+        vector<string> _tile_iters;
+        vector<string> _rem_iters;
+        vector<string> _orig_iters;
+        vector<unsigned> _tile_sizes;
     };
 
     struct DataReduceVisitor : public DFGVisitor {

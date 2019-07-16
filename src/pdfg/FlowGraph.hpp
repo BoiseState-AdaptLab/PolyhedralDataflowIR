@@ -484,6 +484,33 @@ namespace pdfg {
             return nflops;
         }
 
+        void tile(initializer_list<string> iters, initializer_list<unsigned> sizes, initializer_list<string> t_iters = {}) {
+            Digraph* ig = _igraph;
+            vector<Tuple> schedules = this->schedules();
+            vector<string> tile_iters(t_iters.begin(), t_iters.end());
+            vector<unsigned> tile_sizes(sizes.begin(), sizes.end());
+
+            string tnode;
+            unsigned inum = 0;
+            for (const string& iter : iters) {
+                if (tile_iters.size() <= inum) {
+                    tile_iters.push_back("t" + iter);
+                }
+                IntTuple path;
+                string node = ig->find(iter, path);
+                if (!node.empty()) {
+                    string tile_iter = tile_iters[inum];        // Tile iterator
+                    string rem_iter = "r" + iter;               // Remainder iterator
+                    if (tnode.empty()) {
+                        tnode = node;
+                    }
+                    ig->insert(tnode, tile_iter, tile_iter, {"tile_iter", tile_iter, "rem_iter", rem_iter,
+                        "orig_iter", iter, "tile_size", to_string(tile_sizes[inum])});
+                }
+                inum += 1;
+            }
+        }
+
     protected:
         vector<CompNode*> _children;
         map<string, Access*> _reads;
@@ -908,7 +935,7 @@ namespace pdfg {
                 if (inext.empty()) {    // Iterator not found on current path, create a new one...
                     inext = ig->node(iter, iter);
                     int pos = ig->size(inode);
-                    cerr << inode << " -> " << pos << " -> " << inext << endl;
+                    //cerr << inode << " -> " << pos << " -> " << inext << endl;
                     ig->edge(inode, inext, pos);
                 }
 
@@ -924,7 +951,6 @@ namespace pdfg {
             }
         }
 
-        //void fuse(initializer_list<Comp> comps) {
         void fuse(Comp& lhs, Comp& rhs) {
             CompNode* first = this->get(lhs);
             CompNode* next = this->get(rhs);
@@ -954,6 +980,12 @@ namespace pdfg {
             cerr << "Removing node '" << next->label() << "'\n";
             first->fuse(next);
             remove(next);
+        }
+
+        void tile(initializer_list<string> iters, initializer_list<unsigned> sizes) {
+            for (CompNode* node : this->comp_nodes()) {
+                node->tile(iters, sizes);
+            }
         }
 
         bool ignoreCycles() const {
@@ -1056,7 +1088,7 @@ namespace pdfg {
                 if (inext.empty()) {    // Iterator not found on current path, create a new one...
                     inext = ig->node(iter, iter);
                     unsigned pos = ig->size(inode);
-                    cerr << inode << " -> " << pos << " -> " << inext << endl;
+                    //cerr << inode << " -> " << pos << " -> " << inext << endl;
                     ig->edge(inode, inext, pos);
                 }
                 inode = inext;
@@ -1068,7 +1100,7 @@ namespace pdfg {
             string inext = ig->node(label);
             ig->attr(inext, "shape", "rect");
             unsigned pos = ig->size(inode);
-            cerr << inode << " -> " << pos << " -> " << inext << endl;
+            //cerr << inode << " -> " << pos << " -> " << inext << endl;
             ig->edge(inode, inext, pos);
             path.push_back(pos);
             return inext;
