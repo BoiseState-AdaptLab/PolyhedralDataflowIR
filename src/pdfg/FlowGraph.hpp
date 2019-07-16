@@ -361,6 +361,15 @@ namespace pdfg {
             _igraph = graph;
         }
 
+        string first_label() const {
+            string label = _label;
+            size_t pos = label.find('+');
+            if (pos != string::npos) {
+                label = label.substr(0, pos);
+            }
+            return label;
+        }
+
         vector<Tuple> schedules() const {
             Comp* comp = this->comp();
             vector<Tuple> tuples;
@@ -376,6 +385,24 @@ namespace pdfg {
                 }
             }
             return tuples;
+        }
+
+        void schedules(const map<string, Tuple>& sched_map) {
+            string label = this->first_label();
+            Comp* comp = this->comp();
+            auto iter = sched_map.find(label);
+            if (iter != sched_map.end()) {
+                comp->reschedule(0, iter->second);
+            }
+
+            for (CompNode* child : this->children()) {
+                label = child->label();
+                comp = child->comp();
+                iter = sched_map.find(label);
+                if (iter != sched_map.end()) {
+                    comp->reschedule(0, iter->second);
+                }
+            }
         }
 
         void schedules(const vector<Tuple>& tuples) {
@@ -629,6 +656,9 @@ namespace pdfg {
                 _nodes[distance(_nodes.begin(), pos)] = node;
             }
 
+//            if (node->is_comp()) {
+//                addBounds(((CompNode*) node)->comp()->space());
+//            } else if (node->is_data()) {
             if (node->is_data()) {
                 DataNode* dnode = (DataNode*) node;
                 if (isReturn(node)) {
@@ -843,114 +873,6 @@ namespace pdfg {
             return outputs;
         }
 
-        void updateIterGraph(CompNode* prev, CompNode* curr) {
-            string inode, inext, iprev, iter;
-            Tuple sched;
-            IntTuple path;
-            IntTuple shifts;
-
-            vector<Tuple> prevScheds = prev->schedules();
-            vector<Tuple> currScheds = curr->schedules();
-
-            if (_alignIters) {
-                unsigned nPrevScheds = prevScheds[0].size();
-                unsigned nCurrScheds = currScheds[0].size();
-                if (nPrevScheds != nCurrScheds && !Lists::match<Iter>(prevScheds[0], currScheds[0], nPrevScheds - 1)) {
-                    if (nPrevScheds < nCurrScheds) {
-                        alignIterators(currScheds, prevScheds[0][0]);
-                    } else {
-                        alignIterators(prevScheds, currScheds[0][0]);
-                    }
-                }
-            }
-
-            Digraph* ig = prev->iter_graph();
-            if (ig == nullptr) {
-                ig = new Digraph(_name);
-                inode = ig->node("*", "", {"shape", "none"});
-                prev->iter_graph(ig);
-                inode = insertSchedule(ig, prevScheds[0], path);         // Add first node (this one)
-                inext = insertLeaf(ig, inode, prev->label(), path);     // Add leaf node (the statement)
-            }
-
-            // TODO: Assuming the node to be fused has only one schedule for now...
-            sched = currScheds[0];
-            path.clear();
-
-            // Construct set of data dependences...
-            vector<CompNode*> producers = getProducers(prev, curr);
-            map<string, IntTuple> prod_paths;
-            int shift_sum = 0;
-
-            for (CompNode* prod : producers) {
-                IntTuple prod_path;
-                ig->find(prod->label(), prod_path);
-                prod_paths[prod->label()] = prod_path;
-
-                IntTuple max_offsets, min_offsets;
-                getOffsets(sched, prod->writes(), max_offsets);
-                getOffsets(sched, curr->reads(), max_offsets);
-                getOffsets(sched, prod->writes(), min_offsets, -1);
-                getOffsets(sched, curr->reads(), min_offsets, -1);
-
-                for (unsigned i = 0; i < max_offsets.size() && i < min_offsets.size(); i++) {
-                    int offset = max_offsets[i] - min_offsets[i];
-                    shifts.push_back(min_offsets[i] + offset);
-                }
-                shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
-
-                IntTuple* prod_shifts = prod->shifts();
-                if (prod_shifts && !shift_sum) {
-                    shifts = *prod_shifts;
-                    shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
-                }
-            }
-
-            inode = ig->root();
-            for (unsigned j = 0; j < sched.size() - 1; j++) {
-                iter = sched[j].text();
-                inext = ig->find(inode, iter, path);
-
-                // Check producer paths for dependence violations...
-                for (const auto& itr : prod_paths) {
-                    IntTuple prod_path = itr.second;
-                    iprev = inext;
-                    vector<string> skips;
-                    while (!inext.empty() && path[j] < prod_path[j]) {
-                        // Find next valid iterator node, skipping those already visited...
-                        path.resize(j);
-                        skips.push_back(inext);
-                        inext = ig->find(inode, iter, path, skips);
-                    }
-                    //if (!inext.empty() && shifts[j] != 0) {
-                    if (!inext.empty() && j > 0 && shifts[j-1] != 0) {
-                        // Split the tree if parent has an offset.
-                        inext = ig->split(inext);
-                    }
-                    if (iprev != inext) {
-                        break;
-                    }
-                }
-
-                if (inext.empty()) {    // Iterator not found on current path, create a new one...
-                    inext = ig->node(iter, iter);
-                    int pos = ig->size(inode);
-                    //cerr << inode << " -> " << pos << " -> " << inext << endl;
-                    ig->edge(inode, inext, pos);
-                }
-
-                iprev = inode;
-                inode = inext;
-            }
-
-            inode = insertLeaf(ig, inode, curr->label(), path);         // Add leaf node (the statement)
-            if (shift_sum) {
-                curr->shifts(shifts);
-                string shift = Strings::str<int>(shifts).substr(1);
-                ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
-            }
-        }
-
         void fuse(Comp& lhs, Comp& rhs) {
             CompNode* first = this->get(lhs);
             CompNode* next = this->get(rhs);
@@ -1005,6 +927,118 @@ namespace pdfg {
         }
 
     protected:
+        void updateIterGraph(CompNode* prev, CompNode* curr) {
+            string inode, inext, iprev, iter;
+            Tuple sched;
+            IntTuple path;
+            IntTuple shifts;
+
+            vector<Tuple> prevScheds = prev->schedules();
+            vector<Tuple> currScheds = curr->schedules();
+
+            if (_alignIters) {
+                unsigned nPrevScheds = prevScheds[0].size();
+                unsigned nCurrScheds = currScheds[0].size();
+                if (nPrevScheds != nCurrScheds && !Lists::match<Iter>(prevScheds[0], currScheds[0], nPrevScheds - 1)) {
+                    if (nPrevScheds < nCurrScheds) {
+                        alignIterators(currScheds, prevScheds[0][0]);
+                    } else {
+                        alignIterators(prevScheds, currScheds[0][0]);
+                    }
+                }
+            }
+
+            Digraph* ig = prev->iter_graph();
+            if (ig == nullptr) {
+                ig = new Digraph(_name);
+                inode = ig->node("*", "", {"shape", "none"});
+                prev->iter_graph(ig);
+                inode = insertSchedule(ig, prevScheds[0], path);         // Add first node (this one)
+                inext = insertLeaf(ig, inode, prev->label(), path);     // Add leaf node (the statement)
+            }
+
+            // TODO: Assuming the node to be fused has only one schedule for now...
+            sched = currScheds[0];
+            path.clear();
+
+            // Construct set of data dependences...
+            bool is_parent = false;
+            vector<CompNode*> producers = getProducers(prev, curr, &is_parent);
+            map<string, IntTuple> prod_paths;
+            int shift_sum = 0;
+
+            if (is_parent) {
+                shifts = nodeOffsets(prev, curr, sched);
+                shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
+            } else {
+                for (CompNode *prod : producers) {
+                    IntTuple prod_path;
+                    ig->find(prod->label(), prod_path);
+                    prod_paths[prod->label()] = prod_path;
+
+                    shifts = nodeOffsets(prod, curr, sched);
+                    shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
+
+                    IntTuple *prod_shifts = prod->shifts();
+                    if (prod_shifts && !shift_sum) {
+                        shifts = *prod_shifts;
+                        shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
+                    }
+                }
+            }
+
+            inode = ig->root();
+            for (unsigned j = 0; j < sched.size() - 1; j++) {
+                iter = sched[j].text();
+                inext = ig->find(inode, iter, path);
+
+                // Check producer paths for dependence violations...
+                for (const auto& itr : prod_paths) {
+                    IntTuple prod_path = itr.second;
+                    iprev = inext;
+                    vector<string> skips;
+                    while (!inext.empty() && path[j] < prod_path[j]) {
+                        // Find next valid iterator node, skipping those already visited...
+                        path.resize(j);
+                        skips.push_back(inext);
+                        inext = ig->find(inode, iter, path, skips);
+                    }
+                    //if (!inext.empty() && shifts[j] != 0) {
+                    if (!inext.empty() && j > 0 && shifts[j-1] != 0) {
+                        // Split the tree if parent has an offset.
+                        inext = ig->split(inext);
+                    }
+                    if (iprev != inext) {
+                        break;
+                    }
+                }
+
+                if (inext.empty()) {    // Iterator not found on current path, create a new one...
+                    inext = ig->node(iter, iter);
+                    int pos = ig->size(inode);
+                    //cerr << inode << " -> " << pos << " -> " << inext << endl;
+                    ig->edge(inode, inext, pos);
+                }
+
+                iprev = inode;
+                inode = inext;
+            }
+
+            inode = insertLeaf(ig, inode, curr->label(), path);         // Add leaf node (the statement)
+            if (shift_sum) {
+                if (is_parent) {
+                    // Apply shift to parent...
+                    prev->shifts(shifts);
+                    inode = ig->find(ig->root(), prev->first_label());
+                } else {
+                    curr->shifts(shifts);
+                }
+
+                string shift = Strings::str<int>(shifts).substr(1);
+                ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
+            }
+        }
+
         string formatName(const string& name) const {
             string fname = name;
             size_t pos = fname.find('(');
@@ -1018,7 +1052,7 @@ namespace pdfg {
             return fname;
         }
 
-        vector<CompNode*> getProducers(CompNode* prev, CompNode* curr) {
+        vector<CompNode*> getProducers(CompNode* prev, CompNode* curr, bool* is_parent) {
             vector<CompNode*> producers;
             for (Edge* edge : this->inedges(curr)) {
                 DataNode* dnode = (DataNode*) edge->source();
@@ -1028,6 +1062,8 @@ namespace pdfg {
                         CompNode* child = prev->find_child(in->dest()->label());
                         if (child) {
                             producers.push_back(child);
+                        } else if (!(*is_parent)) {
+                            *is_parent = true;
                         }
                     }
                 }
@@ -1046,6 +1082,23 @@ namespace pdfg {
                     }
                 }
             }
+        }
+
+        IntTuple nodeOffsets(CompNode* prev, CompNode* curr, const Tuple& sched) {
+            IntTuple shifts;
+            IntTuple max_offsets, min_offsets;
+
+            getOffsets(sched, prev->writes(), max_offsets);
+            getOffsets(sched, curr->reads(), max_offsets);
+            getOffsets(sched, prev->writes(), min_offsets, -1);
+            getOffsets(sched, curr->reads(), min_offsets, -1);
+
+            for (unsigned i = 0; i < max_offsets.size() && i < min_offsets.size(); i++) {
+                int offset = max_offsets[i] - min_offsets[i];
+                shifts.push_back(min_offsets[i] + offset);
+            }
+
+            return shifts;
         }
 
         void getOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& offsets, int comp = 1) {
@@ -1106,6 +1159,16 @@ namespace pdfg {
             return inext;
         }
 
+//        void addBounds(const Space& space) {
+//            // Only want iterators that all spaces have...
+//            vector<Expr> bounds = space.bounds({"z", "y", "x"});
+//            string key = Strings::str<Expr>(bounds);
+//            if (_boundCounts.find(key) == _boundCounts.end()) {
+//                _boundCounts[key] = 0;
+//            }
+//            _boundCounts[key] += 1;
+//        }
+
         string _name;
         string _indexType;
         string _returnName;
@@ -1119,6 +1182,7 @@ namespace pdfg {
         map<string, Node*> _symtable;
         map<pair<Node*, Node*>, Edge*> _edgemap;
         map<string, unsigned> _outputs;
+//        map<string, unsigned> _boundCounts;        // Keep track of polyhedral bounding boxes...
 
         vector<Node*> _nodes;
         vector<Edge*> _edges;

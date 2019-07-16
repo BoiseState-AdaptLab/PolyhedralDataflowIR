@@ -1788,6 +1788,21 @@ namespace pdfg {
             return os.str();
         }
 
+        vector<Expr> bounds(initializer_list<string> ilist) const {
+            vector<Expr> vec;
+            vector<string> iters(ilist.begin(), ilist.end());
+            for (unsigned n = 0; n + 1 < _constraints.size(); n += 2) {
+                Constr low = _constraints[n];
+                Constr high = _constraints[n+1];
+                string iter = low.rhs().text();
+                if (iter == high.lhs().text() && find(iters.begin(), iters.end(), iter) != iters.end()) {
+                    vec.push_back(low.lhs());
+                    vec.push_back(high.rhs());
+                }
+            }
+            return vec;
+        }
+
         Math size() const {
             Math expr;
             for (unsigned n = 0; n + 1 < _constraints.size(); n += 2) {

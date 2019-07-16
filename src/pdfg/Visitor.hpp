@@ -663,7 +663,8 @@ namespace pdfg {
             Digraph* igraph = node->iter_graph();
             if (igraph) {
                 Tuple tuple;
-                vector<Tuple> schedules;
+                map<string, Tuple> schedules;
+
                 cerr << igraph->to_dot() << endl;
 
                 // 1) Traverse the iteration graph
@@ -832,7 +833,7 @@ namespace pdfg {
 //        }
 
     protected:
-        void visit(Digraph* graph, const string& node, Tuple& tuple, vector<Tuple>& schedules) {
+        void visit(Digraph* graph, const string& node, Tuple& tuple, map<string, Tuple>& schedules) {
             string label = graph->label(node);
             tuple.push_back(Iter(label));
             vector<Pair> edges = graph->edges(node);
@@ -847,8 +848,10 @@ namespace pdfg {
                 if (!shift.empty()) {
                     applyShift(schedule, shift);
                 }
-                schedules.push_back(schedule);
-                //cerr << "r0" << stmt << " := " << schedule << endl;
+
+                cerr << stmt << " := " << schedule << endl;
+                //schedules.push_back(schedule);
+                schedules[stmt.text()] = schedule;
             } else {                    // Visit children
                 // Check for tiling...
                 string tile_iter = graph->attr(node, "tile_iter");
