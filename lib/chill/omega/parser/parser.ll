@@ -19,7 +19,7 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
-#include <omega/parser/AST.hh>
+#include <omega_calc/AST.h>
 #include <basic/Dynamic_Array.h>
 #include "parser.tab.hh"
 #include <FlexLexer.h>
@@ -144,7 +144,7 @@ void flushScanBuffer();
 <LATEX>"\\join"        { BUFFER;  return JOIN; }
 "\."                   { BUFFER;  return JOIN; }
 "join"                 { BUFFER;  return JOIN; }
-"domain"               { BUFFER;  return DOMAIN_; }
+"domain"               { BUFFER;  return DOMAIN; }
 "time"                 { BUFFER; return TIME; }
 "timeclosure"          { BUFFER; return TIMECLOSURE; }
 "range"                { BUFFER;  return RANGE; }

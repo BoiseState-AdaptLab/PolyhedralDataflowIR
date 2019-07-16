@@ -403,8 +403,7 @@ TEST(eDSLTest, COO_CSB_Insp) {
     pdfg::fuse({"bp_put", "er_put", "ec_put", "bv_put", "p_inc"});
 
     // TODO:
-    //  1) OmegaLib is getting order wrong in uninterpreted functions, e.g,. 'bsize(bi,b,bj)' should be bsize(b,bi,bj).
-    //  2) Implement dynamic data spaces.
+    //  1) Implement dynamic data spaces.
 
     pdfg::print("out/" + name + ".json");
     string result = pdfg::codegen("out/" + name + ".h", "", "C++", "auto");

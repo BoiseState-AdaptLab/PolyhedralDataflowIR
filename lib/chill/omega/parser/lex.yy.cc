@@ -1937,6 +1937,7 @@ static const flex_int32_t yy_rule_can_match_eol[148] =
 #include <sstream>
 #include <iostream>
 #include <fstream>
+//#include <omega_calc/AST.h>
 #include <omega/parser/AST.hh>
 #include <basic/Dynamic_Array.h>
 #include "parser.tab.hh"
@@ -2444,7 +2445,7 @@ YY_RULE_SETUP
 case 48:
 YY_RULE_SETUP
 #line 147 "parser.ll"
-{ BUFFER;  return DOMAIN_; }
+{ BUFFER;  return DOMAIN; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
