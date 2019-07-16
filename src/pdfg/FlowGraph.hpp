@@ -338,13 +338,15 @@ namespace pdfg {
         }
 
         CompNode* find_child(const string& pattern) {
+            // Look for exact match first...
             for (int i = _children.size() - 1; i >= 0; i--) {
                 CompNode* child = _children[i];
                 if (child->label() == pattern) {
                     return child;
                 }
+                // Try partial match...
                 for (Expr statement : child->comp()->statements()) {
-                    if (statement.text().find(pattern) != string::npos) {
+                    if (Strings::in(statement.text(), pattern, true)) {
                         return child;
                     }
                 }
@@ -894,6 +896,7 @@ namespace pdfg {
             for (Edge* out : outs) {
                 cerr << "Removing edge '" << out->source()->label() << "' -> '" << out->dest()->label() << "'\n";
                 remove(out);
+                _child_prods[out->dest()->label()] = out->source();
                 cerr << "Adding edge '" << first->label() << "' -> '" << out->dest()->label() << "'\n";
                 add(first, out->dest(), out->label());
             }
@@ -1059,7 +1062,13 @@ namespace pdfg {
                 vector<Edge*> ins = this->inedges(dnode);
                 for (Edge* in : ins) {
                     if (in->source() == prev) {     // Search for child node that produces this dest...
-                        CompNode* child = prev->find_child(in->dest()->label());
+                        CompNode* child = nullptr;
+                        auto iter = _child_prods.find(dnode->label());
+                        if (iter != _child_prods.end()) {
+                            child = (CompNode*) iter->second;
+                        } else {
+                            child = prev->find_child(dnode->label());
+                        }
                         if (child) {
                             producers.push_back(child);
                         } else if (!(*is_parent)) {
@@ -1182,6 +1191,7 @@ namespace pdfg {
         map<string, Node*> _symtable;
         map<pair<Node*, Node*>, Edge*> _edgemap;
         map<string, unsigned> _outputs;
+        map<string, Node*> _child_prods;
 //        map<string, unsigned> _boundCounts;        // Keep track of polyhedral bounding boxes...
 
         vector<Node*> _nodes;
