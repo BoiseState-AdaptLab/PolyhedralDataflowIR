@@ -964,20 +964,10 @@ namespace pdfg {
             sched = currScheds[0];
             path.clear();
 
-            if (curr->label() == "smul_d1") {
-                cerr << ig->to_dot() << endl;
-                // TODO:
-                //   Found the answer! Need the ability to shift leaf nodes!
-                //   Consumers should be placed immediately after producers if possible.
-                //   In this case, deconvolve_f_d1 and getFlux2 should be shifted, so
-                //   smul_d1 comes after getFlux1.
-//                r0getFlux1 := {[z,y,x] -> [0,z,0,y,0,x+2,7]};
-//                r0deconvolve_f_d1 := {[c,z,y,x] -> [0,z+1,0,y+1,0,x+2,9,c,0]};
-//                r0getFlux2 := {[z,y,x] -> [0,z+1,0,y+1,0,x+2,10]};
-//                r0smul_d1 := {[c,z,y,x] -> [0,z,0,y,0,x+2,8,c,0]};
-
-                int stop = 1;
-            }
+//            if (curr->label() == "smul_d1") {
+//                cerr << ig->to_dot() << endl;
+//                int stop = 1;
+//            }
 
             // Construct set of data dependences...
             bool is_parent = false;
@@ -1020,6 +1010,23 @@ namespace pdfg {
                         skips.push_back(inext);
                         inext = ig->find(inode, iter, path, skips);
                     }
+                    if (!inext.empty() && j > 1 && shifts[j-1] != 0) {
+                        // TODO: This horrible code is intended to solve the problem of leaf nodes being placed
+                        // with next to siblings whose parents have different shifts, which results in incorrect
+                        // (and ugly) code generation by Omega. Refactor!!!
+                        int pos = ig->size(inext) - 1;
+                        if (pos >= 0) {
+                            string isib = ig->child(inext, pos);
+                            CompNode* sib_comp = prev->find_child(isib);
+                            if (sib_comp && sib_comp->shifts()) {
+                                int sib_shift = sib_comp->shifts()->at(j-2);
+                                if (sib_shift != 0 && sib_shift != shifts[j-2]) {
+                                    inext = "";
+                                }
+                            }
+                        }
+
+                    }
                     if (iprev != inext) {
                         break;
                     }
@@ -1046,12 +1053,12 @@ namespace pdfg {
 
                 string shift = Strings::str<int>(shifts).substr(1);
                 ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
-
-                if (curr->label() == "smul_d1") {
-                    cerr << ig->to_dot() << endl;
-                    int stop = 1;
-                }
             }
+
+//            if (curr->label() == "smul_d1") {
+//                cerr << ig->to_dot() << endl;
+//                int stop = 1;
+//            }
         }
 
         string formatName(const string& name) const {

@@ -2953,10 +2953,6 @@ namespace pdfg {
                 }
             }
 
-            if (compNode->label() == "smul_d1") {
-                int stop= 1;
-            }
-
             // 3) Create data nodes from statements.
             vector<Expr> readExprs;
             vector<Expr> writeExprs;
@@ -2965,9 +2961,9 @@ namespace pdfg {
                     if (stmt.oper().find('=') != string::npos) {
                         // If operator has an equal sign, it is an assignment, so the LHS is an output node.
                         writeExprs.push_back(stmt.lhs());
-                        if (stmt.oper().size() > 1) {
-                            readExprs.push_back(stmt.lhs());
-                        }
+//                        if (stmt.oper().size() > 1) {
+//                            readExprs.push_back(stmt.lhs());
+//                        }
                     } else {
                         readExprs.push_back(stmt.lhs());
                     }
@@ -2977,12 +2973,32 @@ namespace pdfg {
                 bool is_math = stmt.rhs().is_math();
 
                 if (is_math || stmt.rhs().is_func()) {
-                    // Assume write hand side contains reads...
+                    // Handle nested assignments...
+                    vector<int> eqPos;
+                    size_t pos = expr.find('=');
+                    while (pos != string::npos) {
+                        eqPos.push_back(pos);
+                        pos = expr.find('=', pos + 1);
+                    }
+
                     for (const auto &sit : _spaces) {
                         if (Strings::in(expr, sit.first, true)) {
-                            readExprs.push_back(sit.second);
+                            pos = expr.find(sit.first);
+                            bool isWrite = false;
+                            for (int eqpos : eqPos) {
+                                if (pos < eqpos) {
+                                    isWrite = true;
+                                    break;
+                                }
+                            }
+                            if (isWrite) {
+                                writeExprs.push_back(sit.second);
+                            } else {
+                                readExprs.push_back(sit.second);
+                            }
                         }
                     }
+
                     // Math expressions may need to be broken into multiple accesses...
                     if (is_math) {
                         for (const auto &sit : _funcs) {
@@ -2991,6 +3007,7 @@ namespace pdfg {
                             }
                         }
                     }
+
                 } else if (stmt.rhs().is_macro()) {
                     map<string, bool> marked;
                     vector<string> lines = Strings::split(expr, "\n");
@@ -3206,7 +3223,7 @@ namespace pdfg {
 
         void newSpace(const Space& space) {
             string sname = space.name();
-            if (!sname.empty()) { // && _spaces.find(sname) == _spaces.end()) {
+            if (!sname.empty()) {
                 _spaces[sname] = space;
             }
         }
