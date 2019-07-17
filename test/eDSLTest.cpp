@@ -483,8 +483,7 @@ TEST(eDSLTest, ConjGrad) {
     Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
     Comp rdot("rdot", vec, (rs += r[i]*r[i]));
     Comp bdiv("bdiv", sca, (beta = rs / rs0));
-    Comp bmul("bmul", vec, (d[i] *= beta));
-    Comp dadd("dadd", vec, (d[i] += r[i]));
+    Comp dadd("dadd", vec, (d[i] = r[i] + beta * d[i]));     // FMA: a+b*c
 
     // Perform fusions
     fuse("spmv", "ddot", "rdot0");
@@ -529,8 +528,7 @@ TEST(eDSLTest, ConjGradCOO) {
     Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
     Comp rdot("rdot", vec, (rs += r[i]*r[i]));
     Comp bdiv("bdiv", sca, (beta = rs / rs0));
-    Comp bmul("bmul", vec, (d[i] *= beta));
-    Comp dadd("dadd", vec, (d[i] += r[i]));
+    Comp dadd("dadd", vec, (d[i] = r[i] + beta * d[i]));     // FMA: a+b*c
     //Comp check("check", sca, (rs <= tol), (t=T+1));
 
     // Perform fusions
@@ -573,8 +571,7 @@ TEST(eDSLTest, ConjGradCSR) {
     Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
     Comp rdot("rdot", vec, (rs += r[i]*r[i]));
     Comp bdiv("bdiv", sca, (beta = rs / rs0));
-    Comp bmul("bmul", vec, (d[i] *= beta));
-    Comp dadd("dadd", vec, (d[i] += r[i]));
+    Comp dadd("dadd", vec, (d[i] = r[i] + beta * d[i]));     // FMA: a+b*c
     //Comp check("check", sca, (rs <= tol), (t=T+1));
 
     // Perform fusions

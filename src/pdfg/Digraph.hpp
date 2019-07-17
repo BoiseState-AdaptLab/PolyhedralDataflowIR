@@ -130,6 +130,22 @@ namespace pdfg {
             return name;
         }
 
+        string child(const string& parent, unsigned edge) {
+            auto itr = _indices.find(parent);
+            if (itr != _indices.end()) {
+                unsigned ndx = itr->second;
+                if (ndx < _edges.size()) {
+                    vector<Pair> pairs = _edges[ndx];
+                    for (Pair& pair : pairs) {
+                        if (pair.second == to_string(edge)) {
+                            return pair.first;
+                        }
+                    }
+                }
+            }
+            return "";
+        }
+
         map<string, string> attrs(const string& name) {
             auto itr = _attrs.find(name);
             if (itr != _attrs.end()) {
@@ -260,12 +276,19 @@ namespace pdfg {
         }
 
         string edge(const string& src, const string& dest) {
-            string label;
             auto itr = _indices.find(src);
             if (itr != _indices.end()) {
-                label = itr->second;
+                unsigned ndx = itr->second;
+                if (ndx < _edges.size()) {
+                    vector<Pair> pairs = _edges[ndx];
+                    for (Pair& pair : pairs) {
+                        if (pair.first == dest) {
+                            return pair.second;
+                        }
+                    }
+                }
             }
-            return label;
+            return "";
         }
 
         string graph_attr(const string& name) {
@@ -300,7 +323,8 @@ namespace pdfg {
 
                 // Connect parent to new node.
                 string parent = this->parent(node);
-                int edge_num = atoi(edge(parent, node).c_str());
+                string edge = this->edge(parent, node);
+                int edge_num = atoi(edge.c_str());
                 this->edge(parent, new_node, edge_num + 1);
 
                 // Copy attributes to new node.

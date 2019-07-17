@@ -2184,12 +2184,19 @@ namespace pdfg {
             minsize = lhs.size();
         }
 
-        IntTuple amax(maxsize, 0);
-        for (unsigned i = 0; i < minsize; i++) {
-            if (abs(lhs[i]) > abs(rhs[i])) {
-                amax[i] = lhs[i];
-            } else {
-                amax[i] = rhs[i];
+        IntTuple amax;
+        if (lhs.empty() && !rhs.empty()) {
+            amax = rhs;
+        } else if (!lhs.empty() && rhs.empty()) {
+            amax = lhs;
+        } else {
+            amax = IntTuple(maxsize, 0);
+            for (unsigned i = 0; i < minsize; i++) {
+                if (abs(lhs[i]) > abs(rhs[i])) {
+                    amax[i] = lhs[i];
+                } else {
+                    amax[i] = rhs[i];
+                }
             }
         }
         return amax;
@@ -2946,6 +2953,10 @@ namespace pdfg {
                 }
             }
 
+            if (compNode->label() == "smul_d1") {
+                int stop= 1;
+            }
+
             // 3) Create data nodes from statements.
             vector<Expr> readExprs;
             vector<Expr> writeExprs;
@@ -2954,6 +2965,9 @@ namespace pdfg {
                     if (stmt.oper().find('=') != string::npos) {
                         // If operator has an equal sign, it is an assignment, so the LHS is an output node.
                         writeExprs.push_back(stmt.lhs());
+                        if (stmt.oper().size() > 1) {
+                            readExprs.push_back(stmt.lhs());
+                        }
                     } else {
                         readExprs.push_back(stmt.lhs());
                     }

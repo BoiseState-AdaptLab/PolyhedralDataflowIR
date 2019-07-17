@@ -964,6 +964,21 @@ namespace pdfg {
             sched = currScheds[0];
             path.clear();
 
+            if (curr->label() == "smul_d1") {
+                cerr << ig->to_dot() << endl;
+                // TODO:
+                //   Found the answer! Need the ability to shift leaf nodes!
+                //   Consumers should be placed immediately after producers if possible.
+                //   In this case, deconvolve_f_d1 and getFlux2 should be shifted, so
+                //   smul_d1 comes after getFlux1.
+//                r0getFlux1 := {[z,y,x] -> [0,z,0,y,0,x+2,7]};
+//                r0deconvolve_f_d1 := {[c,z,y,x] -> [0,z+1,0,y+1,0,x+2,9,c,0]};
+//                r0getFlux2 := {[z,y,x] -> [0,z+1,0,y+1,0,x+2,10]};
+//                r0smul_d1 := {[c,z,y,x] -> [0,z,0,y,0,x+2,8,c,0]};
+
+                int stop = 1;
+            }
+
             // Construct set of data dependences...
             bool is_parent = false;
             vector<CompNode*> producers = getProducers(prev, curr, &is_parent);
@@ -979,12 +994,11 @@ namespace pdfg {
                     ig->find(prod->label(), prod_path);
                     prod_paths[prod->label()] = prod_path;
 
-                    shifts = nodeOffsets(prod, curr, sched);
+                    shifts = absmax(shifts, nodeOffsets(prod, curr, sched));
                     shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
 
-                    IntTuple *prod_shifts = prod->shifts();
-                    if (prod_shifts && !shift_sum) {
-                        shifts = *prod_shifts;
+                    if (prod->shifts()) {
+                        shifts = absmax(shifts, *prod->shifts());
                         shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
                     }
                 }
@@ -1006,11 +1020,6 @@ namespace pdfg {
                         skips.push_back(inext);
                         inext = ig->find(inode, iter, path, skips);
                     }
-                    //if (!inext.empty() && shifts[j] != 0) {
-                    if (!inext.empty() && j > 0 && shifts[j-1] != 0) {
-                        // Split the tree if parent has an offset.
-                        inext = ig->split(inext);
-                    }
                     if (iprev != inext) {
                         break;
                     }
@@ -1018,9 +1027,7 @@ namespace pdfg {
 
                 if (inext.empty()) {    // Iterator not found on current path, create a new one...
                     inext = ig->node(iter, iter);
-                    int pos = ig->size(inode);
-                    //cerr << inode << " -> " << pos << " -> " << inext << endl;
-                    ig->edge(inode, inext, pos);
+                    ig->edge(inode, inext, ig->size(inode));
                 }
 
                 iprev = inode;
@@ -1039,6 +1046,11 @@ namespace pdfg {
 
                 string shift = Strings::str<int>(shifts).substr(1);
                 ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
+
+                if (curr->label() == "smul_d1") {
+                    cerr << ig->to_dot() << endl;
+                    int stop = 1;
+                }
             }
         }
 

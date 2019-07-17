@@ -59,9 +59,7 @@ memset(s,0,(N)*sizeof(double));\
 #undef s9
 #define s9(t) beta=rs/rs0
 #undef s10
-#define s10(t,i) d[(i)]*=beta
-#undef s11
-#define s11(t,i) d[(i)]+=r[(i)]
+#define s10(t,i) d[(i)]=r[(i)]+beta*d[(i)]
 
 #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
 for(t2 = 0; t2 <= N-1; t2++) {
@@ -89,7 +87,6 @@ for(t2 = 1; t2 <= T; t2++) {
   #pragma omp simd
   for(t4 = 0; t4 <= N-1; t4++) {
     s10(t2,t4);
-    s11(t2,t4);
   }
 }
 
