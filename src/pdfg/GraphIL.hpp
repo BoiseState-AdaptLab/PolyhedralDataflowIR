@@ -784,11 +784,7 @@ namespace pdfg {
         explicit Const(const string &name = "", const int val = 0) : Func(name, 0) {
             _val = val;
             _type = 'S';
-            if (val == 0) {
-                _text = name;
-            } else {
-                _text = to_string(val);
-            }
+            _text = name;
             addConstant(*this);
         }
 
@@ -3187,6 +3183,14 @@ namespace pdfg {
             _consts[con.name()] = con;
         }
 
+        Const getConst(const string& name) {
+            auto itr = _consts.find(name);
+            if (itr != _consts.end()) {
+                return itr->second;
+            }
+            return Const();
+        }
+
         void addAccess(const Access& access) {
             unsigned size = access.tuple().size();
             if (size > 0) { // && access.tuple().at(0).type() != 'N') {
@@ -3248,9 +3252,9 @@ namespace pdfg {
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
             cgen.ompSchedule(ompsched);
 
-//            for (const auto& iter : _consts) {
-//                cgen.define(iter.first, to_string(iter.second.val()));
-//            }
+            for (const auto& iter : _consts) {
+                cgen.define(iter.first, to_string(iter.second.val()));
+            }
 
             if (name.empty()) {
                 _flowGraph.indexType(_indexType);
@@ -3695,10 +3699,19 @@ namespace pdfg {
         }
     }
 
+    void addConstant(const string& name, int value = 0) {
+        Const con(name, value);
+        addConstant(con);
+    }
+
     void addConstant(const Const& con) {
         if (!con.name().empty()) {
             GraphMaker::get().addConst(con);
         }
+    }
+
+    Const getConstant(const string& name) {
+        return GraphMaker::get().getConst(name);
     }
 
     void addFunction(const Func& func) {

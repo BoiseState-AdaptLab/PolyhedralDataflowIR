@@ -220,6 +220,11 @@ protected:
                 }
             }
         }
+
+        // Assume symbolic constants (non-functions) are positive
+        if (given.empty() && symlist.find("N") != string::npos) {
+            given += "N>1";
+        }
         return given;
     }
 
@@ -457,7 +462,6 @@ public:
             cgexpr = cgexpr.substr(0, cgexpr.size() - 1);
             oss << "codegen" << cgexpr;
             if (!givens.empty()) {
-                //oss << " given " << "{[" << iterlist << "]: " << givens << "}";
                 oss << " given " << "{" << Strings::str<string>(maxiters) << ": " << givens << "}";
             }
             oss << ";\n";

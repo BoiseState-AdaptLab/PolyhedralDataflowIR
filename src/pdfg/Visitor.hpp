@@ -489,6 +489,8 @@ namespace pdfg {
             Tuple tuple = space.iterators();
             unsigned size = tuple.size();
 
+            // TODO: Come back here to resolve interchange issue!
+
             ostringstream os;
             if (size < 1) {
                 os << sname;

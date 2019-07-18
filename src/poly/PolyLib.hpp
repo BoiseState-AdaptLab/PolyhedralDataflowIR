@@ -184,6 +184,9 @@ namespace poly {
             if (code.find("ERROR") == string::npos) {
                 string outIters = out_iterators(code);
 
+                // Replace 'intFloor' with 'floord' to maintain compatibility w/ ISCC generated code.
+                code = Strings::replace(code, "intFloor", "floord", true);
+
                 if (!ompSched.empty()) {
                     addPragma(ompSched, outIters, code);
                 }
@@ -220,6 +223,9 @@ namespace poly {
                 string defines;
                 map<string, string> macros;
                 string setStr = _iegen.get(setName);
+
+                // Replace 'intFloor' with 'floord' to maintain compatibility w/ ISCC generated code.
+                code = Strings::replace(code, "intFloor", "floord", true);
 
                 size_t pos = setStr.find('[');
                 for (pos++; pos < setStr.length() && setStr[pos] != ']'; pos++) {
