@@ -130,7 +130,7 @@ namespace pdfg {
             return name;
         }
 
-        string child(const string& parent, unsigned edge) {
+        string child(const string& parent, unsigned edge) const {
             auto itr = _indices.find(parent);
             if (itr != _indices.end()) {
                 unsigned ndx = itr->second;
@@ -146,12 +146,20 @@ namespace pdfg {
             return "";
         }
 
-        map<string, string> attrs(const string& name) {
+        map<string, string> attrs(const string& name) const {
             auto itr = _attrs.find(name);
             if (itr != _attrs.end()) {
                 return itr->second;
             }
             return map<string,string>();
+        }
+
+        string last_node() const {
+            return _last_node;
+        }
+
+        string last_leaf() const {
+            return _last_leaf;
         }
 
         string find(const string& key) {
@@ -368,8 +376,39 @@ namespace pdfg {
             return os.str();
         }
 
+        string insertSchedule(const vector<string>& sched, vector<int>& path) {
+            string inode = this->root();
+            for (unsigned j = 0; j < sched.size() - 1; j++) {
+                string iter = sched[j]; //.text();
+                string inext = this->find(inode, iter, path);
+                if (inext.empty()) {    // Iterator not found on current path, create a new one...
+                    inext = this->node(iter, iter);
+                    //unsigned pos = this->size(inode);
+                    //cerr << inode << " -> " << pos << " -> " << inext << endl;
+                    this->edge(inode, inext, this->size(inode));
+                }
+                inode = inext;
+            }
+            _last_node = inode;
+            return inode;
+        }
+
+        string insertLeaf(const string& inode, const string& label, vector<int>& path) {
+            string inext = this->node(label);
+            this->attr(inext, "shape", "rect");
+            unsigned pos = this->size(inode);
+            //cerr << inode << " -> " << pos << " -> " << inext << endl;
+            this->edge(inode, inext, pos);
+            path.push_back(pos);
+            _last_leaf = inext;
+            return inext;
+        }
+
     private:
         string _name;
+        string _last_node;
+        string _last_leaf;
+
         vector<vector<Pair>> _edges;
         map<string, unsigned> _indices;
         vector<string> _nodes;

@@ -355,6 +355,13 @@ namespace pdfg {
         }
 
         Digraph* iter_graph() {
+            if (_igraph == nullptr) {
+                _igraph = new Digraph(this->label());
+                string inode = _igraph->node("*", "", {"shape", "none"});
+                IntTuple path;
+                inode = _igraph->insertSchedule(Strings::convert<Iter>(this->schedules()[0]), path);    // Add first node (this one)
+                _igraph->insertLeaf(inode, this->label(), path);                // Add leaf node (the statement)
+            }
             return _igraph;
         }
 
@@ -514,7 +521,7 @@ namespace pdfg {
         }
 
         void tile(initializer_list<string> iters, initializer_list<unsigned> sizes, initializer_list<string> t_iters = {}) {
-            Digraph* ig = _igraph;
+            Digraph* ig = this->iter_graph();
             vector<Tuple> schedules = this->schedules();
             vector<string> tile_iters(t_iters.begin(), t_iters.end());
             vector<unsigned> tile_sizes(sizes.begin(), sizes.end());
@@ -538,8 +545,7 @@ namespace pdfg {
                 }
                 inum += 1;
             }
-
-            this->comp()->tiled(true);
+            this->comp()->tiled(!tnode.empty());
         }
 
     protected:
@@ -949,18 +955,14 @@ namespace pdfg {
                         prev->comp()->interchanged(alignIterators(currScheds, prevScheds[0][0]));
                     } else {
                         curr->comp()->interchanged(alignIterators(prevScheds, currScheds[0][0]));
+                        prev->schedules(prevScheds);
                     }
                 }
             }
 
             Digraph* ig = prev->iter_graph();
-            if (ig == nullptr) {
-                ig = new Digraph(_name);
-                inode = ig->node("*", "", {"shape", "none"});
-                prev->iter_graph(ig);
-                inode = insertSchedule(ig, prevScheds[0], path);         // Add first node (this one)
-                inext = insertLeaf(ig, inode, prev->label(), path);     // Add leaf node (the statement)
-            }
+            inode = ig->last_node();
+            inext = ig->last_leaf();
 
             // TODO: Assuming the node to be fused has only one schedule for now...
             sched = currScheds[0];
@@ -1043,7 +1045,7 @@ namespace pdfg {
                 inode = inext;
             }
 
-            inode = insertLeaf(ig, inode, curr->label(), path);         // Add leaf node (the statement)
+            inode = ig->insertLeaf(inode, curr->label(), path);         // Add leaf node (the statement)
             if (shift_sum) {
                 if (is_parent) {
                     // Apply shift to parent...
@@ -1164,32 +1166,6 @@ namespace pdfg {
                     }
                 }
             }
-        }
-
-        string insertSchedule(Digraph* ig, const Tuple& sched, IntTuple& path) {
-            string inode = ig->root();
-            for (unsigned j = 0; j < sched.size() - 1; j++) {
-                string iter = sched[j].text();
-                string inext = ig->find(inode, iter, path);
-                if (inext.empty()) {    // Iterator not found on current path, create a new one...
-                    inext = ig->node(iter, iter);
-                    unsigned pos = ig->size(inode);
-                    //cerr << inode << " -> " << pos << " -> " << inext << endl;
-                    ig->edge(inode, inext, pos);
-                }
-                inode = inext;
-            }
-            return inode;
-        }
-
-        string insertLeaf(Digraph* ig, const string& inode, const string& label, IntTuple& path) {
-            string inext = ig->node(label);
-            ig->attr(inext, "shape", "rect");
-            unsigned pos = ig->size(inode);
-            //cerr << inode << " -> " << pos << " -> " << inext << endl;
-            ig->edge(inode, inext, pos);
-            path.push_back(pos);
-            return inext;
         }
 
 //        void addBounds(const Space& space) {

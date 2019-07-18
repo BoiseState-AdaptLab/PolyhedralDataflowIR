@@ -368,6 +368,18 @@ public:
         is >> out;
         return out;
 	}
+
+    template <typename T>
+	static inline vector<string> convert(const vector<T>& vec) {
+	    ostringstream os;
+	    vector<string> strings;
+	    for (const T& elem : vec) {
+	        os.str("");
+	        os << elem;
+	        strings.push_back(os.str());
+	    }
+	    return strings;
+	}
 };
 
 #endif /* STRINGS_HPP */
