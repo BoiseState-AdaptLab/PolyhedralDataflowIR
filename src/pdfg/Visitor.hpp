@@ -168,6 +168,10 @@ namespace pdfg {
             return _body;
         }
 
+        void add_size(const string& name, unsigned size) {
+            _data_sizes[name] = size;
+        }
+
         void setup(FlowGraph* graph) override {
             _graph = graph;
             addComment();
@@ -221,7 +225,13 @@ namespace pdfg {
                         } else {
                             os << "malloc(";
                         }
-                        os << *node->size() << "*sizeof(" << node->datatype() << "));";
+                        auto itr = _data_sizes.find(label);
+                        if (itr != _data_sizes.end()) {
+                            os << itr->second;
+                        } else {
+                            os << *node->size();
+                        }
+                        os << "*sizeof(" << node->datatype() << "));";
                     }
                     _frees.push_back(node->label());
                 } else {
@@ -522,6 +532,10 @@ namespace pdfg {
                     subsize = Strings::fixParens(subsize);   // Remove redundant parens...
                     os << Strings::replace(subsize, "*", ",") << ')';
                 }
+                auto itr = _data_sizes.find(sname);
+                if (itr != _data_sizes.end()) {
+                    os << '&' << (itr->second - 1);
+                }
                 os << ']';
             }
 
@@ -539,6 +553,8 @@ namespace pdfg {
         string _ompsched;
 
         map<string, string> _mappings;
+        map<string, unsigned> _data_sizes;
+
         vector<pair<string, string> > _defines;
         vector<pair<string, string> > _typedefs;
         vector<pair<string, string> > _functions;
@@ -1034,35 +1050,47 @@ namespace pdfg {
                 IntTuple intTuple = to_int(nodeAcc.tuple());
 
                 //for (CompNode* producer : prodNodes) {
-                    CompNode* producer = prodNodes[0];
-                    vector<Access*> accesses = producer->accesses(node->label());
-                    IntTuple maxTuple(intTuple.size(), 0);
-                    for (unsigned i = 0; i < accesses.size(); i++) {
-                        IntTuple accTuple = to_int(accesses[i]->tuple());
-                        maxTuple = absmax(maxTuple, accTuple);
-                    }
+                CompNode* producer = prodNodes[0];
+                vector<Access*> accesses = producer->accesses(node->label());
+                IntTuple maxTuple(intTuple.size(), 0);
+                for (unsigned i = 0; i < accesses.size(); i++) {
+                    IntTuple accTuple = to_int(accesses[i]->tuple());
+                    maxTuple = absmax(maxTuple, accTuple);
+                }
 
-                    // Update the data space...
-                    Space space = getSpace(node->label());
-                    Tuple iters = space.iterators();
-                    ConstrTuple constrs = space.constraints();
-                    Space newspace(space.name());
+                // Update the data space...
+                Space space = getSpace(node->label());
+                Tuple iters = space.iterators();
+                ConstrTuple constrs = space.constraints();
+                Space newspace(space.name());
 
-                    for (unsigned i = 0; i < maxTuple.size(); i++) {
-                        if (maxTuple[i] != 0) {
-                            newspace.add(iters[i]);
-                            for (const Constr& constr : space.constraints()) {
-                                if (constr.lhs().equals(iters[i]) || constr.rhs().equals(iters[i])) {
-                                    newspace.add(constr);
-                                }
-                            }
+                int tupleSum = accumulate(maxTuple.begin(), maxTuple.end(), 0);
+                if (tupleSum != 0) {
+                    unsigned i = 0;
+                    for (; i < maxTuple.size() && maxTuple[i] == 0; i++);
+                    if (i == 0 && maxTuple[i+1] == 0) {
+                        addIter(iters[0], space.constraints(), newspace);
+                    } else {
+                        for (; i < maxTuple.size(); i++) {
+                            addIter(iters[i], space.constraints(), newspace);
                         }
                     }
+                }
 
-                    newSpace(newspace);
-                    Math* resize = (Math*) getSize(*producer->comp(), Func(newspace));
-                    node->size(resize);
+                newSpace(newspace);
+                Math* resize = (Math*) getSize(*producer->comp(), Func(newspace));
+                node->size(resize);
                 //}
+            }
+        }
+
+    protected:
+        void addIter(const Iter& iter, const vector<Constr>& constraints, Space& newspace) {
+            newspace.add(iter);
+            for (const Constr &constr : constraints) {
+                if (constr.lhs().equals(iter) || constr.rhs().equals(iter)) {
+                    newspace.add(constr);
+                }
             }
         }
     };

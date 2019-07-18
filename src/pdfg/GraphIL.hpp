@@ -3272,6 +3272,12 @@ namespace pdfg {
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
             cgen.ompSchedule(ompsched);
 
+//            if (_flowGraph.name().find("euler") != string::npos) {
+//                cgen.add_size("W_ave", 65536);
+//                cgen.add_size("W_ave_f_d1", 524288);
+//                cgen.add_size("W_ave_f_d2", 524288);
+//            }
+
             for (const auto& iter : _consts) {
                 cgen.define(iter.first, to_string(iter.second.val()));
             }
