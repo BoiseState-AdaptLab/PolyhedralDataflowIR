@@ -471,7 +471,7 @@ namespace pdfg {
             // Define data mappings (one per space)
             for (Access* access : node->accesses()) {
                 if (access->has_iters() && _mappings.find(access->space()) == _mappings.end()) {
-                    string mapping = createMapping(access);
+                    string mapping = createMapping(node->comp(), access);
                     if (!mapping.empty()) {
                         string accstr = stringify<Access>(*access);
                         define(accstr, mapping);
@@ -481,7 +481,7 @@ namespace pdfg {
             }
         }
 
-        string createMapping(const Access* access) {
+        string createMapping(const Comp* comp, const Access* access) {
             string sname = access->space();
             map<string, int> offsets = access->offset_map();
 
@@ -490,6 +490,9 @@ namespace pdfg {
             unsigned size = tuple.size();
 
             // TODO: Come back here to resolve interchange issue!
+            if (comp->interchanged()) {
+                int stop=1;
+            }
 
             ostringstream os;
             if (size < 1) {

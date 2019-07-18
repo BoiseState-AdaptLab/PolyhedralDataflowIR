@@ -2640,8 +2640,20 @@ namespace pdfg {
             return _schedules.size();
         }
 
-        deque<Rel> transforms() const {
-            return _transforms;
+        bool interchanged() const {
+            return _interchanged;
+        }
+
+        void interchanged(bool flag) {
+            _interchanged = flag;
+        }
+
+        bool tiled() const {
+            return _tiled;
+        }
+
+        void tiled(bool flag) {
+            _tiled = flag;
         }
 
         void add(const Constr& constr) {
@@ -2658,77 +2670,81 @@ namespace pdfg {
             _schedules[index].dest(dst);
         }
 
-        string make_dense(const Range &dnsConstr) {
-            Space sdense = _space;
-            sdense.name("Idense");
-            sdense ^= dnsConstr;
-            Rel rdense("Tdense", _space, sdense);
-            return apply(rdense, sdense.name());
-        }
+//        deque<Rel> transforms() const {
+//            return _transforms;
+//        }
 
-        string tile(const Iter &i0, const Expr &s0, Iter &t0) {
-            vector<Iter> titers;
-            for (const Iter &iter : _space.iterators()) {
-                if (iter.equals(i0)) {
-                    titers.push_back(t0);
-                    titers.push_back(i0);
-                } else {
-                    titers.push_back(iter);
-                }
-            }
+//        string make_dense(const Range &dnsConstr) {
+//            Space sdense = _space;
+//            sdense.name("Idense");
+//            sdense ^= dnsConstr;
+//            Rel rdense("Tdense", _space, sdense);
+//            return apply(rdense, sdense.name());
+//        }
 
-            Iter r0("r0");
-            vector<Constr> tcons = exists(0 <= r0 < s0 ^ i0 == t0 * s0 + r0);
-            Space stile("Itile", titers, tcons);
-            Rel rtile("Ttile", _space, stile);
-
-            return apply(rtile, stile.name());
-        }
+//        string tile(const Iter &i0, const Expr &s0, Iter &t0) {
+//            vector<Iter> titers;
+//            for (const Iter &iter : _space.iterators()) {
+//                if (iter.equals(i0)) {
+//                    titers.push_back(t0);
+//                    titers.push_back(i0);
+//                } else {
+//                    titers.push_back(iter);
+//                }
+//            }
+//
+//            Iter r0("r0");
+//            vector<Constr> tcons = exists(0 <= r0 < s0 ^ i0 == t0 * s0 + r0);
+//            Space stile("Itile", titers, tcons);
+//            Rel rtile("Ttile", _space, stile);
+//
+//            return apply(rtile, stile.name());
+//        }
 
         //Comp tile(const Iter& i0, const Iter& i1, const Expr& s0, const Expr& s1, Iter& t0, Iter& t1) {
-        string tile(const Iter &i0, const Iter &i1, const Expr &s0, const Expr &s1, Iter &t0, Iter &t1) {
-            vector<Iter> titers;
-            for (const Iter &iter : _space.iterators()) {
-                if (iter.equals(i0)) {
-                    titers.push_back(t0);
-                    titers.push_back(i0);
-                } else if (iter.equals(i1)) {
-                    titers.push_back(t1);
-                    titers.push_back(i1);
-                } else {
-                    titers.push_back(iter);
-                }
-            }
-
-            Iter r0("r0"), r1("r1");
-            // Add tiling constraints...
-            vector<Constr> tcons = exists(0 <= r0 < s0 ^ i0 == t0 * s0 + r0 ^ 0 <= r1 < s1 ^ i1 == t1 * s1 + r1);
-            Space stile("Itile", titers, tcons);
-            Rel rtile("Ttile", _space, stile);
-
-//            Comp comp = apply(rtile, stile.name());
-//            return comp;
-            return apply(rtile, stile.name());
-        }
+//        string tile(const Iter &i0, const Iter &i1, const Expr &s0, const Expr &s1, Iter &t0, Iter &t1) {
+//            vector<Iter> titers;
+//            for (const Iter &iter : _space.iterators()) {
+//                if (iter.equals(i0)) {
+//                    titers.push_back(t0);
+//                    titers.push_back(i0);
+//                } else if (iter.equals(i1)) {
+//                    titers.push_back(t1);
+//                    titers.push_back(i1);
+//                } else {
+//                    titers.push_back(iter);
+//                }
+//            }
+//
+//            Iter r0("r0"), r1("r1");
+//            // Add tiling constraints...
+//            vector<Constr> tcons = exists(0 <= r0 < s0 ^ i0 == t0 * s0 + r0 ^ 0 <= r1 < s1 ^ i1 == t1 * s1 + r1);
+//            Space stile("Itile", titers, tcons);
+//            Rel rtile("Ttile", _space, stile);
+//
+////            Comp comp = apply(rtile, stile.name());
+////            return comp;
+//            return apply(rtile, stile.name());
+//        }
 
         //Comp apply(const Rel& rel, const string& resName = "Ires") const {
-        string apply(const Rel &rel, const string &resName = "Ires") {
-            PolyLib poly;
-            string setStr = poly.add(_space.to_iegen());
-            cerr << rel.to_iegen() << endl;
-            string relStr = poly.add(rel.to_iegen());
-            string newStr = poly.apply(rel.name(), _space.name(), resName);
-            _transforms.push_back(rel);
-//            Space newSpace = unstring<Space>(newStr);
-//            Comp newComp(newSpace, _statements, _guards);
-//            return newComp;
-            return newStr;
-        }
+//        string apply(const Rel &rel, const string &resName = "Ires") {
+//            PolyLib poly;
+//            string setStr = poly.add(_space.to_iegen());
+//            cerr << rel.to_iegen() << endl;
+//            string relStr = poly.add(rel.to_iegen());
+//            string newStr = poly.apply(rel.name(), _space.name(), resName);
+//            _transforms.push_back(rel);
+////            Space newSpace = unstring<Space>(newStr);
+////            Comp newComp(newSpace, _statements, _guards);
+////            return newComp;
+//            return newStr;
+//        }
 
         //Comp operator*(const Rel& rel) {
-        string operator*(const Rel &rel) {
-            return apply(rel);
-        }
+//        string operator*(const Rel &rel) {
+//            return apply(rel);
+//        }
 
         Comp operator+=(const Math& statement) {
             this->add(statement);
@@ -2773,6 +2789,7 @@ namespace pdfg {
             _type = '0';
             _statements = statements;
             _guards = guards;
+            _interchanged = _tiled = false;
 
             for (Constr& guard : _guards) {
                 if (guard.lhs().is_space()) {
@@ -2812,7 +2829,10 @@ namespace pdfg {
         vector<Math> _statements;
         vector<Constr> _guards;
         vector<Rel> _schedules;
-        deque<Rel> _transforms;
+
+        bool _interchanged;
+        bool _tiled;
+        //deque<Rel> _transforms;
     };
 
     ostream &operator<<(ostream &os, const Comp &comp) {
@@ -3840,6 +3860,11 @@ namespace pdfg {
             rest.push_back(*gm.getComp(*itr));
         }
         fuse(first, rest);
+    }
+
+    void tile(initializer_list<string> names, initializer_list<string> iters, initializer_list<unsigned> sizes) {
+        // TODO: Implement logic to only tile named computations.
+        GraphMaker::get().tile(iters, sizes);
     }
 
     void tile(initializer_list<string> iters, initializer_list<unsigned> sizes) {

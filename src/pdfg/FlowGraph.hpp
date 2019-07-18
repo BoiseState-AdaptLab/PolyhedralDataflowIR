@@ -538,6 +538,8 @@ namespace pdfg {
                 }
                 inum += 1;
             }
+
+            this->comp()->tiled(true);
         }
 
     protected:
@@ -944,9 +946,9 @@ namespace pdfg {
                 unsigned nCurrScheds = currScheds[0].size();
                 if (nPrevScheds != nCurrScheds && !Lists::match<Iter>(prevScheds[0], currScheds[0], nPrevScheds - 1)) {
                     if (nPrevScheds < nCurrScheds) {
-                        alignIterators(currScheds, prevScheds[0][0]);
+                        prev->comp()->interchanged(alignIterators(currScheds, prevScheds[0][0]));
                     } else {
-                        alignIterators(prevScheds, currScheds[0][0]);
+                        curr->comp()->interchanged(alignIterators(prevScheds, currScheds[0][0]));
                     }
                 }
             }
@@ -1099,17 +1101,20 @@ namespace pdfg {
             return producers;
         }
 
-        void alignIterators(vector<Tuple>& tuples, Iter& iter) {
+        bool alignIterators(vector<Tuple>& tuples, Iter& iter) {
+            bool changed = false;
             if (!iter.empty()) {
                 for (Tuple& tuple : tuples) {
                     if (find(tuple.begin(), tuple.end(), iter) != tuple.end()) {
                         while (!tuple[0].equals(iter)) {
                             tuple.insert(tuple.end() - 1, tuple[0]);
                             tuple.erase(tuple.begin());
+                            changed = true;
                         }
                     }
                 }
             }
+            return changed;
         }
 
         IntTuple nodeOffsets(CompNode* prev, CompNode* curr, const Tuple& sched) {

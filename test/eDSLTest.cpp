@@ -430,8 +430,9 @@ TEST(eDSLTest, CSR_BSR_Insp) {
     string result = pdfg::codegen("out/" + name + ".h", "0", "C++", "simd");
     cerr << result << endl;
 
-    Comp count = icsr + (NB += 1);
-    result = count.tile(i, R, ii);
+    Comp count("count", icsr, (NB += 1));
+    pdfg::tile({"count"}, {"i"}, {R.val()});
+    //result = count.tile(i, R, ii);
     //Space insp("Iin", 0 <= ii < N/R ^ ii*R <= i < R*ii+R ^ rp(i) <= n < rp(i+1) ^ j==col(n));
     cerr << result << endl;
     //result = Codegen("").gen(result);
