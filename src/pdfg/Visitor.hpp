@@ -55,7 +55,25 @@ namespace pdfg {
 
         virtual void enter(DataNode*) {}
 
-        virtual void exit(Node*) {}
+        virtual void exit(Node* node) {
+            switch (node->type()) {
+                case 'D':
+                    exit((DataNode *) node);
+                    break;
+                case 'C':
+                    exit((CompNode *) node);
+                    break;
+                case 'R':
+                    exit((RelNode *) node);
+                    break;
+                default:    // Throw exception, maybe?
+                    break;
+            }
+        }
+
+        virtual void exit(CompNode*) {}
+
+        virtual void exit(DataNode*) {}
 
         virtual void finish(FlowGraph* graph) {}
 
@@ -1109,55 +1127,92 @@ namespace pdfg {
     };
 
     struct MemAllocVisitor : public ReverseVisitor {
+    protected:
+        struct MemTableEntry {
+            unsigned size;
+            unsigned prev_size;
+            //string expr;
+            bool alive;
+            bool resized;
+        };
+
+        map<string, Const> _constants;
+        map<string, unsigned> _space_map;
+        vector<MemTableEntry> _entries;
+
+        void replaceConsts(string& expr) {
+            for (const auto& iter : _constants) {
+                expr = Strings::replace(expr, iter.first, to_string(iter.second.val()), true);
+            }
+        }
+
+        unsigned find(const unsigned& size) {
+            // 1) 1st pass: find a (non-live) entry of greater or larger size.
+            int minDiff = INT_MAX;
+            unsigned minIndex;
+
+            unsigned index = 0;
+            for (MemTableEntry& entry : _entries) {
+                if (!entry.alive) {
+                    if (entry.size >= size) {
+                        return index;
+                    }
+                    int diff = size - entry.size;
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                        minIndex = index;
+                    }
+                    index += 1;
+                }
+            }
+
+            // 2) Did we find an entry we can resize?
+            //    Do not resize scalars just yet...
+            if (minDiff < INT_MAX && _entries[minIndex].size > 1) {
+                _entries[minIndex].resized = true;
+                _entries[minIndex].prev_size = _entries[minIndex].size;
+                _entries[minIndex].size = size;
+                return minIndex;
+            }
+
+            // 3) Create a new entry
+            MemTableEntry entry{size, 0, true, false};
+            index = _entries.size();
+            _entries.push_back(entry);
+            return index;
+        }
+
     public:
         explicit MemAllocVisitor(const map<string, Const>& constants) : _constants(constants) {
         }
 
         void enter(DataNode* node) override {
-            // Collect producers
-            vector<Edge*> ins = _graph->inedges(node);
-            vector<CompNode*> prodNodes(ins.size());
-            for (unsigned i = 0; i < ins.size(); i++) {
-                prodNodes[i] = (CompNode*) ins[i]->source();
-            }
-            // Collect consumers
-            vector<Edge*> outs = _graph->outedges(node);
-            vector<CompNode*> consNodes(outs.size());
-            for (unsigned i = 0; i < outs.size(); i++) {
-                consNodes[i] = (CompNode*) outs[i]->dest();
-            }
-
+            // Get access and space from data node.
             Access access = Access::from_str(node->expr()->text());
             Space space = getSpace(access.space());
             string expr = space.size().text();
 
-            int size = 1;
+            // Calculate the size from the size expression.
+            unsigned size = 1;
             if (!expr.empty()) {
                 expr = Strings::fixParens(expr);
                 replaceConsts(expr);
                 size = Parser().eval(expr);
             }
-            //IntTuple intTuple = to_int(nodeAcc.tuple());
 
-            int stop = 1;
+            // Find a space of the proper size or get a new onee.
+            unsigned index = find(size);
+            MemTableEntry entry = _entries[index];
+            _space_map[space.name()] = index;
         }
 
-    protected:
-        struct MemTableEntry {
-            unsigned size;
-            string expr;
-            bool alive;
-            bool resized;
-        };
+        virtual void exit(CompNode* node) {
+            vector<Edge*> ins = _graph->inedges(node);
+            vector<Edge*> outs = _graph->outedges(node);
 
-         void replaceConsts(string& expr) {
-             for (const auto& iter : _constants) {
-                 expr = Strings::replace(expr, iter.first, to_string(iter.second.val()), true);
-             }
-         }
-
-        map<string, Const> _constants;
-        vector<MemTableEntry> _entries;
+            // TODO: Mark entries as non-alive when leaving comp node...
+            int stop = 1;
+        }
     };
 }
 
