@@ -3362,6 +3362,19 @@ namespace pdfg {
             }
         }
 
+        string to_dot(const string& name = "") {
+            DOTVisitor dot;
+            if (name.empty()) {
+                dot.walk(&_flowGraph);
+            } else {
+                dot.walk(&_graphs[name]);
+            }
+
+            ostringstream os;
+            os << dot;
+            return os.str();
+        }
+
         Expr* getSize(const Comp& comp, const Func& func) {
             Expr* expr = nullptr;
             Math math;
@@ -3727,6 +3740,10 @@ namespace pdfg {
 
     void mem_alloc(const string& name = "") {
         GraphMaker::get().mem_alloc(name);
+    }
+
+    string to_dot(const string& name = "") {
+        return GraphMaker::get().to_dot(name);
     }
 
     void addIterator(const Iter& iter) {

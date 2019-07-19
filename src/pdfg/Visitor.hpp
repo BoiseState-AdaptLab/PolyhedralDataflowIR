@@ -103,10 +103,74 @@ namespace pdfg {
         virtual void walk(FlowGraph* graph) {
             setup(graph);
             vector<Node*> nodes = graph->nodes();
-            for (unsigned i = nodes.size() - 1; i >= 0; i--) {
+            for (int i = nodes.size() - 1; i >= 0; i--) {
                 visit(nodes[i]);        //node->accept(this);
             }
             finish(graph);
+        }
+    };
+
+    struct DOTVisitor : public DFGVisitor {
+    protected:
+        Digraph* _dag;
+
+    public:
+        explicit DOTVisitor() {
+            _dag = nullptr;
+        }
+
+        virtual ~DOTVisitor() {
+            delete _dag;
+        }
+
+        void setup(FlowGraph* graph) override {
+            _graph = graph;
+            _dag = new Digraph(_graph->name());
+            _dag->node("*", "", {"shape", "none"});
+        }
+
+        void enter(DataNode* node) override {
+            string root = _dag->root();
+            string name = _dag->node(node->label());
+            _dag->attr(name, "shape", "rect");
+
+            vector<Edge*> ins = _graph->inedges(node);
+            vector<Edge*> outs = _graph->outedges(node);
+
+            if (ins.size() < 1) {
+                _dag->edge(root, name, _dag->size(root));
+            }
+
+            if (ins.size() < 1 || outs.size() < 1) {
+                _dag->attr(name, "color", "gray");
+            }
+
+            string label, next, prev;
+            for (Edge* edge : ins) {
+                CompNode* src = (CompNode*) edge->source();
+                label = src->label();
+                prev = _dag->find(root, label);
+                if (prev.empty()) {
+                    prev = _dag->node(label);
+                }
+                _dag->edge(prev, name, _dag->size(prev));
+            }
+
+            for (Edge* edge : outs) {
+                CompNode* dest = (CompNode*) edge->dest();
+                label = dest->label();
+                next = _dag->find(root, label);
+                if (next.empty()) {
+                    next = _dag->node(label);
+                    _dag->attr(next, "shape", "invtriangle");
+                }
+                _dag->edge(name, next, _dag->size(name));
+            }
+        }
+
+        friend ostream& operator<<(ostream& os, const DOTVisitor& dot) {
+            os << dot._dag->to_dot();
+            return os;
         }
     };
 
@@ -1131,30 +1195,44 @@ namespace pdfg {
         struct MemTableEntry {
             unsigned size;
             unsigned prev_size;
-            //string expr;
-            bool alive;
+            bool active;
             bool resized;
         };
 
         map<string, Const> _constants;
-        map<string, unsigned> _space_map;
+        unordered_map<string, unsigned> _space_map;
         vector<MemTableEntry> _entries;
 
-        void replaceConsts(string& expr) {
+        string replaceConsts(const string& expr) const {
+            string result = expr;
             for (const auto& iter : _constants) {
-                expr = Strings::replace(expr, iter.first, to_string(iter.second.val()), true);
+                result = Strings::replace(result, iter.first, to_string(iter.second.val()), true);
             }
+            return result;
         }
 
         unsigned find(const unsigned& size) {
-            // 1) 1st pass: find a (non-live) entry of greater or larger size.
-            int minDiff = INT_MAX;
-            unsigned minIndex;
-
+            // 1) 1st pass: search for a (non-live) entry of exact size.
             unsigned index = 0;
             for (MemTableEntry& entry : _entries) {
-                if (!entry.alive) {
-                    if (entry.size >= size) {
+                if (!entry.active) {
+                    if (entry.size == size) {
+                        entry.active = true;
+                        cerr << "MemAllocVisitor: using entry " << index << " of size " << entry.size << endl;
+                        return index;
+                    }
+                }
+                index += 1;
+            }
+
+            // 2) 2nd pass: find a (non-live) entry of greater size.
+            index = 0;
+            unsigned minIndex, minDiff = INT_MAX;
+            for (MemTableEntry& entry : _entries) {
+                if (!entry.active) {
+                    if (entry.size > size) {
+                        entry.active = true;
+                        cerr << "MemAllocVisitor: using entry " << index << " of size " << entry.size << endl;
                         return index;
                     }
                     int diff = size - entry.size;
@@ -1162,23 +1240,27 @@ namespace pdfg {
                         minDiff = diff;
                         minIndex = index;
                     }
-                    index += 1;
                 }
+                index += 1;
             }
 
-            // 2) Did we find an entry we can resize?
-            //    Do not resize scalars just yet...
-            if (minDiff < INT_MAX && _entries[minIndex].size > 1) {
-                _entries[minIndex].resized = true;
-                _entries[minIndex].prev_size = _entries[minIndex].size;
-                _entries[minIndex].size = size;
-                return minIndex;
+            // 3) Resize an existing entry if possible (excluding scalars).
+            index = minIndex;
+            if (minDiff < INT_MAX && _entries[index].size > 1) {
+                _entries[index].active = _entries[index].resized = true;
+                _entries[index].prev_size = _entries[index].size;
+                _entries[index].size = size;
+                cerr << "MemAllocVisitor: resizing entry " << index << " from size " << _entries[index].prev_size
+                     << " to " << size << endl;
+                return index;
             }
 
-            // 3) Create a new entry
+            // 4) Create a new entry
             MemTableEntry entry{size, 0, true, false};
             index = _entries.size();
             _entries.push_back(entry);
+            cerr << "MemAllocVisitor: added entry " << index << " of size " << size << endl;
+
             return index;
         }
 
@@ -1187,31 +1269,42 @@ namespace pdfg {
         }
 
         void enter(DataNode* node) override {
-            // Get access and space from data node.
-            Access access = Access::from_str(node->expr()->text());
-            Space space = getSpace(access.space());
-            string expr = space.size().text();
+            bool isTemp = _graph->isTemp(node);
+            cerr << "Node '" << node->label() << "' " << (isTemp ? "IS" : "NOT") << " temporary.\n";
 
-            // Calculate the size from the size expression.
-            unsigned size = 1;
-            if (!expr.empty()) {
-                expr = Strings::fixParens(expr);
-                replaceConsts(expr);
-                size = Parser().eval(expr);
+            if (isTemp) {
+                // Get access and space from data node.
+                Access access = Access::from_str(node->expr()->text());
+                Space space = getSpace(access.space());
+                string expr = Strings::fixParens(space.size().text());
+
+                // Calculate the size from the size expression.
+                unsigned size = 1;
+                if (!expr.empty()) {
+                    size = Parser().eval(replaceConsts(expr));
+                }
+
+                // Find a space of the proper size or get a new onee.
+                unsigned index = find(size);
+                cerr << "MemAllocVisitor: assigned entry " << index << " to '" << space.name() << "' (" << expr << ")\n";
+                _space_map[space.name()] = index;
             }
-
-            // Find a space of the proper size or get a new onee.
-            unsigned index = find(size);
-            MemTableEntry entry = _entries[index];
-            _space_map[space.name()] = index;
         }
 
         virtual void exit(CompNode* node) {
-            vector<Edge*> ins = _graph->inedges(node);
+            // Mark entries produced by this node as inactive when leaving comp node...
             vector<Edge*> outs = _graph->outedges(node);
+            for (Edge* edge : outs) {
+                DataNode* data = (DataNode*) edge->dest();
+                string space = data->label();
 
-            // TODO: Mark entries as non-alive when leaving comp node...
-            int stop = 1;
+                auto iter = _space_map.find(space);
+                if (iter != _space_map.end()) {
+                    unsigned index = iter->second;
+                    cerr << "MemAllocVisitor: marked entry " << index << " as inactive for space '" << space << "'\n";
+                    _entries[index].active = false;
+                }
+            }
         }
     };
 }

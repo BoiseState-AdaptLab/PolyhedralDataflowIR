@@ -861,6 +861,10 @@ namespace pdfg {
             return true;
         }
 
+        bool isTemp(DataNode* node) {
+            return (!isReturn(node) && !isSource(node) && !isSink(node) && output(node->label()) < 0);
+        }
+
         // Return input nodes, those with no incoming edges.
         vector<Node*> inNodes() const {
             vector<Node*> inputs;
