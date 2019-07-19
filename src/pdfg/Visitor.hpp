@@ -23,6 +23,8 @@ using std::stack;
 #include <pdfg/GraphIL.hpp>
 #include <util/OS.hpp>
 using util::OS;
+#include <util/Parser.hpp>
+using util::Parser;
 
 namespace pdfg {
     struct DFGVisitor {
@@ -78,7 +80,19 @@ namespace pdfg {
         FlowGraph* _graph;
     };
 
-    struct CodeGenVisitor: DFGVisitor {
+    struct ReverseVisitor : public DFGVisitor {
+    public:
+        virtual void walk(FlowGraph* graph) {
+            setup(graph);
+            vector<Node*> nodes = graph->nodes();
+            for (unsigned i = nodes.size() - 1; i >= 0; i--) {
+                visit(nodes[i]);        //node->accept(this);
+            }
+            finish(graph);
+        }
+    };
+
+    struct CodeGenVisitor: public DFGVisitor {
     public:
         explicit CodeGenVisitor(const string &path = "", const string &lang = "C", bool profile = false,
                 unsigned niters = 15) : _path(path), _niters(niters), _lang(lang), _profile(profile) {
@@ -1025,8 +1039,7 @@ namespace pdfg {
 
     struct DataReduceVisitor : public DFGVisitor {
     public:
-        explicit DataReduceVisitor() {
-        }
+        explicit DataReduceVisitor() {}
 
         void enter(DataNode* node) override {
             vector<Edge*> ins = _graph->inedges(node);
@@ -1093,6 +1106,58 @@ namespace pdfg {
                 }
             }
         }
+    };
+
+    struct MemAllocVisitor : public ReverseVisitor {
+    public:
+        explicit MemAllocVisitor(const map<string, Const>& constants) : _constants(constants) {
+        }
+
+        void enter(DataNode* node) override {
+            // Collect producers
+            vector<Edge*> ins = _graph->inedges(node);
+            vector<CompNode*> prodNodes(ins.size());
+            for (unsigned i = 0; i < ins.size(); i++) {
+                prodNodes[i] = (CompNode*) ins[i]->source();
+            }
+            // Collect consumers
+            vector<Edge*> outs = _graph->outedges(node);
+            vector<CompNode*> consNodes(outs.size());
+            for (unsigned i = 0; i < outs.size(); i++) {
+                consNodes[i] = (CompNode*) outs[i]->dest();
+            }
+
+            Access access = Access::from_str(node->expr()->text());
+            Space space = getSpace(access.space());
+            string expr = space.size().text();
+
+            int size = 1;
+            if (!expr.empty()) {
+                expr = Strings::fixParens(expr);
+                replaceConsts(expr);
+                size = Parser().eval(expr);
+            }
+            //IntTuple intTuple = to_int(nodeAcc.tuple());
+
+            int stop = 1;
+        }
+
+    protected:
+        struct MemTableEntry {
+            unsigned size;
+            string expr;
+            bool alive;
+            bool resized;
+        };
+
+         void replaceConsts(string& expr) {
+             for (const auto& iter : _constants) {
+                 expr = Strings::replace(expr, iter.first, to_string(iter.second.val()), true);
+             }
+         }
+
+        map<string, Const> _constants;
+        vector<MemTableEntry> _entries;
     };
 }
 

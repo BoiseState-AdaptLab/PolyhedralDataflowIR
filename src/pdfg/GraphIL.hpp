@@ -2908,7 +2908,7 @@ namespace pdfg {
         void newGraph(const string& name) {
             _flowGraph = FlowGraph(name);
             _graphs[name] = _flowGraph;
-            _scheduled = _reduced = false;
+            _scheduled = _reduced = _allocated = false;
         }
 
         void align_iters(bool align = true) {
@@ -3267,16 +3267,18 @@ namespace pdfg {
             }
 
             reschedule(name);       // Run scheduling pass if needed.
-            //datareduce(name);       // Run data redux pass if needed.
+            //data_reduce(name);     // Run data redux pass if needed.
+            //mem_alloc(name);       // Run memory allocation pass if needed.
 
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
             cgen.ompSchedule(ompsched);
 
-//            if (_flowGraph.name().find("euler") != string::npos) {
-//                cgen.add_size("W_ave", 65536);
-//                cgen.add_size("W_ave_f_d1", 524288);
-//                cgen.add_size("W_ave_f_d2", 524288);
-//            }
+            // TODO: Replace this with code that calculates these!
+            if (_flowGraph.name().find("euler") != string::npos) {
+                cgen.add_size("W_ave", 65536);
+                cgen.add_size("W_ave_f_d1", 524288);
+                cgen.add_size("W_ave_f_d2", 524288);
+            }
 
             for (const auto& iter : _consts) {
                 cgen.define(iter.first, to_string(iter.second.val()));
@@ -3336,7 +3338,7 @@ namespace pdfg {
             }
         }
 
-        void datareduce(const string& name = "") {
+        void data_reduce(const string& name = "") {
             if (!_reduced) {
                 DataReduceVisitor reducer;
                 if (name.empty()) {
@@ -3345,6 +3347,18 @@ namespace pdfg {
                     reducer.walk(&_graphs[name]);
                 }
                 _reduced = true;
+            }
+        }
+
+        void mem_alloc(const string& name = "") {
+            if (!_allocated) {
+                MemAllocVisitor allocator(_consts);
+                if (name.empty()) {
+                    allocator.walk(&_flowGraph);
+                } else {
+                    allocator.walk(&_graphs[name]);
+                }
+                _allocated = true;
             }
         }
 
@@ -3635,6 +3649,7 @@ namespace pdfg {
 
         bool _scheduled;
         bool _reduced;
+        bool _allocated;
 
         string _indexType;
         string _dataType;
@@ -3706,8 +3721,12 @@ namespace pdfg {
         GraphMaker::get().reschedule(name);
     }
 
-    void datareduce(const string& name = "") {
-        GraphMaker::get().datareduce(name);
+    void data_reduce(const string& name = "") {
+        GraphMaker::get().data_reduce(name);
+    }
+
+    void mem_alloc(const string& name = "") {
+        GraphMaker::get().mem_alloc(name);
     }
 
     void addIterator(const Iter& iter) {
