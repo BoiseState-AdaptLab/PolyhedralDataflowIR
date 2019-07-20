@@ -1190,15 +1190,15 @@ namespace pdfg {
         }
     };
 
+    struct MemTableEntry {
+        unsigned size;
+        unsigned prev_size;
+        bool active;
+        bool resized;
+    };
+
     struct MemAllocVisitor : public ReverseVisitor {
     protected:
-        struct MemTableEntry {
-            unsigned size;
-            unsigned prev_size;
-            bool active;
-            bool resized;
-        };
-
         map<string, Const> _constants;
         unordered_map<string, unsigned> _space_map;
         vector<MemTableEntry> _entries;
@@ -1268,6 +1268,18 @@ namespace pdfg {
         explicit MemAllocVisitor(const map<string, Const>& constants) : _constants(constants) {
         }
 
+        map<string, Const> constants() const {
+            return _constants;
+        }
+
+        unordered_map<string, unsigned> spaces() const {
+            return _space_map;
+        }
+
+        vector<MemTableEntry> entries() const {
+            return _entries;
+        }
+
         void enter(DataNode* node) override {
             bool isTemp = _graph->isTemp(node);
             cerr << "Node '" << node->label() << "' " << (isTemp ? "IS" : "NOT") << " temporary.\n";
@@ -1305,6 +1317,24 @@ namespace pdfg {
                     _entries[index].active = false;
                 }
             }
+        }
+
+        friend ostream& operator<<(ostream& os, const MemAllocVisitor& alloc) {
+            os << "Entry\tSize\tAlive\tResized\n";
+            unsigned index = 0;
+            for (const MemTableEntry& entry : alloc._entries) {
+                os << index << "\t" << entry.size << "\t" << (entry.active ? 1 : 0)
+                   << "\t" << (entry.resized ? 1 : 0) << "\n";
+                index++;
+            }
+            os << "\n";
+
+            os << "Space\tEntry\n";
+            for (const auto& iter : alloc._space_map) {
+                os << iter.first << "\t" << iter.second << "\n";
+            }
+
+            return os;
         }
     };
 }
