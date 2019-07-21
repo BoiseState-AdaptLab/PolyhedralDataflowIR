@@ -797,7 +797,7 @@ namespace pdfg {
             return _edges;
         }
 
-        vector<Edge*> inedges(const Node* node) const {
+        vector<Edge*> in_edges(const Node* node) const {
             vector<Edge*> edges;
             for (Edge* edge : _edges) {
                 if (edge->dest()->label() == node->label()) {
@@ -807,7 +807,7 @@ namespace pdfg {
             return edges;
         }
 
-        vector<Edge*> outedges(const Node* node) const {
+        vector<Edge*> out_edges(const Node* node) const {
             vector<Edge*> edges;
             for (Edge* edge : _edges) {
                 if (edge->source()->label() == node->label()) {
@@ -895,7 +895,7 @@ namespace pdfg {
             updateIterGraph(first, next);
 
             // Move incoming edges...
-            vector<Edge*> ins = inedges(next);
+            vector<Edge*> ins = in_edges(next);
             for (Edge* in : ins) {
                 cerr << "Removing edge '" << in->source()->label() << "' -> '" << in->dest()->label() << "'\n";
                 remove(in);
@@ -904,7 +904,7 @@ namespace pdfg {
             }
 
             // Move outgoing edges...
-            vector<Edge*> outs = outedges(next);
+            vector<Edge*> outs = out_edges(next);
             for (Edge* out : outs) {
                 cerr << "Removing edge '" << out->source()->label() << "' -> '" << out->dest()->label() << "'\n";
                 remove(out);
@@ -1084,9 +1084,9 @@ namespace pdfg {
 
         vector<CompNode*> getProducers(CompNode* prev, CompNode* curr, bool* is_parent) {
             vector<CompNode*> producers;
-            for (Edge* edge : this->inedges(curr)) {
+            for (Edge* edge : this->in_edges(curr)) {
                 DataNode* dnode = (DataNode*) edge->source();
-                vector<Edge*> ins = this->inedges(dnode);
+                vector<Edge*> ins = this->in_edges(dnode);
                 for (Edge* in : ins) {
                     if (in->source() == prev) {     // Search for child node that produces this dest...
                         CompNode* child = nullptr;

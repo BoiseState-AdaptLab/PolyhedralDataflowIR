@@ -2977,6 +2977,7 @@ namespace pdfg {
                     if (stmt.oper().find('=') != string::npos) {
                         // If operator has an equal sign, it is an assignment, so the LHS is an output node.
                         writeExprs.push_back(stmt.lhs());
+                        // TODO: Figure out how to handle ops that read AND write
 //                        if (stmt.oper().size() > 1) {
 //                            readExprs.push_back(stmt.lhs());
 //                        }
@@ -3072,8 +3073,10 @@ namespace pdfg {
                 } else {
                     // Create data node from Access object, and add incoming edge edge to statement node.
                     dataNode = (DataNode*) _flowGraph.add(new DataNode(&expr, expr.text(), size, type));
-                    cerr << "Added read node '" << dataNode->label() << "'" << endl;
+                    cerr << "GraphMaker: Added read node '" << dataNode->label() << "'" << endl;
                 }
+
+                cerr << "GraphMaker: '" << dataNode->label() << "' -> '" << compNode->label() << "'\n";
                 _flowGraph.add(dataNode, compNode);
 
                 string space = dataNode->label();
@@ -3090,7 +3093,7 @@ namespace pdfg {
             }
 
             _flowGraph.add(compNode);
-            cerr << "Adding comp node '" << compNode->label() << "'" << endl;
+            cerr << "GraphMaker: Added comp node '" << compNode->label() << "'" << endl;
 
             for (Expr& expr : writeExprs) {
                 Func func = Func(expr);
@@ -3103,14 +3106,15 @@ namespace pdfg {
                     // Create data node from Access object, and add outgoing edge edge to statement node.
                     // Mark output node as persistent (immutable) or temporary (optimizable) -- how to tell?
                     dataNode = (DataNode*) _flowGraph.add(new DataNode(&expr, expr.text(), size, type));
-                    cerr << "Added write node '" << dataNode->label() << "'" << endl;
+                    cerr << "GraphMaker: Added write node '" << dataNode->label() << "'" << endl;
                 }
                 if (!_flowGraph.contains(dataNode, compNode)) {
                     _flowGraph.add(compNode, dataNode);
+                    cerr << "GraphMaker: '" << compNode->label() << "' -> '" << dataNode->label() << "'\n";
                 } else if (!_flowGraph.ignoreCycles()) {
                     // Cycle! => create hierarchical node
                     _flowGraph.remove(compNode);
-                    cerr << "Removed comp node '" << compNode->label() << "' to prevent cycle" << endl;
+                    cerr << "GraphMaker: Removed comp node '" << compNode->label() << "' to prevent cycle" << endl;
                     makeHierarchical((CompNode*) compNode, (DataNode*) dataNode);
                 }
 

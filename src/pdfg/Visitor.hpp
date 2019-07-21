@@ -35,7 +35,7 @@ namespace pdfg {
         }
 
         virtual void enter(Node *node) {
-            cerr << "Visiting node '" << node->label() << "'" << endl;
+            //cerr << "Visiting node '" << node->label() << "'" << endl;
             switch (node->type()) {
                 case 'D':
                     enter((DataNode *) node);
@@ -134,8 +134,8 @@ namespace pdfg {
             string name = _dag->node(node->label());
             _dag->attr(name, "shape", "rect");
 
-            vector<Edge*> ins = _graph->inedges(node);
-            vector<Edge*> outs = _graph->outedges(node);
+            vector<Edge*> ins = _graph->in_edges(node);
+            vector<Edge*> outs = _graph->out_edges(node);
 
             if (ins.size() < 1) {
                 _dag->edge(root, name, _dag->size(root));
@@ -1124,8 +1124,8 @@ namespace pdfg {
         explicit DataReduceVisitor() {}
 
         void enter(DataNode* node) override {
-            vector<Edge*> ins = _graph->inedges(node);
-            vector<Edge*> outs = _graph->outedges(node);
+            vector<Edge*> ins = _graph->in_edges(node);
+            vector<Edge*> outs = _graph->out_edges(node);
 
             // A node with no incoming edges is an input, and no outgoing is an output, these cannot be reduced.
             unsigned size = ins.size();
@@ -1202,6 +1202,8 @@ namespace pdfg {
         map<string, Const> _constants;
         unordered_map<string, unsigned> _space_map;
         vector<MemTableEntry> _entries;
+        unordered_map<string, vector<string> > _producers;
+        unordered_map<string, bool> _visited;
 
         string replaceConsts(const string& expr) const {
             string result = expr;
@@ -1280,43 +1282,74 @@ namespace pdfg {
             return _entries;
         }
 
-        void enter(DataNode* node) override {
+        void process(DataNode* node) {
             bool isTemp = _graph->isTemp(node);
-            cerr << "Node '" << node->label() << "' " << (isTemp ? "IS" : "NOT") << " temporary.\n";
-
+            //cerr << "MemAllocVisitor: Node '" << node->label() << "' " << (isTemp ? "IS" : "NOT") << " temporary.\n";
             if (isTemp) {
                 // Get access and space from data node.
                 Access access = Access::from_str(node->expr()->text());
                 Space space = getSpace(access.space());
-                string expr = Strings::fixParens(space.size().text());
+                if (_space_map.find(space.name()) == _space_map.end()) {
+                    string expr = Strings::fixParens(space.size().text());
 
-                // Calculate the size from the size expression.
-                unsigned size = 1;
-                if (!expr.empty()) {
-                    size = Parser().eval(replaceConsts(expr));
+                    // Calculate the size from the size expression.
+                    unsigned size = 1;
+                    if (!expr.empty()) {
+                        size = Parser().eval(replaceConsts(expr));
+                    }
+
+                    // Find a space of the proper size or get a new onee.
+                    unsigned index = find(size);
+                    cerr << "MemAllocVisitor: assigned entry " << index << " to '"
+                         << space.name() << "' (" << expr << ")\n";
+                    _space_map[space.name()] = index;
                 }
-
-                // Find a space of the proper size or get a new onee.
-                unsigned index = find(size);
-                cerr << "MemAllocVisitor: assigned entry " << index << " to '" << space.name() << "' (" << expr << ")\n";
-                _space_map[space.name()] = index;
             }
+        }
+
+        void enter(CompNode* node) override {
+            cerr << "MemAllocVisitor: enter '" << node->label() << "'\n";
+            //_producers.clear();
+            for (Edge* in : _graph->in_edges(node)) {
+                DataNode* input = (DataNode*) in->source();
+                for (Edge* prod :  _graph->in_edges(input)) {
+                    _producers[input->label()].push_back(prod->source()->label());
+                }
+            }
+
+            for (Edge* out : _graph->out_edges(node)) {
+                DataNode* output = (DataNode *) out->dest();
+                vector<string> prod_names = _producers[output->label()];
+                // Process data nodes produced by this comp node.
+                //if (std::find(prod_names.begin(), prod_names.end(), node->label()) != prod_names.end()) {
+                    process(output);
+                //}
+            }
+            int stop =1;
         }
 
         virtual void exit(CompNode* node) {
             // Mark entries produced by this node as inactive when leaving comp node...
-            vector<Edge*> outs = _graph->outedges(node);
-            for (Edge* edge : outs) {
-                DataNode* data = (DataNode*) edge->dest();
-                string space = data->label();
+            for (Edge* edge : _graph->out_edges(node)) {
+                DataNode* output = (DataNode*) edge->dest();
+                string space = output->label();
 
                 auto iter = _space_map.find(space);
                 if (iter != _space_map.end()) {
-                    unsigned index = iter->second;
-                    cerr << "MemAllocVisitor: marked entry " << index << " as inactive for space '" << space << "'\n";
-                    _entries[index].active = false;
+                    bool active = false;
+                    vector<string> prod_names = _producers[output->label()];
+                    for (unsigned i = 0; i < prod_names.size() && !active; i++) {
+                        active = (prod_names[i] != node->label() && !_visited[prod_names[i]]);
+                    }
+                    if (!active) {
+                        unsigned index = iter->second;
+                        cerr << "MemAllocVisitor: marked entry " << index << " as inactive for space '" << space << "'\n";
+                        _entries[index].active = active;
+                    }
                 }
             }
+            _visited[node->label()] = true;
+            int stop =2;
         }
 
         friend ostream& operator<<(ostream& os, const MemAllocVisitor& alloc) {
