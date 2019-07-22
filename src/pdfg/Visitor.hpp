@@ -1197,10 +1197,14 @@ namespace pdfg {
         bool resized;
     };
 
+    bool MemTableCommpare(MemTableEntry& lhs, MemTableEntry& rhs) {
+        return (lhs.size < rhs.size);
+    }
+
     struct MemAllocVisitor : public ReverseVisitor {
     protected:
         map<string, Const> _constants;
-        unordered_map<string, unsigned> _space_map;
+        map<string, unsigned> _space_map;
         vector<MemTableEntry> _entries;
         unordered_map<string, vector<string> > _producers;
         unordered_map<string, bool> _visited;
@@ -1266,22 +1270,6 @@ namespace pdfg {
             return index;
         }
 
-    public:
-        explicit MemAllocVisitor(const map<string, Const>& constants) : _constants(constants) {
-        }
-
-        map<string, Const> constants() const {
-            return _constants;
-        }
-
-        unordered_map<string, unsigned> spaces() const {
-            return _space_map;
-        }
-
-        vector<MemTableEntry> entries() const {
-            return _entries;
-        }
-
         void process(DataNode* node) {
             bool isTemp = _graph->isTemp(node);
             //cerr << "MemAllocVisitor: Node '" << node->label() << "' " << (isTemp ? "IS" : "NOT") << " temporary.\n";
@@ -1303,13 +1291,31 @@ namespace pdfg {
                     cerr << "MemAllocVisitor: assigned entry " << index << " to '"
                          << space.name() << "' (" << expr << ")\n";
                     _space_map[space.name()] = index;
+
+                    node->attr("mem_table_entry", to_string(index));
+                    node->attr("mem_table_size", to_string(_entries[index].size));
                 }
             }
         }
 
+    public:
+        explicit MemAllocVisitor(const map<string, Const>& constants) : _constants(constants) {
+        }
+
+        map<string, Const> constants() const {
+            return _constants;
+        }
+
+        map<string, unsigned> spaces() const {
+            return _space_map;
+        }
+
+        vector<MemTableEntry> entries() const {
+            return _entries;
+        }
+
         void enter(CompNode* node) override {
             cerr << "MemAllocVisitor: enter '" << node->label() << "'\n";
-            //_producers.clear();
             for (Edge* in : _graph->in_edges(node)) {
                 DataNode* input = (DataNode*) in->source();
                 for (Edge* prod :  _graph->in_edges(input)) {
@@ -1318,14 +1324,12 @@ namespace pdfg {
             }
 
             for (Edge* out : _graph->out_edges(node)) {
-                DataNode* output = (DataNode *) out->dest();
-                vector<string> prod_names = _producers[output->label()];
-                // Process data nodes produced by this comp node.
-                //if (std::find(prod_names.begin(), prod_names.end(), node->label()) != prod_names.end()) {
-                    process(output);
-                //}
+                process((DataNode *) out->dest());
             }
-            int stop =1;
+
+            for (Edge* in : _graph->in_edges(node)) {
+                process((DataNode*) in->source());
+            }
         }
 
         virtual void exit(CompNode* node) {
@@ -1349,7 +1353,6 @@ namespace pdfg {
                 }
             }
             _visited[node->label()] = true;
-            int stop =2;
         }
 
         friend ostream& operator<<(ostream& os, const MemAllocVisitor& alloc) {
