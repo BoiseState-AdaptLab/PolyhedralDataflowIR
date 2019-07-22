@@ -286,7 +286,7 @@ namespace pdfg {
         bool is_scalar() const {
             ostringstream os;
             os << *_size;
-            return Strings::isNumber(os.str());
+            return Strings::isNumber(os.str()) && stoi(os.str()) < 2;
         }
 
         friend ostream& operator<<(ostream& out, DataNode& node) {

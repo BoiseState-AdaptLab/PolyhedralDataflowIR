@@ -297,6 +297,14 @@ namespace pdfg {
                 // Temporary Data
                 ostringstream os;
                 os << _indent;
+
+                string entry_id = node->attr("mem_table_entry");
+                if (!entry_id.empty()) {
+                    unsigned size = unstring<unsigned>(node->attr("mem_table_size"));
+                    node->size(new Int(size));
+                    label = entry_id;
+                }
+
                 if (node->is_scalar()) {
                     os << node->datatype() << ' ' << label;
                     if (!defval.empty()) {
@@ -329,7 +337,9 @@ namespace pdfg {
                         }
                         os << "*sizeof(" << node->datatype() << "));";
                     }
-                    _frees.push_back(node->label());
+                    if (std::find(_frees.begin(), _frees.end(), label) == _frees.end()) {
+                        _frees.push_back(label);
+                    }
                 } else {
                     if (node->alloc() == STATIC) {
                         os << "static ";
@@ -337,8 +347,12 @@ namespace pdfg {
                     os << node->datatype() << ' ' << label << '['
                        << *node->size() << "] = {" << defval << "};";
                 }
+
                 string line = os.str();
-                _allocs.push_back(line);
+                if (std::find(_allocs.begin(), _allocs.end(), line) == _allocs.end()) {
+                    _allocs.push_back(line);
+                }
+
                 if (node->alloc() == DYNAMIC && !defval.empty() && defval != "0") {
                     os.str(_indent);
                     os << "arrinit(" << label << ',' << defval << ',' << *node->size() << ");";
@@ -593,22 +607,31 @@ namespace pdfg {
 
             Space space = getSpace(sname);
             Tuple tuple = space.iterators();
-            unsigned size = tuple.size();
+            unsigned niters = tuple.size();
 
             // TODO: Come back here to resolve interchange issue!
             if (comp->interchanged()) {
                 int stop=1;
             }
 
+            // Get the data node for this space.
+            DataNode* dnode = (DataNode*) _graph->get(sname);
+            if (dnode) {
+                string entry_id = dnode->attr("mem_table_entry");
+                if (!entry_id.empty()) {
+                    sname = entry_id;
+                }
+            }
+
             ostringstream os;
-            if (size < 1) {
+            if (niters < 1) {
                 os << sname;
             } else if (tuple.at(0).type() != 'N' && access->refchar() != '[') {
                 os << sname << '[';
-                if (size > 1) {
-                    os << "offset" << size << '(';
+                if (niters > 1) {
+                    os << "offset" << niters << '(';
                 }
-                for (unsigned i = 0; i < size; i++) {
+                for (unsigned i = 0; i < niters; i++) {
                     string iter = tuple.at(i).text();
                     os << '(' << iter << ')';
                     auto offset = offsets.find(iter);
@@ -618,13 +641,13 @@ namespace pdfg {
                         }
                         os << offset->second;
                     }
-                    if (size > 1) {
+                    if (niters > 1) {
                         os << ',';
                     }
                 }
-                if (size > 1) {
+                if (niters > 1) {
                     vector<Iter> subs(tuple.begin() + 1, tuple.end());
-                    string subsize = stringify<Math>(space.slice(1, size - 1).size());
+                    string subsize = stringify<Math>(space.slice(1, niters - 1).size());
                     subsize = Strings::fixParens(subsize);   // Remove redundant parens...
                     os << Strings::replace(subsize, "*", ",") << ')';
                 }
@@ -659,6 +682,7 @@ namespace pdfg {
         vector<string> _header;
         vector<string> _params;
         vector<string> _body;
+
         vector<string> _allocs;
         vector<string> _frees;
 
@@ -1291,9 +1315,6 @@ namespace pdfg {
                     cerr << "MemAllocVisitor: assigned entry " << index << " to '"
                          << space.name() << "' (" << expr << ")\n";
                     _space_map[space.name()] = index;
-
-                    node->attr("mem_table_entry", to_string(index));
-                    node->attr("mem_table_size", to_string(_entries[index].size));
                 }
             }
         }
@@ -1353,6 +1374,17 @@ namespace pdfg {
                 }
             }
             _visited[node->label()] = true;
+        }
+
+        void finish(FlowGraph* graph) override {
+            for (const auto& iter : _space_map) {
+                string space = iter.first;
+                Node* node = graph->get(space);
+                unsigned index = iter.second;
+                unsigned size = _entries[index].size;
+                node->attr("mem_table_entry", ((size > 1) ? "array" : "scalar") + to_string(index));
+                node->attr("mem_table_size", to_string(size));
+            }
         }
 
         friend ostream& operator<<(ostream& os, const MemAllocVisitor& alloc) {
