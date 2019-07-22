@@ -3270,7 +3270,7 @@ namespace pdfg {
                 cpath = Strings::replace(cpath, ".o", ".c");
             }
 
-            //reschedule(name);       // Run scheduling pass if needed.
+            reschedule(name);       // Run scheduling pass if needed.
             //data_reduce(name);     // Run data redux pass if needed.
             //mem_alloc(name);       // Run memory allocation pass if needed.
 
@@ -3278,7 +3278,10 @@ namespace pdfg {
             cgen.ompSchedule(ompsched);
 
             for (const auto& iter : _consts) {
-                cgen.define(iter.first, to_string(iter.second.val()));
+                int val = iter.second.val();
+                if (val != 0) {
+                    cgen.define(iter.first, to_string(val));
+                }
             }
 
             if (name.empty()) {

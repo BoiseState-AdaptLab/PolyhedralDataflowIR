@@ -1446,7 +1446,7 @@ namespace pdfg {
 
             if (!shared.empty()) {
                 vector<char> par_types(shared.size(), 'N');     // N=None, P=Parallel (Loop), S=SIMD
-                //par_types[0] = 'P';
+                //par_types[0] = 'P';                           // Parallelizing outer loop does not always validate...
                 par_types[par_types.size()-1] = 'S';
                 string par_flags = Strings::str<char>(par_types).substr(1);
                 node->attr("parallel", par_flags.substr(0, par_flags.size() - 1));
