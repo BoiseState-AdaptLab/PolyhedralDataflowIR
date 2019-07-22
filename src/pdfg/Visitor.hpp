@@ -1405,6 +1405,19 @@ namespace pdfg {
             return os;
         }
     };
+
+    struct ParallelVisitor : public DFGVisitor {
+    public:
+        explicit ParallelVisitor() {}
+
+        void enter(CompNode* node) override {
+            cerr << "ParallelVisitor: enter '" << node->label() << "'\n";
+            Digraph* ig = node->iter_graph();
+            int stop =1 ;
+        }
+
+    protected:
+    };
 }
 
 #endif  // _VISITOR_H_

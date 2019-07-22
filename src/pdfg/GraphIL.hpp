@@ -2908,7 +2908,7 @@ namespace pdfg {
         void newGraph(const string& name) {
             _flowGraph = FlowGraph(name);
             _graphs[name] = _flowGraph;
-            _scheduled = _reduced = _allocated = false;
+            _scheduled = _reduced = _allocated = _parallelized = false;
         }
 
         void align_iters(bool align = true) {
@@ -3277,13 +3277,6 @@ namespace pdfg {
             CodeGenVisitor cgen(cpath, lang); //, _iters.size());
             cgen.ompSchedule(ompsched);
 
-            // TODO: Replace this with code that calculates these!
-//            if (_flowGraph.name().find("euler") != string::npos) {
-//                cgen.add_size("W_ave", 65536);
-//                cgen.add_size("W_ave_f_d1", 524288);
-//                cgen.add_size("W_ave_f_d2", 524288);
-//            }
-
             for (const auto& iter : _consts) {
                 cgen.define(iter.first, to_string(iter.second.val()));
             }
@@ -3362,8 +3355,20 @@ namespace pdfg {
                 } else {
                     allocator.walk(&_graphs[name]);
                 }
-                cerr << allocator << endl;
+                //cerr << allocator << endl;
                 _allocated = true;
+            }
+        }
+
+        void parallelize(const string& name = "") {
+            if (!_parallelized) {
+                ParallelVisitor visitor;
+                if (name.empty()) {
+                    visitor.walk(&_flowGraph);
+                } else {
+                    visitor.walk(&_graphs[name]);
+                }
+                _parallelized = true;
             }
         }
 
@@ -3668,6 +3673,7 @@ namespace pdfg {
         bool _scheduled;
         bool _reduced;
         bool _allocated;
+        bool _parallelized;
 
         string _indexType;
         string _dataType;
@@ -3745,6 +3751,10 @@ namespace pdfg {
 
     void mem_alloc(const string& name = "") {
         GraphMaker::get().mem_alloc(name);
+    }
+
+    void parallelize(const string& name = "") {
+        GraphMaker::get().parallelize(name);
     }
 
     string to_dot(const string& name = "") {
