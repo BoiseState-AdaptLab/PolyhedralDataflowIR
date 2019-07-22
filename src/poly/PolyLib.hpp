@@ -12,25 +12,46 @@ using omglib::OmegaLib;
 namespace poly {
     struct PolyLib {
     protected:
-        const int _max_iters = 10;      // TODO: Actually calculate this from the relation...
+        const int _max_iters = 15;      // TODO: Actually calculate this from the relation...
 
         map<string, string> _macros;
 
         IEGenLib _iegen;
         OmegaLib _omega;
 
-        void addPragma(const string& schedule, const string& privates, string& code) {
-            if (code.find("for(") != string::npos) {
-                string pragma = "#pragma omp ";
-                if (schedule.find("simd") != string::npos) {
-                    pragma += schedule;
-                } else {
-                    pragma += "parallel for schedule(" + schedule + ")";
-                    if (!privates.empty()) {
-                        pragma += " private(" + privates + ")";
-                    }
+        string buildPragma(const string& partype, const string& privates) {
+            string pragma = "#pragma omp ";
+            if (partype[0] == 'S') {
+                pragma += "simd";
+            } else {
+                pragma += "parallel for schedule(auto)";
+                if (!privates.empty()) {
+                    pragma += " private(" + privates + ")";
                 }
-                code = pragma + "\n" + code;
+            }
+            return pragma;
+        }
+
+        void addPragmas(const vector<string>& parTypes, const string& privates, string& code) {
+            string indent = "";
+            size_t forPos = code.find("for(");
+            for (const string& parType : parTypes) {
+                if (!parType.empty() && forPos != string::npos) {
+                    if (parType[0] != 'N') {
+                        size_t iterPos = code.find('=', forPos + 4);
+                        string loopIter = code.substr(forPos, iterPos-forPos-1);
+                        string pragma = buildPragma(parType, privates);
+                        // Insert the pragma while the loop iterator appears...
+                        size_t insPos = forPos;
+                        while (insPos != string::npos) {
+                            code.insert(insPos, pragma + "\n" + indent);
+                            insPos = code.find(loopIter, insPos + pragma.size() + indent.size() + loopIter.size() + 1);
+                        }
+                        forPos += pragma.size() + indent.size() + 1;
+                    }
+                    forPos = code.find("for(", forPos + 1);
+                }
+                indent += "  ";
             }
         }
 
@@ -179,7 +200,7 @@ namespace poly {
 
         string codegen(vector<string>& names, map<string, vector<string> >& statements,
                        map<string, vector<string> >& guards, map<string, vector<string> >& schedules,
-                       const string& ompSched = "", const string& iterType = "", bool defineMacros = false) {
+                       const vector<string>& parTypes = {}, const string& iterType = "", bool defineMacros = false) {
             string code = codegen(names, schedules);
             if (code.find("ERROR") == string::npos) {
                 string outIters = out_iterators(code);
@@ -187,8 +208,8 @@ namespace poly {
                 // Replace 'intFloor' with 'floord' to maintain compatibility w/ ISCC generated code.
                 code = Strings::replace(code, "intFloor", "floord", true);
 
-                if (!ompSched.empty()) {
-                    addPragma(ompSched, outIters, code);
+                if (!parTypes.empty()) {
+                    addPragmas(parTypes, outIters, code);
                 }
 
                 if (!iterType.empty() && !outIters.empty()) {

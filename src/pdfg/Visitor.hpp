@@ -376,7 +376,20 @@ namespace pdfg {
                 addMappings(child);
             }
 
-            string code = _poly.codegen(names, statements, guards, schedules, _ompsched, "", true);
+            // Use parallel flags if node has them, otherwise use OMP schedule for backward compatibility.
+            string parflags = node->attr("parallel");
+            vector<string> partypes;
+            if (!parflags.empty()) {
+                partypes = Strings::split(parflags, ',');
+            } else if (!_ompsched.empty()) {
+                if (_ompsched.find("simd") != string::npos) {
+                    partypes.push_back("S");
+                } else {
+                    partypes.push_back("P");
+                }
+            }
+
+            string code = _poly.codegen(names, statements, guards, schedules, partypes, "", true);
             code = "// " + node->label() + "\n" + code;
             _body.push_back(code);
         }
@@ -806,8 +819,6 @@ namespace pdfg {
                 Tuple tuple;
                 map<string, Tuple> schedules;
 
-                cerr << igraph->to_dot() << endl;
-
                 // 1) Traverse the iteration graph
                 visit(igraph, igraph->root(), tuple, schedules);
 
@@ -990,7 +1001,7 @@ namespace pdfg {
                     applyShift(schedule, shift);
                 }
 
-                cerr << stmt << " := " << schedule << endl;
+                cerr << "ScheduleVisitor: " << stmt << " := " << schedule << endl;
                 //schedules.push_back(schedule);
                 schedules[stmt.text()] = schedule;
             } else {                    // Visit children
@@ -1295,9 +1306,7 @@ namespace pdfg {
         }
 
         void process(DataNode* node) {
-            bool isTemp = _graph->isTemp(node);
-            //cerr << "MemAllocVisitor: Node '" << node->label() << "' " << (isTemp ? "IS" : "NOT") << " temporary.\n";
-            if (isTemp) {
+            if (_graph->isTemp(node)) {
                 // Get access and space from data node.
                 Access access = Access::from_str(node->expr()->text());
                 Space space = getSpace(access.space());
@@ -1412,11 +1421,39 @@ namespace pdfg {
 
         void enter(CompNode* node) override {
             cerr << "ParallelVisitor: enter '" << node->label() << "'\n";
-            Digraph* ig = node->iter_graph();
-            int stop =1 ;
+//            Digraph* ig = node->iter_graph();
+//            cerr << ig->to_dot() << endl;
+            Comp* comp = node->comp();
+            Tuple schedule = comp->schedules()[0].dest().iterators();
+            Tuple shared;
+
+            for (Iter iter : schedule) {
+                if (!iter.is_int()) {
+                    bool is_shared = true;
+                    for (CompNode *child : node->children()) {
+                        Tuple child_sched = child->comp()->schedules()[0].dest().iterators();
+                        bool has_iter = false;
+                        for (unsigned i = 0; i < child_sched.size() && !has_iter; i++) {
+                            has_iter = child_sched[i].text().find(iter.text()) != string::npos;
+                        }
+                        is_shared &= has_iter;
+                    }
+                    if (is_shared) {
+                        shared.push_back(iter);
+                    }
+                }
+            }
+
+            if (!shared.empty()) {
+                vector<char> par_types(shared.size(), 'N');     // N=None, P=Parallel (Loop), S=SIMD
+                //par_types[0] = 'P';
+                par_types[par_types.size()-1] = 'S';
+                string par_flags = Strings::str<char>(par_types).substr(1);
+                node->attr("parallel", par_flags.substr(0, par_flags.size() - 1));
+            }
         }
 
-    protected:
+    //protected:
     };
 }
 
