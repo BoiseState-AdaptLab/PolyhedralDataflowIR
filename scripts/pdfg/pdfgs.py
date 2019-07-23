@@ -598,7 +598,7 @@ class CSRToBSRGen(IEGenGraph):
         Tdense := {[i,j] -> [i,k,j]: 0 <= k < N_C && k = col(j)};
         Ttile := {[i,k,j] -> [ii,kk,i,k,j]: exists(ri,ck :0 <= ri < R && i = ii*R+ri && 0 <= ck < C && k = kk*C+ck)};
         #Itile := {[ii,kk,i,k,j]: 0 <= i < N_R && 0 <= k < N_C && index(i) <= j < index(i+1) && exists ri,ck :0 <= ri < R && i = ii*R+ri && 0 <= ck < C && k = kk*C+ck};
-        Texec := {[ii,kk,i,k,j] -> [ii,jj,i,k,j]: b_index(ii) <= jj < b_index(ii+1) && kk = b_col(jj) && b_index(i) <= NB};
+        Texec := {[ii,kk,i,k,j] -> [ii,jj,i,k,j]: b_index(ii) <= jj < b_c_index(ii+1) && kk = b_col(jj) && b_index(i) <= NB};
         Tcomp := {[ii,kk,i,k,j] -> [ii,kk,i,k,j]: k = col(j) && kk = k/C};
         Idense := Tdense * Icsr;
         Itile := Ttile * Idense;

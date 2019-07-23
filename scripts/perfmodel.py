@@ -61,10 +61,10 @@ def main():
             comp = node['space']
 
             # Get iteration space size to multiply by per iter FLOPs and IOPs.
-            is_size = '1'
-            pos = comp.find('{')
-            if pos >= 0:
-                is_size = parse_dom(comp[pos+1:comp.find('}', pos+1)].strip())
+            # is_size = '1'
+            # pos = comp.find('{')
+            # if pos >= 0:
+            #     is_size = parse_dom(comp[pos+1:comp.find('}', pos+1)].strip())
 
             fsize_out = '1'
             if 'fsize_out' in attrs:
@@ -84,7 +84,8 @@ def main():
             if 'fstreams_in' in attrs:
                 fstreams_in = attrs['fstreams_in']
 
-            flop_expr = '(' + is_size + ')*' + attrs['flops']
+            #flop_expr = '(' + is_size + ')*' + attrs['flops']
+            flop_expr = attrs['flops']
 
             data = {'Kernel': node['label'], 'FLOPs': eval(flop_expr), 'FLOPSize': flop_expr,
                     'ReadBytes': eval(fsize_in), 'ReadSize': fsize_in,
