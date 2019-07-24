@@ -53,7 +53,50 @@ namespace pdfg {
     struct Expr;
     ostream& operator<<(ostream& os, const Expr& expr);
 
-    struct Node {
+    struct GraphItem {
+    public:
+        virtual string attr(const string& key) const {
+            string val;
+            auto iter = _attrs.find(key);
+            if (iter != _attrs.end()) {
+                val = iter->second;
+            }
+            return val;
+        }
+
+        virtual void attr(const string& key, const string& val) {
+            _attrs[key] = val;
+        }
+
+        virtual string label() const {
+            return _label;
+        }
+
+        virtual void label(const string& label) {
+            _label = label;
+        }
+
+        virtual void print_attrs(ostream& os) {
+            if (_attrs.size() > 2) {
+                os << ", \"attrs\": { ";
+                unsigned n = 0, nattrs = _attrs.size();
+                for (const auto &iter : _attrs) {
+                    os << "\"" << iter.first << "\": \"" << iter.second << "\"";
+                    if (n < nattrs - 1) {
+                        os << ", ";
+                    }
+                    n += 1;
+                }
+                os << " }";
+            }
+        }
+
+    protected:
+        string _label;
+        map<string, string> _attrs;
+    };
+
+    struct Node : public GraphItem {
     public:
         //explicit Node(const string& space, const string& label = "") {
         explicit Node(Expr* expr, const string& label = "", initializer_list<string> attrs={}) {
@@ -64,28 +107,15 @@ namespace pdfg {
             delete _expr;
         }
 
-        string attr(const string& key) const {
-            string val;
-            auto iter = _attrs.find(key);
-            if (iter != _attrs.end()) {
-                val = iter->second;
-            }
-            return val;
-        }
-
-        void attr(const string& key, const string& val) {
-            _attrs[key] = val;
-        }
-
-        const string& label() const {
-            return _label;
-        }
-
         Expr* expr() const {
             return _expr;
         }
 
-        void label(const string& label) {
+        string label() const override {
+            return _label;
+        }
+
+        void label(const string& label) override {
             size_t pos = label.find('(');
             if (pos == string::npos) {
                 pos = label.find('[');
@@ -146,31 +176,15 @@ namespace pdfg {
             _type = 'N';
         }
 
-        void print_attrs(ostream& os) {
-            if (_attrs.size() > 2) {
-                os << ", \"attrs\": { ";
-                unsigned n = 0, nattrs = _attrs.size();
-                for (const auto &iter : _attrs) {
-                    os << "\"" << iter.first << "\": \"" << iter.second << "\"";
-                    if (n < nattrs - 1) {
-                        os << ", ";
-                    }
-                    n += 1;
-                }
-                os << " }";
-            }
-        }
-
         Expr* _expr;
-        string _label;
         char _type;
-        map<string, string> _attrs;
     };
 
-    struct Edge {
+    struct Edge : public GraphItem {
     public:
         explicit Edge(Node* source, Node* dest, const string& label = "") :
-                _source(source), _dest(dest), _label(label) {
+                _source(source), _dest(dest) {
+            _label = label;
         }
 
         Node* source() const {
@@ -181,10 +195,6 @@ namespace pdfg {
             return _dest;
         }
 
-        const string& label() const {
-            return _label;
-        }
-
         void source(Node* source) {
             _source = source;
         }
@@ -193,23 +203,20 @@ namespace pdfg {
             _dest = dest;
         }
 
-        void label(const string& label) {
-            _label = label;
-        }
-
-        friend ostream& operator<<(ostream& out, Edge& edge) {
-            out << "{ ";
+        friend ostream& operator<<(ostream& os, Edge& edge) {
+            os << "{ ";
             if (!edge._label.empty()) {
-                out << "\"label\": \"" << edge._label << "\", ";
+                os << "\"label\": \"" << edge._label << "\", ";
             }
-            out << "\"src\": \"" << edge._source->label()  << "\", \"dest\": \"" << edge._dest->label() << "\" }";
-            return out;
+            os << "\"src\": \"" << edge._source->label()  << "\", \"dest\": \"" << edge._dest->label() << "\" ";
+            edge.print_attrs(os);
+            os << "}";
+            return os;
         }
 
     protected:
         Node* _source;
         Node* _dest;
-        string _label;
     };
 
     struct DataNode : public Node {
@@ -326,6 +333,10 @@ namespace pdfg {
             }
             delete _igraph;
             delete _shifts;
+        }
+
+        static vector<string> mathFunctions() {
+            return {"exp", "pow", "log", "log10", "sqrt", "sin", "cos", "tan"};
         }
 
         Comp* comp() const {
@@ -497,7 +508,7 @@ namespace pdfg {
 
         unsigned flops() const {
             unsigned nflops = 0;
-            vector<string> funcs({"exp", "log", "sqrt", "sin", "cos", "tan"});
+            vector<string> funcs(mathFunctions());
 
             Comp* comp = (Comp*) _expr;
             for (const auto& stmt : comp->statements()) {
@@ -575,12 +586,13 @@ namespace pdfg {
         }
     };
 
-    struct FlowGraph {
+    struct FlowGraph : public GraphItem {
     public:
         explicit FlowGraph(const string& name = "", const string& retType = "void", const string& retName = "",
                            const string& defVal = "", unsigned tileSize = 0, bool ignoreCycles = true) :
-                           _name(name), _returnType(retType), _returnName(retName), _indexType("unsigned"),
+                            _returnType(retType), _returnName(retName), _indexType("unsigned"),
                            _defaultVal(defVal), _tileSize(tileSize), _ignoreCycles(ignoreCycles) {
+            _label = name;
             _nodes.reserve(100);
             _edges.reserve(100);
             _alignIters = false;
@@ -596,7 +608,13 @@ namespace pdfg {
         }
 
         friend ostream& operator<<(ostream& os, FlowGraph& graph) {
-            os << "{ \"name\": \"" << graph._name << "\", \"tile_size\": " << graph._tileSize << ", \"nodes\": [\n";
+            os << "{ \"name\": \"" << graph._label << "\"";
+            if (graph._tileSize > 0) {
+                os << ", \"tile_size\": " << graph._tileSize;
+            }
+            graph.print_attrs(os);
+            os << ", \"nodes\": [\n";
+
             unsigned n = 0, size = graph._nodes.size();
             for (Node* node : graph._nodes) {
                 if (node->is_data()) {
@@ -610,6 +628,7 @@ namespace pdfg {
                 os << "\n";
                 n++;
             }
+
             os << "], \"edges\": [\n";
             n = 0, size = graph._edges.size();
             for (Edge* edge : graph._edges) {
@@ -621,6 +640,7 @@ namespace pdfg {
                 n++;
             }
             os << "] }";
+
             return os;
         }
 
@@ -740,7 +760,7 @@ namespace pdfg {
         }
 
         const string& name() const {
-            return _name;
+            return _label;
         }
 
         const string& indexType() const {
@@ -1189,7 +1209,6 @@ namespace pdfg {
 //            _boundCounts[key] += 1;
 //        }
 
-        string _name;
         string _indexType;
         string _returnName;
         string _returnType;

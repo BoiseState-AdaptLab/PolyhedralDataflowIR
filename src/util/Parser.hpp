@@ -17,16 +17,31 @@ namespace util {
         virtual ~Parser() {}
 
         // Evaluates an integer expression using Shunting-Yard algorithm.
-        int eval(const string &expr) {
+        int eval(const string& expression, const map<string, int>& consts = {}) {
+            string expr = expression;
+            if (!consts.empty()) {
+                expr = replaceConsts(expr, consts);
+            }
+
             tokenize(expr);
+
             int status = infix2postfix();
             if (status > 0) {
                 return compute();
             }
+
             return status;
         }
 
     private:
+        string replaceConsts(const string& expr, const map<string, int>& consts) {
+            string result = expr;
+            for (const auto& iter : consts) {
+                result = Strings::replace(result, iter.first, to_string(iter.second), true);
+            }
+            return result;
+        }
+
         void tokenize(const string &expr) {
             _tokens.clear();
             string number;

@@ -176,8 +176,8 @@ namespace pdfg {
 
     struct CodeGenVisitor: public DFGVisitor {
     public:
-        explicit CodeGenVisitor(const string &path = "", const string &lang = "C", bool profile = false,
-                unsigned niters = 15) : _path(path), _niters(niters), _lang(lang), _profile(profile) {
+        explicit CodeGenVisitor(const string &path = "", const string &lang = "C", unsigned niters = 15) :
+                                _path(path), _niters(niters), _lang(lang) {
             init();
         }
 
@@ -215,7 +215,7 @@ namespace pdfg {
         }
 
         void define(const string &name, const string &defn = "") {
-            if (!Strings::in(_mathFunctions, name.substr(0, name.find('(')), true)) {
+            if (std::find(_mathFuncs.begin(), _mathFuncs.end(), name.substr(0, name.find('('))) == _mathFuncs.end()) {
                 _defines.push_back(make_pair<string, string>(string(name), string(defn)));
             }
         }
@@ -448,12 +448,10 @@ namespace pdfg {
 
             // Add includes...
             include({"stdio", "stdlib", "stdint", "math", "string"});
-            if (_profile) {
-                include("sys/time");
-            }
 
             _indent = "    ";
             //_ompsched = "runtime";
+            _mathFuncs = CompNode::mathFunctions();
         }
 
         void addComment() {
@@ -674,10 +672,7 @@ namespace pdfg {
             return os.str();
         }
 
-        bool _profile;
         unsigned _niters;
-
-        const string _mathFunctions = "sqrt|log|log10|exp|pow|sin|cos|tan";
 
         string _indent;
         string _lang;
@@ -695,7 +690,7 @@ namespace pdfg {
         vector<string> _header;
         vector<string> _params;
         vector<string> _body;
-
+        vector<string> _mathFuncs;
         vector<string> _allocs;
         vector<string> _frees;
 
@@ -704,8 +699,8 @@ namespace pdfg {
 
     struct CudaGenVisitor: public CodeGenVisitor {
     public:
-        explicit CudaGenVisitor(const string &path = "", const string &lang = "CU", bool profile = false,
-                                unsigned niters = 15) : CodeGenVisitor(path, lang, profile, niters) {
+        explicit CudaGenVisitor(const string &path = "", const string &lang = "CU", unsigned niters = 15) :
+                 CodeGenVisitor(path, lang, niters) {
             init();
         }
 
@@ -718,7 +713,13 @@ namespace pdfg {
 
     struct PerfModelVisitor : public DFGVisitor {
     public:
-        explicit PerfModelVisitor() {}
+        explicit PerfModelVisitor(const map<string, Const>& constants = {}) {
+            _totalFLOPs = _totalIOPs = _totalFStreamsIn = _totalIStreamsIn = _totalFStreamsOut = _totalIStreamsOut =
+                _totalISizeIn = _totalFSizeIn = _totalISizeOut = _totalFSizeOut = _totalBytes = 0;
+            for (const auto& iter : constants) {
+                _constants[iter.first] = iter.second.val();
+            }
+        }
 
         /// For each computation node, compute the amount of data read (loaded), written (stored), the number
         /// of input and output streams, the number of int ops (IOPs), floating point ops (FLOPs).
@@ -728,10 +729,6 @@ namespace pdfg {
         void enter(CompNode* node) override {
             unsigned inStreamsI = 0, outStreamsI = 0, inStreamsF = 0, outStreamsF = 0, nIOPs = 0, nFLOPs = 0;
             Comp* comp = node->comp();
-
-//            if (node->label() == "smul_d1") {
-//                int stop = 1;
-//            }
 
             unsigned nReadsF = 0;
             unsigned nReadsI = 0;
@@ -815,7 +812,7 @@ namespace pdfg {
             node = nodes[0];
             nIOPs = 1;                  // TODO: count int ops later (maybe), but assume at least one
             nFLOPs = node->flops();     // Count FLOPs...
-            string flopsExpr = to_string(nFLOPs); + "*(" + isSizeExpr + ")";
+            string flopsExpr = to_string(nFLOPs) + "*(" + isSizeExpr + ")";
             string iopsExpr = to_string(nIOPs) + "*(" + isSizeExpr + ")";
 
             node->attr("isize_in", inSizeExprI);
@@ -830,7 +827,86 @@ namespace pdfg {
 
             node->attr("flops", flopsExpr);
             node->attr("iops", iopsExpr);
+
+            _totalIStreamsIn += inStreamsI;
+            _totalFStreamsIn += inStreamsF;
+            _totalIStreamsOut += outStreamsI;
+            _totalFStreamsOut += outStreamsF;
+
+            _totalFLOPs += Parser().eval(flopsExpr, _constants);
+            _totalIOPs += Parser().eval(iopsExpr, _constants);
+            _totalISizeIn += Parser().eval(inSizeExprI, _constants);
+            _totalFSizeIn += Parser().eval(inSizeExprF, _constants);
+            _totalISizeOut += Parser().eval(outSizeExprI, _constants);
+            _totalFSizeOut += Parser().eval(outSizeExprF, _constants);
         }
+
+        void enter(DataNode* node) override {
+            unsigned nBytes = 0;
+            string sizeExpr;
+
+            // Only add intermediate nodes to total bytes allocated...
+            bool addBytes = (!_graph->isSource(node) && !_graph->isSink(node));
+
+            // Check for mem table entry, we do not want to count that allocation numerous times.
+            string entryID = node->attr("mem_table_entry");
+            if (entryID.empty()) {
+                // Count the amount of storage for each node.
+                string sizeExpr = Strings::fixParens(node->size()->text());
+                nBytes = Parser().eval(sizeExpr, _constants);
+            } else {
+                sizeExpr = node->attr("mem_table_size");
+                nBytes = stoi(sizeExpr);
+                addBytes &= (_counted.find(entryID) == _counted.end());
+                _counted[entryID] = true;
+            }
+
+            nBytes *= node->typesize();
+            node->attr("bytes", to_string(nBytes));
+            if (addBytes) {
+                _totalBytes += nBytes;
+            }
+        }
+
+        void finish(FlowGraph* graph) override {
+            graph->attr("flops", to_string(_totalFLOPs));
+            if (_totalIOPs > 0) {
+                graph->attr("iops", to_string(_totalIOPs));
+            }
+            if (_totalISizeIn > 0) {
+                graph->attr("isize_in", to_string(_totalISizeIn));
+            }
+            graph->attr("fsize_in", to_string(_totalFSizeIn));
+            if (_totalISizeOut > 0) {
+                graph->attr("isize_out", to_string(_totalISizeOut));
+            }
+            graph->attr("fsize_out", to_string(_totalFSizeOut));
+            if (_totalIStreamsIn > 0) {
+                graph->attr("istreams_in", to_string(_totalIStreamsIn));
+            }
+            graph->attr("fstreams_in", to_string(_totalFStreamsIn));
+            if (_totalIStreamsOut > 0) {
+                graph->attr("istreams_out", to_string(_totalIStreamsOut));
+            }
+            graph->attr("fstreams_out", to_string(_totalFStreamsOut));
+            graph->attr("total_bytes", to_string(_totalBytes));
+        }
+
+    protected:
+        map<string, int> _constants;
+        map<string, bool> _counted;
+
+        unsigned _totalFLOPs;
+        unsigned _totalIOPs;
+        unsigned _totalFStreamsIn;
+        unsigned _totalIStreamsIn;
+        unsigned _totalFStreamsOut;
+        unsigned _totalIStreamsOut;
+        unsigned _totalISizeIn;
+        unsigned _totalFSizeIn;
+        unsigned _totalISizeOut;
+        unsigned _totalFSizeOut;
+        unsigned _totalBytes;
     };
 
     struct ScheduleVisitor : public DFGVisitor {
@@ -1272,19 +1348,11 @@ namespace pdfg {
 
     struct MemAllocVisitor : public ReverseVisitor {
     protected:
-        map<string, Const> _constants;
+        map<string, int> _constants;
         map<string, unsigned> _space_map;
         vector<MemTableEntry> _entries;
         unordered_map<string, vector<string> > _producers;
         unordered_map<string, bool> _visited;
-
-        string replaceConsts(const string& expr) const {
-            string result = expr;
-            for (const auto& iter : _constants) {
-                result = Strings::replace(result, iter.first, to_string(iter.second.val()), true);
-            }
-            return result;
-        }
 
         unsigned find(const unsigned& size) {
             // 1) 1st pass: search for a (non-live) entry of exact size.
@@ -1350,7 +1418,7 @@ namespace pdfg {
                     // Calculate the size from the size expression.
                     unsigned size = 1;
                     if (!expr.empty()) {
-                        size = Parser().eval(replaceConsts(expr));
+                        size = Parser().eval(expr, _constants);
                     }
 
                     // Find a space of the proper size or get a new onee.
@@ -1363,11 +1431,10 @@ namespace pdfg {
         }
 
     public:
-        explicit MemAllocVisitor(const map<string, Const>& constants) : _constants(constants) {
-        }
-
-        map<string, Const> constants() const {
-            return _constants;
+        explicit MemAllocVisitor(const map<string, Const>& constants = {}) {
+            for (const auto& iter : constants) {
+                _constants[iter.first] = iter.second.val();
+            }
         }
 
         map<string, unsigned> spaces() const {

@@ -3318,7 +3318,7 @@ namespace pdfg {
         }
 
         void perfmodel(const string& name = "") {
-            PerfModelVisitor pmv;
+            PerfModelVisitor pmv(_consts);
             if (name.empty()) {
                 pmv.walk(&_flowGraph);
             } else {
