@@ -1,7 +1,7 @@
 #ifndef _LIKWID_HPP_
 #define _LIKWID_HPP_
 
-#ifdef LIKWID_PERFMON
+#ifdef LIKWID_PERF
 #include <likwid.h>
 #else
 #define LIKWID_MARKER_INIT

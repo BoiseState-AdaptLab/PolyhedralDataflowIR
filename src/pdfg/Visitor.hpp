@@ -702,6 +702,20 @@ namespace pdfg {
         PolyLib _poly;
     };
 
+    struct CudaGenVisitor: public CodeGenVisitor {
+    public:
+        explicit CudaGenVisitor(const string &path = "", const string &lang = "CU", bool profile = false,
+                                unsigned niters = 15) : CodeGenVisitor(path, lang, profile, niters) {
+            init();
+        }
+
+    protected:
+        void init() {
+            CodeGenVisitor::init();
+            include("cuda_runtime");
+        }
+    };
+
     struct PerfModelVisitor : public DFGVisitor {
     public:
         explicit PerfModelVisitor() {}
@@ -732,40 +746,48 @@ namespace pdfg {
                 nodes[i++] = child;
             }
 
+            unordered_map<string, bool> marked;
             for (i = 0; i < nodes.size(); i++) {
                 node = nodes[i];
-                map<string, Access *> reads = node->reads();
+                map<string, Access*> reads = node->reads();
                 for (const auto &itr : reads) {
                     Access *access = itr.second;
-                    DataNode *source = (DataNode *) _graph->get(access->space());
+                    string space = access->space();
+                    bool is_marked = (marked.find(space) != marked.end());
+                    DataNode *source = (DataNode *) _graph->get(space);
                     if (source->is_int()) {
                         nReadsI += 1;
-                        if (!source->is_scalar()) {
+                        if (!source->is_scalar() && !is_marked) {
                             inStreamsI += 1;
                         }
                     } else {
                         nReadsF += 1;
-                        if (!source->is_scalar()) {
+                        if (!source->is_scalar() && !is_marked) {
                             inStreamsF += 1;
                         }
                     }
+                    marked[space] = true;
                 }
 
-                map<string, Access *> writes = node->writes();
+                marked.clear();
+                map<string, Access*> writes = node->writes();
                 for (const auto &itr : writes) {
                     Access *access = itr.second;
-                    DataNode *dest = (DataNode *) _graph->get(access->space());
+                    string space = access->space();
+                    bool is_marked = (marked.find(space) != marked.end());
+                    DataNode *dest = (DataNode *) _graph->get(space);
                     if (dest->is_int()) {
                         nWritesI += 1;
-                        if (!dest->is_scalar()) {
+                        if (!dest->is_scalar() && !is_marked) {
                             outStreamsI += 1;
                         }
                     } else {
                         nWritesF += 1;
-                        if (!dest->is_scalar()) {
+                        if (!dest->is_scalar() && !is_marked) {
                             outStreamsF += 1;
                         }
                     }
+                    marked[space] = true;
                 }
             }
 
@@ -773,15 +795,27 @@ namespace pdfg {
             string floatSize = to_string(sizeof(double));
             string isSizeExpr = Strings::fixParens(comp->space().size().text());
 
-            string inSizeExprF = to_string(nReadsF) + "*" + floatSize + "*(" + isSizeExpr + ")";
-            string inSizeExprI = to_string(nReadsI) + "*" + intSize + "*(" + isSizeExpr + ")";
-            string outSizeExprF = to_string(nWritesF) + "*" + floatSize + "*(" + isSizeExpr + ")";
-            string outSizeExprI = to_string(nWritesI) + "*" + intSize + "*(" + isSizeExpr + ")";
+            string inSizeExprF = to_string(nReadsF);
+            if (nReadsF > 0) {
+                inSizeExprF += "*" + floatSize + "*(" + isSizeExpr + ")";
+            }
+            string inSizeExprI = to_string(nReadsI);
+            if (nReadsI > 0) {
+                inSizeExprI += "*" + intSize + "*(" + isSizeExpr + ")";
+            }
+            string outSizeExprF = to_string(nWritesF);
+            if (nWritesF > 0) {
+                outSizeExprF += "*" + floatSize + "*(" + isSizeExpr + ")";
+            }
+            string outSizeExprI = to_string(nWritesI);
+            if (nWritesI > 0) {
+                outSizeExprI += "*" + intSize + "*(" + isSizeExpr + ")";
+            }
 
             node = nodes[0];
             nIOPs = 1;                  // TODO: count int ops later (maybe), but assume at least one
             nFLOPs = node->flops();     // Count FLOPs...
-            string flopsExpr = to_string(nFLOPs) + "*(" + isSizeExpr + ")";
+            string flopsExpr = to_string(nFLOPs); + "*(" + isSizeExpr + ")";
             string iopsExpr = to_string(nIOPs) + "*(" + isSizeExpr + ")";
 
             node->attr("isize_in", inSizeExprI);

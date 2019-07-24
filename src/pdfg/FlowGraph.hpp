@@ -110,20 +110,7 @@ namespace pdfg {
             ss << *(node.expr());
             os << "{ \"label\": \"" << node._label << "\", \"space\": \""
                << Strings::replace(ss.str(), "\\\n", " ") << "\"";
-            if (node._attrs.size() > 2) {
-                os << ", \"attrs\": { ";
-                unsigned n = 0, nattrs = node._attrs.size();
-                for (const auto& iter : node._attrs) {
-                    //if (iter.first != "shape" && iter.first != "color") {
-                    os << "\"" << iter.first << "\": \"" << iter.second << "\"";
-                    if (n < nattrs - 1) {
-                        os << ", ";
-                    }
-                    n += 1;
-                    //}
-                }
-                os << " }";
-            }
+            node.print_attrs(os);
             os << " }";
             return os;
         }
@@ -157,6 +144,21 @@ namespace pdfg {
                 _attrs["shape"] = "";
             }
             _type = 'N';
+        }
+
+        void print_attrs(ostream& os) {
+            if (_attrs.size() > 2) {
+                os << ", \"attrs\": { ";
+                unsigned n = 0, nattrs = _attrs.size();
+                for (const auto &iter : _attrs) {
+                    os << "\"" << iter.first << "\": \"" << iter.second << "\"";
+                    if (n < nattrs - 1) {
+                        os << ", ";
+                    }
+                    n += 1;
+                }
+                os << " }";
+            }
         }
 
         Expr* _expr;
@@ -289,12 +291,14 @@ namespace pdfg {
             return Strings::isNumber(os.str()) && stoi(os.str()) < 2;
         }
 
-        friend ostream& operator<<(ostream& out, DataNode& node) {
-            out << "{ \"label\": \"" << node._label << "\", ";
-            out << "\"size\": " << node._size << ", ";
-            out << "\"defval\": " << node._defval << ", ";
-            out << "\"type\": \"" << node._datatype << "\" }";
-            return out;
+        friend ostream& operator<<(ostream& os, DataNode& node) {
+            os << "{ \"label\": \"" << node._label << "\", ";
+            os << "\"size\": \"" << *node._size << "\", ";
+            os << "\"defval\": \"" << node._defval << "\", ";
+            os << "\"type\": \"" << node._datatype << "\"";
+            node.print_attrs(os);
+            os << " }";
+            return os;
         }
 
     protected:
@@ -592,10 +596,14 @@ namespace pdfg {
         }
 
         friend ostream& operator<<(ostream& os, FlowGraph& graph) {
-            os << "{ \"name\": \"" << graph._name << "\", \"tilesize\": " << graph._tileSize << ", \"nodes\": [\n";
+            os << "{ \"name\": \"" << graph._name << "\", \"tile_size\": " << graph._tileSize << ", \"nodes\": [\n";
             unsigned n = 0, size = graph._nodes.size();
             for (Node* node : graph._nodes) {
-                os << *node;
+                if (node->is_data()) {
+                    os << *((DataNode*) node);
+                } else {
+                    os << *node;
+                }
                 if (n < size - 1) {
                     os << ',';
                 }
@@ -1033,7 +1041,6 @@ namespace pdfg {
                                 }
                             }
                         }
-
                     }
                     if (iprev != inext) {
                         break;
