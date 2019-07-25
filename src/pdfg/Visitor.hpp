@@ -1366,6 +1366,7 @@ namespace pdfg {
         virtual void finish(FlowGraph* graph) {
             // Restore best graph
             restore(_best->name());
+            _best->name(_graph->name());
         }
 
         FlowGraph* best() {
