@@ -188,7 +188,8 @@ namespace pdfg {
         void copy(const Node& other) {
             _label = other._label;
             _attrs = other._attrs;
-            _expr = other._expr;
+            //_expr = other._expr;
+            _expr = new Expr(other._expr->text(), other._expr->type());
             _type = other._type;
         }
 
@@ -1064,12 +1065,6 @@ namespace pdfg {
                 fuse(*first->comp(), *next->comp());
             }
         }
-
-//        void fuse(CompNode* first, vector<CompNode*>& others) {
-//            for (unsigned i = 0; i < others.size(); i++) {
-//                fuse(first, others[i]);
-//            }
-//        }
 
         void fuse(Comp& lhs, Comp& rhs) {
             CompNode* first = this->get(lhs);

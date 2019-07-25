@@ -1254,6 +1254,9 @@ namespace pdfg {
         return os;
     }
 
+    void checkpoint(const string& name);
+    void restore(const string& name);
+
     struct Space;
     void addSpace(const Space &space);
     Space getSpace(const string& name);
@@ -2895,6 +2898,239 @@ namespace pdfg {
 namespace pdfg {
     // GraphMaker Class
     class GraphMaker {
+    protected:
+        struct Checkpoint {
+            string name;
+            map<string, Iter> iters;
+            map<string, Func> funcs;
+            map<string, Const> consts;
+            map<string, Space> spaces;
+            map<string, Rel> relations;
+            map<string, vector<Access> > accesses;
+            map<string, vector<Macro> > macros;
+        };
+
+        bool _scheduled;
+        bool _reduced;
+        bool _allocated;
+        bool _parallelized;
+        bool _transformed;
+
+        string _indexType;
+        string _dataType;
+        string _graphName;
+
+        map<string, Iter> _iters;
+        map<string, Func> _funcs;
+        map<string, Const> _consts;
+        map<string, Space> _spaces;
+        map<string, Rel> _relations;
+        map<string, vector<Access> > _accessMap;
+        map<string, vector<Macro> > _macros;
+        map<string, Checkpoint> _checkpoints;
+        map<string, FlowGraph*> _graphs;
+
+        FlowGraph *_flowGraph;
+
+        GraphMaker() {
+            _indexType = "unsigned";
+            _dataType = "float";
+        }
+
+        virtual ~GraphMaker() {
+            for (auto& iter : _graphs) {
+                delete iter.second;
+            }
+        }
+
+        bool hasIter(const string& expr) {
+            for (const auto& keyval : _iters) {
+                if (expr.rfind(keyval.first, 0) == 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        void makeHierarchical(CompNode* compNode, DataNode* dataNode) {
+            vector<Access> accs = _accessMap[dataNode->label()];
+            vector<int> rdist = calcReuseDist(accs);
+            // Find first nonzero reuse distance
+            unsigned ipos = rdist.size();
+            for (unsigned i = 0; ipos == rdist.size() && i < ipos; i++) {
+                if (rdist[i] > 0) {
+                    ipos = i;
+                }
+            }
+
+            if (ipos < rdist.size()) {
+                unsigned unrollfac = rdist[ipos];
+                unsigned unrollcnt = 0;
+                //if (_flowGraph.isSource(dataNode)) {
+                // Peel!
+                Comp* comp = (Comp*) compNode->expr();
+                // Copy the computation space
+                Space cspace = comp->space();
+
+                string dname = dataNode->expr()->text();
+                Space dspace;  // Temporary space
+                dspace.name(dname + to_string(unrollcnt));
+
+                string cname = cspace.name();
+                Space pspace(cname + to_string(unrollcnt));
+                unrollcnt += 1;
+
+                Iter iter = cspace.iterators()[ipos];
+                vector<Constr> constraints = cspace.constraints();
+                vector<Constr> others;
+                unsigned cpos = constraints.size();
+
+                for (unsigned i = 0; i < constraints.size(); i++) {
+                    if (!constraints[i].contains(iter)) {
+                        others.push_back(constraints[i]);
+                    } else if (cpos == constraints.size()) {
+                        cpos = i;
+                    }
+                }
+
+                Constr lower = constraints[cpos];
+                Constr upper = constraints[cpos + 1];
+
+                Constr lpeel = (lower.lhs() == lower.rhs());
+                Constr upeel = (upper.lhs() == upper.rhs());
+
+                vector<Constr> newcons;
+                newcons.push_back(lpeel);
+                for (const auto& constr : others) {
+                    newcons.push_back(constr);
+                }
+                pspace.add(newcons);
+
+                Expr oldlb = lower.lhs();
+                Expr newlb;
+                if (oldlb.type() == 'N') {
+                    newlb = Int(unstring<unsigned>(oldlb.text()) + 1);
+                } else {
+                    newlb = oldlb + 1;
+                }
+                lower.lhs(newlb);
+                cspace.set(cpos, lower);
+
+                Expr oldub = upper.rhs();
+                Expr newub;
+                if (oldub.type() == 'N') {
+                    newub = Int(unstring<unsigned>(oldlb.text()) - 1);
+                } else {
+                    newub = oldub - 1;
+                }
+                upper.rhs(newub);
+                cspace.set(cpos+1, upper);
+
+                vector<Math> statements;
+                for (const auto& stmt : comp->statements()) {
+                    if (stmt.oper().find('=') != string::npos) {
+                        string expr = stmt.lhs().text();
+                        size_t pos = expr.find('(');
+                        if (pos == string::npos) {
+                            pos = expr.find('[');
+                        }
+                        if (pos != string::npos && expr.substr(0, pos) == dname) {
+                            for (const auto& acc : accs) {
+                                if (expr == stringify<Access>(acc)) {
+                                    Access newacc(dspace.name(), acc.tuple(), acc.refchar());
+                                    Math newstmt(newacc, stmt.rhs(), stmt.oper());
+                                    statements.push_back(newstmt);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // TODO: Do NOT instantiate new computations until new data spaces are allocated to avoid infinite recursion!
+                Comp pcomp = pspace + statements;
+                cerr << pcomp << endl;
+
+                // Make the next dspace (e.g., A1).
+                string rname = dspace.name();
+                dspace.name(dname + to_string(unrollcnt));
+                string wname = dspace.name();
+
+                cspace.name(cname + to_string(unrollcnt));
+                unrollcnt += 1;
+
+                updateStatements(accs, dname, rname, wname, comp->statements(), statements);
+
+                Comp ccomp = cspace + statements;
+                cerr << ccomp << endl;
+
+                // Last unroll!
+                Space espace(cname + to_string(unrollcnt));
+                newcons.clear();
+                newcons.push_back(upeel);
+                for (const auto& constr : others) {
+                    newcons.push_back(constr);
+                }
+                espace.add(newcons);
+
+                // Make the last dspace (e.g., A2).
+                rname = wname;
+                dspace.name(dname + to_string(unrollcnt));
+                wname = dspace.name();
+
+                updateStatements(accs, dname, rname, wname, comp->statements(), statements);
+
+                Comp ecomp = espace + statements;
+                cerr << ecomp << endl;
+                //}
+            } else {
+                cerr << "ERROR: Circular data reference in computation!\n";
+            }
+        }
+
+        void updateStatements(const vector<Access>& accs, const string& dname, const string& rname, const string& wname,
+                              const vector<Math>& inStmts, vector<Math>& outStmts) {
+            outStmts.clear();
+            for (const auto& stmt : inStmts) {
+                // Update statements...
+                string lhs = stmt.lhs().text();
+                string rhs = stmt.rhs().text();
+                for (const auto& acc : accs) {
+                    string accstr = stringify<Access>(acc);
+                    string read = Strings::replace(accstr, dname, rname, true);
+                    string write = Strings::replace(accstr, dname, wname, true);
+                    if (lhs == accstr) {
+                        lhs = write;
+                    }
+                    if (rhs.find(accstr) != string::npos) {
+                        rhs = Strings::replace(rhs, accstr, read);
+                    }
+                }
+                Math newstmt(Expr(lhs, stmt.lhs().type()), Expr(rhs, stmt.rhs().type()), stmt.oper());
+                outStmts.push_back(newstmt);
+            }
+        }
+
+        vector<int> calcReuseDist(const vector<Access>& accs) {
+            vector<int> rdist(accs[0].tuple().size(), 0);
+            for (const auto& acc : accs) {
+                vector<Expr> tuple = acc.tuple();
+                for (unsigned i = 0; i < tuple.size(); i++) {
+                    string num = Strings::number(tuple[i].text());
+                    int dist = num.empty() ? 0 : unstring<int>(num);
+                    dist -= rdist[i];
+                    rdist[i] = dist;
+                }
+            }
+            for (unsigned i = 0; i < rdist.size(); i++) {
+                if (rdist[i] < 0) {
+                    rdist[i] = -rdist[i];
+                }
+                rdist[i] += 1;
+            }
+            return rdist;
+        }
+
     public:
         static GraphMaker& get() {
             static GraphMaker instance; // Guaranteed to be destroyed.
@@ -2906,34 +3142,60 @@ namespace pdfg {
         void operator=(GraphMaker const&) = delete;     // Don't implement
 
         void newGraph(const string& name) {
-            _flowGraph = FlowGraph(name);
+            _flowGraph = new FlowGraph(name);
             _graphs[name] = _flowGraph;
+            _graphName = name;
             _scheduled = _reduced = _allocated = _parallelized = _transformed = false;
         }
 
         void align_iters(bool align = true) {
-            _flowGraph.alignIters(align);
+            _flowGraph->alignIters(align);
         }
 
         void fuse() {
-            _flowGraph.fuse();
+            _flowGraph->fuse();
         }
 
         void fuse(initializer_list<string> names) {
-            _flowGraph.fuse(names);
+            _flowGraph->fuse(names);
         }
 
         void fuse(Comp& comp1, Comp& comp2) {
-            CompNode* node1 = (CompNode*) _flowGraph.get(comp1);
-            _flowGraph.fuse(comp1, comp2);
+            CompNode* node1 = (CompNode*) _flowGraph->get(comp1);
+            _flowGraph->fuse(comp1, comp2);
         }
 
         void tile(initializer_list<string> iters, initializer_list<unsigned> sizes) {
-            _flowGraph.tile(iters, sizes);
+            _flowGraph->tile(iters, sizes);
+        }
+
+        void checkpoint(const string& name) {
+            Checkpoint checkpoint;
+            checkpoint.name = name;
+            checkpoint.iters = _iters;
+            checkpoint.funcs = _funcs;
+            checkpoint.consts = _consts;
+            checkpoint.spaces = _spaces;
+            checkpoint.relations = _relations;
+            checkpoint.accesses = _accessMap;
+            checkpoint.macros = _macros;
+            _checkpoints[name] = checkpoint;
+        }
+
+        void restore(const string& name) {
+            Checkpoint checkpoint = _checkpoints[name];
+            _graphName = checkpoint.name;
+            _iters = checkpoint.iters;
+            _funcs = checkpoint.funcs;
+            _consts = checkpoint.consts;
+            _spaces = checkpoint.spaces;
+            _relations = checkpoint.relations;
+            _accessMap = checkpoint.accesses;
+            _macros = checkpoint.macros;
         }
 
         Comp* getComp(const string& name) {
-            CompNode* node = (CompNode*) _flowGraph.get(name);
+            CompNode* node = (CompNode*) _flowGraph->get(name);
             if (node != nullptr) {
                 return (Comp*) node->expr();
             }
@@ -2958,15 +3220,15 @@ namespace pdfg {
             for (Expr& expr : domExprs) {
                 if (expr.is_func()) {
                     Expr* size = getSize(comp, Func(expr));
-                    if (_flowGraph.contains(expr.text())) {
-                        dataNode = (DataNode*) _flowGraph.get(expr.text());
+                    if (_flowGraph->contains(expr.text())) {
+                        dataNode = (DataNode*) _flowGraph->get(expr.text());
                         dataNode->size(size);
                     } else {
                         // Make integer typed data node and add incoming edge to stmt node.
-                        dataNode = (DataNode*) _flowGraph.add(new DataNode(&expr, expr.text(), size, _indexType));
+                        dataNode = (DataNode*) _flowGraph->add(new DataNode(&expr, expr.text(), size, _indexType));
                         cerr << "Added read node '" << dataNode->label() << "'" << endl;
                     }
-                    _flowGraph.add(dataNode, compNode);
+                    _flowGraph->add(dataNode, compNode);
                 }
             }
 
@@ -3068,17 +3330,17 @@ namespace pdfg {
                 Func func = Func(expr);
                 Expr* size = getSize(comp, func);
                 string type = getType(comp, func);
-                if (_flowGraph.contains(expr.text())) {
-                    dataNode = (DataNode*) _flowGraph.get(expr.text());
+                if (_flowGraph->contains(expr.text())) {
+                    dataNode = (DataNode*) _flowGraph->get(expr.text());
                     dataNode->size(size);
                 } else {
                     // Create data node from Access object, and add incoming edge edge to statement node.
-                    dataNode = (DataNode*) _flowGraph.add(new DataNode(&expr, expr.text(), size, type));
+                    dataNode = (DataNode*) _flowGraph->add(new DataNode(&expr, expr.text(), size, type));
                     cerr << "GraphMaker: Added read node '" << dataNode->label() << "'" << endl;
                 }
 
                 cerr << "GraphMaker: '" << dataNode->label() << "' -> '" << compNode->label() << "'\n";
-                _flowGraph.add(dataNode, compNode);
+                _flowGraph->add(dataNode, compNode);
 
                 string space = dataNode->label();
                 auto itr = _accessMap.find(space);
@@ -3093,28 +3355,28 @@ namespace pdfg {
                 }
             }
 
-            _flowGraph.add(compNode);
+            _flowGraph->add(compNode);
             cerr << "GraphMaker: Added comp node '" << compNode->label() << "'" << endl;
 
             for (Expr& expr : writeExprs) {
                 Func func = Func(expr);
                 Expr* size = getSize(comp, func);
                 string type = getType(comp, func);
-                if (_flowGraph.contains(expr.text())) {
-                    dataNode = (DataNode*) _flowGraph.get(expr.text());
+                if (_flowGraph->contains(expr.text())) {
+                    dataNode = (DataNode*) _flowGraph->get(expr.text());
                     dataNode->size(size);
                 } else {
                     // Create data node from Access object, and add outgoing edge edge to statement node.
                     // Mark output node as persistent (immutable) or temporary (optimizable) -- how to tell?
-                    dataNode = (DataNode*) _flowGraph.add(new DataNode(&expr, expr.text(), size, type));
+                    dataNode = (DataNode*) _flowGraph->add(new DataNode(&expr, expr.text(), size, type));
                     cerr << "GraphMaker: Added write node '" << dataNode->label() << "'" << endl;
                 }
-                if (!_flowGraph.contains(dataNode, compNode)) {
-                    _flowGraph.add(compNode, dataNode);
+                if (!_flowGraph->contains(dataNode, compNode)) {
+                    _flowGraph->add(compNode, dataNode);
                     cerr << "GraphMaker: '" << compNode->label() << "' -> '" << dataNode->label() << "'\n";
-                } else if (!_flowGraph.ignoreCycles()) {
+                } else if (!_flowGraph->ignoreCycles()) {
                     // Cycle! => create hierarchical node
-                    _flowGraph.remove(compNode);
+                    _flowGraph->remove(compNode);
                     cerr << "GraphMaker: Removed comp node '" << compNode->label() << "' to prevent cycle" << endl;
                     makeHierarchical((CompNode*) compNode, (DataNode*) dataNode);
                 }
@@ -3165,24 +3427,24 @@ namespace pdfg {
         }
 
         string defaultValue() const {
-            return _flowGraph.defaultValue();
+            return _flowGraph->defaultValue();
         }
 
         void defaultValue(const string& defVal) {
-            _flowGraph.defaultValue(defVal);
+            _flowGraph->defaultValue(defVal);
         }
         
         string returnName() const {
-            return _flowGraph.returnName();
+            return _flowGraph->returnName();
         }
 
         void returnName(const string& returnName) {
-            _flowGraph.returnName(returnName);
-            _flowGraph.returnType(_dataType);
+            _flowGraph->returnName(returnName);
+            _flowGraph->returnType(_dataType);
         }
 
         void outputs(initializer_list<string> outputs) {
-            _flowGraph.outputs(outputs);
+            _flowGraph->outputs(outputs);
         }
 
         void addSpace(const Space& space) {
@@ -3286,11 +3548,11 @@ namespace pdfg {
             }
 
             if (name.empty()) {
-                _flowGraph.indexType(_indexType);
-                cgen.walk(&_flowGraph);
+                _flowGraph->indexType(_indexType);
+                cgen.walk(_flowGraph);
             } else {
-                _graphs[name].indexType(_indexType);
-                cgen.walk(&_graphs[name]);
+                _graphs[name]->indexType(_indexType);
+                cgen.walk(_graphs[name]);
             }
 
             if (isobj) {
@@ -3311,19 +3573,19 @@ namespace pdfg {
         void print(const string& file = "") {
             if (!file.empty()) {
                 ofstream ofs(file.c_str(), ofstream::out);
-                ofs << _flowGraph << endl;     // Emit the graph!
+                ofs << *_flowGraph << endl;     // Emit the graph!
                 ofs.close();
             } else {
-                cerr << _flowGraph << endl;
+                cerr << *_flowGraph << endl;
             }
         }
 
         void perfmodel(const string& name = "") {
             PerfModelVisitor pmv(_consts);
             if (name.empty()) {
-                pmv.walk(&_flowGraph);
+                pmv.walk(_flowGraph);
             } else {
-                pmv.walk(&_graphs[name]);
+                pmv.walk(_graphs[name]);
             }
         }
 
@@ -3331,9 +3593,9 @@ namespace pdfg {
             if (!_scheduled) {
                 ScheduleVisitor scheduler(itergraph);
                 if (name.empty()) {
-                    scheduler.walk(&_flowGraph);
+                    scheduler.walk(_flowGraph);
                 } else {
-                    scheduler.walk(&_graphs[name]);
+                    scheduler.walk(_graphs[name]);
                 }
                 _scheduled = true;
             }
@@ -3343,9 +3605,9 @@ namespace pdfg {
             if (!_reduced) {
                 DataReduceVisitor reducer;
                 if (name.empty()) {
-                    reducer.walk(&_flowGraph);
+                    reducer.walk(_flowGraph);
                 } else {
-                    reducer.walk(&_graphs[name]);
+                    reducer.walk(_graphs[name]);
                 }
                 _reduced = true;
             }
@@ -3355,9 +3617,9 @@ namespace pdfg {
             if (!_allocated) {
                 MemAllocVisitor allocator(_consts);
                 if (name.empty()) {
-                    allocator.walk(&_flowGraph);
+                    allocator.walk(_flowGraph);
                 } else {
-                    allocator.walk(&_graphs[name]);
+                    allocator.walk(_graphs[name]);
                 }
                 //cerr << allocator << endl;
                 _allocated = true;
@@ -3368,9 +3630,9 @@ namespace pdfg {
             if (!_parallelized) {
                 ParallelVisitor visitor;
                 if (name.empty()) {
-                    visitor.walk(&_flowGraph);
+                    visitor.walk(_flowGraph);
                 } else {
-                    visitor.walk(&_graphs[name]);
+                    visitor.walk(_graphs[name]);
                 }
                 _parallelized = true;
             }
@@ -3382,24 +3644,26 @@ namespace pdfg {
             if (!_transformed) {
                 TransformVisitor transformer(_consts, tile_iters, tile_sizes, fuse_names);
                 if (name.empty()) {
-                    transformer.walk(&_flowGraph);
+                    transformer.walk(_flowGraph);
                 } else {
-                    transformer.walk(&_graphs[name]);
+                    transformer.walk(_graphs[name]);
                 }
                 _transformed = true;
                 _scheduled = true;          // Also set scheduled to true so codegen does not call it...
 
                 // Keep the best graph...
-                _flowGraph = *transformer.best();
+                delete _flowGraph;
+                _flowGraph = transformer.best();
+                int stop = 1;
             }
         }
 
         string to_dot(const string& name = "") {
             DOTVisitor dot;
             if (name.empty()) {
-                dot.walk(&_flowGraph);
+                dot.walk(_flowGraph);
             } else {
-                dot.walk(&_graphs[name]);
+                dot.walk(_graphs[name]);
             }
 
             ostringstream os;
@@ -3497,220 +3761,6 @@ namespace pdfg {
             }
             return _dataType;
         }
-
-    protected:
-        GraphMaker() {
-            _indexType = "unsigned";
-            _dataType = "float";
-        }
-
-        bool hasIter(const string& expr) {
-            for (const auto& keyval : _iters) {
-                if (expr.rfind(keyval.first, 0) == 0) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        void makeHierarchical(CompNode* compNode, DataNode* dataNode) {
-            vector<Access> accs = _accessMap[dataNode->label()];
-            vector<int> rdist = calcReuseDist(accs);
-            // Find first nonzero reuse distance
-            unsigned ipos = rdist.size();
-            for (unsigned i = 0; ipos == rdist.size() && i < ipos; i++) {
-                if (rdist[i] > 0) {
-                    ipos = i;
-                }
-            }
-
-            if (ipos < rdist.size()) {
-                unsigned unrollfac = rdist[ipos];
-                unsigned unrollcnt = 0;
-                //if (_flowGraph.isSource(dataNode)) {
-                    // Peel!
-                    Comp* comp = (Comp*) compNode->expr();
-                    // Copy the computation space
-                    Space cspace = comp->space();
-
-                    string dname = dataNode->expr()->text();
-                    Space dspace;  // Temporary space
-                    dspace.name(dname + to_string(unrollcnt));
-
-                    string cname = cspace.name();
-                    Space pspace(cname + to_string(unrollcnt));
-                    unrollcnt += 1;
-
-                    Iter iter = cspace.iterators()[ipos];
-                    vector<Constr> constraints = cspace.constraints();
-                    vector<Constr> others;
-                    unsigned cpos = constraints.size();
-
-                    for (unsigned i = 0; i < constraints.size(); i++) {
-                        if (!constraints[i].contains(iter)) {
-                            others.push_back(constraints[i]);
-                        } else if (cpos == constraints.size()) {
-                            cpos = i;
-                        }
-                    }
-
-                    Constr lower = constraints[cpos];
-                    Constr upper = constraints[cpos + 1];
-
-                    Constr lpeel = (lower.lhs() == lower.rhs());
-                    Constr upeel = (upper.lhs() == upper.rhs());
-
-                    vector<Constr> newcons;
-                    newcons.push_back(lpeel);
-                    for (const auto& constr : others) {
-                        newcons.push_back(constr);
-                    }
-                    pspace.add(newcons);
-
-                    Expr oldlb = lower.lhs();
-                    Expr newlb;
-                    if (oldlb.type() == 'N') {
-                        newlb = Int(unstring<unsigned>(oldlb.text()) + 1);
-                    } else {
-                        newlb = oldlb + 1;
-                    }
-                    lower.lhs(newlb);
-                    cspace.set(cpos, lower);
-
-                    Expr oldub = upper.rhs();
-                    Expr newub;
-                    if (oldub.type() == 'N') {
-                        newub = Int(unstring<unsigned>(oldlb.text()) - 1);
-                    } else {
-                        newub = oldub - 1;
-                    }
-                    upper.rhs(newub);
-                    cspace.set(cpos+1, upper);
-
-                    vector<Math> statements;
-                    for (const auto& stmt : comp->statements()) {
-                        if (stmt.oper().find('=') != string::npos) {
-                            string expr = stmt.lhs().text();
-                            size_t pos = expr.find('(');
-                            if (pos == string::npos) {
-                                pos = expr.find('[');
-                            }
-                            if (pos != string::npos && expr.substr(0, pos) == dname) {
-                                for (const auto& acc : accs) {
-                                    if (expr == stringify<Access>(acc)) {
-                                        Access newacc(dspace.name(), acc.tuple(), acc.refchar());
-                                        Math newstmt(newacc, stmt.rhs(), stmt.oper());
-                                        statements.push_back(newstmt);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // TODO: Do NOT instantiate new computations until new data spaces are allocated to avoid infinite recursion!
-                    Comp pcomp = pspace + statements;
-                    cerr << pcomp << endl;
-
-                    // Make the next dspace (e.g., A1).
-                    string rname = dspace.name();
-                    dspace.name(dname + to_string(unrollcnt));
-                    string wname = dspace.name();
-
-                    cspace.name(cname + to_string(unrollcnt));
-                    unrollcnt += 1;
-
-                    updateStatements(accs, dname, rname, wname, comp->statements(), statements);
-
-                    Comp ccomp = cspace + statements;
-                    cerr << ccomp << endl;
-
-                    // Last unroll!
-                    Space espace(cname + to_string(unrollcnt));
-                    newcons.clear();
-                    newcons.push_back(upeel);
-                    for (const auto& constr : others) {
-                        newcons.push_back(constr);
-                    }
-                    espace.add(newcons);
-
-                    // Make the last dspace (e.g., A2).
-                    rname = wname;
-                    dspace.name(dname + to_string(unrollcnt));
-                    wname = dspace.name();
-
-                    updateStatements(accs, dname, rname, wname, comp->statements(), statements);
-
-                    Comp ecomp = espace + statements;
-                    cerr << ecomp << endl;
-                //}
-            } else {
-                cerr << "ERROR: Circular data reference in computation!\n";
-            }
-        }
-
-        void updateStatements(const vector<Access>& accs, const string& dname, const string& rname, const string& wname,
-                              const vector<Math>& inStmts, vector<Math>& outStmts) {
-            outStmts.clear();
-            for (const auto& stmt : inStmts) {
-                // Update statements...
-                string lhs = stmt.lhs().text();
-                string rhs = stmt.rhs().text();
-                for (const auto& acc : accs) {
-                    string accstr = stringify<Access>(acc);
-                    string read = Strings::replace(accstr, dname, rname, true);
-                    string write = Strings::replace(accstr, dname, wname, true);
-                    if (lhs == accstr) {
-                        lhs = write;
-                    }
-                    if (rhs.find(accstr) != string::npos) {
-                        rhs = Strings::replace(rhs, accstr, read);
-                    }
-                }
-                Math newstmt(Expr(lhs, stmt.lhs().type()), Expr(rhs, stmt.rhs().type()), stmt.oper());
-                outStmts.push_back(newstmt);
-            }
-        }
-
-        vector<int> calcReuseDist(const vector<Access>& accs) {
-            vector<int> rdist(accs[0].tuple().size(), 0);
-            for (const auto& acc : accs) {
-                vector<Expr> tuple = acc.tuple();
-                for (unsigned i = 0; i < tuple.size(); i++) {
-                    string num = Strings::number(tuple[i].text());
-                    int dist = num.empty() ? 0 : unstring<int>(num);
-                    dist -= rdist[i];
-                    rdist[i] = dist;
-                }
-            }
-            for (unsigned i = 0; i < rdist.size(); i++) {
-                if (rdist[i] < 0) {
-                    rdist[i] = -rdist[i];
-                }
-                rdist[i] += 1;
-            }
-            return rdist;
-        }
-
-        bool _scheduled;
-        bool _reduced;
-        bool _allocated;
-        bool _parallelized;
-        bool _transformed;
-
-        string _indexType;
-        string _dataType;
-
-        map<string, Iter> _iters;
-        map<string, Func> _funcs;
-        map<string, Const> _consts;
-        map<string, FlowGraph> _graphs;
-        map<string, Space> _spaces;
-        map<string, Rel> _relations;
-        map<string, vector<Access> > _accessMap;
-        map<string, vector<Macro> > _macros;
-
-        FlowGraph _flowGraph;
     };
 
     Math memSet(const Space& space, const Expr& val = Int(0)) {
@@ -3745,6 +3795,14 @@ namespace pdfg {
             GraphMaker::get().outputs(outputs);
         }
         GraphMaker::get().defaultValue(defval);
+    }
+
+    void checkpoint(const string& name) {
+        GraphMaker::get().checkpoint(name);
+    }
+
+    void restore(const string& name) {
+        GraphMaker::get().restore(name);
     }
 
     void print(const string& file = "") {

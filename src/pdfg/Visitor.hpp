@@ -948,152 +948,6 @@ namespace pdfg {
             }
         }
 
-        /// For each computation node, generate and assign a scheduling (scattering) function.
-        /// \param node Computation node
-//        void enter(CompNode* node) override {
-//            unsigned i, j, n;
-//            unsigned level = 0;
-//            unsigned maxiter = 0;
-//            vector<int> offsets;
-//
-//            // Skip if no fusion for now...
-//            if (node->children().size() < 1) {
-//                return;
-//            }
-//
-//            Comp* comp = node->comp();
-//
-//            // 0) Collect current schedules and offsets
-//            _schedules = node->schedules();
-//
-//            // 1) Calculate maximum # of iterators in tuples.
-//            unsigned nschedules = _schedules.size();
-//            for (i = 0; i < nschedules; i++) {
-//                unsigned niter = _schedules[i].size();
-//                maxiter = (niter > maxiter) ? niter : maxiter;
-//            }
-//
-//            // 2) Determine fusion type and calculate maximum offset from each iterator.
-//            char fuseType = 'S';        // Simple loop-only fusion if no data dependences
-//            CompNode* prev = node;
-//            vector<CompNode*> nodes(nschedules, nullptr);
-//            nodes[0] = node;
-//
-//            i = 1;
-//            for (CompNode* child : node->children()) {
-////                map<string, Access*> isect = intersect(prev->writes(), child->reads());
-////                if (!isect.empty()) {   // P-C Fuse
-//////                    maxOffsets(_schedules[n], prev->writes(), offsets);
-//////                    maxOffsets(_schedules[n], child->reads(), offsets);
-////                    fuseType = 'P';
-////                } else {
-////                    isect = intersect(prev->reads(), child->reads());
-////                    if (!isect.empty()) {   // R-R Fuse
-////                        // This might be a don't-care, these are just reads so order should not matter.
-//////                        maxOffsets(_schedules[n], prev->reads(), offsets);
-//////                        maxOffsets(_schedules[n], child->reads(), offsets);
-////                        fuseType = 'R';
-////                    } else {
-////                        isect = intersect(prev->writes(), child->writes());
-////                        if (!isect.empty()) {   // W-W Fuse
-////                            // Potential WAW hazard -- how to handle this case? Error?
-//////                            maxOffsets(_schedules[n], prev->writes(), offsets);
-//////                            maxOffsets(_schedules[n], child->reads(), offsets);
-////                            fuseType = 'W';
-////                        }
-////                    }
-////                }
-////                prev = child;
-//                nodes[i++] = child;
-//            }
-//
-//            vector<Tuple> newfxns = _schedules;
-//
-//            // 3) Find the deepest common level
-//            int index = -1;
-//            level = getCommonLevel(newfxns, &index);
-//
-//            // Handle case w/o common iterators.
-//            Iter first;
-//            bool interchange = (level < 1);
-//            if (interchange) {
-//                if (newfxns[level].size() > newfxns[index].size()) {
-//                    index = level;
-//                }
-//                first = newfxns[index][0];
-//                newfxns[index].erase(newfxns[index].begin());
-//                level = getCommonLevel(newfxns);
-//            }
-//
-//            for (i = 0; i < nschedules; i++) {
-//                if (!newfxns[i][level].is_int()) {
-//                    newfxns[i].insert(newfxns[i].begin() + level, Iter(i + '0'));
-//                    if (newfxns[i].size() > maxiter) {
-//                        newfxns[i].pop_back();
-//                    }
-//                }
-//            }
-//
-//            // 4) Handle nonzero offsets...
-//            unsigned group = 0;
-//            vector<bool> shifted(maxiter, false);
-//            for (i = 1; i < nschedules; i++) {
-//                // Check whether offset exists at this level
-//                map<string, Access*> isect = intersect(nodes[i-1]->writes(), nodes[i]->reads());
-//                if (!isect.empty()) {
-//                    maxOffsets(_schedules[i], nodes[i-1]->writes(), offsets);
-//                    maxOffsets(_schedules[i], nodes[i]->reads(), offsets);
-//                }
-//                for (n = 0; n < offsets.size(); n++) {
-//                    if (offsets[n] != 0) {
-//                        if (!shifted[n]) {
-//                            // This means insert a tuple here! Or perhaps it means a shift,
-//                            //   need to determine when shifts are possible.
-//                            for (j = 0; j < nschedules; j++) {
-//                                newfxns[j].insert(newfxns[j].begin() + n, Iter(group + '0'));
-//                            }
-//                            group += 1;
-//                            maxiter += 1;
-//                            shifted[n] = true;
-//                        }
-//                        // If dimension is already shifted, just increment the group.
-//                        for (j = i; j < nschedules; j++) {
-//                            newfxns[j][n] = Iter(group + '0');
-//                        }
-//                        group += 1;
-//                        offsets[n] = 0;
-//                    }
-//                }
-//            }
-//
-//            // 5) Increment last tuple item to ensure lexicographic ordering.
-//            // TODO: Ideally, the last tuple should be in group order, but the generated code should be the same.
-//            for (unsigned i = 0; i < nschedules; i++) {
-//                unsigned last = newfxns[i].size() - 1;
-//                if (newfxns[i][last].is_int()) {
-//                    newfxns[i][last] = Iter(i + '0');
-//                }
-//            }
-//
-//            if (interchange) {
-//                newfxns[index].push_back(first);
-//            }
-//
-//            // 6) Replace schedules with updated tuples...
-//            n = 0;
-//            for (i = 0; i < comp->nschedules(); i++) {
-//                comp->reschedule(i, newfxns[n]);
-//                n += 1;
-//            }
-//            for (CompNode* child : node->children()) {
-//                Comp* other = child->comp();
-//                for (i = 0; i < other->nschedules(); i++) {
-//                    other->reschedule(i, newfxns[n]);
-//                    n += 1;
-//                }
-//            }
-//        }
-
     protected:
         void visit(Digraph* graph, const string& node, Tuple& tuple, map<string, Tuple>& schedules) {
             string label = graph->label(node);
@@ -1189,72 +1043,6 @@ namespace pdfg {
             return find(_tile_iters.begin(), _tile_iters.end(), iter) != _tile_iters.end();
         }
 
-//        map<string, Access*> intersect(const map<string, Access*> lhs, const map<string, Access*> rhs) const {
-//            map<string, Access*> isect;
-//            for (const auto& itr : lhs) {
-//                auto pos = rhs.find(itr.first);
-//                if (pos != rhs.end()) {
-//                    isect[pos->first] = pos->second;
-//                }
-//            }
-//            return isect;
-//        }
-
-//        map<string, ExprTuple> absMaxDist(const map<string, Access*> accmap) const {
-//            map<string, ExprTuple> distmap;
-//            map<string, ExprTuple> maxmap;
-//
-//            // Initialize distances to zero...
-//            ExprTuple zeros;
-//            for (const auto& itr : accmap) {
-//                Access* acc = itr.second;
-//                string space = acc->space();
-//                if (distmap.find(space) == distmap.end()) {
-//                    zeros = ExprTuple(acc->tuple().size(), Int(0));
-//                    distmap[space] = zeros;
-//                    ExprTuple tmax(zeros.begin(), zeros.end());
-//                    maxmap[space] = tmax;
-//                }
-//            }
-//
-//            // Find max delta for each tuple.
-//            for (const auto& itr : accmap) {
-//                Access* acc = itr.second;
-//                string space = acc->space();
-//                ExprTuple tuple = acc->tuple();
-//                ExprTuple tmax = maxmap[space];
-//
-//                ExprTuple diff = abs(tuple - tmax);
-//                if (distmap[space] < diff) {
-//                    distmap[space] = diff;
-//                    maxmap[space] = tuple;
-//                }
-//            }
-//
-//            return distmap;
-//        }
-
-//        unsigned getCommonLevel(const vector<Tuple>& tuples, int* ndx = nullptr) {
-//            unsigned i, n, level = 0;
-//            for (n = 0; n < tuples[0].size(); n++) {
-//                if (!tuples[0][n].is_int()) {
-//                    bool match = true;
-//                    for (i = 1; i < tuples.size() && match; i++) {
-//                        if (tuples[i].size() < n || !tuples[i][n].equals(tuples[0][n])) {
-//                            match = false;
-//                            if (ndx != nullptr) {
-//                                *ndx = i;
-//                            }
-//                        }
-//                    }
-//                    if (match) {
-//                        level = n + 1;
-//                    }
-//                }
-//            }
-//            return level;
-//        }
-
         Digraph* _itergraph;
 
         vector<string> _shifts;
@@ -1269,6 +1057,7 @@ namespace pdfg {
         explicit DataReduceVisitor() {}
 
         void enter(DataNode* node) override {
+            cerr << "DataReduceVisitor: node = '" << node->label() << "'\n";
             vector<Edge*> ins = _graph->in_edges(node);
             vector<Edge*> outs = _graph->out_edges(node);
 
@@ -1568,110 +1357,124 @@ namespace pdfg {
             }
         }
 
-        virtual ~TransformVisitor() {
-            for (FlowGraph* variant : _variants) {
-                delete(variant);
-            }
-        }
-
         virtual void setup(FlowGraph* graph) {
             _graph = graph;
+            _best = nullptr;
             generate();
         }
 
         virtual void finish(FlowGraph* graph) {
-            _best = _graph;
-            unsigned min_flops = stoi(_best->attr("flops"));
-            unsigned min_bytes = stoi(_best->attr("fsize_in")) + stoi(_best->attr("fsize_out"));
-            unsigned min_alloc = stoi(_best->attr("total_bytes"));
-
-            for (FlowGraph* variant : _variants) {
-                unsigned flops = stoi(variant->attr("flops"));
-                unsigned bytes = stoi(variant->attr("fsize_in")) + stoi(variant->attr("fsize_out"));
-                unsigned alloc = stoi(variant->attr("total_bytes"));
-
-                if (flops < min_flops || bytes < min_bytes || alloc < min_alloc) {
-                    _best = variant;
-                }
-            }
+            // Restore best graph
+            restore(_best->name());
         }
 
         FlowGraph* best() {
             return _best;
         }
 
-        vector<FlowGraph*> variants() const {
-            return _variants;
-        }
-
     protected:
         void generate() {
-            // Serial variant...
-            FlowGraph* serial = new FlowGraph(*_graph);
-            serial->name(_graph->name() + "_ser");
-            _variants.push_back(serial);
+            // Checkpoint the original graph
+            checkpoint(_graph->name());
+
+            // Serial variant
+            FlowGraph* variant = new FlowGraph(*_graph);
+            variant->name(_graph->name() + "_ser");
+            process(variant);
 
             // Fully fused variant...
-            FlowGraph* fused = new FlowGraph(*_graph);
-            fused->name(_graph->name() + "_fuse");
-            fused->fuse();
-            _variants.push_back(fused);
+            variant = new FlowGraph(*_graph);
+            variant->name(_graph->name() + "_fuse");
+            variant->fuse();
+            process(variant);
 
             if (!_tile_iters.empty()) {
                 // Tiled serial version
-                FlowGraph *tiled = new FlowGraph(*_graph);
-                tiled->name(_graph->name() + "_tile");
-                tiled->tile(_tile_iters, _tile_sizes);
-                _variants.push_back(tiled);
+                variant = new FlowGraph(*_graph);
+                variant->name(_graph->name() + "_tile");
+                variant->tile(_tile_iters, _tile_sizes);
+                process(variant);
 
                 // Fused and tiled serial version
-                FlowGraph *fuse_tiled = new FlowGraph(*_graph);
-                fuse_tiled->name(_graph->name() + "_fuse_tile");
-                fuse_tiled->fuse();
-                fuse_tiled->tile(_tile_iters, _tile_sizes);
-                _variants.push_back(fuse_tiled);
+                variant = new FlowGraph(*_graph);
+                variant->name(_graph->name() + "_fuse_tile");
+                variant->fuse();
+                variant->tile(_tile_iters, _tile_sizes);
+                process(variant);
             }
 
             // Intermediate variants...
             if (!_fuse_names.empty()) {
-                FlowGraph* user = new FlowGraph(*_graph);
-                user->name(_graph->name() + "_user");
-                user->fuse(_fuse_names);
-                _variants.push_back(user);
-            }
-
-            // Apply other visitors
-            for (FlowGraph* variant : _variants) {
-                cerr << "TransformVisitor: processing variant '" << variant->name() << "'\n";
+                variant = new FlowGraph(*_graph);
+                variant->name(_graph->name() + "_user");
+                variant->fuse(_fuse_names);
                 process(variant);
             }
-            int stop = 1;
         }
 
-        void process(FlowGraph* graph) {
+        void process(FlowGraph* variant) {
+            cerr << "TransformVisitor: processing variant '" << variant->name() << "'\n";
+
             // DataReduce pass
             DataReduceVisitor reducer;
-            reducer.walk(graph);
+            reducer.walk(variant);
 
             // MemoryAllocation pass
             MemAllocVisitor allocator(_constants);
-            allocator.walk(graph);
+            allocator.walk(variant);
 
             // Scheduler pass
             ScheduleVisitor scheduler;
-            scheduler.walk(graph);
+            scheduler.walk(variant);
 
             // Parallelizer pass
             ParallelVisitor parallelizer;
-            parallelizer.walk(graph);
+            parallelizer.walk(variant);
 
             // PerfModel pass
             PerfModelVisitor modeler(_constants);
-            modeler.walk(graph);
+            modeler.walk(variant);
+
+            // Compare to current best
+            compare(variant);
+
+            // Restore original graph
+            restore(_graph->name());
+        }
+
+        void compare(FlowGraph* variant) {
+            unsigned min_flops = INT_MAX;
+            unsigned min_bytes = INT_MAX;
+            unsigned min_alloc = INT_MAX;
+
+            if (_best) {
+                min_flops = stoi(_best->attr("flops"));
+                min_bytes = stoi(_best->attr("fsize_in")) + stoi(_best->attr("fsize_out"));
+                min_alloc = stoi(_best->attr("total_bytes"));
+            }
+
+            unsigned var_flops = stoi(variant->attr("flops"));
+            unsigned var_bytes = stoi(variant->attr("fsize_in")) + stoi(variant->attr("fsize_out"));
+            unsigned var_alloc = stoi(variant->attr("total_bytes"));
+
+            bool better = (var_flops < min_flops);
+            if (!better && var_flops == min_flops) {
+                better = (var_bytes < min_bytes);
+                if (!better && var_bytes == min_bytes) {
+                    better = (var_alloc < min_alloc);
+                }
+            }
+
+            if (better) {
+                delete _best;
+                _best = variant;
+                checkpoint(_best->name());     // Checkpoint the best graph
+            } else {
+                delete variant;
+            }
         }
 
         FlowGraph* _best;
-        vector<FlowGraph*> _variants;
         map<string, Const> _constants;
         vector<string> _tile_iters;
         vector<unsigned> _tile_sizes;
