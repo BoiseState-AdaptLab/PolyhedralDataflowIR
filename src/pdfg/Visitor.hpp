@@ -1521,9 +1521,7 @@ namespace pdfg {
         explicit ParallelVisitor() {}
 
         void enter(CompNode* node) override {
-            cerr << "ParallelVisitor: enter '" << node->label() << "'\n";
-//            Digraph* ig = node->iter_graph();
-//            cerr << ig->to_dot() << endl;
+            //cerr << "ParallelVisitor: enter '" << node->label() << "'\n";
             Comp* comp = node->comp();
             Tuple schedule = comp->schedules()[0].dest().iterators();
             Tuple shared;
@@ -1553,8 +1551,131 @@ namespace pdfg {
                 node->attr("parallel", par_flags.substr(0, par_flags.size() - 1));
             }
         }
+    };
 
-    //protected:
+    struct TransformVisitor : public DFGVisitor {
+    public:
+        explicit TransformVisitor(const map<string, Const>& constants = {},
+                                  initializer_list<string> tile_iters = {},
+                                  initializer_list<unsigned> tile_sizes = {},
+                                  initializer_list<initializer_list<string> > fuse_names = {}) : _constants(constants) {
+            _tile_iters = vector<string>(tile_iters.begin(), tile_iters.end());
+            _tile_sizes = vector<unsigned>(tile_sizes.begin(), tile_sizes.end());
+
+            for (auto list : fuse_names) {
+                vector<string> names(list.begin(), list.end());
+                _fuse_names.push_back(names);
+            }
+        }
+
+        virtual ~TransformVisitor() {
+            for (FlowGraph* variant : _variants) {
+                delete(variant);
+            }
+        }
+
+        virtual void setup(FlowGraph* graph) {
+            _graph = graph;
+            generate();
+        }
+
+        virtual void finish(FlowGraph* graph) {
+            _best = _graph;
+            unsigned min_flops = stoi(_best->attr("flops"));
+            unsigned min_bytes = stoi(_best->attr("fsize_in")) + stoi(_best->attr("fsize_out"));
+            unsigned min_alloc = stoi(_best->attr("total_bytes"));
+
+            for (FlowGraph* variant : _variants) {
+                unsigned flops = stoi(variant->attr("flops"));
+                unsigned bytes = stoi(variant->attr("fsize_in")) + stoi(variant->attr("fsize_out"));
+                unsigned alloc = stoi(variant->attr("total_bytes"));
+
+                if (flops < min_flops || bytes < min_bytes || alloc < min_alloc) {
+                    _best = variant;
+                }
+            }
+        }
+
+        FlowGraph* best() {
+            return _best;
+        }
+
+        vector<FlowGraph*> variants() const {
+            return _variants;
+        }
+
+    protected:
+        void generate() {
+            // Serial variant...
+            FlowGraph* serial = new FlowGraph(*_graph);
+            serial->name(_graph->name() + "_ser");
+            _variants.push_back(serial);
+
+            // Fully fused variant...
+            FlowGraph* fused = new FlowGraph(*_graph);
+            fused->name(_graph->name() + "_fuse");
+            fused->fuse();
+            _variants.push_back(fused);
+
+            if (!_tile_iters.empty()) {
+                // Tiled serial version
+                FlowGraph *tiled = new FlowGraph(*_graph);
+                tiled->name(_graph->name() + "_tile");
+                tiled->tile(_tile_iters, _tile_sizes);
+                _variants.push_back(tiled);
+
+                // Fused and tiled serial version
+                FlowGraph *fuse_tiled = new FlowGraph(*_graph);
+                fuse_tiled->name(_graph->name() + "_fuse_tile");
+                fuse_tiled->fuse();
+                fuse_tiled->tile(_tile_iters, _tile_sizes);
+                _variants.push_back(fuse_tiled);
+            }
+
+            // Intermediate variants...
+            if (!_fuse_names.empty()) {
+                FlowGraph* user = new FlowGraph(*_graph);
+                user->name(_graph->name() + "_user");
+                user->fuse(_fuse_names);
+                _variants.push_back(user);
+            }
+
+            // Apply other visitors
+            for (FlowGraph* variant : _variants) {
+                cerr << "TransformVisitor: processing variant '" << variant->name() << "'\n";
+                process(variant);
+            }
+            int stop = 1;
+        }
+
+        void process(FlowGraph* graph) {
+            // DataReduce pass
+            DataReduceVisitor reducer;
+            reducer.walk(graph);
+
+            // MemoryAllocation pass
+            MemAllocVisitor allocator(_constants);
+            allocator.walk(graph);
+
+            // Scheduler pass
+            ScheduleVisitor scheduler;
+            scheduler.walk(graph);
+
+            // Parallelizer pass
+            ParallelVisitor parallelizer;
+            parallelizer.walk(graph);
+
+            // PerfModel pass
+            PerfModelVisitor modeler(_constants);
+            modeler.walk(graph);
+        }
+
+        FlowGraph* _best;
+        vector<FlowGraph*> _variants;
+        map<string, Const> _constants;
+        vector<string> _tile_iters;
+        vector<unsigned> _tile_sizes;
+        vector<vector<string> > _fuse_names;
     };
 }
 

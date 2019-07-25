@@ -59,6 +59,15 @@ namespace pdfg {
             _edges.resize(size);
         }
 
+        Digraph(const Digraph& other) {
+            copy(other);
+        }
+
+        Digraph& operator=(const Digraph& other) {
+            copy(other);
+            return *this;
+        }
+
         string name() const {
             return _name;
         }
@@ -405,6 +414,19 @@ namespace pdfg {
         }
 
     private:
+        void copy(const Digraph& other) {
+            _name = other._name;
+            _last_node = other._last_node;
+            _last_leaf = other._last_leaf;
+            _edges = other._edges;
+            _indices = other._indices;
+            _nodes = other._nodes;
+            _labels = other._labels;
+            _parents = other._parents;
+            _attrs = other._attrs;
+            _split_nodes = other._split_nodes;
+        }
+
         string _name;
         string _last_node;
         string _last_leaf;

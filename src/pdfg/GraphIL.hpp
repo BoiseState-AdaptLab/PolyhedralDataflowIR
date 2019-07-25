@@ -2908,7 +2908,7 @@ namespace pdfg {
         void newGraph(const string& name) {
             _flowGraph = FlowGraph(name);
             _graphs[name] = _flowGraph;
-            _scheduled = _reduced = _allocated = _parallelized = false;
+            _scheduled = _reduced = _allocated = _parallelized = _transformed = false;
         }
 
         void align_iters(bool align = true) {
@@ -2916,14 +2916,15 @@ namespace pdfg {
         }
 
         void fuse() {
-            vector<CompNode*> nodes = _flowGraph.comp_nodes();
-            CompNode* first = nodes[0];
-            for (unsigned i = 1; i < nodes.size(); i++) {
-                _flowGraph.fuse(*first->comp(), *nodes[i]->comp());
-            }
+            _flowGraph.fuse();
+        }
+
+        void fuse(initializer_list<string> names) {
+            _flowGraph.fuse(names);
         }
 
         void fuse(Comp& comp1, Comp& comp2) {
+            CompNode* node1 = (CompNode*) _flowGraph.get(comp1);
             _flowGraph.fuse(comp1, comp2);
         }
 
@@ -3375,6 +3376,24 @@ namespace pdfg {
             }
         }
 
+        void transform(const string& name = "", initializer_list<string> tile_iters = {},
+                       initializer_list<unsigned> tile_sizes = {},
+                       initializer_list<initializer_list<string> > fuse_names = {}) {
+            if (!_transformed) {
+                TransformVisitor transformer(_consts, tile_iters, tile_sizes, fuse_names);
+                if (name.empty()) {
+                    transformer.walk(&_flowGraph);
+                } else {
+                    transformer.walk(&_graphs[name]);
+                }
+                _transformed = true;
+                _scheduled = true;          // Also set scheduled to true so codegen does not call it...
+
+                // Keep the best graph...
+                _flowGraph = *transformer.best();
+            }
+        }
+
         string to_dot(const string& name = "") {
             DOTVisitor dot;
             if (name.empty()) {
@@ -3677,6 +3696,7 @@ namespace pdfg {
         bool _reduced;
         bool _allocated;
         bool _parallelized;
+        bool _transformed;
 
         string _indexType;
         string _dataType;
@@ -3758,6 +3778,12 @@ namespace pdfg {
 
     void parallelize(const string& name = "") {
         GraphMaker::get().parallelize(name);
+    }
+
+    void transform(const string& name = "", initializer_list<string> tile_iters = {},
+                   initializer_list<unsigned> tile_sizes = {},
+                   initializer_list<initializer_list<string> > fuse_names = {}) {
+        GraphMaker::get().transform(name, tile_iters, tile_sizes, fuse_names);
     }
 
     string to_dot(const string& name = "") {
@@ -3870,7 +3896,7 @@ namespace pdfg {
     }
 
     void fuse() {
-        GraphMaker &gm = GraphMaker::get();
+        GraphMaker& gm = GraphMaker::get();
         gm.fuse();
     }
 
@@ -3914,12 +3940,7 @@ namespace pdfg {
 
     void fuse(initializer_list<string> names) {
         GraphMaker& gm = GraphMaker::get();
-        Comp first = *gm.getComp(*names.begin());
-        vector<Comp> rest;
-        for (auto itr = names.begin() + 1; itr != names.end(); ++itr) {
-            rest.push_back(*gm.getComp(*itr));
-        }
-        fuse(first, rest);
+        gm.fuse(names);
     }
 
     void tile(initializer_list<string> names, initializer_list<string> iters, initializer_list<unsigned> sizes) {

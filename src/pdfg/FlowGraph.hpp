@@ -99,12 +99,21 @@ namespace pdfg {
     struct Node : public GraphItem {
     public:
         //explicit Node(const string& space, const string& label = "") {
-        explicit Node(Expr* expr, const string& label = "", initializer_list<string> attrs={}) {
+        explicit Node(Expr* expr = nullptr, const string& label = "", initializer_list<string> attrs={}) {
             init(expr, label, attrs);
         }
 
         virtual ~Node() {
             delete _expr;
+        }
+
+        Node(const Node& other) {
+            copy(other);
+        }
+
+        Node& operator=(const Node& other) {
+            copy(other);
+            return *this;
         }
 
         Expr* expr() const {
@@ -176,6 +185,13 @@ namespace pdfg {
             _type = 'N';
         }
 
+        void copy(const Node& other) {
+            _label = other._label;
+            _attrs = other._attrs;
+            _expr = other._expr;
+            _type = other._type;
+        }
+
         Expr* _expr;
         char _type;
     };
@@ -185,6 +201,15 @@ namespace pdfg {
         explicit Edge(Node* source, Node* dest, const string& label = "") :
                 _source(source), _dest(dest) {
             _label = label;
+        }
+
+        Edge(const Edge& other) {
+            copy(other);
+        }
+
+        Edge& operator=(const Edge& other) {
+            copy(other);
+            return *this;
         }
 
         Node* source() const {
@@ -215,6 +240,12 @@ namespace pdfg {
         }
 
     protected:
+        void copy(const Edge& other) {
+            _attrs = other._attrs;
+            _source = other._source;
+            _dest = other._dest;
+        }
+
         Node* _source;
         Node* _dest;
     };
@@ -231,6 +262,15 @@ namespace pdfg {
 
         ~DataNode() {
             delete _size;
+        }
+
+        DataNode(const DataNode& other) {
+            copy(other);
+        }
+
+        DataNode& operator=(const DataNode& other) {
+            copy(other);
+            return *this;
         }
 
         Expr* size() const {
@@ -309,6 +349,14 @@ namespace pdfg {
         }
 
     protected:
+        void copy(const DataNode& other) {
+            Node::copy(other);
+            _datatype = other._datatype;
+            _defval = other._defval;
+            _alloc = other._alloc;
+            _size = new Expr(other._size->text(), other._size->type());
+        }
+
         Expr* _size;
         string _datatype;
         string _defval;
@@ -333,6 +381,15 @@ namespace pdfg {
             }
             delete _igraph;
             delete _shifts;
+        }
+
+        CompNode(const CompNode& other) {
+            copy(other);
+        }
+
+        CompNode& operator=(const CompNode& other) {
+            copy(other);
+            return *this;
         }
 
         static vector<string> mathFunctions() {
@@ -535,7 +592,14 @@ namespace pdfg {
             return nflops;
         }
 
-        void tile(initializer_list<string> iters, initializer_list<unsigned> sizes, initializer_list<string> t_iters = {}) {
+        void tile(initializer_list<string> iters, initializer_list<unsigned> sizes, initializer_list<string> outs = {}) {
+            vector<string> tile_iters(iters.begin(), iters.end());
+            vector<unsigned> tile_sizes(sizes.begin(), sizes.end());
+            vector<string> out_iters(outs.begin(), outs.end());
+            tile(tile_iters, tile_sizes, out_iters);
+        }
+
+        void tile(vector<string> iters, vector<unsigned> sizes, vector<string> t_iters = {}) {
             Digraph* ig = this->iter_graph();
             vector<Tuple> schedules = this->schedules();
             vector<string> tile_iters(t_iters.begin(), t_iters.end());
@@ -564,6 +628,36 @@ namespace pdfg {
         }
 
     protected:
+        void copy(const CompNode& other) {
+            Node::copy(other);
+            _expr = new Comp(*((Comp*) other._expr));
+
+            _shifts = other._shifts;
+            if (_shifts) {
+                _shifts = new IntTuple(*_shifts);
+            }
+            _igraph = other._igraph;
+            if (_igraph) {
+                _igraph = new Digraph(*_igraph);
+            }
+
+            for (const auto& iter : other._reads) {
+                _reads[iter.first] = new Access(*iter.second);
+            }
+
+            for (const auto& iter : other._writes) {
+                _writes[iter.first] = new Access(*iter.second);
+            }
+
+            // Not sure how to copy children, let us assume copying un-fused graphs for now.
+            for (CompNode* other_child : other._children) {
+                CompNode* this_child = nullptr; //(CompNode*) this->get(other_child->label());
+                if (this_child) {
+                    _children.push_back(this_child);
+                }
+            }
+        }
+
         vector<CompNode*> _children;
         map<string, Access*> _reads;
         map<string, Access*> _writes;
@@ -577,12 +671,27 @@ namespace pdfg {
             _type = 'R';
         }
 
+        RelNode(const RelNode& other) {
+            copy(other);
+        }
+
+        RelNode& operator=(const RelNode& other) {
+            copy(other);
+            return *this;
+        }
+
         Rel* relation() const {
             return (Rel*) _expr;
         }
 
         void relation(Rel* rel) {
             _expr = rel;
+        }
+
+    protected:
+        void copy(const RelNode& other) {
+            Node::copy(other);
+            _expr = new Rel(*((Rel*) other._expr));
         }
     };
 
@@ -605,6 +714,15 @@ namespace pdfg {
             for (Edge* edge : _edges) {
                 delete edge;
             }
+        }
+
+        FlowGraph(const FlowGraph& other) {
+            copy(other);
+        }
+
+        FlowGraph& operator=(const FlowGraph& other) {
+            copy(other);
+            return *this;
         }
 
         friend ostream& operator<<(ostream& os, FlowGraph& graph) {
@@ -763,6 +881,10 @@ namespace pdfg {
             return _label;
         }
 
+        void name(const string& name) {
+            _label = name;
+        }
+
         const string& indexType() const {
             return _indexType;
         }
@@ -915,6 +1037,40 @@ namespace pdfg {
             return outputs;
         }
 
+        void fuse() {
+            vector<CompNode*> nodes = this->comp_nodes();
+            CompNode* first = nodes[0];
+            for (unsigned i = 1; i < nodes.size(); i++) {
+                this->fuse(*first->comp(), *nodes[i]->comp());
+            }
+        }
+
+        void fuse(initializer_list<string> names) {
+            vector<string> vec(names.begin(), names.end());
+            fuse(vec);
+        }
+
+        void fuse(vector<vector<string> > names) {
+            for (vector<string>& subset : names) {
+                fuse(subset);
+            }
+        }
+
+        void fuse(vector<string> names) {
+            CompNode* first = (CompNode*) this->get(*names.begin());
+            vector<CompNode*> others;
+            for (auto itr = names.begin() + 1; itr != names.end(); ++itr) {
+                CompNode* next = (CompNode*) this->get(*itr);
+                fuse(*first->comp(), *next->comp());
+            }
+        }
+
+//        void fuse(CompNode* first, vector<CompNode*>& others) {
+//            for (unsigned i = 0; i < others.size(); i++) {
+//                fuse(first, others[i]);
+//            }
+//        }
+
         void fuse(Comp& lhs, Comp& rhs) {
             CompNode* first = this->get(lhs);
             CompNode* next = this->get(rhs);
@@ -948,6 +1104,12 @@ namespace pdfg {
         }
 
         void tile(initializer_list<string> iters, initializer_list<unsigned> sizes) {
+            vector<string> tile_iters(iters.begin(), iters.end());
+            vector<unsigned> tile_sizes(sizes.begin(), sizes.end());
+            tile(tile_iters, tile_sizes);
+        }
+
+        void tile(vector<string> iters, vector<unsigned> sizes) {
             for (CompNode* node : this->comp_nodes()) {
                 node->tile(iters, sizes);
             }
@@ -1209,14 +1371,44 @@ namespace pdfg {
 //            _boundCounts[key] += 1;
 //        }
 
-        string _indexType;
-        string _returnName;
-        string _returnType;
-        string _defaultVal;
+        void copy(const FlowGraph& other) {
+            _alignIters = other._alignIters;
+            _ignoreCycles = other._ignoreCycles;
+            _tileSize = other._tileSize;
+
+            _label = other._label;
+            _indexType = other._indexType;
+            _returnName = other._returnName;
+            _returnType = other._returnType;
+            _defaultVal = other._defaultVal;
+            _outputs = other._outputs;
+            _attrs = other._attrs;
+
+            for (Node* node : other._nodes) {
+                if (node->is_comp()) {
+                    this->add(new CompNode(*((CompNode*) node)));
+                } else if (node->is_data()) {
+                    this->add(new DataNode(*((DataNode*) node)));
+                } else {
+                    this->add(new Node(*node));
+                }
+            }
+
+            for (Edge* edge : other._edges) {
+                Node* source = this->get(edge->source()->label());
+                Node* dest = this->get(edge->dest()->label());
+                add(source, dest);
+            }
+        }
 
         bool _alignIters;
         bool _ignoreCycles;
         unsigned _tileSize;
+
+        string _indexType;
+        string _returnName;
+        string _returnType;
+        string _defaultVal;
 
         map<string, Node*> _symtable;
         map<pair<Node*, Node*>, Edge*> _edgemap;
