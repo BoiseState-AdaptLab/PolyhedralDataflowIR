@@ -228,6 +228,14 @@ namespace pdfg {
             _typedefs.push_back(make_pair<string, string>(string(type), string(alias)));
         }
 
+        string allocFunction() const {
+            return _alloc_fxn;
+        }
+
+        void allocFunction(const string& function) {
+            _alloc_fxn = function;
+        }
+
         string ompSchedule() const {
             return _ompsched;
         }
@@ -281,6 +289,15 @@ namespace pdfg {
             string defval = node->defval();
             unsigned tilesize = _graph->tileSize();
 
+            bool isC = (_lang == "C");
+            string restrict = "restrict";
+            if (!isC) {
+                restrict = "__" + restrict;         // Restrict must be prefaced w/ __ in C++
+            }
+            if (_lang.find("U") != string::npos) {
+                restrict += "__";                   // CUDA requires underscore on both ends.
+            }
+
             if (!_graph->isReturn(node) && _graph->isSource(node)) {
                 // Input Data
                 string param = "const " + node->datatype();
@@ -312,12 +329,7 @@ namespace pdfg {
                     }
                     os << ';';
                 } else if (node->alloc() == DYNAMIC) {
-                    os << node->datatype() << "* ";
-                    bool isC = (_lang.find("+") == string::npos);
-                    if (isC) {
-                        os << "restrict ";
-                    }
-                    os << label << " = ";
+                    os << node->datatype() << "* " << restrict << " " << label << " = ";
                     if (!isC) {
                         os << '(' << node->datatype() << "*) ";
                     }
@@ -327,7 +339,7 @@ namespace pdfg {
                         if (tilesize > 0) {
                             os << "aligned_alloc(" << tilesize << ",(";
                         } else {
-                            os << "malloc(";
+                            os << _alloc_fxn << "(";
                         }
                         auto itr = _data_sizes.find(label);
                         if (itr != _data_sizes.end()) {
@@ -449,6 +461,8 @@ namespace pdfg {
             // Add includes...
             include({"stdio", "stdlib", "stdint", "math", "string"});
 
+            _alloc_fxn = "malloc";
+            _free_fxn = "free";
             _indent = "    ";
             //_ompsched = "runtime";
             _mathFuncs = CompNode::mathFunctions();
@@ -499,7 +513,7 @@ namespace pdfg {
             string line;
             for (const string& free : _frees) {
                 if (free != _graph->returnName()) {
-                    line = _indent + "free(" + free + ");";
+                    line = _indent + _free_fxn + "(" + free + ");";
                     _body.push_back(line);
                 }
             }
@@ -581,9 +595,8 @@ namespace pdfg {
                         map<string, vector<string> >& statements,
                         map<string, vector<string> >& guards,
                         map<string, vector<string> >& schedules) {
-            //string iegstr = Strings::replace(comp.space().to_iegen(), "N/8", "N_R");
-            string iegstr = comp->space().to_iegen();
-            string norm = _poly.add(iegstr);
+            string iset = comp->space().to_iset();
+            string norm = _poly.add(iset);
             string sname = comp->space().name();
 
             names.push_back(sname);
@@ -594,7 +607,7 @@ namespace pdfg {
                 statements[sname].emplace_back(stringify<Math>(statement));
             }
             for (const auto& schedule : comp->schedules()) {
-                schedules[sname].push_back(schedule.to_iegen());
+                schedules[sname].push_back(schedule.to_iset());
             }
         }
 
@@ -678,6 +691,8 @@ namespace pdfg {
         string _lang;
         string _path;
         string _ompsched;
+        string _alloc_fxn;
+        string _free_fxn;
 
         map<string, string> _mappings;
         map<string, unsigned> _data_sizes;
@@ -708,6 +723,9 @@ namespace pdfg {
         void init() {
             CodeGenVisitor::init();
             include("cuda_runtime");
+            include("cuda_funcs");
+            _alloc_fxn = "cuda_malloc";
+            _free_fxn = "cuda_free";
         }
     };
 

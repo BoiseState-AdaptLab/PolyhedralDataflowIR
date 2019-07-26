@@ -17,7 +17,7 @@ namespace pdfg {
         }
 
         string norm(const Space& space) {
-            return _poly.add(space.to_iegen());
+            return _poly.add(space.to_iset());
         }
 
         string gen(Comp& comp) {
@@ -33,17 +33,17 @@ namespace pdfg {
 
             vector<string> schedules;
             for (auto& schedule : comp.schedules()) {
-                schedules.push_back(schedule.to_iegen());
+                schedules.push_back(schedule.to_iset());
             }
 
-            string iegstr = Strings::replace(comp.space().to_iegen(), "N/8", "N_R");
+            string iegstr = Strings::replace(comp.space().to_iset(), "N/8", "N_R");
             string norm = _poly.add(iegstr);
             string code = _poly.codegen(comp.space().name(), _iterType, _ompSched, true, statements, guards, schedules);
             return code;
         }
 
         string gen(const Space& space) {
-            string norm = _poly.add(space.to_iegen());
+            string norm = _poly.add(space.to_iset());
             string code = _poly.codegen(space.name());
             return code;
         }

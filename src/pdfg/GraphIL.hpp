@@ -1760,7 +1760,7 @@ namespace pdfg {
             }
         }
 
-        string to_iegen() const {
+        string to_iset() const {
             ostringstream os;
             os << _name << " := {[";
             unsigned n = 0, niters = _iterators.size();
@@ -2299,7 +2299,7 @@ namespace pdfg {
             _dest = dst;
         }
 
-        string to_iegen() const {
+        string to_iset() const {
             ostringstream os;
             if (!_name.empty()) {
                 os << _name << " := ";
@@ -2733,9 +2733,9 @@ namespace pdfg {
         //Comp apply(const Rel& rel, const string& resName = "Ires") const {
 //        string apply(const Rel &rel, const string &resName = "Ires") {
 //            PolyLib poly;
-//            string setStr = poly.add(_space.to_iegen());
-//            cerr << rel.to_iegen() << endl;
-//            string relStr = poly.add(rel.to_iegen());
+//            string setStr = poly.add(_space.to_iset());
+//            cerr << rel.to_iset() << endl;
+//            string relStr = poly.add(rel.to_iset());
 //            string newStr = poly.apply(rel.name(), _space.name(), resName);
 //            _transforms.push_back(rel);
 ////            Space newSpace = unstring<Space>(newStr);
