@@ -722,6 +722,14 @@ namespace pdfg {
     protected:
         void init() {
             CodeGenVisitor::init();
+
+            define({"xmin", "(blockIdx.x*blockDim.x+threadIdx.x)",
+                    "ymin", "(blockIdx.y*blockDim.y+threadIdx.y)",
+                    "zmin", "(blockIdx.z*blockDim.z+threadIdx.z)",
+                    "xinc", "(blockDim.x*gridDim.x)",
+                    "yinc", "(blockDim.y*gridDim.y)",
+                    "zinc", "(blockDim.z*gridDim.z)"});
+
             include("cuda_runtime");
             include("cuda_funcs");
             _alloc_fxn = "cuda_malloc";
