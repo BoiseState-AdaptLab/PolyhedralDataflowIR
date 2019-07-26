@@ -158,13 +158,27 @@ float cuda_profile_stop(cuda_t *cuda) {
     return elapsed * 1E-3f;
 }
 
-void* cuda_alloc(cuda_t *cuda, size_t size) {
-    cuda->dataptr = cuda_malloc(ptr, size);
+__device__ void* cuda_malloc(size_t size) {
+    void *ptr;
+    gpuAssert(cudaMalloc(&ptr, size));
+    gpuCheck("cudaMalloc");
+    return ptr;
+}
+
+__device__ void* cuda_calloc(size_t num, size_t size) {
+    void *ptr = cuda_malloc(num * size);
+    gpuAssert(cudaMemset(ptr, 0, num * size));
+    gpuCheck("cudaMemset");
+    return ptr;
+}
+
+__device__ void* cuda_alloc(cuda_t *cuda, size_t size) {
+    cuda->dataptr = cuda_malloc(size);
     cuda->datasize = size;
     return cuda->dataptr;
 }
 
-void* cuda_alloc_man(cuda_t *cuda, size_t size) {
+__device__ void* cuda_alloc_man(cuda_t *cuda, size_t size) {
     gpuAssert(cudaMallocManaged(&cuda->dataptr, size));
     gpuCheck("cudaMallocManaged");
     cuda->datasize = size;
@@ -172,21 +186,7 @@ void* cuda_alloc_man(cuda_t *cuda, size_t size) {
     return cuda->dataptr;
 }
 
-void* cuda_malloc(size_t size) {
-    void *ptr;
-    gpuAssert(cudaMalloc(&ptr, size));
-    gpuCheck("cudaMalloc");
-    return ptr;
-}
-
-void* cuda_calloc(size_t num, size_t size) {
-    void *ptr = cuda_malloc(num * size);
-    gpuAssert(cudaMemset(ptr, 0, num * size));
-    gpuCheck("cudaMemset");
-    return ptr;
-}
-
-void cuda_free(void* ptr) {
+__device__ void cuda_free(void* ptr) {
     gpuAssert(cudaFree(ptr));
 }
 
