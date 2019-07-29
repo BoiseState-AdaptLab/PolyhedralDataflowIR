@@ -191,7 +191,7 @@ void cuda_free(void* ptr) {
 }
 
 void cuda_copy_host(const void* src, void* dest, size_t size) {
-    fprintf(stderr, "src=%p, dest=%p,size=%u\n", src, dest, size);
+    //fprintf(stderr, "src=%p, dest=%p,size=%lu\n", src, dest, size);
     gpuAssert(cudaMemcpy(dest, src, size, cudaMemcpyDeviceToHost));
     gpuCheck("cudaMemcpyDeviceToHost");
 }

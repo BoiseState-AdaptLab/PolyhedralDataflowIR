@@ -565,32 +565,37 @@ namespace pdfg {
         }
 
         unsigned flops() const {
-            unsigned nflops = 0;
-            vector<string> funcs(mathFunctions());
+            unsigned nflops = stoi(this->attr("flops"));
 
-            Comp* comp = (Comp*) _expr;
-            for (const auto& stmt : comp->statements()) {
-                string text = stmt.text();
-                for (char ch : text) {
-                    if (ch == '^' || ch == '+' || ch == '-' || ch =='*' || ch == '/' || ch == '%') {
-                        nflops += 1;
-                    }
-                }
-
-                for (const string& func : funcs) {
-                    size_t pos = text.find(func);
-                    while (pos != string::npos) {
-                        nflops += 10;                           // Add 10 flops for each transitive fxn
-                        pos = text.find(func, pos + func.size());
-                    }
-                }
-            }
-
-            for (CompNode* child : _children) {
-                nflops += child->flops();
+            // Assume at least 1 FLOP...
+            if (nflops < 1) {
+                nflops = 1;
             }
 
             return nflops;
+        }
+
+        bool is_access(const string& name) const {
+            bool is_acc = false;
+            string key = name + "(";
+
+            for (const auto& iter : _reads) {
+                is_acc = (iter.first.find(key) == 0);
+                if (is_acc) {
+                    break;
+                }
+            }
+
+            if (!is_acc) {
+                for (const auto& iter : _writes) {
+                    is_acc = (iter.first.find(key) == 0);
+                    if (is_acc) {
+                        break;
+                    }
+                }
+            }
+
+            return is_acc;
         }
 
         void tile(initializer_list<string> iters, initializer_list<unsigned> sizes, initializer_list<string> outs = {}) {

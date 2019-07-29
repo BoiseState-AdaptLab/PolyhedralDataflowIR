@@ -93,7 +93,7 @@ namespace pdfg {
         }
 
         virtual bool is_scalar() const {
-            return _type == 'N' || _type == 'R';    // UFs & SCs
+            return _type == 'N' || _type == 'R' || _type == 'S';    // Ints, Reals, Consts
         }
 
         virtual bool is_space() const {
@@ -246,6 +246,9 @@ namespace pdfg {
 
     void addSpace(const Expr& expr);
 
+    void clearFLOPs();
+    void incFLOPs(unsigned increment = 1);
+
     struct Math : public Expr {
     public:
         explicit Math() {
@@ -350,16 +353,17 @@ namespace pdfg {
         return Math(lhs, rhs, "absmax(");
     }
 
+    Math pow(const Expr &lhs, const Expr &rhs) {
+        incFLOPs(2);
+        return Math(lhs, rhs, "pow(");
+    }
+
     Math pow(const Expr &lhs, int exp) {
-        return Math(lhs, Int(exp), "pow(");
+        return pow(lhs, Int(exp));
     }
 
     Math pow(const Expr &lhs, double exp) {
-        return Math(lhs, Real(exp), "pow(");
-    }
-
-    Math pow(const Expr &lhs, const Expr &rhs) {
-        return Math(lhs, rhs, "pow(");
+        return pow(lhs, Real(exp));
     }
 
     Math pinv(const Expr& expr) {
@@ -379,6 +383,7 @@ namespace pdfg {
     }
 
     Math sqrt(const Expr& expr) {
+        incFLOPs(2);
         return Math(NullExpr, expr, "sqrt(");
     }
 
@@ -405,6 +410,9 @@ namespace pdfg {
 //    }
 
     Math operator+(const Expr &lhs, const Expr &rhs) {
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) && (!lhs.is_scalar() || fabs(stof(lhs.text())) != 0.0)) {
+            incFLOPs();
+        }
         return Math(lhs, rhs, "+");
     }
 
@@ -418,11 +426,6 @@ namespace pdfg {
 //    }
 
     Math operator+=(const Expr &lhs, const Expr &rhs) {
-//        if (lhs.empty()) {
-//            return Math(rhs, Int(0), "+");
-//        } else {
-//            return Math(lhs, rhs, "+");
-//        }
         addSpace(lhs);
         return Math(lhs, rhs, "+=");
     }
@@ -432,6 +435,9 @@ namespace pdfg {
     }
 
     Math operator-(const Expr &lhs, const Expr &rhs) {
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) && (!lhs.is_scalar() || fabs(stof(lhs.text())) != 0.0)) {
+            incFLOPs();
+        }
         return Math(lhs, rhs, "-");
     }
 
@@ -447,6 +453,7 @@ namespace pdfg {
 
     Math operator-=(const Expr &lhs, const Expr &rhs) {
         addSpace(lhs);
+        incFLOPs();
         return Math(lhs, rhs, "-=");
     }
 
@@ -455,14 +462,23 @@ namespace pdfg {
     }
 
     Math operator*(const Expr &expr, const double val) {
+        if (!expr.is_scalar()) {
+            incFLOPs();
+        }
         return Math(expr, Real(val), "*");
     }
 
     Math operator*(const double val, const Expr &expr) {
+        if (!expr.is_scalar()) {
+            incFLOPs();
+        }
         return Math(Real(val), expr, "*");
     }
 
     Math operator*(const Expr &lhs, const Expr &rhs) {
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) && (!lhs.is_scalar() || fabs(stof(lhs.text())) != 1.0)) {
+            incFLOPs();
+        }
         return Math(lhs, rhs, "*");
     }
 
@@ -473,6 +489,7 @@ namespace pdfg {
 
     Math operator*=(const Expr &lhs, const Expr &rhs) {
         addSpace(lhs);
+        incFLOPs();
         return Math(lhs, rhs, "*=");
     }
 
@@ -482,6 +499,9 @@ namespace pdfg {
     }
 
     Math operator/(const Expr &lhs, const Expr &rhs) {
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) && (!lhs.is_scalar() || fabs(stof(lhs.text())) != 1.0)) {
+            incFLOPs();
+        }
         return Math(lhs, rhs, "/");
     }
 
@@ -492,6 +512,7 @@ namespace pdfg {
 
     Math operator/=(const Expr &lhs, const Expr &rhs) {
         addSpace(lhs);
+        incFLOPs();
         return Math(lhs, rhs, "/=");
     }
 
@@ -843,6 +864,7 @@ namespace pdfg {
             _exprs = exprs;
             _type = '#';
             _text = stringify<Macro>(*this);
+            clearFLOPs();
         }
 
         Macro(const string &name, initializer_list<Iter> iters, initializer_list<Expr> exprs) : Macro(name) {
@@ -2673,82 +2695,6 @@ namespace pdfg {
             _schedules[index].dest(dst);
         }
 
-//        deque<Rel> transforms() const {
-//            return _transforms;
-//        }
-
-//        string make_dense(const Range &dnsConstr) {
-//            Space sdense = _space;
-//            sdense.name("Idense");
-//            sdense ^= dnsConstr;
-//            Rel rdense("Tdense", _space, sdense);
-//            return apply(rdense, sdense.name());
-//        }
-
-//        string tile(const Iter &i0, const Expr &s0, Iter &t0) {
-//            vector<Iter> titers;
-//            for (const Iter &iter : _space.iterators()) {
-//                if (iter.equals(i0)) {
-//                    titers.push_back(t0);
-//                    titers.push_back(i0);
-//                } else {
-//                    titers.push_back(iter);
-//                }
-//            }
-//
-//            Iter r0("r0");
-//            vector<Constr> tcons = exists(0 <= r0 < s0 ^ i0 == t0 * s0 + r0);
-//            Space stile("Itile", titers, tcons);
-//            Rel rtile("Ttile", _space, stile);
-//
-//            return apply(rtile, stile.name());
-//        }
-
-        //Comp tile(const Iter& i0, const Iter& i1, const Expr& s0, const Expr& s1, Iter& t0, Iter& t1) {
-//        string tile(const Iter &i0, const Iter &i1, const Expr &s0, const Expr &s1, Iter &t0, Iter &t1) {
-//            vector<Iter> titers;
-//            for (const Iter &iter : _space.iterators()) {
-//                if (iter.equals(i0)) {
-//                    titers.push_back(t0);
-//                    titers.push_back(i0);
-//                } else if (iter.equals(i1)) {
-//                    titers.push_back(t1);
-//                    titers.push_back(i1);
-//                } else {
-//                    titers.push_back(iter);
-//                }
-//            }
-//
-//            Iter r0("r0"), r1("r1");
-//            // Add tiling constraints...
-//            vector<Constr> tcons = exists(0 <= r0 < s0 ^ i0 == t0 * s0 + r0 ^ 0 <= r1 < s1 ^ i1 == t1 * s1 + r1);
-//            Space stile("Itile", titers, tcons);
-//            Rel rtile("Ttile", _space, stile);
-//
-////            Comp comp = apply(rtile, stile.name());
-////            return comp;
-//            return apply(rtile, stile.name());
-//        }
-
-        //Comp apply(const Rel& rel, const string& resName = "Ires") const {
-//        string apply(const Rel &rel, const string &resName = "Ires") {
-//            PolyLib poly;
-//            string setStr = poly.add(_space.to_iset());
-//            cerr << rel.to_iset() << endl;
-//            string relStr = poly.add(rel.to_iset());
-//            string newStr = poly.apply(rel.name(), _space.name(), resName);
-//            _transforms.push_back(rel);
-////            Space newSpace = unstring<Space>(newStr);
-////            Comp newComp(newSpace, _statements, _guards);
-////            return newComp;
-//            return newStr;
-//        }
-
-        //Comp operator*(const Rel& rel) {
-//        string operator*(const Rel &rel) {
-//            return apply(rel);
-//        }
-
         Comp operator+=(const Math& statement) {
             this->add(statement);
             return *this;
@@ -2919,6 +2865,8 @@ namespace pdfg {
         string _indexType;
         string _dataType;
         string _graphName;
+
+        unsigned _nflops;
 
         map<string, Iter> _iters;
         map<string, Func> _funcs;
@@ -3146,6 +3094,7 @@ namespace pdfg {
             _graphs[name] = _flowGraph;
             _graphName = name;
             _scheduled = _reduced = _allocated = _parallelized = _transformed = false;
+            _nflops = 0;
         }
 
         void align_iters(bool align = true) {
@@ -3208,6 +3157,8 @@ namespace pdfg {
 
             // 1) Make statement node for comp.
             compNode = new CompNode(&comp, comp.space().name());
+            cerr << "GraphMaker: " << compNode->label() << ".flops = " << _nflops << endl;
+            compNode->attr("flops", to_string(_nflops));
 
             // Collect domain expressions
             vector<Expr> domExprs;
@@ -3394,8 +3345,8 @@ namespace pdfg {
                 }
             }
 
-            // Clear accesses for next computation.
-            _accessMap.clear();
+            _accessMap.clear();         // Clear accesses for next computation.
+            clearFLOPs();                // Reset FLOPs.
         }
 
         string indexType() const {
@@ -3761,6 +3712,22 @@ namespace pdfg {
             }
             return _dataType;
         }
+
+        void clearFLOPs() {
+            _nflops = 0;
+        }
+
+        void incFLOPs(unsigned increment = 1) {
+            _nflops += increment;
+        }
+
+        unsigned getFLOPs() const {
+            return _nflops;
+        }
+
+        void setFLOPs(unsigned nflops) {
+            _nflops = nflops;
+        }
     };
 
     Math memSet(const Space& space, const Expr& val = Int(0)) {
@@ -3947,6 +3914,22 @@ namespace pdfg {
 
     void printAccesses() {
         GraphMaker::get().printAccesses();
+    }
+
+    void clearFLOPs() {
+        GraphMaker::get().clearFLOPs();
+    }
+
+    void incFLOPs(unsigned increment) {
+        GraphMaker::get().incFLOPs(increment);
+    }
+
+    unsigned getFLOPs() {
+        return GraphMaker::get().getFLOPs();
+    }
+
+    void setFLOPs(unsigned flops) {
+        return GraphMaker::get().setFLOPs(flops);
     }
 
     Expr* getSize(const Comp& comp, const Func& func) {
