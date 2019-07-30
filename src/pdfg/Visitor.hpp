@@ -756,11 +756,6 @@ namespace pdfg {
             unsigned inStreamsI = 0, outStreamsI = 0, inStreamsF = 0, outStreamsF = 0, nIOPs = 0, nFLOPs = 0;
             Comp* comp = node->comp();
 
-            unsigned nReadsF = 0;
-            unsigned nReadsI = 0;
-            unsigned nWritesF = 0;
-            unsigned nWritesI = 0;
-
             unsigned nchildren = node->children().size();
             vector<CompNode*> nodes(nchildren + 1);
             unsigned i = 0;
@@ -771,6 +766,14 @@ namespace pdfg {
 
             string isSizeExpr, flopsExpr, iopsExpr;
             unordered_map<string, bool> marked;
+            map<string, Access*> intReads;
+            map<string, Access*> intWrites;
+            map<string, Access*> fltReads;
+            map<string, Access*> fltWrites;
+
+            if (node->label() == "consToPrim1+deconvolve+consToPrim2+waveSpeedBound1+absMax") {
+                int stop = 1;
+            }
 
             for (i = 0; i < nodes.size(); i++) {
                 node = nodes[i];
@@ -781,18 +784,18 @@ namespace pdfg {
                 _totalFLOPs += Parser().eval(flopsExpr, _constants);
 
                 map<string, Access*> reads = node->reads();
-                for (const auto &itr : reads) {
-                    Access *access = itr.second;
+                for (const auto &iter : reads) {
+                    Access *access = iter.second;
                     string space = access->space();
                     bool is_marked = (marked.find(space) != marked.end());
                     DataNode *source = (DataNode *) _graph->get(space);
                     if (source->is_int()) {
-                        nReadsI += 1;
+                        intReads[iter.first] = iter.second;
                         if (!source->is_scalar() && !is_marked) {
                             inStreamsI += 1;
                         }
                     } else {
-                        nReadsF += 1;
+                        fltReads[iter.first] = iter.second;
                         if (!source->is_scalar() && !is_marked) {
                             inStreamsF += 1;
                         }
@@ -802,18 +805,18 @@ namespace pdfg {
 
                 marked.clear();
                 map<string, Access*> writes = node->writes();
-                for (const auto &itr : writes) {
-                    Access *access = itr.second;
+                for (const auto &iter : writes) {
+                    Access *access = iter.second;
                     string space = access->space();
                     bool is_marked = (marked.find(space) != marked.end());
                     DataNode *dest = (DataNode *) _graph->get(space);
                     if (dest->is_int()) {
-                        nWritesI += 1;
+                        intWrites[iter.first] = iter.second;
                         if (!dest->is_scalar() && !is_marked) {
                             outStreamsI += 1;
                         }
                     } else {
-                        nWritesF += 1;
+                        fltWrites[iter.first] = iter.second;
                         if (!dest->is_scalar() && !is_marked) {
                             outStreamsF += 1;
                         }
@@ -821,6 +824,11 @@ namespace pdfg {
                     marked[space] = true;
                 }
             }
+
+            unsigned nReadsF = fltReads.size();
+            unsigned nReadsI = intReads.size();
+            unsigned nWritesF = fltWrites.size();
+            unsigned nWritesI = intWrites.size();
 
             string intSize = to_string(sizeof(int));
             string floatSize = to_string(sizeof(double));
@@ -1428,10 +1436,10 @@ namespace pdfg {
             process(variant);
 
             // Fully fused variant...
-//            variant = new FlowGraph(*_graph);
-//            variant->name(_graph->name() + "_fuse");
-//            variant->fuse();
-//            process(variant);
+            variant = new FlowGraph(*_graph);
+            variant->name(_graph->name() + "_fuse");
+            variant->fuse();
+            process(variant);
 //
 //            if (!_tile_iters.empty()) {
 //                // Tiled serial version
@@ -1449,12 +1457,12 @@ namespace pdfg {
 //            }
 
             // Intermediate variants...
-            if (!_fuse_names.empty()) {
-                variant = new FlowGraph(*_graph);
-                variant->name(_graph->name() + "_user");
-                variant->fuse(_fuse_names);
-                process(variant);
-            }
+//            if (!_fuse_names.empty()) {
+//                variant = new FlowGraph(*_graph);
+//                variant->name(_graph->name() + "_user");
+//                variant->fuse(_fuse_names);
+//                process(variant);
+//            }
         }
 
         void process(FlowGraph* variant) {
