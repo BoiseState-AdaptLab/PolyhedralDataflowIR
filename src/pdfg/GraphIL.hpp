@@ -3591,14 +3591,16 @@ namespace pdfg {
 
         void transform(const string& name = "", initializer_list<string> tile_iters = {},
                        initializer_list<unsigned> tile_sizes = {},
-                       initializer_list<initializer_list<string> > fuse_names = {}) {
+                       initializer_list<initializer_list<string> > fuse_names = {},
+                       bool reduce_precision = false) {
             if (!_transformed) {
-                TransformVisitor transformer(_consts, tile_iters, tile_sizes, fuse_names);
+                TransformVisitor transformer(_consts, tile_iters, tile_sizes, fuse_names, reduce_precision);
                 if (name.empty()) {
                     transformer.walk(_flowGraph);
                 } else {
                     transformer.walk(_graphs[name]);
                 }
+
                 _transformed = true;
                 _scheduled = true;          // Also set scheduled to true so codegen does not call it...
 
@@ -3807,8 +3809,9 @@ namespace pdfg {
 
     void transform(const string& name = "", initializer_list<string> tile_iters = {},
                    initializer_list<unsigned> tile_sizes = {},
-                   initializer_list<initializer_list<string> > fuse_names = {}) {
-        GraphMaker::get().transform(name, tile_iters, tile_sizes, fuse_names);
+                   initializer_list<initializer_list<string> > fuse_names = {},
+                   bool reduce_precision = false) {
+        GraphMaker::get().transform(name, tile_iters, tile_sizes, fuse_names, reduce_precision);
     }
 
     string to_dot(const string& name = "") {

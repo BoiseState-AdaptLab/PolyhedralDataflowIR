@@ -37,7 +37,7 @@ using util::PAPI;
 #include <util/Strings.hpp>
 
 #ifndef EPSILON
-#define EPSILON 0.001
+#define EPSILON 1E-6
 #endif
 
 #define GTEST_COUT cout << "[   INFO   ] "

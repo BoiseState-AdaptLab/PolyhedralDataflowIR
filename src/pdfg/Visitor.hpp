@@ -1171,6 +1171,7 @@ namespace pdfg {
 
     struct MemAllocVisitor : public ReverseVisitor {
     protected:
+        bool _reduce_precision;
         map<string, int> _constants;
         map<string, unsigned> _space_map;
         vector<MemTableEntry> _entries;
@@ -1254,7 +1255,8 @@ namespace pdfg {
         }
 
     public:
-        explicit MemAllocVisitor(const map<string, Const>& constants = {}) {
+        explicit MemAllocVisitor(const map<string, Const>& constants = {}, bool reduce_precision = false) {
+            _reduce_precision = reduce_precision;
             for (const auto& iter : constants) {
                 _constants[iter.first] = iter.second.val();
             }
@@ -1312,11 +1314,16 @@ namespace pdfg {
         void finish(FlowGraph* graph) override {
             for (const auto& iter : _space_map) {
                 string space = iter.first;
-                Node* node = graph->get(space);
+                DataNode* node = (DataNode*) graph->get(space);
                 unsigned index = iter.second;
                 unsigned size = _entries[index].size;
                 node->attr("mem_table_entry", ((size > 1) ? "array" : "scalar") + to_string(index));
                 node->attr("mem_table_size", to_string(size));
+
+                string type = node->datatype();
+                if (type[0] == 'd' && _reduce_precision) {
+                    node->datatype("float");
+                }
             }
         }
 
@@ -1381,7 +1388,10 @@ namespace pdfg {
         explicit TransformVisitor(const map<string, Const>& constants = {},
                                   initializer_list<string> tile_iters = {},
                                   initializer_list<unsigned> tile_sizes = {},
-                                  initializer_list<initializer_list<string> > fuse_names = {}) : _constants(constants) {
+                                  initializer_list<initializer_list<string> > fuse_names = {},
+                                  bool reduce_precision = false) : _constants(constants),
+                                  _reduce_precision(reduce_precision) {
+
             _tile_iters = vector<string>(tile_iters.begin(), tile_iters.end());
             _tile_sizes = vector<unsigned>(tile_sizes.begin(), tile_sizes.end());
 
@@ -1418,25 +1428,25 @@ namespace pdfg {
             process(variant);
 
             // Fully fused variant...
-            variant = new FlowGraph(*_graph);
-            variant->name(_graph->name() + "_fuse");
-            variant->fuse();
-            process(variant);
-
-            if (!_tile_iters.empty()) {
-                // Tiled serial version
-                variant = new FlowGraph(*_graph);
-                variant->name(_graph->name() + "_tile");
-                variant->tile(_tile_iters, _tile_sizes);
-                process(variant);
-
-                // Fused and tiled serial version
-                variant = new FlowGraph(*_graph);
-                variant->name(_graph->name() + "_fuse_tile");
-                variant->fuse();
-                variant->tile(_tile_iters, _tile_sizes);
-                process(variant);
-            }
+//            variant = new FlowGraph(*_graph);
+//            variant->name(_graph->name() + "_fuse");
+//            variant->fuse();
+//            process(variant);
+//
+//            if (!_tile_iters.empty()) {
+//                // Tiled serial version
+//                variant = new FlowGraph(*_graph);
+//                variant->name(_graph->name() + "_tile");
+//                variant->tile(_tile_iters, _tile_sizes);
+//                process(variant);
+//
+//                // Fused and tiled serial version
+//                variant = new FlowGraph(*_graph);
+//                variant->name(_graph->name() + "_fuse_tile");
+//                variant->fuse();
+//                variant->tile(_tile_iters, _tile_sizes);
+//                process(variant);
+//            }
 
             // Intermediate variants...
             if (!_fuse_names.empty()) {
@@ -1455,7 +1465,7 @@ namespace pdfg {
             reducer.walk(variant);
 
             // MemoryAllocation pass
-            MemAllocVisitor allocator(_constants);
+            MemAllocVisitor allocator(_constants, _reduce_precision);
             allocator.walk(variant);
 
             // Scheduler pass
@@ -1510,6 +1520,7 @@ namespace pdfg {
         }
 
         FlowGraph* _best;
+        bool _reduce_precision;
         map<string, Const> _constants;
         vector<string> _tile_iters;
         vector<unsigned> _tile_sizes;
