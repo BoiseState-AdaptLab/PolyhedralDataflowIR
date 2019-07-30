@@ -769,9 +769,17 @@ namespace pdfg {
                 nodes[i++] = child;
             }
 
+            string isSizeExpr, flopsExpr, iopsExpr;
             unordered_map<string, bool> marked;
+
             for (i = 0; i < nodes.size(); i++) {
                 node = nodes[i];
+
+                // FLOPs must sum to the same regardless of graph variant...
+                isSizeExpr = Strings::fixParens(node->comp()->space().size().text());
+                flopsExpr = node->attr("flops") +  "*(" + isSizeExpr + ")";
+                _totalFLOPs += Parser().eval(flopsExpr, _constants);
+
                 map<string, Access*> reads = node->reads();
                 for (const auto &itr : reads) {
                     Access *access = itr.second;
@@ -816,7 +824,7 @@ namespace pdfg {
 
             string intSize = to_string(sizeof(int));
             string floatSize = to_string(sizeof(double));
-            string isSizeExpr = Strings::fixParens(comp->space().size().text());
+            isSizeExpr = Strings::fixParens(comp->space().size().text());
 
             string inSizeExprF = to_string(nReadsF);
             if (nReadsF > 0) {
@@ -838,8 +846,8 @@ namespace pdfg {
             node = nodes[0];
             nIOPs = 1;                  // TODO: count int ops later (maybe), but assume at least one
             nFLOPs = node->flops();     // Count FLOPs...
-            string flopsExpr = to_string(nFLOPs) + "*(" + isSizeExpr + ")";
-            string iopsExpr = to_string(nIOPs) + "*(" + isSizeExpr + ")";
+            flopsExpr = to_string(nFLOPs) + "*(" + isSizeExpr + ")";
+            iopsExpr = to_string(nIOPs) + "*(" + isSizeExpr + ")";
 
             node->attr("isize_in", inSizeExprI);
             node->attr("istreams_in", to_string(inStreamsI));
@@ -854,13 +862,13 @@ namespace pdfg {
             node->attr("flops", flopsExpr);
             node->attr("iops", iopsExpr);
 
+            _totalIOPs += Parser().eval(iopsExpr, _constants);
+
             _totalIStreamsIn += inStreamsI;
             _totalFStreamsIn += inStreamsF;
             _totalIStreamsOut += outStreamsI;
             _totalFStreamsOut += outStreamsF;
 
-            _totalFLOPs += Parser().eval(flopsExpr, _constants);
-            _totalIOPs += Parser().eval(iopsExpr, _constants);
             _totalISizeIn += Parser().eval(inSizeExprI, _constants);
             _totalFSizeIn += Parser().eval(inSizeExprF, _constants);
             _totalISizeOut += Parser().eval(outSizeExprI, _constants);
