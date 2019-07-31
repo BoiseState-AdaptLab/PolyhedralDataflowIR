@@ -92,8 +92,12 @@ namespace pdfg {
             return _type == 'M';
         }
 
+        virtual bool is_number() const {
+            return _type == 'N' || _type == 'R';    // Ints, Reals
+        }
+
         virtual bool is_scalar() const {
-            return _type == 'N' || _type == 'R' || _type == 'S';    // Ints, Reals, Consts
+            return is_number() || _type == 'S';    // Ints, Reals, Consts
         }
 
         virtual bool is_space() const {
@@ -427,6 +431,10 @@ namespace pdfg {
 
     Math operator+=(const Expr &lhs, const Expr &rhs) {
         addSpace(lhs);
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) &&
+           (!lhs.is_scalar() || fabs(stof(lhs.text())) != 0.0)) {
+            incFLOPs();
+        }
         return Math(lhs, rhs, "+=");
     }
 
@@ -453,7 +461,10 @@ namespace pdfg {
 
     Math operator-=(const Expr &lhs, const Expr &rhs) {
         addSpace(lhs);
-        incFLOPs();
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) &&
+            (!lhs.is_scalar() || fabs(stof(lhs.text())) != 0.0)) {
+            incFLOPs();
+        }
         return Math(lhs, rhs, "-=");
     }
 
@@ -476,7 +487,8 @@ namespace pdfg {
     }
 
     Math operator*(const Expr &lhs, const Expr &rhs) {
-        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) && (!lhs.is_scalar() || fabs(stof(lhs.text())) != 1.0)) {
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) &&
+           (!lhs.is_scalar() || fabs(stof(lhs.text())) != 1.0)) {
             incFLOPs();
         }
         return Math(lhs, rhs, "*");
@@ -489,7 +501,10 @@ namespace pdfg {
 
     Math operator*=(const Expr &lhs, const Expr &rhs) {
         addSpace(lhs);
-        incFLOPs();
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) &&
+            (!lhs.is_scalar() || fabs(stof(lhs.text())) != 1.0)) {
+            incFLOPs();
+        }
         return Math(lhs, rhs, "*=");
     }
 
@@ -499,7 +514,8 @@ namespace pdfg {
     }
 
     Math operator/(const Expr &lhs, const Expr &rhs) {
-        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) && (!lhs.is_scalar() || fabs(stof(lhs.text())) != 1.0)) {
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) &&
+           (!lhs.is_scalar() || fabs(stof(lhs.text())) != 1.0)) {
             incFLOPs();
         }
         return Math(lhs, rhs, "/");
@@ -512,7 +528,10 @@ namespace pdfg {
 
     Math operator/=(const Expr &lhs, const Expr &rhs) {
         addSpace(lhs);
-        incFLOPs();
+        if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) &&
+            (!lhs.is_scalar() || fabs(stof(lhs.text())) != 1.0)) {
+            incFLOPs();
+        }
         return Math(lhs, rhs, "/=");
     }
 
@@ -1153,7 +1172,7 @@ namespace pdfg {
             // a = b ^ b < c -> a < c    (9)
             // a < b ^ b = c -> a < c   (10)
             //if (!Strings::isDigit(_upper.rhs().text())) {
-            if (!(_lower.lhs().is_scalar() && _upper.rhs().is_scalar())) {
+            if (!(_lower.lhs().is_number() && _upper.rhs().is_number())) {
                 _trans = Constr(_lower.lhs(), _upper.rhs(), _upper.relop());
             }
             //}
@@ -1826,22 +1845,28 @@ namespace pdfg {
 
         Math size() const {
             Math expr;
-            for (unsigned n = 0; n + 1 < _constraints.size(); n += 2) {
+            unsigned inc = 2;
+            for (unsigned n = 0; n + 1 < _constraints.size(); n += inc) {
                 Constr low = _constraints[n];
                 Constr high = _constraints[n+1];
-                Expr lower = low.lhs();
-                Expr upper = high.rhs();
+                if (low.rhs().is_iter() && high.lhs().is_iter()) {
+                    Expr lower = low.lhs();
+                    Expr upper = high.rhs();
 
-                Math diff = (upper - lower);
-                if (high.relop().find('=') != string::npos) {
-                    diff = diff + Int(1);
-                }
+                    Math diff = (upper - lower);
+                    if (high.relop().find('=') != string::npos) {
+                        diff = diff + Int(1);
+                    }
 
-                Math rhs = paren(diff);
-                if (expr.empty()) {
-                    expr = rhs;
+                    Math rhs = paren(diff);
+                    if (expr.empty()) {
+                        expr = rhs;
+                    } else {
+                        expr = expr * rhs;
+                    }
+                    inc = 2;
                 } else {
-                    expr = expr * rhs;
+                    inc = 1;
                 }
             }
             return expr;
@@ -2251,18 +2276,22 @@ namespace pdfg {
     }
 
     Math operator+(const Space& space, const Access& acc) {
+        incFLOPs();
         return mathSpace(space, acc, "+");
     }
 
     Math operator-(const Space& space, const Access& acc) {
+        incFLOPs();
         return mathSpace(space, acc, "-");
     }
 
     Math operator*(const Space& space, const Access& acc) {
+        incFLOPs();
         return mathSpace(space, acc, "*");
     }
 
     Math operator/(const Space& space, const Access& acc) {
+        incFLOPs();
         return mathSpace(space, acc, "/");
     }
 

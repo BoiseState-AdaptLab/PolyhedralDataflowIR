@@ -771,17 +771,16 @@ namespace pdfg {
             map<string, Access*> fltReads;
             map<string, Access*> fltWrites;
 
-            if (node->label() == "consToPrim1+deconvolve+consToPrim2+waveSpeedBound1+absMax") {
-                int stop = 1;
-            }
-
             for (i = 0; i < nodes.size(); i++) {
                 node = nodes[i];
 
                 // FLOPs must sum to the same regardless of graph variant...
                 isSizeExpr = Strings::fixParens(node->comp()->space().size().text());
-                flopsExpr = node->attr("flops") +  "*(" + isSizeExpr + ")";
-                _totalFLOPs += Parser().eval(flopsExpr, _constants);
+                string flopsAttr = node->attr("flops");
+                if (!flopsAttr.empty() && flopsAttr != "0") {
+                    flopsExpr = flopsAttr + "*(" + isSizeExpr + ")";
+                    _totalFLOPs += Parser().eval(flopsExpr, _constants);
+                }
 
                 map<string, Access*> reads = node->reads();
                 for (const auto &iter : reads) {
@@ -1359,7 +1358,7 @@ namespace pdfg {
         explicit ParallelVisitor() {}
 
         void enter(CompNode* node) override {
-            //cerr << "ParallelVisitor: enter '" << node->label() << "'\n";
+            cerr << "ParallelVisitor: enter '" << node->label() << "'\n";
             Comp* comp = node->comp();
             Tuple schedule = comp->schedules()[0].dest().iterators();
             Tuple shared;
@@ -1383,7 +1382,7 @@ namespace pdfg {
 
             if (!shared.empty()) {
                 vector<char> par_types(shared.size(), 'N');     // N=None, P=Parallel (Loop), S=SIMD
-                //par_types[0] = 'P';                           // Parallelizing outer loop does not always validate...
+                par_types[0] = 'P';                           // Parallelizing outer loop does not always validate...
                 par_types[par_types.size()-1] = 'S';
                 string par_flags = Strings::str<char>(par_types).substr(1);
                 node->attr("parallel", par_flags.substr(0, par_flags.size() - 1));
@@ -1436,10 +1435,10 @@ namespace pdfg {
             process(variant);
 
             // Fully fused variant...
-            variant = new FlowGraph(*_graph);
-            variant->name(_graph->name() + "_fuse");
-            variant->fuse();
-            process(variant);
+//            variant = new FlowGraph(*_graph);
+//            variant->name(_graph->name() + "_fuse");
+//            variant->fuse();
+//            process(variant);
 //
 //            if (!_tile_iters.empty()) {
 //                // Tiled serial version
@@ -1457,12 +1456,12 @@ namespace pdfg {
 //            }
 
             // Intermediate variants...
-//            if (!_fuse_names.empty()) {
-//                variant = new FlowGraph(*_graph);
-//                variant->name(_graph->name() + "_user");
-//                variant->fuse(_fuse_names);
-//                process(variant);
-//            }
+            if (!_fuse_names.empty()) {
+                variant = new FlowGraph(*_graph);
+                variant->name(_graph->name() + "_user");
+                variant->fuse(_fuse_names);
+                process(variant);
+            }
         }
 
         void process(FlowGraph* variant) {

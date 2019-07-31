@@ -9,6 +9,9 @@
 #include <stdio.h>
 #include <cuda_runtime.h>
 
+#define CUDA_MAX_BLOCKS 32768
+#define CUDA_MAX_THREADS 1024
+
 /**
  * gpuAssert
  *

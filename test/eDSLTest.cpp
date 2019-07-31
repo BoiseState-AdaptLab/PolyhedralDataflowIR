@@ -532,10 +532,11 @@ TEST(eDSLTest, ConjGradCOO) {
     Comp dadd("dadd", vec, (d[i] = r[i] + beta * d[i]));     // FMA: a+b*c
     //Comp check("check", sca, (rs <= tol), (t=T+1));
 
-    // Perform fusions
-    fuse();
-
+    fuse();             // Perform fusions
+//    reschedule();       // Schedule
+//    parallelize();      // Parallelize code.
     perfmodel();        // perfmodel annotates graph with performance attributes.
+
     print("out/" + name + ".json");
     string result = codegen("out/" + name + ".o", "", "C++", "auto");
     //cerr << result << endl;

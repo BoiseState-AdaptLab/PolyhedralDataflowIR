@@ -23,5 +23,6 @@ TEST_F(ConjGradCOOTest, CG) {
     Run();
     Verify();
     Assert();
-}
+};
+
 }

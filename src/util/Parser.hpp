@@ -18,12 +18,12 @@ namespace util {
 
         // Evaluates an integer expression using Shunting-Yard algorithm.
         int eval(const string& expression, const map<string, int>& consts = {}) {
-            string expr = expression;
+            _expression = expression;
             if (!consts.empty()) {
-                expr = replaceConsts(expr, consts);
+                _expression = replaceConsts(_expression, consts);
             }
 
-            tokenize(expr);
+            tokenize();
 
             int status = infix2postfix();
             if (status > 0) {
@@ -42,9 +42,11 @@ namespace util {
             return result;
         }
 
-        void tokenize(const string &expr) {
+        void tokenize() {
+            string expr = _expression;
             _tokens.clear();
             string number;
+
             for (char chr : expr) {
                 if (isdigit(chr)) {
                     number += chr;
@@ -108,7 +110,7 @@ namespace util {
             for (const string& token : _postfix) {
                 if (isdigit(token[0])) {
                     stack.push(stoi(token));
-                } else {
+                } else if (stack.size() > 1) {
                     int val1 = stack.top();
                     stack.pop();
                     int val2 = stack.top();
@@ -136,6 +138,7 @@ namespace util {
             return stack.top();
         }
 
+        string _expression;
         deque<string> _tokens;
         vector<string> _postfix;
     };
