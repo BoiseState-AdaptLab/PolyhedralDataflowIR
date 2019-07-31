@@ -157,9 +157,10 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
                 lib/chill/omega/code_gen/src/CG_stringBuilder.cc
 )
 
-set(TESTING "true")
+#set(TESTING "true")
 #set(MAKELIB "true")
 #set(PAPI_ON "true")
+set(PARBUILD "true")
 
 link_directories(lib)
 if (PAPI_ON)
@@ -195,9 +196,19 @@ if (TESTING)
 
     add_test(driver eDSLTest ConjGradCOOTest ConjGradCSRTest JacobiTest)   # TensorDecompTest)
     #add_test(driver ConjGradCOOTest ConjGradCSRTest)# TensorDecompTest)
+
 elseif (MAKELIB)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3")
     add_library(polylib SHARED ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
+
+elseif (PARBUILD)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -fopenmp -ftree-vectorize -funroll-all-loops")
+    #find_package(MPI REQUIRED)
+    #include_directories(${MPI_INCLUDE_PATH})
+    add_executable(cgpar test/cg_par.cpp ${PROTO_SRC})
+    target_link_libraries(cgpar m omp) #${MPI_LIBRARIES})
+    #target_compile_definitions(cgpar PRIVATE DIM=3 NUMCELLS=64 OMP_ENABLE=1 DATAFLOW_ON=0 DATAFLOW_CODE=1)
+
 else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -Wno-deprecated -Wno-deprecated-declarations -Wno-format-overflow")
     set(DRIVER src/main.cpp)

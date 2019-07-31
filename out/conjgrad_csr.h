@@ -27,14 +27,14 @@ fprintf(stderr,"}\n");}
 double conjgrad_csr(const double* A, const double* b, const unsigned N, const unsigned T, const unsigned* col, const unsigned* rp, double* x);
 inline double conjgrad_csr(const double* A, const double* b, const unsigned N, const unsigned T, const unsigned* col, const unsigned* rp, double* x) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10;
-    double* d = (double*) calloc((N),sizeof(double));
-    double* r = (double*) calloc((N),sizeof(double));
-    double* s = (double*) calloc((N),sizeof(double));
-    double ds = 0;
-    double rs0 = 0;
-    double alpha = 0;
-    double rs = 0;
-    double beta = 0;
+    double* __restrict d = (double*) malloc((N)*sizeof(double));
+    double* __restrict r = (double*) malloc((N)*sizeof(double));
+    double* __restrict s = (double*) malloc((N)*sizeof(double));
+    double ds;
+    double rs0;
+    double alpha;
+    double rs;
+    double beta;
 
 // copy+mset+spmv+ddot+rdot0+adiv+xadd+rsub+rdot+bdiv+bmul+dadd
 #undef s0
