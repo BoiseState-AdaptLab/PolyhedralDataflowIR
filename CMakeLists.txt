@@ -207,7 +207,7 @@ elseif (PARBUILD)
     #include_directories(${MPI_INCLUDE_PATH})
     add_executable(cg_par test/cg_par.cpp)
     target_link_libraries(cg_par m omp) #${MPI_LIBRARIES})
-    #target_compile_definitions(cg_par PRIVATE EIGEN_EXEC=1)
+    target_compile_definitions(cg_par PRIVATE LIKWID_PERF=1) #EIGEN_EXEC=1)
 
 else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -Wno-deprecated -Wno-deprecated-declarations -Wno-format-overflow")

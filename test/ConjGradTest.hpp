@@ -1,6 +1,8 @@
 #ifndef _CONJGRADTEST_HPP_
 #define _CONJGRADTEST_HPP_
 
+#include <omp.h>
+
 #include <string>
 using std::string;
 using std::to_string;

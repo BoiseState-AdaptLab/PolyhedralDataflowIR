@@ -1,6 +1,7 @@
 #include <omp.h>
 #include <sys/time.h>
 
+#include <util/LIKWID.hpp>
 #include <util/MatrixIO.hpp>
 using util::MatrixIO;
 
