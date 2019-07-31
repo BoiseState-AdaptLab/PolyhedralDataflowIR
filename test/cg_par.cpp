@@ -51,6 +51,7 @@ void setup(const char* matrix, unsigned* nnz, unsigned* nrow, unsigned* ncol, un
     *vals = (double*) malloc(nbytes);
     memcpy(*vals, mtx.vals(), nbytes);
 
+#ifdef EIGEN_EXEC
     vector<Triple> triples;
     triples.reserve(*nnz);
     for (unsigned n = 0; n < *nnz; n++) {
@@ -63,28 +64,34 @@ void setup(const char* matrix, unsigned* nnz, unsigned* nrow, unsigned* ncol, un
     xVec.resize(*ncol);
     bVec.resize(*nrow);
 
+    for (unsigned i = 0; i < *nrow; i++) {
+        bVec(i) = 1.0;
+    }
+#else
     *x = (double*) calloc(*ncol, sizeof(double));
     *b = (double*) malloc(*nrow * sizeof(double));
 
     // Initialize b to something more interesting than 0
     for (unsigned i = 0; i < *nrow; i++) {
         (*b)[i] = 1.0;
-        bVec(i) = 1.0;
     }
+#endif
 }
 
 void teardown(unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b) {
     free(*rows);
     free(*cols);
     free(*vals);
+#ifndef EIGEN_EXEC
     free(*x);
     free(*b);
+#endif
 }
 
 int main(int argc, char **argv) {
     double ptime;
     double tsum = 0.0;
-    int nproc = 0;
+    int nproc = 1;
     int pid = 0;
     int nruns = 1;
 
@@ -92,24 +99,19 @@ int main(int argc, char **argv) {
     const char* matrix = argv[1];
 
     unsigned nnz, nrow, ncol, maxiter = 500;
-    unsigned niter = 0, niter_ref = 0;
+    unsigned niter = 0;
     unsigned* rows;
     unsigned* cols;
 
-    double err = 1.0, err_ref, tol = 1e-10;
+    double err = 1.0, tol = 1e-10;
     double* __restrict vals;
     double* __restrict x;
     double* __restrict b;
-    const double* x_ref;
-    const double* b_ref;
 
     // Eigen Objects:
     VectorXd xVec, bVec;
     SparseMatrix<double> Aspm;
-    ConjugateGradient<SparseMatrix<double>> cg;
-    //ConjugateGradient<SparseMatrix<double>, Lower|Upper> cg;
-    cg.setMaxIterations(maxiter);
-    cg.setTolerance(tol);
+    ConjugateGradient<SparseMatrix<double>, Lower|Upper> cg;
 
     #pragma omp parallel
     {
@@ -117,10 +119,15 @@ int main(int argc, char **argv) {
     }
 
     if (argc > 2) {
-        nruns = atoi(argv[1]);
+        nruns = atoi(argv[2]);
     }
 
     setup(matrix, &nnz, &nrow, &ncol, &maxiter, &rows, &cols, &vals, &x, &b, Aspm, xVec, bVec);
+
+#ifdef EIGEN_EXEC
+    cg.setMaxIterations(maxiter);
+    cg.setTolerance(tol);
+#endif
 
 #ifdef LIKWID_PERF
     LIKWID_MARKER_INIT
@@ -129,9 +136,9 @@ int main(int argc, char **argv) {
     for (unsigned i = 0; i < nruns; i++) {
         ptime = get_wtime();
 
-        #pragma omp parallel for private(pid)
-        for (unsigned p = 0; p < nproc; p++) {
-            pid = omp_get_thread_num();
+        //#pragma omp parallel for private(pid)
+        //for (unsigned p = 0; p < nproc; p++) {
+        //    pid = omp_get_thread_num();
 
 #ifdef LIKWID_PERF
         LIKWID_MARKER_START(name);
@@ -142,11 +149,19 @@ int main(int argc, char **argv) {
     __itt_resume(); // start VTune, again use 2 underscores
 #endif
 
-        unsigned ndx = i;
-        ndx += nruns * pid;
+//        unsigned ndx = i;
+//        ndx += nruns * pid;
 
+#ifdef EIGEN_EXEC
+        cg.compute(Aspm);
+        xVec = cg.solve(bVec);
+        niter = cg.iterations();
+        err = cg.error();
+        x = xVec.data();
+#else
         err = conjgrad_coo(vals, b, nnz, nrow, maxiter, cols, rows, x);
         niter = maxiter;
+#endif
 
 #ifdef LIKWID_PERF
         LIKWID_MARKER_STOP(name);
@@ -157,7 +172,7 @@ int main(int argc, char **argv) {
     __SSC_MARK(0x222); // stop SDE tracing
 #endif
 
-        }
+        //}
 
         ptime = get_wtime() - ptime;
         tsum += ptime;
