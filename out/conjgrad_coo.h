@@ -45,9 +45,9 @@ memset(s,0,(N)*sizeof(double));\
 #undef s2
 #define s2(t,n,i,j) s[(i)]+=A[(n)]*d[(j)]
 #undef s3
-#define s3(t,n,i) ds+=d[(i)]*s[(i)]
+#define s3(t,i) ds+=d[(i)]*s[(i)]
 #undef s4
-#define s4(t,n,i) rs0+=r[(i)]*r[(i)]
+#define s4(t,i) rs0+=r[(i)]*r[(i)]
 #undef s5
 #define s5(t) alpha=rs0/ds
 #undef s6
@@ -73,8 +73,11 @@ for(t2 = 1; t2 <= T; t2++) {
     t6=row(t2,t4);
     t8=col(t2,t4);
     s2(t2,t4,t6,t8);
-    s3(t2,t4,t6);
-    s4(t2,t4,t6);
+  }
+  #pragma omp simd
+  for(t4 = 0; t4 <= N-1; t4++) {
+    s3(t2,t4);
+    s4(t2,t4);
   }
   s5(t2);
   #pragma omp simd

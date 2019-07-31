@@ -91,6 +91,47 @@ namespace pdfg {
             return _nodes;
         }
 
+        vector<string> leaf_nodes() {
+            vector<string> leaves;
+            for (const string& node : _nodes) {
+                if (is_leaf(node)) {
+                    leaves.push_back(node);
+                }
+            }
+            return leaves;
+        }
+
+        vector<string> int_nodes() {
+            vector<string> internals;
+            for (const string& node : _nodes) {
+                if (!is_root(node) && !is_leaf(node)) {
+                    internals.push_back(node);
+                }
+            }
+            return internals;
+        }
+
+        vector<string> labels() {
+            vector<string> labs;
+            for (const string& node : _nodes) {
+                labs.push_back(label(node));
+            }
+            return labs;
+        }
+
+        vector<string> int_labels() {
+            vector<string> internals;
+            for (const string& node : _nodes) {
+                if (!is_root(node) && !is_leaf(node)) {
+                    string lab = label(node);
+                    if (std::find(internals.begin(), internals.end(), lab) == internals.end()) {
+                        internals.push_back(lab);
+                    }
+                }
+            }
+            return internals;
+        }
+
         bool remove_edge(const string& src, const string& dest) {
             int pos = -1;
             auto itr = _indices.find(src);
@@ -193,10 +234,12 @@ namespace pdfg {
                 vector<Pair> edges = this->edges(node);
                 int n = 0;
                 for (Pair& edge : edges) {
-                    path.push_back(n);
-                    string sub = find(edge.first, key, path, skips);
-                    if (!sub.empty()) {
-                        return sub;
+                    if (Lists::index<string>(skips, edge.first) < 0) {
+                        path.push_back(n);
+                        string sub = find(edge.first, key, path, skips);
+                        if (!sub.empty()) {
+                            return sub;
+                        }
                     }
                     n += 1;
                 }

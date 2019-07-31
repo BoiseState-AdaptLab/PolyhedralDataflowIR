@@ -75,6 +75,9 @@ for(t2 = 1; t2 <= T; t2++) {
       t8=col(t2,t4,t6);
       s2(t2,t4,t6,t8);
     }
+  }
+  #pragma omp simd
+  for(t4 = 0; t4 <= N-1; t4++) {
     s3(t2,t4);
     s4(t2,t4);
   }

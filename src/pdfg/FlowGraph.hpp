@@ -1117,6 +1117,7 @@ namespace pdfg {
             string inode, inext, iprev, iter;
             Tuple sched;
             IntTuple path;
+            IntTuple prev_path;
             IntTuple shifts;
 
             vector<Tuple> prevScheds = prev->schedules();
@@ -1143,22 +1144,18 @@ namespace pdfg {
             sched = currScheds[0];
             path.clear();
 
-//            if (curr->label() == "smul_d1") {
-//                cerr << ig->to_dot() << endl;
-//                int stop = 1;
-//            }
-
             // Construct set of data dependences...
             bool is_parent = false;
-            vector<CompNode*> producers = getProducers(prev, curr, &is_parent);
-            map<string, IntTuple> prod_paths;
             int shift_sum = 0;
+            unordered_map<string, CompNode*> producers = getProducers(prev, curr, &is_parent);
+            unordered_map<string, IntTuple> prod_paths;
 
             if (is_parent) {
                 shifts = nodeOffsets(prev, curr, sched);
                 shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
             } else {
-                for (CompNode *prod : producers) {
+                for (const auto& itr : producers) {
+                    CompNode* prod = itr.second;
                     IntTuple prod_path;
                     ig->find(prod->label(), prod_path);
                     prod_paths[prod->label()] = prod_path;
@@ -1173,38 +1170,54 @@ namespace pdfg {
                 }
             }
 
+            // Populate skip list (internal nodes that do not appear in schedule...
+            vector<string> skips;
+            for (const string& node : ig->int_labels()) {
+                if (std::find(sched.begin(), sched.end(), node) == sched.end()) {
+                    skips.push_back(node);
+                }
+            }
+
+//            if (curr->label() == "smul_d1") {
+//                cerr << ig->to_dot() << endl;
+//                int stop = 1;
+//            }
+
             inode = ig->root();
             for (unsigned j = 0; j < sched.size() - 1; j++) {
                 iter = sched[j].text();
-                inext = ig->find(inode, iter, path);
+                inext = ig->find(inode, iter, path, skips);
 
                 // Check producer paths for dependence violations...
-                for (const auto& itr : prod_paths) {
-                    IntTuple prod_path = itr.second;
+                for (const auto &itr : producers) {
+                    CompNode *producer = itr.second;
+                    IntTuple prod_path = prod_paths[itr.first];
                     iprev = inext;
-                    vector<string> skips;
+
                     while (!inext.empty() && path[j] < prod_path[j]) {
                         // Find next valid iterator node, skipping those already visited...
                         path.resize(j);
                         skips.push_back(inext);
                         inext = ig->find(inode, iter, path, skips);
                     }
-                    if (!inext.empty() && j > 1 && shifts[j-1] != 0) {
+
+                    if (!inext.empty() && j > 1 && shifts[j - 1] != 0) {
                         // TODO: This horrible code is intended to solve the problem of leaf nodes being placed
                         // with next to siblings whose parents have different shifts, which results in incorrect
                         // (and ugly) code generation by Omega. Refactor!!!
                         int pos = ig->size(inext) - 1;
                         if (pos >= 0) {
                             string isib = ig->child(inext, pos);
-                            CompNode* sib_comp = prev->find_child(isib);
+                            CompNode *sib_comp = prev->find_child(isib);
                             if (sib_comp && sib_comp->shifts()) {
-                                int sib_shift = sib_comp->shifts()->at(j-2);
-                                if (sib_shift != 0 && sib_shift != shifts[j-2]) {
+                                int sib_shift = sib_comp->shifts()->at(j - 2);
+                                if (sib_shift != 0 && sib_shift != shifts[j - 2]) {
                                     inext = "";
                                 }
                             }
                         }
                     }
+
                     if (iprev != inext) {
                         break;
                     }
@@ -1217,12 +1230,12 @@ namespace pdfg {
 
                 iprev = inode;
                 inode = inext;
+                prev_path = path;
             }
 
             inode = ig->insertLeaf(inode, curr->label(), path);         // Add leaf node (the statement)
             if (shift_sum) {
-                if (is_parent) {
-                    // Apply shift to parent...
+                if (is_parent) {                                        // Apply shift to parent...
                     prev->shifts(shifts);
                     inode = ig->find(ig->root(), prev->first_label());
                 } else {
@@ -1252,8 +1265,8 @@ namespace pdfg {
             return fname;
         }
 
-        vector<CompNode*> getProducers(CompNode* prev, CompNode* curr, bool* is_parent) {
-            vector<CompNode*> producers;
+        unordered_map<string, CompNode*> getProducers(CompNode* prev, CompNode* curr, bool* is_parent) {
+            unordered_map<string, CompNode*> producers;
             for (Edge* edge : this->in_edges(curr)) {
                 DataNode* dnode = (DataNode*) edge->source();
                 vector<Edge*> ins = this->in_edges(dnode);
@@ -1267,7 +1280,7 @@ namespace pdfg {
                             child = prev->find_child(dnode->label());
                         }
                         if (child) {
-                            producers.push_back(child);
+                            producers[child->label()] = child;
                         } else if (!(*is_parent)) {
                             *is_parent = true;
                         }

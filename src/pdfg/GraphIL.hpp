@@ -618,6 +618,10 @@ namespace pdfg {
             return _text == other._text;
         }
 
+        bool operator==(const string &text) {
+            return _text == text;
+        }
+
         Math operator=(const Math &math) {
             return Math(*this, math, "=");
         }
@@ -3969,8 +3973,7 @@ namespace pdfg {
     }
 
     void fuse() {
-        GraphMaker& gm = GraphMaker::get();
-        gm.fuse();
+        GraphMaker::get().fuse();
     }
 
     void fuse(Comp& comp1, Comp& comp2) {

@@ -508,7 +508,7 @@ TEST(eDSLTest, ConjGradCOO) {
     Space sca("sca", 1 <= t <= T);
     Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
     Space coo("coo", 1 <= t <= T ^ 0 <= n < M ^ i==row(n) ^ j==col(n));
-    Space spv("spv", 1 <= t <= T ^ 0 <= n < M ^ i==row(n));  // Sparse vector enables fusing dot products with SpMV.
+    //Space spv("spv", 1 <= t <= T ^ 0 <= n < M ^ i==row(n));  // Sparse vector enables fusing dot products with SpMV.
     Space mtx = coo;
 
     // Data spaces:
@@ -522,8 +522,8 @@ TEST(eDSLTest, ConjGradCOO) {
     Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
     Comp mset("mset", sca, memSet(s));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
-    Comp ddot("ddot", spv, (ds += d[i]*s[i]));
-    Comp rdot0("rdot0", spv, (rs0 += r[i]*r[i]));
+    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
     Comp adiv("adiv", sca, (alpha = rs0/ds));
     Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
     Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));

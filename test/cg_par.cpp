@@ -25,6 +25,7 @@ typedef Eigen::Triplet<double> Triple;
 #endif
 
 #include "conjgrad_coo.h"
+//#include "conjgrad_csr.h"
 
 double get_wtime() {
     struct timeval tv;

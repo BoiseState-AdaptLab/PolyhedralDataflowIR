@@ -157,10 +157,10 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
                 lib/chill/omega/code_gen/src/CG_stringBuilder.cc
 )
 
-#set(TESTING "true")
+set(TESTING "true")
 #set(MAKELIB "true")
 #set(PAPI_ON "true")
-set(PARBUILD "true")
+#set(PARBUILD "true")
 
 link_directories(lib)
 if (PAPI_ON)
@@ -181,7 +181,7 @@ if (TESTING)
             test/JacobiTest.cpp) # test/TensorDecompTest.cpp)
     #set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
     #               test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O3")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O0")
 
     enable_testing()
     add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES})
@@ -202,12 +202,13 @@ elseif (MAKELIB)
     add_library(polylib SHARED ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
 
 elseif (PARBUILD)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -fopenmp -ftree-vectorize -funroll-all-loops")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -ftree-vectorize -funroll-all-loops -O3")
     #find_package(MPI REQUIRED)
     #include_directories(${MPI_INCLUDE_PATH})
     add_executable(cg_par test/cg_par.cpp)
     target_link_libraries(cg_par m omp) #${MPI_LIBRARIES})
-    target_compile_definitions(cg_par PRIVATE LIKWID_PERF=1) #EIGEN_EXEC=1)
+    #target_compile_definitions(cg_par PRIVATE LIKWID_PERF=1)
+    #target_compile_definitions(cg_par PRIVATE EIGEN_EXEC=1)
 
 else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -Wno-deprecated -Wno-deprecated-declarations -Wno-format-overflow")
