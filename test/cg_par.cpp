@@ -12,6 +12,7 @@ using std::to_string;
 #include <vector>
 using std::vector;
 
+#ifdef EIGEN_EXEC
 #include <Eigen/Sparse>
 #include <Eigen/SparseExtra>
 #include <Eigen/IterativeLinearSolvers>
@@ -21,6 +22,7 @@ using Eigen::ConjugateGradient;
 using Eigen::Lower;
 using Eigen::Upper;
 typedef Eigen::Triplet<double> Triple;
+#endif
 
 #include "conjgrad_coo.h"
 
@@ -31,8 +33,12 @@ double get_wtime() {
 }
 
 void setup(const char* matrix, unsigned* nnz, unsigned* nrow, unsigned* ncol, unsigned* maxiter,
-           unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b,
-           SparseMatrix<double>& Aspm, VectorXd& xVec, VectorXd& bVec) {
+           unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b
+#ifdef EIGEN_EXEC
+           , SparseMatrix<double>& Aspm, VectorXd& xVec, VectorXd& bVec) {
+#else
+           ) {
+#endif
     // Read matrix file
     MatrixIO mtx(matrix);
     mtx.read();
@@ -109,10 +115,12 @@ int main(int argc, char **argv) {
     double* __restrict x;
     double* __restrict b;
 
+#ifdef EIGEN_EXEC
     // Eigen Objects:
     VectorXd xVec, bVec;
     SparseMatrix<double> Aspm;
     ConjugateGradient<SparseMatrix<double>, Lower|Upper> cg;
+#endif
 
     #pragma omp parallel
     {
@@ -123,11 +131,13 @@ int main(int argc, char **argv) {
         nruns = atoi(argv[2]);
     }
 
-    setup(matrix, &nnz, &nrow, &ncol, &maxiter, &rows, &cols, &vals, &x, &b, Aspm, xVec, bVec);
-
+    setup(matrix, &nnz, &nrow, &ncol, &maxiter, &rows, &cols, &vals, &x, &b
 #ifdef EIGEN_EXEC
+    , Aspm, xVec, bVec);
     cg.setMaxIterations(maxiter);
     cg.setTolerance(tol);
+#else
+    );
 #endif
 
 #ifdef LIKWID_PERF
