@@ -84,18 +84,43 @@ namespace pdfg {
         virtual void walk(FlowGraph* graph) {
             setup(graph);
             for (Node* node : graph->nodes()) {
-                visit(node);        //node->accept(this);
+                visit(node);
             }
-//          for i in range(g.nrows):
-//            for j in range(g.ncols):
-//              if (i, j) in g:
-//                node = g[(i, j)]
-//                node.accept(self)
             finish(graph);
         }
 
     protected:
         FlowGraph* _graph;
+    };
+
+    struct DFSVisitor : public DFGVisitor {
+    public:
+        virtual void walk(FlowGraph* graph) {
+            setup(graph);
+            vector<Node*> inputs = graph->inNodes();
+            for (Node* node : inputs) {
+                visit(node);
+            }
+            finish(graph);
+        }
+
+        virtual void visit(Node* node) {
+            //cerr << "DFSVisitor: Visiting node '" << node->label() << "'" << endl;
+            enter(node);
+            exit(node);
+
+            // Visit neighbors...
+            for (Edge* out : _graph->out_edges(node)) {
+                Node* next = out->dest();
+                if (_visited.find(next->label()) == _visited.end()) {
+                    visit(next);
+                    _visited[next->label()] = true;
+                }
+            }
+        }
+
+    protected:
+        unordered_map<string, bool> _visited;
     };
 
     struct ReverseVisitor : public DFGVisitor {
@@ -771,6 +796,7 @@ namespace pdfg {
             map<string, Access*> fltReads;
             map<string, Access*> fltWrites;
 
+            unsigned flopSum = 0;
             for (i = 0; i < nodes.size(); i++) {
                 node = nodes[i];
 
@@ -779,7 +805,7 @@ namespace pdfg {
                 string flopsAttr = node->attr("flops");
                 if (!flopsAttr.empty() && flopsAttr != "0") {
                     flopsExpr = flopsAttr + "*(" + isSizeExpr + ")";
-                    _totalFLOPs += Parser().eval(flopsExpr, _constants);
+                    flopSum += Parser().eval(flopsExpr, _constants);
                 }
 
                 map<string, Access*> reads = node->reads();
@@ -829,6 +855,14 @@ namespace pdfg {
             unsigned nWritesF = fltWrites.size();
             unsigned nWritesI = intWrites.size();
 
+            // TODO: Track down this bug, for now it suffices to set # reads = # writes...
+            if (nReadsF < 1) {
+                nReadsF = nWritesF;
+            }
+            if (nWritesF < 1) {
+                nWritesF = 1;
+            }
+
             string intSize = to_string(sizeof(int));
             string floatSize = to_string(sizeof(double));
             isSizeExpr = Strings::fixParens(comp->space().size().text());
@@ -866,20 +900,38 @@ namespace pdfg {
             node->attr("fsize_out", outSizeExprF);
             node->attr("fstreams_out", to_string(outStreamsF));
 
-            node->attr("flops", flopsExpr);
+            nIOPs = Parser().eval(iopsExpr, _constants);
+            _totalIOPs += nIOPs;
             node->attr("iops", iopsExpr);
+            node->attr("iops_cnt", to_string(nIOPs));
 
-            _totalIOPs += Parser().eval(iopsExpr, _constants);
+            _totalFLOPs += flopSum;
+            node->attr("flops", flopsExpr);
+            node->attr("flops_cnt", to_string(flopSum));
 
             _totalIStreamsIn += inStreamsI;
             _totalFStreamsIn += inStreamsF;
             _totalIStreamsOut += outStreamsI;
             _totalFStreamsOut += outStreamsF;
 
-            _totalISizeIn += Parser().eval(inSizeExprI, _constants);
-            _totalFSizeIn += Parser().eval(inSizeExprF, _constants);
-            _totalISizeOut += Parser().eval(outSizeExprI, _constants);
-            _totalFSizeOut += Parser().eval(outSizeExprF, _constants);
+            unsigned inSizeBytesI = Parser().eval(inSizeExprI, _constants);
+            _totalISizeIn += inSizeBytesI;
+            node->attr("isize_in_b", to_string(inSizeBytesI));
+
+            unsigned inSizeBytesF = Parser().eval(inSizeExprF, _constants);
+            _totalFSizeIn += inSizeBytesF;
+            node->attr("fsize_in_b", to_string(inSizeBytesF));
+
+            unsigned outSizeBytesI = Parser().eval(outSizeExprI, _constants);
+            _totalISizeOut += outSizeBytesI;
+            node->attr("isize_out_b", to_string(outSizeBytesI));
+
+            unsigned outSizeBytesF = Parser().eval(outSizeExprF, _constants);
+            _totalFSizeOut += outSizeBytesF;
+            node->attr("fsize_out_b", to_string(outSizeBytesF));
+
+//            cerr << "PerfModelVisitor: (" << node->label() << ") BytesRead="
+//                 << inSizeBytesF << ", BytesWrite=" << outSizeBytesF << "\n";
         }
 
         void enter(DataNode* node) override {
@@ -903,7 +955,7 @@ namespace pdfg {
             }
 
             nBytes *= node->typesize();
-            node->attr("bytes", to_string(nBytes));
+            node->attr("alloc_bytes", to_string(nBytes));
             if (addBytes) {
                 _totalBytes += nBytes;
             }
@@ -1165,6 +1217,92 @@ namespace pdfg {
         }
     };
 
+    /**
+     * GroupVisitor
+     */
+
+    struct GroupVisitor : public DFSVisitor { //DFGVisitor {
+    protected:                     //268,435,456
+        const unsigned _cache_size = 288435456;  //35840*1024*8; //4;          // Based on Haswell right now...
+
+        int _ngroups;
+        unordered_map<string, int> _constants;
+        vector<unsigned> _read_bytes;
+        vector<unsigned> _write_bytes;
+        vector<unsigned> _alloc_bytes;
+        vector<unsigned> _flop_counts;
+        vector<vector<CompNode*>> _groups;
+
+    public:
+        explicit GroupVisitor(const map<string, Const>& constants = {}) {
+            _ngroups = -1;
+            newGroup();
+            for (const auto& iter : constants) {
+                _constants[iter.first] = iter.second.val();
+            }
+        }
+
+        void enter(CompNode* node) override {
+            unsigned nflops = stoi(node->attr("flops_cnt"));
+            unsigned read_bytes = stoi(node->attr("fsize_in_b"));
+            unsigned write_bytes = stoi(node->attr("fsize_out_b"));
+            unsigned total_bytes = read_bytes + write_bytes;
+            unsigned group_total = _read_bytes[_ngroups] + _write_bytes[_ngroups];
+            unsigned next_total = group_total + total_bytes;
+
+            // This approach is too simplistic, need to consider how bytes will change after DataReduceVisitor.
+
+            // Roofline Points = (AI [FLOPs/Byte], Perf [FLOPs/sec])
+            float node_ai = (float) nflops / (float) total_bytes;
+            float group_ai = (float) _flop_counts[_ngroups] / (float) group_total;
+            float next_ai = (float) (_flop_counts[_ngroups] + nflops) / (float) next_total;
+
+            if (node->label() == "interpH_d1") {
+                int stop = 1;
+            }
+
+            if (next_total > _cache_size) {
+            //if (next_ai < group_ai) {
+                newGroup();         // Create a new group...
+            }
+
+            _flop_counts[_ngroups] += nflops;
+            _read_bytes[_ngroups] += read_bytes;
+            _write_bytes[_ngroups] += write_bytes;
+
+            // How to calculate alloc'd bytes per group? In edges or out edges?
+            for (Edge* in : _graph->in_edges(node)) {
+                DataNode* input = (DataNode*) in->source();
+            }
+            for (Edge* out : _graph->out_edges(node)) {
+                DataNode* data = (DataNode*) out->dest();
+            }
+
+            // Add node to group...
+            _groups[_ngroups].push_back(node);
+            cerr << "GroupVisitor: node '" << node->label() << "' in group " << _ngroups << "\n";
+            node->attr("group_id", to_string(_ngroups));
+        }
+
+        void newGroup() {
+            _ngroups += 1;
+            _read_bytes.push_back(0);
+            _write_bytes.push_back(0);
+            _alloc_bytes.push_back(0);
+            _flop_counts.push_back(0);
+            _groups.push_back(vector<CompNode*>());
+        }
+
+        void finish(FlowGraph* graph) override {
+            // Fuse the groups...
+            int stop = 1;
+        }
+    };
+
+    /**
+     * MemAllocVisitor
+     */
+
     struct MemTableEntry {
         unsigned size;
         unsigned prev_size;
@@ -1172,7 +1310,7 @@ namespace pdfg {
         bool resized;
     };
 
-    bool MemTableCommpare(MemTableEntry& lhs, MemTableEntry& rhs) {
+    bool MemTableCompare(MemTableEntry& lhs, MemTableEntry& rhs) {
         return (lhs.size < rhs.size);
     }
 
@@ -1382,7 +1520,7 @@ namespace pdfg {
 
             if (!shared.empty()) {
                 vector<char> par_types(shared.size(), 'N');     // N=None, P=Parallel (Loop), S=SIMD
-                par_types[0] = 'P';                           // Parallelizing outer loop does not always validate...
+                //par_types[0] = 'P';                           // Parallelizing outer loop does not always validate...
                 par_types[par_types.size()-1] = 'S';
                 string par_flags = Strings::str<char>(par_types).substr(1);
                 node->attr("parallel", par_flags.substr(0, par_flags.size() - 1));
@@ -1434,6 +1572,13 @@ namespace pdfg {
             variant->name(_graph->name() + "_ser");
             process(variant);
 
+            // Create grouped variant
+//            variant = new FlowGraph(*variant);
+//            variant->name(_graph->name() + "_group");
+//            GroupVisitor grouper(_constants);
+//            grouper.walk(variant);
+//            process(variant);
+
             // Fully fused variant...
 //            variant = new FlowGraph(*_graph);
 //            variant->name(_graph->name() + "_fuse");
@@ -1456,12 +1601,12 @@ namespace pdfg {
 //            }
 
             // Intermediate variants...
-            if (!_fuse_names.empty()) {
-                variant = new FlowGraph(*_graph);
-                variant->name(_graph->name() + "_user");
-                variant->fuse(_fuse_names);
-                process(variant);
-            }
+//            if (!_fuse_names.empty()) {
+//                variant = new FlowGraph(*_graph);
+//                variant->name(_graph->name() + "_user");
+//                variant->fuse(_fuse_names);
+//                process(variant);
+//            }
         }
 
         void process(FlowGraph* variant) {

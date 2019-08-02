@@ -2694,6 +2694,14 @@ namespace pdfg {
             return _schedules[index];
         }
 
+        Math statement(unsigned index) const {
+            return _statements[index];
+        }
+
+        void statement(unsigned index, const Math& stmt) {
+            _statements[index] = stmt;
+        }
+
         unsigned nschedules() const {
             return _schedules.size();
         }
@@ -3189,9 +3197,16 @@ namespace pdfg {
             DataNode* dataNode;
 
             // 1) Make statement node for comp.
-            compNode = new CompNode(&comp, comp.space().name());
-            cerr << "GraphMaker: " << compNode->label() << ".flops = " << _nflops << endl;
-            compNode->attr("flops", to_string(_nflops));
+            string compName = comp.space().name();
+            bool compExists = _flowGraph->contains(compName);
+            if (compExists) {
+                compNode = (CompNode *) _flowGraph->get(compName);
+                compNode->attr("flops", to_string(stoi(compNode->attr("flops")) + _nflops));
+            } else {
+                compNode = new CompNode(&comp, compName);
+                compNode->attr("flops", to_string(_nflops));
+            }
+            cerr << "GraphMaker: " << compNode->label() << ".flops = " << compNode->attr("flops") << endl;
 
             // Collect domain expressions
             vector<Expr> domExprs;
@@ -3339,8 +3354,10 @@ namespace pdfg {
                 }
             }
 
-            _flowGraph->add(compNode);
-            cerr << "GraphMaker: Added comp node '" << compNode->label() << "'" << endl;
+            if (!compExists) {
+                _flowGraph->add(compNode);
+                cerr << "GraphMaker: Added comp node '" << compNode->label() << "'" << endl;
+            }
 
             for (Expr& expr : writeExprs) {
                 Func func = Func(expr);
@@ -3380,6 +3397,40 @@ namespace pdfg {
 
             _accessMap.clear();         // Clear accesses for next computation.
             clearFLOPs();                // Reset FLOPs.
+        }
+
+        bool mergeComps(const string& name, Space& lspace, Space& rspace, const string& oper) {
+            bool merged = false;
+
+            // 1st condition: lspace has a producer in this graph...
+            DataNode* data = (DataNode*) _flowGraph->get(lspace.name());
+            vector<Edge*> ins = _flowGraph->in_edges(data);
+            if (ins.size() > 0) {
+                CompNode* prod = (CompNode*) ins[0]->source();
+                Comp* comp = prod->comp();
+
+                // 2nd condition: computation only has one statement.
+
+                // 3rd condition: producer is not a forall...
+
+                if (comp->statements().size() > 0) {
+                    Math stmt = comp->statements()[0];
+
+                    // Create an access for right hand side.
+                    Access readAcc(rspace.name(), rspace.iterators());
+                    Math expr(paren(stmt.rhs()), readAcc, oper.substr(0,1));
+                    Math new_stmt(stmt.lhs(), expr, stmt.oper());
+                    comp->statement(0, new_stmt);
+
+                    // Now the hard part, update the graph, and re-invoke addComp
+                    //_flowGraph->remove(prod);
+                    incFLOPs();
+                    addComp(*comp);
+                    merged = true;
+                }
+            }
+
+            return merged;
         }
 
         string indexType() const {
@@ -3897,6 +3948,13 @@ namespace pdfg {
         if (!comp.text().empty()) {
             GraphMaker::get().addComp(comp);
         }
+    }
+
+    bool mergeComps(const string& name, Space& lspace, Space& rspace, const string& oper) {
+        if (!name.empty()) {
+            return GraphMaker::get().mergeComps(name, lspace, rspace, oper);
+        }
+        return false;
     }
 
     void addSpace(const Expr& expr) {

@@ -188,7 +188,6 @@ namespace pdfg {
         void copy(const Node& other) {
             _label = other._label;
             _attrs = other._attrs;
-            //_expr = other._expr;
             _expr = new Expr(other._expr->text(), other._expr->type());
             _type = other._type;
         }
@@ -830,6 +829,13 @@ namespace pdfg {
         }
 
         void remove(Node* node, const string& name = "") {
+//            for (Edge* edge : in_edges(node)) {
+//                remove(edge);
+//            }
+//            for (Edge* edge : out_edges(node)) {
+//                remove(edge);
+//            }
+
             string key;
             if (!name.empty()) {
                 key = formatName(name);
