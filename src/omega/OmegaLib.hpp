@@ -223,8 +223,12 @@ protected:
 
         // Assume symbolic constants (non-functions) are positive
         if (given.empty() && symlist.find("N") != string::npos) {
-            given += "N>1";
+            given += "N>3";
+            if (symlist.find("C") != string::npos) {
+                given += "&&C>3";
+            }
         }
+
         return given;
     }
 

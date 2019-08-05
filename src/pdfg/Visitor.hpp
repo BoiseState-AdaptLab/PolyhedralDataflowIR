@@ -1158,25 +1158,22 @@ namespace pdfg {
 
                 // A node with no incoming edges is an input, and no outgoing is an output, these cannot be reduced.
                 unsigned size = ins.size();
-                vector<CompNode *> prodNodes(size);
+                vector<CompNode *> producers(size);
                 bool reducible = (size > 0 && size == outs.size());
 
                 if (reducible) {
                     for (unsigned i = 0; i < size && reducible; i++) {
-                        prodNodes[i] = (CompNode *) ins[i]->source();
+                        producers[i] = (CompNode *) ins[i]->source();
                         CompNode *consumer = (CompNode *) outs[i]->dest();
-                        reducible = (prodNodes[i]->label() == consumer->label());
+                        reducible = (producers[i]->label() == consumer->label());
                     }
                 }
 
                 if (reducible) {
-                    Access nodeAcc = Access::from_str(node->expr()->text());
-                    IntTuple intTuple = to_int(nodeAcc.tuple());
-
-                    //for (CompNode* producer : prodNodes) {
-                    CompNode *producer = prodNodes[0];
+                    //for (CompNode* producer : producers) {
+                    CompNode *producer = producers[0];
                     vector<Access *> accesses = producer->accesses(node->label());
-                    IntTuple maxTuple(intTuple.size(), 0);
+                    IntTuple maxTuple;
                     for (unsigned i = 0; i < accesses.size(); i++) {
                         IntTuple accTuple = to_int(accesses[i]->tuple());
                         maxTuple = absmax(maxTuple, accTuple);
@@ -1189,13 +1186,14 @@ namespace pdfg {
                     Space newspace(space.name());
 
                     int tupleSum = accumulate(maxTuple.begin(), maxTuple.end(), 0);
+                    unsigned tupleSize = maxTuple.size();
                     if (tupleSum != 0) {
                         unsigned i = 0;
-                        for (; i < maxTuple.size() && maxTuple[i] == 0; i++);
-                        if (i == 0 && maxTuple[i + 1] == 0) {
+                        for (; i < tupleSize && maxTuple[i] == 0; i++);
+                        if (i == 0 && maxTuple[i + 1] == 0 && maxTuple[tupleSize-1] == 0) {
                             addIter(iters[0], space.constraints(), newspace);
                         } else {
-                            for (; i < maxTuple.size(); i++) {
+                            for (; i < tupleSize; i++) {
                                 addIter(iters[i], space.constraints(), newspace);
                             }
                         }
@@ -1618,8 +1616,8 @@ namespace pdfg {
             cerr << "TransformVisitor: processing variant '" << variant->name() << "'\n";
 
             // DataReduce pass
-//            DataReduceVisitor reducer;
-//            reducer.walk(variant);
+            DataReduceVisitor reducer;
+            reducer.walk(variant);
 
             // MemoryAllocation pass
 //            MemAllocVisitor allocator(_constants, _reduce_precision);
