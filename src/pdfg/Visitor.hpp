@@ -659,22 +659,27 @@ namespace pdfg {
             unsigned niters = tuple.size();
 
             // TODO: Come back here to resolve interchange issue!
-            if (comp->interchanged()) {
-                int stop=1;
-            }
+//            if (comp->interchanged()) {
+//                int stop=1;
+//            }
 
             // Get the data node for this space.
             DataNode* dnode = (DataNode*) _graph->get(sname);
+            unsigned dsize = 1;
             if (dnode) {
                 string entry_id = dnode->attr("mem_table_entry");
                 if (!entry_id.empty()) {
                     sname = entry_id;
+                    dsize = stoi(dnode->attr("mem_table_size"));
                 }
             }
 
             ostringstream os;
             if (niters < 1) {
                 os << sname;
+                if (dsize > 1) {
+                    os << "[0]";
+                }
             } else if (tuple.at(0).type() != 'N' && access->refchar() != '[') {
                 os << sname << '[';
                 if (niters > 1) {
@@ -1620,8 +1625,8 @@ namespace pdfg {
             reducer.walk(variant);
 
             // MemoryAllocation pass
-//            MemAllocVisitor allocator(_constants, _reduce_precision);
-//            allocator.walk(variant);
+            MemAllocVisitor allocator(_constants, _reduce_precision);
+            allocator.walk(variant);
 
             // Scheduler pass
             ScheduleVisitor scheduler;
