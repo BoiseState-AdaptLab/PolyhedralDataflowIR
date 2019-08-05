@@ -410,17 +410,10 @@ namespace pdfg {
         }
 
         CompNode* find_child(const string& pattern) {
-            // Look for exact match first...
             for (int i = _children.size() - 1; i >= 0; i--) {
-                CompNode* child = _children[i];
+                CompNode *child = _children[i];
                 if (child->label() == pattern) {
                     return child;
-                }
-                // Try partial match...
-                for (Expr statement : child->comp()->statements()) {
-                    if (Strings::in(statement.text(), pattern, true)) {
-                        return child;
-                    }
                 }
             }
             return nullptr;
@@ -829,13 +822,6 @@ namespace pdfg {
         }
 
         void remove(Node* node, const string& name = "") {
-//            for (Edge* edge : in_edges(node)) {
-//                remove(edge);
-//            }
-//            for (Edge* edge : out_edges(node)) {
-//                remove(edge);
-//            }
-
             string key;
             if (!name.empty()) {
                 key = formatName(name);
@@ -1121,10 +1107,7 @@ namespace pdfg {
     protected:
         void updateIterGraph(CompNode* prev, CompNode* curr) {
             string inode, inext, iprev, iter;
-            Tuple sched;
-            IntTuple path;
-            IntTuple prev_path;
-            IntTuple shifts;
+            IntTuple path, prev_path, shifts;
 
             vector<Tuple> prevScheds = prev->schedules();
             vector<Tuple> currScheds = curr->schedules();
@@ -1146,33 +1129,26 @@ namespace pdfg {
             inode = ig->last_node();
             inext = ig->last_leaf();
 
-            // TODO: Assuming the node to be fused has only one schedule for now...
-            sched = currScheds[0];
-            path.clear();
+//            if (curr->label() == "interpH_d1") {
+//                int stop = 1;
+//            }
 
             // Construct set of data dependences...
-            bool is_parent = false;
-            int shift_sum = 0;
-            unordered_map<string, CompNode*> producers = getProducers(prev, curr, &is_parent);
+            unordered_map<string, CompNode*> producers = getProducers(prev, curr);
             unordered_map<string, IntTuple> prod_paths;
 
-            if (is_parent) {
-                shifts = nodeOffsets(prev, curr, sched);
-                shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
-            } else {
-                for (const auto& itr : producers) {
-                    CompNode* prod = itr.second;
-                    IntTuple prod_path;
-                    ig->find(prod->label(), prod_path);
-                    prod_paths[prod->label()] = prod_path;
+            // TODO: Assuming the node to be fused has only one schedule for now...
+            Tuple sched = currScheds[0];
+            for (const auto& itr : producers) {
+                CompNode* prod = itr.second;
+                IntTuple prod_path;
+                ig->find(prod->label(), prod_path);
+                prod_paths[prod->label()] = prod_path;
 
-                    shifts = absmax(shifts, nodeOffsets(prod, curr, sched));
-                    shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
-
-                    if (prod->shifts()) {
-                        shifts = absmax(shifts, *prod->shifts());
-                        shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
-                    }
+                IntTuple offsets = nodeOffsets(prod, curr, sched);
+                shifts += offsets; //absmax(shifts, offsets);
+                if (prod->shifts()) {
+                    shifts += *prod->shifts(); //absmax(shifts, *prod->shifts());
                 }
             }
 
@@ -1183,11 +1159,6 @@ namespace pdfg {
                     skips.push_back(node);
                 }
             }
-
-//            if (curr->label() == "smul_d1") {
-//                cerr << ig->to_dot() << endl;
-//                int stop = 1;
-//            }
 
             inode = ig->root();
             for (unsigned j = 0; j < sched.size() - 1; j++) {
@@ -1200,11 +1171,13 @@ namespace pdfg {
                     IntTuple prod_path = prod_paths[itr.first];
                     iprev = inext;
 
-                    while (!inext.empty() && path[j] < prod_path[j]) {
-                        // Find next valid iterator node, skipping those already visited...
-                        path.resize(j);
-                        skips.push_back(inext);
-                        inext = ig->find(inode, iter, path, skips);
+                    if (j < prod_path.size()) {
+                        while (!inext.empty() && path[j] < prod_path[j]) {
+                            // Find next valid iterator node, skipping those already visited...
+                            path.resize(j);
+                            skips.push_back(inext);
+                            inext = ig->find(inode, iter, path, skips);
+                        }
                     }
 
                     if (!inext.empty() && j > 1 && shifts[j - 1] != 0) {
@@ -1240,19 +1213,15 @@ namespace pdfg {
             }
 
             inode = ig->insertLeaf(inode, curr->label(), path);         // Add leaf node (the statement)
-            if (shift_sum) {
-                if (is_parent) {                                        // Apply shift to parent...
-                    prev->shifts(shifts);
-                    inode = ig->find(ig->root(), prev->first_label());
-                } else {
-                    curr->shifts(shifts);
-                }
 
+            int shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
+            if (shift_sum) {
+                curr->shifts(shifts);
                 string shift = Strings::str<int>(shifts).substr(1);
                 ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
             }
 
-//            if (curr->label() == "smul_d1") {
+//            if (curr->label() == "interpL_d1") {
 //                cerr << ig->to_dot() << endl;
 //                int stop = 1;
 //            }
@@ -1271,7 +1240,7 @@ namespace pdfg {
             return fname;
         }
 
-        unordered_map<string, CompNode*> getProducers(CompNode* prev, CompNode* curr, bool* is_parent) {
+        unordered_map<string, CompNode*> getProducers(CompNode* prev, CompNode* curr) {
             unordered_map<string, CompNode*> producers;
             for (Edge* edge : this->in_edges(curr)) {
                 DataNode* dnode = (DataNode*) edge->source();
@@ -1287,8 +1256,8 @@ namespace pdfg {
                         }
                         if (child) {
                             producers[child->label()] = child;
-                        } else if (!(*is_parent)) {
-                            *is_parent = true;
+                        } else {
+                            producers[prev->label()] = prev;
                         }
                     }
                 }

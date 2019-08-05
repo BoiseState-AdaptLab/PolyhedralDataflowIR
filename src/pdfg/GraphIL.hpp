@@ -2261,6 +2261,17 @@ namespace pdfg {
         return sum;
     }
 
+    IntTuple& operator+=(IntTuple& lhs, const IntTuple& rhs) {
+        for (unsigned i = 0; i < rhs.size(); i++) {
+            if (i < lhs.size()) {
+                lhs[i] += rhs[i];
+            } else {
+                lhs.push_back(rhs[i]);
+            }
+        }
+        return lhs;
+    }
+
     ostream &operator<<(ostream &os, const Tuple &tuple) {
         os << '[';
         unsigned last = tuple.size() - 1;
@@ -3240,9 +3251,10 @@ namespace pdfg {
                         // If operator has an equal sign, it is an assignment, so the LHS is an output node.
                         writeExprs.push_back(stmt.lhs());
                         // TODO: Figure out how to handle ops that read AND write
-//                        if (stmt.oper().size() > 1) {
-//                            readExprs.push_back(stmt.lhs());
-//                        }
+                        if (stmt.oper().size() > 1) { // && !stmt.rhs().is_scalar()) {
+                            readExprs.push_back(stmt.lhs());
+                            int stop = 1;
+                        }
                     } else {
                         readExprs.push_back(stmt.lhs());
                     }
@@ -3372,10 +3384,10 @@ namespace pdfg {
                     dataNode = (DataNode*) _flowGraph->add(new DataNode(&expr, expr.text(), size, type));
                     cerr << "GraphMaker: Added write node '" << dataNode->label() << "'" << endl;
                 }
-                if (!_flowGraph->contains(dataNode, compNode)) {
+                if (!_flowGraph->contains(dataNode, compNode) || _flowGraph->ignoreCycles()) {
                     _flowGraph->add(compNode, dataNode);
                     cerr << "GraphMaker: '" << compNode->label() << "' -> '" << dataNode->label() << "'\n";
-                } else if (!_flowGraph->ignoreCycles()) {
+                } else { //if (!_flowGraph->ignoreCycles()) {
                     // Cycle! => create hierarchical node
                     _flowGraph->remove(compNode);
                     cerr << "GraphMaker: Removed comp node '" << compNode->label() << "' to prevent cycle" << endl;

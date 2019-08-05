@@ -1150,59 +1150,62 @@ namespace pdfg {
         explicit DataReduceVisitor() {}
 
         void enter(DataNode* node) override {
-            cerr << "DataReduceVisitor: node = '" << node->label() << "'\n";
-            vector<Edge*> ins = _graph->in_edges(node);
-            vector<Edge*> outs = _graph->out_edges(node);
+            //cerr << "DataReduceVisitor: node = '" << node->label() << "'\n";
+            // Only attempt to reduce temporary storage...
+            if (_graph->isTemp(node)) {
+                vector<Edge *> ins = _graph->in_edges(node);
+                vector<Edge *> outs = _graph->out_edges(node);
 
-            // A node with no incoming edges is an input, and no outgoing is an output, these cannot be reduced.
-            unsigned size = ins.size();
-            vector<CompNode*> prodNodes(size);
-            bool reducible = (size > 0 && size == outs.size());
+                // A node with no incoming edges is an input, and no outgoing is an output, these cannot be reduced.
+                unsigned size = ins.size();
+                vector<CompNode *> prodNodes(size);
+                bool reducible = (size > 0 && size == outs.size());
 
-            if (reducible) {
-                for (unsigned i = 0; i < size && reducible; i++) {
-                    prodNodes[i] = (CompNode*) ins[i]->source();
-                    CompNode* consumer = (CompNode*) outs[i]->dest();
-                    reducible = (prodNodes[i]->label() == consumer->label());
-                }
-            }
-
-            if (reducible) {
-                Access nodeAcc = Access::from_str(node->expr()->text());
-                IntTuple intTuple = to_int(nodeAcc.tuple());
-
-                //for (CompNode* producer : prodNodes) {
-                CompNode* producer = prodNodes[0];
-                vector<Access*> accesses = producer->accesses(node->label());
-                IntTuple maxTuple(intTuple.size(), 0);
-                for (unsigned i = 0; i < accesses.size(); i++) {
-                    IntTuple accTuple = to_int(accesses[i]->tuple());
-                    maxTuple = absmax(maxTuple, accTuple);
-                }
-
-                // Update the data space...
-                Space space = getSpace(node->label());
-                Tuple iters = space.iterators();
-                ConstrTuple constrs = space.constraints();
-                Space newspace(space.name());
-
-                int tupleSum = accumulate(maxTuple.begin(), maxTuple.end(), 0);
-                if (tupleSum != 0) {
-                    unsigned i = 0;
-                    for (; i < maxTuple.size() && maxTuple[i] == 0; i++);
-                    if (i == 0 && maxTuple[i+1] == 0) {
-                        addIter(iters[0], space.constraints(), newspace);
-                    } else {
-                        for (; i < maxTuple.size(); i++) {
-                            addIter(iters[i], space.constraints(), newspace);
-                        }
+                if (reducible) {
+                    for (unsigned i = 0; i < size && reducible; i++) {
+                        prodNodes[i] = (CompNode *) ins[i]->source();
+                        CompNode *consumer = (CompNode *) outs[i]->dest();
+                        reducible = (prodNodes[i]->label() == consumer->label());
                     }
                 }
 
-                newSpace(newspace);
-                Math* resize = (Math*) getSize(*producer->comp(), Func(newspace));
-                node->size(resize);
-                //}
+                if (reducible) {
+                    Access nodeAcc = Access::from_str(node->expr()->text());
+                    IntTuple intTuple = to_int(nodeAcc.tuple());
+
+                    //for (CompNode* producer : prodNodes) {
+                    CompNode *producer = prodNodes[0];
+                    vector<Access *> accesses = producer->accesses(node->label());
+                    IntTuple maxTuple(intTuple.size(), 0);
+                    for (unsigned i = 0; i < accesses.size(); i++) {
+                        IntTuple accTuple = to_int(accesses[i]->tuple());
+                        maxTuple = absmax(maxTuple, accTuple);
+                    }
+
+                    // Update the data space...
+                    Space space = getSpace(node->label());
+                    Tuple iters = space.iterators();
+                    ConstrTuple constrs = space.constraints();
+                    Space newspace(space.name());
+
+                    int tupleSum = accumulate(maxTuple.begin(), maxTuple.end(), 0);
+                    if (tupleSum != 0) {
+                        unsigned i = 0;
+                        for (; i < maxTuple.size() && maxTuple[i] == 0; i++);
+                        if (i == 0 && maxTuple[i + 1] == 0) {
+                            addIter(iters[0], space.constraints(), newspace);
+                        } else {
+                            for (; i < maxTuple.size(); i++) {
+                                addIter(iters[i], space.constraints(), newspace);
+                            }
+                        }
+                    }
+
+                    newSpace(newspace);
+                    Math *resize = (Math *) getSize(*producer->comp(), Func(newspace));
+                    node->size(resize);
+                    //}
+                }
             }
         }
 
@@ -1564,13 +1567,15 @@ namespace pdfg {
 
     protected:
         void generate() {
+            FlowGraph* variant;
+
             // Checkpoint the original graph
             checkpoint(_graph->name());
 
             // Serial variant
-            FlowGraph* variant = new FlowGraph(*_graph);
-            variant->name(_graph->name() + "_ser");
-            process(variant);
+//            variant = new FlowGraph(*_graph);
+//            variant->name(_graph->name() + "_ser");
+//            process(variant);
 
             // Create grouped variant
 //            variant = new FlowGraph(*variant);
@@ -1601,24 +1606,24 @@ namespace pdfg {
 //            }
 
             // Intermediate variants...
-//            if (!_fuse_names.empty()) {
-//                variant = new FlowGraph(*_graph);
-//                variant->name(_graph->name() + "_user");
-//                variant->fuse(_fuse_names);
-//                process(variant);
-//            }
+            if (!_fuse_names.empty()) {
+                variant = new FlowGraph(*_graph);
+                variant->name(_graph->name() + "_user");
+                variant->fuse(_fuse_names);
+                process(variant);
+            }
         }
 
         void process(FlowGraph* variant) {
             cerr << "TransformVisitor: processing variant '" << variant->name() << "'\n";
 
             // DataReduce pass
-            DataReduceVisitor reducer;
-            reducer.walk(variant);
+//            DataReduceVisitor reducer;
+//            reducer.walk(variant);
 
             // MemoryAllocation pass
-            MemAllocVisitor allocator(_constants, _reduce_precision);
-            allocator.walk(variant);
+//            MemAllocVisitor allocator(_constants, _reduce_precision);
+//            allocator.walk(variant);
 
             // Scheduler pass
             ScheduleVisitor scheduler;
