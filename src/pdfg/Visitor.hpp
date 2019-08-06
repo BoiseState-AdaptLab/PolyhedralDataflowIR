@@ -1225,39 +1225,40 @@ namespace pdfg {
                         // Case where reduction CANNOT be applied:
                         //   1) Nonzero occurs in the middle of trailing zeros (e.g, F_ave_f_d1).
 
-                        // This interchange problem has been a nightmare, so commenting out all of the
-                        //   reorder code. We are now back to validation, back to tiling and array
-                        //   privatization tomorrow.
+                        // This interchange problem has been a nightmare, so commenting out all of the reorder code.
+                        //   We are now back to validation, so on to tiling and array privatization.
 
-                        unsigned i = 0;
+                        unsigned nzPos = 0;
                         unsigned tupleSize = maxTuple.size();
-                        for (; i < tupleSize && maxTuple[i] == 0; i++);
-                        //unsigned nz_pos = i;
+                        for (; nzPos < tupleSize && maxTuple[nzPos] == 0; nzPos++);
 
-                        if (i == 0) {
+                        if (nzPos == 0) {
                             // Find first zero...
-                            //for (i = 1; i < tupleSize && maxTuple[i] != 0; i++);
-                            //unsigned z_pos = i;
+                            //unsigned zeroPos = 1;
+                            //for (; zeroPos < tupleSize && maxTuple[zeroPos] != 0; zeroPos++);
+
                             // Ensure all following iters are zero...
                             for (unsigned j = 1; j < tupleSize && reducible; j++) {
                                 reducible = (maxTuple[j] == 0);
                             }
                             if (reducible) {
-                                //i = 0;
-//                                for (i = 0; i < z_pos; i++) {
+                                unsigned i = nzPos;
+//                                for (unsigned i = 0; i < zeroPos; i++) {
                                     addIter(iters[i], space.constraints(), newspace);
 //                                }
                             }
                         } else {
                             // Ensure all following iters are nonzero...
-                            for (unsigned j = i; j < tupleSize && reducible; j++) {
-                                reducible = (maxTuple[j] != 0);
-                            }
-                            if (reducible) {
-                                for (; i < tupleSize; i++) {
-                                    addIter(iters[i], space.constraints(), newspace);
-                                }
-                            }
+                            // TODO: Skip this optimization for now...
+                            reducible = false;
+//                            for (unsigned j = nzPos; j < tupleSize && reducible; j++) {
+//                                reducible = (maxTuple[j] != 0);
+//                            }
+//                            if (reducible) {
+//                                for (unsigned i = nzPos; i < tupleSize; i++) {
+//                                    addIter(iters[i], space.constraints(), newspace);
+//                                }
+//                            }
                         }
                     }
 
@@ -1672,6 +1673,7 @@ namespace pdfg {
                 variant = new FlowGraph(*_graph);
                 variant->name(_graph->name() + "_user");
                 variant->fuse(_fuse_names);
+                variant->tile(_tile_iters, _tile_sizes);
                 process(variant);
             }
         }

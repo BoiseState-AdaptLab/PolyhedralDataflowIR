@@ -1164,7 +1164,8 @@ namespace pdfg {
                 IntTuple offsets = nodeOffsets(prod, curr, sched);
                 shifts += offsets; //absmax(shifts, offsets);
                 if (prod->shifts()) {
-                    shifts += *prod->shifts(); //absmax(shifts, *prod->shifts());
+                    //shifts += *prod->shifts();
+                    shifts = absmax(shifts, *prod->shifts());
                 }
             }
 
