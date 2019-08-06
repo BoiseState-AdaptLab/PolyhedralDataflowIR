@@ -640,7 +640,7 @@ namespace pdfg {
             // Define data mappings (one per space)
             for (Access* access : node->accesses()) {
                 if (access->has_iters() && _mappings.find(access->space()) == _mappings.end()) {
-                    string mapping = createMapping(node->comp(), access);
+                    string mapping = createMapping(node, access);
                     if (!mapping.empty()) {
                         string accstr = stringify<Access>(*access);
                         define(accstr, mapping);
@@ -650,7 +650,8 @@ namespace pdfg {
             }
         }
 
-        string createMapping(const Comp* comp, const Access* access) {
+        string createMapping(CompNode* node, const Access* access) {
+            Comp* comp = node->comp();
             string sname = access->space();
             map<string, int> offsets = access->offset_map();
 
@@ -658,10 +659,9 @@ namespace pdfg {
             Tuple tuple = space.iterators();
             unsigned niters = tuple.size();
 
-            // TODO: Come back here to resolve interchange issue!
-//            if (comp->interchanged()) {
-//                int stop=1;
-//            }
+            if (sname == "F_bar_f_d1") {
+                int stop = 1;
+            }
 
             // Get the data node for this space.
             DataNode* dnode = (DataNode*) _graph->get(sname);
@@ -1163,7 +1163,7 @@ namespace pdfg {
 
                 // A node with no incoming edges is an input, and no outgoing is an output, these cannot be reduced.
                 unsigned size = ins.size();
-                vector<CompNode *> producers(size);
+                vector<CompNode*> producers(size);
                 bool reducible = (size > 0 && size == outs.size());
 
                 if (reducible) {
@@ -1177,36 +1177,95 @@ namespace pdfg {
                 if (reducible) {
                     //for (CompNode* producer : producers) {
                     CompNode *producer = producers[0];
-                    vector<Access *> accesses = producer->accesses(node->label());
+                    vector<Access*> accesses = producer->accesses(node->label());
+                    //vector<const CompNode*> nodes = producer->access_nodes(node->label());
+
+                    // TODO: Whoa here! If one access gets reordered, they must ALL get reordered...
+//                    bool do_reorder = false;
+//                    vector<Tuple> iter_vec(accesses.size());
+//                    for (unsigned i = 0; i < accesses.size() && !do_reorder; i++) {
+//                        iter_vec[i] = compress(nodes[i]->comp()->schedule(0).dest().iterators());
+//                        unsigned size = iter_vec[i].size();
+//                        do_reorder = (size == accesses[i]->tuple().size() &&
+//                            accesses[i]->tuple()[size-1].text().find(iter_vec[i][size-1].name()) == string::npos);
+//                    }
+
+
                     IntTuple maxTuple;
+                    //unsigned maxIndex = 0;
                     for (unsigned i = 0; i < accesses.size(); i++) {
-                        IntTuple accTuple = to_int(accesses[i]->tuple());
-                        maxTuple = absmax(maxTuple, accTuple);
+                        ExprTuple accTuple = accesses[i]->tuple();
+//                        if (do_reorder) {
+//                            reorder(iter_vec[i], accTuple);
+//                            if (iter_vec[i].size() > iter_vec[maxIndex].size()) {
+//                                maxIndex = i;
+//                            }
+//                        }
+                        IntTuple intTuple = to_int(accTuple);
+                        maxTuple = absmax(maxTuple, intTuple);
                     }
 
                     // Update the data space...
                     Space space = getSpace(node->label());
-                    Tuple iters = space.iterators();
-                    ConstrTuple constrs = space.constraints();
+                    Tuple iters;
+//                    if (do_reorder) {
+//                        iters = iter_vec[maxIndex];
+//                    } else {
+                        iters = space.iterators();
+//                    }
+
                     Space newspace(space.name());
 
                     int tupleSum = accumulate(maxTuple.begin(), maxTuple.end(), 0);
-                    unsigned tupleSize = maxTuple.size();
                     if (tupleSum != 0) {
+                        // Three cases where reduction can be safely applied:
+                        //   1) maxTuple is all zeros -> space can be scalarized (e.g., umax).
+                        //   2) maxTuple has leading nonzeros, followed by all zeros (e.g.,  W_f_d1).
+                        //   3) maxTuple has leading zeros, followed by all nonzeros (e.g., W_ave).
+                        // Case where reduction CANNOT be applied:
+                        //   1) Nonzero occurs in the middle of trailing zeros (e.g, F_ave_f_d1).
+
+                        // This interchange problem has been a nightmare, so commenting out all of the
+                        //   reorder code. We are now back to validation, back to tiling and array
+                        //   privatization tomorrow.
+
                         unsigned i = 0;
+                        unsigned tupleSize = maxTuple.size();
                         for (; i < tupleSize && maxTuple[i] == 0; i++);
-                        if (i == 0 && maxTuple[i + 1] == 0 && maxTuple[tupleSize-1] == 0) {
-                            addIter(iters[0], space.constraints(), newspace);
+                        //unsigned nz_pos = i;
+
+                        if (i == 0) {
+                            // Find first zero...
+                            //for (i = 1; i < tupleSize && maxTuple[i] != 0; i++);
+                            //unsigned z_pos = i;
+                            // Ensure all following iters are zero...
+                            for (unsigned j = 1; j < tupleSize && reducible; j++) {
+                                reducible = (maxTuple[j] == 0);
+                            }
+                            if (reducible) {
+                                //i = 0;
+//                                for (i = 0; i < z_pos; i++) {
+                                    addIter(iters[i], space.constraints(), newspace);
+//                                }
+                            }
                         } else {
-                            for (; i < tupleSize; i++) {
-                                addIter(iters[i], space.constraints(), newspace);
+                            // Ensure all following iters are nonzero...
+                            for (unsigned j = i; j < tupleSize && reducible; j++) {
+                                reducible = (maxTuple[j] != 0);
+                            }
+                            if (reducible) {
+                                for (; i < tupleSize; i++) {
+                                    addIter(iters[i], space.constraints(), newspace);
+                                }
                             }
                         }
                     }
 
-                    newSpace(newspace);
-                    Math *resize = (Math *) getSize(*producer->comp(), Func(newspace));
-                    node->size(resize);
+                    if (reducible) {
+                        newSpace(newspace);
+                        Math *resize = (Math *) getSize(*producer->comp(), Func(newspace));
+                        node->size(resize);
+                    }
                     //}
                 }
             }
@@ -1526,7 +1585,7 @@ namespace pdfg {
 
             if (!shared.empty()) {
                 vector<char> par_types(shared.size(), 'N');     // N=None, P=Parallel (Loop), S=SIMD
-                //par_types[0] = 'P';                           // Parallelizing outer loop does not always validate...
+                par_types[0] = 'P';                           // Parallelizing outer loop does not always validate...
                 par_types[par_types.size()-1] = 'S';
                 string par_flags = Strings::str<char>(par_types).substr(1);
                 node->attr("parallel", par_flags.substr(0, par_flags.size() - 1));
@@ -1620,6 +1679,10 @@ namespace pdfg {
         void process(FlowGraph* variant) {
             cerr << "TransformVisitor: processing variant '" << variant->name() << "'\n";
 
+            // Scheduler pass
+            ScheduleVisitor scheduler;
+            scheduler.walk(variant);
+
             // DataReduce pass
             DataReduceVisitor reducer;
             reducer.walk(variant);
@@ -1627,10 +1690,6 @@ namespace pdfg {
             // MemoryAllocation pass
             MemAllocVisitor allocator(_constants, _reduce_precision);
             allocator.walk(variant);
-
-            // Scheduler pass
-            ScheduleVisitor scheduler;
-            scheduler.walk(variant);
 
             // Parallelizer pass
             ParallelVisitor parallelizer;

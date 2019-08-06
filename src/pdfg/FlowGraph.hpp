@@ -514,6 +514,25 @@ namespace pdfg {
             return accesses;
         }
 
+        vector<const CompNode*> access_nodes(const string& space = "") const {
+            vector<const CompNode*> nodes;
+            for (auto& read : _reads) {
+                if (space.empty() || read.first.find(space + read.second->refchar()) == 0) {
+                    nodes.push_back(this);
+                }
+            }
+            for (auto& write : _writes) {
+                if (space.empty() || write.first.find(space + write.second->refchar()) == 0) {
+                    nodes.push_back(this);
+                }
+            }
+            for (CompNode* child : _children) {
+                vector<const CompNode*> child_nodes = child->access_nodes(space);
+                nodes.insert(nodes.end(), child_nodes.begin(), child_nodes.end());
+            }
+            return nodes;
+        }
+
         map<string, Access*> reads() const {
             return _reads;
         }
@@ -1115,11 +1134,12 @@ namespace pdfg {
             if (_alignIters) {
                 unsigned nPrevScheds = prevScheds[0].size();
                 unsigned nCurrScheds = currScheds[0].size();
-                if (nPrevScheds != nCurrScheds && !Lists::match<Iter>(prevScheds[0], currScheds[0], nPrevScheds - 1)) {
+                if (nPrevScheds != nCurrScheds && !Lists::match<Iter>(prevScheds[0],currScheds[0], nPrevScheds - 1)) {
                     if (nPrevScheds < nCurrScheds) {
-                        prev->comp()->interchanged(alignIterators(currScheds, prevScheds[0][0]));
+                        curr->comp()->interchanged(alignIterators(currScheds, prevScheds[0][0]));
+                        curr->schedules(currScheds);
                     } else {
-                        curr->comp()->interchanged(alignIterators(prevScheds, currScheds[0][0]));
+                        prev->comp()->interchanged(alignIterators(prevScheds, currScheds[0][0]));
                         prev->schedules(prevScheds);
                     }
                 }
@@ -1128,10 +1148,6 @@ namespace pdfg {
             Digraph* ig = prev->iter_graph();
             inode = ig->last_node();
             inext = ig->last_leaf();
-
-//            if (curr->label() == "interpH_d1") {
-//                int stop = 1;
-//            }
 
             // Construct set of data dependences...
             unordered_map<string, CompNode*> producers = getProducers(prev, curr);
@@ -1220,11 +1236,6 @@ namespace pdfg {
                 string shift = Strings::str<int>(shifts).substr(1);
                 ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
             }
-
-//            if (curr->label() == "interpL_d1") {
-//                cerr << ig->to_dot() << endl;
-//                int stop = 1;
-//            }
         }
 
         string formatName(const string& name) const {
@@ -1330,16 +1341,6 @@ namespace pdfg {
             }
         }
 
-//        void addBounds(const Space& space) {
-//            // Only want iterators that all spaces have...
-//            vector<Expr> bounds = space.bounds({"z", "y", "x"});
-//            string key = Strings::str<Expr>(bounds);
-//            if (_boundCounts.find(key) == _boundCounts.end()) {
-//                _boundCounts[key] = 0;
-//            }
-//            _boundCounts[key] += 1;
-//        }
-
         void copy(const FlowGraph& other) {
             _alignIters = other._alignIters;
             _ignoreCycles = other._ignoreCycles;
@@ -1383,7 +1384,6 @@ namespace pdfg {
         map<pair<Node*, Node*>, Edge*> _edgemap;
         map<string, unsigned> _outputs;
         map<string, Node*> _child_prods;
-//        map<string, unsigned> _boundCounts;        // Keep track of polyhedral bounding boxes...
 
         vector<Node*> _nodes;
         vector<Edge*> _edges;

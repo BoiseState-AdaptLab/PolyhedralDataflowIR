@@ -2216,6 +2216,39 @@ namespace pdfg {
         }
     }
 
+    Tuple compress(const Tuple& tuple) {
+        Tuple new_tuple;
+        for (const Iter& iter : tuple) {
+            if (!iter.is_int()) {
+                new_tuple.push_back(iter);
+            }
+        }
+        return new_tuple;
+    }
+
+    void reorder(const Tuple& src_tuple, vector<Expr>& dest_tuple) {
+        vector<Expr> new_tuple;
+        vector<Expr> remainder;
+        for (unsigned i = 0; i < src_tuple.size(); i++) {
+            bool matched = false;
+            for (unsigned j = 0; j < dest_tuple.size() && !matched; j++) {
+                matched = (dest_tuple[j].text().find(src_tuple[i].name()) != string::npos);
+                if (matched) {
+                    new_tuple.push_back(dest_tuple[j]);
+                }
+            }
+        }
+        for (unsigned j = 0; j < dest_tuple.size(); j++) {
+            if (!dest_tuple[j].is_iter()) {
+                remainder.push_back(dest_tuple[j]);
+            }
+        }
+        if (!remainder.empty()) {
+            new_tuple.insert(new_tuple.end(), remainder.begin(), remainder.end());
+        }
+        dest_tuple = new_tuple;
+    }
+
     IntTuple to_int(const ExprTuple& tuple) {
         IntTuple ints(tuple.size(), 0);
         for (unsigned i = 0; i < tuple.size(); i++) {
