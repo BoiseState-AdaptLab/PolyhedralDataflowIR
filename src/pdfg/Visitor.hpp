@@ -1248,17 +1248,19 @@ namespace pdfg {
 //                                }
                             }
                         } else {
-                            // Ensure all following iters are nonzero...
                             // TODO: Skip this optimization for now...
                             reducible = false;
-//                            for (unsigned j = nzPos; j < tupleSize && reducible; j++) {
-//                                reducible = (maxTuple[j] != 0);
-//                            }
-//                            if (reducible) {
-//                                for (unsigned i = nzPos; i < tupleSize; i++) {
-//                                    addIter(iters[i], space.constraints(), newspace);
-//                                }
-//                            }
+
+                            // Ensure all following iters are nonzero...
+                            for (unsigned j = nzPos; reducible && j < tupleSize; j++) {
+                                reducible = (maxTuple[j] != 0);
+                            }
+
+                            if (reducible) {
+                                for (unsigned i = nzPos; i < tupleSize; i++) {
+                                    addIter(iters[i], space.constraints(), newspace);
+                                }
+                            }
                         }
                     }
 

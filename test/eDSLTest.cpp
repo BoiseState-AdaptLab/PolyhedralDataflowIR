@@ -588,13 +588,6 @@ TEST(eDSLTest, ConjGradCSR) {
     ASSERT_TRUE(!result.empty());
 }
 
-TEST(eDSLTest, IterGraph) {
-    Digraph cgg = ConjGradTest::CSRGraph();
-    string result = cgg.to_dot();
-    cerr << result << endl;
-    ASSERT_TRUE(!result.empty());
-}
-
 TEST(eDSLTest, JacobiMethod) {
     Iter t('t'), s('s'), i('i'), j('j'), n('n');
     Const N('N'), M('M'), T('T');

@@ -598,31 +598,33 @@ namespace pdfg {
         }
 
         void tile(vector<string> iters, vector<unsigned> sizes, vector<string> t_iters = {}) {
-            Digraph* ig = this->iter_graph();
             vector<Tuple> schedules = this->schedules();
             vector<string> tile_iters(t_iters.begin(), t_iters.end());
             vector<unsigned> tile_sizes(sizes.begin(), sizes.end());
 
-            string tnode;
+            Digraph* ig = this->iter_graph();
+            string top_node = ig->int_nodes()[0];
+            string tile_node;
+
             unsigned inum = 0;
             for (const string& iter : iters) {
                 if (tile_iters.size() <= inum) {
                     tile_iters.push_back("t" + iter);
                 }
-                IntTuple path;
-                string node = ig->find(iter, path);
+
+                string node = top_node; //ig->find(iter);
                 if (!node.empty()) {
                     string tile_iter = tile_iters[inum];        // Tile iterator
                     string rem_iter = "r" + iter;               // Remainder iterator
-                    if (tnode.empty()) {
-                        tnode = node;
+                    if (tile_node.empty()) {
+                        tile_node = node;
                     }
-                    ig->insert(tnode, tile_iter, tile_iter, {"tile_iter", tile_iter, "rem_iter", rem_iter,
+                    ig->insert(tile_node, tile_iter, tile_iter, {"tile_iter", tile_iter, "rem_iter", rem_iter,
                         "orig_iter", iter, "tile_size", to_string(tile_sizes[inum])});
                 }
                 inum += 1;
             }
-            this->comp()->tiled(!tnode.empty());
+            this->comp()->tiled(!tile_node.empty());
         }
 
     protected:
