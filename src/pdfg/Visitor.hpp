@@ -532,6 +532,10 @@ namespace pdfg {
             }
             line += "t" + to_string(_niters) + ";";
             _header.push_back(line);
+
+            if (!_graph.attr("parallelized").empty()) {
+                _header.push_back("int tnum = 1;");
+            }
         }
 
         void addFooter() {
@@ -553,6 +557,9 @@ namespace pdfg {
         }
 
         void addIncludes() {
+            if (!_graph->attr("parallelized").empty()) {
+                _includes.push_back("omp");
+            }
             if (!_includes.empty()) {
                 for (string& include : _includes) {
                     if (include.find(".h") == string::npos) {
@@ -568,6 +575,9 @@ namespace pdfg {
         void addDefines() {
             for (const auto& itr : _poly.macros()) {
                 define(itr);
+            }
+            if (!_graph->attr("parallelized").empty()) {
+                define("tid", "omp_get_thread_num()");
             }
             if (!_defines.empty()) {
                 for (auto& define : _defines) {
@@ -1190,7 +1200,6 @@ namespace pdfg {
 //                            accesses[i]->tuple()[size-1].text().find(iter_vec[i][size-1].name()) == string::npos);
 //                    }
 
-
                     IntTuple maxTuple;
                     //unsigned maxIndex = 0;
                     for (unsigned i = 0; i < accesses.size(); i++) {
@@ -1248,8 +1257,8 @@ namespace pdfg {
 //                                }
                             }
                         } else {
-                            // TODO: Skip this optimization for now...
-                            reducible = false;
+                            // Skip this optimization if tiled...
+                            reducible = !producer->comp()->tiled();
 
                             // Ensure all following iters are nonzero...
                             for (unsigned j = nzPos; reducible && j < tupleSize; j++) {
@@ -1593,6 +1602,10 @@ namespace pdfg {
                 string par_flags = Strings::str<char>(par_types).substr(1);
                 node->attr("parallel", par_flags.substr(0, par_flags.size() - 1));
             }
+        }
+
+        virtual void finish(FlowGraph* graph) {
+            graph->attr("parellelized", "1");
         }
     };
 
