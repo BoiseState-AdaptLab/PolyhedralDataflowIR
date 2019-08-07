@@ -3617,29 +3617,39 @@ namespace pdfg {
             //data_reduce(name);     // Run data redux pass if needed.
             //mem_alloc(name);       // Run memory allocation pass if needed.
 
-            CodeGenVisitor cgen(cpath, lang); //, _iters.size());
-            cgen.ompSchedule(ompsched);
+            CodeGenVisitor* cgen;
+            if (lang.find("CU") != string::npos) {
+                cgen = new CudaGenVisitor(path);
+            } else if (!_flowGraph->attr("parallelized").empty()) {
+                cgen = new OmpGenVisitor(path, lang);
+            } else {
+                cgen = new CodeGenVisitor(cpath, lang);
+                cgen->ompSchedule(ompsched);
+            }
 
             for (const auto& iter : _consts) {
                 int val = iter.second.val();
                 if (val != 0) {
-                    cgen.define(iter.first, to_string(val));
+                    cgen->define(iter.first, to_string(val));
                 }
             }
 
             if (name.empty()) {
                 _flowGraph->indexType(_indexType);
-                cgen.walk(_flowGraph);
+                cgen->walk(_flowGraph);
             } else {
                 _graphs[name]->indexType(_indexType);
-                cgen.walk(_graphs[name]);
+                cgen->walk(_graphs[name]);
             }
 
             if (isobj) {
                 compile(cpath, path);
             }
 
-            return cgen.str();
+            string code = cgen->str();
+            delete cgen;
+
+            return code;
         }
 
         string compile(const string& src, const string& obj) {

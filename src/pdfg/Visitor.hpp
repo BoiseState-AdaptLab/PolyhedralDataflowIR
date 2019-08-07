@@ -273,8 +273,8 @@ namespace pdfg {
             return _path;
         }
 
-        void path(const string &p) {
-            _path = p;
+        void path(const string &in_path) {
+            _path = in_path;
             if (_path.find('/') == string::npos) {
                 char cwd[1024];
                 getcwd(cwd, sizeof(cwd));
@@ -312,16 +312,6 @@ namespace pdfg {
         void enter(DataNode* node) override {
             string label = node->label();
             string defval = node->defval();
-            unsigned tilesize = _graph->tileSize();
-
-            bool isC = (_lang == "C");
-            string restrict = "restrict";
-            if (!isC) {
-                restrict = "__" + restrict;         // Restrict must be prefaced w/ __ in C++
-            }
-            if (_lang.find("U") != string::npos) {
-                restrict += "__";                   // CUDA requires underscore on both ends.
-            }
 
             if (!_graph->isReturn(node) && _graph->isSource(node)) {
                 // Input Data
@@ -337,73 +327,16 @@ namespace pdfg {
                 _params.push_back(param);
             } else if (node->alloc() != NONE) {
                 // Temporary Data
-                ostringstream os;
-                os << _indent;
-
-                string entry_id = node->attr("mem_table_entry");
-                if (!entry_id.empty()) {
-                    unsigned size = unstring<unsigned>(node->attr("mem_table_size"));
-                    node->size(new Int(size));
-                    label = entry_id;
-                }
-
-                if (node->is_scalar()) {
-                    os << node->datatype() << ' ' << label;
-                    if (!defval.empty()) {
-                        os << " = " << defval;
-                    }
-                    os << ';';
-                } else if (node->alloc() == DYNAMIC) {
-                    os << node->datatype() << "* " << restrict << " " << label << " = ";
-                    if (!isC) {
-                        os << '(' << node->datatype() << "*) ";
-                    }
-                    if (defval == "0") {
-                        os << "calloc(" << *node->size() << ",sizeof(" << node->datatype() << "));";
-                    } else {
-                        if (tilesize > 0) {
-                            os << "aligned_alloc(" << tilesize << ",(";
-                        } else {
-                            os << _alloc_fxn << "(";
-                        }
-                        auto itr = _data_sizes.find(label);
-                        if (itr != _data_sizes.end()) {
-                            os << itr->second;
-                        } else {
-                            os << *node->size();
-                        }
-                        os << "*sizeof(" << node->datatype() << "));";
-                    }
-                    if (std::find(_frees.begin(), _frees.end(), label) == _frees.end()) {
-                        _frees.push_back(label);
-                    }
-                } else {
-                    if (node->alloc() == STATIC) {
-                        os << "static ";
-                    }
-                    os << node->datatype() << ' ' << label << '['
-                       << *node->size() << "] = {" << defval << "};";
-                }
-
-                string line = os.str();
-                if (std::find(_allocs.begin(), _allocs.end(), line) == _allocs.end()) {
-                    _allocs.push_back(line);
-                }
-
-                if (node->alloc() == DYNAMIC && !defval.empty() && defval != "0") {
-                    os.str(_indent);
-                    os << "arrinit(" << label << ',' << defval << ',' << *node->size() << ");";
-                    line = os.str();
-                    _allocs.push_back(line);
-                }
+                allocate(node);
+                deallocate(node);
             }
         }
 
         void enter(CompNode* node) override {
             vector<string> names;
-            map<string, vector<string> > guards;
-            map<string, vector<string> > statements;
-            map<string, vector<string> > schedules;
+            map<string, vector<string>> statements;
+            map<string, vector<string>> guards;
+            map<string, vector<string>> schedules;
 
             updateComp((Comp*) node->expr(), names, statements, guards, schedules);
             addMappings(node);
@@ -413,22 +346,7 @@ namespace pdfg {
                 addMappings(child);
             }
 
-            // Use parallel flags if node has them, otherwise use OMP schedule for backward compatibility.
-            string parflags = node->attr("parallel");
-            vector<string> partypes;
-            if (!parflags.empty()) {
-                partypes = Strings::split(parflags, ',');
-            } else if (!_ompsched.empty()) {
-                if (_ompsched.find("simd") != string::npos) {
-                    partypes.push_back("S");
-                } else {
-                    partypes.push_back("P");
-                }
-            }
-
-            string code = _poly.codegen(names, statements, guards, schedules, partypes, "", true);
-            code = "// " + node->label() + "\n" + code;
-            _body.push_back(code);
+            codegen(node, names, statements, guards, schedules);
         }
 
         void enter(RelNode* node) {
@@ -439,16 +357,13 @@ namespace pdfg {
             addDefines();
             addHeader();
             addFooter();
-
-            // Undefine macros for the safety of including functions.
-            undoDefines();
+            undoDefines();      // Undefine macros for the safety of including functions.
 
             if (!_path.empty()) {
                 ofstream fout(_path.c_str());
                 fout << str() << endl;
                 fout.close();
             }
-
             _graph = nullptr;
         }
 
@@ -498,7 +413,7 @@ namespace pdfg {
                               OS::username() + "' at " + OS::timestamp());
         }
 
-        void addHeader() {
+        virtual void addHeader() {
             // Check return type...
             string returnName = _graph->returnName();
             string returnType = _graph->returnType();
@@ -532,10 +447,6 @@ namespace pdfg {
             }
             line += "t" + to_string(_niters) + ";";
             _header.push_back(line);
-
-            if (!_graph.attr("parallelized").empty()) {
-                _header.push_back("int tnum = 1;");
-            }
         }
 
         void addFooter() {
@@ -557,9 +468,6 @@ namespace pdfg {
         }
 
         void addIncludes() {
-            if (!_graph->attr("parallelized").empty()) {
-                _includes.push_back("omp");
-            }
             if (!_includes.empty()) {
                 for (string& include : _includes) {
                     if (include.find(".h") == string::npos) {
@@ -575,9 +483,6 @@ namespace pdfg {
         void addDefines() {
             for (const auto& itr : _poly.macros()) {
                 define(itr);
-            }
-            if (!_graph->attr("parallelized").empty()) {
-                define("tid", "omp_get_thread_num()");
             }
             if (!_defines.empty()) {
                 for (auto& define : _defines) {
@@ -669,10 +574,6 @@ namespace pdfg {
             Tuple tuple = space.iterators();
             unsigned niters = tuple.size();
 
-            if (sname == "F_bar_f_d1") {
-                int stop = 1;
-            }
-
             // Get the data node for this space.
             DataNode* dnode = (DataNode*) _graph->get(sname);
             unsigned dsize = 1;
@@ -725,6 +626,93 @@ namespace pdfg {
             return os.str();
         }
 
+        virtual string restrict() const {
+            string keyword = "restrict";
+            if (_lang.find("+") != string::npos) {
+                keyword = "__" + keyword;
+            }
+            return keyword;
+        }
+
+        virtual string dataLabel(DataNode* node) const {
+            string entry_id = node->attr("mem_table_entry");
+            return entry_id.empty() ? node->label() : entry_id;
+        }
+
+        virtual void allocate(DataNode* node) {
+            string label = dataLabel(node);
+            string defval = node->defval();
+            unsigned tilesize = _graph->tileSize();
+            bool isC = (_lang == "C");
+
+            ostringstream os;
+            os << _indent;
+
+            if (node->is_scalar()) {
+                os << node->datatype() << ' ' << label;
+                if (!defval.empty()) {
+                    os << " = " << defval;
+                }
+                os << ';';
+            } else if (node->alloc() == DYNAMIC) {
+                os << node->datatype() << "* " << restrict() << " " << label << " = ";
+                if (!isC) {
+                    os << '(' << node->datatype() << "*) ";
+                }
+                if (defval == "0") {
+                    os << "calloc(" << *node->size() << ",sizeof(" << node->datatype() << "));";
+                } else {
+                    if (tilesize > 0) {
+                        os << "aligned_alloc(" << tilesize << ",(";
+                    } else {
+                        os << _alloc_fxn << "(";
+                    }
+                    auto itr = _data_sizes.find(label);
+                    if (itr != _data_sizes.end()) {
+                        os << itr->second;
+                    } else {
+                        os << *node->size();
+                    }
+                    os << "*sizeof(" << node->datatype() << "));";
+                }
+            } else {
+                if (node->alloc() == STATIC) {
+                    os << "static ";
+                }
+                os << node->datatype() << ' ' << label << '['
+                   << *node->size() << "] = {" << defval << "};";
+            }
+
+            string line = os.str();
+            if (std::find(_allocs.begin(), _allocs.end(), line) == _allocs.end()) {
+                _allocs.push_back(line);
+            }
+
+            if (node->alloc() == DYNAMIC) {
+                if (!defval.empty() && defval != "0") {
+                    ostringstream os;
+                    os << _indent << "arrinit(" << label << ',' << defval << ',' << *node->size() << ");";
+                    _allocs.push_back(os.str());
+                }
+            }
+        }
+
+        virtual void deallocate(DataNode* node) {
+            string label = dataLabel(node);
+            if (node->alloc() == DYNAMIC && std::find(_frees.begin(), _frees.end(), label) == _frees.end()) {
+                _frees.push_back(label);
+            }
+        }
+
+        virtual void codegen(CompNode* node, vector<string>& names,
+                             map<string, vector<string>>& statements,
+                             map<string, vector<string>>& guards,
+                             map<string, vector<string>>& schedules) {
+            string code = "// " + node->label() + "\n" + _poly.codegen(names,
+                                                                       statements, guards, schedules, {}, "", true);
+            _body.push_back(code);
+        }
+
         unsigned _niters;
 
         string _indent;
@@ -752,6 +740,117 @@ namespace pdfg {
         PolyLib _poly;
     };
 
+    struct OmpGenVisitor: public CodeGenVisitor {
+    public:
+        explicit OmpGenVisitor(const string &path = "", const string &lang = "C", unsigned niters = 15) :
+                CodeGenVisitor(path, lang, niters) {
+            init();
+        }
+
+    protected:
+        void init() {
+            //CodeGenVisitor::init();
+            define("tid", "omp_get_thread_num()");
+            include("omp");
+        }
+
+        void addHeader() override {
+            CodeGenVisitor::addHeader();
+            _header.push_back(_indent + "int tnum = 1;");
+            _header.push_back(_indent + "#pragma omp parallel num_threads(1)");
+            _header.push_back(_indent + "{");
+            _header.push_back(_indent + "tnum = min(max(tnum, omp_get_max_threads()), N/T);");
+            _header.push_back(_indent + "}");
+        }
+
+        void allocate(DataNode* node) override {
+            string label = node->label();
+            string defval = node->defval();
+            unsigned tilesize = _graph->tileSize();
+            bool isC = (_lang == "C");
+
+            ostringstream os;
+            os << _indent;
+
+            string entry_id = node->attr("mem_table_entry");
+            if (!entry_id.empty()) {
+                unsigned size = unstring<unsigned>(node->attr("mem_table_size"));
+                node->size(new Int(size));
+                label = entry_id;
+            }
+
+            if (node->is_scalar()) {
+                os << node->datatype() << ' ' << label;
+                if (!defval.empty()) {
+                    os << " = " << defval;
+                }
+                os << ';';
+            } else if (node->alloc() == DYNAMIC) {
+                os << node->datatype() << "* " << restrict() << " " << label << " = ";
+                if (!isC) {
+                    os << '(' << node->datatype() << "*) ";
+                }
+                if (defval == "0") {
+                    os << "calloc(" << *node->size() << ",sizeof(" << node->datatype() << "));";
+                } else {
+                    if (tilesize > 0) {
+                        os << "aligned_alloc(" << tilesize << ",(";
+                    } else {
+                        os << _alloc_fxn << "(";
+                    }
+                    auto itr = _data_sizes.find(label);
+                    if (itr != _data_sizes.end()) {
+                        os << itr->second;
+                    } else {
+                        os << *node->size();
+                    }
+                    os << "*sizeof(" << node->datatype() << "));";
+                }
+            } else {
+                if (node->alloc() == STATIC) {
+                    os << "static ";
+                }
+                os << node->datatype() << ' ' << label << '['
+                   << *node->size() << "] = {" << defval << "};";
+            }
+
+            string line = os.str();
+            if (std::find(_allocs.begin(), _allocs.end(), line) == _allocs.end()) {
+                _allocs.push_back(line);
+            }
+
+            if (node->alloc() == DYNAMIC) {
+                if (!defval.empty() && defval != "0") {
+                    ostringstream os;
+                    os << _indent << "arrinit(" << label << ',' << defval << ',' << *node->size() << ");";
+                    _allocs.push_back(os.str());
+                }
+            }
+        }
+
+        void codegen(CompNode* node, vector<string>& names,
+                     map<string, vector<string>>& statements,
+                     map<string, vector<string>>& guards,
+                     map<string, vector<string>>& schedules) override {
+            // Use parallel flags if node has them, otherwise use OMP schedule for backward compatibility.
+            string parflags = node->attr("parallel");
+            vector<string> partypes;
+            if (!parflags.empty()) {
+                partypes = Strings::split(parflags, ',');
+            } else if (!_ompsched.empty()) {
+                if (_ompsched.find("simd") != string::npos) {
+                    partypes.push_back("S");
+                } else {
+                    partypes.push_back("P");
+                }
+            }
+
+            string code = "// " + node->label() + "\n" + _poly.codegen(names,
+                          statements, guards, schedules, partypes, "", true);
+            _body.push_back(code);
+        }
+    };
+
     struct CudaGenVisitor: public CodeGenVisitor {
     public:
         explicit CudaGenVisitor(const string &path = "", const string &lang = "CU", unsigned niters = 15) :
@@ -774,6 +873,10 @@ namespace pdfg {
             include("cuda_funcs");
             _alloc_fxn = "cuda_malloc";
             _free_fxn = "cuda_free";
+        }
+
+        string restrict() const override {
+            return "__restrict__";
         }
     };
 
@@ -1541,6 +1644,7 @@ namespace pdfg {
                 unsigned size = _entries[index].size;
                 node->attr("mem_table_entry", ((size > 1) ? "array" : "scalar") + to_string(index));
                 node->attr("mem_table_size", to_string(size));
+                node->size(new Int(size));
 
                 string type = node->datatype();
                 if (type[0] == 'd' && _reduce_precision) {
@@ -1605,7 +1709,7 @@ namespace pdfg {
         }
 
         virtual void finish(FlowGraph* graph) {
-            graph->attr("parellelized", "1");
+            graph->attr("parallelized", "1");
         }
     };
 
@@ -1688,7 +1792,7 @@ namespace pdfg {
                 variant = new FlowGraph(*_graph);
                 variant->name(_graph->name() + "_user");
                 variant->fuse(_fuse_names);
-                variant->tile(_tile_iters, _tile_sizes);
+                //variant->tile(_tile_iters, _tile_sizes);
                 process(variant);
             }
         }
