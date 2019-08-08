@@ -1151,6 +1151,11 @@ namespace pdfg {
             inode = ig->last_node();
             inext = ig->last_leaf();
 
+//            if (curr->label() == "laplacian") {
+//                cerr << ig->to_dot() << endl;
+//                int stop = 1;
+//            }
+
             // Construct set of data dependences...
             unordered_map<string, CompNode*> producers = getProducers(prev, curr);
             unordered_map<string, IntTuple> prod_paths;
@@ -1165,9 +1170,10 @@ namespace pdfg {
 
                 IntTuple offsets = nodeOffsets(prod, curr, sched);
                 shifts += offsets; //absmax(shifts, offsets);
+
                 if (prod->shifts()) {
-                    //shifts += *prod->shifts();
-                    shifts = absmax(shifts, *prod->shifts());
+                    shifts += *prod->shifts();
+                    //shifts = absmax(shifts, *prod->shifts());
                 }
             }
 
@@ -1199,7 +1205,7 @@ namespace pdfg {
                         }
                     }
 
-                    if (!inext.empty() && j > 1 && shifts[j - 1] != 0) {
+                    if (!inext.empty() && !shifts.empty() && j > 1 && shifts[j - 1] != 0) {
                         // TODO: This horrible code is intended to solve the problem of leaf nodes being placed
                         // with next to siblings whose parents have different shifts, which results in incorrect
                         // (and ugly) code generation by Omega. Refactor!!!
@@ -1239,6 +1245,11 @@ namespace pdfg {
                 string shift = Strings::str<int>(shifts).substr(1);
                 ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
             }
+
+//            if (curr->label() == "laplacian") {
+//                cerr << ig->to_dot() << endl;
+//                int stop = 2;
+//            }
         }
 
         string formatName(const string& name) const {

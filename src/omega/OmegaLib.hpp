@@ -692,12 +692,8 @@ public:
         if (!code.empty()) {
             istringstream iss(code);
             ostringstream oss;
-            // TODO: The 'exists' keyword gives a syntax error w/ 'omega_run' but works from command, fix this hack!
-            //if (code.find("exists(") == string::npos) {
-                omega_run(&iss, &oss);
-            //} else {
-                //omega_cmd(code, oss);
-            //}
+            omega_run(&iss, &oss);
+            //oss << "for (t1 = 0; t1 < N; t1++) {\nprintf(\"Omega+ dies in pain!\\n\");\n}\n";
             lines = Strings::filter(Strings::split(oss.str(), '\n'), PROMPT, true);
         } else {
             lines.emplace_back("s0();\n");
