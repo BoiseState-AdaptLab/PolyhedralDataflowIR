@@ -1669,18 +1669,16 @@ namespace pdfg {
         }
 
         vector<Constr> constraints(const string &itername = "") const {
-            vector<Constr> constraints;
             if (!itername.empty()) {
-                auto itr = _itermap.find(itername);
-                if (itr != _itermap.end()) {
-                    for (const auto &ndx : itr->second) {
-                        constraints.push_back(_constraints[ndx]);
+                vector<Constr> constraints;
+                for (const Constr& constr : _constraints) {
+                    if (constr.lhs().text() == itername || constr.rhs().text() == itername) {
+                        constraints.push_back(constr);
                     }
                 }
-            } else {
-                constraints = _constraints;
+                return constraints;
             }
-            return constraints;
+            return _constraints;
         }
 
         void constraints(const vector<Constr>& constraints) {
@@ -2287,6 +2285,34 @@ namespace pdfg {
         return amax;
     }
 
+    IntTuple absmin(const IntTuple& lhs, const IntTuple& rhs) {
+        unsigned minsize, maxsize;
+        if (lhs.size() > rhs.size()) {
+            maxsize = lhs.size();
+            minsize = rhs.size();
+        } else {
+            maxsize = rhs.size();
+            minsize = lhs.size();
+        }
+
+        IntTuple amin;
+        if (lhs.empty() && !rhs.empty()) {
+            amin = rhs;
+        } else if (!lhs.empty() && rhs.empty()) {
+            amin = lhs;
+        } else {
+            amin = IntTuple(maxsize, 0);
+            for (unsigned i = 0; i < minsize; i++) {
+                if (abs(lhs[i]) < abs(rhs[i])) {
+                    amin[i] = lhs[i];
+                } else {
+                    amin[i] = rhs[i];
+                }
+            }
+        }
+        return amin;
+    }
+
     int sum(const IntTuple& tuple) {
         return accumulate(tuple.begin(), tuple.end(), 0);
     }
@@ -2300,12 +2326,32 @@ namespace pdfg {
         return sum;
     }
 
+    IntTuple operator-(const IntTuple& lhs, const IntTuple& rhs) {
+        unsigned size = (lhs.size() < rhs.size()) ? lhs.size() : rhs.size();
+        IntTuple diff(size, 0);
+        for (unsigned i = 0; i < size; i++) {
+            diff[i] = lhs[i] - rhs[i];
+        }
+        return diff;
+    }
+
     IntTuple& operator+=(IntTuple& lhs, const IntTuple& rhs) {
         for (unsigned i = 0; i < rhs.size(); i++) {
             if (i < lhs.size()) {
                 lhs[i] += rhs[i];
             } else {
                 lhs.push_back(rhs[i]);
+            }
+        }
+        return lhs;
+    }
+
+    IntTuple& operator-=(IntTuple& lhs, const IntTuple& rhs) {
+        for (unsigned i = 0; i < rhs.size(); i++) {
+            if (i < lhs.size()) {
+                lhs[i] -= rhs[i];
+            } else {
+                lhs.push_back(-rhs[i]);
             }
         }
         return lhs;
@@ -2784,6 +2830,42 @@ namespace pdfg {
             Space dst = _schedules[index].dest();
             dst.iterators(tuple);
             _schedules[index].dest(dst);
+        }
+
+        vector<Constr> constraints() const {
+            ConstrTuple all_constraints;
+            for (const Rel& rel : _schedules) {
+                for (const Iter& iter : rel.dest().iterators()) {
+                    if (!iter.is_int()) {
+                        ConstrTuple constraints = _space.constraints(iter.name());
+                        all_constraints.insert(all_constraints.end(), constraints.begin(), constraints.end());
+                    }
+                }
+            }
+
+            return all_constraints;
+        }
+
+        ExprTuple lowers() const {
+            ExprTuple tuple;
+            vector<Constr> constraints = this->constraints();
+            for (const Constr& constraint : constraints) {
+                if (!constraint.lhs().is_iter()) {
+                    tuple.push_back(constraint.lhs());
+                }
+            }
+            return tuple;
+        }
+
+        ExprTuple uppers() const {
+            ExprTuple tuple;
+            vector<Constr> constraints = this->constraints();
+            for (const Constr& constraint : constraints) {
+                if (!constraint.rhs().is_iter()) {
+                    tuple.push_back(constraint.rhs());
+                }
+            }
+            return tuple;
         }
 
         Comp operator+=(const Math& statement) {

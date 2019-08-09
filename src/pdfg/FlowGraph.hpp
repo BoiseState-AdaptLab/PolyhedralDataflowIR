@@ -512,25 +512,6 @@ namespace pdfg {
             return accesses;
         }
 
-        vector<const CompNode*> access_nodes(const string& space = "") const {
-            vector<const CompNode*> nodes;
-            for (auto& read : _reads) {
-                if (space.empty() || read.first.find(space + read.second->refchar()) == 0) {
-                    nodes.push_back(this);
-                }
-            }
-            for (auto& write : _writes) {
-                if (space.empty() || write.first.find(space + write.second->refchar()) == 0) {
-                    nodes.push_back(this);
-                }
-            }
-            for (CompNode* child : _children) {
-                vector<const CompNode*> child_nodes = child->access_nodes(space);
-                nodes.insert(nodes.end(), child_nodes.begin(), child_nodes.end());
-            }
-            return nodes;
-        }
-
         map<string, Access*> reads() const {
             return _reads;
         }
@@ -1151,7 +1132,7 @@ namespace pdfg {
             inode = ig->last_node();
             inext = ig->last_leaf();
 
-//            if (curr->label() == "dadd") {
+//            if (curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
 //                cerr << ig->to_dot() << endl;
 //                int stop = 1;
 //            }
@@ -1162,19 +1143,32 @@ namespace pdfg {
 
             // TODO: Assuming the node to be fused has only one schedule for now...
             Tuple sched = currScheds[0];
+            //IntTuple span, starts, max_shifts, max_diffs;
             IntTuple max_shifts;
+//            if (!producers.empty()) {
+//                span = nodeSpan(curr, sched);
+//                starts = to_int(curr->comp()->lowers());
+//            }
+
             for (const auto& itr : producers) {
                 CompNode* prod = itr.second;
                 IntTuple prod_path;
                 ig->find(prod->label(), prod_path);
                 prod_paths[prod->label()] = prod_path;
 
+                // nodeOffsets is not enough, we need the spans...
                 IntTuple offsets = nodeOffsets(prod, curr, sched);
                 shifts = absmax(shifts, offsets);
+
+//                IntTuple start_diffs = starts - to_int(prod->comp()->lowers());
+//                max_diffs = absmax(max_diffs, start_diffs);
+
                 if (prod->shifts()) {
                     max_shifts = absmax(max_shifts, *prod->shifts());
                 }
             }
+
+            //shifts = span - max_diffs;
             shifts += max_shifts;
 
             // Populate skip list (internal nodes that do not appear in schedule...
@@ -1316,7 +1310,50 @@ namespace pdfg {
             return shifts;
         }
 
-        void getOffsets(const Tuple& schedule, const map<string, Access*> accmap, vector<int>& offsets, int comp = 1) {
+        IntTuple nodeSpan(CompNode* node, const Tuple& schedule) {
+            unsigned niters = schedule.size() - 1;
+            IntTuple span(niters, 0);
+            IntTuple max_offsets(niters, INT_MIN);
+            IntTuple min_offsets(niters, INT_MAX);
+
+            vector<Access*> accesses = node->accesses();
+            for (Access* access : accesses) {
+                ExprTuple tuple = access->tuple();
+                for (unsigned i = 0; i < niters; i++) {
+                    //if (!schedule[i].is_int()) {
+                        string iter = schedule[i].text();
+                        bool match = false;
+                        for (unsigned j = 0; j < tuple.size() && !match; j++) {
+                            string expr = tuple[j].text();
+                            size_t pos = expr.find(iter);
+                            match = (pos != string::npos);
+                            if (match && expr != iter) {
+                                int offset = 0;
+                                if (expr != iter) {
+                                    expr.erase(pos, iter.size());
+                                    offset = unstring<int>(expr);
+                                }
+
+                                if (offset < min_offsets[i]) {
+                                    min_offsets[i] = offset;
+                                }
+                                if (offset > max_offsets[i]) {
+                                    max_offsets[i] = offset;
+                                }
+                            }
+                        }
+                    //}
+                }
+            }
+
+            for (unsigned i = 0; i < niters; i++) {
+                span[i] = max_offsets[i] - min_offsets[i];
+            }
+
+            return span;
+        }
+
+        void getOffsets(const Tuple& schedule, const map<string, Access*> accmap, IntTuple& offsets, int comp = 1) {
             for (unsigned i = 0; i < schedule.size(); i++) {
                 if (offsets.size() <= i) {
                     offsets.push_back(0);

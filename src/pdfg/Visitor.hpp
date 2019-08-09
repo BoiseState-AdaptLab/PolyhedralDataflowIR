@@ -1282,25 +1282,27 @@ namespace pdfg {
                 // A node with no incoming edges is an input, and no outgoing is an output, these cannot be reduced.
                 unsigned size = ins.size();
                 vector<CompNode*> producers(size);
+                vector<CompNode*> consumers(size);
                 bool reducible = (size > 0 && size == outs.size());
-
-                if (node->label() == "W") {
-                    int stop = 1;
-                }
 
                 if (reducible) {
                     for (unsigned i = 0; i < size && reducible; i++) {
                         producers[i] = (CompNode *) ins[i]->source();
-                        CompNode *consumer = (CompNode *) outs[i]->dest();
-                        reducible = (producers[i]->label() == consumer->label());
+                        consumers[i] = (CompNode *) outs[i]->dest();
+                        reducible = (producers[i]->label() == consumers[i]->label());
                     }
                 }
 
                 if (reducible) {
                     //for (CompNode* producer : producers) {
                     CompNode *producer = producers[0];
+                    CompNode *consumer = consumers[0];
                     vector<Access*> accesses = producer->accesses(node->label());
-                    //vector<const CompNode*> nodes = producer->access_nodes(node->label());
+
+                    if (node->label() == "W") {
+                        int stop = 1;
+                    }
+
 
                     // TODO: Whoa here! If one access gets reordered, they must ALL get reordered...
 //                    bool do_reorder = false;
