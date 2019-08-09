@@ -1061,7 +1061,9 @@ namespace pdfg {
             vector<CompNode*> others;
             for (auto itr = names.begin() + 1; itr != names.end(); ++itr) {
                 CompNode* next = (CompNode*) this->get(*itr);
-                fuse(*first->comp(), *next->comp());
+                if (next) {
+                    fuse(*first->comp(), *next->comp());
+                }
             }
         }
 
@@ -1151,7 +1153,7 @@ namespace pdfg {
             inode = ig->last_node();
             inext = ig->last_leaf();
 
-//            if (curr->label() == "laplacian") {
+//            if (curr->label() == "deconvolve") {
 //                cerr << ig->to_dot() << endl;
 //                int stop = 1;
 //            }
@@ -1246,7 +1248,7 @@ namespace pdfg {
                 ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
             }
 
-//            if (curr->label() == "laplacian") {
+//            if (curr->label() == "absMax") {
 //                cerr << ig->to_dot() << endl;
 //                int stop = 2;
 //            }

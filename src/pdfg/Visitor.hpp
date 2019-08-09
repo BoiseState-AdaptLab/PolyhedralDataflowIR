@@ -419,9 +419,13 @@ namespace pdfg {
             string returnType = _graph->returnType();
             if (!returnName.empty()) {
                 DataNode* returnNode = (DataNode*) _graph->get(returnName);
-                string returnSize = returnNode->size()->text();
-                if (!returnSize.empty() && atoi(returnSize.c_str()) != 1) {
-                    returnType += "*";
+                if (returnNode) {
+                    string returnSize = returnNode->size()->text();
+                    if (!returnSize.empty() && atoi(returnSize.c_str()) != 1) {
+                        returnType += "*";
+                    }
+                } else {
+                    _graph->returnName("0");
                 }
             }
 
@@ -699,7 +703,7 @@ namespace pdfg {
 
         virtual void deallocate(DataNode* node) {
             string label = dataLabel(node);
-            if (node->alloc() == DYNAMIC && label.find("scal") == string::npos &&
+            if (node->alloc() == DYNAMIC && label.find("scal") == string::npos && !node->size()->is_scalar() &&
                 std::find(_frees.begin(), _frees.end(), label) == _frees.end()) {
                 _frees.push_back(label);
             }
@@ -1361,8 +1365,8 @@ namespace pdfg {
 //                                }
                             }
                         } else {
-                            // Skip this optimization if tiled...
-                            reducible = !producer->comp()->tiled();
+                            // Skip this optimization if tiled... nay, FOREVER!
+                            reducible = false; //!producer->comp()->tiled();
 
                             // Ensure all following iters are nonzero...
                             for (unsigned j = nzPos; reducible && j < tupleSize; j++) {
@@ -1768,10 +1772,10 @@ namespace pdfg {
 //            process(variant);
 
             // Fully fused variant...
-            variant = new FlowGraph(*_graph);
-            variant->name(_graph->name() + "_fuse");
-            variant->fuse();
-            process(variant);
+//            variant = new FlowGraph(*_graph);
+//            variant->name(_graph->name() + "_fuse");
+//            variant->fuse();
+//            process(variant);
 
 //            if (!_tile_iters.empty()) {
 //                // Tiled serial version
@@ -1789,13 +1793,13 @@ namespace pdfg {
 //            }
 
             // Intermediate variants...
-//            if (!_fuse_names.empty()) {
-//                variant = new FlowGraph(*_graph);
-//                variant->name(_graph->name() + "_user");
-//                variant->fuse(_fuse_names);
-//                //variant->tile(_tile_iters, _tile_sizes);
-//                process(variant);
-//            }
+            if (!_fuse_names.empty()) {
+                variant = new FlowGraph(*_graph);
+                variant->name(_graph->name() + "_user");
+                variant->fuse(_fuse_names);
+                //variant->tile(_tile_iters, _tile_sizes);
+                process(variant);
+            }
         }
 
         void process(FlowGraph* variant) {
@@ -1806,12 +1810,12 @@ namespace pdfg {
             scheduler.walk(variant);
 
             // DataReduce pass
-//            DataReduceVisitor reducer;
-//            reducer.walk(variant);
+            DataReduceVisitor reducer;
+            reducer.walk(variant);
 
             // MemoryAllocation pass
-            MemAllocVisitor allocator(_constants, _reduce_precision);
-            allocator.walk(variant);
+//            MemAllocVisitor allocator(_constants, _reduce_precision);
+//            allocator.walk(variant);
 
             // Parallelizer pass
             ParallelVisitor parallelizer;
