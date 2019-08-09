@@ -22,6 +22,8 @@ using std::cerr;
 using std::endl;
 #include <map>
 using std::map;
+#include <numeric>
+using std::accumulate;
 #include <sstream>
 using std::istringstream;
 using std::ostringstream;
@@ -2283,6 +2285,10 @@ namespace pdfg {
             }
         }
         return amax;
+    }
+
+    int sum(const IntTuple& tuple) {
+        return accumulate(tuple.begin(), tuple.end(), 0);
     }
 
     IntTuple operator+(const IntTuple& lhs, const IntTuple& rhs) {

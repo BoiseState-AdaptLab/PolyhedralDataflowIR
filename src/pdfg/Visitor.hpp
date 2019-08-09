@@ -759,14 +759,14 @@ namespace pdfg {
             include("omp");
         }
 
-        void addHeader() override {
-            CodeGenVisitor::addHeader();
-            _header.push_back(_indent + "int tnum = 1;");
-            _header.push_back(_indent + "#pragma omp parallel num_threads(1)");
-            _header.push_back(_indent + "{");
-            _header.push_back(_indent + "tnum = min(max(tnum, omp_get_max_threads()), N/T);");
-            _header.push_back(_indent + "}");
-        }
+//        void addHeader() override {
+//            CodeGenVisitor::addHeader();
+//            _header.push_back(_indent + "int tnum = 1;");
+//            _header.push_back(_indent + "#pragma omp parallel num_threads(1)");
+//            _header.push_back(_indent + "{");
+//            _header.push_back(_indent + "tnum = min(max(tnum, omp_get_max_threads()), N/T);");
+//            _header.push_back(_indent + "}");
+//        }
 
         void allocate(DataNode* node) override {
             string label = node->label();
@@ -1284,6 +1284,10 @@ namespace pdfg {
                 vector<CompNode*> producers(size);
                 bool reducible = (size > 0 && size == outs.size());
 
+                if (node->label() == "W") {
+                    int stop = 1;
+                }
+
                 if (reducible) {
                     for (unsigned i = 0; i < size && reducible; i++) {
                         producers[i] = (CompNode *) ins[i]->source();
@@ -1772,10 +1776,10 @@ namespace pdfg {
 //            process(variant);
 
             // Fully fused variant...
-//            variant = new FlowGraph(*_graph);
-//            variant->name(_graph->name() + "_fuse");
-//            variant->fuse();
-//            process(variant);
+            variant = new FlowGraph(*_graph);
+            variant->name(_graph->name() + "_fuse");
+            variant->fuse();
+            process(variant);
 
 //            if (!_tile_iters.empty()) {
 //                // Tiled serial version
@@ -1793,13 +1797,13 @@ namespace pdfg {
 //            }
 
             // Intermediate variants...
-            if (!_fuse_names.empty()) {
-                variant = new FlowGraph(*_graph);
-                variant->name(_graph->name() + "_user");
-                variant->fuse(_fuse_names);
-                //variant->tile(_tile_iters, _tile_sizes);
-                process(variant);
-            }
+//            if (!_fuse_names.empty()) {
+//                variant = new FlowGraph(*_graph);
+//                variant->name(_graph->name() + "_user");
+//                variant->fuse(_fuse_names);
+//                //variant->tile(_tile_iters, _tile_sizes);
+//                process(variant);
+//            }
         }
 
         void process(FlowGraph* variant) {

@@ -29,8 +29,6 @@ using std::ofstream;
 using std::map;
 //#include <memory>
 //using std::unique_ptr;
-#include <numeric>
-using std::accumulate;
 #include <string>
 using std::string;
 #include <vector>
@@ -1130,7 +1128,7 @@ namespace pdfg {
     protected:
         void updateIterGraph(CompNode* prev, CompNode* curr) {
             string inode, inext, iprev, iter;
-            IntTuple path, prev_path, shifts;
+            IntTuple path, shifts;
 
             vector<Tuple> prevScheds = prev->schedules();
             vector<Tuple> currScheds = curr->schedules();
@@ -1153,7 +1151,7 @@ namespace pdfg {
             inode = ig->last_node();
             inext = ig->last_leaf();
 
-//            if (curr->label() == "deconvolve") {
+//            if (curr->label() == "dadd") {
 //                cerr << ig->to_dot() << endl;
 //                int stop = 1;
 //            }
@@ -1164,6 +1162,7 @@ namespace pdfg {
 
             // TODO: Assuming the node to be fused has only one schedule for now...
             Tuple sched = currScheds[0];
+            IntTuple max_shifts;
             for (const auto& itr : producers) {
                 CompNode* prod = itr.second;
                 IntTuple prod_path;
@@ -1171,13 +1170,12 @@ namespace pdfg {
                 prod_paths[prod->label()] = prod_path;
 
                 IntTuple offsets = nodeOffsets(prod, curr, sched);
-                shifts += offsets; //absmax(shifts, offsets);
-
+                shifts = absmax(shifts, offsets);
                 if (prod->shifts()) {
-                    shifts += *prod->shifts();
-                    //shifts = absmax(shifts, *prod->shifts());
+                    max_shifts = absmax(max_shifts, *prod->shifts());
                 }
             }
+            shifts += max_shifts;
 
             // Populate skip list (internal nodes that do not appear in schedule...
             vector<string> skips;
@@ -1223,10 +1221,6 @@ namespace pdfg {
                             }
                         }
                     }
-
-                    if (iprev != inext) {
-                        break;
-                    }
                 }
 
                 if (inext.empty()) {    // Iterator not found on current path, create a new one...
@@ -1236,13 +1230,10 @@ namespace pdfg {
 
                 iprev = inode;
                 inode = inext;
-                prev_path = path;
             }
 
             inode = ig->insertLeaf(inode, curr->label(), path);         // Add leaf node (the statement)
-
-            int shift_sum = accumulate(shifts.begin(), shifts.end(), 0);
-            if (shift_sum) {
+            if (sum(shifts) != 0) {
                 curr->shifts(shifts);
                 string shift = Strings::str<int>(shifts).substr(1);
                 ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
