@@ -1230,7 +1230,9 @@ namespace pdfg {
             if (sum(shifts) != 0) {
                 curr->shifts(shifts);
                 string shift = Strings::str<int>(shifts).substr(1);
-                ig->attr(inode, "shift", shift.substr(0, shift.size() - 1));
+                shift = shift.substr(0, shift.size() - 1);
+                this->get(inode)->attr("shift", shift);
+                ig->attr(inode, "shift", shift);
             }
 
 //            if (curr->label() == "absMax") {

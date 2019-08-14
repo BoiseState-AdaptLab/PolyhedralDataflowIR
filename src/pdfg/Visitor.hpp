@@ -1299,10 +1299,20 @@ namespace pdfg {
                     CompNode *consumer = consumers[0];
                     vector<Access*> accesses = producer->accesses(node->label());
 
+                    // Check whether consumer has been shifted...
+                    string shift = consumer->attr("shift");
+                    if (shift.empty()) {
+                        for (CompNode *child : consumer->children()) {
+                            shift = child->attr("shift");
+                            if (!shift.empty()) {
+                                break;
+                            }
+                        }
+                    }
+
                     if (node->label() == "W") {
                         int stop = 1;
                     }
-
 
                     // TODO: Whoa here! If one access gets reordered, they must ALL get reordered...
 //                    bool do_reorder = false;
