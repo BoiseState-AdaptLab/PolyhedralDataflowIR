@@ -1108,9 +1108,6 @@ namespace pdfg {
 
     protected:
         void updateIterGraph(CompNode* prev, CompNode* curr) {
-            string inode, inext, iprev, iter;
-            IntTuple path, shifts;
-
             vector<Tuple> prevScheds = prev->schedules();
             vector<Tuple> currScheds = curr->schedules();
 
@@ -1128,27 +1125,37 @@ namespace pdfg {
                 }
             }
 
+            string inode, inext, iprev, iter;
             Digraph* ig = prev->iter_graph();
             inode = ig->last_node();
             inext = ig->last_leaf();
 
-//            if (curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
-//                cerr << ig->to_dot() << endl;
-//                int stop = 1;
-//            }
+            if (curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
+                cerr << ig->to_dot() << endl;
+                int stop = 1;
+            }
 
             // Construct set of data dependences...
             unordered_map<string, CompNode*> producers = getProducers(prev, curr);
-            unordered_map<string, IntTuple> prod_paths;
 
             // TODO: Assuming the node to be fused has only one schedule for now...
             Tuple sched = currScheds[0];
             //IntTuple span, starts, max_shifts, max_diffs;
-            IntTuple max_shifts;
+            IntTuple path, shifts, max_diffs, max_shifts;
+            unordered_map<string, IntTuple> prod_paths;
 //            if (!producers.empty()) {
 //                span = nodeSpan(curr, sched);
 //                starts = to_int(curr->comp()->lowers());
 //            }
+
+            IntTuple prevLowers = to_int(prev->comp()->lowers());
+            IntTuple currLowers = to_int(curr->comp()->lowers());
+            shifts = prevLowers - currLowers;
+
+            IntTuple currSpan = nodeSpan(curr, sched);
+            if (sum(currSpan) > currSpan.size()) {
+                shifts += currSpan;
+            }
 
             for (const auto& itr : producers) {
                 CompNode* prod = itr.second;
@@ -1157,11 +1164,14 @@ namespace pdfg {
                 prod_paths[prod->label()] = prod_path;
 
                 // nodeOffsets is not enough, we need the spans...
-                IntTuple offsets = nodeOffsets(prod, curr, sched);
-                shifts = absmax(shifts, offsets);
+                //IntTuple offsets = nodeOffsets(prod, curr, sched);
+                //IntTuple prodSpan = nodeSpan(prod, sched);
+                //shifts = absmax(shifts, offsets);
+                //max_shifts = absmax(max_shifts, offsets);
 
-//                IntTuple start_diffs = starts - to_int(prod->comp()->lowers());
-//                max_diffs = absmax(max_diffs, start_diffs);
+//                IntTuple prodLowers = to_int(prod->comp()->lowers());
+//                IntTuple diffs = currLowers - prodLowers;
+//                max_diffs = absmax(max_diffs, diffs);
 
                 if (prod->shifts()) {
                     max_shifts = absmax(max_shifts, *prod->shifts());
@@ -1170,6 +1180,9 @@ namespace pdfg {
 
             //shifts = span - max_diffs;
             shifts += max_shifts;
+            //max_shifts = absmax(max_shifts, currSpan);
+            //shifts = absmax(shifts, max_shifts);
+            cerr << curr->label() << " -> (" << Strings::join<int>(shifts, ",") << ")\n";
 
             // Populate skip list (internal nodes that do not appear in schedule...
             vector<string> skips;

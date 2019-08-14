@@ -550,7 +550,7 @@ namespace pdfg {
             for (const Math& statement : comp->statements()) {
                 statements[sname].emplace_back(stringify<Math>(statement));
             }
-            for (const auto& schedule : comp->schedules()) {
+            for (const Rel& schedule : comp->schedules()) {
                 schedules[sname].push_back(schedule.to_iset());
             }
         }
@@ -1211,7 +1211,7 @@ namespace pdfg {
                 if (!iter.empty() && !iter.is_int() && !isTileIter(iter.name())) {
                     int shift_val = atoi(shifts[ndx].c_str());
                     if (shift_val < 0) {
-                        iter.text(iter.text() + "-" + to_string(shift_val));
+                        iter.text(iter.text() + "-" + to_string(-shift_val));
                     } else if (shift_val > 0) {
                         iter.text(iter.text() + "+" + to_string(shift_val));
                     }
@@ -1826,8 +1826,8 @@ namespace pdfg {
             scheduler.walk(variant);
 
             // DataReduce pass
-            DataReduceVisitor reducer;
-            reducer.walk(variant);
+//            DataReduceVisitor reducer;
+//            reducer.walk(variant);
 
             // MemoryAllocation pass
 //            MemAllocVisitor allocator(_constants, _reduce_precision);

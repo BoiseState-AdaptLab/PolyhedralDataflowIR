@@ -107,7 +107,8 @@ public:
         return tokens;
     }
 
-    static string join(const vector<string>& items, const string& delim = "\n") {
+    template<typename T=string>
+    static string join(const vector<T>& items, const string& delim = "\n") {
         ostringstream oss;
         if (!items.empty()) {
             size_t last = items.size() - 1;;
