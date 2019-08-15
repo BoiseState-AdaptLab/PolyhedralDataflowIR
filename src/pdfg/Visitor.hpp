@@ -1296,6 +1296,11 @@ namespace pdfg {
                     }
                 }
 
+                // TODO: Ugly hack until real bug can be found...
+                if (node->label() == "W_aveL_d1" || node->label() == "W_aveH_d1") {
+                    reducible = false;
+                }
+
                 if (reducible) {
                     //for (CompNode* producer : producers) {
                     CompNode *producer = producers[0];
@@ -1311,10 +1316,6 @@ namespace pdfg {
                                 break;
                             }
                         }
-                    }
-
-                    if (node->label() == "W") {
-                        int stop = 1;
                     }
 
                     // TODO: Whoa here! If one access gets reordered, they must ALL get reordered...
@@ -1796,20 +1797,20 @@ namespace pdfg {
             variant->fuse();
             process(variant);
 
-//            if (!_tile_iters.empty()) {
+            if (!_tile_iters.empty()) {
 //                // Tiled serial version
 //                variant = new FlowGraph(*_graph);
 //                variant->name(_graph->name() + "_tile");
 //                variant->tile(_tile_iters, _tile_sizes);
 //                process(variant);
 //
-//                // Fused and tiled serial version
+                // Fused and tiled version
 //                variant = new FlowGraph(*_graph);
 //                variant->name(_graph->name() + "_fuse_tile");
 //                variant->fuse();
 //                variant->tile(_tile_iters, _tile_sizes);
 //                process(variant);
-//            }
+            }
 
             // Intermediate variants...
 //            if (!_fuse_names.empty()) {
@@ -1829,16 +1830,16 @@ namespace pdfg {
             scheduler.walk(variant);
 
             // DataReduce pass
-//            DataReduceVisitor reducer;
-//            reducer.walk(variant);
+            DataReduceVisitor reducer;
+            reducer.walk(variant);
 
             // MemoryAllocation pass
-//            MemAllocVisitor allocator(_constants, _reduce_precision);
-//            allocator.walk(variant);
+            MemAllocVisitor allocator(_constants, _reduce_precision);
+            allocator.walk(variant);
 
             // Parallelizer pass
-//            ParallelVisitor parallelizer;
-//            parallelizer.walk(variant);
+            ParallelVisitor parallelizer;
+            parallelizer.walk(variant);
 
             // PerfModel pass
             PerfModelVisitor modeler(_constants);
