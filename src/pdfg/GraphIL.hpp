@@ -2182,6 +2182,11 @@ namespace pdfg {
         return tupleMath(lhs, rhs, '+');
     }
 
+    Tuple operator+(const Tuple& lhs, const IntTuple& rhs) {
+        Tuple tuple(rhs.begin(), rhs.end());
+        return tupleMath(lhs, tuple, '+');
+    }
+
     ExprTuple abs(const ExprTuple& tuple) {
         ExprTuple abstuple = tuple;
         for (unsigned i = 0; i < abstuple.size(); i++) {
@@ -2405,9 +2410,7 @@ namespace pdfg {
         for (unsigned i = 0; i < rhs.size(); i++) {
             if (i < lhs.size()) {
                 lhs[i] += rhs[i];
-            } //else {
-//                lhs.push_back(rhs[i]);
-//            }
+            }
         }
         return lhs;
     }
@@ -2416,9 +2419,7 @@ namespace pdfg {
         for (unsigned i = 0; i < rhs.size(); i++) {
             if (i < lhs.size()) {
                 lhs[i] -= rhs[i];
-            } //else {
-//                lhs.push_back(-rhs[i]);
-//            }
+            }
         }
         return lhs;
     }

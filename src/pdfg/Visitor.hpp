@@ -1791,10 +1791,10 @@ namespace pdfg {
 //            process(variant);
 
             // Fully fused variant...
-//            variant = new FlowGraph(*_graph);
-//            variant->name(_graph->name() + "_fuse");
-//            variant->fuse();
-//            process(variant);
+            variant = new FlowGraph(*_graph);
+            variant->name(_graph->name() + "_fuse");
+            variant->fuse();
+            process(variant);
 
 //            if (!_tile_iters.empty()) {
 //                // Tiled serial version
@@ -1812,13 +1812,13 @@ namespace pdfg {
 //            }
 
             // Intermediate variants...
-            if (!_fuse_names.empty()) {
-                variant = new FlowGraph(*_graph);
-                variant->name(_graph->name() + "_user");
-                variant->fuse(_fuse_names);
-                //variant->tile(_tile_iters, _tile_sizes);
-                process(variant);
-            }
+//            if (!_fuse_names.empty()) {
+//                variant = new FlowGraph(*_graph);
+//                variant->name(_graph->name() + "_user");
+//                variant->fuse(_fuse_names);
+//                //variant->tile(_tile_iters, _tile_sizes);
+//                process(variant);
+//            }
         }
 
         void process(FlowGraph* variant) {

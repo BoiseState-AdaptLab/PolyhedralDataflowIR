@@ -1111,6 +1111,7 @@ namespace pdfg {
             vector<Tuple> prevScheds = prev->schedules();
             vector<Tuple> currScheds = curr->schedules();
 
+            // 1) Align iterators if necessary, in the case of Proto, this interchanges the component loops.
             if (_alignIters) {
                 unsigned nPrevScheds = prevScheds[0].size();
                 unsigned nCurrScheds = currScheds[0].size();
@@ -1125,31 +1126,35 @@ namespace pdfg {
                 }
             }
 
+            // 2) Get current position in iteration graph.
             string inode, inext, iprev, iter;
             Digraph* ig = prev->iter_graph();
             inode = ig->last_node();
             inext = ig->last_leaf();
 
-            //if (curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
-            if (curr->label() == "div_f_d1") {
-                cerr << ig->to_dot() << endl;
-                int stop = 1;
-            }
+//            if (curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
+//                cerr << ig->to_dot() << endl;
+//                int stop = 1;
+//            }
 
-            //IntTuple max_diffs;
+            // 3) Compute initial shift from loop bounds
             IntTuple prevLowers = to_int(prev->comp()->lowers());
             IntTuple currLowers = to_int(curr->comp()->lowers());
+//            ExprTuple prevUppers = prev->comp()->uppers();
+//            ExprTuple currUppers = curr->comp()->uppers();
             IntTuple shifts = prevLowers - currLowers;
 
             // TODO: Assuming the node to be fused has only one schedule for now...
             Tuple sched = currScheds[0];
+            Tuple prev_sched = prevScheds[0];
 
+            // 4) Adjust the shift based on the span of node (i.e, read/write distances).
             IntTuple span = nodeSpan(curr, sched);
             if (sum(span)) { // > span.size()) {
                 shifts += span;
             }
 
-            // Construct set of data dependences...
+            // 5) Construct set of producer-consumer dependences...
             unordered_map<string, CompNode*> producers = getProducers(prev, curr);
             unordered_map<string, IntTuple> prod_paths;
 
@@ -1164,20 +1169,18 @@ namespace pdfg {
                 }
             }
 
-            //shifts = span - max_diffs;
-            //shifts += max_shifts;
-            //shifts = max(shifts, max_shifts);
+            // 6) Finally, adjust shifts for read/write max values, ensuring that necessary data points are computed.
             if (shifts != max_shifts) {
-                shifts = max(max_shifts, max_shifts + shifts);
+                //shifts = max(max_shifts, max_shifts + shifts);
+                shifts = max(shifts, max_shifts);
                 IntTuple maxes = nodeMaxes(curr, sched);
                 if (sum(maxes)) {
-                    shifts = max(shifts, maxes + 1);
+                    shifts += maxes;
                 }
             }
+            //cerr << curr->label() << " -> (" << Strings::join<int>(shifts, ",") << ")\n";
 
-            cerr << curr->label() << " -> (" << Strings::join<int>(shifts, ",") << ")\n";
-
-            // Populate skip list (internal nodes that do not appear in schedule...
+            // 7) Populate iter graph skip list (internal nodes that do not appear in schedule)...
             vector<string> skips;
             for (const string& node : ig->int_labels()) {
                 if (std::find(sched.begin(), sched.end(), node) == sched.end()) {
@@ -1185,6 +1188,7 @@ namespace pdfg {
                 }
             }
 
+            // 8) Traverse the iteration graph and find a place to insert this node.
             inode = ig->root();
             IntTuple path;
             for (unsigned j = 0; j < sched.size() - 1; j++) {
@@ -1233,7 +1237,10 @@ namespace pdfg {
                 inode = inext;
             }
 
-            inode = ig->insertLeaf(inode, curr->label(), path);         // Add leaf node (the statement)
+            // 9) Insert this leaf node (statement) into the iteration graph.
+            inode = ig->insertLeaf(inode, curr->label(), path);
+
+            // 10) Apply shifts if necessary.
             if (sum(shifts) != 0) {
                 curr->shifts(shifts);
                 string shift = Strings::str<int>(shifts).substr(1);
