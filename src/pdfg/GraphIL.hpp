@@ -2313,6 +2313,62 @@ namespace pdfg {
         return amin;
     }
 
+    IntTuple min(const IntTuple& lhs, const IntTuple& rhs) {
+        unsigned minsize, maxsize;
+        if (lhs.size() > rhs.size()) {
+            maxsize = lhs.size();
+            minsize = rhs.size();
+        } else {
+            maxsize = rhs.size();
+            minsize = lhs.size();
+        }
+
+        IntTuple min;
+        if (lhs.empty() && !rhs.empty()) {
+            min = rhs;
+        } else if (!lhs.empty() && rhs.empty()) {
+            min = lhs;
+        } else {
+            min = IntTuple(minsize, 0);
+            for (unsigned i = 0; i < minsize; i++) {
+                if (lhs[i] < rhs[i]) {
+                    min[i] = lhs[i];
+                } else {
+                    min[i] = rhs[i];
+                }
+            }
+        }
+        return min;
+    }
+
+    IntTuple max(const IntTuple& lhs, const IntTuple& rhs) {
+        unsigned minsize, maxsize;
+        if (lhs.size() > rhs.size()) {
+            maxsize = lhs.size();
+            minsize = rhs.size();
+        } else {
+            maxsize = rhs.size();
+            minsize = lhs.size();
+        }
+
+        IntTuple max;
+        if (lhs.empty() && !rhs.empty()) {
+            max = rhs;
+        } else if (!lhs.empty() && rhs.empty()) {
+            max = lhs;
+        } else {
+            max = IntTuple(minsize, 0);
+            for (unsigned i = 0; i < minsize; i++) {
+                if (lhs[i] > rhs[i]) {
+                    max[i] = lhs[i];
+                } else {
+                    max[i] = rhs[i];
+                }
+            }
+        }
+        return max;
+    }
+
     int sum(const IntTuple& tuple) {
         return accumulate(tuple.begin(), tuple.end(), 0);
     }
@@ -2326,6 +2382,11 @@ namespace pdfg {
         return sum;
     }
 
+    IntTuple operator+(const IntTuple& lhs, const int& scalar) {
+        IntTuple rhs(lhs.size(), scalar);
+        return lhs + rhs;
+    }
+
     IntTuple operator-(const IntTuple& lhs, const IntTuple& rhs) {
         unsigned size = (lhs.size() < rhs.size()) ? lhs.size() : rhs.size();
         IntTuple diff(size, 0);
@@ -2335,13 +2396,18 @@ namespace pdfg {
         return diff;
     }
 
+    IntTuple operator-(const IntTuple& lhs, const int& scalar) {
+        IntTuple rhs(lhs.size(), scalar);
+        return lhs - rhs;
+    }
+
     IntTuple& operator+=(IntTuple& lhs, const IntTuple& rhs) {
         for (unsigned i = 0; i < rhs.size(); i++) {
             if (i < lhs.size()) {
                 lhs[i] += rhs[i];
-            } else {
-                lhs.push_back(rhs[i]);
-            }
+            } //else {
+//                lhs.push_back(rhs[i]);
+//            }
         }
         return lhs;
     }
@@ -2350,9 +2416,9 @@ namespace pdfg {
         for (unsigned i = 0; i < rhs.size(); i++) {
             if (i < lhs.size()) {
                 lhs[i] -= rhs[i];
-            } else {
-                lhs.push_back(-rhs[i]);
-            }
+            } //else {
+//                lhs.push_back(-rhs[i]);
+//            }
         }
         return lhs;
     }

@@ -1130,58 +1130,51 @@ namespace pdfg {
             inode = ig->last_node();
             inext = ig->last_leaf();
 
-            if (curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
+            //if (curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
+            if (curr->label() == "div_f_d1") {
                 cerr << ig->to_dot() << endl;
                 int stop = 1;
             }
 
-            // Construct set of data dependences...
-            unordered_map<string, CompNode*> producers = getProducers(prev, curr);
+            //IntTuple max_diffs;
+            IntTuple prevLowers = to_int(prev->comp()->lowers());
+            IntTuple currLowers = to_int(curr->comp()->lowers());
+            IntTuple shifts = prevLowers - currLowers;
 
             // TODO: Assuming the node to be fused has only one schedule for now...
             Tuple sched = currScheds[0];
-            //IntTuple span, starts, max_shifts, max_diffs;
-            IntTuple path, shifts, max_diffs, max_shifts;
-            unordered_map<string, IntTuple> prod_paths;
-//            if (!producers.empty()) {
-//                span = nodeSpan(curr, sched);
-//                starts = to_int(curr->comp()->lowers());
-//            }
 
-            IntTuple prevLowers = to_int(prev->comp()->lowers());
-            IntTuple currLowers = to_int(curr->comp()->lowers());
-            shifts = prevLowers - currLowers;
-
-            IntTuple currSpan = nodeSpan(curr, sched);
-            if (sum(currSpan) > currSpan.size()) {
-                shifts += currSpan;
+            IntTuple span = nodeSpan(curr, sched);
+            if (sum(span)) { // > span.size()) {
+                shifts += span;
             }
 
+            // Construct set of data dependences...
+            unordered_map<string, CompNode*> producers = getProducers(prev, curr);
+            unordered_map<string, IntTuple> prod_paths;
+
+            IntTuple max_shifts = shifts;
             for (const auto& itr : producers) {
                 CompNode* prod = itr.second;
                 IntTuple prod_path;
                 ig->find(prod->label(), prod_path);
                 prod_paths[prod->label()] = prod_path;
-
-                // nodeOffsets is not enough, we need the spans...
-                //IntTuple offsets = nodeOffsets(prod, curr, sched);
-                //IntTuple prodSpan = nodeSpan(prod, sched);
-                //shifts = absmax(shifts, offsets);
-                //max_shifts = absmax(max_shifts, offsets);
-
-//                IntTuple prodLowers = to_int(prod->comp()->lowers());
-//                IntTuple diffs = currLowers - prodLowers;
-//                max_diffs = absmax(max_diffs, diffs);
-
                 if (prod->shifts()) {
-                    max_shifts = absmax(max_shifts, *prod->shifts());
+                    max_shifts = max(max_shifts, *prod->shifts());
                 }
             }
 
             //shifts = span - max_diffs;
-            shifts += max_shifts;
-            //max_shifts = absmax(max_shifts, currSpan);
-            //shifts = absmax(shifts, max_shifts);
+            //shifts += max_shifts;
+            //shifts = max(shifts, max_shifts);
+            if (shifts != max_shifts) {
+                shifts = max(max_shifts, max_shifts + shifts);
+                IntTuple maxes = nodeMaxes(curr, sched);
+                if (sum(maxes)) {
+                    shifts = max(shifts, maxes + 1);
+                }
+            }
+
             cerr << curr->label() << " -> (" << Strings::join<int>(shifts, ",") << ")\n";
 
             // Populate skip list (internal nodes that do not appear in schedule...
@@ -1193,6 +1186,7 @@ namespace pdfg {
             }
 
             inode = ig->root();
+            IntTuple path;
             for (unsigned j = 0; j < sched.size() - 1; j++) {
                 iter = sched[j].text();
                 inext = ig->find(inode, iter, path, skips);
@@ -1327,45 +1321,78 @@ namespace pdfg {
 
         IntTuple nodeSpan(CompNode* node, const Tuple& schedule) {
             unsigned niters = schedule.size() - 1;
+            IntTuple max_offsets(niters, INT_MIN);
+            IntTuple min_offsets(niters, INT_MAX);
+            nodeBounds(node, schedule, min_offsets, max_offsets);
+
+            IntTuple span(niters, 0);
+            for (unsigned i = 0; i < niters; i++) {
+                span[i] = max_offsets[i] - min_offsets[i];
+            }
+            return span;
+        }
+
+        IntTuple nodeMins(CompNode* node, const Tuple& schedule) {
+            unsigned niters = schedule.size() - 1;
             IntTuple span(niters, 0);
             IntTuple max_offsets(niters, INT_MIN);
             IntTuple min_offsets(niters, INT_MAX);
+            nodeBounds(node, schedule, min_offsets, max_offsets);
 
+            for (unsigned i = 0; i < niters; i++) {
+                if (min_offsets[i] == INT_MAX) {
+                    min_offsets[i] = 0;
+                }
+            }
+            return min_offsets;
+        }
+
+        IntTuple nodeMaxes(CompNode* node, const Tuple& schedule) {
+            unsigned niters = schedule.size() - 1;
+            IntTuple span(niters, 0);
+            IntTuple max_offsets(niters, INT_MIN);
+            IntTuple min_offsets(niters, INT_MAX);
+            nodeBounds(node, schedule, min_offsets, max_offsets);
+
+            for (unsigned i = 0; i < niters; i++) {
+                if (max_offsets[i] == INT_MIN) {
+                    max_offsets[i] = 0;
+                }
+            }
+            return max_offsets;
+        }
+
+        void nodeBounds(CompNode* node, const Tuple& schedule, IntTuple& min_offsets, IntTuple& max_offsets) {
+            unsigned niters = schedule.size() - 1;
             vector<Access*> accesses = node->accesses();
             for (Access* access : accesses) {
                 ExprTuple tuple = access->tuple();
                 for (unsigned i = 0; i < niters; i++) {
                     //if (!schedule[i].is_int()) {
-                        string iter = schedule[i].text();
-                        bool match = false;
-                        for (unsigned j = 0; j < tuple.size() && !match; j++) {
-                            string expr = tuple[j].text();
-                            size_t pos = expr.find(iter);
-                            match = (pos != string::npos);
-                            if (match && expr != iter) {
-                                int offset = 0;
-                                if (expr != iter) {
-                                    expr.erase(pos, iter.size());
-                                    offset = unstring<int>(expr);
-                                }
+                    string iter = schedule[i].text();
+                    bool match = false;
+                    for (unsigned j = 0; j < tuple.size() && !match; j++) {
+                        string expr = tuple[j].text();
+                        size_t pos = expr.find(iter);
+                        match = (pos != string::npos);
+                        if (match && expr != iter) {
+                            int offset = 0;
+                            if (expr != iter) {
+                                expr.erase(pos, iter.size());
+                                offset = unstring<int>(expr);
+                            }
 
-                                if (offset < min_offsets[i]) {
-                                    min_offsets[i] = offset;
-                                }
-                                if (offset > max_offsets[i]) {
-                                    max_offsets[i] = offset;
-                                }
+                            if (offset < min_offsets[i]) {
+                                min_offsets[i] = offset;
+                            }
+                            if (offset > max_offsets[i]) {
+                                max_offsets[i] = offset;
                             }
                         }
+                    }
                     //}
                 }
             }
-
-            for (unsigned i = 0; i < niters; i++) {
-                span[i] = max_offsets[i] - min_offsets[i];
-            }
-
-            return span;
         }
 
         void getOffsets(const Tuple& schedule, const map<string, Access*> accmap, IntTuple& offsets, int comp = 1) {
