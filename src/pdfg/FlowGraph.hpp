@@ -1132,7 +1132,7 @@ namespace pdfg {
             inode = ig->last_node();
             inext = ig->last_leaf();
 
-//            if (curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
+//            if (curr->label() == "consToPrim1" || curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
 //                cerr << ig->to_dot() << endl;
 //                int stop = 1;
 //            }

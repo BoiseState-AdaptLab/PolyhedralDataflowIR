@@ -759,14 +759,14 @@ namespace pdfg {
             include("omp");
         }
 
-//        void addHeader() override {
-//            CodeGenVisitor::addHeader();
-//            _header.push_back(_indent + "int tnum = 1;");
-//            _header.push_back(_indent + "#pragma omp parallel num_threads(1)");
-//            _header.push_back(_indent + "{");
-//            _header.push_back(_indent + "tnum = min(max(tnum, omp_get_max_threads()), N/T);");
-//            _header.push_back(_indent + "}");
-//        }
+        void addHeader() override {
+            CodeGenVisitor::addHeader();
+            _header.push_back(_indent + "int tnum = 1;");
+            _header.push_back(_indent + "#pragma omp parallel num_threads(1)");
+            _header.push_back(_indent + "{");
+            _header.push_back(_indent + "tnum = min(max(tnum, omp_get_max_threads()), N/T);");
+            _header.push_back(_indent + "}");
+        }
 
         void allocate(DataNode* node) override {
             string label = node->label();
@@ -1792,10 +1792,10 @@ namespace pdfg {
 //            process(variant);
 
             // Fully fused variant...
-            variant = new FlowGraph(*_graph);
-            variant->name(_graph->name() + "_fuse");
-            variant->fuse();
-            process(variant);
+//            variant = new FlowGraph(*_graph);
+//            variant->name(_graph->name() + "_fuse");
+//            variant->fuse();
+//            process(variant);
 
             if (!_tile_iters.empty()) {
 //                // Tiled serial version
@@ -1805,11 +1805,11 @@ namespace pdfg {
 //                process(variant);
 //
                 // Fused and tiled version
-//                variant = new FlowGraph(*_graph);
-//                variant->name(_graph->name() + "_fuse_tile");
-//                variant->fuse();
-//                variant->tile(_tile_iters, _tile_sizes);
-//                process(variant);
+                variant = new FlowGraph(*_graph);
+                variant->name(_graph->name() + "_fuse_tile");
+                variant->fuse();
+                variant->tile(_tile_iters, _tile_sizes);
+                process(variant);
             }
 
             // Intermediate variants...

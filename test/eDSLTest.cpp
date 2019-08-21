@@ -798,6 +798,14 @@ TEST(eDSLTest, SDDMM) {
     ASSERT_TRUE(!result.empty());
 }
 
+TEST(eDSLTest, Backprop) {
+    Space x("xor"); //, {0., 0., 0., 1., 1., 0., 1., 1.});
+    Space layers("layers"); //, {2., 2., 2., 1.});
+    Space eta("eta", 0.1);
+    Space theta;
+
+}
+
 TEST(eDSLTest, CSR_ELL_Insp) {
     Iter i('i'), j('j'), k('k'), n('n');
     Const N("N"), NNZ("NNZ"), K("K");

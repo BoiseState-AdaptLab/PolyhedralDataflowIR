@@ -1,17 +1,6 @@
 import numpy as np
-
-# define XOR training data
-X = np.array([
-    [0, 0],
-    [0, 1],
-    [1, 0],
-    [1, 1],
-])
-
-y = np.atleast_2d([0, 1, 1, 0]).T
-
-print('X.shape:', X.shape)
-print('y.shape:', y.shape)
+import time
+import traceback as tb
 
 # defining network parameters
 # [2, 2, 1] will also work for the XOR problem presented
@@ -92,19 +81,44 @@ def back_propagation(X, y, initialize=True, debug=False, verbose=False):
     if debug:
         return (A, Z, y_hat, del_, del_theta)
 
-# training epochs
-initialize=True
-verbose=True
-THETA=[]
-for i in range(10000):
-    if i % 1000 == 0:
-        verbose=True
-    back_propagation(X, y, initialize, debug=False, verbose=verbose)
-    verbose=False
-    initialize=False
+def backprop_test():
+    # define XOR training data
+    x = np.array([
+        [0, 0],
+        [0, 1],
+        [1, 0],
+        [1, 1],
+    ])
 
-# inference after training
-A, Z, y_hat = forward_propagation(X, initialize=False)
+    y = np.atleast_2d([0, 1, 1, 0]).T
 
-# final output of the network
-print(y_hat)
+    print('X.shape:', x.shape)
+    print('y.shape:', y.shape)
+
+    # training epochs
+    initialize=True
+    for i in range(10000):
+        verbose = (i % 1000 == 0)
+        back_propagation(x, y, initialize, debug=False, verbose=verbose)
+        initialize=False
+
+    # inference after training
+    A, Z, y_hat = forward_propagation(x, initialize=False)
+
+    # final output of the network
+    print(y_hat)
+
+def main():
+    t0 = time.time()
+    backprop_test()
+    t1 = time.time()
+    print('elapsed: %.6lf' % (t1 - t0))
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt as e: # Ctrl-C
+        print("Closing gracefully on keyboard interrupt...")
+    except Exception as e:
+        print('ERROR: ' + str(e))
+        tb.print_exc()
