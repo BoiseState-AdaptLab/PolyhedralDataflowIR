@@ -1463,6 +1463,10 @@ namespace pdfg {
             init(name, Int(0), upper1, Int(0), upper2);
         }
 
+        Space(const string &name, int upper1, const Expr &upper2, const Expr &upper3) {
+            init(name, Int(0), Int(upper1), Int(0), upper2, Int(0), upper3);
+        }
+
         Space(const string &name, const Expr &upper1, const Expr &upper2, const Expr &upper3) {
             init(name, Int(0), upper1, Int(0), upper2, Int(0), upper3);
         }
