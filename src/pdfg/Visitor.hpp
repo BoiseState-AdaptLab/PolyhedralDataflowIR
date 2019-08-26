@@ -315,12 +315,14 @@ namespace pdfg {
 
             if (!_graph->isReturn(node) && _graph->isSource(node)) {
                 // Input Data
-                string param = "const " + node->datatype();
-                if (!node->is_scalar()) {
-                    param += "*";
+                if (getDefine(label).empty()) {
+                    string param = "const " + node->datatype();
+                    if (!node->is_scalar()) {
+                        param += "*";
+                    }
+                    param += " " + label;
+                    _params.push_back(param);
                 }
-                param += " " + label;
-                _params.push_back(param);
             } else if ((!_graph->isReturn(node) && _graph->isSink(node)) || _graph->output(label) >= 0) {
                 // Output Data
                 string param = node->datatype() + "* " + label;
@@ -347,10 +349,6 @@ namespace pdfg {
             }
 
             codegen(node, names, statements, guards, schedules);
-        }
-
-        void enter(RelNode* node) {
-            int stop = 4;
         }
 
         void finish(FlowGraph* graph) override {
@@ -406,6 +404,15 @@ namespace pdfg {
             _indent = "    ";
             //_ompsched = "runtime";
             _mathFuncs = CompNode::mathFunctions();
+        }
+
+        string getDefine(const string& name) {
+            for (auto& define : _defines) {
+                if (define.first == name) {
+                    return define.second;
+                }
+            }
+            return "";
         }
 
         void addComment() {
@@ -557,6 +564,7 @@ namespace pdfg {
 
         void addMappings(CompNode* node) {
             // Define data mappings (one per space)
+            auto accs = node->accesses();
             for (Access* access : node->accesses()) {
                 if (access->has_iters() && _mappings.find(access->space()) == _mappings.end()) {
                     string mapping = createMapping(node, access);

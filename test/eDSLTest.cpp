@@ -418,29 +418,6 @@ TEST(eDSLTest, CSR_BSR_Insp) {
 }
 
 TEST(eDSLTest, MFD_2D) {
-    /**
-    # slice(Fx1, c=2)
-    Fx1 := [N]->{fx1[c,y,x]: 0<=c<4 and 0<=y<N and 0<=x<=N};
-    Fx2 := [N]->{fx2[c,y,x] : 0<=c<4 and 0<=x<=N and 0<=y<N};
-    Dx := [N]->{dx[c,y,x] : 0<=c<4 and 0<=x<N and 0<=y<N};
-
-    # slice(Fy1, c=3)
-    Fy1 := [N]->{fy1[c,y,x]: 0<=c<4 and 0<=y<=N and 0<=x<N};
-    Fy2 := [N]->{fy2[c,y,x] : 0<=c<4 and 0<=y<=N and 0<=x<N};
-    Dy := [N]->{dy[c,y,x] : 0<=c<4 and 0<=y<N and 0<=x<N};
-
-    # Statements
-    #statement(Fx1) := "Cx1[c,y,x] = (1./12.)*(Bin[c,y,x-2] + 7.0 * Bin[c,y,x-1] +
-    #                                          Bin[c,y,x] + Bin[c,y,x+1])";
-    #statement(Fx2) := "Cx2[c,y,x] = Cx1[c,y,x] * 2.0 * Cx1[2,y,x]";
-    #statement(Dx) := "Bout[c,y,x] += Cx2[c,y,+1] - Cx2[c,y,x]";
-    #statement(Fy1) := "Cy1[c,y,x] = (1./12.)*(Bin[c,y-2,x] + 7.0 * Bin[c,y-1,x] +
-    #                                          Bin[c,y,x] + Bin[c,y+1,x])";
-    #statement(Fy2) := "Cy2[c,y,x] = Cy1[c,y,x] * 2.0 * Cy1[3,y,x]";
-    #statement(Dy) := "Bout[c,y,x] += Cy2[c,y+1,x] - Cy2[c,y,x]";
-
-    D := Fx1 + Fx2 + Dx + Fy1 + Fy2 + Dy;
-     */
     Iter x('x'), y('y'), c('c');
     Const N('N'), C('C', 4);
     ConstrTuple fx = (0 <= c < C ^ 0 <= y < N ^ 0 <= x <= N);
@@ -453,7 +430,7 @@ TEST(eDSLTest, MFD_2D) {
     Space cx1("cx1", fx), cx2("cx2", fx);
     Space cy1("cy1", fy), cy2("cy2", fy);
 
-    string name = "mfd_2d";
+    string name = "mfd";
     init(name, "", "float", "", {"bout"}); //, to_string(0));
 
     Comp fx1("fx1", fx, (cx1(c,y,x) = (1./12.)*(bin(c,y,x-2) + 7.0 * bin(c,y,x-1) + bin(c,y,x) + bin(c,y,x+1))));
@@ -465,7 +442,43 @@ TEST(eDSLTest, MFD_2D) {
     Comp dy("dy", df, (bout(c,y,x) += cy2(c,y+1,x) - cy2(c,y,x)));
 
     print("out/" + name + ".json");
-    string result = codegen("out/" + name + ".o", "", "C++", "auto");
+    string result = codegen("out/" + name + "_2d.h", "", "C++", "auto");
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, MFD_3D) {
+    Iter x('x'), y('y'), z('z'), c('c');
+    Const B('B'), N('N'), C('C', 5);
+    ConstrTuple fx = (0 <= c < C ^ 0 <= z < N ^ 0 <= y < N ^ 0 <= x <= N);
+    ConstrTuple fy = (0 <= c < C ^ 0 <= z < N ^ 0 <= y <= N ^ 0 <= x < N);
+    ConstrTuple fz = (0 <= c < C ^ 0 <= z <= N ^ 0 <= y < N ^ 0 <= x < N);
+    ConstrTuple df = (0 <= c < C ^ 0 <= z < N ^ 0 <= y < N ^ 0 <= x < N);
+    ConstrTuple box = (0 <= c < C ^ 0 <= z <= N+1 ^ 0 <= y <= N+1 ^ 0 <= x <= N+1);
+
+    Space bin("bin", box);
+    Space bout("bout", box);
+    Space cx1("cx1", fx), cx2("cx2", fx);
+    Space cy1("cy1", fy), cy2("cy2", fy);
+    Space cz1("cz1", fz), cz2("cz2", fz);
+
+    string name = "mfd";
+    init(name, "", "d", "", {"bout"}); //, to_string(0));
+
+    Comp fx1("fx1", fx, (cx1(c,z,y,x) = (1./12.)*paren(bin(c,z,y,x-2) + 7.0 * paren(bin(c,z,y,x-1) + bin(c,z,y,x)) + bin(c,z,y,x+1))));
+    Comp fx2("fx2", fx, (cx2(c,z,y,x) = cx1(c,z,y,x) * 2.0 * cx1(2,z,y,x)));
+    Comp dx("dx", df, (bout(c,z,y,x) += cx2(c,z,y,x+1) - cx2(c,z,y,x)));
+
+    Comp fy1("fy1", fy, (cy1(c,z,y,x) = (1./12.)*paren(bin(c,z,y-2,x) + 7.0 * paren(bin(c,z,y-1,x) + bin(c,z,y,x)) + bin(c,z,y+1,x))));
+    Comp fy2("fy2", fy, (cy2(c,z,y,x) = cy1(c,z,y,x) * 2.0 * cy1(3,z,y,x)));
+    Comp dy("dy", df, (bout(c,z,y,x) += cy2(c,z,y+1,x) - cy2(c,z,y,x)));
+
+    Comp fz1("fz1", fz, (cz1(c,z,y,x) = (1./12.)*paren(bin(c,z-2,y,x) + 7.0 * paren(bin(c,z-1,y,x) + bin(c,z,y,x)) + bin(c,z+1,y,x))));
+    Comp fz2("fz2", fz, (cz2(c,z,y,x) = cz1(c,z,y,x) * 2.0 * cz1(4,z,y,x)));
+    Comp dz("dz", df, (bout(c,z,y,x) += cz2(c,z+1,y,x) - cy2(c,z,y,x)));
+
+    print("out/" + name + ".json");
+    string result = codegen("out/" + name + "_3d.h", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

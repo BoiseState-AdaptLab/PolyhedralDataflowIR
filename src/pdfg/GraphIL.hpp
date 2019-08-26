@@ -1604,6 +1604,16 @@ namespace pdfg {
             return Access(_name, {one, two, three}, '(');
         }
 
+        Access operator()(int one, const Expr &two, const Expr &three, const Expr &four) {
+            addSpace(*this);
+            return Access(_name, {Int(one), two, three, four}, '(');
+        }
+
+        Access operator()(const Expr &one, const Expr &two, const Expr &three, const Expr &four) {
+            addSpace(*this);
+            return Access(_name, {one, two, three, four}, '(');
+        }
+
         Access makeAccess(const Expr &first, const vector<Expr>& rest) {
             vector<Expr> tuple(rest.size() + 1);
             tuple[0] = first;
@@ -3718,8 +3728,7 @@ namespace pdfg {
         }
 
         void addAccess(const Access& access) {
-            unsigned size = access.tuple().size();
-            if (size > 0) { // && access.tuple().at(0).type() != 'N') {
+            if (access.tuple().size() > 0) { // && access.tuple().at(0).type() != 'N') {
                 _accessMap[access.space()].push_back(access);
             }
         }
