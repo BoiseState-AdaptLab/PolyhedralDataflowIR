@@ -454,7 +454,7 @@ TEST(eDSLTest, MFD_3D) {
     ConstrTuple fy = (0 <= c < C ^ 0 <= z < N ^ 0 <= y <= N ^ 0 <= x < N);
     ConstrTuple fz = (0 <= c < C ^ 0 <= z <= N ^ 0 <= y < N ^ 0 <= x < N);
     ConstrTuple df = (0 <= c < C ^ 0 <= z < N ^ 0 <= y < N ^ 0 <= x < N);
-    ConstrTuple box = (0 <= c < C ^ 0 <= z <= N+1 ^ 0 <= y <= N+1 ^ 0 <= x <= N+1);
+    ConstrTuple box = (0 <= c < C ^ -2 <= z < N+2 ^ -2 <= y < N+2 ^ -2 <= x < N+2);
 
     Space bin("bin", box);
     Space bout("bout", box);
@@ -465,17 +465,18 @@ TEST(eDSLTest, MFD_3D) {
     string name = "mfd";
     init(name, "", "d", "", {"bout"}); //, to_string(0));
 
-    Comp fx1("fx1", fx, (cx1(c,z,y,x) = (1./12.)*paren(bin(c,z,y,x-2) + 7.0 * paren(bin(c,z,y,x-1) + bin(c,z,y,x)) + bin(c,z,y,x+1))));
+    Math fac1 = paren(Real(1.0) / Real(12.0));
+    Comp fx1("fx1", fx, (cx1(c,z,y,x) = fac1*paren(bin(c,z,y,x-2) + 7.0 * paren(bin(c,z,y,x-1) + bin(c,z,y,x)) + bin(c,z,y,x+1))));
     Comp fx2("fx2", fx, (cx2(c,z,y,x) = cx1(c,z,y,x) * 2.0 * cx1(2,z,y,x)));
-    Comp dx("dx", df, (bout(c,z,y,x) += cx2(c,z,y,x+1) - cx2(c,z,y,x)));
+    Comp dx("dx", df, (bout(c,z,y,x) += paren(cx2(c,z,y,x+1) - cx2(c,z,y,x))));
 
-    Comp fy1("fy1", fy, (cy1(c,z,y,x) = (1./12.)*paren(bin(c,z,y-2,x) + 7.0 * paren(bin(c,z,y-1,x) + bin(c,z,y,x)) + bin(c,z,y+1,x))));
+    Comp fy1("fy1", fy, (cy1(c,z,y,x) = fac1*paren(bin(c,z,y-2,x) + 7.0 * paren(bin(c,z,y-1,x) + bin(c,z,y,x)) + bin(c,z,y+1,x))));
     Comp fy2("fy2", fy, (cy2(c,z,y,x) = cy1(c,z,y,x) * 2.0 * cy1(3,z,y,x)));
-    Comp dy("dy", df, (bout(c,z,y,x) += cy2(c,z,y+1,x) - cy2(c,z,y,x)));
+    Comp dy("dy", df, (bout(c,z,y,x) += paren(cy2(c,z,y+1,x) - cy2(c,z,y,x))));
 
-    Comp fz1("fz1", fz, (cz1(c,z,y,x) = (1./12.)*paren(bin(c,z-2,y,x) + 7.0 * paren(bin(c,z-1,y,x) + bin(c,z,y,x)) + bin(c,z+1,y,x))));
+    Comp fz1("fz1", fz, (cz1(c,z,y,x) = fac1*paren(bin(c,z-2,y,x) + 7.0 * paren(bin(c,z-1,y,x) + bin(c,z,y,x)) + bin(c,z+1,y,x))));
     Comp fz2("fz2", fz, (cz2(c,z,y,x) = cz1(c,z,y,x) * 2.0 * cz1(4,z,y,x)));
-    Comp dz("dz", df, (bout(c,z,y,x) += cz2(c,z+1,y,x) - cy2(c,z,y,x)));
+    Comp dz("dz", df, (bout(c,z,y,x) += paren(cz2(c,z+1,y,x) - cz2(c,z,y,x))));
 
     print("out/" + name + ".json");
     string result = codegen("out/" + name + "_3d.h", "", "C++", "auto");

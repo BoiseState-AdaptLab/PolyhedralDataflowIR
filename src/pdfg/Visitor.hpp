@@ -567,7 +567,7 @@ namespace pdfg {
             auto accs = node->accesses();
             for (Access* access : node->accesses()) {
                 if (access->has_iters() && _mappings.find(access->space()) == _mappings.end()) {
-                    string mapping = createMapping(node, access);
+                    string mapping = createMapping(access);
                     if (!mapping.empty()) {
                         string accstr = stringify<Access>(*access);
                         define(accstr, mapping);
@@ -577,14 +577,25 @@ namespace pdfg {
             }
         }
 
-        string createMapping(CompNode* node, const Access* access) {
-            Comp* comp = node->comp();
+        string createMapping(const Access* access) {
             string sname = access->space();
             map<string, int> offsets = access->offset_map();
 
             Space space = getSpace(sname);
             Tuple tuple = space.iterators();
             unsigned niters = tuple.size();
+            ExprTuple lowers = space.lowers();
+
+            // Adjust for negative start bounds...
+            for (unsigned i = 0; i < niters; i++) {
+                if (lowers[i].is_number()) {
+                    int lower = stoi(lowers[i].text());
+                    string iter = tuple[i].name();
+                    if (lower < 0 && offsets.find(iter) == offsets.end()) {
+                        offsets[iter] = -lower;
+                    }
+                }
+            }
 
             // Get the data node for this space.
             DataNode* dnode = (DataNode*) _graph->get(sname);
@@ -1800,10 +1811,10 @@ namespace pdfg {
 //            process(variant);
 
             // Fully fused variant...
-//            variant = new FlowGraph(*_graph);
-//            variant->name(_graph->name() + "_fuse");
-//            variant->fuse();
-//            process(variant);
+            variant = new FlowGraph(*_graph);
+            variant->name(_graph->name() + "_fuse");
+            variant->fuse();
+            process(variant);
 
             if (!_tile_iters.empty()) {
 //                // Tiled serial version
@@ -1813,11 +1824,11 @@ namespace pdfg {
 //                process(variant);
 //
                 // Fused and tiled version
-                variant = new FlowGraph(*_graph);
-                variant->name(_graph->name() + "_fuse_tile");
-                variant->fuse();
-                variant->tile(_tile_iters, _tile_sizes);
-                process(variant);
+//                variant = new FlowGraph(*_graph);
+//                variant->name(_graph->name() + "_fuse_tile");
+//                variant->fuse();
+//                variant->tile(_tile_iters, _tile_sizes);
+//                process(variant);
             }
 
             // Intermediate variants...

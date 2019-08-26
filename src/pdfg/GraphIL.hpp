@@ -1890,6 +1890,26 @@ namespace pdfg {
             return expr;
         }
 
+        ExprTuple lowers() const {
+            ExprTuple tuple;
+            for (const Constr& constraint : _constraints) {
+                if (!constraint.lhs().is_iter() && constraint.rhs().is_iter()) {
+                    tuple.push_back(constraint.lhs());
+                }
+            }
+            return tuple;
+        }
+
+        ExprTuple uppers() const {
+            ExprTuple tuple;
+            for (const Constr& constraint : _constraints) {
+                if (!constraint.lhs().is_iter() && !constraint.rhs().is_iter()) {
+                    tuple.push_back(constraint.rhs());
+                }
+            }
+            return tuple;
+        }
+
         friend istream &operator>>(istream &is, Space &space) {
             string token;
             is >> token;
@@ -2948,6 +2968,7 @@ namespace pdfg {
             }
             return tuple;
         }
+
 
         Comp operator+=(const Math& statement) {
             this->add(statement);
