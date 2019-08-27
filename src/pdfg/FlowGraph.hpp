@@ -1132,10 +1132,11 @@ namespace pdfg {
             inode = ig->last_node();
             inext = ig->last_leaf();
 
-//            if (curr->label() == "consToPrim1" || curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
-//                cerr << ig->to_dot() << endl;
-//                int stop = 1;
-//            }
+            //if (curr->label() == "consToPrim1" || curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
+            if (curr->label() == "fy1") {
+                cerr << ig->to_dot() << endl;
+                int stop = 1;
+            }
 
             // 3) Compute initial shift from loop bounds
             IntTuple prevLowers = to_int(prev->comp()->lowers());
@@ -1334,6 +1335,12 @@ namespace pdfg {
 
             IntTuple span(niters, 0);
             for (unsigned i = 0; i < niters; i++) {
+                if (max_offsets[i] == INT_MIN) {
+                    max_offsets[i] = 0;
+                }
+                if (min_offsets[i] == INT_MAX) {
+                    min_offsets[i] = 0;
+                }
                 span[i] = max_offsets[i] - min_offsets[i];
             }
             return span;
@@ -1382,7 +1389,7 @@ namespace pdfg {
                         string expr = tuple[j].text();
                         size_t pos = expr.find(iter);
                         match = (pos != string::npos);
-                        if (match && expr != iter) {
+                        if (match) { // && expr != iter) {
                             int offset = 0;
                             if (expr != iter) {
                                 expr.erase(pos, iter.size());
