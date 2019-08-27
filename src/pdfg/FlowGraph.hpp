@@ -1133,7 +1133,7 @@ namespace pdfg {
             inext = ig->last_leaf();
 
             //if (curr->label() == "consToPrim1" || curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
-            if (curr->label() == "fy1") {
+            if (curr->label() == "dx") {
                 cerr << ig->to_dot() << endl;
                 int stop = 1;
             }
@@ -1151,7 +1151,8 @@ namespace pdfg {
 
             // 4) Adjust the shift based on the span of node (i.e, read/write distances).
             IntTuple span = nodeSpan(curr, sched);
-            if (sum(span)) { // > span.size()) {
+            //if (!producers.empty() && sum(span)) {
+            if (sum(span)) {
                 shifts += span;
             }
 
@@ -1175,7 +1176,7 @@ namespace pdfg {
                 //shifts = max(max_shifts, max_shifts + shifts);
                 shifts = max(shifts, max_shifts);
                 IntTuple maxes = nodeMaxes(curr, sched);
-                if (sum(maxes)) {
+                if (sum(maxes)) { // && maxes != shifts) {
                     shifts += maxes;
                 }
             }

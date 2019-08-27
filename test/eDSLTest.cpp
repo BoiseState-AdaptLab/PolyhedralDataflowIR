@@ -479,6 +479,7 @@ TEST(eDSLTest, MFD_3D) {
     Comp dz("dz", df, (bout(c,z,y,x) += paren(cz2(c,z+1,y,x) - cz2(c,z,y,x))));
 
     fuse();
+    //tile({"z", "y", "x"}, {8, 8, 8});
     print("out/" + name + ".json");
     string result = codegen("out/" + name + "_3d.h", "", "C++", "auto");
     //cerr << result << endl;
