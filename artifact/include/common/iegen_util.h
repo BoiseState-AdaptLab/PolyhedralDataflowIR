@@ -36,48 +36,51 @@ void csr_init(csr_data_t *csr, int nr, int nc, int nnz) {
 }
 
 void csr_read(const char *fpath, csr_data_t *csr) {
-    char buff[1024];
-    char temp[64];
-    unsigned row, col, nnz = 0;
-    real val = 1.0;
-
-    FILE *in = fopen(fpath, "r");
-
-    // Read first line...
-    char *ptr = fgets(buff, sizeof(buff), in);
-    if (strstr(buff, "Manu_") != NULL) {
-        ptr = fgets(buff, sizeof(buff), in);      // Read another...
+    FILE *in;
+    char data[1024];
+    int i, max_row_len, nrow, ncol, nnz = 0;
+    in = fopen(fpath, "r");
+    if(in==NULL){
+        fprintf(stderr, "something might be wrong with the file\n");
+        return;
     }
 
-    sscanf(buff, "%u %u %u\n", &row, &col, &nnz);
-    csr_init(csr, row, col, nnz);
+    fgets(data, 1024, in);
+    fscanf(in, "%d %d %d\n", &nrow, &ncol, &nnz);
 
-    // Read rows...
-    unsigned n = 0;
-    while (n <= csr->N_R && fgets(buff, sizeof(buff), in) != NULL) {
-        fprintf(stderr, "Reading matrix line: '%s'\n", buff);
-        if (sscanf(buff, "%s\n", temp) > 0) {
-            row = (unsigned) atoi(temp) - 1;
-            csr->index[n++] = row;
-        }
+    csr->index = (int *) malloc(sizeof(int) * (nrow + 1));
+    csr->col = (int *) malloc(sizeof(int) * nnz);
+    csr->A = (float *) malloc(sizeof(float) * nnz);
+    csr->N_R = nrow;
+    csr->N_C = ncol;
+    csr->NNZ = nnz;
+    max_row_len = -1;
+
+    for(i = 0; i <= nrow; i++){
+        int temp;
+        fscanf(in, "%d", &temp);
+        temp--;
+        csr->index[i] = temp;
+        if(i > 0)
+            if(csr->index[i] - csr->index[i-1] > max_row_len)
+                max_row_len = csr->index[i] - csr->index[i-1];
     }
 
-    // Read cols...
-    n = 0;
-    while (n < nnz && fgets(buff, sizeof(buff), in) != NULL) {
-        if (sscanf(buff, "%s\n", temp) > 0) {
-            col = (unsigned) atoi(temp) - 1;
-            csr->col[n++] = col;
-        }
+    for(i = 0; i < nnz; i++){
+        int temp;
+        fscanf(in, "%d", &temp);
+        temp--;
+        //fprintf(stderr, "%d\n", temp);
+        csr->col[i] = temp;
+        if (csr->col[i] < 0)
+            fprintf(stderr, "%d\n", csr->col[i]);
     }
 
-    // Read vals...
-    n = 0;
-    while (n < nnz && fgets(buff, sizeof(buff), in) != NULL) {
-        if (sscanf(buff, "%s\n", temp) > 0) {
-            val = (real) atof(temp);
-            csr->A[n++] = val;
-        }
+    for(i = 0; i < nnz; i++){
+        //char temp[20];
+        fscanf(in, "%s", data);
+        //fprintf(stderr, "%f\n", data);
+        csr->A[i] = atof(data); //1.0;
     }
 
     fclose(in);
@@ -99,7 +102,7 @@ int csr_bsr_verify(csr_data_t const *csr, bsr_data_t const *bsr, real const *x, 
 
     for (unsigned i = 0; i < csr->N_R; i++) {
         if (abs((y2[i] - y[i])/y2[i]) >= EPS) {
-            fprintf(stderr, "Values don't match at %u, expected %f obtained %f\n", i, y2[i], y[i]);
+            //fprintf(stderr, "Values don't match at %u, expected %f obtained %f\n", i, y2[i], y[i]);
             return i;
         }
     }

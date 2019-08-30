@@ -5,7 +5,6 @@
 
 #define min(x,y) (((x)<(y))?(x):(y))
 #define max(x,y) (((x)>(y))?(x):(y))
-//#define intdiv(x,y) ((y)>0)?((x)/(y)):0
 #define intdiv(x,y) ((x)/(y))
 #define floord(n,d) intdiv((n),(d))
 //#define BDEBUG 1
@@ -348,21 +347,30 @@ inline void csr_bsr_exec(csr_data_t const *csr, bsr_data_t const *bsr, real cons
 }  // csr_bsr_exec
 
 int main(int argc, const char ** argv) {
-    real *x, *y;
+  real *x, *y;
+  int brow = 8, bcol = brow;
+
+  if (argc > 2) {
+      brow = atoi(argv[2]);
+  }
+  if (argc > 3) {
+      bcol = atoi(argv[3]);
+  }
 
   // 1) Call the setup function
   // TODO: Move vector initializations into setup function, so will not be included in timing.
   csr_data_t* csr = csr_bsr_setup(argv[1], &x, &y);
 
+
   double tstart = get_time();
 
   // 2) Call the inspector
   double tinsp = get_time();
-  bsr_data_t* bsr = csr_bsr_insp(csr, atoi(argv[2]), atoi(argv[3]));
+  bsr_data_t* bsr = csr_bsr_insp(csr, brow, bcol);
   fprintf(stderr,"csr_bsr_insp::%.6lf seconds elapsed\n", (get_time() - tinsp));
 
-  fprintf(stderr, "csr_bsr_insp::NNZ=%u,NR=%u,NC=%u,NB=%u,ND=%u,R=%u,C=%u\n",
-          csr->NNZ, bsr->N_R, bsr->N_C, bsr->nb, bsr->N_C/bsr->C, bsr->R, bsr->C);
+//  fprintf(stderr, "csr_bsr_insp::NNZ=%u,NR=%u,NC=%u,NB=%u,ND=%u,R=%u,C=%u\n",
+//          csr->NNZ, bsr->N_R, bsr->N_C, bsr->nb, bsr->N_C/bsr->C, bsr->R, bsr->C);
 
   // 3) Call the executor
   double texec = get_time();

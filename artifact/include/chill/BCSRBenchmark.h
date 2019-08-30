@@ -29,13 +29,13 @@ public:
         _status = true;
 
         string matrix = _config.getString("matrix");
-        cerr << matrix << endl;
+        //cerr << matrix << endl;
         char *filename = (char *) matrix.c_str();
         load_sparse_matrix(filename, &_A);
 
-        _x = ((float *)(malloc(sizeof(float ) * _A.ncols)));
-        _b = ((float *)(malloc(sizeof(float ) * _A.nrows)));
-        _b2 = ((float *)(malloc(sizeof(float ) * _A.nrows)));
+        _x = ((float*)(malloc(sizeof(float) * _A.ncols)));
+        _b = ((float*)(malloc(sizeof(float) * _A.nrows)));
+        _b2 = ((float*)(malloc(sizeof(float) * _A.nrows)));
 
         for (i = 0; i < _A.ncols; i++)
             _x[i] = 1.0;
@@ -53,6 +53,7 @@ public:
             setNumThreads(_config.getInt("num_threads"));
 
             // Invoke execution function...
+            cerr << "Calling spmv...\n";
             start();    // Start timer...
             spmv(_A.nrows,_A.rows,_A.vals,_b2,_x,_A.cols);
             stop();     // Stop timer...
@@ -68,6 +69,7 @@ public:
             if (_verify) {
                 start();
                 //_evalFxn(_inputData, _verifyData, &_evalTime, _config);
+                cerr << "Calling smv...\n";
                 smv(&_A,_x,_b);
                 stop();
 

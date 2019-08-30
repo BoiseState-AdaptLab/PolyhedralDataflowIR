@@ -178,7 +178,7 @@ int vec_comp(int n, float *y, double *y2) {
     int i;
     for (i = 0; i < n; i++) {
         if (fabs((y2[i] - (double) y[i])) >= 0.01) {
-            fprintf(stderr, "Values don't match at %d, expected %f obtained %f\n",i,y[i],y2[i]);
+            //fprintf(stderr, "Values don't match at %d, expected %f obtained %f\n",i,y[i],y2[i]);
             return 0;
         }
     }
@@ -200,9 +200,7 @@ int main(int argc,char **argv) {
     }
 
     float *y = csr_spmv(&a, x);
-
     double *y2 = oski_spmv(&a, x2);
-
     vec_comp(a.nrows, y, y2);
 
     free(x);

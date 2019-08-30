@@ -165,7 +165,7 @@ inline coo_data_t* coo_csf_setup(const char* path, real **A, real **C, real **D)
   unsigned L = B->dims[2];
   unsigned J = (I + K) / 2;
 
-    fprintf(stderr, "I=%u,J=%u,K=%u,L=%u,size=%lu\n", I, J, K, L, ((I*J)+(K*J)+(L*J))*sizeof(real));
+  //fprintf(stderr, "I=%u,J=%u,K=%u,L=%u,size=%lu\n", I, J, K, L, ((I*J)+(K*J)+(L*J))*sizeof(real));
 
   *A = calloc(I * J, sizeof(real));
   *C = calloc(K * J, sizeof(real));

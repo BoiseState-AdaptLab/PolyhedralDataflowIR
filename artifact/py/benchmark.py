@@ -15,7 +15,8 @@ def run(args, vars={}, stream=None):
         data = sub.check_output(args, env=os.environ, stderr=sub.STDOUT)
         output = data.decode()
     except Exception as e:
-        eprint(str(e))
+        pass
+        #eprint(str(e))
 
     if stream is not None:
         stream.write(output)
@@ -31,19 +32,37 @@ def ncpus():
 def csr_bsr(nruns=NRUNS):
     matrices = sorted(['cant', 'consph', 'mc2depi', 'cop20k_A', 'mac_econ_fwd500', 'pdb1HYS',
                        'scircuit', 'rma10', 'pwtk', 'shipsec1', 'Pres_Poisson'])
+    # PDFG
     executable = 'csr_bsr_insp'
     for matrix in matrices:
         for i in range(nruns):
             out = run(['cmake-build-debug/' + executable, 'data/' + matrix + '/' + matrix + '.csr'])
-            stop = 1
-
+            print(out.rstrip())
+    # OSKI
+    executable = 'oski_bsr'
+    for matrix in matrices:
+        for i in range(nruns):
+            out = run(['cmake-build-debug/' + executable, 'data/' + matrix + '/' + matrix + '.csr'])
+            print(out.rstrip())
+    # CHiLL
+    executable = 'chill_bsr'
+    for matrix in matrices:
+        for i in range(nruns):
+            out = run(['cmake-build-debug/' + executable, '-m', 'data/' + matrix + '/' + matrix + '.csr'])
+            print(out.rstrip())
 
 def coo_csf(nruns=NRUNS):
     tensors = ['chicago-crime-geo', 'enron', 'nell-2', 'nips']
     executable = 'coo_csf_insp'
+    # PDFG/TACO:
     for tensor in tensors:
         for i in range(nruns):
             out = run(['cmake-build-debug/' + executable, 'data/' + tensor + '.tns'])
+            print(out.rstrip())
+    # SPLATT:
+    for tensor in tensors:
+        for i in range(nruns):
+            out = run(['lib/splatt/bin/splatt', 'bench', '-a', 'csf', 'data/' + tensor + '.tns'])
             print(out.rstrip())
 
 def mfd_run(nruns=NRUNS):
@@ -62,7 +81,7 @@ def mfd_run(nruns=NRUNS):
                 print(out.rstrip())
 
 def main(nruns=NRUNS):
-    #csr_bsr()
+    csr_bsr()
     coo_csf()
     mfd_run()
 
