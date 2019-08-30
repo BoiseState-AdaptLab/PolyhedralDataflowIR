@@ -29,7 +29,7 @@ public:
         _status = true;
 
         string matrix = _config.getString("matrix");
-        //cerr << matrix << endl;
+        cerr << matrix << endl;
         char *filename = (char *) matrix.c_str();
         load_sparse_matrix(filename, &_A);
 

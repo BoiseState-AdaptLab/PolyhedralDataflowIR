@@ -437,7 +437,7 @@ inline int coo_csf_verify(coo_data_t const *coo, csf_data_t const *csf, real *A,
 
     for (itype i = 0; i < I * J; i++) {
         if (abs((A2[i] - A[i])/A2[i]) >= EPS) {
-            fprintf(stderr, "Values don't match at %u, expected %f obtained %f\n", i, A2[i], A[i]);
+            //fprintf(stderr, "Values don't match at %u, expected %f obtained %f\n", i, A2[i], A[i]);
             return i;
         }
     }

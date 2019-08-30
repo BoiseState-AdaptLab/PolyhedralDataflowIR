@@ -24,7 +24,7 @@ void load_sparse_matrix(char *filename, struct sparse_matrix *A)
 	A->rows = (int *) malloc(sizeof(int) * ((A->nrows) + 1));
 	A->cols = (int *) malloc(sizeof(int) * (A->nnz));
 	A->vals = (REAL *) malloc(sizeof(REAL) * (A->nnz));
-        A->max_row_len = -1;	
+        A->max_row_len = -1;
 	if (DEBUG)
                 fprintf(stderr, "load_sparse_matrix::reading row index\n");
 
@@ -35,7 +35,7 @@ void load_sparse_matrix(char *filename, struct sparse_matrix *A)
 		A->rows[i] = temp;
                 if(i > 0)
                   if(A->rows[i] - A->rows[i-1] > A->max_row_len)
-                   A->max_row_len = A->rows[i] - A->rows[i-1];  
+                   A->max_row_len = A->rows[i] - A->rows[i-1];
 	}
 
 	if (DEBUG)

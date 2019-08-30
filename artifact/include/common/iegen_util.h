@@ -55,6 +55,7 @@ void csr_read(const char *fpath, csr_data_t *csr) {
     // Read rows...
     unsigned n = 0;
     while (n <= csr->N_R && fgets(buff, sizeof(buff), in) != NULL) {
+        fprintf(stderr, "Reading matrix line: '%s'\n", buff);
         if (sscanf(buff, "%s\n", temp) > 0) {
             row = (unsigned) atoi(temp) - 1;
             csr->index[n++] = row;

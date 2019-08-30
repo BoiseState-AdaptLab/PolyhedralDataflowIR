@@ -66,8 +66,6 @@ void load_sparse_matrix(char *filename, struct sparse_matrix *A) {
         //fprintf(stderr, "%f\n", data);
         A->vals[i] = data; //1.0;
     }
-
-    fprintf(stderr, "%u,%u,%u\n", A->nrows, A->ncols, A->nnz);
 }
 
 float *csr_spmv(struct sparse_matrix *a, float *x) {
@@ -78,13 +76,13 @@ float *csr_spmv(struct sparse_matrix *a, float *x) {
     int *rows = a->rows;
     float *y = calloc(a->nrows, sizeof(float));
 
-    double tstart = timer();
+    //double tstart = timer();
     for(i = 0; i < a->nrows; i++){
         for(j = rows[i]; j < rows[i+1]; j++){
             y[i]+=vals[j] * x[cols[j]];
         }
     }
-    fprintf(stderr, "csr_spmv::%.6lf seconds elapsed\n", (timer() - tstart));
+    //fprintf(stderr, "csr_spmv::%.6lf seconds elapsed\n", (timer() - tstart));
 
     return y;
 }
@@ -130,7 +128,7 @@ double* oski_spmv(struct sparse_matrix *a, double *x) {
         vals[i] = (double) a->vals[i];
     }
 
-    xforms = read_xforms("./xform.txt");
+    xforms = read_xforms("./src/oski/xform.txt");
 
     oski_Init();
 //    oski_matrix_t csr = oski_CreateMatCSR(rows, cols, vals, nrows, ncols, SHARE_INPUTMAT,
@@ -143,11 +141,11 @@ double* oski_spmv(struct sparse_matrix *a, double *x) {
     oski_vecview_t x_view = oski_CreateVecView(x, ncols, STRIDE_UNIT);
     oski_vecview_t y_view = oski_CreateVecView(y, nrows, STRIDE_UNIT);
 
-    if (xforms == NULL) {
+    //if (xforms == NULL) {
         // Tune it...
         oski_SetHint(csr, HINT_SINGLE_BLOCKSIZE, R, C);
 
-        double tstart = timer();
+        tstart = timer();
         for (i = 0; i < ntimes; i++) {
             memset(y, 0, nrows * sizeof(double));
             oski_MatMult(csr, OP_NORMAL, alpha, x_view, beta, y_view);
@@ -155,7 +153,8 @@ double* oski_spmv(struct sparse_matrix *a, double *x) {
 
         oski_TuneMat(csr);
         fprintf(stderr, "oski_insp::%.6lf seconds elapsed\n", (timer() - tstart));
-    } else {
+    //} else {
+    if (xforms != NULL) {
         oski_ApplyMatTransforms(csr, xforms);
     }
 
