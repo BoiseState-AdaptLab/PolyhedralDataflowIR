@@ -7,6 +7,11 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fPIC -DPIC -Xpreprocessor -fopenmp -ftre
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -g -fPIC -DPIC -Xpreprocessor -fopenmp -ftree-vectorize -funroll-all-loops -O3")
 
+#set(BUILD_OSKI "true")
+if (BUILD_OSKI)
+    execute_process(COMMAND build_oski.sh WORKING_DIRECTORY ./lib)
+endif()
+
 add_executable(csr_bsr_insp src/pdfl/csr_bsr_insp.c)
 target_link_libraries(csr_bsr_insp m omp) # blas lapack lapacke splatt) # oski)
 
@@ -17,12 +22,11 @@ add_executable(chill_bsr src/chill/matrix_io.cc src/chill/smv.cc src/common/Benc
                           src/common/Measurements.cc src/chill/rose_main.cc src/chill/bmark_main.cc)
 target_link_libraries(chill_bsr m omp) # blas lapack lapacke splatt) # oski)
 
-add_executable(oski_bsr src/oski/oski_main.c lib/oski/src/init.c lib/oski/src/lt/modsyms.c)
-target_compile_definitions(oski_bsr PRIVATE OSKI_LIB_PATH_DEFAULT=\"lib/oski\" OSKI_LUA_ROOT_DIR=\"lib/oski\"
-                                    OSKI_CC=\"${CC}\" OSKI_CFLAGS=\"${CMAKE_C_FLAGS}\" OSKI_LDFLAGS=\"CMAKE_STATIC_LINKER_FLAGS\"
-                                    OSKI_F77=\"f77\" OSKI_FFLAGS=\"\" OSKI_SUPPORT_LDFLAGS=\"$(PAPI_LIBS)\"
-                                    OSKI_BENCH_DIR_DEFAULT=\"lib/oski/bench\")
-
+link_directories(lib/oski/src/.libs lib/oski/src/lt/.libs)
+add_executable(oski_bsr src/oski/oski_main.c) # lib/oski/src/init.c lib/oski/src/lt/modsyms.c)
+target_link_libraries(oski_bsr m omp oski oskilt oski_Tid oski_mat_CSR_Tid oski_mat_CSC_Tid oski_mat_BCSR_Tid
+        oski_mat_MBCSR_Tid oski_mat_GCSR_Tid oski_mat_CB_Tid oski_mat_VBR_Tid oski_mat_DENSE_Tid
+        oski_heur_regprof_Tid oski_heur_symmrb_Tid oski_heur_mregblock_Tid)
 
 
 add_executable(mfd_series src/mfd/mfd_series.cc src/common/Benchmark.cc src/common/Configuration.cc
