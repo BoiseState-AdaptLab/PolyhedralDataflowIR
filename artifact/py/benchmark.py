@@ -54,15 +54,17 @@ def csr_bsr(nruns=NRUNS):
 def coo_csf(nruns=NRUNS):
     tensors = ['chicago-crime-geo', 'enron', 'nell-2', 'nips']
     executable = 'coo_csf_insp'
+    nthreads = str(ncpus())
+
     # PDFG/TACO:
     for tensor in tensors:
         for i in range(nruns):
-            out = run(['cmake-build-debug/' + executable, 'data/' + tensor + '.tns'])
+            out = run(['cmake-build-debug/' + executable, 'data/' + tensor + '.tns'], {'OMP_NUM_THREADS': nthreads})
             print(out.rstrip())
     # SPLATT:
     for tensor in tensors:
         for i in range(nruns):
-            out = run(['lib/splatt/bin/splatt', 'bench', '-a', 'csf', 'data/' + tensor + '.tns'])
+            out = run(['lib/splatt/bin/splatt', 'bench', '-a', 'csf', '-t', nthreads, 'data/' + tensor + '.tns'])
             print(out.rstrip())
 
 def mfd_run(nruns=NRUNS):
@@ -80,7 +82,7 @@ def mfd_run(nruns=NRUNS):
                 out = run(['cmake-build-debug/' + executable, '-C', str(ncells), '-B', str(nboxes), '-p', str(nthreads)])
                 print(out.rstrip())
 
-def main(nruns=NRUNS):
+def main():
     csr_bsr()
     coo_csf()
     mfd_run()

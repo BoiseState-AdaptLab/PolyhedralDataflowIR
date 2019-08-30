@@ -490,7 +490,7 @@ namespace pdfg {
 
     Math operator*(const Expr &lhs, const Expr &rhs) {
         if (!lhs.empty() && !(lhs.is_scalar() && rhs.is_scalar()) &&
-           (!lhs.is_scalar() || fabs(stof(lhs.text())) != 1.0)) {
+           (!lhs.is_scalar() || fabs(atof(lhs.text().c_str())) != 1.0)) {
             incFLOPs();
         }
         return Math(lhs, rhs, "*");
