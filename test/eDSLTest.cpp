@@ -337,16 +337,16 @@ TEST(eDSLTest, COO_CSR_Insp_Fuse) {
 }
 
 TEST(eDSLTest, COO_CSB_Insp) {
-    Iter i('i'), j('j'), k('k'), n('n'), b('b'), m('m'), bi("bi"), bj("bj"), ei("ei"), ej("ej");
-    Const B("B", 8), NB("NB"), N('N'), M('M'), p('p', 0);
+    Iter i('i'), j('j'), k('k'), n('n'), b('b'), m('m');
+    Const B("B", 128), NB("NB"), N('N'), M('M'), p('p', 0);
 
     Func bp("bp"), brow("brow"), bcol("bcol"), erow("erow"), ecol("ecol");
-    Func bid("bid", 2), bsize("bsize", 2), bmap("bmap", 3);
+    Func bid("bid", 2), bsize("bsize", 1), bmap("bmap", 2);
     Func row("row"), col("col");
 
     // Iteration spaces:
     Space insp1("insp1", 0 <= n < M ^ i==row(n) ^ j==col(n));
-    Space insp2("insp2", 0 <= b < NB ^ bi==brow(b) ^ bj==bcol(b) ^ 0 <= m < bsize(bi, bj) ^ n==bmap({bi,bj,m}));
+    Space insp2("insp2", 0 <= b < NB ^ 0 <= m < bsize(b) ^ n==bmap({b,m}));
     Space exec("exec", 0 <= b < NB ^ bp(b) <= n < bp(b+1) ^ i==brow(b)*B+erow(n) ^ j==bcol(b)*B+ecol(n));
 
     // Data spaces:
@@ -361,8 +361,8 @@ TEST(eDSLTest, COO_CSB_Insp) {
     Comp nb_cnt("nb_cnt", insp1, (b >= NB), (NB=b+1));
 
     Comp bp_put("bp_put", insp2, (p >= bp(b+1)), (bp(b+1)=p+1));
-    Comp er_ut("er_put", insp2, (erow(p)=row(n)-B*bi));
-    Comp ec_put("ec_put", insp2, (ecol(p)=col(n)-B*bj));
+    Comp er_ut("er_put", insp2, (erow(p)=row(n)-B*brow(b)));
+    Comp ec_put("ec_put", insp2, (ecol(p)=col(n)-B*bcol(b)));
     Comp bv_put("bv_put", insp2, (bval(p)=val(n)+0));
     Comp p_inc("p_inc", insp2, (p += 1));
 
