@@ -356,7 +356,7 @@ TEST(eDSLTest, COO_CSB_Insp) {
     pdfg::init(name, "NB", "f", "u", {"bp", "brow", "bcol", "erow", "ecol"}, "0");
 
     Comp bs_put("bs_put", insp1, b=bid(i/B,j/B)+0);
-    Comp br_ut("br_put", insp1, (brow(b)=i/B));
+    Comp br_put("br_put", insp1, (brow(b)=i/B));
     Comp bc_put("bc_put", insp1, (bcol(b)=j/B));
     Comp nb_cnt("nb_cnt", insp1, (b >= NB), (NB=b+1));
 
@@ -375,6 +375,29 @@ TEST(eDSLTest, COO_CSB_Insp) {
     pdfg::print("out/" + name + ".json");
     string result = pdfg::codegen("out/" + name + ".h", "", "C++", "auto");
     ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, CSR_ELL_Insp) {
+    Iter i('i'), j('j'), k('k'), n('n');
+    Const N("N"), NNZ("NNZ"), K("K");
+    Func rp("rp"), row("row"), col("col"), ecol("ecol");
+    Space csr("Icsr", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    Space ell("Iell", 0 <= i < N ^ 0 <= k < K ^ j==ecol(i,k));
+
+    // CSR->COO Inspector:
+    string name = "csr_ell_insp";
+    pdfg::init(name);
+    Space insp("kmax", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ k==n-rp(i) ^ j==col(n));
+    Comp kmax = insp + (K=max(k,K));
+    Math asn = (ecol(i,k)=j+0);
+    kmax += asn;
+    cerr << kmax << endl;
+
+    pdfg::print("out/" + name + ".json");
+    string result = pdfg::codegen("out/" + name + ".h", "", "C++", "auto");
+    string expected = "for(t1 = 0; t1 <= N-1; t1++) {\n  for(t2 = 0; t2 <= K-1; t2++) {\n    t3=ecol(t1,t2);\n    s0(t1,t2,t3);\n  }\n}\n";
+    //cerr << result << endl;
+    ASSERT_EQ(result, expected);
 }
 
 TEST(eDSLTest, CSR_BSR_Insp) {
@@ -858,27 +881,6 @@ TEST(eDSLTest, Backprop) {
     Space eta("eta", 0.1);
     Space theta;
 
-}
-
-TEST(eDSLTest, CSR_ELL_Insp) {
-    Iter i('i'), j('j'), k('k'), n('n');
-    Const N("N"), NNZ("NNZ"), K("K");
-    Func rp("rp"), row("row"), col("col"), ecol("ecol");
-    Space csr("Icsr", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
-    Space ell("Iell", 0 <= i < N ^ 0 <= k < K ^ j==ecol(i,k));
-
-    // CSR->COO Inspector:
-    init("csr_ell_insp");
-    Space insp("kmax", 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ k==n-rp(i) ^ j==col(n));
-    Comp kmax = insp + (K=max(k,K));
-    Math asn = (ecol(i,k)=j+0);
-    kmax += asn;
-    cerr << kmax << endl;
-
-    string result = Codegen().gen(ell);
-    string expected = "for(t1 = 0; t1 <= N-1; t1++) {\n  for(t2 = 0; t2 <= K-1; t2++) {\n    t3=ecol(t1,t2);\n    s0(t1,t2,t3);\n  }\n}\n";
-    //cerr << result << endl;
-    ASSERT_EQ(result, expected);
 }
 
 TEST(eDSLTest, CSR_COO_Insp) {
