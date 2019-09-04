@@ -26,6 +26,7 @@ inline void _gpuAssert(cudaError_t code, const char* file, int line);
 
 #define gpuCheck(msg) { _gpuCheck((msg), __FILE__, __LINE__); }
 inline void _gpuCheck(const char* msg, const char* file, int line);
+#define cuda_check(msg) gpuCheck((msg))
 
 typedef struct {
     int ndevices;
