@@ -185,32 +185,37 @@ TEST(eDSLTest, DSR_SpMV) {
 }
 
 TEST(eDSLTest, COO_MTTKRP) {
-    Iter n("n"), i("i"), j("j"),  k("k"), l("l");
+    Iter n('n'), i('i'), j('j'),  k('k'), r('r');
     Func ind0("ind0"), ind1("ind1"),ind2("ind2");
-    Const NNZ("NNZ"),  I("I"), J("J"), K("K"), L("L");
-    Space coo("Icoo", 0 <= n < NNZ ^ i==ind0(n) ^ j==ind1(n) ^ k==ind2(n)); // ^ 0 <= l < L);
-    coo ^= 0 <= l < L;
+    Const M("M"), I("I"), J("J"), K("K"), R("R");
+    Space coo("Icoo", 0 <= n < M ^ i==ind0(n) ^ j==ind1(n) ^ k==ind2(n) ^ 0 <= r < R);
+    Space A("A",I,R), X("X",M), C("C",K,R), B("B",J,R);
 
-    Space val("val", NNZ), A("A",I,J), B("B",NNZ), C("C",K,J), D("D",L,J);
-    Comp mttkrp = coo + (A(i,j) += B(n) * C(k,j) * D(l,j));
+    string name = "mttkrp_coo";
+    pdfg::init(name);
+    Comp mttkrp("krp", coo, (A(i,r) += X(n) * C(k,r) * B(j,r)));
+    pdfg::print("out/" + name + ".json");
+    string result = pdfg::codegen("out/" + name + ".h");
 
-    string result = Codegen().gen(mttkrp);
     //cerr << result << endl;
     string expected = "#define ind0(n) ind0[(n)]\n#define ind1(n) ind1[(n)]\n#define ind2(n) ind2[(n)]\n\n#undef s0\n#define s0(n,i,j,k,l) A[offset2((i),(j),(J))]+=B[(n)]*C[offset2((k),(j),(J))]*D[offset2((l),(j),(J))]\n\nunsigned t1,t2,t3,t4,t5;\n#pragma omp parallel for schedule(auto) private(t1,t2,t3,t4,t5)\nfor(t1 = 0; t1 <= NNZ-1; t1++) {\n  t2=ind0(t1);\n  t3=ind1(t1);\n  t4=ind2(t1);\n  for(t5 = 0; t5 <= L-1; t5++) {\n    s0(t1,t2,t3,t4,t5);\n  }\n}\n";
     ASSERT_EQ(result, expected);
 }
 
 TEST(eDSLTest, CSF_MTTKRP) {
-    Iter i("i"), j("j"), k("k"), l("l"), p("p"), m("m"), n("n");
+    Iter i("i"), j("j"), k("k"), m("m"), n("n"), p("p"), q("q"), r("r");
     Func ind0("ind0"), ind1("ind1"), ind2("ind2");
     Func pos0("pos0"), pos1("pos1");
-    Const NZF("NZF"), NNZ("NNZ"), I("I"), J("J"), K("K"), L("L");
-    Space csf("Icsf", 0 <= p < NZF ^ i==ind0(p) ^ pos0(p) <= m < pos0(p+1) ^ j==ind1(m) ^ pos1(m) <= n < pos1(m+1) ^ k==ind2(n) ^ 0 <= l < L);
+    Const F("F"), M("M"), I("I"), J("J"), K("K"), R("R");
+    Space csf("Icsf", 0 <= p < F ^ i==ind0(p) ^ pos0(p) <= q < pos0(p+1) ^ j==ind1(q) ^ pos1(q) <= n < pos1(q+1) ^ k==ind2(n) ^ 0 <= r < R);
+    Space A("A",I,R), X("X",M), B("B",J,R), C("C",K,R);
 
-    Space val("val", NNZ), A("A",I,J), B("B",NNZ), C("C",K,J), D("D",L,J);
-    Comp mttkrp = csf + (A(i,j) += B(n) * C(k,j) * D(l,j));
+    string name = "mttkrp_csf";
+    pdfg::init(name);
+    Comp mttkrp("krp", csf, (A(i,r) += X(n) * C(k,r) * B(j,r)));
+    pdfg::print("out/" + name + ".json");
+    string result = pdfg::codegen("out/" + name + ".h");
 
-    string result = Codegen().gen(mttkrp);
     //cerr << result << endl;
     string expected = "#define ind0(p) ind0[(p)]\n#define ind1(p,i,m) ind1[(m)]\n#define ind2(p,i,m,j,n) ind2[(n)]\n#define pos0(p) pos0[(p)]\n#define pos0_1(p) pos0[(p+1)]\n#define pos1(p,i,m) pos1[(m)]\n#define pos1_1(p,i,m) pos1[(m+1)]\n\n#undef s0\n#define s0(p,i,m,j,n,k,l) A[offset2((i),(j),(J))]+=B[(n)]*C[offset2((k),(j),(J))]*D[offset2((l),(j),(J))]\n\nunsigned t1,t2,t3,t4,t5,t6,t7;\n#pragma omp parallel for schedule(auto) private(t1,t2,t3,t4,t5,t6,t7)\nfor(t1 = 0; t1 <= NZF-1; t1++) {\n  t2=ind0(t1);\n  for(t3 = pos0(t1); t3 <= pos0_1(t1)-1; t3++) {\n    t4=ind1(t1,t2,t3);\n    for(t5 = pos1(t1,t2,t3); t5 <= pos1_1(t1,t2,t3)-1; t5++) {\n      t6=ind2(t1,t2,t3,t4,t5);\n      for(t7 = 0; t7 <= L-1; t7++) {\n        s0(t1,t2,t3,t4,t5,t6,t7);\n      }\n    }\n  }\n}\n";
     ASSERT_EQ(result, expected);
