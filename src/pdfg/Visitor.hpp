@@ -584,9 +584,13 @@ namespace pdfg {
             Space space = getSpace(sname);
             Tuple tuple = space.iterators();
             unsigned niters = tuple.size();
-            ExprTuple lowers = space.lowers();
+
+            if (niters < 1 && access->tuple().size() > 0) {
+                cerr << "CodeGenVisitor::createMapping: <ERROR> Missing constraints from data space '" << sname << "'!\n";
+            }
 
             // Adjust for negative start bounds...
+            ExprTuple lowers = space.lowers();
             for (unsigned i = 0; i < niters; i++) {
                 if (lowers[i].is_number()) {
                     int lower = stoi(lowers[i].text());
@@ -620,7 +624,8 @@ namespace pdfg {
                     os << "offset" << niters << '(';
                 }
                 for (unsigned i = 0; i < niters; i++) {
-                    string iter = tuple.at(i).text();
+                    //string iter = tuple.at(i).text();
+                    string iter = access->tuple()[i].text();
                     os << '(' << iter << ')';
                     auto offset = offsets.find(iter);
                     if (offset != offsets.end() && offset->second != 0) {
@@ -778,14 +783,14 @@ namespace pdfg {
             include("omp");
         }
 
-        void addHeader() override {
-            CodeGenVisitor::addHeader();
-            _header.push_back(_indent + "int tnum = 1;");
-            _header.push_back(_indent + "#pragma omp parallel num_threads(1)");
-            _header.push_back(_indent + "{");
-            _header.push_back(_indent + "tnum = min(max(tnum, omp_get_max_threads()), N/T);");
-            _header.push_back(_indent + "}");
-        }
+//        void addHeader() override {
+//            CodeGenVisitor::addHeader();
+//            _header.push_back(_indent + "int tnum = 1;");
+//            _header.push_back(_indent + "#pragma omp parallel num_threads(1)");
+//            _header.push_back(_indent + "{");
+//            _header.push_back(_indent + "tnum = min(max(tnum, omp_get_max_threads()), N/T);");
+//            _header.push_back(_indent + "}");
+//        }
 
         void allocate(DataNode* node) override {
             string label = node->label();
@@ -1738,7 +1743,13 @@ namespace pdfg {
                         is_shared &= has_iter;
                     }
                     if (is_shared) {
-                        shared.push_back(iter);
+                        // Only parallelize iterators with an upper and lower bound...
+                        ConstrTuple constrs = comp->space().constraints(iter.name());
+                        if (constrs.size() > 1) {
+                            shared.push_back(iter);
+                        } else {
+                            int stop = 1;
+                        }
                     }
                 }
             }

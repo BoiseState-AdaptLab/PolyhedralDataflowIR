@@ -204,15 +204,17 @@ TEST(eDSLTest, COO_MTTKRP) {
 
 TEST(eDSLTest, CSF_MTTKRP) {
     Iter i("i"), j("j"), k("k"), m("m"), n("n"), p("p"), q("q"), r("r");
-    Func ind0("ind0"), ind1("ind1"), ind2("ind2");
-    Func pos0("pos0"), pos1("pos1");
     Const F("F"), M("M"), I("I"), J("J"), K("K"), R("R");
-    Space csf("Icsf", 0 <= p < F ^ i==ind0(p) ^ pos0(p) <= q < pos0(p+1) ^ j==ind1(q) ^ pos1(q) <= n < pos1(q+1) ^ k==ind2(n) ^ 0 <= r < R);
+    //Func ind("ind", 2), pos("pos", 2);
+    Func ind0("ind0"), ind1("ind1"), ind2("ind2"), pos0("pos0"), pos1("pos1");
+    Space csf("Icsf", 0 <= p < F ^ i==ind0(p) ^ pos0(p) <= q < pos0(p+1) ^ j==ind1(q) ^
+                      pos1(q) <= n < pos1(q+1) ^ k==ind2(n) ^ 0 <= r < R);
     Space A("A",I,R), X("X",M), B("B",J,R), C("C",K,R);
 
     string name = "mttkrp_csf";
-    pdfg::init(name);
+    pdfg::init(name, "", "f", "u", {"A"}, "0");
     Comp mttkrp("krp", csf, (A(i,r) += X(n) * C(k,r) * B(j,r)));
+    pdfg::parallelize();
     pdfg::print("out/" + name + ".json");
     string result = pdfg::codegen("out/" + name + ".h");
 
