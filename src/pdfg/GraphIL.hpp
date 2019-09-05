@@ -254,6 +254,7 @@ namespace pdfg {
 
     void clearFLOPs();
     void incFLOPs(unsigned increment = 1);
+    void addDefine(const string& define);
 
     struct Math : public Expr {
     public:
@@ -352,10 +353,12 @@ namespace pdfg {
     }
 
     Math absmin(const Expr &lhs, const Expr &rhs) {
+        addDefine("absmin");
         return Math(lhs, rhs, "absmin(");
     }
 
     Math absmax(const Expr &lhs, const Expr &rhs) {
+        addDefine("absmax");
         return Math(lhs, rhs, "absmax(");
     }
 
@@ -373,19 +376,23 @@ namespace pdfg {
     }
 
     Math pinv(const Expr& expr) {
+        addDefine("pinv");
         return Math(NullExpr, expr, "pinv(");
     }
 
     Math sgn(const Expr& expr) {
+        addDefine("sgn");
         return Math(NullExpr, expr, "sgn(");
     }
 
     Math urand(const Expr& expr) {
+        addDefine("urand");
+        incFLOPs(2);        // How many FLOPs in a random number generator call?
         return Math(NullExpr, expr, "urand(");
     }
 
     Math urand() {
-        return urand(Int(1));
+        return urand(Int(0));
     }
 
     Math sqrt(const Expr& expr) {
@@ -3143,6 +3150,7 @@ namespace pdfg {
 
         unsigned _nflops;
 
+        map<string, bool> _defines;
         map<string, Iter> _iters;
         map<string, Func> _funcs;
         map<string, Const> _consts;
@@ -3816,6 +3824,10 @@ namespace pdfg {
                 cgen->ompSchedule(ompsched);
             }
 
+            if (!_defines.empty()) {
+                cgen->defineFlags(_defines);
+            }
+
             for (const auto& iter : _consts) {
                 int val = iter.second.val();
                 if (val != 0) {
@@ -4058,6 +4070,10 @@ namespace pdfg {
         void setFLOPs(unsigned nflops) {
             _nflops = nflops;
         }
+
+        void addDefine(const string& define) {
+            _defines[define] = true;
+        }
     };
 
     Math memSet(const Space& space, const Expr& val = Int(0)) {
@@ -4272,6 +4288,10 @@ namespace pdfg {
 
     Expr* getSize(const Comp& comp, const Func& func) {
         return GraphMaker::get().getSize(comp, func);
+    }
+
+    void addDefine(const string& define) {
+        GraphMaker::get().addDefine(define);
     }
 
     void fuse() {

@@ -769,7 +769,7 @@ TEST(eDSLTest, CP_ALS) {
     Space pmmB("pmmB", 0 <= j < J ^ 0 <= q < R ^ 0 <= r < R);
     Space pmmC("pmmC", 0 <= k < K ^ 0 <= q < R ^ 0 <= r < R);
 
-    init("cp_als");
+    init("cp_als", "", "f", "u", {"A", "B", "C", "lmbda"}); //, to_string(0));
 
     // Randomize factor matrices...
     Comp initA("Ainit", mtxA, (A(i,r) = urand()));
@@ -811,6 +811,8 @@ TEST(eDSLTest, CP_ALS) {
 
     print("out/cp_als.json");
     string result = codegen("out/cp_als.h");
+
+    // cp_als in sktensor returns Kruskal tensor P=(U,\lambda), where U(0)=A, U(1)=B, U(2)=C
 
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());

@@ -1141,8 +1141,6 @@ namespace pdfg {
             // 3) Compute initial shift from loop bounds
             IntTuple prevLowers = to_int(prev->comp()->lowers());
             IntTuple currLowers = to_int(curr->comp()->lowers());
-//            ExprTuple prevUppers = prev->comp()->uppers();
-//            ExprTuple currUppers = curr->comp()->uppers();
             IntTuple shifts = prevLowers - currLowers;
 
             // TODO: Assuming the node to be fused has only one schedule for now...
@@ -1250,11 +1248,6 @@ namespace pdfg {
                 this->get(inode)->attr("shift", shift);
                 ig->attr(inode, "shift", shift);
             }
-
-//            if (curr->label() == "absMax") {
-//                cerr << ig->to_dot() << endl;
-//                int stop = 2;
-//            }
         }
 
         string formatName(const string& name) const {

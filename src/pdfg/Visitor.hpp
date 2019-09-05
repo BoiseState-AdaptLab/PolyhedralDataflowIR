@@ -307,6 +307,7 @@ namespace pdfg {
             addIncludes();
             addTypeDefs();
             addFunctions();
+            addOptDefines();
         }
 
         void enter(DataNode* node) override {
@@ -379,16 +380,17 @@ namespace pdfg {
             return os;
         }
 
+        void defineFlags(const map<string, bool>& flags) {
+            _define_flags = flags;
+        }
+
     protected:
         void init() {
             // Add defines...
             define({"min(x,y)", "(((x)<(y))?(x):(y))",
                     "max(x,y)", "(((x)>(y))?(x):(y))",
                     "abs(x)", "((x)<0?-(x):(x))",
-                    "absmin(x,y)", "((x)=min(abs((x)),abs((y))))",
-                    "absmax(x,y)", "((x)=max(abs((x)),abs((y))))",
                     "floord(x,y)", "((x)/(y))",
-                    "sgn(x)", "((x)<0?-1:1)",
                     "offset2(i,j,M)", "((j)+(i)*(M))",
                     "offset3(i,j,k,M,N)", "((k)+((j)+(i)*(M))*(N))",
                     "offset4(i,j,k,l,M,N,P)", "((l)+((k)+((j)+(i)*(M))*(N))*(P))",
@@ -488,6 +490,26 @@ namespace pdfg {
                     _header.push_back(line);
                 }
                 _header.emplace_back("");
+            }
+        }
+
+        void addOptDefines() {
+            // Add optional definitions...
+            if (_define_flags["absmin"]) {
+                define("absmin(x,y)", "((x)=min(abs((x)),abs((y))))");
+            }
+            if (_define_flags["absmax"]) {
+                define("absmax(x,y)", "((x)=max(abs((x)),abs((y))))");
+            }
+            if (_define_flags["sgn"]) {
+                define("sgn(x)", "((x)<0?-1:1)");
+            }
+            if (_define_flags["urand"]) {
+                _body.push_back(_indent + "srand(time(0));\n");
+                define("urand(m)", "(rand()/nextafter(RAND_MAX,DOUBLE_MAX)+(m))");
+            }
+            if (_define_flags["pinv"]) {    // Call SVD method...
+                define("pinv(x)", "(0.0)");
             }
         }
 
@@ -753,6 +775,7 @@ namespace pdfg {
 
         map<string, string> _mappings;
         map<string, unsigned> _data_sizes;
+        map<string, bool> _define_flags;
 
         vector<pair<string, string> > _defines;
         vector<pair<string, string> > _typedefs;
