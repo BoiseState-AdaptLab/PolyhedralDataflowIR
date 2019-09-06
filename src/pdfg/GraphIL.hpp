@@ -375,11 +375,6 @@ namespace pdfg {
         return pow(lhs, Real(exp));
     }
 
-    Math pinv(const Expr& expr) {
-        addDefine("pinv");
-        return Math(NullExpr, expr, "pinv(");
-    }
-
     Math sgn(const Expr& expr) {
         addDefine("sgn");
         return Math(NullExpr, expr, "sgn(");
@@ -1496,6 +1491,11 @@ namespace pdfg {
             _defaultVal = defval;
         }
 
+        Space(const string &name, const Expr &upper1, const Expr &upper2, double defval) {
+            init(name, Int(0), upper1, Int(0), upper2);
+            _defaultVal = Real(defval);
+        }
+
 //        Space(const string& name, const int lower1, const Expr& upper1, const int lower2, const Expr& upper2) {
 //            init(name, Int(lower1), upper1, Int(lower2), upper2);
 //        }
@@ -2143,6 +2143,11 @@ namespace pdfg {
             os << (refchar == '[' ? ']' : ')');
         }
         return os;
+    }
+
+    Math pinv(const Space& expr) {
+        addDefine("pinv");
+        return Math(NullExpr, expr, "pinv(");
     }
 
     ExprTuple tupleMath(const ExprTuple& lhs, const ExprTuple& rhs, const char oper) {
@@ -3721,7 +3726,7 @@ namespace pdfg {
             _flowGraph->returnType(_dataType);
         }
 
-        void outputs(initializer_list<string> outputs) {
+        void outputs(const vector<string>& outputs) {
             _flowGraph->outputs(outputs);
         }
 
@@ -4092,6 +4097,18 @@ namespace pdfg {
         return call(macro);
     }
 
+    Math arrInit(const Space& space, const Expr& val = Real(0.)) {
+        Macro macro("arrInit", {space});
+        ostringstream os;
+        os << "arrinit(" << space.name() << "," << val << "," << space.size() << ")";
+        macro.add(Expr(os.str()));
+        return call(macro);
+    }
+
+    Math arrInit(const Space& space, double val) {
+        return arrInit(space, Real(val));
+    }
+
     void init(const string& name, const string& retname = "", const string& datatype = "",
               const string& indextype = "", initializer_list<string> outputs = {}, const string& defval = "") {
         GraphMaker::get().newGraph(name);
@@ -4105,9 +4122,18 @@ namespace pdfg {
             GraphMaker::get().returnName(retname);
         }
         if (outputs.size() > 0) {
-            GraphMaker::get().outputs(outputs);
+            vector<string> vec_outs(outputs.begin(), outputs.end());
+            GraphMaker::get().outputs(vec_outs);
         }
         GraphMaker::get().defaultValue(defval);
+    }
+
+    void init(const string& name, const string& retname, const string& datatype,
+              const string& indextype, const vector<string>& outputs) {
+        init(name, retname, datatype, indextype, {}, "");
+        if (!outputs.empty()) {
+            GraphMaker::get().outputs(outputs);
+        }
     }
 
     void checkpoint(const string& name) {

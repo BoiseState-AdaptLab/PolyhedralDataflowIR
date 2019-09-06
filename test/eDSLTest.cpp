@@ -819,54 +819,25 @@ TEST(eDSLTest, CP_ALS) {
 }
 
 TEST(eDSLTest, CP_ALS_COO) {
-    // TODO: Figure out how to do transpose and norm...
-
-    // TACO-MTTKRP output for reference:
-//    for (int32_t pX1 = X1_pos[0]; pX1 < X1_pos[1]; pX1++) {
-//        int32_t iX = X1_coord[pX1];
-//        for (int32_t pX2 = X2_pos[pX1]; pX2 < X2_pos[(pX1 + 1)]; pX2++) {
-//            int32_t jX = X2_coord[pX2];
-//            for (int32_t pX3 = X3_pos[pX2]; pX3 < X3_pos[(pX2 + 1)]; pX3++) {
-//                int32_t kX = X3_coord[pX3];
-//                double tk = X_vals[pX3];
-//                for (int32_t rC = 0; rC < C2_dimension; rC++) {
-//                    int32_t pC2 = kX * C2_dimension + rC;
-//                    int32_t pB2 = jX * B2_dimension + rC;
-//                    int32_t pA2 = iX * A2_dimension + rC;
-//                    A_vals[pA2] = A_vals[pA2] + tk * C_vals[pC2] * B_vals[pB2];
-//                }
-//            }
-//        }
-//    }
-
-    // TODO: These are transposes, figure out if can be handled by changing the data mapping, matrices are
-    //   linearized, so should be possible.
-    // MxN*NxP -> RxK*KxR
-//    Space mm("mm", 0 <= i < I ^ 0 <= k < K ^ 0 <= j < J);
-//    Comp mtm = mm + (C(i,k) += A(i,j) * B(j,k));
-//    int i, j, k;
-//    for (i = 0; i < N; i++)
-//        for (j = 0; j < N; j++)
-//            for (k = 0; k < N; k++)
-//                res[i][j] += mat1[i][k] *
-//                             mat2[k][j];
-
     const unsigned N = 3;
 
     Iter m("m"), q("q"), r("r");
-    //Func ind0("ind0"), ind1("ind1"),ind2("ind2");
-    Real one(1.0);
+    //Real one(1.0);
     Const M("M"), R("R"), T("T");
     Space X("X",M);
 
-    Space coo("coo", 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
-
-
-    string names[N];
+    vector<string> names(N+1);
     Func indices[N];
     Iter iters[N];
     Const uppers[N];
     Space matrices[N];
+    Space new_mtx[N];
+    Space V("V", R, R), Vinv("Vinv", R, R);
+    Space Y("Y", R, R);
+    Space lmbda("lmbda", R);
+    Space sca;
+
+    Space coo("coo", 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
 
     for (int n = 0; n < N; n++) {
         names[n] = string(1, 'A' + n);
@@ -874,19 +845,57 @@ TEST(eDSLTest, CP_ALS_COO) {
         uppers[n] = Const(string(1, 'I' + n));
         //matrices[n] = Space(names[n], uppers[n], R);
         matrices[n] = Space(names[n], 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        new_mtx[n] = Space(names[n] + "new", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
         indices[n] = Func("ind" + to_string(n));
         coo ^= (iters[n] == indices[n](m));
     }
 
     Space krp = coo ^ 0 <= r < R;
+    Space lam("lam", 0 <= r < R);
+    Space had("had", 0 <= q < R ^ 0 <= r < R);
+    names[N] = "lmbda";
 
-    // Build the computations...
-    // Ignore outer-T loop for now, get one time step working...
+    init("cp_als", "", "f", "u", names); //, to_string(0));
 
     for (int n = 0; n < N; n++) {
         // Randomize factor matrices...
         Comp init(names[n] + "init", matrices[n], (matrices[n](iters[n],r) = urand()));
     }
+
+    // Build the computations...
+    // Ignore outer-T loop for now, get one time step working...
+    for (int n = 0; n < N; n++) {
+        Comp vinit("Vinit", sca, arrInit(V, 1.0));
+        for (int p = 0; p < N; p++) {
+            if (n != p) {
+                // MatrixMult: U(m)^T * U(m)
+                Comp yinit("Yinit", sca, memSet(Y));
+                Space matrix = matrices[p];
+                Space mmul(names[p] + "mmul", 0 <= q < R ^ 0 <= r < R ^ 0 <= iters[p] < uppers[p]);
+                Comp mm(names[p] + "mm", mmul, (Y(q,r) += matrix(q,iters[p]) * matrix(iters[p],r)));
+                // Hadamard: V *= Y
+                Comp hp(names[n] + "hp", had, (V(q,r) *= Y(q,r)));
+            }
+        }
+
+        // MTTKRP...
+        Expr prod = X(m) + 0;
+        for (int p = N - 1; p >= 0; p--) {
+            if (n != p) {
+                prod = prod * matrices[p](iters[p], r);
+            }
+        }
+        Comp mttkrp(names[n] + "krp", krp, (new_mtx[n](iters[n],r) += prod));
+
+        // Pinv...
+        Comp inv(names[n] + "pinv", sca, Vinv=pinv(V));
+        Space pmm(names[n] + "pmm", 0 <= iters[n] < uppers[n] ^ 0 <= q < R ^ 0 <= r < R);
+        Comp mmp(names[n] + "mmp", pmm, (new_mtx[n](iters[n],q) += new_mtx[n](iters[n],r) * Vinv(q,r)));
+
+        // Normalize...
+    }
+
+
 
     //Space coo("coo", 0 <= m < M ^ i==ind0(m) ^ j==ind1(m) ^ k==ind2(m));
     //Space krp = coo ^ 0 <= r < R;
@@ -898,8 +907,8 @@ TEST(eDSLTest, CP_ALS_COO) {
     Space Ainv("Ainv",R,R), Binv("Binv",R,R), Cinv("Cinv",R,R);
     Space sums("sums",R), lmbda("lmbda",R);
 
-    Space vecR("vecR", 0 <= r < R);
-    Space hadR("hadR", 0 <= q < R ^ 0 <= r < R);
+//    Space vecR("vecR", 0 <= r < R);
+//    Space hadR("hadR", 0 <= q < R ^ 0 <= r < R);
     Space mtxA("mtxA", 0 <= i < I ^ 0 <= r < R);
     Space mtxB("mtxB", 0 <= j < J ^ 0 <= q < R);
     Space mtxC("mtxC", 0 <= k < K ^ 0 <= r < R);
@@ -909,8 +918,6 @@ TEST(eDSLTest, CP_ALS_COO) {
     Space pmmA("pmmA", 0 <= i < I ^ 0 <= q < R ^ 0 <= r < R);
     Space pmmB("pmmB", 0 <= j < J ^ 0 <= q < R ^ 0 <= r < R);
     Space pmmC("pmmC", 0 <= k < K ^ 0 <= q < R ^ 0 <= r < R);
-
-    init("cp_als", "", "f", "u", {"A", "B", "C", "lmbda"}); //, to_string(0));
 
     // Randomize factor matrices...
     Comp initA("Ainit", mtxA, (A(i,r) = urand()));

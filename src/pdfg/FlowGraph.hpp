@@ -912,7 +912,7 @@ namespace pdfg {
             return outs;
         }
 
-        void outputs(initializer_list<string> outputs) {
+        void outputs(const vector<string>& outputs) {
             for (const string& output : outputs) {
                 _outputs[output] = _outputs.size();
             }
