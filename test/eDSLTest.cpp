@@ -834,7 +834,7 @@ TEST(eDSLTest, CP_ALS_COO) {
     Space new_mtx[N];
     Space V("V", R, R), Vinv("Vinv", R, R);
     Space Y("Y", R, R);
-    Space lmbda("lmbda", R);
+    Space lmbda("lmbda", R), sums("sums",R);
     Space sca;
 
     Space coo("coo", 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
@@ -851,18 +851,20 @@ TEST(eDSLTest, CP_ALS_COO) {
     }
 
     Space krp = coo ^ 0 <= r < R;
-    Space lam("lam", 0 <= r < R);
+    Space vec("vec", 0 <= r < R);
     Space had("had", 0 <= q < R ^ 0 <= r < R);
     names[N] = "lmbda";
 
-    init("cp_als", "", "f", "u", names); //, to_string(0));
+    string fxn = "cp_als_coo";
+    init(fxn, "", "f", "u", names); //, to_string(0));
+
+    // Build the computations...
 
     for (int n = 0; n < N; n++) {
         // Randomize factor matrices...
         Comp init(names[n] + "init", matrices[n], (matrices[n](iters[n],r) = urand()));
     }
 
-    // Build the computations...
     // Ignore outer-T loop for now, get one time step working...
     for (int n = 0; n < N; n++) {
         Comp vinit("Vinit", sca, arrInit(V, 1.0));
@@ -893,72 +895,15 @@ TEST(eDSLTest, CP_ALS_COO) {
         Comp mmp(names[n] + "mmp", pmm, (new_mtx[n](iters[n],q) += new_mtx[n](iters[n],r) * Vinv(q,r)));
 
         // Normalize...
+        Space sum(names[n] + "sum", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        Comp ssq(names[n] + "ssq", sum, (sums(r) += new_mtx[n](iters[n],r) * new_mtx[n](iters[n],r)));
+        Comp norm(names[n] + "norm", vec, (lmbda(r) = sqrt(lmbda(r))));
+        // U[n] = Unew / lmbda
+        Comp div(names[n] + "div", sum, (matrices[n](iters[n],r) = new_mtx[n](iters[n],r) / lmbda(r)));
     }
 
-
-
-    //Space coo("coo", 0 <= m < M ^ i==ind0(m) ^ j==ind1(m) ^ k==ind2(m));
-    //Space krp = coo ^ 0 <= r < R;
-    //Space mtx("mtx", 0 <= i < I ^ 0 <= j < J ^ 0 <= k < K ^ 0 <= r < R);
-    //Space A("A",I,R), B("B",J,R), C("C",K,R), X("X",M);
-    Space Akr("Akr",I,R), Bkr("Bkr",J,R), Ckr("Ckr",K,R);
-    Space Asq("Asq",R,R), Bsq("Bsq",R,R), Csq("Csq",R,R);
-    Space Ahp("Ahp",R,R), Bhp("Bhp",R,R), Chp("Chp",R,R);
-    Space Ainv("Ainv",R,R), Binv("Binv",R,R), Cinv("Cinv",R,R);
-    Space sums("sums",R), lmbda("lmbda",R);
-
-//    Space vecR("vecR", 0 <= r < R);
-//    Space hadR("hadR", 0 <= q < R ^ 0 <= r < R);
-    Space mtxA("mtxA", 0 <= i < I ^ 0 <= r < R);
-    Space mtxB("mtxB", 0 <= j < J ^ 0 <= q < R);
-    Space mtxC("mtxC", 0 <= k < K ^ 0 <= r < R);
-    Space mulA("mulA", 0 <= q < R ^ 0 <= r < R ^ 0 <= i < I);
-    Space mulB("mulB", 0 <= q < R ^ 0 <= r < R ^ 0 <= j < J);
-    Space mulC("mulC", 0 <= q < R ^ 0 <= r < R ^ 0 <= k < K);
-    Space pmmA("pmmA", 0 <= i < I ^ 0 <= q < R ^ 0 <= r < R);
-    Space pmmB("pmmB", 0 <= j < J ^ 0 <= q < R ^ 0 <= r < R);
-    Space pmmC("pmmC", 0 <= k < K ^ 0 <= q < R ^ 0 <= r < R);
-
-    // Randomize factor matrices...
-    Comp initA("Ainit", mtxA, (A(i,r) = urand()));
-    Comp initB("Binit", mtxB, (B(j,r) = urand()));
-    Comp initC("Cinit", mtxC, (C(k,r) = urand()));
-
-    Comp mmC("Cmm", mulC, (Csq(q,r) += C(q,k) * C(k,r)));
-    Comp mmB("Bmm", mulB, (Bsq(q,r) += B(q,j) * B(j,r)));
-    // Hadamard (component-wise) product on RxR square matrices.
-    Comp hadA("Ahad", hadR, (Ahp(q,r) = Csq(q,r) * Bsq(q,r)));
-    // Now the M-P pseudoinverse (using SVD: A=USV* => A+ = VS+U*).
-    Comp pinvA("Apinv", hadR, Ainv(q,r) = one / Ahp(q,r)); //pinv(Ahp));
-    Comp krpA("Akrp", krp, (Akr(i,r) += X(m) * C(k,r) * B(j,r)));
-    Comp mmAp("Apmm", pmmA, (A(i,q) += Akr(i,r) * Ainv(q,r)));
-    // Norm A columns and store in \vec{\lambda}
-    Comp ssqA("Assq", mtxA, (sums(r) += A(i,r) * A(i,r)));
-    //Comp normA = vecR + (lmbda(r) = sqrt(lmbda(r)));
-
-    Comp mmA("Amm", mulA, (Asq(q,r) += A(q,i) * A(i,r)));
-    // Hadamard (component-wise) product on RxR square matrices.
-    Comp hadB("Bhad", hadR, (Bhp(q,r) = Csq(q,r) * Asq(q,r)));
-    // Now the M-P pseudoinverse.
-    Comp pinvB("Bpinv", hadR, Binv(q,r) = one / Bhp(q,r)); //pinv(Bhp));
-    Comp krpB("Bkrp", krp, (Bkr(j,r) += X(m) * C(k,r) * A(i,r)));
-    Comp mmBp("Bpmm", pmmB, (B(j,q) += Bkr(j,r) * Binv(q,r)));
-    // Norm B columns and store in \vec{\lambda}
-    Comp ssqB("Bssq", mtxB, (sums(r) += B(j,r) * B(j,r)));
-    //Comp normB = vecR + (lmbda(r) = sqrt(lmbda(r)));
-
-    // Hadamard (component-wise) product on RxR square matrices.
-    Comp hadC("Chad", hadR, (Chp(q,r) = Bsq(q,r) * Asq(q,r)));
-    // Now the M-P pseudoinverse.
-    Comp pinvC("Cpinv", hadR, Cinv(q,r) = one / Chp(q,r)); //pinv(Chp));
-    Comp krpC("Ckrp", krp, (Ckr(k,r) += X(m) * B(j,r) * A(i,r)));
-    Comp mmCp("Cpmm", pmmC, (C(k,q) += Ckr(k,r) * Cinv(r,r)));
-    // Norm C columns and store in \vec{\lambda}
-    Comp ssqC("Cssq", mtxC, (sums(r) += C(k,r) * C(k,r)));
-    Comp norm("norm", vecR, (lmbda(r) = sqrt(sums(r))));
-
-    print("out/cp_als.json");
-    string result = codegen("out/cp_als.h");
+    print("out/" + fxn + ".json");
+    string result = codegen("out/" + fxn + ".h");
 
     // cp_als in sktensor returns Kruskal tensor P=(U,\lambda), where U(0)=A, U(1)=B, U(2)=C
 
