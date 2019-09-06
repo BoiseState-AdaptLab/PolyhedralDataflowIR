@@ -818,6 +818,147 @@ TEST(eDSLTest, CP_ALS) {
     ASSERT_TRUE(!result.empty());
 }
 
+TEST(eDSLTest, CP_ALS_COO) {
+    // TODO: Figure out how to do transpose and norm...
+
+    // TACO-MTTKRP output for reference:
+//    for (int32_t pX1 = X1_pos[0]; pX1 < X1_pos[1]; pX1++) {
+//        int32_t iX = X1_coord[pX1];
+//        for (int32_t pX2 = X2_pos[pX1]; pX2 < X2_pos[(pX1 + 1)]; pX2++) {
+//            int32_t jX = X2_coord[pX2];
+//            for (int32_t pX3 = X3_pos[pX2]; pX3 < X3_pos[(pX2 + 1)]; pX3++) {
+//                int32_t kX = X3_coord[pX3];
+//                double tk = X_vals[pX3];
+//                for (int32_t rC = 0; rC < C2_dimension; rC++) {
+//                    int32_t pC2 = kX * C2_dimension + rC;
+//                    int32_t pB2 = jX * B2_dimension + rC;
+//                    int32_t pA2 = iX * A2_dimension + rC;
+//                    A_vals[pA2] = A_vals[pA2] + tk * C_vals[pC2] * B_vals[pB2];
+//                }
+//            }
+//        }
+//    }
+
+    // TODO: These are transposes, figure out if can be handled by changing the data mapping, matrices are
+    //   linearized, so should be possible.
+    // MxN*NxP -> RxK*KxR
+//    Space mm("mm", 0 <= i < I ^ 0 <= k < K ^ 0 <= j < J);
+//    Comp mtm = mm + (C(i,k) += A(i,j) * B(j,k));
+//    int i, j, k;
+//    for (i = 0; i < N; i++)
+//        for (j = 0; j < N; j++)
+//            for (k = 0; k < N; k++)
+//                res[i][j] += mat1[i][k] *
+//                             mat2[k][j];
+
+    const unsigned N = 3;
+
+    Iter m("m"), q("q"), r("r");
+    //Func ind0("ind0"), ind1("ind1"),ind2("ind2");
+    Real one(1.0);
+    Const M("M"), R("R"), T("T");
+    Space X("X",M);
+
+    Space coo("coo", 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
+
+
+    string names[N];
+    Func indices[N];
+    Iter iters[N];
+    Const uppers[N];
+    Space matrices[N];
+
+    for (int n = 0; n < N; n++) {
+        names[n] = string(1, 'A' + n);
+        iters[n] = Iter(string(1, 'i' + n));
+        uppers[n] = Const(string(1, 'I' + n));
+        //matrices[n] = Space(names[n], uppers[n], R);
+        matrices[n] = Space(names[n], 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        indices[n] = Func("ind" + to_string(n));
+        coo ^= (iters[n] == indices[n](m));
+    }
+
+    Space krp = coo ^ 0 <= r < R;
+
+    // Build the computations...
+    // Ignore outer-T loop for now, get one time step working...
+
+    for (int n = 0; n < N; n++) {
+        // Randomize factor matrices...
+        Comp init(names[n] + "init", matrices[n], (matrices[n](iters[n],r) = urand()));
+    }
+
+    //Space coo("coo", 0 <= m < M ^ i==ind0(m) ^ j==ind1(m) ^ k==ind2(m));
+    //Space krp = coo ^ 0 <= r < R;
+    //Space mtx("mtx", 0 <= i < I ^ 0 <= j < J ^ 0 <= k < K ^ 0 <= r < R);
+    //Space A("A",I,R), B("B",J,R), C("C",K,R), X("X",M);
+    Space Akr("Akr",I,R), Bkr("Bkr",J,R), Ckr("Ckr",K,R);
+    Space Asq("Asq",R,R), Bsq("Bsq",R,R), Csq("Csq",R,R);
+    Space Ahp("Ahp",R,R), Bhp("Bhp",R,R), Chp("Chp",R,R);
+    Space Ainv("Ainv",R,R), Binv("Binv",R,R), Cinv("Cinv",R,R);
+    Space sums("sums",R), lmbda("lmbda",R);
+
+    Space vecR("vecR", 0 <= r < R);
+    Space hadR("hadR", 0 <= q < R ^ 0 <= r < R);
+    Space mtxA("mtxA", 0 <= i < I ^ 0 <= r < R);
+    Space mtxB("mtxB", 0 <= j < J ^ 0 <= q < R);
+    Space mtxC("mtxC", 0 <= k < K ^ 0 <= r < R);
+    Space mulA("mulA", 0 <= q < R ^ 0 <= r < R ^ 0 <= i < I);
+    Space mulB("mulB", 0 <= q < R ^ 0 <= r < R ^ 0 <= j < J);
+    Space mulC("mulC", 0 <= q < R ^ 0 <= r < R ^ 0 <= k < K);
+    Space pmmA("pmmA", 0 <= i < I ^ 0 <= q < R ^ 0 <= r < R);
+    Space pmmB("pmmB", 0 <= j < J ^ 0 <= q < R ^ 0 <= r < R);
+    Space pmmC("pmmC", 0 <= k < K ^ 0 <= q < R ^ 0 <= r < R);
+
+    init("cp_als", "", "f", "u", {"A", "B", "C", "lmbda"}); //, to_string(0));
+
+    // Randomize factor matrices...
+    Comp initA("Ainit", mtxA, (A(i,r) = urand()));
+    Comp initB("Binit", mtxB, (B(j,r) = urand()));
+    Comp initC("Cinit", mtxC, (C(k,r) = urand()));
+
+    Comp mmC("Cmm", mulC, (Csq(q,r) += C(q,k) * C(k,r)));
+    Comp mmB("Bmm", mulB, (Bsq(q,r) += B(q,j) * B(j,r)));
+    // Hadamard (component-wise) product on RxR square matrices.
+    Comp hadA("Ahad", hadR, (Ahp(q,r) = Csq(q,r) * Bsq(q,r)));
+    // Now the M-P pseudoinverse (using SVD: A=USV* => A+ = VS+U*).
+    Comp pinvA("Apinv", hadR, Ainv(q,r) = one / Ahp(q,r)); //pinv(Ahp));
+    Comp krpA("Akrp", krp, (Akr(i,r) += X(m) * C(k,r) * B(j,r)));
+    Comp mmAp("Apmm", pmmA, (A(i,q) += Akr(i,r) * Ainv(q,r)));
+    // Norm A columns and store in \vec{\lambda}
+    Comp ssqA("Assq", mtxA, (sums(r) += A(i,r) * A(i,r)));
+    //Comp normA = vecR + (lmbda(r) = sqrt(lmbda(r)));
+
+    Comp mmA("Amm", mulA, (Asq(q,r) += A(q,i) * A(i,r)));
+    // Hadamard (component-wise) product on RxR square matrices.
+    Comp hadB("Bhad", hadR, (Bhp(q,r) = Csq(q,r) * Asq(q,r)));
+    // Now the M-P pseudoinverse.
+    Comp pinvB("Bpinv", hadR, Binv(q,r) = one / Bhp(q,r)); //pinv(Bhp));
+    Comp krpB("Bkrp", krp, (Bkr(j,r) += X(m) * C(k,r) * A(i,r)));
+    Comp mmBp("Bpmm", pmmB, (B(j,q) += Bkr(j,r) * Binv(q,r)));
+    // Norm B columns and store in \vec{\lambda}
+    Comp ssqB("Bssq", mtxB, (sums(r) += B(j,r) * B(j,r)));
+    //Comp normB = vecR + (lmbda(r) = sqrt(lmbda(r)));
+
+    // Hadamard (component-wise) product on RxR square matrices.
+    Comp hadC("Chad", hadR, (Chp(q,r) = Bsq(q,r) * Asq(q,r)));
+    // Now the M-P pseudoinverse.
+    Comp pinvC("Cpinv", hadR, Cinv(q,r) = one / Chp(q,r)); //pinv(Chp));
+    Comp krpC("Ckrp", krp, (Ckr(k,r) += X(m) * B(j,r) * A(i,r)));
+    Comp mmCp("Cpmm", pmmC, (C(k,q) += Ckr(k,r) * Cinv(r,r)));
+    // Norm C columns and store in \vec{\lambda}
+    Comp ssqC("Cssq", mtxC, (sums(r) += C(k,r) * C(k,r)));
+    Comp norm("norm", vecR, (lmbda(r) = sqrt(sums(r))));
+
+    print("out/cp_als.json");
+    string result = codegen("out/cp_als.h");
+
+    // cp_als in sktensor returns Kruskal tensor P=(U,\lambda), where U(0)=A, U(1)=B, U(2)=C
+
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
 TEST(eDSLTest, SGeMM) {
     // C(i,j) = C(i,j) * beta + alpha * A(i,k) * B(k,j)
 //    for (i = 0; i < N; i++) {
