@@ -481,6 +481,13 @@ namespace pdfg {
         }
 
         void addIncludes() {
+            if (_define_flags["urand"]) {
+                include("float");
+                include("time");
+            }
+            if (_define_flags["pinv"]) {
+                include("linalg");
+            }
             if (!_includes.empty()) {
                 for (string& include : _includes) {
                     if (include.find(".h") == string::npos) {
@@ -506,10 +513,10 @@ namespace pdfg {
             }
             if (_define_flags["urand"]) {
                 _body.push_back(_indent + "srand(time(0));\n");
-                define("urand(m)", "(rand()/nextafter(RAND_MAX,DOUBLE_MAX)+(m))");
+                define("urand(m)", "(rand()/nextafter(RAND_MAX,DBL_MAX)+(m))");
             }
             if (_define_flags["pinv"]) {    // Call SVD method...
-                define("pinv(x)", "(0.0)");
+                define("pinv(A,Ainv)", "(mp_pinv((A),(Ainv),R))");
             }
         }
 

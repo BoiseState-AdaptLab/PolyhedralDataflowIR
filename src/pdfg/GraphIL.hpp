@@ -1778,11 +1778,10 @@ namespace pdfg {
 
         void add(const Constr &constr) {
             if (!has(constr)) {
-//            if (constr.lhs().is_iter()) {
-//                add((Iter(constr.lhs().text())));
-//            }
                 if (constr.rhs().is_iter()) {
                     add((Iter(constr.rhs().text())));
+                } else if (constr.lhs().is_iter()) {
+                    add((Iter(constr.lhs().text())));
                 }
                 _constraints.push_back(constr);
             }
@@ -2145,9 +2144,14 @@ namespace pdfg {
         return os;
     }
 
-    Math pinv(const Space& expr) {
+//    Math pinv(const Space& expr) {
+//        addDefine("pinv");
+//        return Math(NullExpr, expr, "pinv(");
+//    }
+
+    Math pinv(const Expr &lhs, const Expr &rhs) {
         addDefine("pinv");
-        return Math(NullExpr, expr, "pinv(");
+        return Math(lhs, rhs, "pinv(");
     }
 
     ExprTuple tupleMath(const ExprTuple& lhs, const ExprTuple& rhs, const char oper) {
@@ -3860,7 +3864,7 @@ namespace pdfg {
 
         string compile(const string& src, const string& obj) {
             // gcc -g -O3 -c dsr_spmv.c -o dsr_spmv.o
-            string compCmd = "/usr/bin/gcc -g -O3 -c " + src + " -o " + obj;
+            string compCmd = "/usr/bin/gcc -g -I./src/util -O3 -c " + src + " -o " + obj;
             cerr << "compile: '" << compCmd << "'\n";
             int stat = system(compCmd.c_str());
             return compCmd;
@@ -4129,10 +4133,13 @@ namespace pdfg {
     }
 
     void init(const string& name, const string& retname, const string& datatype,
-              const string& indextype, const vector<string>& outputs) {
+              const string& indextype, const vector<string>& outputs, const string& defval = "") {
         init(name, retname, datatype, indextype, {}, "");
         if (!outputs.empty()) {
             GraphMaker::get().outputs(outputs);
+        }
+        if (!defval.empty()) {
+            GraphMaker::get().defaultValue(defval);
         }
     }
 

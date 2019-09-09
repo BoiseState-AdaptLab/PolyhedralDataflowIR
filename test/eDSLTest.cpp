@@ -831,6 +831,7 @@ TEST(eDSLTest, CP_ALS_COO) {
     Iter iters[N];
     Const uppers[N];
     Space matrices[N];
+    Space inits[N];
     Space new_mtx[N];
     Space V("V", R, R), Vinv("Vinv", R, R);
     Space Y("Y", R, R);
@@ -843,9 +844,11 @@ TEST(eDSLTest, CP_ALS_COO) {
         names[n] = string(1, 'A' + n);
         iters[n] = Iter(string(1, 'i' + n));
         uppers[n] = Const(string(1, 'I' + n));
-        //matrices[n] = Space(names[n], uppers[n], R);
-        matrices[n] = Space(names[n], 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
-        new_mtx[n] = Space(names[n] + "new", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        inits[n] = Space(names[n], 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        matrices[n] = Space(names[n], uppers[n], R);
+        //matrices[n] = Space(names[n], 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        //new_mtx[n] = Space(names[n] + "new", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        new_mtx[n] = Space(names[n] + "new", uppers[n], R);
         indices[n] = Func("ind" + to_string(n));
         coo ^= (iters[n] == indices[n](m));
     }
@@ -856,27 +859,27 @@ TEST(eDSLTest, CP_ALS_COO) {
     names[N] = "lmbda";
 
     string fxn = "cp_als_coo";
-    init(fxn, "", "f", "u", names); //, to_string(0));
+    init(fxn, "", "f", "u", names, to_string(0));
 
     // Build the computations...
 
     for (int n = 0; n < N; n++) {
         // Randomize factor matrices...
-        Comp init(names[n] + "init", matrices[n], (matrices[n](iters[n],r) = urand()));
+        Comp init(names[n] + "init", inits[n], (matrices[n](iters[n],r) = urand()));
     }
 
     // Ignore outer-T loop for now, get one time step working...
+    //int n = 0;
     for (int n = 0; n < N; n++) {
         Comp vinit("Vinit", sca, arrInit(V, 1.0));
         for (int p = 0; p < N; p++) {
             if (n != p) {
                 // MatrixMult: U(m)^T * U(m)
-                Comp yinit("Yinit", sca, memSet(Y));
-                Space matrix = matrices[p];
+                Comp yinit("Yinit" + to_string(p), sca, memSet(Y));
                 Space mmul(names[p] + "mmul", 0 <= q < R ^ 0 <= r < R ^ 0 <= iters[p] < uppers[p]);
-                Comp mm(names[p] + "mm", mmul, (Y(q,r) += matrix(q,iters[p]) * matrix(iters[p],r)));
+                Comp mm(names[p] + "mm", mmul, (Y(q,r) += matrices[p](q,iters[p]) * matrices[p](iters[p],r)));
                 // Hadamard: V *= Y
-                Comp hp(names[n] + "hp", had, (V(q,r) *= Y(q,r)));
+                Comp hp(names[n] + "hp" + to_string(p), had, (V(q,r) *= Y(q,r)));
             }
         }
 
@@ -890,25 +893,57 @@ TEST(eDSLTest, CP_ALS_COO) {
         Comp mttkrp(names[n] + "krp", krp, (new_mtx[n](iters[n],r) += prod));
 
         // Pinv...
-        Comp inv(names[n] + "pinv", sca, Vinv=pinv(V));
+        Comp inv(names[n] + "pinv", sca, Vinv=pinv(V,Vinv));
         Space pmm(names[n] + "pmm", 0 <= iters[n] < uppers[n] ^ 0 <= q < R ^ 0 <= r < R);
         Comp mmp(names[n] + "mmp", pmm, (new_mtx[n](iters[n],q) += new_mtx[n](iters[n],r) * Vinv(q,r)));
 
         // Normalize...
         Space sum(names[n] + "sum", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
         Comp ssq(names[n] + "ssq", sum, (sums(r) += new_mtx[n](iters[n],r) * new_mtx[n](iters[n],r)));
-        Comp norm(names[n] + "norm", vec, (lmbda(r) = sqrt(lmbda(r))));
+        Comp norm(names[n] + "norm", vec, (lmbda(r) = sqrt(sums(r))));
         // U[n] = Unew / lmbda
         Comp div(names[n] + "div", sum, (matrices[n](iters[n],r) = new_mtx[n](iters[n],r) / lmbda(r)));
+        //Comp div(names[n] + "div", sum, (new_mtx[n](iters[n],r) /= lmbda(r)));
     }
 
     print("out/" + fxn + ".json");
-    string result = codegen("out/" + fxn + ".h");
+    string result = codegen("out/" + fxn + ".o");
 
     // cp_als in sktensor returns Kruskal tensor P=(U,\lambda), where U(0)=A, U(1)=B, U(2)=C
 
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, Transpose) {
+    const int M = 2;
+    const int N = 3;
+    float A[] = {0., 2., 4., 6., 8., 10.};
+
+#define offset2(i,j,K) ((j)+(i)*(K))
+#define A(i,j) A[offset2((i),(j),(N))]
+#define A_T(i,j) A[offset2((j),(i),(N))]
+
+    cout << "Matrix:\n";
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            cout << A(i,j) << " ";
+        }
+        cout << "\n";
+    }
+
+    cout << "Transpose:\n";
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            //cout << A_T(i,j) << " ";
+            cout << A(j,i) << " ";
+        }
+        cout << "\n";
+    }
+
+#undef A
+#undef A_T
+#undef offset2
 }
 
 TEST(eDSLTest, SGeMM) {
