@@ -512,7 +512,15 @@ namespace pdfg {
                 define("sgn(x)", "((x)<0?-1:1)");
             }
             if (_define_flags["urand"]) {
-                _body.push_back(_indent + "srand(time(0));\n");
+                int seed = 1568224077;
+                string line = _indent + "srand(";
+                if (seed) {
+                    line += to_string(seed);
+                } else {
+                    line += "time(0)";
+                }
+                line += "\n";
+                _body.push_back(line);
                 define("urand(m)", "(rand()/nextafter(RAND_MAX,DBL_MAX)+(m))");
             }
             if (_define_flags["pinv"]) {    // Call SVD method...

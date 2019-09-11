@@ -837,6 +837,8 @@ TEST(eDSLTest, CP_ALS_COO) {
     Space Y("Y", R, R);
     Space lmbda("lmbda", R), sums("sums",R);
     Space sca;
+    Real one(1.0);
+    Real zero(0.0);
 
     Space coo("coo", 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
 
@@ -844,7 +846,7 @@ TEST(eDSLTest, CP_ALS_COO) {
         names[n] = string(1, 'A' + n);
         iters[n] = Iter(string(1, 'i' + n));
         uppers[n] = Const(string(1, 'I' + n));
-        inits[n] = Space(names[n], 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        inits[n] = Space(names[n], 0 <= r < R ^ 0 <= iters[n] < uppers[n]);
         matrices[n] = Space(names[n], uppers[n], R);
         //matrices[n] = Space(names[n], 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
         //new_mtx[n] = Space(names[n] + "new", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
@@ -855,7 +857,7 @@ TEST(eDSLTest, CP_ALS_COO) {
 
     Space krp = coo ^ 0 <= r < R;
     Space vec("vec", 0 <= r < R);
-    Space had("had", 0 <= q < R ^ 0 <= r < R);
+    Space had("had", 0 <= r < R ^ 0 <= q < R);
     names[N] = "lmbda";
 
     string fxn = "cp_als_coo";
@@ -871,15 +873,17 @@ TEST(eDSLTest, CP_ALS_COO) {
     // Ignore outer-T loop for now, get one time step working...
     //int n = 0;
     for (int n = 0; n < N; n++) {
-        Comp vinit("Vinit", sca, arrInit(V, 1.0));
+        //Comp vinit("Vinit", sca, arrInit(V, 1.0));
+        Comp vinit("Vinit", had, (V(r,q)=one+0));
         for (int p = 0; p < N; p++) {
             if (n != p) {
                 // MatrixMult: U(m)^T * U(m)
-                Comp yinit("Yinit" + to_string(p), sca, memSet(Y));
-                Space mmul(names[p] + "mmul", 0 <= q < R ^ 0 <= r < R ^ 0 <= iters[p] < uppers[p]);
-                Comp mm(names[p] + "mm", mmul, (Y(q,r) += matrices[p](q,iters[p]) * matrices[p](iters[p],r)));
+                //Comp yinit("Yinit" + to_string(p), sca, memSet(Y));
+                Comp yinit("Yinit" + to_string(p), had, (Y(r,q)=zero+0));
+                Space mmul(names[p] + "mmul", 0 <= r < R ^ 0 <= q < R ^ 0 <= iters[p] < uppers[p]);
+                Comp mm(names[p] + "mm", mmul, (Y(r,q) += matrices[p](iters[p],r) * matrices[p](q,iters[p])));
                 // Hadamard: V *= Y
-                Comp hp(names[n] + "hp" + to_string(p), had, (V(q,r) *= Y(q,r)));
+                Comp hp(names[n] + "hp" + to_string(p), had, (V(r,q) *= Y(r,q)));
             }
         }
 
@@ -906,6 +910,7 @@ TEST(eDSLTest, CP_ALS_COO) {
         //Comp div(names[n] + "div", sum, (new_mtx[n](iters[n],r) /= lmbda(r)));
     }
 
+    fuse(); // Fuse-all nodes...
     print("out/" + fxn + ".json");
     string result = codegen("out/" + fxn + ".o");
 
