@@ -898,8 +898,8 @@ TEST(eDSLTest, CP_ALS_COO) {
 
         // Pinv...
         Comp inv(names[n] + "pinv", sca, Vinv=pinv(V,Vinv));
-        Space pmm(names[n] + "pmm", 0 <= iters[n] < uppers[n] ^ 0 <= q < R ^ 0 <= r < R);
-        Comp mmp(names[n] + "mmp", pmm, (new_mtx[n](iters[n],q) += new_mtx[n](iters[n],r) * Vinv(q,r)));
+        Space pmm(names[n] + "pmm", 0 <= iters[n] < uppers[n] ^ 0 <= r < R ^ 0 <= q < R);
+        Comp mmp(names[n] + "mmp", pmm, (new_mtx[n](iters[n],r) += new_mtx[n](iters[n],q) * Vinv(r,q)));
 
         // Normalize...
         Space sum(names[n] + "sum", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);

@@ -192,6 +192,9 @@ private:
  */
     string post(const string& input) {
         string output = Strings::replace(input, ", )", ", 0)");
+        if (output == "{  }") {
+            output = "{[]}";
+        }
         return output;
     }
 

@@ -397,6 +397,8 @@ public:
             string relation = relmap[relname];
             vector<string> schedules = schedmap[relname];
 
+            string relstr;
+            string condstr;
             map<string, size_t> symcons;
             map<string, UninterpFunc> ufuncs;
 
@@ -404,9 +406,6 @@ public:
             vector<string> conds;
             vector<string> exists;
             vector<string> knowns;
-
-            string relstr;
-            string condstr;
 
             string result = preprocess(relation, relname);
             parse_relation(result, iters, condstr, conds);
@@ -424,7 +423,7 @@ public:
                 givens += given;
             }
 
-            if (!iters.empty()) {
+            //if (!iters.empty()) {
 //                for (const string& iter : iters) {
 //                    if (iterlist.empty()) {
 //                        iterlist = iter;
@@ -433,19 +432,18 @@ public:
 //                    }
 //                }
 
-                if (iters.size() > maxiters.size()) {
-                    maxiters = iters;
-                }
-
-                for (const string& sched : schedules) {
-                    allschedules.push_back(sched);
-                }
-                cgexpr += codegen_expr(relname, schedules) + ',';
-
-                if (iters.size() > _iterators.size()) {
-                    _iterators = iters;
-                }
+            if (iters.size() > maxiters.size()) {
+                maxiters = iters;
             }
+            for (const string& sched : schedules) {
+                allschedules.push_back(sched);
+            }
+
+            cgexpr += codegen_expr(relname, schedules) + ',';
+            if (iters.size() > _iterators.size()) {
+                _iterators = iters;
+            }
+            //}
 
             merge_ufuncs(ufuncs, _ufuncs);
             newmap[relname] = result;
