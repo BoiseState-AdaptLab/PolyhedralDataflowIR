@@ -100,6 +100,5 @@ namespace test {
 
     TEST_F(TensAlgCompTest, Convert) {
         SetUp("./data/matrix/impact.mtx");
-
     }
 }
