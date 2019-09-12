@@ -197,7 +197,7 @@ if (TESTING)
         target_link_libraries(edslTest papi pfm)
         target_compile_definitions(edslTest PRIVATE PAPI_ON=1)
     else()
-        target_link_libraries(edslTest likwid taco cudart) # blas lapack lapacke splatt)
+        target_link_libraries(edslTest likwid taco) # cudart) # blas lapack lapacke splatt)
     endif()
 
     target_link_libraries(edslTest ${LINK_LIBS})

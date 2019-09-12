@@ -4,6 +4,10 @@ using std::to_string;
 #include <gtest/gtest.h>
 using namespace testing;
 
+#include <random>
+using std::default_random_engine;
+using std::uniform_real_distribution;
+
 #include <taco.h>
 using namespace taco;
 
@@ -28,18 +32,21 @@ namespace test {
 //            Where A is input format, C is output, and B is zeros if sum, or ones if product.
 
             Format csr({Dense,Sparse});
-            Format  dv({Dense});
+            Format  dm({Dense,Dense});
+            Format coo({Sparse,Singleton});
+            Format dcsr({Sparse,Sparse});
 
             // Load a sparse matrix from file (stored in the Matrix Market format) and
             // store it as a compressed sparse row matrix. Matrices correspond to order-2
             // tensors in taco.
             //Tensor<double> A = read(filename, csr);
             Tensor<double> A({4, 4}, csr);
+            RandMatrix(A);
 
-            Tensor<double> B({A.getDimension(0), A.getDimension(1)}, csr);
+            Tensor<double> B({A.getDimension(0), A.getDimension(1)}, dm);
             InitMatrix(B, 1.0);
 
-            Tensor<double> C({A.getDimension(0), A.getDimension(1)}, csr);
+            Tensor<double> C({A.getDimension(0), A.getDimension(1)}, coo);
             InitMatrix(C);
 
             IndexVar i, j; //, k, l;
@@ -61,6 +68,18 @@ namespace test {
             for (int i = 0; i < mtx.getDimension(0); ++i) {
                 for (int j = 0; j < mtx.getDimension(1); ++j) {
                     mtx.insert({i,j}, 1.0);
+                }
+            }
+            //mtx.pack();
+        }
+
+        void RandMatrix(Tensor<double>& mtx, double val = 0.0) {
+            default_random_engine gen(0);
+            uniform_real_distribution<double> unif(0.0, 1.0);
+
+            for (int i = 0; i < mtx.getDimension(0); ++i) {
+                for (int j = 0; j < mtx.getDimension(1); ++j) {
+                    mtx.insert({i,j}, unif(gen));
                 }
             }
             //mtx.pack();
