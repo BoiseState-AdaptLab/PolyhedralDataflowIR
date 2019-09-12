@@ -11,7 +11,7 @@ include_directories(lib/iegenlib/src
                     lib/gtest  lib/gtest/include
                     lib/eigen lib/eigen/unsupported
                     lib/taco/include
-                    out src test
+                    out src src/util test
 )
 
 set(EDSL_FILES   src/poly/PolyLib.hpp
@@ -184,7 +184,7 @@ if (TESTING)
 
     set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
             test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp
-            test/JacobiTest.cpp test/MiniFluxDivTest.cpp test/TensAlgCompTest.cpp) # test/TensorDecompTest.cpp)
+            test/JacobiTest.cpp test/MiniFluxDivTest.cpp test/TensorDecompTest.cpp) # test/TensAlgCompTest.cpp)
     #set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
     #               test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O0")
@@ -192,16 +192,16 @@ if (TESTING)
     enable_testing()
     add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES})
 
-    target_link_libraries(edslTest m omp polylib)
+    target_link_libraries(edslTest m omp polylib gsl gslcblas)
     if (PAPI_ON)
         target_link_libraries(edslTest papi pfm)
         target_compile_definitions(edslTest PRIVATE PAPI_ON=1)
     else()
-        target_link_libraries(edslTest likwid taco) # cudart) # blas lapack lapacke splatt)
+        target_link_libraries(edslTest likwid) # taco) # cudart) # blas lapack lapacke splatt)
     endif()
 
     target_link_libraries(edslTest ${LINK_LIBS})
-    add_test(driver eDSLTest ConjGradCOOTest ConjGradCSRTest TensAlgCompTest) # JacobiTest) # TensorDecompTest)
+    add_test(driver eDSLTest ConjGradCOOTest ConjGradCSRTest TensorDecompTest) #TensAlgCompTest) # JacobiTest)
     #add_test(driver ConjGradCOOTest ConjGradCSRTest)# TensorDecompTest)
 
 elseif (MAKELIB)

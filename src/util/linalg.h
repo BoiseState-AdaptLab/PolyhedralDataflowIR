@@ -2,9 +2,9 @@
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_linalg.h>
 
-typedef char bool;
-#define false		0
-#define true 		1
+//typedef char bool;
+//#define false		0
+//#define true 		1
 
  /**
  * Compute the (Moore-Penrose) pseudo-inverse of a matrix.

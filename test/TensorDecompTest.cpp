@@ -4,6 +4,8 @@ using std::to_string;
 #include <gtest/gtest.h>
 using namespace testing;
 
+#include <cp_als_coo.h>
+
 #ifdef SPLATT_ENABLED
 #include <splatt.h>
 #endif
@@ -14,11 +16,14 @@ using util::TensorIO;
 
 #include "BenchmarkTest.hpp"
 
+typedef float real;
+
 namespace test {
-    class TensorDecompTest : public ::testing::Test {
+    class TensorDecompTest : public BenchmarkTest {
 
     protected:
-        TensorDecompTest() {}
+        TensorDecompTest(const string& name = "TensorDecompTest") : BenchmarkTest(name) {
+        }
 
         virtual ~TensorDecompTest() {}
 
@@ -58,11 +63,13 @@ namespace test {
 
             // Need to do a copy, 'mat' object will go out of scope.
             nbytes = rank * sizeof(real);
+            _lambda_ref = (real*) malloc(nbytes);
+            memcpy(_lambda_ref, lam.vals(), nbytes);
             _lambda = (real*) malloc(nbytes);
-            memcpy(_lambda, lam.vals(), nbytes);
 
             // Read factor matrices
             _factors = (real**) calloc(_order, sizeof(real*));
+            _factors_ref = (real**) calloc(_order, sizeof(real*));
             for (unsigned d = 0; d < _order; d++) {
                 unsigned dim = _dims[d];
                 string factor_file = prefix + "mode" + to_string(d+1) + ".mat";
@@ -71,7 +78,25 @@ namespace test {
 
                 nbytes = dim * rank * sizeof(real);
                 _factors[d] = (real*) malloc(nbytes);
-                memcpy(_factors[d], fac.vals(), nbytes);
+                _factors_ref[d] = (real*) malloc(nbytes);
+                memcpy(_factors_ref[d], fac.vals(), nbytes);
+            }
+        }
+
+        virtual void Execute() {
+            //unsigned seed = 1568224077;
+            //cp_als_coo(const float* X, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, float* A, float* B, float* C, float* lmbda)
+            cp_als_coo(_vals, _dims[0], _dims[1], _dims[2], _nnz, _rank, &_indices[0], &_indices[_nnz], &_indices[_nnz * 2], _factors[0], _factors[1], _factors[2], _lambda);
+        }
+
+        virtual void Evaluate() {
+            // Nothing to do here, maybe later SPLATT or SKT...
+        }
+
+        virtual void Assert() {
+            ASSERT_LT(Compare<real>(_lambda, _lambda_ref, _rank), 0);
+            for (unsigned d = 0; d < _order; d++) {
+                ASSERT_LT(Compare<real>(_factors[d], _factors_ref[d], _dims[d] * _rank), 0);
             }
         }
 
@@ -79,11 +104,14 @@ namespace test {
             free(_indices);
             free(_dims);
             free(_vals);
+            free(_lambda_ref);
             free(_lambda);
 
             for (unsigned d = 0; d < _order; d++) {
+                free(_factors_ref[d]);
                 free(_factors[d]);
             }
+            free(_factors_ref);
             free(_factors);
 
             /* cleanup */
@@ -101,6 +129,8 @@ namespace test {
         real* _vals;
         real* _lambda;
         real** _factors;
+        real* _lambda_ref;
+        real** _factors_ref;
 
 //        double* _opts;
 //        splatt_idx_t _dim;
@@ -108,20 +138,10 @@ namespace test {
 //        splatt_kruskal _fac;
     };
 
-    TEST_F(TensorDecompTest, SplattCPD) {
-        SetUp("../../tensors/matmul_5-5-5.tns", 10);
-        /* do the factorization! */
-//        int ret = splatt_cpd_als(_tns, _rank, _opts, &_fac);
-//
-//        /* do some processing */
-//        for(splatt_idx_t m = 0; m < _dim; ++m) {
-//            /* access factored.lambda and factored.factors[m] */
-//        }
-    }
-
-    TEST_F(TensorDecompTest, CPD_ALS) {
+    TEST_F(TensorDecompTest, CPD) {
         SetUp("./data/tensor/matmul_5-5-5.tns", 10);
-
-        int stop = 1;
+        Run();
+        Verify();
+        Assert();
     }
 }

@@ -186,7 +186,9 @@ namespace test {
 
         virtual void Assert() {};
 
-        virtual int Compare(const double* testData, const double* refData, unsigned size, double eps = EPSILON) {
+        template<typename T = double>
+        int Compare(const T* testData, const T* refData, unsigned size, T eps = EPSILON) {
+        //virtual int Compare(const double* testData, const double* refData, unsigned size, double eps = EPSILON) {
             int index = -1;
             for (unsigned i = 0; i < size && index < 0; i++) {
                 //if (abs((testData[i] - refData[i])/refData[i]) >= eps) {
