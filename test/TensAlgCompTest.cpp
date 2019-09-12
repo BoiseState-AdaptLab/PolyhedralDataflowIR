@@ -31,11 +31,16 @@ namespace test {
 //
 //            Where A is input format, C is output, and B is zeros if sum, or ones if product.
 
-            Format csr({Dense,Sparse});
-            Format dns({Dense,Dense});
-            Format coo({Sparse,Singleton});
-            Format dcsr({Sparse,Sparse});
-            Format bcsr({Dense,Sparse,Dense,Dense});
+            const Format csr({Dense, Sparse}, {0,1});
+            const Format csc({Dense, Sparse}, {1,0});
+            const Format dcsr({Sparse, Sparse}, {0,1});
+            const Format dcsc({Sparse, Sparse}, {1,0});
+            const Format dns({Dense,Dense}, {0,1});
+            const Format bcsr({Dense,Sparse,Dense,Dense});
+
+            const ModeFormat::Property ordered = ModeFormat::NOT_ORDERED;
+            const ModeFormat::Property unique = ModeFormat::NOT_UNIQUE;
+            const Format coo({Compressed({ordered,unique}), Singleton({ordered,unique})}, {0,1});
 
             // Load a sparse matrix from file (stored in the Matrix Market format) and
             // store it as a compressed sparse row matrix. Matrices correspond to order-2

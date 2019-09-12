@@ -25,6 +25,8 @@ typedef struct {
 #endif
 #endif
 
+#define N 4
+
 int assemble(taco_tensor_t *C, taco_tensor_t *A, taco_tensor_t *B) {
   int* __restrict__ C2_pos = (int*)(C->indices[1][0]);
   int* __restrict__ C2_crd = (int*)(C->indices[1][1]);
@@ -33,16 +35,16 @@ int assemble(taco_tensor_t *C, taco_tensor_t *A, taco_tensor_t *B) {
   int* __restrict__ A2_pos = (int*)(A->indices[1][0]);
   int* __restrict__ A2_crd = (int*)(A->indices[1][1]);
 
-  C2_pos = (int32_t*)malloc(sizeof(int32_t) * 5);
+  C2_pos = (int32_t*)malloc(sizeof(int32_t) * N+1);
   C2_pos[0] = 0;
-  for (int32_t pC2 = 1; pC2 < 5; pC2++) {
+  for (int32_t pC2 = 1; pC2 < N+1; pC2++) {
     C2_pos[pC2] = 0;
   }
   int32_t C2_crd_size = 1048576;
   C2_crd = (int32_t*)malloc(sizeof(int32_t) * C2_crd_size);
 
   int32_t pC20 = 0;
-  for (int32_t i = 0; i < 4; i++) {
+  for (int32_t i = 0; i < N; i++) {
     int32_t C2_begin = pC20;
     for (int32_t pA2 = A2_pos[i]; pA2 < A2_pos[(i + 1)]; pA2++) {
       int32_t i4A = A2_crd[pA2];
@@ -89,7 +91,7 @@ int compute(taco_tensor_t *C, taco_tensor_t *A, taco_tensor_t *B) {
   }
   return 0;
 }
-#include "/tmp/taco_tmp_4tbIeC/qyix7mt8kaz9.h"
+#include "taco_csr_coo.h"
 int _shim_assemble(void** parameterPack) {
   return assemble((taco_tensor_t*)(parameterPack[0]), (taco_tensor_t*)(parameterPack[1]), (taco_tensor_t*)(parameterPack[2]));
 }
