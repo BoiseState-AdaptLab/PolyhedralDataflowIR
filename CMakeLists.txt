@@ -10,7 +10,7 @@ include_directories(lib/iegenlib/src
                     lib/chill/omega/code_gen/include lib/chill/omega/parser
                     lib/gtest  lib/gtest/include
                     lib/eigen lib/eigen/unsupported
-                    lib/papi/src
+                    lib/taco/include
                     out src test
 )
 
@@ -31,7 +31,7 @@ set(IEGEN_FILES  lib/iegenlib/src/set_relation/environment.cc
                  lib/iegenlib/src/set_relation/set_relation.cc
                  lib/iegenlib/src/set_relation/SubMap.cc
                  lib/iegenlib/src/set_relation/TupleDecl.cc
-                 lib/iegenlib/src/set_relation/UFCallMap.cc
+                 lib/iegenlib/src/set_relation/UFCallMlib/taco/includeap.cc
                  lib/iegenlib/src/set_relation/UninterpFunc.cc
                  lib/iegenlib/src/util/util.cc
                  lib/iegenlib/src/parser/gen_scanner.cc
@@ -162,9 +162,15 @@ set(TESTING "true")
 #set(PAPI_ON "true")
 #set(PARBUILD "true")
 
-link_directories(lib)
+link_directories(lib lib/taco/lib)
 if (PAPI_ON)
+    include_directories(lib/papi/src)
     link_directories(lib/papi/src lib/papi/src/libpfm4/lib)
+endif()
+
+set(TACO_ON, "true")
+if (TACO_ON)
+    link_directories(lib/taco/lib)
 endif()
 
 if (TESTING)
@@ -178,7 +184,7 @@ if (TESTING)
 
     set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
             test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp
-            test/JacobiTest.cpp test/MiniFluxDivTest.cpp) # test/TensorDecompTest.cpp)
+            test/JacobiTest.cpp test/MiniFluxDivTest.cpp test/TensAlgCompTest.cpp) # test/TensorDecompTest.cpp)
     #set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
     #               test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O0")
@@ -191,10 +197,11 @@ if (TESTING)
         target_link_libraries(edslTest papi pfm)
         target_compile_definitions(edslTest PRIVATE PAPI_ON=1)
     else()
-        target_link_libraries(edslTest likwid) # blas lapack lapacke splatt)
+        target_link_libraries(edslTest likwid taco cudart) # blas lapack lapacke splatt)
     endif()
 
-    add_test(driver eDSLTest ConjGradCOOTest ConjGradCSRTest JacobiTest)   # TensorDecompTest)
+    target_link_libraries(edslTest ${LINK_LIBS})
+    add_test(driver eDSLTest ConjGradCOOTest ConjGradCSRTest TensAlgCompTest) # JacobiTest) # TensorDecompTest)
     #add_test(driver ConjGradCOOTest ConjGradCSRTest)# TensorDecompTest)
 
 elseif (MAKELIB)
