@@ -22,15 +22,6 @@ namespace test {
         virtual ~TensAlgCompTest() {}
 
         void SetUp(const string& filename, const int rank = 10) {
-            //_rank = rank;
-
-//            Use matrix addition,
-//            C(i,j) = A(i,j) + B(i,j)
-//            Or Hadamard product,
-//            C(i,j) = A(i,j) * B(i,j)
-//
-//            Where A is input format, C is output, and B is zeros if sum, or ones if product.
-
             const Format csr({Dense, Sparse}, {0,1});
             const Format csc({Dense, Sparse}, {1,0});
             const Format dcsr({Sparse, Sparse}, {0,1});
@@ -42,9 +33,7 @@ namespace test {
             const ModeFormat::Property unique = ModeFormat::NOT_UNIQUE;
             const Format coo({Compressed({ordered,unique}), Singleton({ordered,unique})}, {0,1});
 
-            // Load a sparse matrix from file (stored in the Matrix Market format) and
-            // store it as a compressed sparse row matrix. Matrices correspond to order-2
-            // tensors in taco.
+            // Load a sparse matrix from file (stored in the Matrix Market format)
             //Tensor<double> A = read(filename, csr);
 
             const int N = 4;
@@ -75,15 +64,15 @@ namespace test {
         void InitMatrix(Tensor<double>& mtx, double val = 0.0) {
             for (int i = 0; i < mtx.getDimension(0); ++i) {
                 for (int j = 0; j < mtx.getDimension(1); ++j) {
-                    mtx.insert({i,j}, 1.0);
+                    mtx.insert({i,j}, val);
                 }
             }
             //mtx.pack();
         }
 
-        void RandMatrix(Tensor<double>& mtx, double val = 0.0) {
+        void RandMatrix(Tensor<double>& mtx, double min = 0.0, double max = 1.0) {
             default_random_engine gen(0);
-            uniform_real_distribution<double> unif(0.0, 1.0);
+            uniform_real_distribution<double> unif(min, max);
 
             for (int i = 0; i < mtx.getDimension(0); ++i) {
                 for (int j = 0; j < mtx.getDimension(1); ++j) {
@@ -92,10 +81,6 @@ namespace test {
             }
             //mtx.pack();
         }
-
-        virtual void TearDown() {
-        }
-
     };
 
     TEST_F(TensAlgCompTest, Convert) {
