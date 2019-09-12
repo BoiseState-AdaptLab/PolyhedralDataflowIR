@@ -32,25 +32,28 @@ namespace test {
 //            Where A is input format, C is output, and B is zeros if sum, or ones if product.
 
             Format csr({Dense,Sparse});
-            Format  dm({Dense,Dense});
+            Format dns({Dense,Dense});
             Format coo({Sparse,Singleton});
             Format dcsr({Sparse,Sparse});
+            Format bcsr({Dense,Sparse,Dense,Dense});
 
             // Load a sparse matrix from file (stored in the Matrix Market format) and
             // store it as a compressed sparse row matrix. Matrices correspond to order-2
             // tensors in taco.
             //Tensor<double> A = read(filename, csr);
-            Tensor<double> A({4, 4}, csr);
+
+            const int N = 4;
+
+            Tensor<double> A({N, N}, csr);
             RandMatrix(A);
 
-            Tensor<double> B({A.getDimension(0), A.getDimension(1)}, dm);
+            Tensor<double> B({N, N}, dns);
             InitMatrix(B, 1.0);
 
-            Tensor<double> C({A.getDimension(0), A.getDimension(1)}, coo);
+            Tensor<double> C({N, N}, coo);
             InitMatrix(C);
 
-            IndexVar i, j; //, k, l;
-            // Hadamard product:
+            IndexVar i, j;
             C(i,j) = A(i,j) * B(i,j);
 
             C.compile();

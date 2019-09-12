@@ -7,7 +7,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fPIC -DPIC -Xpreprocessor -fopenmp -ftre
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -g -fPIC -DPIC -Xpreprocessor -fopenmp -ftree-vectorize -funroll-all-loops -O3")
 
-#set(OSKI_BUILD "true")
+set(OSKI_BUILD "true")
 if (OSKI_BUILD)
     execute_process(COMMAND oski_build.sh WORKING_DIRECTORY ./lib)
 endif()
@@ -26,7 +26,7 @@ target_link_libraries(oski_bsr m omp oski oskilt oski_Tid oski_mat_CSR_Tid oski_
         oski_mat_MBCSR_Tid oski_mat_GCSR_Tid oski_mat_CB_Tid oski_mat_VBR_Tid oski_mat_DENSE_Tid
         oski_heur_regprof_Tid oski_heur_symmrb_Tid oski_heur_mregblock_Tid)
 
-#set(SPLATT_BUILD "true")
+set(SPLATT_BUILD "true")
 if (SPLATT_BUILD)
     execute_process(COMMAND splatt_build.sh WORKING_DIRECTORY ./lib)
 endif()
