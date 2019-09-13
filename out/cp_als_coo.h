@@ -23,8 +23,11 @@ fprintf(stderr,"}\n");}
 #define urand(m) (rand()/nextafter(RAND_MAX,DBL_MAX)+(m))
 #define pinv(A,Ainv) (mp_pinv((A),(Ainv),R))
 #define A(i,r) A[offset2((i),(r),(R))]
+#define A_T(i,r) A[offset2((r),(i),(I))]
 #define B(j,r) B[offset2((j),(r),(R))]
+#define B_T(j,r) B[offset2((r),(j),(J))]
 #define C(k,r) C[offset2((k),(r),(R))]
+#define C_T(k,r) C[offset2((r),(k),(K))]
 #define V(r,q) V[offset2((r),(q),(R))]
 #define Y(r,q) Y[offset2((r),(q),(R))]
 #define Anew(i,r) Anew[offset2((i),(r),(R))]

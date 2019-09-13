@@ -141,7 +141,7 @@ namespace test {
     };
 
     TEST_F(TensorDecompTest, CPD) {
-        SetUp("./data/tensor/matmul_5-5-5.tns", 10, 1);
+        SetUp("./data/tensor/matmul_5-5-5.tns", 10, 11);
         Run();
         Verify();
         Assert();

@@ -70,9 +70,9 @@ gsl_matrix* moore_penrose_pinv(gsl_matrix *A, const double rcond) {
         }
     }
 
-    if (_tmp_mat != NULL) {
-        gsl_matrix_free(_tmp_mat);
-    }
+//    if (_tmp_mat != NULL) {
+//        gsl_matrix_free(_tmp_mat);
+//    }
 
     /* two dot products to obtain pseudoinverse */
     _tmp_mat = gsl_matrix_alloc(m, n);
@@ -99,11 +99,21 @@ gsl_matrix* moore_penrose_pinv(gsl_matrix *A, const double rcond) {
 
 float* mp_pinv(const float* a, float* a_inv, int N) {
     gsl_matrix* A = gsl_matrix_alloc(N, N);
-    memcpy(gsl_matrix_ptr(A, 0, 0), a, N * N * sizeof(double));
+    double* ptr = gsl_matrix_ptr(A, 0, 0);
+    //memcpy(ptr, a, N * N * sizeof(float));
+    for (unsigned i = 0; i < N * N; i++) {
+        ptr[i] = a[i];
+    }
 
     gsl_matrix* A_inv = moore_penrose_pinv(A, 1E-15);
-    memcpy(a_inv, gsl_matrix_ptr(A_inv, 0, 0), N * N * sizeof(double));
+    ptr = gsl_matrix_ptr(A_inv, 0, 0);
+    //memcpy(a_inv, ptr, N * N * sizeof(float));
+    for (unsigned i = 0; i < N * N; i++) {
+        a_inv[i] = ptr[i];
+    }
+
     gsl_matrix_free(A);
+    gsl_matrix_free(A_inv);
 
     return a_inv;
 }
