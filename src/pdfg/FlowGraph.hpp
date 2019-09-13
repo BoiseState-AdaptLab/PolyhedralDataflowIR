@@ -1133,10 +1133,10 @@ namespace pdfg {
             inext = ig->last_leaf();
 
             //if (curr->label() == "consToPrim1" || curr->label() == "laplacian" || curr->label() == "interpL_d1" || curr->label() == "interpH_d1") {
-            if (curr->label() == "dx") {
-                cerr << ig->to_dot() << endl;
-                int stop = 1;
-            }
+//            if (curr->label() == "Assq") {
+//                cerr << ig->to_dot() << endl;
+//                int stop = 1;
+//            }
 
             // 3) Compute initial shift from loop bounds
             IntTuple prevLowers = to_int(prev->comp()->lowers());

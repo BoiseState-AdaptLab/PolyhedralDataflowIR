@@ -519,7 +519,7 @@ namespace pdfg {
                 } else {
                     line += "time(0)";
                 }
-                line += "\n";
+                line += ");\n";
                 _body.push_back(line);
                 define("urand(m)", "(rand()/nextafter(RAND_MAX,DBL_MAX)+(m))");
             }

@@ -872,18 +872,20 @@ TEST(eDSLTest, CP_ALS_COO) {
 
     // Ignore outer-T loop for now, get one time step working...
     //int n = 0;
+    int s = 0;
     for (int n = 0; n < N; n++) {
         //Comp vinit("Vinit", sca, arrInit(V, 1.0));
-        Comp vinit("Vinit", had, (V(r,q)=one+0));
+        Comp vinit("Vinit" + to_string(n), had, (V(r,q)=one+0));
         for (int p = 0; p < N; p++) {
             if (n != p) {
                 // MatrixMult: U(m)^T * U(m)
                 //Comp yinit("Yinit" + to_string(p), sca, memSet(Y));
-                Comp yinit("Yinit" + to_string(p), had, (Y(r,q)=zero+0));
+                Comp yinit("Yinit" + to_string(s), had, (Y(r,q)=zero+0));
                 Space mmul(names[p] + "mmul", 0 <= r < R ^ 0 <= q < R ^ 0 <= iters[p] < uppers[p]);
-                Comp mm(names[p] + "mm", mmul, (Y(r,q) += matrices[p](iters[p],r) * matrices[p](q,iters[p])));
+                Comp mm(names[p] + "Ymm" + to_string(s), mmul, (Y(r,q) += matrices[p](iters[p],r) * matrices[p](q,iters[p])));
                 // Hadamard: V *= Y
-                Comp hp(names[n] + "hp" + to_string(p), had, (V(r,q) *= Y(r,q)));
+                Comp hp("VYhp" + to_string(s), had, (V(r,q) *= Y(r,q)));
+                s += 1;
             }
         }
 
@@ -902,7 +904,8 @@ TEST(eDSLTest, CP_ALS_COO) {
         Comp mmp(names[n] + "mmp", pmm, (new_mtx[n](iters[n],r) += new_mtx[n](iters[n],q) * Vinv(r,q)));
 
         // Normalize...
-        Space sum(names[n] + "sum", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        //Space sum(names[n] + "sum", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
+        Space sum(names[n] + "sum", 0 <= r < R ^ 0 <= iters[n] < uppers[n]);
         Comp ssq(names[n] + "ssq", sum, (sums(r) += new_mtx[n](iters[n],r) * new_mtx[n](iters[n],r)));
         Comp norm(names[n] + "norm", vec, (lmbda(r) = sqrt(sums(r))));
         // U[n] = Unew / lmbda
@@ -912,7 +915,7 @@ TEST(eDSLTest, CP_ALS_COO) {
 
     fuse(); // Fuse-all nodes...
     print("out/" + fxn + ".json");
-    string result = codegen("out/" + fxn + ".o");
+    string result = codegen("out/" + fxn + ".o", "", "C++");
 
     // cp_als in sktensor returns Kruskal tensor P=(U,\lambda), where U(0)=A, U(1)=B, U(2)=C
 
