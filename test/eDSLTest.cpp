@@ -821,8 +821,7 @@ TEST(eDSLTest, CP_ALS) {
 TEST(eDSLTest, CP_ALS_COO) {
     const unsigned N = 3;
 
-    Iter m("m"), q("q"), r("r");
-    //Real one(1.0);
+    Iter m('m'), q('q'), r('r'), t('t');
     Const M("M"), R("R"), T("T");
     Space X("X",M);
 
@@ -836,11 +835,10 @@ TEST(eDSLTest, CP_ALS_COO) {
     Space V("V", R, R), Vinv("Vinv", R, R);
     Space Y("Y", R, R);
     Space lmbda("lmbda", R), sums("sums",R);
-    Space sca;
     Real one(1.0);
     Real zero(0.0);
 
-    Space coo("coo", 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
+    Space coo("coo", 0 <= t < T ^ 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
 
     for (int n = 0; n < N; n++) {
         names[n] = string(1, 'A' + n);
@@ -856,8 +854,9 @@ TEST(eDSLTest, CP_ALS_COO) {
     }
 
     Space krp = coo ^ 0 <= r < R;
-    Space vec("vec", 0 <= r < R);
-    Space had("had", 0 <= r < R ^ 0 <= q < R);
+    Space vec("vec", 0 <= t < T ^ 0 <= r < R);
+    Space had("had", 0 <= t < T ^ 0 <= r < R ^ 0 <= q < R);
+    Space sca("sca", 0 <= t < T);
     names[N] = "lmbda";
 
     string fxn = "cp_als_coo";
@@ -881,8 +880,9 @@ TEST(eDSLTest, CP_ALS_COO) {
                 // MatrixMult: U(m)^T * U(m)
                 //Comp yinit("Yinit" + to_string(p), sca, memSet(Y));
                 Comp yinit("Yinit" + to_string(s), had, (Y(r,q)=zero+0));
-                Space mmul(names[p] + "mmul", 0 <= r < R ^ 0 <= q < R ^ 0 <= iters[p] < uppers[p]);
-                Comp mm(names[p] + "Ymm" + to_string(s), mmul, (Y(r,q) += matrices[p](iters[p],r) * matrices[p](q,iters[p])));
+                Space mmul(names[p] + "mmul", 0 <= t < T ^ 0 <= r < R ^ 0 <= q < R ^ 0 <= iters[p] < uppers[p]);
+                Comp mm(names[p] + "Ymm" + to_string(s), mmul, (Y(r,q) +=
+                        matrices[p](iters[p],r) * matrices[p](q,iters[p])));
                 // Hadamard: V *= Y
                 Comp hp("VYhp" + to_string(s), had, (V(r,q) *= Y(r,q)));
                 s += 1;
@@ -900,12 +900,12 @@ TEST(eDSLTest, CP_ALS_COO) {
 
         // Pinv...
         Comp inv(names[n] + "pinv", sca, Vinv=pinv(V,Vinv));
-        Space pmm(names[n] + "pmm", 0 <= iters[n] < uppers[n] ^ 0 <= r < R ^ 0 <= q < R);
+        Space pmm(names[n] + "pmm", 0 <= t < T ^ 0 <= iters[n] < uppers[n] ^ 0 <= r < R ^ 0 <= q < R);
         Comp mmp(names[n] + "mmp", pmm, (new_mtx[n](iters[n],r) += new_mtx[n](iters[n],q) * Vinv(r,q)));
 
         // Normalize...
         //Space sum(names[n] + "sum", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
-        Space sum(names[n] + "sum", 0 <= r < R ^ 0 <= iters[n] < uppers[n]);
+        Space sum(names[n] + "sum", 0 <= t < T ^ 0 <= r < R ^ 0 <= iters[n] < uppers[n]);
         Comp ssq(names[n] + "ssq", sum, (sums(r) += new_mtx[n](iters[n],r) * new_mtx[n](iters[n],r)));
         Comp norm(names[n] + "norm", vec, (lmbda(r) = sqrt(sums(r))));
         // U[n] = Unew / lmbda

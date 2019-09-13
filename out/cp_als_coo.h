@@ -34,12 +34,12 @@ fprintf(stderr,"}\n");}
 #define lmbda(r) lmbda[(r)]
 #define Bnew(j,r) Bnew[offset2((j),(r),(R))]
 #define Cnew(k,r) Cnew[offset2((k),(r),(R))]
-#define ind0(m) ind0[(m)]
-#define ind1(m) ind1[(m)]
-#define ind2(m) ind2[(m)]
+#define ind0(t,m) ind0[(m)]
+#define ind1(t,m) ind1[(m)]
+#define ind2(t,m) ind2[(m)]
 
-void cp_als_coo(const float* X, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, float* A, float* B, float* C, float* lmbda);
-inline void cp_als_coo(const float* X, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, float* A, float* B, float* C, float* lmbda) {
+void cp_als_coo(const float* X, const unsigned T, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, float* A, float* B, float* C, float* lmbda);
+inline void cp_als_coo(const float* X, const unsigned T, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, float* A, float* B, float* C, float* lmbda) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     float* __restrict__ V = (float*) calloc((R)*(R),sizeof(float));
     float* __restrict__ Y = (float*) calloc((R)*(R),sizeof(float));
@@ -59,213 +59,217 @@ inline void cp_als_coo(const float* X, const unsigned I, const unsigned J, const
 #undef s2
 #define s2(r,k) C((k),(r))=urand(0)
 #undef s3
-#define s3(r,q) V((r),(q))=1.000000
+#define s3(t,r,q) V((r),(q))=1.000000
 #undef s4
-#define s4(r,q) Y((r),(q))=0.000000
+#define s4(t,r,q) Y((r),(q))=0.000000
 #undef s5
-#define s5(r,q,j) Y((r),(q))+=B((j),(r))*B((q),(j))
+#define s5(t,r,q,j) Y((r),(q))+=B((j),(r))*B((q),(j))
 #undef s6
-#define s6(r,q) V((r),(q))*=Y((r),(q))
+#define s6(t,r,q) V((r),(q))*=Y((r),(q))
 #undef s7
-#define s7(r,q) Y((r),(q))=0.000000
+#define s7(t,r,q) Y((r),(q))=0.000000
 #undef s8
-#define s8(r,q,k) Y((r),(q))+=C((k),(r))*C((q),(k))
+#define s8(t,r,q,k) Y((r),(q))+=C((k),(r))*C((q),(k))
 #undef s9
-#define s9(r,q) V((r),(q))*=Y((r),(q))
+#define s9(t,r,q) V((r),(q))*=Y((r),(q))
 #undef s10
-#define s10(m,i,j,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
+#define s10(t,m,i,j,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
 #undef s11
-#define s11() Vinv=pinv(V,Vinv)
+#define s11(t) Vinv=pinv(V,Vinv)
 #undef s12
-#define s12(i,r,q) Anew((i),(r))+=Anew((i),(q))*Vinv((r),(q))
+#define s12(t,i,r,q) Anew((i),(r))+=Anew((i),(q))*Vinv((r),(q))
 #undef s13
-#define s13(r,i) sums((r))+=Anew((i),(r))*Anew((i),(r))
+#define s13(t,r,i) sums((r))+=Anew((i),(r))*Anew((i),(r))
 #undef s14
-#define s14(r) lmbda((r))=sqrt(sums((r)))
+#define s14(t,r) lmbda((r))=sqrt(sums((r)))
 #undef s15
-#define s15(r,i) A((i),(r))=Anew((i),(r))/lmbda((r))
+#define s15(t,r,i) A((i),(r))=Anew((i),(r))/lmbda((r))
 #undef s16
-#define s16(r,q) V((r),(q))=1.000000
+#define s16(t,r,q) V((r),(q))=1.000000
 #undef s17
-#define s17(r,q) Y((r),(q))=0.000000
+#define s17(t,r,q) Y((r),(q))=0.000000
 #undef s18
-#define s18(r,q,i) Y((r),(q))+=A((i),(r))*A((q),(i))
+#define s18(t,r,q,i) Y((r),(q))+=A((i),(r))*A((q),(i))
 #undef s19
-#define s19(r,q) V((r),(q))*=Y((r),(q))
+#define s19(t,r,q) V((r),(q))*=Y((r),(q))
 #undef s20
-#define s20(r,q) Y((r),(q))=0.000000
+#define s20(t,r,q) Y((r),(q))=0.000000
 #undef s21
-#define s21(r,q,k) Y((r),(q))+=C((k),(r))*C((q),(k))
+#define s21(t,r,q,k) Y((r),(q))+=C((k),(r))*C((q),(k))
 #undef s22
-#define s22(r,q) V((r),(q))*=Y((r),(q))
+#define s22(t,r,q) V((r),(q))*=Y((r),(q))
 #undef s23
-#define s23(m,i,j,k,r) Bnew((j),(r))+=X((m))*C((k),(r))*A((i),(r))
+#define s23(t,m,i,j,k,r) Bnew((j),(r))+=X((m))*C((k),(r))*A((i),(r))
 #undef s24
-#define s24() Vinv=pinv(V,Vinv)
+#define s24(t) Vinv=pinv(V,Vinv)
 #undef s25
-#define s25(j,r,q) Bnew((j),(r))+=Bnew((j),(q))*Vinv((r),(q))
+#define s25(t,j,r,q) Bnew((j),(r))+=Bnew((j),(q))*Vinv((r),(q))
 #undef s26
-#define s26(r,j) sums((r))+=Bnew((j),(r))*Bnew((j),(r))
+#define s26(t,r,j) sums((r))+=Bnew((j),(r))*Bnew((j),(r))
 #undef s27
-#define s27(r) lmbda((r))=sqrt(sums((r)))
+#define s27(t,r) lmbda((r))=sqrt(sums((r)))
 #undef s28
-#define s28(r,j) B((j),(r))=Bnew((j),(r))/lmbda((r))
+#define s28(t,r,j) B((j),(r))=Bnew((j),(r))/lmbda((r))
 #undef s29
-#define s29(r,q) V((r),(q))=1.000000
+#define s29(t,r,q) V((r),(q))=1.000000
 #undef s30
-#define s30(r,q) Y((r),(q))=0.000000
+#define s30(t,r,q) Y((r),(q))=0.000000
 #undef s31
-#define s31(r,q,i) Y((r),(q))+=A((i),(r))*A((q),(i))
+#define s31(t,r,q,i) Y((r),(q))+=A((i),(r))*A((q),(i))
 #undef s32
-#define s32(r,q) V((r),(q))*=Y((r),(q))
+#define s32(t,r,q) V((r),(q))*=Y((r),(q))
 #undef s33
-#define s33(r,q) Y((r),(q))=0.000000
+#define s33(t,r,q) Y((r),(q))=0.000000
 #undef s34
-#define s34(r,q,j) Y((r),(q))+=B((j),(r))*B((q),(j))
+#define s34(t,r,q,j) Y((r),(q))+=B((j),(r))*B((q),(j))
 #undef s35
-#define s35(r,q) V((r),(q))*=Y((r),(q))
+#define s35(t,r,q) V((r),(q))*=Y((r),(q))
 #undef s36
-#define s36(m,i,j,k,r) Cnew((k),(r))+=X((m))*B((j),(r))*A((i),(r))
+#define s36(t,m,i,j,k,r) Cnew((k),(r))+=X((m))*B((j),(r))*A((i),(r))
 #undef s37
-#define s37() Vinv=pinv(V,Vinv)
+#define s37(t) Vinv=pinv(V,Vinv)
 #undef s38
-#define s38(k,r,q) Cnew((k),(r))+=Cnew((k),(q))*Vinv((r),(q))
+#define s38(t,k,r,q) Cnew((k),(r))+=Cnew((k),(q))*Vinv((r),(q))
 #undef s39
-#define s39(r,k) sums((r))+=Cnew((k),(r))*Cnew((k),(r))
+#define s39(t,r,k) sums((r))+=Cnew((k),(r))*Cnew((k),(r))
 #undef s40
-#define s40(r) lmbda((r))=sqrt(sums((r)))
+#define s40(t,r) lmbda((r))=sqrt(sums((r)))
 #undef s41
-#define s41(r,k) C((k),(r))=Cnew((k),(r))/lmbda((r))
+#define s41(t,r,k) C((k),(r))=Cnew((k),(r))/lmbda((r))
 
-    for(t2 = 0; t2 <= R-1; t2++) {
-        for(t4 = 0; t4 <= I-1; t4++) {
-            s0(t2,t4);
-        }
-        for(t4 = 0; t4 <= J-1; t4++) {
-            s1(t2,t4);
-        }
-        for(t4 = 0; t4 <= K-1; t4++) {
-            s2(t2,t4);
-        }
-        for(t4 = 0; t4 <= R-1; t4++) {
-            s3(t2,t4);
-            s4(t2,t4);
-            for(t6 = 0; t6 <= J-1; t6++) {
-                s5(t2,t4,t6);
+for(t2 = 0; t2 <= R-1; t2++) {
+    for(t4 = 0; t4 <= I-1; t4++) {
+        s0(t2,t4);
+    }
+    for(t4 = 0; t4 <= J-1; t4++) {
+        s1(t2,t4);
+    }
+    for(t4 = 0; t4 <= K-1; t4++) {
+        s2(t2,t4);
+    }
+}
+for(t2 = 0; t2 <= T-1; t2++) {
+    for(t4 = 0; t4 <= R-1; t4++) {
+        for(t6 = 0; t6 <= R-1; t6++) {
+            s3(t2,t4,t6);
+            s4(t2,t4,t6);
+            for(t8 = 0; t8 <= J-1; t8++) {
+                s5(t2,t4,t6,t8);
             }
-            s6(t2,t4);
-            s7(t2,t4);
-            for(t6 = 0; t6 <= K-1; t6++) {
-                s8(t2,t4,t6);
+            s6(t2,t4,t6);
+            s7(t2,t4,t6);
+            for(t8 = 0; t8 <= K-1; t8++) {
+                s8(t2,t4,t6,t8);
             }
-            s9(t2,t4);
+            s9(t2,t4,t6);
         }
     }
-    for(t2 = 0; t2 <= M-1; t2++) {
-        t4=ind0(t2);
-        t6=ind1(t2);
-        t8=ind2(t2);
-        for(t10 = 0; t10 <= R-1; t10++) {
-            s10(t2,t4,t6,t8,t10);
+    for(t4 = 0; t4 <= M-1; t4++) {
+        t6=ind0(t2,t4);
+        t8=ind1(t2,t4);
+        t10=ind2(t2,t4);
+        for(t12 = 0; t12 <= R-1; t12++) {
+            s10(t2,t4,t6,t8,t10,t12);
         }
     }
-    s11();
-    for(t2 = 0; t2 <= I-1; t2++) {
-        for(t4 = 0; t4 <= R-1; t4++) {
-            for(t6 = 0; t6 <= R-1; t6++) {
-                s12(t2,t4,t6);
-            }
-        }
-    }
-    for(t2 = 0; t2 <= R-1; t2++) {
-        for(t4 = 0; t4 <= I-1; t4++) {
-            s13(t2,t4);
-        }
-        s14(t2);
-        for(t4 = 0; t4 <= I-1; t4++) {
-            s15(t2,t4);
-        }
-    }
-    for(t2 = 0; t2 <= R-1; t2++) {
-        for(t4 = 0; t4 <= R-1; t4++) {
-            s16(t2,t4);
-            s17(t2,t4);
-            for(t6 = 0; t6 <= I-1; t6++) {
-                s18(t2,t4,t6);
-            }
-            s19(t2,t4);
-            s20(t2,t4);
-            for(t6 = 0; t6 <= K-1; t6++) {
-                s21(t2,t4,t6);
-            }
-            s22(t2,t4);
-        }
-    }
-    for(t2 = 0; t2 <= M-1; t2++) {
-        t4=ind0(t2);
-        t6=ind1(t2);
-        t8=ind2(t2);
-        for(t10 = 0; t10 <= R-1; t10++) {
-            s23(t2,t4,t6,t8,t10);
-        }
-    }
-    s24();
-    for(t2 = 0; t2 <= J-1; t2++) {
-        for(t4 = 0; t4 <= R-1; t4++) {
-            for(t6 = 0; t6 <= R-1; t6++) {
-                s25(t2,t4,t6);
+    s11(t2);
+    for(t4 = 0; t4 <= I-1; t4++) {
+        for(t6 = 0; t6 <= R-1; t6++) {
+            for(t8 = 0; t8 <= R-1; t8++) {
+                s12(t2,t4,t6,t8);
             }
         }
     }
-    for(t2 = 0; t2 <= R-1; t2++) {
-        for(t4 = 0; t4 <= J-1; t4++) {
-            s26(t2,t4);
+    for(t4 = 0; t4 <= R-1; t4++) {
+        for(t6 = 0; t6 <= I-1; t6++) {
+            s13(t2,t4,t6);
         }
-        s27(t2);
-        for(t4 = 0; t4 <= J-1; t4++) {
-            s28(t2,t4);
+        s14(t2,t4);
+        for(t6 = 0; t6 <= I-1; t6++) {
+            s15(t2,t4,t6);
         }
     }
-    for(t2 = 0; t2 <= R-1; t2++) {
-        for(t4 = 0; t4 <= R-1; t4++) {
-            s29(t2,t4);
-            s30(t2,t4);
-            for(t6 = 0; t6 <= I-1; t6++) {
-                s31(t2,t4,t6);
+    for(t4 = 0; t4 <= R-1; t4++) {
+        for(t6 = 0; t6 <= R-1; t6++) {
+            s16(t2,t4,t6);
+            s17(t2,t4,t6);
+            for(t8 = 0; t8 <= I-1; t8++) {
+                s18(t2,t4,t6,t8);
             }
-            s32(t2,t4);
-            s33(t2,t4);
-            for(t6 = 0; t6 <= J-1; t6++) {
-                s34(t2,t4,t6);
+            s19(t2,t4,t6);
+            s20(t2,t4,t6);
+            for(t8 = 0; t8 <= K-1; t8++) {
+                s21(t2,t4,t6,t8);
             }
-            s35(t2,t4);
+            s22(t2,t4,t6);
         }
     }
-    for(t2 = 0; t2 <= M-1; t2++) {
-        t4=ind0(t2);
-        t6=ind1(t2);
-        t8=ind2(t2);
-        for(t10 = 0; t10 <= R-1; t10++) {
-            s36(t2,t4,t6,t8,t10);
+    for(t4 = 0; t4 <= M-1; t4++) {
+        t6=ind0(t2,t4);
+        t8=ind1(t2,t4);
+        t10=ind2(t2,t4);
+        for(t12 = 0; t12 <= R-1; t12++) {
+            s23(t2,t4,t6,t8,t10,t12);
         }
     }
-    s37();
-    for(t2 = 0; t2 <= K-1; t2++) {
-        for(t4 = 0; t4 <= R-1; t4++) {
-            for(t6 = 0; t6 <= R-1; t6++) {
-                s38(t2,t4,t6);
+    s24(t2);
+    for(t4 = 0; t4 <= J-1; t4++) {
+        for(t6 = 0; t6 <= R-1; t6++) {
+            for(t8 = 0; t8 <= R-1; t8++) {
+                s25(t2,t4,t6,t8);
             }
         }
     }
-    for(t2 = 0; t2 <= R-1; t2++) {
-        for(t4 = 0; t4 <= K-1; t4++) {
-            s39(t2,t4);
+    for(t4 = 0; t4 <= R-1; t4++) {
+        for(t6 = 0; t6 <= J-1; t6++) {
+            s26(t2,t4,t6);
         }
-        s40(t2);
-        for(t4 = 0; t4 <= K-1; t4++) {
-            s41(t2,t4);
+        s27(t2,t4);
+        for(t6 = 0; t6 <= J-1; t6++) {
+            s28(t2,t4,t6);
         }
     }
+    for(t4 = 0; t4 <= R-1; t4++) {
+        for(t6 = 0; t6 <= R-1; t6++) {
+            s29(t2,t4,t6);
+            s30(t2,t4,t6);
+            for(t8 = 0; t8 <= I-1; t8++) {
+                s31(t2,t4,t6,t8);
+            }
+            s32(t2,t4,t6);
+            s33(t2,t4,t6);
+            for(t8 = 0; t8 <= J-1; t8++) {
+                s34(t2,t4,t6,t8);
+            }
+            s35(t2,t4,t6);
+        }
+    }
+    for(t4 = 0; t4 <= M-1; t4++) {
+        t6=ind0(t2,t4);
+        t8=ind1(t2,t4);
+        t10=ind2(t2,t4);
+        for(t12 = 0; t12 <= R-1; t12++) {
+            s36(t2,t4,t6,t8,t10,t12);
+        }
+    }
+    s37(t2);
+    for(t4 = 0; t4 <= K-1; t4++) {
+        for(t6 = 0; t6 <= R-1; t6++) {
+            for(t8 = 0; t8 <= R-1; t8++) {
+                s38(t2,t4,t6,t8);
+            }
+        }
+    }
+    for(t4 = 0; t4 <= R-1; t4++) {
+        for(t6 = 0; t6 <= K-1; t6++) {
+            s39(t2,t4,t6);
+        }
+        s40(t2,t4);
+        for(t6 = 0; t6 <= K-1; t6++) {
+            s41(t2,t4,t6);
+        }
+    }
+}
 
     free(V);
     free(Y);

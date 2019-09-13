@@ -27,8 +27,9 @@ namespace test {
 
         virtual ~TensorDecompTest() {}
 
-        void SetUp(const string& filename, const int rank = 10) {
+        void SetUp(const string& filename, const int rank = 10, const int niter = 50) {
             _rank = rank;
+            _niter = niter;
 
             // Read tensor file
             TensorIO tns(filename, rank);
@@ -86,7 +87,7 @@ namespace test {
         virtual void Execute() {
             //unsigned seed = 1568224077;
             //cp_als_coo(const float* X, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, float* A, float* B, float* C, float* lmbda)
-            cp_als_coo(_vals, _dims[0], _dims[1], _dims[2], _nnz, _rank, &_indices[0], &_indices[_nnz], &_indices[_nnz * 2], _factors[0], _factors[1], _factors[2], _lambda);
+            cp_als_coo(_vals, _niter, _dims[0], _dims[1], _dims[2], _nnz, _rank, &_indices[0], &_indices[_nnz], &_indices[_nnz * 2], _factors[0], _factors[1], _factors[2], _lambda);
         }
 
         virtual void Evaluate() {
@@ -120,6 +121,7 @@ namespace test {
 //            splatt_free_opts(_opts);
         }
 
+        unsigned _niter;
         unsigned _nnz;
         unsigned _rank;
         unsigned _order;
@@ -139,7 +141,7 @@ namespace test {
     };
 
     TEST_F(TensorDecompTest, CPD) {
-        SetUp("./data/tensor/matmul_5-5-5.tns", 10);
+        SetUp("./data/tensor/matmul_5-5-5.tns", 10, 1);
         Run();
         Verify();
         Assert();
