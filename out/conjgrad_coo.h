@@ -34,7 +34,7 @@ inline double conjgrad_coo(const double* A, const double* b, const unsigned M, c
     double alpha;
     double rs;
     double beta;
-    unsigned t = omp_get_num_threads();
+    //unsigned t = omp_get_num_threads();
 
 // copy+mset+spmv+ddot+rdot0+adiv+xadd+rsub+rdot+bdiv+bmul+dadd
 #undef s0
@@ -63,37 +63,40 @@ memset(s,0,(N)*sizeof(double));\
 #define s10(t,i) d[(i)]=r[(i)]+beta*d[(i)]
 
 #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
-for(t1 = 0; t1 <= N-1; t1++) {
+for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
 }
-for(t1 = 1; t1 <= T; t1++) {
-#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
-for(t2 = 1; t2 <= t; t2 += t) {
+for(t2 = 1; t2 <= T; t2++) {
+//for(t2 = 1; t2 <= t; t2 += t) {
   s1(t2);
-  #pragma omp simd
+  //#pragma omp simd
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
   for(t4 = 0; t4 <= M-1; t4++) {
-    t6=row(t2,t4);
-    t8=col(t2,t4);
-    s2(t2,t4,t6,t8);
+//    t6=row(t2,t4);
+//    t8=col(t2,t4);
+    s2(t2,t4,row(t2,t4),col(t2,t4));
   }
-  #pragma omp simd
+  //#pragma omp simd
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
   for(t4 = 0; t4 <= N-1; t4++) {
     s3(t2,t4);
     s4(t2,t4);
   }
   s5(t2);
-  #pragma omp simd
+  //#pragma omp simd
+  #pragma omp parallel for schedule(auto) private(t2,t4,alpha)
   for(t4 = 0; t4 <= N-1; t4++) {
     s6(t2,t4);
     s7(t2,t4);
     s8(t2,t4);
   }
   s9(t2);
-  #pragma omp simd
+  //#pragma omp simd
+  #pragma omp parallel for schedule(auto) private(t2,t4,beta)
   for(t4 = 0; t4 <= N-1; t4++) {
     s10(t2,t4);
   }
-}
+//}
 }
 
     free(d);
