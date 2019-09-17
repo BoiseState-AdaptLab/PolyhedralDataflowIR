@@ -18,9 +18,9 @@ protected:
 };
 
 TEST_F(ConjGradCOOTest, CG) {
-    //SetUp({"./data/matrix/cant.mtx"});
+    SetUp({"./data/matrix/cant.mtx"});
     //SetUp({"./data/matrix/cg.mtx"});
-    SetUp({"./data/matrix/chesapeake.mtx"});
+    //SetUp({"./data/matrix/chesapeake.mtx"});
     Run();
     Verify();
     Assert();

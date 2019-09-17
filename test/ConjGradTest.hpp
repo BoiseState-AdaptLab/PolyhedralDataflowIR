@@ -97,7 +97,9 @@ namespace test {
 
         virtual void Assert() {
             ASSERT_EQ(_niter, _niter_ref);
+            ASSERT_FALSE(isnan(_x[0]));
             ASSERT_LT(Compare(_x, _x_ref, _ncol), 0);
+            ASSERT_FALSE(isnan(_error));
             ASSERT_LT(Compare(&_error, &_err_ref, 1), 0);
         }
 
