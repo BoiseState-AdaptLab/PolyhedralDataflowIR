@@ -384,6 +384,30 @@ TEST(eDSLTest, COO_CSB_Insp) {
     ASSERT_TRUE(!result.empty());
 }
 
+TEST(eDSLTest, COO_DSR_Insp) {
+    // COO->DSR Inspector:
+    // Here we assume the constraint: row(i-1) <= row(i), 1 <= i < N (i.e., row is sorted)
+    Const N("N"), M("M"), R("R");
+    Iter i('i'), n('n'), j('j'), m('m');
+    Space row("row"), col("col");
+    Space crp("crp"), crow("crow");
+    Space insp1("I_R");
+    Space insp2("Icrp", 1 <= n < M ^ i==row(n));
+
+    string name = "coo_dsr_insp";
+    pdfg::init(name, "R", "d", "u", {"crp", "crow"});
+    Comp insp_init("insp_init", insp1, ((crow(0) = row(0) + 0) ^ (R = crp(1) = Int(1) + 0)));
+    Comp insp_m("insp_m", insp2, (i != row(n-1)), (m += 1));
+    Comp insp_crow("insp_crow", insp2, (crow(m) = i + 0));
+    Comp insp_R("insp_R", insp2, (m >= R), (R = m + 1));
+    Comp insp_crp("insp_crp", insp2, (n >= crp(m+1)), (crp(m+1) = n+1));
+
+    pdfg::fuse({"insp_m", "insp_crow", "insp_R", "insp_crp"});
+    pdfg::print("out/" + name + ".json");
+    string result = pdfg::codegen("out/" + name + ".h", "0", "C++");
+    ASSERT_TRUE(!result.empty());
+}
+
 TEST(eDSLTest, CSR_ELL_Insp) {
     Iter i('i'), j('j'), k('k'), n('n');
     Const N("N"), NNZ("NNZ"), K("K");
@@ -586,6 +610,7 @@ TEST(eDSLTest, ConjGradCOO) {
     Iter t('t'), i('i'), j('j'), n('n');
     Const T('T'), N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
     Func row("row"), col("col");
+    Real zero(0.0);
 
     // Iteration spaces:
     Space cpy("cpy", 0 <= i < N);
@@ -604,6 +629,7 @@ TEST(eDSLTest, ConjGradCOO) {
     init(name, "rs", "d", "", {string("tol")}); //, to_string(0));
 
     Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
+    Comp dinit("dinit", sca, ds=rs0=rs=zero+0);
     Comp mset("mset", sca, memSet(s));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
     Comp ddot("ddot", vec, (ds += d[i]*s[i]));
@@ -631,6 +657,7 @@ TEST(eDSLTest, ConjGradCSR) {
     Iter t('t'), i('i'), j('j'), n('n');
     Const T('T'), N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
     Func rp("rp"), col("col");
+    Real zero(0.0);
 
     // Iteration spaces:
     Space cpy("cpy", 0 <= i < N);
@@ -648,7 +675,9 @@ TEST(eDSLTest, ConjGradCSR) {
     init(name, "rs", "d", "", {string("tol")}, to_string(0));
 
     Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
-    Comp mset("mset", sca, memSet(s));
+    //Comp mset("mset", sca, memSet(s));
+    Comp dinit("dinit", sca, ds=rs0=rs=zero+0);
+    Comp sinit("sinit", vec, (s[i] = zero + 0));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
     Comp ddot("ddot", vec, (ds += d[i]*s[i]));
     Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
@@ -662,6 +691,7 @@ TEST(eDSLTest, ConjGradCSR) {
 
     // Perform fusions
     fuse();
+    parallelize();
 
     perfmodel();        // perfmodel annotates graph with performance attributes.
     print("out/" + name + ".json");

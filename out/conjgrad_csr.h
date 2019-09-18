@@ -40,9 +40,10 @@ inline double conjgrad_csr(const double* A, const double* b, const unsigned N, c
 #undef s0
 #define s0(i) r[(i)]=d[(i)]=b[(i)]
 #undef s1
-#define s1(t) {\
-memset(s,0,(N)*sizeof(double));\
-}
+//#define s1(t) {\
+//memset(s,0,(N)*sizeof(double));\
+//}
+#define s1(t,i) s[(i)]=0.0
 #undef s2
 #define s2(t,i,n,j) s[(i)]+=A[(n)]*d[(j)]
 #undef s3
@@ -66,30 +67,32 @@ memset(s,0,(N)*sizeof(double));\
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
 }
-#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+//#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
 for(t2 = 1; t2 <= T; t2++) {
-  s1(t2);
+  ds=rs0=rs=0.0;
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
   for(t4 = 0; t4 <= N-1; t4++) {
+    s1(t2,t4);
     #pragma omp simd
     for(t6 = rp(t2,t4); t6 <= rp1(t2,t4)-1; t6++) {
       t8=col(t2,t4,t6);
       s2(t2,t4,t6,t8);
     }
   }
-  #pragma omp simd
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
   for(t4 = 0; t4 <= N-1; t4++) {
     s3(t2,t4);
     s4(t2,t4);
   }
   s5(t2);
-  #pragma omp simd
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8,alpha)
   for(t4 = 0; t4 <= N-1; t4++) {
     s6(t2,t4);
     s7(t2,t4);
     s8(t2,t4);
   }
   s9(t2);
-  #pragma omp simd
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8,beta)
   for(t4 = 0; t4 <= N-1; t4++) {
     s10(t2,t4);
   }

@@ -23,14 +23,14 @@ fprintf(stderr,"}\n");}
 #define row(n) row[(n)]
 #define rp(i) rp[(i)]
 
-unsigned coo_csr_insp(const unsigned NNZ, const unsigned* row, unsigned* rp);
-inline unsigned coo_csr_insp(const unsigned NNZ, const unsigned* row, unsigned* rp) {
+unsigned coo_csr_insp(const unsigned M, const unsigned* row, unsigned* rp);
+inline unsigned coo_csr_insp(const unsigned M, const unsigned* row, unsigned* rp) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned N;
 
 // inspN
 #undef s0
-#define s0() N=row(NNZ-1)+1
+#define s0() N=row(M-1)+1
 
 s0();
 
@@ -40,7 +40,9 @@ s0();
 #undef s1
 #define s1(n,i) if (rp((i)) > rp((i)+1)) rp((i)+1)=rp((i))
 
-for(t2 = 0; t2 <= NNZ-1; t2++) {
+//#pragma omp parallel for schedule(auto) private(t2,t4)
+#pragma omp simd
+for(t2 = 0; t2 <= M-1; t2++) {
   t4=row(t2);
   s0(t2,t4);
   s1(t2,t4);
