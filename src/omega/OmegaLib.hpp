@@ -392,10 +392,12 @@ public:
         vector<string> allschedules;
         vector<string> maxiters;
 
+        unsigned nstatements = 1;
         for (const string& name : names) {
             string relname = name;
             string relation = relmap[relname];
             vector<string> schedules = schedmap[relname];
+            nstatements = schedules.size();
 
             string relstr;
             string condstr;
@@ -470,7 +472,7 @@ public:
         }
 
         cerr << oss.str();
-        return parse(oss.str());
+        return parse(oss.str(), nstatements);
     }
 
     /// TODO: This is the legacy version of 'codegen', verify unit tests and then remove it!
@@ -685,7 +687,7 @@ public:
         return parse(oss.str());
     }
 
-    string parse(const string& code) {
+    string parse(const string& code, unsigned nstatements = 1) {
         vector<string> lines;
         if (!code.empty()) {
             istringstream iss(code);
@@ -694,7 +696,10 @@ public:
             //oss << "for (t1 = 0; t1 < N; t1++) {\nprintf(\"Omega+ dies in pain!\\n\");\n}\n";
             lines = Strings::filter(Strings::split(oss.str(), '\n'), PROMPT, true);
         } else {
-            lines.emplace_back("s0();\n");
+            for (unsigned i = 0; i < nstatements; i++) {
+                lines.emplace_back("s" + to_string(i) + "();");
+            }
+            lines.emplace_back("");
         }
         return Strings::join(lines, "\n");
     }

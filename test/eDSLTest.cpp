@@ -395,16 +395,16 @@ TEST(eDSLTest, COO_DSR_Insp) {
     Space insp2("Icrp", 1 <= n < M ^ i==row(n));
 
     string name = "coo_dsr_insp";
-    pdfg::init(name, "R", "d", "u", {"crp", "crow"});
+    pdfg::init(name, "R", "d", "u", {"crp", "crow"}, "0");
     Comp insp_init("insp_init", insp1, ((crow(0) = row(0) + 0) ^ (R = crp(1) = Int(1) + 0)));
-    Comp insp_m("insp_m", insp2, (i != row(n-1)), (m += 1));
-    Comp insp_crow("insp_crow", insp2, (crow(m) = i + 0));
-    Comp insp_R("insp_R", insp2, (m >= R), (R = m + 1));
-    Comp insp_crp("insp_crp", insp2, (n >= crp(m+1)), (crp(m+1) = n+1));
+    Comp insp_m("insp_m", insp2, (i != row(n-1)), (N += 1));
+    Comp insp_crow("insp_crow", insp2, (crow(N) = i + 0));
+    Comp insp_R("insp_R", insp2, (N >= R), (R = N + 1));
+    Comp insp_crp("insp_crp", insp2, (n >= crp(N+1)), (crp(N+1) = n+1));
 
     pdfg::fuse({"insp_m", "insp_crow", "insp_R", "insp_crp"});
     pdfg::print("out/" + name + ".json");
-    string result = pdfg::codegen("out/" + name + ".h", "0", "C++");
+    string result = pdfg::codegen("out/" + name + ".h", "", "C++");
     ASSERT_TRUE(!result.empty());
 }
 
@@ -676,6 +676,54 @@ TEST(eDSLTest, ConjGradCSR) {
 
     Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
     //Comp mset("mset", sca, memSet(s));
+    Comp dinit("dinit", sca, ds=rs0=rs=zero+0);
+    Comp sinit("sinit", vec, (s[i] = zero + 0));
+    Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
+    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    Comp adiv("adiv", sca, (alpha = rs0/ds));
+    Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
+    Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
+    Comp rdot("rdot", vec, (rs += r[i]*r[i]));
+    Comp bdiv("bdiv", sca, (beta = rs / rs0));
+    Comp dadd("dadd", vec, (d[i] = r[i] + beta * d[i]));     // FMA: a+b*c
+    //Comp check("check", sca, (rs <= tol), (t=T+1));
+
+    // Perform fusions
+    fuse();
+    parallelize();
+
+    perfmodel();        // perfmodel annotates graph with performance attributes.
+    print("out/" + name + ".json");
+    //Digraph itergraph = ConjGradTest::CSRGraph();
+    //reschedule(itergraph);
+    string result = codegen("out/" + name + ".o", "", "C++", "auto");
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, ConjGradDSR) {
+    Iter t('t'), i('i'), j('j'), n('n');
+    Const T('T'), N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
+    Func rp("rp"), col("col");
+    Real zero(0.0);
+
+    // Iteration spaces:
+    Space cpy("cpy", 0 <= i < N);
+    Space sca("sca", 1 <= t <= T);
+    Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
+    Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    Space mtx = csr;
+
+    // Data spaces:
+    Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
+    Space v1("v1", N), v2("v2", N), v3("v3", N);
+    Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
+
+    string name = "conjgrad_csr";
+    init(name, "rs", "d", "", {string("tol")}, "0");
+
+    Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
     Comp dinit("dinit", sca, ds=rs0=rs=zero+0);
     Comp sinit("sinit", vec, (s[i] = zero + 0));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
