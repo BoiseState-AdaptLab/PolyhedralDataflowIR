@@ -20,7 +20,6 @@
 fprintf(stderr,"%s={",(name));\
 for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
-#define B 8
 #define val(n) val[(i)]
 #define bcol(b) bcol[(b)]
 #define bmap(b,bi,bj,m) bmap[(bi),(bj),(m)]
@@ -32,7 +31,7 @@ fprintf(stderr,"}\n");}
 #define row(n) row[(n)]
 
 #define bid(bi,bj) {\
-if(!bset[(bi)])\
+if(!bsize[(bi)])\
 bset[(bi)]=calloc(((nc/bs)+1),sizeof(block_t*));\
 blk=bset[(bi)][(bj)];\
 if(!blk){\
@@ -45,26 +44,20 @@ bset[(bi)][(bj)]=blk;\
 blk->map[blk->sz++]=(n);\
 }
 
-unsigned coo_csb_insp(const float* val, const unsigned M, const unsigned* bmap, const unsigned* bsize, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow);
-inline unsigned coo_csb_insp(const float* val, const unsigned M, const unsigned* bmap, const unsigned* bsize, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow) {
+unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned M, const unsigned* bmap, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow);
+inline unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned M, const unsigned* bmap, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned NB = 0;
     unsigned p = 0;
+    unsigned N = row(M-1);
 
-//bi,bj,b,n,nb) {
-#define blkid(bi,bj) {\
-if(!bid(bi,0))\
-bset[(bi)]=calloc(((nc/bs)+1),sizeof(block_t*));\
-blk=bset[(bi)][(bj)];\
-if(!blk){\
-blk=calloc(1,sizeof(block_t));\
-blk->id=(nb);\
-blk->map=calloc(bs*bs,sizeof(uint));\
-bset[(bi)][(bj)]=blk;\
-}\
-(b) = blk->id;\
-blk->map[blk->sz++]=(n);\
+#define bset_init(bset) {\
+(bset)=calloc((nr/B)+1,sizeof(block_t**));\
 }
+
+    unsigned* bid = calloc((N/B)+1,sizeof(unsigned));
+    unsigned* bsize = calloc((N/B)+1,sizeof(unsigned));
+    unsigned* bmap = calloc(((N/B)+1)*B*B,sizeof(unsigned));
 
 // bs_put+br_put+bc_put+nb_cnt
 #undef s0
