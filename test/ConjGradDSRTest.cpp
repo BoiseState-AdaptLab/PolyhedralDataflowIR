@@ -23,9 +23,7 @@ protected:
 
     virtual void Inspect() {
         // Run COO->CSR Inspector!
-        _rowptr = (unsigned*) calloc(_nrow + 1, sizeof(unsigned));
-        _nzr = coo_dsr_insp(_rows, _nnz, _crow, _crp);
-        coo_csr_insp(_nnz, _rows, _rowptr);
+        _nzr = coo_dsr_insp(_rows, _nnz, &_crow, &_crp);
 //        ASSERT_EQ(_rowptr[0], 0);
 //        ASSERT_EQ(_rowptr[_nrow], _nnz);
 //        for (unsigned i = 0; i < _nrow; i++) {
@@ -34,7 +32,7 @@ protected:
     }
 
     virtual void Execute() {
-        _error = conjgrad_dsr(_vals, _b, _nrow, _maxiter, _cols, _rowptr, _x);
+        _error = conjgrad_dsr(_vals, _b, _nrow, _nzr, _maxiter, _cols, _crow, _crp);
         _niter = _maxiter;
     }
 

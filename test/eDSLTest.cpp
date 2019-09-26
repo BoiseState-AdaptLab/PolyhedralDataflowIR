@@ -703,24 +703,26 @@ TEST(eDSLTest, ConjGradCSR) {
 }
 
 TEST(eDSLTest, ConjGradDSR) {
-    Iter t('t'), i('i'), j('j'), n('n');
-    Const T('T'), N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, K=#iterations
-    Func rp("rp"), col("col");
+    Iter t('t'), i('i'), j('j'), m('m'), n('n');
+    Const T('T'), N('N'), M('M'), R('R');   // N=#rows/cols, M=#nnz, R=#nonzero rows
+    Func crp("crp"), crow("crow"), col("col");
     Real zero(0.0);
 
     // Iteration spaces:
     Space cpy("cpy", 0 <= i < N);
     Space sca("sca", 1 <= t <= T);
     Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
-    Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
-    Space mtx = csr;
+    //Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    //Space mtx = csr;
+    Space dsr("dsr", 1 <= t <= T ^ 0 <= m < R ^ i==crow(m) ^ crp(i) <= n < crp(i+1) ^ j==col(n));
+    Space mtx = dsr;
 
     // Data spaces:
     Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
     Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
 
-    string name = "conjgrad_csr";
+    string name = "conjgrad_dsr";
     init(name, "rs", "d", "", {string("tol")}, "0");
 
     Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
@@ -745,7 +747,7 @@ TEST(eDSLTest, ConjGradDSR) {
     print("out/" + name + ".json");
     //Digraph itergraph = ConjGradTest::CSRGraph();
     //reschedule(itergraph);
-    string result = codegen("out/" + name + ".o", "", "C++", "auto");
+    string result = codegen("out/" + name + ".h", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

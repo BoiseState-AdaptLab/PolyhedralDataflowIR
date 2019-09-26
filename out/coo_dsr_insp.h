@@ -17,15 +17,18 @@
 fprintf(stderr,"%s={",(name));\
 for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
-#define crow(m) crow[(m)]
-#define crp(i) crp[(i)]
+#define crow(m) (*crow)[(m)]
+#define crp(i) (*crp)[(i)]
 #define row(n) row[(n)]
 
-unsigned coo_dsr_insp(const unsigned* row, const unsigned M, unsigned* crow, unsigned* crp);
-inline unsigned coo_dsr_insp(const unsigned* row, const unsigned M, unsigned* crow, unsigned* crp) {
+unsigned coo_dsr_insp(const unsigned* row, const unsigned M, unsigned** crow, unsigned** crp);
+inline unsigned coo_dsr_insp(const unsigned* row, const unsigned M, unsigned** crow, unsigned** crp) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned R = 0;
     unsigned N = 0;
+
+    *crow = (unsigned*) malloc(M * sizeof(int));
+    *crp = (unsigned*) malloc(M * sizeof(int));
 
 // insp_init
 #undef s0
@@ -46,6 +49,7 @@ s1();
 #undef s3
 #define s3(n,i) if ((n) >= crp(N+1)) crp(N+1)=(n)+1
 
+#pragma omp parallel for schedule(auto) private(t2,t4) default(shared)
 for(t2 = 1; t2 <= M-1; t2++) {
   t4=row(t2);
   s0(t2,t4);
@@ -54,6 +58,8 @@ for(t2 = 1; t2 <= M-1; t2++) {
   s3(t2,t4);
 }
 
+    *crow = (unsigned*) realloc(*crow, R * sizeof(int));
+    *crp = (unsigned*) realloc(*crp, (R+1) * sizeof(int));
 
     return (R);
 }    // coo_dsr_insp
@@ -69,3 +75,4 @@ for(t2 = 1; t2 <= M-1; t2++) {
 #undef arrprnt
 #undef row
 #undef crp
+#undef crow
