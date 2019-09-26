@@ -32,7 +32,7 @@ protected:
     }
 
     virtual void Execute() {
-        _error = conjgrad_dsr(_vals, _b, _nrow, _nzr, _maxiter, _cols, _crow, _crp);
+        _error = conjgrad_dsr(_vals, _b, _nrow, _nzr, _maxiter, _cols, _crow, _crp, _x);
         _niter = _maxiter;
     }
 

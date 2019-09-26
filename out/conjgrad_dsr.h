@@ -24,18 +24,17 @@ fprintf(stderr,"}\n");}
 #define crp(t,m,i) crp[(i)]
 #define crp1(t,m,i) crp[(i+1)]
 
-double conjgrad_dsr(const double* A, const double* b, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp);
-inline double conjgrad_dsr(const double* A, const double* b, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp) {
+double conjgrad_dsr(const double* A, const double* b, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp, double* x);
+inline double conjgrad_dsr(const double* A, const double* b, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp, double* x) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     double* __restrict r = (double*) calloc((N),sizeof(double));
     double* __restrict d = (double*) calloc((N),sizeof(double));
-    double ds = 0;
-    double rs = 0;
-    double rs0 = 0;
+    double ds;
+    double rs;
+    double rs0;
     double* __restrict s = (double*) calloc((N),sizeof(double));
-    double alpha = 0;
-    double* __restrict x = (double*) calloc((N),sizeof(double));
-    double beta = 0;
+    double alpha;
+    double beta;
 
 // copy+dinit+sinit+spmv+ddot+rdot0+adiv+xadd+rsub+rdot+bdiv+dadd
 #undef s0
@@ -104,7 +103,6 @@ for(t2 = 0; t2 <= T-1; t2++) {
     free(r);
     free(d);
     free(s);
-    free(x);
 
     return (rs);
 }    // conjgrad_dsr
