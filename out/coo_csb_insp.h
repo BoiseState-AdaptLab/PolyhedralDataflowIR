@@ -22,25 +22,27 @@ for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
 #define val(n) val[(i)]
 #define bcol(b) bcol[(b)]
-#define bmap(b,bi,bj,m) bmap[(bi),(bj),(m)]
+#define bmap(b,bi,bj,m) bmap[(bi)][(bj)][(m)]
 #define bp(i) bp[(i)]
 #define brow(b) brow[(b)]
 #define bsize(b,bi,bj) bsize[(bi)][(bj)]
 #define col(n) col[(n)]
-#define p(i) p[(i)]
+#define p(i) p
 #define row(n) row[(n)]
 
 #define bid(n,bi,bj) {\
-if(!bid[(bi)])\
+if(!bid[(bi)])}\
 bid[(bi)]=calloc(((N/B)+1),sizeof(int));\
 bsize[(bi)]=calloc(((N/B)+1),sizeof(int));\
+bmap[(bi)]=calloc(((N/B)+1),sizeof(int*));\
+}\
 b=bid[(bi)][(bj)];\
 if(!b){\
 b=NB;\
-bmap[(b)]=calloc(B*B,sizeof(int));\
+bmap[(bi)][(bj)]=calloc(B*B,sizeof(int));\
 bid[(bi)][(bj)]=(b);\
 }\
-bmap[(bsize[(bi)][(bj)])++]=(n);\
+bmap[(bi)][(bj)][(bsize[(bi)][(bj)])++]=(n);\
 }
 
 unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned M, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow);
@@ -51,10 +53,10 @@ inline unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned 
     unsigned N = row(M-1);
 
     // TODO: Figure out 'bmap' mapping...
-    // TODO: Does 'bval' to be own space, or can we do a swap? Will that be faster or slower? 
-    unsigned** bid = calloc((N/B)+1,sizeof(int));
-    unsigned** bmap = calloc((N/B)+1,sizeof(int));
-    unsigned** bsize = calloc((N/B)+1,sizeof(int));
+    // TODO: Does 'bval' to be own space, or can we do a swap? Will that be faster or slower?
+    unsigned** bid = calloc((N/B)+1,sizeof(int*));
+    unsigned** bsize = calloc((N/B)+1,sizeof(int*));
+    unsigned*** bmap = calloc((N/B)+1,sizeof(int**));
 
 // bs_put+br_put+bc_put+nb_cnt
 #undef s0
