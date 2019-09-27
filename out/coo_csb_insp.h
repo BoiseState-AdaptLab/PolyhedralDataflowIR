@@ -25,43 +25,40 @@ fprintf(stderr,"}\n");}
 #define bmap(b,bi,bj,m) bmap[(bi),(bj),(m)]
 #define bp(i) bp[(i)]
 #define brow(b) brow[(b)]
-#define bsize(b,bi,bj) bsize[(bi),(bj)]
+#define bsize(b,bi,bj) bsize[(bi)][(bj)]
 #define col(n) col[(n)]
 #define p(i) p[(i)]
 #define row(n) row[(n)]
 
-#define bid(bi,bj) {\
-if(!bsize[(bi)])\
-bset[(bi)]=calloc(((nc/bs)+1),sizeof(block_t*));\
-blk=bset[(bi)][(bj)];\
-if(!blk){\
-blk=calloc(1,sizeof(block_t));\
-blk->id=(nb);\
-blk->map=calloc(bs*bs,sizeof(uint));\
-bset[(bi)][(bj)]=blk;\
+#define bid(n,bi,bj) {\
+if(!bid[(bi)])\
+bid[(bi)]=calloc(((N/B)+1),sizeof(int));\
+bsize[(bi)]=calloc(((N/B)+1),sizeof(int));\
+b=bid[(bi)][(bj)];\
+if(!b){\
+b=NB;\
+bmap[(b)]=calloc(B*B,sizeof(int));\
+bid[(bi)][(bj)]=(b);\
 }\
-(b) = blk->id;\
-blk->map[blk->sz++]=(n);\
+bmap[(bsize[(bi)][(bj)])++]=(n);\
 }
 
-unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned M, const unsigned* bmap, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow);
-inline unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned M, const unsigned* bmap, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow) {
+unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned M, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow);
+inline unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned M, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
-    unsigned NB = 0;
+    unsigned NB = 1;
     unsigned p = 0;
     unsigned N = row(M-1);
 
-#define bset_init(bset) {\
-(bset)=calloc((nr/B)+1,sizeof(block_t**));\
-}
-
-    unsigned* bid = calloc((N/B)+1,sizeof(unsigned));
-    unsigned* bsize = calloc((N/B)+1,sizeof(unsigned));
-    unsigned* bmap = calloc(((N/B)+1)*B*B,sizeof(unsigned));
+    // TODO: Figure out 'bmap' mapping...
+    // TODO: Does 'bval' to be own space, or can we do a swap? Will that be faster or slower? 
+    unsigned** bid = calloc((N/B)+1,sizeof(int));
+    unsigned** bmap = calloc((N/B)+1,sizeof(int));
+    unsigned** bsize = calloc((N/B)+1,sizeof(int));
 
 // bs_put+br_put+bc_put+nb_cnt
 #undef s0
-#define s0(n,i,j) b=bid((i)/B,(j)/B)
+#define s0(n,i,j) bid((n),(i)/B,(j)/B)
 #undef s1
 #define s1(n,i,j) brow(b)=(i)/B
 #undef s2
@@ -102,8 +99,6 @@ for(t2 = 0; t2 <= NB-1; t2++) {
     s4(t2,t4,t6,t8,t10);
   }
 }
-
-
     return (NB);
 }    // coo_csb_insp
 
