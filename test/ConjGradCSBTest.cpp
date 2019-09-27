@@ -8,8 +8,10 @@ namespace test {
 class ConjGradCSBTest : public ConjGradTest {
 protected:
     ConjGradCSBTest() : ConjGradTest("ConjGradCSBTest") {
-        _brow = _bcol = _bptr = _erow = _ecol = nullptr;
+        _brow = _bcol = _bptr = nullptr;
+        _erow = _ecol = nullptr;
         _nb = 0;
+        _bs = 128;
     }
 
     virtual ~ConjGradCSBTest() {
@@ -32,7 +34,7 @@ protected:
 
     virtual void Inspect() {
         // Run COO->CSR Inspector!
-        _nb = coo_csb_insp(_rows, _nnz, &_crow, &_crp);
+        _nb = coo_csb_insp(_vals, _bs, _nnz, _cols, _rows, &_bval, &_bcol, &_bptr, &_brow, &_ecol, &_erow);
 //        ASSERT_EQ(_rowptr[0], 0);
 //        ASSERT_EQ(_rowptr[_nrow], _nnz);
 //        for (unsigned i = 0; i < _nrow; i++) {
@@ -41,16 +43,19 @@ protected:
     }
 
     virtual void Execute() {
-        _error = conjgrad_csb(_vals, _b, _nrow, _nb, _maxiter, _cols, _brow, _bcol, _erow, _ecol, _x);
+        //_error = conjgrad_csb(_vals, _b, _nrow, _nb, _maxiter, _cols, _brow, _bcol, _erow, _ecol, _x);
+        _error = conjgrad_csb(_bval, _b, _bs, _nrow, _nb, _maxiter, _bptr, _brow, _bcol, _erow, _ecol, _x);
         _niter = _maxiter;
     }
 
     unsigned* _bptr;
     unsigned* _brow;
     unsigned* _bcol;
-    unsigned* _erow;
-    unsigned* _ecol;
+    unsigned char* _erow;
+    unsigned char* _ecol;
     unsigned _nb;
+    unsigned _bs;
+    double* _bval;
 };
 
 TEST_F(ConjGradCSBTest, CG) {

@@ -20,43 +20,54 @@
 fprintf(stderr,"%s={",(name));\
 for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
-#define val(n) val[(i)]
-#define bcol(b) bcol[(b)]
+#define val(n) val[(n)]
+#define bval(p) (*bval)[(p)]
+#define bcol(b) (*bcol)[(b)]
 #define bmap(b,bi,bj,m) bmap[(bi)][(bj)][(m)]
-#define bp(i) bp[(i)]
-#define brow(b) brow[(b)]
+#define bp(i) (*bp)[(i)]
+#define brow(b) (*brow)[(b)]
 #define bsize(b,bi,bj) bsize[(bi)][(bj)]
 #define col(n) col[(n)]
 #define p(i) p
 #define row(n) row[(n)]
+#define erow(p) (*erow)[(p)]
+#define ecol(p) (*ecol)[(p)]
 
 #define bid(n,bi,bj) {\
-if(!bid[(bi)])}\
-bid[(bi)]=calloc(((N/B)+1),sizeof(int));\
-bsize[(bi)]=calloc(((N/B)+1),sizeof(int));\
-bmap[(bi)]=calloc(((N/B)+1),sizeof(int*));\
+if(!bmap[(bi)]){\
+bid[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
+bsize[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
+bmap[(bi)]=(unsigned**)calloc(((N/B)+1),sizeof(int*));\
 }\
-b=bid[(bi)][(bj)];\
-if(!b){\
+if(!bmap[(bi)][(bj)]){\
 b=NB;\
-bmap[(bi)][(bj)]=calloc(B*B,sizeof(int));\
+bmap[(bi)][(bj)]=(unsigned*)calloc(B*B,sizeof(int));\
 bid[(bi)][(bj)]=(b);\
+}else{\
+b=bid[(bi)][(bj)];\
 }\
 bmap[(bi)][(bj)][(bsize[(bi)][(bj)])++]=(n);\
 }
 
-unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned M, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow);
-inline unsigned coo_csb_insp(const float* val, const unsigned B, const unsigned M, const unsigned* col, const unsigned* row, float* bval, unsigned* bcol, unsigned* bp, unsigned* brow, unsigned* ecol, unsigned* erow) {
+unsigned coo_csb_insp(const double* val, const unsigned B, const unsigned M, const unsigned* col, const unsigned* row, double** bval, unsigned** bcol, unsigned** bp, unsigned** brow, unsigned char** ecol, unsigned char** erow);
+inline unsigned coo_csb_insp(const double* val, const unsigned B, const unsigned M, const unsigned* col, const unsigned* row, double** bval, unsigned** bcol, unsigned** bp, unsigned** brow, unsigned char** ecol, unsigned char** erow) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
-    unsigned NB = 1;
+    unsigned NB = 0;
+    unsigned b = 0;
     unsigned p = 0;
     unsigned N = row(M-1);
 
-    // TODO: Figure out 'bmap' mapping...
     // TODO: Does 'bval' to be own space, or can we do a swap? Will that be faster or slower?
-    unsigned** bid = calloc((N/B)+1,sizeof(int*));
-    unsigned** bsize = calloc((N/B)+1,sizeof(int*));
-    unsigned*** bmap = calloc((N/B)+1,sizeof(int**));
+    unsigned** bid = (unsigned**) calloc((N/B)+1,sizeof(int*));
+    unsigned** bsize = (unsigned**) calloc((N/B)+1,sizeof(int*));
+    unsigned*** bmap = (unsigned***) calloc((N/B)+1,sizeof(int**));
+
+    *brow = (unsigned*) calloc(M, sizeof(int));
+    *bcol = (unsigned*) calloc(M, sizeof(int));
+    *bp = (unsigned*) calloc(M, sizeof(int));
+    *bval = (double*) calloc(M, sizeof(double));
+    *erow = (unsigned char*) calloc(M, sizeof(char));
+    *ecol = (unsigned char*) calloc(M, sizeof(char));
 
 // bs_put+br_put+bc_put+nb_cnt
 #undef s0
@@ -101,7 +112,45 @@ for(t2 = 0; t2 <= NB-1; t2++) {
     s4(t2,t4,t6,t8,t10);
   }
 }
-    return (NB);
+
+  *brow = (unsigned*) realloc(*brow, NB * sizeof(int));
+  *bcol = (unsigned*) realloc(*bcol, NB * sizeof(int));
+  *bp = (unsigned*) realloc(*bp, (NB+1) * sizeof(int));
+
+#define bid(n,bi,bj) {\
+if(!bmap[(bi)]){\
+bid[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
+bsize[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
+bmap[(bi)]=(unsigned**)calloc(((N/B)+1),sizeof(int*));\
+}\
+if(!bmap[(bi)][(bj)]){\
+b=NB;\
+bmap[(bi)][(bj)]=(unsigned*)calloc(B*B,sizeof(int));\
+bid[(bi)][(bj)]=(b);\
+}else{\
+b=bid[(bi)][(bj)];\
+}\
+bmap[(bi)][(bj)][(bsize[(bi)][(bj)])++]=(n);\
+}
+
+  // Free temporary storage
+  for(t2=0;t2<=(N/B);t2++) {
+    if(bmap[t2]) {
+      for(t4=0;t4<=(N/B);t4++) {
+        if (bmap[t2][t4]) {
+          free(bmap[t2][t4]);
+        }
+      }
+      free(bmap[t2]);
+      free(bid[t2]);
+      free(bsize[t2]);
+    }
+  }
+  free(bmap);
+  free(bid);
+  free(bsize);
+
+  return (NB);
 }    // coo_csb_insp
 
 #undef min
@@ -126,4 +175,5 @@ for(t2 = 0; t2 <= NB-1; t2++) {
 #undef col
 #undef p
 #undef row
-
+#undef erow
+#undef ecol

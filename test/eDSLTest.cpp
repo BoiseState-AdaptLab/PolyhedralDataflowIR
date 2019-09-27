@@ -574,7 +574,6 @@ TEST(eDSLTest, ConjGrad) {
 
     // Data spaces:
     Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
-    Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0");
 
     string name = "conjgrad_csr";
@@ -622,7 +621,6 @@ TEST(eDSLTest, ConjGradCOO) {
 
     // Data spaces:
     Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
-    Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
 
     string name = "conjgrad_coo";
@@ -668,7 +666,6 @@ TEST(eDSLTest, ConjGradCSR) {
 
     // Data spaces:
     Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
-    Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
 
     string name = "conjgrad_csr";
@@ -719,10 +716,58 @@ TEST(eDSLTest, ConjGradDSR) {
 
     // Data spaces:
     Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
-    Space v1("v1", N), v2("v2", N), v3("v3", N);
     Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
 
     string name = "conjgrad_dsr";
+    init(name, "rs", "d", "", {string("tol")}, "0");
+
+    Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
+    Comp dinit("dinit", sca, ds=rs0=rs=zero+0);
+    Comp sinit("sinit", vec, (s[i] = zero + 0));
+    Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
+    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    Comp adiv("adiv", sca, (alpha = rs0/ds));
+    Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
+    Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
+    Comp rdot("rdot", vec, (rs += r[i]*r[i]));
+    Comp bdiv("bdiv", sca, (beta = rs / rs0));
+    Comp dadd("dadd", vec, (d[i] = r[i] + beta * d[i]));     // FMA: a+b*c
+    //Comp check("check", sca, (rs <= tol), (t=T+1));
+
+    // Perform fusions
+    fuse();
+    parallelize();
+
+    perfmodel();        // perfmodel annotates graph with performance attributes.
+    print("out/" + name + ".json");
+    //Digraph itergraph = ConjGradTest::CSRGraph();
+    //reschedule(itergraph);
+    string result = codegen("out/" + name + ".h", "", "C++", "auto");
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, ConjGradCSB) {
+    Iter t('t'), i('i'), j('j'), m('m'), n('n');
+    Const T('T'), N('N'), M('M'), B('B'), NB("NB");   // T=#iter, N=#rows/cols, M=#nnz, B=blk_size, NB=#nonzero blocks
+    Func bp("bp"), brow("brow"), bcol("bcol"), erow("erow"), ecol("ecol");
+    Real zero(0.0);
+
+    // Iteration spaces:
+    Space cpy("cpy", 0 <= i < N);
+    Space sca("sca", 1 <= t <= T);
+    Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
+//    Space dsr("dsr", 1 <= t <= T ^ 0 <= m < R ^ i==crow(m) ^ crp(i) <= n < crp(i+1) ^ j==col(n));
+//    Space mtx = dsr;
+    Space csb("csb", 1 <= t <= T ^ 0 <= m < NB ^ bp(m) <= n < bp(m+1) ^ i==B*brow(m)+erow(n) ^ j==B*bcol(m)+ecol(n));
+    Space mtx = csb;
+
+    // Data spaces:
+    Space A("A", M), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
+    Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
+
+    string name = "conjgrad_csb";
     init(name, "rs", "d", "", {string("tol")}, "0");
 
     Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));

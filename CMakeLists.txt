@@ -184,7 +184,7 @@ if (TESTING)
 
     set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
             test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp test/ConjGradDSRTest.cpp
-            test/JacobiTest.cpp test/MiniFluxDivTest.cpp test/TensorDecompTest.cpp) # test/TensAlgCompTest.cpp)
+            test/ConjGradCSBTest.cpp test/JacobiTest.cpp test/MiniFluxDivTest.cpp test/TensorDecompTest.cpp) # test/TensAlgCompTest.cpp)
     #set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
     #               test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O3")
