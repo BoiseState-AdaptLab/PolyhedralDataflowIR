@@ -356,11 +356,12 @@ TEST(eDSLTest, COO_ELL_Insp) {
 
     string name = "coo_ell_insp";
     pdfg::init(name, "K", "d", "u", {"lcol", "lval"});
-    Comp inspN("inspN", insp1, (N=row(M-1)+1) ^ k=one+0);
-    Comp inspK("inspK", insp2, (row(n) > row(n-1)), (K=max(k,K) ^ k=zero+0));
-    Comp inspK2("inspK", insp2, (k += one));
+    Comp inspN("inspN", insp1, ((N=row(M-1)+1) ^ (k=one+0)));
+    Comp inspK("inspK", insp2, (row(n) > row(n-1)), (K=max(k,K)) ^ (k=zero+0));
+    //inspK += (k=zero+0);
+    Comp inspK2("inspK2", insp2, (k += one));
 
-    pdfg::fuse(inspK, inspK);
+    pdfg::fuse();
     print("out/" + name + ".json");
     string result = codegen("out/" + name + ".h", "", "C++");
     ASSERT_TRUE(!result.empty());

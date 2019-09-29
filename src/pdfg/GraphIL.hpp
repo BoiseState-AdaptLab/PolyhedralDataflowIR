@@ -2840,11 +2840,15 @@ namespace pdfg {
             init(space, statements, guards);
         }
 
-        Comp(const Space &space, const Math &expr, const vector<Constr> &guards) : _space(space) {
+        Comp(const Space &space, const vector<Constr> &guards, const Math &expr) : _space(space) {
             init(space, {expr}, guards);
         }
 
-        Comp(const Space &space, const vector<Math> &statements, const Constr &guard) : _space(space) {
+        Comp(const string& name, Space &space, const Constr &guard, const vector<Math> &statements) : _space(space) {
+            init(name, space, statements, {guard});
+        }
+
+        Comp(const Space &space, const Constr &guard, const vector<Math> &statements) : _space(space) {
             init(space, statements, {guard});
         }
 
@@ -3117,15 +3121,15 @@ namespace pdfg {
     }
 
     Comp operator+(const Constr &constr, const Comp &comp) {
-        return Comp(comp.space(), comp.statements(), constr);
+        return Comp(comp.space(), constr, comp.statements());
     }
 
     Comp operator+(const Comp &comp, const Constr &constr) {
-        return Comp(comp.space(), comp.statements(), constr);
+        return Comp(comp.space(), constr, comp.statements());
     }
 
     Comp operator+(const Comp &comp, const Math &expr) {
-        return Comp(comp.space(), expr, comp.guards());
+        return Comp(comp.space(), comp.guards(), expr);
     }
 }
 
