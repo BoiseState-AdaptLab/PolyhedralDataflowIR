@@ -343,6 +343,29 @@ TEST(eDSLTest, COO_CSR_Insp_Fuse) {
     ASSERT_TRUE(!result.empty());
 }
 
+TEST(eDSLTest, COO_ELL_Insp) {
+    // COO->ELL Inspector:
+    // Here we assume the constraint: row(i-1) <= row(i), 1 <= i < N (i.e., row is sorted)
+    Iter i('i'), n('n'), j('j'), m('m');
+    Func rp("rp"), row("row"), col("col");
+    Const N('N'), M('M'), K('K');
+    Space k("k");
+    Space insp1("I_N");
+    Space insp2("Irp", 1 <= n < M ^ i==row(n));
+    Int zero(0), one(1);
+
+    string name = "coo_ell_insp";
+    pdfg::init(name, "K", "d", "u", {"lcol", "lval"});
+    Comp inspN("inspN", insp1, (N=row(M-1)+1) ^ k=one+0);
+    Comp inspK("inspK", insp2, (row(n) > row(n-1)), (K=max(k,K) ^ k=zero+0));
+    Comp inspK2("inspK", insp2, (k += one));
+
+    pdfg::fuse(inspK, inspK);
+    print("out/" + name + ".json");
+    string result = codegen("out/" + name + ".h", "", "C++");
+    ASSERT_TRUE(!result.empty());
+}
+
 TEST(eDSLTest, COO_CSB_Insp) {
     Iter i('i'), j('j'), k('k'), n('n'), b('b'), m('m');
     Const B("B", 128), NB("NB"), N('N'), M('M'), p('p', 0);
