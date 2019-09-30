@@ -60,7 +60,8 @@ protected:
 };
 
 TEST_F(ConjGradCSBTest, CG) {
-    ConjGradTest::SetUp({"./data/matrix/cant.mtx"});
+    //ConjGradTest::SetUp({"./data/matrix/cant.mtx"});
+    ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
     ConjGradTest::Run();
     ConjGradTest::Verify();
     ConjGradTest::Assert();

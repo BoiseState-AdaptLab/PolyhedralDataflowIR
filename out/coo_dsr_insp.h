@@ -41,13 +41,13 @@ s1();
 
 // insp_m+insp_crow+insp_R+insp_crp
 #undef s0
-#define s0(n,i) if ((i) != row((n)-1)) N+=1
+#define s0(n,i) if ((i) != row((n)-1)) R+=1
 #undef s1
-#define s1(n,i) crow(N)=(i)
+#define s1(n,i) crow(R)=(i)
+//#undef s2
+//#define s2(n,i) if (N >= R) R=N+1
 #undef s2
-#define s2(n,i) if (N >= R) R=N+1
-#undef s3
-#define s3(n,i) if ((n) >= crp(N+1)) crp(N+1)=(n)+1
+#define s2(n,i) if ((n) >= crp(R+1)) crp(R+1)=(n)+1
 
 //#pragma omp parallel for schedule(auto) private(t2,t4) default(shared)
 #pragma omp simd
@@ -56,7 +56,7 @@ for(t2 = 1; t2 <= M-1; t2++) {
   s0(t2,t4);
   s1(t2,t4);
   s2(t2,t4);
-  s3(t2,t4);
+  //s3(t2,t4);
 }
 
     *crow = (unsigned*) realloc(*crow, R * sizeof(int));

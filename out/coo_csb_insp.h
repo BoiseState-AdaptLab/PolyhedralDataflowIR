@@ -40,12 +40,10 @@ bsize[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
 bmap[(bi)]=(unsigned**)calloc(((N/B)+1),sizeof(int*));\
 }\
 if(!bmap[(bi)][(bj)]){\
-b=NB;\
 bmap[(bi)][(bj)]=(unsigned*)calloc(B*B,sizeof(int));\
-bid[(bi)][(bj)]=(b);\
-}else{\
-b=bid[(bi)][(bj)];\
+bid[(bi)][(bj)]=(NB);\
 }\
+b=bid[(bi)][(bj)];\
 bmap[(bi)][(bj)][(bsize[(bi)][(bj)])++]=(n);\
 }
 
@@ -62,22 +60,22 @@ inline unsigned coo_csb_insp(const double* val, const unsigned B, const unsigned
     unsigned** bsize = (unsigned**) calloc((N/B)+1,sizeof(int*));
     unsigned*** bmap = (unsigned***) calloc((N/B)+1,sizeof(int**));
 
-    *brow = (unsigned*) calloc(M, sizeof(int));
-    *bcol = (unsigned*) calloc(M, sizeof(int));
+    *brow = (unsigned*) malloc(M*sizeof(int));
+    *bcol = (unsigned*) malloc(M*sizeof(int));
     *bp = (unsigned*) calloc(M, sizeof(int));
-    *bval = (double*) calloc(M, sizeof(double));
-    *erow = (unsigned char*) calloc(M, sizeof(char));
-    *ecol = (unsigned char*) calloc(M, sizeof(char));
+    *bval = (double*) malloc(M*sizeof(double));
+    *erow = (unsigned char*) malloc(M*sizeof(char));
+    *ecol = (unsigned char*) malloc(M*sizeof(char));
 
 // bs_put+br_put+bc_put+nb_cnt
 #undef s0
 #define s0(n,i,j) bid((n),(i)/B,(j)/B)
 #undef s1
-#define s1(n,i,j) brow(b)=(i)/B
+#define s1(n,i,j) if (b >= NB) NB=b+1
 #undef s2
-#define s2(n,i,j) bcol(b)=(j)/B
+#define s2(n,i,j) brow(b)=(i)/B
 #undef s3
-#define s3(n,i,j) if (b >= NB) NB=b+1
+#define s3(n,i,j) bcol(b)=(j)/B
 
 #pragma omp simd
 for(t2 = 0; t2 <= M-1; t2++) {
@@ -118,22 +116,6 @@ for(t2 = 0; t2 <= NB-1; t2++) {
   *brow = (unsigned*) realloc(*brow, NB * sizeof(int));
   *bcol = (unsigned*) realloc(*bcol, NB * sizeof(int));
   *bp = (unsigned*) realloc(*bp, (NB+1) * sizeof(int));
-
-#define bid(n,bi,bj) {\
-if(!bmap[(bi)]){\
-bid[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
-bsize[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
-bmap[(bi)]=(unsigned**)calloc(((N/B)+1),sizeof(int*));\
-}\
-if(!bmap[(bi)][(bj)]){\
-b=NB;\
-bmap[(bi)][(bj)]=(unsigned*)calloc(B*B,sizeof(int));\
-bid[(bi)][(bj)]=(b);\
-}else{\
-b=bid[(bi)][(bj)];\
-}\
-bmap[(bi)][(bj)][(bsize[(bi)][(bj)])++]=(n);\
-}
 
   // Free temporary storage
   for(t2=0;t2<=(N/B);t2++) {
