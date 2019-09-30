@@ -49,7 +49,8 @@ s1();
 #undef s3
 #define s3(n,i) if ((n) >= crp(N+1)) crp(N+1)=(n)+1
 
-#pragma omp parallel for schedule(auto) private(t2,t4) default(shared)
+//#pragma omp parallel for schedule(auto) private(t2,t4) default(shared)
+#pragma omp simd
 for(t2 = 1; t2 <= M-1; t2++) {
   t4=row(t2);
   s0(t2,t4);

@@ -28,6 +28,7 @@ unsigned coo_ell_insp(const unsigned M, const unsigned* row, const unsigned* col
 inline unsigned coo_ell_insp(const unsigned M, const unsigned* row, const unsigned* col, const double* val, unsigned** lcol, double** lval) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned N;
+    unsigned K=0;
     unsigned k;
 
 // inspN+inspK
@@ -47,12 +48,13 @@ s1();
 #undef s3
 #define s3(n,i) k+=1
 #undef s4
-#define s4(n,i) lcol[offset2((k),(i),N)] = col[(n)]
+#define s4(n,i) (*lcol)[offset2((k),(i),N)]=col((n))
 #undef s5
-#define s5(n,i) lval[offset2((k),(i),N)] = val[(n)]
+#define s5(n,i) (*lval)[offset2((k),(i),N)]=val((n))
 
-#pragma omp parallel for schedule(auto) private(t2,t4)
-for(t2 = 0; t2 <= M-1; t2++) {
+//#pragma omp parallel for schedule(auto) private(t2,t4)
+#pragma omp simd private(t4)
+for(t2 = 1; t2 <= M-1; t2++) {
   t4=row(t2);
   s2(t2,t4);
   s3(t2,t4);

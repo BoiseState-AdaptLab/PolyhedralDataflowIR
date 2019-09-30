@@ -24,6 +24,7 @@ protected:
     virtual void Inspect() {
         // Run COO->CSR Inspector!
         _nzr = coo_dsr_insp(_rows, _nnz, &_crow, &_crp);
+        cerr << "R=" << _nzr << endl;
 //        ASSERT_EQ(_rowptr[0], 0);
 //        ASSERT_EQ(_rowptr[_nrow], _nnz);
 //        for (unsigned i = 0; i < _nrow; i++) {

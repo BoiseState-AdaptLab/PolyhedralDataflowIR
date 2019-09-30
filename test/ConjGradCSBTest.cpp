@@ -35,6 +35,7 @@ protected:
     virtual void Inspect() {
         // Run COO->CSR Inspector!
         _nb = coo_csb_insp(_vals, _bs, _nnz, _cols, _rows, &_bval, &_bcol, &_bptr, &_brow, &_ecol, &_erow);
+        cerr << "NB=" << _nb << ",BS=" << _bs << endl;
 //        ASSERT_EQ(_rowptr[0], 0);
 //        ASSERT_EQ(_rowptr[_nrow], _nnz);
 //        for (unsigned i = 0; i < _nrow; i++) {

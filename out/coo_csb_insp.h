@@ -79,6 +79,7 @@ inline unsigned coo_csb_insp(const double* val, const unsigned B, const unsigned
 #undef s3
 #define s3(n,i,j) if (b >= NB) NB=b+1
 
+#pragma omp simd
 for(t2 = 0; t2 <= M-1; t2++) {
   t4=row(t2);
   t6=col(t2);
@@ -103,6 +104,7 @@ for(t2 = 0; t2 <= M-1; t2++) {
 for(t2 = 0; t2 <= NB-1; t2++) {
   t4=brow(t2);
   t6=bcol(t2);
+  #pragma omp simd
   for(t8 = 0; t8 <= bsize(t2,t4,t6)-1; t8++) {
     t10=bmap(t2,t4,t6,t8);
     s0(t2,t4,t6,t8,t10);

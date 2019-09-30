@@ -358,7 +358,6 @@ TEST(eDSLTest, COO_ELL_Insp) {
     pdfg::init(name, "K", "d", "u", {"lcol", "lval"});
     Comp inspN("inspN", insp1, ((N=row(M-1)+1) ^ (k=one+0)));
     Comp inspK("inspK", insp2, (row(n) > row(n-1)), (K=max(k,K)) ^ (k=zero+0));
-    //inspK += (k=zero+0);
     Comp inspK2("inspK2", insp2, (k += one));
 
     pdfg::fuse();
@@ -798,6 +797,55 @@ TEST(eDSLTest, ConjGradCSB) {
     Comp dinit("dinit", sca, ds=rs0=rs=zero+0);
     Comp sinit("sinit", vec, (s[i] = zero + 0));
     Comp spmv("spmv", mtx, (s[i] += A[n] * d[j]));
+    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    Comp adiv("adiv", sca, (alpha = rs0/ds));
+    Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
+    Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
+    Comp rdot("rdot", vec, (rs += r[i]*r[i]));
+    Comp bdiv("bdiv", sca, (beta = rs / rs0));
+    Comp dadd("dadd", vec, (d[i] = r[i] + beta * d[i]));     // FMA: a+b*c
+    //Comp check("check", sca, (rs <= tol), (t=T+1));
+
+    // Perform fusions
+    fuse();
+    parallelize();
+
+    perfmodel();        // perfmodel annotates graph with performance attributes.
+    print("out/" + name + ".json");
+    //Digraph itergraph = ConjGradTest::CSRGraph();
+    //reschedule(itergraph);
+    string result = codegen("out/" + name + ".h", "", "C++", "auto");
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, ConjGradELL) {
+    Iter t('t'), i('i'), j('j'), k('k'), n('n');
+    Const T('T'), N('N'), M('M'), K('K');   // N=#rows/cols, M=#nnz, R=#max nonzeros/row
+    Func lcol("lcol");
+    Real zero(0.0);
+
+    // Iteration spaces:
+    Space cpy("cpy", 0 <= i < N);
+    Space sca("sca", 1 <= t <= T);
+    Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
+    //Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    //Space mtx = csr;
+    Space ell("ell", 1 <= t <= T ^ 0 <= k < K ^ 0 <= i < N ^ j==lcol(k,i));
+    Space mtx = ell;
+
+    // Data spaces:
+    Space A("A", K, N), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
+    Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
+
+    string name = "conjgrad_ell";
+    init(name, "rs", "d", "", {string("tol")}, "0");
+
+    Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
+    Comp dinit("dinit", sca, ds=rs0=rs=zero+0);
+    Comp sinit("sinit", vec, (s[i] = zero + 0));
+    Comp spmv("spmv", mtx, (s[i] += A(k,i) * d[j]));
     Comp ddot("ddot", vec, (ds += d[i]*s[i]));
     Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
     Comp adiv("adiv", sca, (alpha = rs0/ds));
