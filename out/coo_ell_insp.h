@@ -57,9 +57,9 @@ s1();
 for(t2 = 1; t2 <= M-1; t2++) {
   t4=row(t2);
   s2(t2,t4);
-  s3(t2,t4);
   s4(t2,t4);
   s5(t2,t4);
+  s3(t2,t4);
 }
 
 *lcol = (unsigned*) realloc(*lcol, K * N * sizeof(unsigned));

@@ -5,6 +5,7 @@
 #include <util/MatrixIO.hpp>
 using util::MatrixIO;
 
+#include <cstring>
 #include <string>
 using std::string;
 using std::to_string;
@@ -24,8 +25,18 @@ using Eigen::Upper;
 typedef Eigen::Triplet<double> Triple;
 #endif
 
+// Inspectors
+#include "coo_csr_insp.h"
+#include "coo_dsr_insp.h"
+#include "coo_ell_insp.h"
+#include "coo_csb_insp.h"
+
+// Executors
 #include "conjgrad_coo.h"
-//#include "conjgrad_csr.h"
+#include "conjgrad_csr.h"
+#include "conjgrad_dsr.h"
+#include "conjgrad_ell.h"
+#include "conjgrad_csb.h"
 
 double get_wtime() {
     struct timeval tv;
@@ -98,18 +109,37 @@ void teardown(unsigned** rows, unsigned** cols, double* __restrict* vals, double
 
 int main(int argc, char **argv) {
     double ptime;
+    double itime;
     double tsum = 0.0;
+    double isum = 0.0;
     int nproc = 1;
     int pid = 0;
     int nruns = 1;
 
     const char* name = argv[0];
     const char* matrix = argv[1];
+    char format[16] = {'\0'};
 
     unsigned nnz, nrow, ncol, maxiter = 500;
     unsigned niter = 0;
     unsigned* rows;
     unsigned* cols;
+
+    unsigned* rowptr;
+    unsigned* bptr;
+    unsigned* brow;
+    unsigned* bcol;
+    unsigned char* erow;
+    unsigned char* ecol;
+    unsigned nb;
+    unsigned bs = 128;
+    double* bval;
+    unsigned nzr;
+    unsigned* crp;
+    unsigned* crow;
+    unsigned nell;
+    unsigned* lcol;
+    double* lval;
 
     double err = 1.0, tol = 1e-10;
     double* __restrict vals;
@@ -132,6 +162,12 @@ int main(int argc, char **argv) {
         nruns = atoi(argv[2]);
     }
 
+    if (argc > 3) {
+        strcpy(format, argv[3]);
+    } else {
+        strcpy(format, "coo");
+    }
+
     setup(matrix, &nnz, &nrow, &ncol, &maxiter, &rows, &cols, &vals, &x, &b
 #ifdef EIGEN_EXEC
     , Aspm, xVec, bVec);
@@ -146,8 +182,6 @@ int main(int argc, char **argv) {
 #endif
 
     for (unsigned i = 0; i < nruns; i++) {
-        ptime = get_wtime();
-
         //#pragma omp parallel for private(pid)
         //for (unsigned p = 0; p < nproc; p++) {
         //    pid = omp_get_thread_num();
@@ -161,17 +195,57 @@ int main(int argc, char **argv) {
     __itt_resume(); // start VTune, again use 2 underscores
 #endif
 
-//        unsigned ndx = i;
-//        ndx += nruns * pid;
+        if (strlen(format) > 0) {
+            if (!strncmp(format, "csr", 3)) {
+                itime = get_wtime();
+                rowptr = (unsigned*) calloc(nrow + 1, sizeof(unsigned));
+                coo_csr_insp(nnz, rows, rowptr);
+            } else if (!strncmp(format, "csb", 3)) {
+                itime = get_wtime();
+                nb = coo_csb_insp(vals, bs, nnz, cols, rows, &bval, &bcol, &bptr, &brow, &ecol, &erow);
+            } else if (!strncmp(format, "dsr", 3)) {
+                itime = get_wtime();
+                nzr = coo_dsr_insp(rows, nnz, &crow, &crp);
+            } else if (!strncmp(format, "ell", 3)) {
+                itime = get_wtime();
+                nell = coo_ell_insp(nnz, rows, cols, vals, &lcol, &lval);
+            } else {
+                itime = 0.0;
+            }
+
+            if (itime != 0.0) {
+                itime = get_wtime() - itime;
+            }
+        }
 
 #ifdef EIGEN_EXEC
+        ptime = get_wtime();
         cg.compute(Aspm);
         xVec = cg.solve(bVec);
         niter = cg.iterations();
         err = cg.error();
         x = xVec.data();
 #else
-        err = conjgrad_coo(vals, b, nnz, nrow, maxiter, cols, rows, x);
+        if (strstr(format, "coo")) {
+            ptime = get_wtime();
+            err = conjgrad_coo(vals, b, nnz, nrow, maxiter, cols, rows, x);
+        } else if (strstr(format, "csr")) {
+            ptime = get_wtime();
+            err = conjgrad_csr(vals, b, nrow, maxiter, cols, rowptr, x);
+        } else if (strstr(format, "csb")) {
+            ptime = get_wtime();
+            err = conjgrad_csb(bval, b, bs, nrow, nb, maxiter, bptr, brow, bcol, erow, ecol, x);
+        } else if (strstr(format, "dsr")) {
+            ptime = get_wtime();
+            err = conjgrad_dsr(vals, b, nrow, nzr, maxiter, cols, crow, crp, x);
+        } else if (strstr(format, "ell")) {
+            ptime = get_wtime();
+            err = conjgrad_ell(lval, b, nell, nrow, maxiter, lcol, x);
+        } else {
+            fprintf(stderr, "%s: Unrecognized format: '%s'\n", name, format);
+            return -1;
+        }
+
         niter = maxiter;
 #endif
 
@@ -184,10 +258,9 @@ int main(int argc, char **argv) {
     __SSC_MARK(0x222); // stop SDE tracing
 #endif
 
-        //}
-
         ptime = get_wtime() - ptime;
         tsum += ptime;
+        isum += itime;
     }
 
 #ifdef LIKWID_PERF
@@ -195,8 +268,10 @@ int main(int argc, char **argv) {
 #endif
 
     if (pid < 1) {
-        fprintf(stdout, "%s: niter=%d,x=%lf,nprocs=%d,nruns=%d,time=%lf\n",
-                name, niter, x[0], nproc, nruns, tsum / (double) nruns);
+
+
+        fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf\n",
+            name, format, niter, x[0], nproc, nruns, tsum / (double) nruns, isum / (double) nruns);
     }
 
     teardown(&rows, &cols, &vals, &x, &b);
