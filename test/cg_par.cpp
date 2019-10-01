@@ -187,6 +187,31 @@ int main(int argc, char **argv) {
     LIKWID_MARKER_INIT
 #endif
 
+    if (strlen(format) > 0) {
+        if (!strncmp(format, "csr", 3)) {
+            itime = get_wtime();
+            rowptr = (unsigned*) calloc(nrow + 1, sizeof(unsigned));
+            coo_csr_insp(nnz, rows, rowptr);
+        } else if (!strncmp(format, "csb", 3)) {
+            itime = get_wtime();
+            nb = coo_csb_insp(vals, bs, nnz, cols, rows, &bval, &bcol, &bptr, &brow, &ecol, &erow);
+        } else if (!strncmp(format, "dsr", 3)) {
+            itime = get_wtime();
+            nzr = coo_dsr_insp(rows, nnz, &crow, &crp);
+        } else if (!strncmp(format, "ell", 3)) {
+            itime = get_wtime();
+            nell = coo_ell_insp(nnz, rows, cols, vals, &lcol, &lval);
+        } else if (!strncmp(format, "dia", 3)) {
+            ndia = coo_dia_insp(vals, nnz, cols, rows, &dval, &doff);
+        } else {
+            itime = 0.0;
+        }
+
+        if (itime != 0.0) {
+            itime = get_wtime() - itime;
+        }
+    }
+
     for (unsigned i = 0; i < nruns; i++) {
         //#pragma omp parallel for private(pid)
         //for (unsigned p = 0; p < nproc; p++) {
@@ -200,31 +225,6 @@ int main(int argc, char **argv) {
         __SSC_MARK(0x111); // start SDE tracing, note it uses 2 underscores
     __itt_resume(); // start VTune, again use 2 underscores
 #endif
-
-        if (strlen(format) > 0) {
-            if (!strncmp(format, "csr", 3)) {
-                itime = get_wtime();
-                rowptr = (unsigned*) calloc(nrow + 1, sizeof(unsigned));
-                coo_csr_insp(nnz, rows, rowptr);
-            } else if (!strncmp(format, "csb", 3)) {
-                itime = get_wtime();
-                nb = coo_csb_insp(vals, bs, nnz, cols, rows, &bval, &bcol, &bptr, &brow, &ecol, &erow);
-            } else if (!strncmp(format, "dsr", 3)) {
-                itime = get_wtime();
-                nzr = coo_dsr_insp(rows, nnz, &crow, &crp);
-            } else if (!strncmp(format, "ell", 3)) {
-                itime = get_wtime();
-                nell = coo_ell_insp(nnz, rows, cols, vals, &lcol, &lval);
-            } else if (!strncmp(format, "dia", 3)) {
-                ndia = coo_dia_insp(vals, nnz, cols, rows, &dval, &doff);
-            } else {
-                itime = 0.0;
-            }
-
-            if (itime != 0.0) {
-                itime = get_wtime() - itime;
-            }
-        }
 
 #ifdef EIGEN_EXEC
         ptime = get_wtime();
@@ -271,7 +271,6 @@ int main(int argc, char **argv) {
 
         ptime = get_wtime() - ptime;
         tsum += ptime;
-        isum += itime;
     }
 
 #ifdef LIKWID_PERF
@@ -294,7 +293,7 @@ int main(int argc, char **argv) {
         }
 
         fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u\n",
-            name, format, niter, x[0], nproc, nruns, tsum / (double) nruns, isum / (double) nruns, size);
+            name, format, niter, x[0], nproc, nruns, tsum / (double) nruns, itime, size);
     }
 
     teardown(&rows, &cols, &vals, &x, &b);
