@@ -32,9 +32,9 @@ inline unsigned coo_dsr_insp(const unsigned* row, const unsigned M, unsigned** c
 
 // insp_init
 #undef s0
-#undef s1
 #define s0() crow(0)=row(0)
-#define s1() R=crp(1)=1
+#undef s1
+#define s1() R=crp(0)=crp(1)=0
 
 s0();
 s1();
@@ -44,8 +44,6 @@ s1();
 #define s0(n,i) if ((i) != row((n)-1)) R+=1
 #undef s1
 #define s1(n,i) crow(R)=(i)
-//#undef s2
-//#define s2(n,i) if (N >= R) R=N+1
 #undef s2
 #define s2(n,i) if ((n) >= crp(R+1)) crp(R+1)=(n)+1
 
@@ -56,11 +54,11 @@ for(t2 = 1; t2 <= M-1; t2++) {
   s0(t2,t4);
   s1(t2,t4);
   s2(t2,t4);
-  //s3(t2,t4);
 }
 
-    *crow = (unsigned*) realloc(*crow, R * sizeof(int));
-    *crp = (unsigned*) realloc(*crp, (R+1) * sizeof(int));
+R+=1;
+*crow = (unsigned*) realloc(*crow, R * sizeof(int));
+*crp = (unsigned*) realloc(*crp, (R+1) * sizeof(int));
 
     return (R);
 }    // coo_dsr_insp

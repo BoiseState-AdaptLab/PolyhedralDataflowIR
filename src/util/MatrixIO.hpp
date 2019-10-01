@@ -292,8 +292,8 @@ public:
 
                     int row, col;
                     for (unsigned i = 0; i < _nnz; i++) {
-                        //if (fscanf(fp, "%d %d %lg\n", &row, &col, &_vals[i])) {
-                        if (fscanf(fp, "%d %d %lg\n", &col, &row, &_vals[i])) {
+                        if (fscanf(fp, "%d %d %lg\n", &row, &col, &_vals[i])) {
+                        //if (fscanf(fp, "%d %d %lg\n", &col, &row, &_vals[i])) {
                             _indices[0][i] = row - 1;  /* adjust from 1-based to 0-based */
                             _indices[1][i] = col - 1;
                         }

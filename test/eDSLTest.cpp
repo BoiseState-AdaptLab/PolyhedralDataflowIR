@@ -331,13 +331,14 @@ TEST(eDSLTest, COO_CSR_Insp_Fuse) {
     Const N("N"), NNZ("NNZ");
     Space insp1("I_N");
     Space insp2("Irp", 0 <= n < NNZ ^ i==row(n));
+    Space insp3("Irp2", 0 <= i < N);
 
     pdfg::init("coo_csr_insp", "N", "d", "u", {"rp"});
     Comp inspN("inspN", insp1, (N=row(NNZ-1)+1));
     Comp insp_rp("insp_rp", insp2, (n >= rp(i+1)), (rp(i+1) = n+1));
-    Comp insp_rp2("insp_rp2", insp2, (rp(i) > rp(i+1)), (rp(i+1) = rp(i)+0));
+    Comp insp_rp2("insp_rp2", insp3, (rp(i) > rp(i+1)), (rp(i+1) = rp(i)+0));
 
-    pdfg::fuse(insp_rp, insp_rp2);
+    //pdfg::fuse(insp_rp, insp_rp2);
     print("out/coo_csr_insp.json");
     string result = codegen("out/coo_csr_insp.h", "", "C++", "simd");
     ASSERT_TRUE(!result.empty());
@@ -347,18 +348,21 @@ TEST(eDSLTest, COO_ELL_Insp) {
     // COO->ELL Inspector:
     // Here we assume the constraint: row(i-1) <= row(i), 1 <= i < N (i.e., row is sorted)
     Iter i('i'), n('n'), j('j'), m('m');
-    Func rp("rp"), row("row"), col("col");
+    Func rp("rp"), row("row"), col("col"), val("val"), lcol("lcol"), lval("lval");
     Const N('N'), M('M'), K('K');
-    Space k("k");
+    Space k("k"), p("p");
     Space insp1("I_N");
-    Space insp2("Irp", 1 <= n < M ^ i==row(n));
+    Space insp2("Irp", 0 <= n < M ^ i==row(n));
     Int zero(0), one(1);
 
     string name = "coo_ell_insp";
-    pdfg::init(name, "K", "d", "u", {"lcol", "lval"});
-    Comp inspN("inspN", insp1, ((N=row(M-1)+1) ^ (k=one+0)));
-    Comp inspK("inspK", insp2, (row(n) > row(n-1)), (K=max(k,K)) ^ (k=zero+0));
-    Comp inspK2("inspK2", insp2, (k += one));
+    pdfg::init(name, "K", "d", "u", {"lcol", "lval"}, "0");
+    Comp inspN("inspN", insp1, (N=row(M-1)+1));
+    Comp inspK("inspK", insp2, (i > p), (K=max(k+1,K)) ^ (k=zero+0));
+    Comp insp_lc("insp_lc", insp2, (lcol(k,i)=col(n)+0));
+    Comp insp_lv("insp_lv", insp2, (lval(k,i)=val(n)+0));
+    Comp insp_k("insp_k", insp2, (k += one));
+    Comp insp_p("insp_p", insp2, (p = i + 0));
 
     pdfg::fuse();
     print("out/" + name + ".json");
@@ -419,13 +423,13 @@ TEST(eDSLTest, COO_DSR_Insp) {
 
     string name = "coo_dsr_insp";
     pdfg::init(name, "R", "d", "u", {"crp", "crow"}, "0");
-    Comp insp_init("insp_init", insp1, ((crow(0) = row(0) + 0) ^ (R = crp(1) = Int(1) + 0)));
-    Comp insp_m("insp_m", insp2, (i != row(n-1)), (N += 1));
-    Comp insp_crow("insp_crow", insp2, (crow(N) = i + 0));
-    Comp insp_R("insp_R", insp2, (N >= R), (R = N + 1));
-    Comp insp_crp("insp_crp", insp2, (n >= crp(N+1)), (crp(N+1) = n+1));
+    Comp insp_init("insp_init", insp1, ((crow(0) = row(0) + 0) ^ (R = crp(0) = crp(1) = Int(0) + 0)));
+    Comp insp_m("insp_m", insp2, (i != row(n-1)), (R += 1));
+    Comp insp_crow("insp_crow", insp2, (crow(R) = i + 0));
+    Comp insp_crp("insp_crp", insp2, (n >= crp(R+1)), (crp(R+1) = n+1));
+    Comp insp_R("insp_R", insp1, (R+=1));
 
-    pdfg::fuse({"insp_m", "insp_crow", "insp_R", "insp_crp"});
+    pdfg::fuse({"insp_m", "insp_crow", "insp_crp"});
     pdfg::print("out/" + name + ".json");
     string result = pdfg::codegen("out/" + name + ".h", "", "C++");
     ASSERT_TRUE(!result.empty());

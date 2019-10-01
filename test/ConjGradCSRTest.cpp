@@ -21,11 +21,12 @@ protected:
         // Run COO->CSR Inspector!
         _rowptr = (unsigned*) calloc(_nrow + 1, sizeof(unsigned));
         coo_csr_insp(_nnz, _rows, _rowptr);
-//        ASSERT_EQ(_rowptr[0], 0);
-//        ASSERT_EQ(_rowptr[_nrow], _nnz);
-//        for (unsigned i = 0; i < _nrow; i++) {
-//            ASSERT_LE(_rowptr[i], _rowptr[i+1]);
-//        }
+
+        ASSERT_EQ(_rowptr[0], 0);
+        ASSERT_EQ(_rowptr[_nrow], _nnz);
+        for (unsigned i = 0; i < _nrow; i++) {
+            ASSERT_LE(_rowptr[i], _rowptr[i+1]);
+        }
     }
 
     virtual void Execute() {
@@ -37,7 +38,8 @@ protected:
 };
 
 TEST_F(ConjGradCSRTest, CG) {
-    //ConjGradTest::SetUp({"./data/matrix/cant.mtx"});
+    //ConjGradTest::SetUp({"./data/matrix/impact.mtx"});
+    //ConjGradTest::SetUp({"./data/matrix/taco.mtx"});
     ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
     ConjGradTest::Run();
     ConjGradTest::Verify();

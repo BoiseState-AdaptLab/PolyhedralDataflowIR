@@ -18,9 +18,11 @@ protected:
 };
 
 TEST_F(ConjGradCOOTest, CG) {
-    SetUp({"./data/matrix/cant.mtx"});
+    //SetUp({"./data/matrix/cant.mtx"});
     //SetUp({"./data/matrix/cg.mtx"});
     //SetUp({"./data/matrix/chesapeake.mtx"});
+    //ConjGradTest::SetUp({"./data/matrix/taco.mtx"});
+    SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
     Run();
     Verify();
     Assert();

@@ -29,41 +29,41 @@ inline unsigned coo_ell_insp(const unsigned M, const unsigned* row, const unsign
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned N;
     unsigned K=0;
-    unsigned k;
+    unsigned k=0,p=0;
 
 // inspN+inspK
 #undef s0
 #define s0() N=row(M-1)+1
-#undef s1
-#define s1() k=1
 
 s0();
-s1();
 
 *lcol = (unsigned*) calloc(M/2 * N, sizeof(unsigned));
 *lval = (double*) calloc(M/2 * N, sizeof(double));
 
 #undef s2
-#define s2(n,i) if ((i) > row((n)-1)) { K=max(k,K); k=0; }
+#define s2(n,i) if ((i) > p) { K=max(k+1,K); k=0; }
 #undef s3
-#define s3(n,i) k+=1
+#define s3(n,i) (*lcol)[offset2((k),(i),N)]=col((n))
 #undef s4
-#define s4(n,i) (*lcol)[offset2((k),(i),N)]=col((n))
+#define s4(n,i) (*lval)[offset2((k),(i),N)]=val((n))
 #undef s5
-#define s5(n,i) (*lval)[offset2((k),(i),N)]=val((n))
+#define s5(n,i) k+=1
+#undef s6
+#define s6(n,i) p=(i)
 
 //#pragma omp parallel for schedule(auto) private(t2,t4)
 #pragma omp simd private(t4)
-for(t2 = 1; t2 <= M-1; t2++) {
+for(t2 = 0; t2 <= M-1; t2++) {
   t4=row(t2);
   s2(t2,t4);
+  s3(t2,t4);
   s4(t2,t4);
   s5(t2,t4);
-  s3(t2,t4);
+  s6(t2,t4);
 }
 
-*lcol = (unsigned*) realloc(*lcol, K * N * sizeof(unsigned));
-*lval = (double*)  realloc(*lval, K * N * sizeof(double));
+*lcol = (unsigned*) realloc(*lcol, K*N*sizeof(unsigned));
+*lval = (double*)  realloc(*lval, K*N*sizeof(double));
 
     return (K);
 }    // coo_ell_insp

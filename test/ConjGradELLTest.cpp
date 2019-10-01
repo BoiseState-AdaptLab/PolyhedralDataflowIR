@@ -26,11 +26,15 @@ protected:
         // Run COO->CSR Inspector!
         _nell = coo_ell_insp(_nnz, _rows, _cols, _vals, &_lcol, &_lval);
         cerr << "K = " << _nell << endl;
-//        ASSERT_EQ(_rowptr[0], 0);
-//        ASSERT_EQ(_rowptr[_nrow], _nnz);
-//        for (unsigned i = 0; i < _nrow; i++) {
-//            ASSERT_LE(_rowptr[i], _rowptr[i+1]);
+//        #define offset2(i,j,M) ((j)+(i)*(M))
+//        for (unsigned k = 0; k < _nell; k++) {
+//            for (unsigned i = 0; i < _nrow; i++) {
+//                unsigned j = _lcol[offset2((k),(i),_nrow)];
+//                double v = _lval[offset2((k),(i),_nrow)];
+//                cerr << "(" << k << "," << i << "," << j << "," << v << "), ";
+//            }
 //        }
+//        cerr << endl;
     }
 
     virtual void Execute() {
@@ -44,8 +48,9 @@ protected:
 };
 
 TEST_F(ConjGradELLTest, CG) {
-    ConjGradTest::SetUp({"./data/matrix/cant.mtx"});
-    //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
+    //ConjGradTest::SetUp({"./data/matrix/cant.mtx"});
+    //ConjGradTest::SetUp({"./data/matrix/taco.mtx"});
+    ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
     ConjGradTest::Run();
     ConjGradTest::Verify();
     ConjGradTest::Assert();
