@@ -30,6 +30,7 @@ typedef Eigen::Triplet<double> Triple;
 #include "coo_dsr_insp.h"
 #include "coo_ell_insp.h"
 #include "coo_csb_insp.h"
+#include "coo_dia_insp.h"
 
 // Executors
 #include "conjgrad_coo.h"
@@ -37,6 +38,7 @@ typedef Eigen::Triplet<double> Triple;
 #include "conjgrad_dsr.h"
 #include "conjgrad_ell.h"
 #include "conjgrad_csb.h"
+#include "conjgrad_dia.h"
 
 double get_wtime() {
     struct timeval tv;
@@ -122,6 +124,7 @@ int main(int argc, char **argv) {
 
     unsigned nnz, nrow, ncol, maxiter = 500;
     unsigned niter = 0;
+    unsigned size = 0;
     unsigned* rows;
     unsigned* cols;
 
@@ -140,6 +143,9 @@ int main(int argc, char **argv) {
     unsigned nell;
     unsigned* lcol;
     double* lval;
+    unsigned ndia;
+    int* doff;
+    double* dval;
 
     double err = 1.0, tol = 1e-10;
     double* __restrict vals;
@@ -209,6 +215,8 @@ int main(int argc, char **argv) {
             } else if (!strncmp(format, "ell", 3)) {
                 itime = get_wtime();
                 nell = coo_ell_insp(nnz, rows, cols, vals, &lcol, &lval);
+            } else if (!strncmp(format, "dia", 3)) {
+                ndia = coo_dia_insp(vals, nnz, cols, rows, &dval, &doff);
             } else {
                 itime = 0.0;
             }
@@ -241,6 +249,9 @@ int main(int argc, char **argv) {
         } else if (strstr(format, "ell")) {
             ptime = get_wtime();
             err = conjgrad_ell(lval, b, nell, nrow, maxiter, lcol, x);
+        } else if (strstr(format, "dia")) {
+            ptime = get_wtime();
+            err = conjgrad_dia(dval, b, ndia, nrow, maxiter, doff, x);
         } else {
             fprintf(stderr, "%s: Unrecognized format: '%s'\n", name, format);
             return -1;
@@ -268,10 +279,22 @@ int main(int argc, char **argv) {
 #endif
 
     if (pid < 1) {
+        if (strstr(format, "coo")) {
+            size = 2 * sizeof(int) * nnz + sizeof(double) * nnz;
+        } else if (strstr(format, "csr")) {
+            size = sizeof(int) * (nnz + nrow + 1) + sizeof(double) * nnz;
+        } else if (strstr(format, "csb")) {
+            size = sizeof(int) * (3 * nb + 1) + (sizeof(char) * 2 * nnz) + (sizeof(double) * nnz);
+        } else if (strstr(format, "dsr")) {
+            size = sizeof(int) * (nnz + nzr + nzr + 1) + sizeof(double) * nnz;
+        } else if (strstr(format, "ell")) {
+            size = sizeof(int) * (1 + (nrow * nell)) + sizeof(double) * (nrow * nell);
+        } else if (strstr(format, "dia")) {
+            size = sizeof(int) * (1 + (nrow * ndia)) + sizeof(double) * (nrow * ndia);
+        }
 
-
-        fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf\n",
-            name, format, niter, x[0], nproc, nruns, tsum / (double) nruns, isum / (double) nruns);
+        fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u\n",
+            name, format, niter, x[0], nproc, nruns, tsum / (double) nruns, isum / (double) nruns, size);
     }
 
     teardown(&rows, &cols, &vals, &x, &b);

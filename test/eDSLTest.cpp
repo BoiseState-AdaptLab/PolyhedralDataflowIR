@@ -435,6 +435,32 @@ TEST(eDSLTest, COO_DSR_Insp) {
     ASSERT_TRUE(!result.empty());
 }
 
+TEST(eDSLTest, COO_DIA_Insp) {
+    // COO->DIA Inspector:
+    // Here we assume the constraint: row(i-1) <= row(i), 1 <= i < N (i.e., row is sorted)
+    Iter i('i'), n('n'), j('j'), d('d');
+    Func rp("rp"), row("row"), col("col"), did("did", 2), doff("doff");
+    Const N('N'), M('M'), D('D');
+    Space k("k"), p("p");
+    Space insp1("I_N");
+    Space insp2("Icoo", 0 <= n < M ^ i==row(n) ^ j==col(n));
+    Space val("val"), dval("dval");
+    Int zero(0), one(1);
+
+    string name = "coo_dia_insp";
+    pdfg::init(name, "D", "d", "i", {"doff", "dval"}, "0");
+    Comp inspN("inspN", insp1, (N = row(M-1)+1));
+    Comp inspD1("inspD1", insp2, (d = did(i,j)+0));
+    Comp inspD2("inspD2", insp2, (d >= D), (D = d+1));
+    Comp inspD3("inspD3", insp2, (doff(d) = j - i));
+    Comp inspD4("inspD4", insp2, (dval(d,i) = val(n)+0));
+
+    pdfg::fuse();
+    print("out/" + name + ".json");
+    string result = codegen("out/" + name + ".h", "", "C++");
+    ASSERT_TRUE(!result.empty());
+}
+
 TEST(eDSLTest, CSR_ELL_Insp) {
     Iter i('i'), j('j'), k('k'), n('n');
     Const N("N"), NNZ("NNZ"), K("K");
@@ -850,6 +876,55 @@ TEST(eDSLTest, ConjGradELL) {
     Comp dinit("dinit", sca, ds=rs0=rs=zero+0);
     Comp sinit("sinit", vec, (s[i] = zero + 0));
     Comp spmv("spmv", mtx, (s[i] += A(k,i) * d[j]));
+    Comp ddot("ddot", vec, (ds += d[i]*s[i]));
+    Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
+    Comp adiv("adiv", sca, (alpha = rs0/ds));
+    Comp xadd("xadd", vec, (x[i] += alpha * d[i]));
+    Comp rsub("rsub", vec, (r[i] -= alpha*s[i]));
+    Comp rdot("rdot", vec, (rs += r[i]*r[i]));
+    Comp bdiv("bdiv", sca, (beta = rs / rs0));
+    Comp dadd("dadd", vec, (d[i] = r[i] + beta * d[i]));     // FMA: a+b*c
+    //Comp check("check", sca, (rs <= tol), (t=T+1));
+
+    // Perform fusions
+    fuse();
+    parallelize();
+
+    perfmodel();        // perfmodel annotates graph with performance attributes.
+    print("out/" + name + ".json");
+    //Digraph itergraph = ConjGradTest::CSRGraph();
+    //reschedule(itergraph);
+    string result = codegen("out/" + name + ".h", "", "C++", "auto");
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
+TEST(eDSLTest, ConjGradDIA) {
+    Iter t('t'), i('i'), j('j'), k('k'), n('n');
+    Const T('T'), N('N'), M('M'), D('D');   // N=#rows/cols, M=#nnz, R=#max nonzeros/row
+    Func doff("doff");
+    Real zero(0.0);
+
+    // Iteration spaces:
+    Space cpy("cpy", 0 <= i < N);
+    Space sca("sca", 1 <= t <= T);
+    Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
+    //Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
+    //Space mtx = csr;
+    Space dia("dia", 1 <= t <= T ^ 0 <= i < N ^ 0 <= k < D ^ j==doff(k)+i);
+    Space mtx = dia;
+
+    // Data spaces:
+    Space A("A", D, N), x("x", N), b("b", N), r("r", N), s("s", N), d("d", N);
+    Space alpha("alpha"), beta("beta"), ds("ds"), rs("rs"), rs0("rs0"), tol("tol", 1E-6);
+
+    string name = "conjgrad_dia";
+    init(name, "rs", "d", "", {string("tol")}, "0");
+
+    Comp copy("copy", cpy, ((r[i]=(d[i])=b[i]+0)));
+    Comp dinit("dinit", sca, ds=rs0=rs=zero+0);
+    Comp sinit("sinit", vec, (s[i] = zero + 0));
+    Comp spmv("spmv", mtx, (j<N), (s[i] += A(k,i) * d[j]));
     Comp ddot("ddot", vec, (ds += d[i]*s[i]));
     Comp rdot0("rdot0", vec, (rs0 += r[i]*r[i]));
     Comp adiv("adiv", sca, (alpha = rs0/ds));
