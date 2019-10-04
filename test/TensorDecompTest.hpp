@@ -80,12 +80,8 @@ namespace test {
                 _factors_ref[d] = (real*) malloc(nbytes);
                 memcpy(_factors_ref[d], fac.vals(), nbytes);
             }
-        }
 
-        virtual void Execute() {
-            //unsigned seed = 1568224077;
-            //cp_als_coo(const float* X, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, float* A, float* B, float* C, float* lmbda)
-            cp_als_coo(_vals, _niter, _dims[0], _dims[1], _dims[2], _nnz, _rank, &_indices[0], &_indices[_nnz], &_indices[_nnz * 2], _factors[0], _factors[1], _factors[2], _lambda);
+            cerr << "Leaving TensorDecompTest::SetUp\n";
         }
 
         virtual void Inspect() {}

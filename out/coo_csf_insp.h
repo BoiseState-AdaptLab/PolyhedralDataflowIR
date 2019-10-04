@@ -13,49 +13,53 @@
 #define offset3(i,j,k,M,N) ((k)+((j)+(i)*(M))*(N))
 #define offset4(i,j,k,l,M,N,P) ((l)+((k)+((j)+(i)*(M))*(N))*(P))
 #define arrinit(ptr,val,size) for(unsigned __i__=0;__i__<(size);__i__++) (ptr)[__i__]=(val)
+#define findx(n,m) (*findx)[(n)][(m)]
+#define fptr(n,m) (*fptr)[(n)][(m)]
+#define pos(n) pos[(n)]
+#define loc(n) loc[(n)]
+#define mark(n) mark[(n)]
 
-void coo_csf_insp(const unsigned* dims, const unsigned* indices, const unsigned M, const unsigned N, unsigned*** fptr, unsigned*** find);
-void coo_csf_insp(const unsigned* dims, const unsigned* indices, const unsigned M, const unsigned N, unsigned*** fptr, unsigned*** find) {
+void coo_csf_insp(const unsigned* dims, const unsigned* indices, const unsigned M, const unsigned N, unsigned*** fptr, unsigned*** findx);
+void coo_csf_insp(const unsigned* dims, const unsigned* indices, const unsigned M, const unsigned N, unsigned*** fptr, unsigned*** findx) {
     unsigned i,m,n;
     unsigned pos[N] = {0};
     unsigned loc[N] = {0};
     unsigned mark[N] = {0};
-    unsigned psizes[N] = {0};
+    unsigned psize = 2;
 
     *fptr = (unsigned**) calloc(N, sizeof(int*));
-    *find = (unsigned**) calloc(N, sizeof(int*));
+    *findx = (unsigned**) calloc(N, sizeof(int*));
 
     // Copy dimensions and size up arrays...
-    psizes[0] = 2;
     for (n = 0; n < N; n++) {
-        fptr[n] = (unsigned*) calloc(psizes[n], sizeof(int));
-        find[n] = (unsigned*) calloc(M, sizeof(int));
-        psizes[n + 1] = M + 1;
+        (*fptr)[n] = (unsigned*) calloc(psize, sizeof(int));
+        (*findx)[n] = (unsigned*) calloc(M, sizeof(int));
+        psize = M + 1;
     }
 
     // Peel off m == 0 to initialize indices
     for (n = 0; n < N; n++) {
-        loc[n] = 0;
-        pos[n] = 1;
-        find[n][0] = indices[n * nnz];
-        fptr[n][pos[n]]++;
+        loc(n) = 0;
+        pos(n) = 1;
+        findx(n,0) = indices[n*M];
+        fptr(n,pos[n])++;
         for (m = 1; m < M; m++) {
-            indices[n][m] = UINT32_MAX;
+            findx(n,m) = UINT32_MAX;
         }
     }
 
     for (m = 1; m < M; m++) {
         for (n = 0; n < N; n++) {
-            i = indices[n * M + m];
-            if (i != indices[n][loc[n]] || mark[n]) {
-                loc[n]++;
-                indices[n][loc[n]] = i;
-                mark[n] = 0;
-                offsets[n][pos[n]]++;
+            i = indices[n*M+m];
+            if (i != findx(n,loc[n]) || mark(n)) {
+                loc(n)++;
+                findx(n,loc[n]) = i;
+                mark(n) = 0;
+                fptr(n,pos[n])++;
                 if (n < N-1) {
-                    mark[n+1] = 1;
-                    pos[n+1]++;
-                    offsets[n+1][pos[n+1]] = offsets[n+1][pos[n+1]-1];
+                    mark(n+1) = 1;
+                    pos(n+1)++;
+                    fptr(n+1,pos(n+1)) = fptr(n+1,pos(n+1)-1);
                 }
             }
         }
@@ -69,3 +73,8 @@ void coo_csf_insp(const unsigned* dims, const unsigned* indices, const unsigned 
 #undef offset2
 #undef offset3
 #undef offset4
+#undef findx
+#undef fptr
+#undef pos
+#undef loc
+#undef mark

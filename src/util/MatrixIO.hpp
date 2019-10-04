@@ -258,7 +258,9 @@ public:
         }
         if (_indices != nullptr) {
             for (unsigned i = 0; i < _order; i++) {
-                free(_indices[i]);
+                if (_indices[i]) {
+                    free(_indices[i]);
+                }
             }
             free(_indices);
         }
