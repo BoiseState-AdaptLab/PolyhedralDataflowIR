@@ -13,18 +13,6 @@ using std::to_string;
 #include <vector>
 using std::vector;
 
-#ifdef EIGEN_EXEC
-#include <Eigen/Sparse>
-#include <Eigen/SparseExtra>
-#include <Eigen/IterativeLinearSolvers>
-using Eigen::VectorXd;
-using Eigen::SparseMatrix;
-using Eigen::ConjugateGradient;
-using Eigen::Lower;
-using Eigen::Upper;
-typedef Eigen::Triplet<double> Triple;
-#endif
-
 // Inspectors
 #include "coo_csf_insp.h"
 //#include "coo_hicoo_insp.h"
@@ -39,57 +27,28 @@ double get_wtime() {
     return (double) tv.tv_sec + (((double) tv.tv_usec) * 1E-6);
 }
 
-void setup(const char* matrix, unsigned* nnz, unsigned* nrow, unsigned* ncol, unsigned* maxiter,
-           unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b
-#ifdef EIGEN_EXEC
-           , SparseMatrix<double>& Aspm, VectorXd& xVec, VectorXd& bVec) {
-#else
-           ) {
-#endif
-    // Read matrix file
-    MatrixIO mtx(matrix);
-    mtx.read();
+void setup(const char* tnsfile, unsigned* nnz, unsigned* maxiter, unsigned* order, unsigned* rank, unsigned** dims,
+           unsigned** indices, double* __restrict* vals, double* __restrict** factors, double** __restrict* b) {
+    *rank = 10;
+    *maxiter = 50;
 
-    *nnz = mtx.nnz();
-    *nrow = mtx.nrows();
-    *ncol = mtx.ncols();
+    // Read tensor file
+    TensorIO tns(tnsfile, *rank);
+    tns.read();
+    *nnz = tns.nnz();
+    *order = tns.order();
 
-    // Copy arrays...
-    unsigned nbytes = *nnz * sizeof(unsigned);
-    *rows = (unsigned*) malloc(nbytes);
-    memcpy(*rows, mtx.rows(), nbytes);
-    *cols = (unsigned*) malloc(nbytes);
-    memcpy(*cols, mtx.cols(), nbytes);
+    unsigned nbytes = (*order) * (*nnz) * sizeof(unsigned);
+    *indices = (unsigned*) malloc(nbytes);
+    memcpy(*indices, tns.indices(), nbytes);
 
-    nbytes = *nnz * sizeof(double);
-    *vals = (double*) malloc(nbytes);
-    memcpy(*vals, mtx.vals(), nbytes);
+    nbytes = *_order * sizeof(unsigned);
+    *dims = (unsigned*) malloc(nbytes);
+    memcpy(*dims, tns.dims(), nbytes);
 
-#ifdef EIGEN_EXEC
-    vector<Triple> triples;
-    triples.reserve(*nnz);
-    for (unsigned n = 0; n < *nnz; n++) {
-        triples.push_back(Triple((*rows)[n], (*cols)[n], (*vals)[n]));
-    }
-
-    Aspm.resize(*nrow, *ncol);
-    Aspm.setFromTriplets(triples.begin(), triples.end());
-
-    xVec.resize(*ncol);
-    bVec.resize(*nrow);
-
-    for (unsigned i = 0; i < *nrow; i++) {
-        bVec(i) = 1.0;
-    }
-#else
-    *x = (double*) calloc(*ncol, sizeof(double));
-    *b = (double*) malloc(*nrow * sizeof(double));
-
-    // Initialize b to something more interesting than 0
-    for (unsigned i = 0; i < *nrow; i++) {
-        (*b)[i] = 1.0;
-    }
-#endif
+    nbytes = *nnz * sizeof(float);
+    *vals = (float*) malloc(nbytes);
+    memcpy(*vals, tns.vals(), nbytes);
 }
 
 void teardown(unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b) {
