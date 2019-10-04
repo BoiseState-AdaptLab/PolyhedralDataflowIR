@@ -4,7 +4,8 @@ using std::to_string;
 #include <gtest/gtest.h>
 using namespace testing;
 
-#include <cp_als_coo.h>
+#include <coo_csf_insp.h>
+#include <mttkrp_csf.h>
 
 #ifdef SPLATT_ENABLED
 #include <splatt.h>
@@ -28,20 +29,19 @@ namespace test {
         virtual ~TensorDecompTestCSF() {}
 
         virtual void Inspect() {
-            // Run COO->DIA Inspector!
-            _nfibers = coo_csf_insp(_vals, _nnz, _cols, _rows, &_dval, &_doff);
-            cerr << "F = " << _nfibers << endl;
+            // Run COO->CSF Inspector!
+            coo_csf_insp(_dims, _indices, _nnz, _order, &_fptr, &_find);
+            cerr << "F = " << _fptr[0][1] << endl;
         }
 
         virtual void Execute() {
             //unsigned seed = 1568224077;
-            //cp_als_coo(const float* X, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, float* A, float* B, float* C, float* lmbda)
-            cp_als_coo(_vals, _niter, _dims[0], _dims[1], _dims[2], _nnz, _rank, &_indices[0], &_indices[_nnz], &_indices[_nnz * 2], _factors[0], _factors[1], _factors[2], _lambda);
+            //cp_als_coo(_vals, _niter, _dims[0], _dims[1], _dims[2], _nnz, _rank, &_indices[0], &_indices[_nnz], &_indices[_nnz * 2], _factors[0], _factors[1], _factors[2], _lambda);
+            mttkrp_csf(const float* B, const float* C, const float* X, const unsigned F, const unsigned R, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, const unsigned* pos0, const unsigned* pos1, float* A);
         }
 
-        unsigned _nfibers;
-        int* _doff;
-        double* _dval;
+        unsigned** _fptr;
+        unsigned** _find;
     };
 
     TEST_F(TensorDecompTestCSF, CPD) {
