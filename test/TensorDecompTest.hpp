@@ -4,8 +4,6 @@ using std::to_string;
 #include <gtest/gtest.h>
 using namespace testing;
 
-#include <cp_als_coo.h>
-
 #ifdef SPLATT_ENABLED
 #include <splatt.h>
 #endif
@@ -14,15 +12,15 @@ using namespace testing;
 using util::MatlabIO;
 using util::TensorIO;
 
-#include "BenchmarkTest.hpp"
+#include "InspExecTest.hpp"
 
 typedef float real;
 
 namespace test {
-    class TensorDecompTest : public BenchmarkTest {
+    class TensorDecompTest : public InspExecTest {
 
     protected:
-        TensorDecompTest(const string& name = "TensorDecompTest") : BenchmarkTest(name) {
+        TensorDecompTest(const string& name = "TensorDecompTest") : InspExecTest(name) {
         }
 
         virtual ~TensorDecompTest() {}
@@ -90,6 +88,8 @@ namespace test {
             cp_als_coo(_vals, _niter, _dims[0], _dims[1], _dims[2], _nnz, _rank, &_indices[0], &_indices[_nnz], &_indices[_nnz * 2], _factors[0], _factors[1], _factors[2], _lambda);
         }
 
+        virtual void Inspect() {}
+
         virtual void Evaluate() {
             // Nothing to do here, maybe later SPLATT or SKT...
         }
@@ -139,11 +139,4 @@ namespace test {
 //        splatt_csf* _tns;
 //        splatt_kruskal _fac;
     };
-
-    TEST_F(TensorDecompTest, CPD) {
-        SetUp("./data/tensor/matmul_5-5-5.tns", 10, 11);
-        Run();
-        Verify();
-        Assert();
-    }
 }
