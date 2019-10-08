@@ -298,27 +298,30 @@ TEST(eDSLTest, COO_CSR_Insp_Opt) {
 
 TEST(eDSLTest, Jacobi2D) {
     Iter t('t'), i('i'), j('j');
-    Const T('T'), N('N');   // N=#rows/cols, M=#nnz, K=#iterations
+    Const T('T'), N('N'),  M('M');
     Space jac("jac", 1 <= t <= T ^ 1 <= i <= N ^ 1 <= j <= N);
-    Space A("A", T, N, N);
+    Space A("A", T, N+2, M+2);
     init("jacobi2d");
-    Comp stencil = jac + (A(t,i,j) = (A(t-1,i,j) + A(t-1,i,j-1) + A(t-1,i,j+1) + A(t-1,i+1,j) + A(t-1,i-1,j)) * 0.2);
+    Comp stencil = jac + (A(t,i,j) = paren(A(t-1,i,j) + A(t-1,i,j-1) + A(t-1,i,j+1) + A(t-1,i+1,j) + A(t-1,i-1,j)) * 0.2);
     print("out/jacobi2d.json");
     string result = codegen("out/jacobi2d.o");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
 
-TEST(eDSLTest, Jac2D) {
-    init("jacobi2d");
+TEST(eDSLTest, GaussSeidel) {
     Iter t('t'), i('i'), j('j');
-    Const M('M'), N('N');
-    Space jac("jac", 1 <= i <= M ^ 1 <= j <= N);
-    Space A("A", M+2, N+2);
-    Space B("B", M+2, N+2);
-    Comp stencil = jac + (A(i,j) = (A(i,j) + A(i,j-1) + A(i,j+1) + A(i-1,j) + A(i+1,j))*0.2);
-    print("out/jacobi2d.json");
-    string result = codegen("out/jacobi2d.o");
+    Const T('T'), N('N'),  M('M');
+    Space gs("jac", 1 <= t <= T ^ 1 <= i <= N ^ 1 <= j <= N);
+    Space A("A", T, N+2, M+2);
+    string name = "gs_rb";
+    pdfg::init(name);
+    auto expr = (A(t,i,j) = paren(A(t-1,i,j) + A(t,i,j-1) + A(t-1,i,j+1) + A(t-1,i+1,j) + A(t,i-1,j)) * 0.2);
+    Comp stencil_r("st_r", gs, ((i+j) % 2 == 0), expr);
+    Comp stencil_r("st_b", gs, ((i+j) % 2 == 1), expr);
+    pdfg::fuse({"st_r", "st_b"});
+    pdfg::print("out/" + name + ".json");
+    string result = pdfg::codegen("out/" + name + ".h");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }

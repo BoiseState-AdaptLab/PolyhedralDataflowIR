@@ -28,7 +28,7 @@ double get_wtime() {
 }
 
 void setup(const char* tnsfile, unsigned* nnz, unsigned* maxiter, unsigned* order, unsigned* rank, unsigned** dims,
-           unsigned** indices, double* __restrict* vals, double* __restrict** factors, double** __restrict* b) {
+           unsigned** indices, float** __restrict vals, float*** __restrict factors, float** __restrict lambda) {
     *rank = 10;
     *maxiter = 50;
 
@@ -49,6 +49,11 @@ void setup(const char* tnsfile, unsigned* nnz, unsigned* maxiter, unsigned* orde
     nbytes = *nnz * sizeof(float);
     *vals = (float*) malloc(nbytes);
     memcpy(*vals, tns.vals(), nbytes);
+
+    *_factors = (float**) calloc(*order, sizeof(float*));
+    for (unsigned n = 0; n <  *order; n++) {
+        (*_factors)[n] = (float*) calloc((*dims)[n] * (*rank));
+    }
 }
 
 void teardown(unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b) {
