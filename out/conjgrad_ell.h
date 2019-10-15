@@ -84,7 +84,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
     s8(t2,t4);
     s9(t2,t4);
   }
-  s10(t2+1);
+  s10(t2);
   #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8,beta)
   for(t4 = 0; t4 <= N-1; t4++) {
     s11(t2,t4);
