@@ -3,20 +3,21 @@ grammar pdfl;
 // Rules
 pgm: expr_list EOF;
 
-expr_list: expr SEMI expr;
+expr_list: expr | expr SEMI expr;
 expr: set_expr |
       rel_expr |
       fxn_expr |
       IDENT |
       DIGIT |
       ;     // eps
-set_expr: IDENT LPAREN tuple_list RPAREN EQ LBRACE constr list RBRACE COLON stmt_list;
+set_expr: IDENT LPAREN tuple_list RPAREN EQ LBRACE constr_list RBRACE COLON stmt_list;
 tuple_list: IDENT | IDENT COMMA tuple_list;
 constr_list: constraint | constraint CARET constr_list;
 stmt_list: stmt | stmt COMMA stmt_list
 rel_expr: LBRACE constr_list RBRACE STAR IDENT;
 fxn_expr: IDENT EQ IDENT LPAREN expr_list RPAREN;
-
+stmt: /* C/C++/Python style statement */ | /* eps */ ;
+constraint: /* IEGenLib/Omega style constraint */;
 
 environment: ID LPAREN RPAREN EQ INVERSE ID LPAREN RPAREN;
 //         { Environment* env = new Environment();
