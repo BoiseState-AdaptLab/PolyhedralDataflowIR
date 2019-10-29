@@ -1103,6 +1103,11 @@ namespace pdfg {
         return constr;
     }
 
+    Constr operator==(const Expr &expr, const int val) {
+        Constr constr(expr, Int(val), "=");
+        return constr;
+    }
+
     Constr operator==(const Expr &lhs, const Expr &rhs) {
         Constr constr(lhs, rhs, "=");
         return constr;

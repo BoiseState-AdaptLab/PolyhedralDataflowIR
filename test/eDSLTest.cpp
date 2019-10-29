@@ -318,7 +318,7 @@ TEST(eDSLTest, GaussSeidel) {
     pdfg::init(name);
     auto expr = (A(t,i,j) = paren(A(t-1,i,j) + A(t,i,j-1) + A(t-1,i,j+1) + A(t-1,i+1,j) + A(t,i-1,j)) * 0.2);
     Comp stencil_r("st_r", gs, ((i+j) % 2 == 0), expr);
-    Comp stencil_r("st_b", gs, ((i+j) % 2 == 1), expr);
+    Comp stencil_b("st_b", gs, ((i+j) % 2 == 1), expr);
     pdfg::fuse({"st_r", "st_b"});
     pdfg::print("out/" + name + ".json");
     string result = pdfg::codegen("out/" + name + ".h");
@@ -805,8 +805,8 @@ TEST(eDSLTest, ConjGradDSR) {
 }
 
 TEST(eDSLTest, ConjGradCSB) {
-    Iter t('t'), i('i'), j('j'), m('m'), n('n');
-    Const T('T'), N('N'), M('M'), B('B'), NB("NB");   // T=#iter, N=#rows/cols, M=#nnz, B=blk_size, NB=#nonzero blocks
+    Iter t('t'), i('i'), j('j'), m('m'), n('n'), bi("bi"), bj("bj"), ei("ei"), ej("ej");
+    Const T('T'), N('N'), M('M'), B('B', 128), NB("NB");   // T=#iter, N=#rows/cols, M=#nnz, B=blk_size, NB=#nonzero blocks
     Func bp("bp"), brow("brow"), bcol("bcol"), erow("erow"), ecol("ecol");
     Real zero(0.0);
 
@@ -817,6 +817,7 @@ TEST(eDSLTest, ConjGradCSB) {
 //    Space dsr("dsr", 1 <= t <= T ^ 0 <= m < R ^ i==crow(m) ^ crp(i) <= n < crp(i+1) ^ j==col(n));
 //    Space mtx = dsr;
     Space csb("csb", 1 <= t <= T ^ 0 <= m < NB ^ bp(m) <= n < bp(m+1) ^ i==B*brow(m)+erow(n) ^ j==B*bcol(m)+ecol(n));
+    //Space csb("csb", 1 <= t <= T ^ 0 <= m < NB ^ bp(m) <= n < bp(m+1) ^ bi==brow(m) ^ bj==bcol(m) ^ ei==erow(n) ^ ej==ecol(n) ^ i==B*bi+ei ^ j==B*bj+ej);
     Space mtx = csb;
 
     // Data spaces:
@@ -848,7 +849,7 @@ TEST(eDSLTest, ConjGradCSB) {
     print("out/" + name + ".json");
     //Digraph itergraph = ConjGradTest::CSRGraph();
     //reschedule(itergraph);
-    string result = codegen("out/" + name + ".h", "", "C++", "auto");
+    string result = codegen("out/" + name + ".c", "", "C++", "auto");
     //cerr << result << endl;
     ASSERT_TRUE(!result.empty());
 }
