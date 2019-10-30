@@ -25,19 +25,25 @@ protected:
     virtual void Inspect() {
         // Run COO->DIA Inspector!
         _ndia = coo_dia_insp(_vals, _nnz, _cols, _rows, &_dval, &_doff);
-        cerr << "D = " << _ndia << endl;
 
-//        #define offset2(i,j,M) ((j)+(i)*(M))
+//        cerr << "doff = [";
+//        for (unsigned n = 0; n < _ndia; n++) {
+//            cerr << _doff[n] << ",";
+//        }
+//        cerr << "]\n";
+//
+//        double sum = 0.0;
 //        for (unsigned i = 0; i < _nrow; i++) {
 //            for (unsigned d = 0; d < _ndia; d++) {
 //                unsigned j = i + _doff[d];
 //                if (j < _ncol) {
-//                    double v = _dval[offset2((d), (i), _nrow)];
-//                    cerr << "(" << i << "," << j << "," << v << "), ";
+//                    double v = _dval[d * _nrow + i];
+//                    //cerr << "(" << i << "," << d << "," << j << "," << v << "), ";
+//                    sum += v;
 //                }
 //            }
 //        }
-//        cerr << endl;
+//        cerr << sum << endl;
     }
 
     virtual void Execute() {
@@ -51,9 +57,9 @@ protected:
 };
 
 TEST_F(ConjGradDIATest, CG) {
-    //ConjGradTest::SetUp({"./data/matrix/cant.mtx"});
     //ConjGradTest::SetUp({"./data/matrix/taco.mtx"});
     ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
+    //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/cant/cant.mtx"});
     ConjGradTest::Run();
     ConjGradTest::Verify();
     ConjGradTest::Assert();

@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <math.h>
 #include <string.h>
+#include <limits.h>
+#include <math.h>
 
 #define min(x,y) (((x)<(y))?(x):(y))
 #define max(x,y) (((x)>(y))?(x):(y))
@@ -20,52 +21,38 @@ fprintf(stderr,"}\n");}
 #define val(n) val[(n)]
 #define doff(d) (*doff)[(d)]
 #define dval(d,i) (*dval)[offset2((d),(i),N)]
-#define col(n) col[(n)]
-#define row(n) row[(n)]
-
-#define did(d,i,j) {\
-(n)=(j)-(i)+(N-1);\
-if(dset[(n)]<0)dset[(n)]=D;\
-(d)=dset[(n)];\
-}
+//#define col(n) col[(n)]
+//#define row(n) row[(n)]
 
 int coo_dia_insp(const double* val, const unsigned M, const unsigned* col, const unsigned* row, double** dval, int** doff);
 inline int coo_dia_insp(const double* val, const unsigned M, const unsigned* col, const unsigned* row, double** dval, int** doff) {
-    int t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
-    int N, D = 0;
-    int n, d;
-    int* dset;
+    unsigned i, j, k, n;
+    int d, D = 0;
+    unsigned N = row[M-1];
+    unsigned dmax = N+N-1;
+    unsigned* __restrict dset = (unsigned*) malloc(dmax * sizeof(int));
+    *dval = (double*) calloc((N/2) * N, sizeof(double));
+    *doff = (int*) calloc(dmax, sizeof(int));
+    memset(dset, UINT_MAX, dmax * sizeof(int));
 
-// inspN+inspD1+inspD2+inspD3+inspD4
-#undef s0
-#define s0() N=row(M-1)+1
-#undef s1
-#define s1(n,i,j) did(d,(i),(j))
-#undef s2
-#define s2(n,i,j) if (d >= D) D=d+1
-#undef s3
-#define s3(n,i,j) doff(d)=(j)-(i)
-#undef s4
-#define s4(n,i,j) dval(d,(i))=val((n))
-
-s0();
-
-*doff = (int*) malloc(2*N * sizeof(int));
-*dval = (double*) calloc(N*N, sizeof(double));
-dset = (int*) malloc((2*N-1) * sizeof(int));
-memset(dset, -1, (2*N-1) * sizeof(int));
-
-for(t2 = 0; t2 <= M-1; t2++) {
-  t4=row(t2);
-  t6=col(t2);
-  s1(t2,t4,t6);
-  s2(t2,t4,t6);
-  s3(t2,t4,t6);
-  s4(t2,t4,t6);
+#define did(d,i,j) {\
+(k)=(j)-(i)+(N-1);\
+if(dset[(k)]==UINT_MAX)dset[(k)]=D;\
+(d)=dset[(k)];\
 }
 
-*doff = (int*) realloc(*doff, D * sizeof(int));
-*dval = (double*) realloc(*dval, D * N * sizeof(double));
+    for (n = 0; n < M; n++) {
+        i = row[n];
+        j = col[n];
+        did(d,i,j);
+        if (d >= D) D=d+1;
+        (*doff)[d] = (int) j - i;
+        k = offset2(d,i,N);
+        (*dval)[k] = val[n];
+    }
+
+    *doff = (int*) realloc(*doff, D * sizeof(int));
+    *dval = (double*) realloc(*dval, D * N * sizeof(double));
 
     return (D);
 }    // coo_dia_insp

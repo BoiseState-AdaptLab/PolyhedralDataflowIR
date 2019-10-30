@@ -135,7 +135,7 @@ int main(int argc, char **argv) {
     unsigned char* erow;
     unsigned char* ecol;
     unsigned nb;
-    unsigned bs = 128;
+    unsigned bs;
     double* bval;
     unsigned nzr;
     unsigned* crp;
@@ -174,6 +174,12 @@ int main(int argc, char **argv) {
         strcpy(format, "coo");
     }
 
+    if (argc > 4) {
+        bs = atoi(argv[4]);
+    } else {
+        bs = 128;
+    }
+
     setup(matrix, &nnz, &nrow, &ncol, &maxiter, &rows, &cols, &vals, &x, &b
 #ifdef EIGEN_EXEC
     , Aspm, xVec, bVec);
@@ -189,25 +195,21 @@ int main(int argc, char **argv) {
 
     // Invoke the inspector...
     if (strlen(format) > 0) {
+        itime = get_wtime();
         if (!strncmp(format, "csr", 3)) {
-            itime = get_wtime();
             rowptr = (unsigned*) calloc(nrow + 1, sizeof(unsigned));
             coo_csr_insp(nnz, rows, rowptr);
         } else if (!strncmp(format, "csb", 3)) {
-            itime = get_wtime();
             nb = coo_csb_insp(vals, bs, nnz, cols, rows, &bval, &bcol, &bptr, &brow, &ecol, &erow);
         } else if (!strncmp(format, "dsr", 3)) {
-            itime = get_wtime();
             nzr = coo_dsr_insp(rows, nnz, &crow, &crp);
         } else if (!strncmp(format, "ell", 3)) {
-            itime = get_wtime();
             nell = coo_ell_insp(nnz, rows, cols, vals, &lcol, &lval);
         } else if (!strncmp(format, "dia", 3)) {
             ndia = coo_dia_insp(vals, nnz, cols, rows, &dval, &doff);
         } else {
             itime = 0.0;
         }
-
         if (itime != 0.0) {
             itime = get_wtime() - itime;
         }
@@ -282,17 +284,17 @@ int main(int argc, char **argv) {
     if (pid < 1) {
         // Compute the data size...
         if (strstr(format, "coo")) {
-            size = 2 * sizeof(int) * nnz + sizeof(double) * nnz;
+            size = (2 * sizeof(int) * nnz) + (sizeof(double) * nnz);
         } else if (strstr(format, "csr")) {
-            size = sizeof(int) * (nnz + nrow + 1) + sizeof(double) * nnz;
+            size = (sizeof(int) * (nnz + nrow + 1)) + (sizeof(double) * nnz);
         } else if (strstr(format, "csb")) {
-            size = sizeof(int) * (3 * nb + 1) + (sizeof(char) * 2 * nnz) + (sizeof(double) * nnz);
+            size = (sizeof(int) * (3 * nb + 1)) + (sizeof(char) * 2 * nnz) + (sizeof(double) * nnz);
         } else if (strstr(format, "dsr")) {
-            size = sizeof(int) * (nnz + nzr + nzr + 1) + sizeof(double) * nnz;
+            size = (sizeof(int) * (nnz + 2 * nzr + 1)) + (sizeof(double) * nnz);
         } else if (strstr(format, "ell")) {
-            size = sizeof(int) * (1 + (nrow * nell)) + sizeof(double) * (nrow * nell);
+            size = (sizeof(int) * (1 + (nrow * nell))) + (sizeof(double) * (nrow * nell));
         } else if (strstr(format, "dia")) {
-            size = sizeof(int) * (1 + (nrow * ndia)) + sizeof(double) * (nrow * ndia);
+            size = (sizeof(int) * (1 + (nrow * ndia))) + (sizeof(double) * (nrow * ndia));
         }
 
         fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u\n",

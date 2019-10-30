@@ -25,12 +25,12 @@ fprintf(stderr,"}\n");}
 double conjgrad_dia(const double* A, const double* b, const unsigned D, const unsigned N, const unsigned T, const int* doff, double* x);
 inline double conjgrad_dia(const double* A, const double* b, const unsigned D, const unsigned N, const unsigned T, const int* doff, double* x) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
-    double* __restrict r = (double*) calloc((N),sizeof(double));
-    double* __restrict d = (double*) calloc((N),sizeof(double));
+    double* __restrict r = (double*) malloc((N)*sizeof(double));
+    double* __restrict d = (double*) malloc((N)*sizeof(double));
     double ds;
     double rs;
     double rs0;
-    double* __restrict s = (double*) calloc((N),sizeof(double));
+    double* __restrict s = (double*) malloc((N)*sizeof(double));
     double alpha;
     double beta;
 
@@ -43,6 +43,7 @@ inline double conjgrad_dia(const double* A, const double* b, const unsigned D, c
 #define s2(t,i) s[(i)]=0.000000
 #undef s3
 #define s3(t,i,k,j) if ((j) < N) s[(i)]+=A((k),(i))*d[(j)]
+//#define s3(t,i,k,j) s[(i)]+=A((k),(i))*d[(j)]
 #undef s4
 #define s4(t,i) ds+=d[(i)]*s[(i)]
 #undef s5
@@ -64,16 +65,22 @@ inline double conjgrad_dia(const double* A, const double* b, const unsigned D, c
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
 }
-for(t2 = 0; t2 <= T-1; t2++) {
+for(t2 = 1; t2 <= T; t2++) {
   s1(t2);
   #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
   for(t4 = 0; t4 <= N-1; t4++) {
-    s2(t2,t4);
+    s2(t2, t4);
+  }
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  for(t6 = 0; t6 <= D-1; t6++) {
     #pragma omp simd
-    for(t6 = 0; t6 <= D-1; t6++) {
+    for(t4 = 0; t4 <= N-1; t4++) {
       t8=t4+doff(t2,t4,t6);
       s3(t2,t4,t6,t8);
     }
+  }
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  for(t4 = 0; t4 <= N-1; t4++) {
     s4(t2,t4);
     s5(t2,t4);
   }
