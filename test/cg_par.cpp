@@ -187,6 +187,7 @@ int main(int argc, char **argv) {
     LIKWID_MARKER_INIT
 #endif
 
+    // Invoke the inspector...
     if (strlen(format) > 0) {
         if (!strncmp(format, "csr", 3)) {
             itime = get_wtime();
@@ -212,6 +213,7 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Time the executor...
     for (unsigned i = 0; i < nruns; i++) {
         //#pragma omp parallel for private(pid)
         //for (unsigned p = 0; p < nproc; p++) {
@@ -278,6 +280,7 @@ int main(int argc, char **argv) {
 #endif
 
     if (pid < 1) {
+        // Compute the data size...
         if (strstr(format, "coo")) {
             size = 2 * sizeof(int) * nnz + sizeof(double) * nnz;
         } else if (strstr(format, "csr")) {

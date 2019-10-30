@@ -3,6 +3,7 @@
 // Include generated code:
 #include "coo_csr_insp.h"
 #include "conjgrad_csr.h"
+//#include "conjgrad_csr_red.h"
 
 namespace test {
 class ConjGradCSRTest : public ConjGradTest {

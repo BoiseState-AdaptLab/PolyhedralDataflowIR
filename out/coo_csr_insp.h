@@ -40,8 +40,8 @@ s0();
 #undef s1
 #define s1(n,i) if (rp((i)) > rp((i)+1)) rp((i)+1)=rp((i))
 
-//#pragma omp simd
-#pragma omp parallel for schedule(auto) private(t2)
+//#pragma omp parallel for schedule(auto) private(t2)
+#pragma omp simd
 for(t2 = 0; t2 <= M-1; t2++) {
   s0(t2,row(t2));
 }
