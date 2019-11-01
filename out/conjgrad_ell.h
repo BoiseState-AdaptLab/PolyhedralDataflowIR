@@ -19,8 +19,8 @@ fprintf(stderr,"%s={",(name));\
 for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
 #define tid omp_get_thread_num()
-#define A(k,i) A[offset2((k),(i),N)]
-#define lcol(t,k,i) lcol[offset2((k),(i),N)]
+#define A(i,k) A[offset2((k),(i),N)]
+#define lcol(t,i,k) lcol[offset2((k),(i),N)]
 
 double conjgrad_ell(const double* A, const double* b, const unsigned K, const unsigned N, const unsigned T, const unsigned* lcol, double* x);
 inline double conjgrad_ell(const double* A, const double* b, const unsigned K, const unsigned N, const unsigned T, const unsigned* lcol, double* x) {
@@ -42,7 +42,7 @@ inline double conjgrad_ell(const double* A, const double* b, const unsigned K, c
 #undef s2
 #define s2(t,i) s[(i)]=0.000000
 #undef s3
-#define s3(t,k,i,j) s[(i)]+=A((k),(i))*d[(j)]
+#define s3(t,i,k,j) s[(i)]+=A((i),(k))*d[(j)]
 #undef s4
 #define s4(t,i) ds+=d[(i)]*s[(i)]
 #undef s5
@@ -60,6 +60,8 @@ inline double conjgrad_ell(const double* A, const double* b, const unsigned K, c
 #undef s11
 #define s11(t,i) d[(i)]=r[(i)]+beta*d[(i)]
 
+//fprintf(stderr,"N=%d,K=%d\n",N,K);
+
 #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
@@ -68,11 +70,20 @@ for(t2 = 0; t2 <= T-1; t2++) {
   s1(t2);
   #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
   for(t4 = 0; t4 <= N-1; t4++) {
-    s2(t2,t4);
+    s2(t2, t4);
+  }
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  for(t6 = 0; t6 <= K-1; t6++) {
     #pragma omp simd
-    for(t6 = 0; t6 <= K-1; t6++) {
-      s3(t2,t6,t4,lcol(t2,t6,t4));
+    for(t4 = 0; t4 <= N-1; t4++) {
+      t8=lcol(t2,t4,t6);
+      s3(t2,t4,t6,t8);
     }
+//    s4(t2,t4);
+//    s5(t2,t4);
+  }
+  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  for(t4 = 0; t4 <= N-1; t4++) {
     s4(t2,t4);
     s5(t2,t4);
   }

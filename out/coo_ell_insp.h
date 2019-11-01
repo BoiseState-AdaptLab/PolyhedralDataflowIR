@@ -30,6 +30,7 @@ inline unsigned coo_ell_insp(const unsigned M, const unsigned* row, const unsign
     unsigned N;
     unsigned K=0;
     unsigned k=0,p=0;
+    unsigned size;
 
 // inspN+inspK
 #undef s0
@@ -37,8 +38,9 @@ inline unsigned coo_ell_insp(const unsigned M, const unsigned* row, const unsign
 
 s0();
 
-*lcol = (unsigned*) calloc(M/2 * N, sizeof(unsigned));
-*lval = (double*) calloc(M/2 * N, sizeof(double));
+
+*lcol = (unsigned*) calloc(N * N, sizeof(unsigned));
+*lval = (double*) calloc(N * N, sizeof(double));
 
 #undef s2
 #define s2(n,i) if ((i) > p) { K=max(k+1,K); k=0; }

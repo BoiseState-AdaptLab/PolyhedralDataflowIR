@@ -25,7 +25,7 @@ protected:
     virtual void Inspect() {
         // Run COO->CSR Inspector!
         _nell = coo_ell_insp(_nnz, _rows, _cols, _vals, &_lcol, &_lval);
-        cerr << "K = " << _nell << endl;
+        fprintf(stderr,"N=%d,K=%d\n",_nrow,_nell);
 
         ASSERT_TRUE(_lcol != NULL);
         ASSERT_TRUE(_lval != NULL);
@@ -81,7 +81,8 @@ TEST_F(ConjGradELLTest, CG) {
     //ConjGradTest::SetUp({"./data/matrix/cant.mtx"});
     //ConjGradTest::SetUp({"./data/matrix/taco.mtx"});
     //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
-    ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mac_econ_fwd500/mac_econ_fwd500.mtx"});
+    //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mac_econ_fwd500/mac_econ_fwd500.mtx"});
+    ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/rma10/rma10.mtx"});
     ConjGradTest::Run();
     ConjGradTest::Verify();
     ConjGradTest::Assert();

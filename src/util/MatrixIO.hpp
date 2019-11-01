@@ -292,26 +292,35 @@ public:
                     coo_mnode* nodes;
 
                     int row, col;
+                    dtype val;
+
                     if (_sorted) {
                         nodes = (coo_mnode *) malloc(_nnz * sizeof(coo_mnode));
                     }
 
+                    unsigned ndx = 0;
                     for (unsigned n = 0; n < _nnz; n++) {
-                        if (fscanf(fp, "%d %d %lg\n", &row, &col, &_vals[n])) {
-                            //if (fscanf(fp, "%d %d %lg\n", &col, &row, &_vals[i])) {
-                            row--;          /* adjust from 1-based to 0-based */
-                            col--;
-                            if (_sorted) {
-                                nodes[n].row = row;
-                                nodes[n].col = col;
-                                nodes[n].val = _vals[n];
-                            } else {
-                                _indices[0][n] = row;
-                                _indices[1][n] = col;
+                        if (fscanf(fp, "%d %d %lg\n", &row, &col, &val)) {
+                            // Amazingly, MM files can still have zeros in them!
+                            if (val != 0.0) {
+                                //if (fscanf(fp, "%d %d %lg\n", &col, &row, &_vals[i])) {
+                                row--;          /* adjust from 1-based to 0-based */
+                                col--;
+                                if (_sorted) {
+                                    nodes[ndx].row = row;
+                                    nodes[ndx].col = col;
+                                    nodes[ndx].val = val;
+                                } else {
+                                    _indices[0][ndx] = row;
+                                    _indices[1][ndx] = col;
+                                    _vals[ndx] = val;
+                                }
+                                ndx++;
                             }
                         }
                     }
 
+                    _nnz = ndx;
                     if (_sorted) {
                         qsort(nodes, _nnz, sizeof(coo_mnode), coo_mnode_comp);
                         for (unsigned n = 0; n < _nnz; n++) {
