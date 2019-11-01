@@ -111,6 +111,8 @@ namespace test {
             free(_b);
         }
 
+        virtual void MatrixEqual() {}
+
         unsigned _nnz, _nrow, _ncol, _maxiter;
         unsigned _niter, _niter_ref;
         unsigned* _rows;

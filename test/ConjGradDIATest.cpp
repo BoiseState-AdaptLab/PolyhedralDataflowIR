@@ -44,11 +44,39 @@ protected:
 //            }
 //        }
 //        cerr << sum << endl;
+
+        MatrixEqual();
     }
 
     virtual void Execute() {
         _error = conjgrad_dia(_dval, _b, _ndia, _nrow, _maxiter, _doff, _x);
         _niter = _maxiter;
+    }
+
+    virtual void MatrixEqual() {
+        unsigned d, n, i, j;
+
+        map<pair<unsigned, unsigned>, double> coo_map;
+        for (n = 0; n < _nnz; n++) {
+            i = _rows[n];
+            j = _cols[n];
+            pair<unsigned, unsigned> crd = make_pair(i,j);
+            coo_map[crd] = _vals[n];
+        }
+
+        map<pair<unsigned, unsigned>, double> dia_map;
+        for (d = 0; d < _ndia; d++) {
+            for (i = 0; i < _nrow; i++) {
+                j = i + _doff[d];
+                n = _nrow*d+i;
+                if (j < _ncol && _dval[n] != 0.0) {
+                    pair<unsigned, unsigned> crd = make_pair(i, j);
+                    dia_map[crd] = _dval[n];
+                }
+            }
+        }
+
+        ASSERT_EQ(coo_map, dia_map);
     }
 
     unsigned _ndia;

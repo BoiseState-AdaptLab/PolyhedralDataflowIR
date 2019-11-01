@@ -30,11 +30,36 @@ protected:
 //        for (unsigned i = 0; i < _nrow; i++) {
 //            ASSERT_LE(_rowptr[i], _rowptr[i+1]);
 //        }
+        //MatrixEqual();
     }
 
     virtual void Execute() {
         _error = conjgrad_dsr(_vals, _b, _nrow, _nzr, _maxiter, _cols, _crow, _crp, _x);
         _niter = _maxiter;
+    }
+
+    virtual void MatrixEqual() {
+        unsigned m, n, i, j;
+
+        map<pair<unsigned, unsigned>, double> coo_map;
+        for (n = 0; n < _nnz; n++) {
+            i = _rows[n];
+            j = _cols[n];
+            pair<unsigned, unsigned> crd = make_pair(i,j);
+            coo_map[crd] = _vals[n];
+        }
+
+        map<pair<unsigned, unsigned>, double> dsr_map;
+        for (m = 0; m < _nzr; m++) {
+            i = _crow[m];
+            for (n = _crp[m]; n < _crp[m+1]; n++) {
+                j = _cols[n];
+                pair<unsigned, unsigned> crd = make_pair(i,j);
+                dsr_map[crd] = _vals[n];
+            }
+        }
+
+        ASSERT_EQ(coo_map, dsr_map);
     }
 
     unsigned* _crp;

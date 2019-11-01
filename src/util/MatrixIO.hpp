@@ -240,13 +240,14 @@ int mm_read_unsymmetric_sparse(const char *fname, int *M_, int *N_, int *nz_,
 namespace util {
 class MatrixIO {
 public:
-    explicit MatrixIO(const string &filename = "", unsigned order = 2, unsigned nnz = 0) {
+    explicit MatrixIO(const string &filename = "", unsigned order = 2, unsigned nnz = 0, char sorted = 1) {
         _filename = filename;
         _nnz = nnz;
         _order = order;
         _dims = (unsigned*) calloc(order, sizeof(unsigned));
         _indices = (unsigned**) calloc(order, sizeof(unsigned*));
         _vals = nullptr;
+        _sorted = sorted;
     }
 
     virtual ~MatrixIO() {
@@ -273,9 +274,6 @@ public:
 
         if (fp != NULL) {
             retval = mm_read_banner(fp, &_mtxcode);
-//            if (retval != 0) {
-//                fprintf(stderr, "Could not process Matrix Market banner.\n");
-//            }
 
             if (mm_is_complex(_mtxcode) && mm_is_matrix(_mtxcode) && mm_is_sparse(_mtxcode)) {
                 fprintf(stderr, "This app does not support Market Market type: [%s]\n",
@@ -291,14 +289,37 @@ public:
                     _indices[0] = (unsigned*) malloc(_nnz * sizeof(int));
                     _indices[1] = (unsigned*) malloc(_nnz * sizeof(int));
                     _vals = (dtype *) malloc(_nnz * sizeof(dtype));
+                    coo_mnode* nodes;
 
                     int row, col;
-                    for (unsigned i = 0; i < _nnz; i++) {
-                        if (fscanf(fp, "%d %d %lg\n", &row, &col, &_vals[i])) {
-                        //if (fscanf(fp, "%d %d %lg\n", &col, &row, &_vals[i])) {
-                            _indices[0][i] = row - 1;  /* adjust from 1-based to 0-based */
-                            _indices[1][i] = col - 1;
+                    if (_sorted) {
+                        nodes = (coo_mnode *) malloc(_nnz * sizeof(coo_mnode));
+                    }
+
+                    for (unsigned n = 0; n < _nnz; n++) {
+                        if (fscanf(fp, "%d %d %lg\n", &row, &col, &_vals[n])) {
+                            //if (fscanf(fp, "%d %d %lg\n", &col, &row, &_vals[i])) {
+                            row--;          /* adjust from 1-based to 0-based */
+                            col--;
+                            if (_sorted) {
+                                nodes[n].row = row;
+                                nodes[n].col = col;
+                                nodes[n].val = _vals[n];
+                            } else {
+                                _indices[0][n] = row;
+                                _indices[1][n] = col;
+                            }
                         }
+                    }
+
+                    if (_sorted) {
+                        qsort(nodes, _nnz, sizeof(coo_mnode), coo_mnode_comp);
+                        for (unsigned n = 0; n < _nnz; n++) {
+                            _indices[0][n] = nodes[n].row;
+                            _indices[1][n] = nodes[n].col;
+                            _vals[n] = nodes[n].val;
+                        }
+                        free(nodes);
                     }
 
                     if (fp != stdin) {
@@ -362,14 +383,40 @@ public:
         return _filename;
     }
 
+    char sorted() const {
+        return _sorted;
+    }
+
 protected:
     string _filename;
     unsigned _nnz;
     unsigned _order;
     unsigned* _dims;
     unsigned** _indices;
+    char _sorted;
     dtype* _vals;
     MM_typecode _mtxcode;
+
+    typedef struct _coo_mnode {
+        unsigned row;
+        unsigned col;
+        dtype val;
+        //struct _coo_tnode *next;
+    } coo_mnode;
+
+    static int coo_mnode_comp(const void* lhs, const void* rhs) {
+        int comp = 0;
+        coo_mnode* mn1 = (coo_mnode*) lhs;
+        coo_mnode* mn2 = (coo_mnode*) rhs;
+        comp = mn1->row - mn2->row;
+        if (!comp) {
+            comp = mn1->col - mn2->col;
+        }
+        if (!comp) {
+            comp = (int) (mn1->val - mn2->val);
+        }
+        return comp;
+    }
 
 private:
     int mm_is_valid(MM_typecode matcode) {

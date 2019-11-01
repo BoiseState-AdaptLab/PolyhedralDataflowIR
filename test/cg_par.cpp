@@ -297,8 +297,8 @@ int main(int argc, char **argv) {
             size = (sizeof(int) * (1 + (nrow * ndia))) + (sizeof(double) * (nrow * ndia));
         }
 
-        fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u\n",
-            name, format, niter, x[0], nproc, nruns, tsum / (double) nruns, itime, size);
+        fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u,matrix='%s'\n",
+            name, format, niter, x[0], nproc, nruns, tsum / (double) nruns, itime, size, matrix);
     }
 
     teardown(&rows, &cols, &vals, &x, &b);

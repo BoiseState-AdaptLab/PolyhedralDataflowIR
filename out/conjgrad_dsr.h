@@ -80,11 +80,8 @@ for(t2 = 0; t2 <= T-1; t2++) {
       t10=col(t2,t4,t6,t8);
       s3(t2,t4,t6,t8,t10);
     }
-  }
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
-  for(t4 = 0; t4 <= N-1; t4++) {
-    s4(t2,t4);
-    s5(t2,t4);
+    s4(t2,t6);
+    s5(t2,t6);
   }
   s6(t2);
   #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8,alpha)

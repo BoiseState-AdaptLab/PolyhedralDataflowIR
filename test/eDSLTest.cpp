@@ -543,12 +543,12 @@ TEST(eDSLTest, MFD_2D) {
     string name = "mfd";
     init(name, "", "float", "", {"bout"}); //, to_string(0));
 
-    Comp fx1("fx1", fx, (cx1(c,y,x) = (1./12.)*(bin(c,y,x-2) + 7.0 * bin(c,y,x-1) + bin(c,y,x) + bin(c,y,x+1))));
+    Comp fx1("fx1", fx, (cx1(c,y,x) = (1./12.)*paren(bin(c,y,x-2) + 7.0 * paren(bin(c,y,x-1) + bin(c,y,x)) + bin(c,y,x+1))));
     Comp fx2("fx2", fx, (cx2(c,y,x) = cx1(c,y,x) * 2.0 * cx1(2,y,x)));
     Comp dx("dx", df, (bout(c,y,x) += cx2(c,y,x+1) - cx2(c,y,x)));
 
-    Comp fy1("fy1", fy, (cy1(c,y,x) = (1./12.)*(bin(c,y-2,x) + 7.0 * bin(c,y-1,x) + bin(c,y,x) + bin(c,y+1,x))));
-    Comp fy2("fy2", fy, (cy2(c,y,x) = cy1(c,y,x) * 2.0 * cy1(2,y,x)));
+    Comp fy1("fy1", fy, (cy1(c,y,x) = (1./12.)*paren(bin(c,y-2,x) + 7.0 * paren(bin(c,y-1,x) + bin(c,y,x)) + bin(c,y+1,x))));
+    Comp fy2("fy2", fy, (cy2(c,y,x) = cy1(c,y,x) * 2.0 * cy1(3,y,x)));
     Comp dy("dy", df, (bout(c,y,x) += cy2(c,y+1,x) - cy2(c,y,x)));
 
     print("out/" + name + ".json");
