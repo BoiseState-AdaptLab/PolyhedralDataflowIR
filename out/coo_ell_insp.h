@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <math.h>
 #include <string.h>
+#include <assert.h>
 
 #define min(x,y) (((x)<(y))?(x):(y))
 #define max(x,y) (((x)>(y))?(x):(y))
@@ -38,9 +39,19 @@ inline unsigned coo_ell_insp(const unsigned M, const unsigned* row, const unsign
 
 s0();
 
-
-*lcol = (unsigned*) calloc(N * N, sizeof(unsigned));
-*lval = (double*) calloc(N * N, sizeof(double));
+//fprintf(stderr,"coo_ell_insp: N=%u\n", N);
+size=(N/2)*N;
+*lcol = (unsigned*) malloc(size * sizeof(unsigned));
+*lval = (double*) malloc(size * sizeof(double));
+while (*lcol == NULL || *lval == NULL) {
+  size = (3 * size) / 4;
+  if (*lcol)
+    *lcol = (unsigned*) realloc(*lcol, size*sizeof(unsigned));
+  else
+    *lcol = (unsigned*) malloc(size * sizeof(unsigned));
+  *lval = (double*) malloc(size * sizeof(double));
+}
+//fprintf(stderr,"coo_ell_insp: size=%u\n", size);
 
 #undef s2
 #define s2(n,i) if ((i) > p) { K=max(k+1,K); k=0; }
@@ -64,8 +75,10 @@ for(t2 = 0; t2 <= M-1; t2++) {
   s6(t2,t4);
 }
 
-*lcol = (unsigned*) realloc(*lcol, K*N*sizeof(unsigned));
-*lval = (double*)  realloc(*lval, K*N*sizeof(double));
+//fprintf(stderr,"coo_ell_insp: K=%u\n", K);
+size = K * N;
+*lcol = (unsigned*) realloc(*lcol, size*sizeof(unsigned));
+*lval = (double*)  realloc(*lval, size*sizeof(double));
 
     return (K);
 }    // coo_ell_insp
