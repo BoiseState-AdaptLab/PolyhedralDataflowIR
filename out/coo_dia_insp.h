@@ -5,6 +5,7 @@
 #include <string.h>
 #include <limits.h>
 #include <math.h>
+//#include <assert.h>
 
 #define min(x,y) (((x)<(y))?(x):(y))
 #define max(x,y) (((x)>(y))?(x):(y))
@@ -28,12 +29,19 @@ int coo_dia_insp(const double* val, const unsigned M, const unsigned* col, const
 inline int coo_dia_insp(const double* val, const unsigned M, const unsigned* col, const unsigned* row, double** dval, int** doff) {
     unsigned i, j, k, n;
     int d, D = 0;
-    unsigned N = row[M-1];
+    unsigned N = row[M-1] + 1;
     unsigned dmax = N+N-1;
+    unsigned size = (N/2) * N;
+
     unsigned* __restrict dset = (unsigned*) malloc(dmax * sizeof(int));
-    *dval = (double*) calloc((N/2) * N, sizeof(double));
-    *doff = (int*) calloc(dmax, sizeof(int));
     memset(dset, UINT_MAX, dmax * sizeof(int));
+    *doff = (int*) calloc(dmax, sizeof(int));
+    
+    *dval = (double*) calloc(size, sizeof(double));
+    for (i = 0; i < UINT_MAX && *dval == NULL; i++) {
+      size = (3 * size) / 4;
+      *dval = (double*) calloc(size, sizeof(double));
+    }
 
 #define did(d,i,j) {\
 (k)=(j)-(i)+(N-1);\
@@ -53,6 +61,8 @@ if(dset[(k)]==UINT_MAX)dset[(k)]=D;\
 
     *doff = (int*) realloc(*doff, D * sizeof(int));
     *dval = (double*) realloc(*dval, D * N * sizeof(double));
+    fprintf(stderr, "N=%u,M=%u,D=%u,size=%u\n", N,M,D,D*N);
+    assert(*dval != NULL);
 
     return (D);
 }    // coo_dia_insp

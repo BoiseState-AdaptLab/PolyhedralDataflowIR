@@ -29,8 +29,8 @@ unsigned coo_ell_insp(const unsigned M, const unsigned* row, const unsigned* col
 inline unsigned coo_ell_insp(const unsigned M, const unsigned* row, const unsigned* col, const double* val, unsigned** lcol, double** lval) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned N;
-    unsigned K=0;
-    unsigned k=0,p=0;
+    unsigned K=0,Kest;
+    unsigned k=0,p=0; //,n=0;
     unsigned size;
 
 // inspN+inspK
@@ -39,46 +39,51 @@ inline unsigned coo_ell_insp(const unsigned M, const unsigned* row, const unsign
 
 s0();
 
-//fprintf(stderr,"coo_ell_insp: N=%u\n", N);
-size=(N/2)*N;
-*lcol = (unsigned*) malloc(size * sizeof(unsigned));
-*lval = (double*) malloc(size * sizeof(double));
-while (*lcol == NULL || *lval == NULL) {
-  size = (3 * size) / 4;
+Kest = N / 2;
+*lcol = NULL; //(unsigned*) malloc(size * sizeof(unsigned));
+*lval = NULL; //(double*) malloc(size * sizeof(double));
+for (t1 = 0; t1 < 32768 && (*lcol == NULL || *lval == NULL); t1++) {
+  size = Kest * N;
   if (*lcol)
-    *lcol = (unsigned*) realloc(*lcol, size*sizeof(unsigned));
+    *lcol = (unsigned*) realloc(*lcol, size * sizeof(unsigned));
   else
     *lcol = (unsigned*) malloc(size * sizeof(unsigned));
   *lval = (double*) malloc(size * sizeof(double));
+  Kest /= 2;
 }
-//fprintf(stderr,"coo_ell_insp: size=%u\n", size);
 
+//fprintf(stderr,"N=%u,Kest=%u,size=%u\n",N,Kest,size);
+
+#undef s1
+#define s1(n,i) if ((i) > p) { K=max(k+1,K); k=0; }
 #undef s2
-#define s2(n,i) if ((i) > p) { K=max(k+1,K); k=0; }
+#define s2(n,i) (*lcol)[offset2((k),(i),N)]=col((n))
 #undef s3
-#define s3(n,i) (*lcol)[offset2((k),(i),N)]=col((n))
+#define s3(n,i) (*lval)[offset2((k),(i),N)]=val((n))
 #undef s4
-#define s4(n,i) (*lval)[offset2((k),(i),N)]=val((n))
+#define s4(n,i) k+=1
 #undef s5
-#define s5(n,i) k+=1
-#undef s6
-#define s6(n,i) p=(i)
+#define s5(n,i) p=(i)
 
 //#pragma omp parallel for schedule(auto) private(t2,t4)
 #pragma omp simd private(t4)
 for(t2 = 0; t2 <= M-1; t2++) {
   t4=row(t2);
+  // n=offset2((k),(t4),N);
+  // if(n>=size) {
+  //   fprintf(stderr,"k=%u,i=%u\n",k,t4);
+  // }
+  s1(t2,t4);
   s2(t2,t4);
   s3(t2,t4);
   s4(t2,t4);
   s5(t2,t4);
-  s6(t2,t4);
 }
 
-//fprintf(stderr,"coo_ell_insp: K=%u\n", K);
+//fprintf(stderr,"N=%u,K=%u\n",N,K);
 size = K * N;
-*lcol = (unsigned*) realloc(*lcol, size*sizeof(unsigned));
-*lval = (double*)  realloc(*lval, size*sizeof(double));
+*lcol = (unsigned*) realloc(*lcol, size * sizeof(unsigned));
+*lval = (double*)  realloc(*lval, size * sizeof(double));
 
     return (K);
 }    // coo_ell_insp

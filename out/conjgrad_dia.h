@@ -19,8 +19,8 @@ fprintf(stderr,"%s={",(name));\
 for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
 #define tid omp_get_thread_num()
-#define A(k,i) A[offset2((k),(i),(N))]
-#define doff(t,i,k) doff[(k)]
+#define A(d,i) A[offset2((d),(i),(N))]
+#define doff(t,d) doff[(d)]
 
 double conjgrad_dia(const double* A, const double* b, const unsigned D, const unsigned N, const unsigned T, const int* doff, double* x);
 inline double conjgrad_dia(const double* A, const double* b, const unsigned D, const unsigned N, const unsigned T, const int* doff, double* x) {
@@ -61,6 +61,8 @@ inline double conjgrad_dia(const double* A, const double* b, const unsigned D, c
 #undef s11
 #define s11(t,i) d[(i)]=r[(i)]+beta*d[(i)]
 
+//fprintf(stderr,"N=%d,D=%d\n",N,D);
+
 #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
@@ -73,10 +75,10 @@ for(t2 = 1; t2 <= T; t2++) {
   }
   #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
   for(t6 = 0; t6 <= D-1; t6++) {
+    t8=doff(t2,t6);
     #pragma omp simd
     for(t4 = 0; t4 <= N-1; t4++) {
-      t8=t4+doff(t2,t4,t6);
-      s3(t2,t4,t6,t8);
+      s3(t2,t4,t6,t4+t8);
     }
   }
   #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
