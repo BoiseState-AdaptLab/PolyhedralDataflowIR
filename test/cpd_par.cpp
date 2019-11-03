@@ -27,13 +27,12 @@ double get_wtime() {
     return (double) tv.tv_sec + (((double) tv.tv_usec) * 1E-6);
 }
 
-void setup(const char* tnsfile, unsigned* nnz, unsigned* maxiter, unsigned* order, unsigned* rank, unsigned** dims,
+void setup(const char* tnsfile, const unsigned rank, unsigned* nnz, unsigned* maxiter, unsigned* order, unsigned** dims,
            unsigned** indices, float** __restrict vals, float*** __restrict factors, float** __restrict lambda) {
-    *rank = 10;
     *maxiter = 50;
 
     // Read tensor file
-    TensorIO tns(tnsfile, *rank);
+    TensorIO tns(tnsfile, rank);
     tns.read();
     *nnz = tns.nnz();
     *order = tns.order();
@@ -42,7 +41,7 @@ void setup(const char* tnsfile, unsigned* nnz, unsigned* maxiter, unsigned* orde
     *indices = (unsigned*) malloc(nbytes);
     memcpy(*indices, tns.indices(), nbytes);
 
-    nbytes = *_order * sizeof(unsigned);
+    nbytes = *order * sizeof(unsigned);
     *dims = (unsigned*) malloc(nbytes);
     memcpy(*dims, tns.dims(), nbytes);
 
@@ -50,20 +49,23 @@ void setup(const char* tnsfile, unsigned* nnz, unsigned* maxiter, unsigned* orde
     *vals = (float*) malloc(nbytes);
     memcpy(*vals, tns.vals(), nbytes);
 
-    *_factors = (float**) calloc(*order, sizeof(float*));
+    *factors = (float**) calloc(*order, sizeof(float*));
     for (unsigned n = 0; n <  *order; n++) {
-        (*_factors)[n] = (float*) calloc((*dims)[n] * (*rank));
+        (*factors)[n] = (float*) calloc((*dims)[n] * rank);
     }
+
+    *lambda = (float*) calloc(rank, sizeof(float));
 }
 
-void teardown(unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b) {
-    free(*rows);
-    free(*cols);
+void teardown(unsigned order, unsigned** indices, unsigned** dims, float** __restrict* vals, float*** __restrict factors, float** __restrict lambda) {
+    free(*indices);
+    free(*dims);
     free(*vals);
-#ifndef EIGEN_EXEC
-    free(*x);
-    free(*b);
-#endif
+    free(*lambda);
+    for (unsigned n = 0; n <  *order; n++) {
+        free((*factors)[n]);
+    }
+    free(*factors);
 }
 
 int main(int argc, char **argv) {
@@ -74,51 +76,42 @@ int main(int argc, char **argv) {
     int nproc = 1;
     int pid = 0;
     int nruns = 1;
-
+    int rank = 10;
+    
     const char* name = argv[0];
-    const char* matrix = argv[1];
+    const char* tensor = argv[1];
     char format[16] = {'\0'};
 
-    unsigned nnz, nrow, ncol, maxiter = 500;
+    unsigned nnz, order, maxiter = 500;
     unsigned niter = 0;
     unsigned size = 0;
-    unsigned* rows;
-    unsigned* cols;
+    unsigned* indices;
+    unsigned* dims;
 
-    unsigned* rowptr;
+    unsigned** fptr;
+    unsigned** findx;
     unsigned* bptr;
-    unsigned* brow;
-    unsigned* bcol;
-    unsigned char* erow;
-    unsigned char* ecol;
+    unsigned* bindices;
+    unsigned char* eindices;
     unsigned nb;
     unsigned bs = 128;
     double* bval;
-    unsigned nzr;
-    unsigned* crp;
-    unsigned* crow;
-    unsigned nell;
-    unsigned* lcol;
-    double* lval;
-    unsigned ndia;
-    int* doff;
-    double* dval;
 
     double err = 1.0, tol = 1e-10;
     double* __restrict vals;
-    double* __restrict x;
-    double* __restrict b;
+    double** __restrict factors;
+    double* __restrict lambda;
 
-#ifdef EIGEN_EXEC
-    // Eigen Objects:
+#ifdef SPLATT_EXEC
+    // SPLATT Objects:
     VectorXd xVec, bVec;
     SparseMatrix<double> Aspm;
     ConjugateGradient<SparseMatrix<double>, Lower|Upper> cg;
 #endif
 
-    #pragma omp parallel
+    #pragma omp parallel num_threads(1)
     {
-    nproc = omp_get_num_threads();
+    nproc = omp_get_max_threads();
     }
 
     if (argc > 2) {
@@ -131,39 +124,33 @@ int main(int argc, char **argv) {
         strcpy(format, "coo");
     }
 
-    setup(matrix, &nnz, &nrow, &ncol, &maxiter, &rows, &cols, &vals, &x, &b
-#ifdef EIGEN_EXEC
-    , Aspm, xVec, bVec);
-    cg.setMaxIterations(maxiter);
-    cg.setTolerance(tol);
-#else
-    );
-#endif
+    if (argc > 4) {
+        rank = atoi(argv[4]);
+    } else {
+        rank = 10;
+    }
+
+    if (argc > 5) {
+        bs = atoi(argv[5]);
+    } else {
+        bs = 128;
+    }
+
+    setup(tensor, rank, &nnz, &maxiter, &order, &dims, &indices, &vals, &factors, &lambda);
 
 #ifdef LIKWID_PERF
     LIKWID_MARKER_INIT
 #endif
 
     if (strlen(format) > 0) {
-        if (!strncmp(format, "csr", 3)) {
-            itime = get_wtime();
-            rowptr = (unsigned*) calloc(nrow + 1, sizeof(unsigned));
-            coo_csr_insp(nnz, rows, rowptr);
-        } else if (!strncmp(format, "csb", 3)) {
-            itime = get_wtime();
-            nb = coo_csb_insp(vals, bs, nnz, cols, rows, &bval, &bcol, &bptr, &brow, &ecol, &erow);
-        } else if (!strncmp(format, "dsr", 3)) {
-            itime = get_wtime();
-            nzr = coo_dsr_insp(rows, nnz, &crow, &crp);
-        } else if (!strncmp(format, "ell", 3)) {
-            itime = get_wtime();
-            nell = coo_ell_insp(nnz, rows, cols, vals, &lcol, &lval);
-        } else if (!strncmp(format, "dia", 3)) {
-            ndia = coo_dia_insp(vals, nnz, cols, rows, &dval, &doff);
+        itime = get_wtime();
+        if (!strncmp(format, "csf", 3)) {
+            coo_csf_insp(dims, indices, nnz, order, &fptr, &findx);
+        } else if (!strncmp(format, "csb", 3) || !strncmp(format, "hic", 3)) {
+            nb = coo_hicoo_insp(vals, bs, dims, indices, nnz, order, &bval, &bindices, &bptr, &eindices);
         } else {
             itime = 0.0;
         }
-
         if (itime != 0.0) {
             itime = get_wtime() - itime;
         }
@@ -183,7 +170,7 @@ int main(int argc, char **argv) {
     __itt_resume(); // start VTune, again use 2 underscores
 #endif
 
-#ifdef EIGEN_EXEC
+#ifdef SPLATT_EXEC
         ptime = get_wtime();
         cg.compute(Aspm);
         xVec = cg.solve(bVec);
@@ -193,22 +180,13 @@ int main(int argc, char **argv) {
 #else
         if (strstr(format, "coo")) {
             ptime = get_wtime();
-            err = conjgrad_coo(vals, b, nnz, nrow, maxiter, cols, rows, x);
-        } else if (strstr(format, "csr")) {
+            err = cpd_coo(vals, dims, maxiter, nnz, order, indices, factors, lambda);
+        } else if (strstr(format, "csf")) {
             ptime = get_wtime();
-            err = conjgrad_csr(vals, b, nrow, maxiter, cols, rowptr, x);
-        } else if (strstr(format, "csb")) {
+            err = cpd_csf(vals, dims, maxiter, order, findx, fptr, factors, lambda);
+        } else if (strstr(format, "csb") || strstr(format, "hic")) {
             ptime = get_wtime();
-            err = conjgrad_csb(bval, b, bs, nrow, nb, maxiter, bptr, brow, bcol, erow, ecol, x);
-        } else if (strstr(format, "dsr")) {
-            ptime = get_wtime();
-            err = conjgrad_dsr(vals, b, nrow, nzr, maxiter, cols, crow, crp, x);
-        } else if (strstr(format, "ell")) {
-            ptime = get_wtime();
-            err = conjgrad_ell(lval, b, nell, nrow, maxiter, lcol, x);
-        } else if (strstr(format, "dia")) {
-            ptime = get_wtime();
-            err = conjgrad_dia(dval, b, ndia, nrow, maxiter, doff, x);
+            err = cpd_hicoo(bval, bs, dims, nb, maxiter, order, bptr, bindices, eindices, lambda);
         } else {
             fprintf(stderr, "%s: Unrecognized format: '%s'\n", name, format);
             return -1;
@@ -236,24 +214,18 @@ int main(int argc, char **argv) {
 
     if (pid < 1) {
         if (strstr(format, "coo")) {
-            size = 2 * sizeof(int) * nnz + sizeof(double) * nnz;
-        } else if (strstr(format, "csr")) {
-            size = sizeof(int) * (nnz + nrow + 1) + sizeof(double) * nnz;
-        } else if (strstr(format, "csb")) {
-            size = sizeof(int) * (3 * nb + 1) + (sizeof(char) * 2 * nnz) + (sizeof(double) * nnz);
-        } else if (strstr(format, "dsr")) {
-            size = sizeof(int) * (nnz + nzr + nzr + 1) + sizeof(double) * nnz;
-        } else if (strstr(format, "ell")) {
-            size = sizeof(int) * (1 + (nrow * nell)) + sizeof(double) * (nrow * nell);
-        } else if (strstr(format, "dia")) {
-            size = sizeof(int) * (1 + (nrow * ndia)) + sizeof(double) * (nrow * ndia);
-        }
+            size = (nnz * order * sizeof(int)) + sizeof(float) * nnz;
+        } else if (strstr(format, "csf")) {
+            size = (sizeof(int) * (nnz + fptr[0][1] + 1)) + sizeof(float) * nnz;
+        } else if (strstr(format, "csb") || strstr(format, "hic")) {
+            size = (sizeof(int) * ((order + 1) * nb + 1)) + (sizeof(char) * order* nnz) + (sizeof(float) * nnz);
+        })
 
-        fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u\n",
-            name, format, niter, x[0], nproc, nruns, tsum / (double) nruns, itime, size);
+        fprintf(stdout, "%s: format=%s,niter=%d,A=%lf,B=%lf,C=%lf,lambda=%lf,order=%u,rank=%u,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u\n",
+            name, format, niter, factors[0][0], factors[1][0], factors[2][0], lambda[0], order, rank, nproc, nruns, tsum / (double) nruns, itime, size);
     }
 
-    teardown(&rows, &cols, &vals, &x, &b);
+    teardown(order, &indices, &dims, &vals, &factors, &lambda);
 
     return 0;
 }

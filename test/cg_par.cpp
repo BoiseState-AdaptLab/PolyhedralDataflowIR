@@ -159,9 +159,9 @@ int main(int argc, char **argv) {
     ConjugateGradient<SparseMatrix<double>, Lower|Upper> cg;
 #endif
 
-    #pragma omp parallel
+    #pragma omp parallel num_threads(1)
     {
-    nproc = omp_get_num_threads();
+    nproc = omp_get_max_threads();
     }
 
     if (argc > 2) {
