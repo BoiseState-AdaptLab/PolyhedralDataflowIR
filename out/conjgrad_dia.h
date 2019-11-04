@@ -19,11 +19,12 @@ fprintf(stderr,"%s={",(name));\
 for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
 #define tid omp_get_thread_num()
-#define A(d,i) A[offset2((d),(i),(N))]
+//#define A(d,i) A[offset2((d),(i),(N))]
+#define A(d,i) A[(d)][(i)]
 #define doff(t,d) doff[(d)]
 
-double conjgrad_dia(const double* A, const double* b, const unsigned D, const unsigned N, const unsigned T, const int* doff, double* x);
-inline double conjgrad_dia(const double* A, const double* b, const unsigned D, const unsigned N, const unsigned T, const int* doff, double* x) {
+double conjgrad_dia(double** A, const double* b, const unsigned D, const unsigned N, const unsigned P, const unsigned T, const int* doff, double* x);
+inline double conjgrad_dia(double** A, const double* b, const unsigned D, const unsigned N, const unsigned P, const unsigned T, const int* doff, double* x) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     double* __restrict r = (double*) malloc((N)*sizeof(double));
     double* __restrict d = (double*) malloc((N)*sizeof(double));
@@ -42,7 +43,7 @@ inline double conjgrad_dia(const double* A, const double* b, const unsigned D, c
 #undef s2
 #define s2(t,i) s[(i)]=0.000000
 #undef s3
-#define s3(t,i,k,j) if ((j) < N) s[(i)]+=A((k),(i))*d[(j)]
+#define s3(t,i,k,j) if ((j) < P) s[(i)]+=A((k),(i))*d[(j)]
 //#define s3(t,i,k,j) s[(i)]+=A((k),(i))*d[(j)]
 #undef s4
 #define s4(t,i) ds+=d[(i)]*s[(i)]

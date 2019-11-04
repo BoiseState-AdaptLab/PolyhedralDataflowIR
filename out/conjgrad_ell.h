@@ -34,6 +34,8 @@ inline double conjgrad_ell(const double* A, const double* b, const unsigned K, c
     double alpha;
     double beta;
 
+    int stop=1;
+
 // copy+dinit+sinit+spmv+ddot+rdot0+adiv+xadd+rsub+rdot+bdiv+dadd
 #undef s0
 #define s0(i) r[(i)]=d[(i)]=b[(i)]
@@ -60,6 +62,8 @@ inline double conjgrad_ell(const double* A, const double* b, const unsigned K, c
 #undef s11
 #define s11(t,i) d[(i)]=r[(i)]+beta*d[(i)]
 
+//int stop =1;
+
 #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
@@ -78,6 +82,7 @@ for(t2 = 1; t2 <= T; t2++) {
     for(t4 = 0; t4 <= N-1; t4++) {
     //for(t6 = 0; t6 <= K-1; t6++) {
       t8 = lcol(t2,t6,t4);
+      //fprintf(stderr,"t=%u,k=%u,i=%u,j=%u\n", t2,t6,t4,t8);
       s3(t2,t6,t4,t8);
     }
     //s4(t2,t4);

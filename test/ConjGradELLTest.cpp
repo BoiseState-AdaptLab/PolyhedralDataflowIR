@@ -24,21 +24,13 @@ protected:
 
     virtual void Inspect() {
         // Run COO->CSR Inspector!
-        _nell = coo_ell_insp(_nnz, _rows, _cols, _vals, &_lcol, &_lval);
-        fprintf(stderr,"N=%d,K=%d\n",_nrow,_nell);
+        _nell = coo_ell_insp(_nnz, _rows, _cols, _vals, &_nrow, &_lcol, &_lval);
 
         ASSERT_TRUE(_lcol != NULL);
         ASSERT_TRUE(_lval != NULL);
-//        #define offset2(i,j,M) ((j)+(i)*(M))
-//        for (unsigned k = 0; k < _nell; k++) {
-//            for (unsigned i = 0; i < _nrow; i++) {
-//                unsigned j = _lcol[offset2((k),(i),_nrow)];
-//                double v = _lval[offset2((k),(i),_nrow)];
-//                cerr << "(" << k << "," << i << "," << j << "," << v << "), ";
-//            }
-//        }
-//        cerr << endl;
-        //MatrixEqual();
+
+        fprintf(stderr,"N=%d,M=%d,K=%d\n",_nrow, _nnz, _nell);
+        MatrixEqual();
     }
 
     virtual void Execute() {
@@ -61,8 +53,8 @@ protected:
         for (i = 0; i < _nrow; i++) {
             for (k = 0; k < _nell; k++) {
                 n = k*_nrow+i;
+                j = _lcol[n];
                 if (_lval[n] != 0.0) {
-                    j = _lcol[n];
                     pair<unsigned, unsigned> crd = make_pair(i, j);
                     ell_map[crd] = _lval[n];
                 }
@@ -82,7 +74,10 @@ TEST_F(ConjGradELLTest, CG) {
     //ConjGradTest::SetUp({"./data/matrix/taco.mtx"});
     //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
     //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mac_econ_fwd500/mac_econ_fwd500.mtx"});
-    ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/rma10/rma10.mtx"});
+    //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/rma10/rma10.mtx"});
+    //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/tomographic1/tomographic1.mtx"});
+    ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/webbase-1M/webbase-1M.mtx"});
+
     ConjGradTest::Run();
     ConjGradTest::Verify();
     ConjGradTest::Assert();

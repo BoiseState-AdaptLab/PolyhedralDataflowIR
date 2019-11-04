@@ -145,7 +145,7 @@ int main(int argc, char **argv) {
     double* lval;
     unsigned ndia;
     int* doff;
-    double* dval;
+    double** dval;
 
     double err = 1.0, tol = 1e-10;
     double* __restrict vals;
@@ -204,9 +204,9 @@ int main(int argc, char **argv) {
         } else if (!strncmp(format, "dsr", 3)) {
             nzr = coo_dsr_insp(rows, nnz, &crow, &crp);
         } else if (!strncmp(format, "ell", 3)) {
-            nell = coo_ell_insp(nnz, rows, cols, vals, &lcol, &lval);
+            nell = coo_ell_insp(nnz, rows, cols, vals, &nrow, &lcol, &lval);
         } else if (!strncmp(format, "dia", 3)) {
-            ndia = coo_dia_insp(vals, nnz, cols, rows, &dval, &doff);
+            ndia = coo_dia_insp(vals, nnz, cols, rows, &nrow, &dval, &doff);
         } else {
             itime = 0.0;
         }
@@ -255,7 +255,7 @@ int main(int argc, char **argv) {
             err = conjgrad_ell(lval, b, nell, nrow, maxiter, lcol, x);
         } else if (strstr(format, "dia")) {
             ptime = get_wtime();
-            err = conjgrad_dia(dval, b, ndia, nrow, maxiter, doff, x);
+            err = conjgrad_dia(dval, b, ndia, nrow, ncol, maxiter, doff, x);
         } else {
             fprintf(stderr, "%s: Unrecognized format: '%s'\n", name, format);
             return -1;

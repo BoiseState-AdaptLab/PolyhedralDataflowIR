@@ -24,7 +24,7 @@ protected:
 
     virtual void Inspect() {
         // Run COO->DIA Inspector!
-        _ndia = coo_dia_insp(_vals, _nnz, _cols, _rows, &_dval, &_doff);
+        _ndia = coo_dia_insp(_vals, _nnz, _cols, _rows, &_nrow, &_dval, &_doff);
 
 //        cerr << "doff = [";
 //        for (unsigned n = 0; n < _ndia; n++) {
@@ -49,7 +49,7 @@ protected:
     }
 
     virtual void Execute() {
-        _error = conjgrad_dia(_dval, _b, _ndia, _nrow, _maxiter, _doff, _x);
+        _error = conjgrad_dia(_dval, _b, _ndia, _nrow, _ncol, _maxiter, _doff, _x);
         _niter = _maxiter;
     }
 
@@ -68,10 +68,10 @@ protected:
         for (d = 0; d < _ndia; d++) {
             for (i = 0; i < _nrow; i++) {
                 j = i + _doff[d];
-                n = _nrow*d+i;
-                if (j < _ncol && _dval[n] != 0.0) {
+                //n = _nrow*d+i;
+                if (j < _ncol && _dval[d] != NULL && _dval[d][i] != 0.0) {
                     pair<unsigned, unsigned> crd = make_pair(i, j);
-                    dia_map[crd] = _dval[n];
+                    dia_map[crd] = _dval[d][i];
                 }
             }
         }
@@ -81,13 +81,14 @@ protected:
 
     unsigned _ndia;
     int* _doff;
-    double* _dval;
+    double** _dval;
 };
 
 TEST_F(ConjGradDIATest, CG) {
     //ConjGradTest::SetUp({"./data/matrix/taco.mtx"});
-    ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
+    //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/mc2depi/mc2depi.mtx"});
     //ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/cant/cant.mtx"});
+    ConjGradTest::SetUp({"../VarDevEddie/themes/Solver/matrices/cop20k_A/cop20k_A.mtx"});
     ConjGradTest::Run();
     ConjGradTest::Verify();
     ConjGradTest::Assert();
