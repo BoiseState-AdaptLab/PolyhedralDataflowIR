@@ -1139,7 +1139,7 @@ TEST(eDSLTest, CP_ALS_COO) {
     Space sca("sca", 0 <= t < T);
     names[N] = "lmbda";
 
-    string fxn = "cp_als_coo";
+    string fxn = "cp_als_" + to_string(N) + "d_coo";
     init(fxn, "", "f", "u", names, to_string(0));
 
     // Build the computations...
@@ -1195,7 +1195,7 @@ TEST(eDSLTest, CP_ALS_COO) {
 
     fuse(); // Fuse-all nodes...
     print("out/" + fxn + ".json");
-    string result = codegen("out/" + fxn + ".o", "", "C++");
+    string result = codegen("out/" + fxn + ".h", "", "C++");
 
     // cp_als in sktensor returns Kruskal tensor P=(U,\lambda), where U(0)=A, U(1)=B, U(2)=C
 
