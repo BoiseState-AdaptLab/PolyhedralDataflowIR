@@ -767,7 +767,7 @@ TEST(eDSLTest, ConjGradDSR) {
     Space vec("vec", 1 <= t <= T ^ 0 <= i < N);
     //Space csr("csr", 1 <= t <= T ^ 0 <= i < N ^ rp(i) <= n < rp(i+1) ^ j==col(n));
     //Space mtx = csr;
-    Space dsr("dsr", 1 <= t <= T ^ 0 <= m < R ^ i==crow(m) ^ crp(i) <= n < crp(i+1) ^ j==col(n));
+    Space dsr("dsr", 1 <= t <= T ^ 0 <= m < R ^ i==crow(m) ^ crp(m) <= n < crp(m+1) ^ j==col(n));
     Space mtx = dsr;
 
     // Data spaces:

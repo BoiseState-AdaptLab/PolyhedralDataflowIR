@@ -61,8 +61,8 @@ if(dset[(k)]==UINT_MAX)dset[(k)]=D;\
 
     *doff = (int*) realloc(*doff, D * sizeof(int));
     *dval = (double*) realloc(*dval, D * N * sizeof(double));
-    fprintf(stderr, "N=%u,M=%u,D=%u,size=%u\n", N,M,D,D*N);
-    assert(*dval != NULL);
+//    fprintf(stderr, "N=%u,M=%u,D=%u,size=%u\n", N,M,D,D*N);
+//    assert(*dval != NULL);
 
     return (D);
 }    // coo_dia_insp

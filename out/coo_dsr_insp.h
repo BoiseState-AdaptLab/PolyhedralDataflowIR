@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <math.h>
 #include <string.h>
+//#include <assert.h>
 
 #define min(x,y) (((x)<(y))?(x):(y))
 #define max(x,y) (((x)>(y))?(x):(y))
@@ -25,10 +26,11 @@ unsigned coo_dsr_insp(const unsigned* row, const unsigned M, unsigned** crow, un
 inline unsigned coo_dsr_insp(const unsigned* row, const unsigned M, unsigned** crow, unsigned** crp) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned R = 0;
-    unsigned N = 0;
 
     *crow = (unsigned*) malloc(M * sizeof(int));
+    //assert(*crow != NULL);
     *crp = (unsigned*) malloc(M * sizeof(int));
+    //assert(*crp != NULL);
 
 // insp_init
 #undef s0
@@ -56,9 +58,17 @@ for(t2 = 1; t2 <= M-1; t2++) {
   s2(t2,t4);
 }
 
-R+=1;
+#undef s3
+#define s3() R+=1
+
+s3();
+
+//fprintf(stderr, "M=%u,R=%u\n",M,R);
 *crow = (unsigned*) realloc(*crow, R * sizeof(int));
+//assert(*crow != NULL);
 *crp = (unsigned*) realloc(*crp, (R+1) * sizeof(int));
+//assert(*crp != NULL);
+//assert((*crp)[R]==M);
 
     return (R);
 }    // coo_dsr_insp

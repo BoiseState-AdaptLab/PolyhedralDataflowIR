@@ -21,8 +21,8 @@ fprintf(stderr,"}\n");}
 #define tid omp_get_thread_num()
 #define col(t,m,i,n) col[(n)]
 #define crow(t,m) crow[(m)]
-#define crp(t,m,i) crp[(i)]
-#define crp1(t,m,i) crp[(i+1)]
+#define crp(t,m,i) crp[(m)]
+#define crp1(t,m,i) crp[(m)+1]
 
 double conjgrad_dsr(const double* A, const double* b, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp, double* x);
 inline double conjgrad_dsr(const double* A, const double* b, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp, double* x) {
@@ -66,7 +66,7 @@ inline double conjgrad_dsr(const double* A, const double* b, const unsigned N, c
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
 }
-for(t2 = 0; t2 <= T-1; t2++) {
+for(t2 = 1; t2 <= T; t2++) {
   s1(t2);
   #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
   for(t4 = 0; t4 <= N-1; t4++) {
@@ -76,8 +76,9 @@ for(t2 = 0; t2 <= T-1; t2++) {
   for(t4 = 0; t4 <= R-1; t4++) {
     t6=crow(t2,t4);
     #pragma omp simd
-    for(t8 = crp(t2,t4,t6); t8 <= crp1(t2,t4,t6)-1; t8++) {
+    for(t8 = crp(t2,t4,t6); t8 < crp1(t2,t4,t6); t8++) {
       t10=col(t2,t4,t6,t8);
+      //fprintf(stderr,"t=%u,m=%u,i=%u,n=%u,j=%u\n",t2,t4,t6,t8,t10);
       s3(t2,t4,t6,t8,t10);
     }
     s4(t2,t6);
