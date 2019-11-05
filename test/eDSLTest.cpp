@@ -1149,21 +1149,24 @@ TEST(eDSLTest, CP_ALS_COO) {
         Comp init(names[n] + "init", inits[n], (matrices[n](iters[n],r) = urand()));
     }
 
-    // Ignore outer-T loop for now, get one time step working...
     //int n = 0;
     int s = 0;
     for (int n = 0; n < N; n++) {
         //Comp vinit("Vinit", sca, arrInit(V, 1.0));
+        // Initialize 'V' to one
         Comp vinit("Vinit" + to_string(n), had, (V(r,q)=one+0));
         for (int p = 0; p < N; p++) {
             if (n != p) {
                 // MatrixMult: U(m)^T * U(m)
                 //Comp yinit("Yinit" + to_string(p), sca, memSet(Y));
+                // Initialize 'Y' to zero
                 Comp yinit("Yinit" + to_string(s), had, (Y(r,q)=zero+0));
+                // Multply factor matrices by transpose and store in 'Y'
                 Space mmul(names[p] + "mmul", 0 <= t < T ^ 0 <= r < R ^ 0 <= q < R ^ 0 <= iters[p] < uppers[p]);
                 Comp mm(names[p] + "Ymm" + to_string(s), mmul, (Y(r,q) +=
                         matrices[p](iters[p],r) * matrices[p](q,iters[p])));
                 // Hadamard: V *= Y
+                // Pointwise multiplication (Hadamard) of V*Y
                 Comp hp("VYhp" + to_string(s), had, (V(r,q) *= Y(r,q)));
                 s += 1;
             }
@@ -1178,19 +1181,21 @@ TEST(eDSLTest, CP_ALS_COO) {
         }
         Comp mttkrp(names[n] + "krp", krp, (new_mtx[n](iters[n],r) += prod));
 
-        // Pinv...
+        // Moore-Penrose Pseudoinverse of V
         Comp inv(names[n] + "pinv", sca, Vinv=pinv(V,Vinv));
+        // Multiply factor matrix by Vinv.
         Space pmm(names[n] + "pmm", 0 <= t < T ^ 0 <= iters[n] < uppers[n] ^ 0 <= r < R ^ 0 <= q < R);
         Comp mmp(names[n] + "mmp", pmm, (new_mtx[n](iters[n],r) += new_mtx[n](iters[n],q) * Vinv(r,q)));
 
         // Normalize...
-        //Space sum(names[n] + "sum", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
         Space sum(names[n] + "sum", 0 <= t < T ^ 0 <= r < R ^ 0 <= iters[n] < uppers[n]);
+        // Sum of squares of factor matrix.
         Comp ssq(names[n] + "ssq", sum, (sums(r) += new_mtx[n](iters[n],r) * new_mtx[n](iters[n],r)));
+        // Compute the Froebenius norm
         Comp norm(names[n] + "norm", vec, (lmbda(r) = sqrt(sums(r))));
+        // Finally, normalize factor matrix by lambda.
         // U[n] = Unew / lmbda
         Comp div(names[n] + "div", sum, (matrices[n](iters[n],r) = new_mtx[n](iters[n],r) / lmbda(r)));
-        //Comp div(names[n] + "div", sum, (new_mtx[n](iters[n],r) /= lmbda(r)));
     }
 
     fuse(); // Fuse-all nodes...
