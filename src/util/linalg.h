@@ -1,3 +1,6 @@
+#ifndef _LINALG_H_
+#define _LINALG_H_
+
 #include <stdio.h>
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_linalg.h>
@@ -16,7 +19,8 @@
  *
  * @returns A_pinv		Matrix containing the result. ``A_pinv`` is allocated in this function and it is the responsibility of the caller to free it.
 **/
-gsl_matrix* moore_penrose_pinv(gsl_matrix *A, const double rcond) {
+gsl_matrix* moore_penrose_pinv(gsl_matrix *A, const double rcond);
+inline gsl_matrix* moore_penrose_pinv(gsl_matrix *A, const double rcond) {
     gsl_matrix *V, *Sigma_pinv, *U, *A_pinv;
     gsl_matrix *_tmp_mat = NULL;
     gsl_vector *_tmp_vec;
@@ -96,8 +100,8 @@ gsl_matrix* moore_penrose_pinv(gsl_matrix *A, const double rcond) {
     return A_pinv;
 }
 
-
-float* mp_pinv(const float* a, float* a_inv, int N) {
+float* mp_pinv(const float* a, float* a_inv, int N);
+inline float* mp_pinv(const float* a, float* a_inv, int N) {
     gsl_matrix* A = gsl_matrix_alloc(N, N);
     double* ptr = gsl_matrix_ptr(A, 0, 0);
     //memcpy(ptr, a, N * N * sizeof(float));
@@ -117,3 +121,5 @@ float* mp_pinv(const float* a, float* a_inv, int N) {
 
     return a_inv;
 }
+
+#endif      // _LINALG_H_

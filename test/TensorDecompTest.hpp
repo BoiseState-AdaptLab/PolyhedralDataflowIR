@@ -1,18 +1,16 @@
-#include <string>
-using std::string;
-using std::to_string;
-#include <gtest/gtest.h>
-using namespace testing;
-
-#ifdef SPLATT_ENABLED
-#include <splatt.h>
-#endif
+#ifndef _TENSORDECOMPTEST_HPP_
+#define _TENSORDECOMPTEST_HPP_
 
 #include <util/MatrixIO.hpp>
 using util::MatlabIO;
 using util::TensorIO;
 
 #include "InspExecTest.hpp"
+
+#include <linalg.h>
+#ifdef SPLATT_ENABLED
+#include <splatt.h>
+#endif
 
 typedef float real;
 
@@ -80,8 +78,7 @@ namespace test {
                 _factors_ref[d] = (real*) malloc(nbytes);
                 memcpy(_factors_ref[d], fac.vals(), nbytes);
             }
-
-            cerr << "Leaving TensorDecompTest::SetUp\n";
+            //cerr << "Leaving TensorDecompTest::SetUp\n";
         }
 
         virtual void Inspect() {}
@@ -136,3 +133,5 @@ namespace test {
 //        splatt_kruskal _fac;
     };
 }
+
+#endif      //_TENSORDECOMPTEST_HPP_

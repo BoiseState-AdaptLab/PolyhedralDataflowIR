@@ -1,14 +1,7 @@
-#include <string>
-using std::string;
-using std::to_string;
-#include <gtest/gtest.h>
-using namespace testing;
-
 #include "TensorDecompTest.hpp"
 #include <coo_csf_insp.h>
-#include <mttkrp_csf.h>
-
-typedef float real;
+//#include <mttkrp_csf.h>
+#include <cp_als_3d_csf.h>
 
 namespace test {
     class TensorDecompTestCSF : public TensorDecompTest {
@@ -27,8 +20,8 @@ namespace test {
 
         virtual void Execute() {
             //unsigned seed = 1568224077;
-            //cp_als_coo(_vals, _niter, _dims[0], _dims[1], _dims[2], _nnz, _rank, &_indices[0], &_indices[_nnz], &_indices[_nnz * 2], _factors[0], _factors[1], _factors[2], _lambda);
-            mttkrp_csf(_factors[1], _factors[2], _vals, _fptr[0][1], _rank, _findx[0], _findx[1], _findx[2], _fptr[1], _fptr[2], _factors[0]);
+            cp_als_3d_csf(_vals, _fptr[0][1], _dims[0], _dims[1], _dims[2], _nnz, _rank, _niter, _findx[0], _findx[1], _findx[2], _fptr[1], _fptr[2], _factors[0], _factors[1], _factors[2], _lambda);
+            //mttkrp_csf(_factors[1], _factors[2], _vals, _fptr[0][1], _rank, _findx[0], _findx[1], _findx[2], _fptr[1], _fptr[2], _factors[0]);
         }
 
         unsigned** _fptr;

@@ -1,23 +1,6 @@
-#include <string>
-using std::string;
-using std::to_string;
-#include <gtest/gtest.h>
-using namespace testing;
-
+#include "TensorDecompTest.hpp"
 //#include <cp_als_coo.h>
 #include <cp_als_3d_coo.h>
-
-#ifdef SPLATT_ENABLED
-#include <splatt.h>
-#endif
-
-#include <util/MatrixIO.hpp>
-using util::MatlabIO;
-using util::TensorIO;
-
-#include "TensorDecompTest.hpp"
-
-typedef float real;
 
 namespace test {
     class TensorDecompTestCOO : public TensorDecompTest {
@@ -36,7 +19,8 @@ namespace test {
     };
 
     TEST_F(TensorDecompTestCOO, CPD) {
-        SetUp("./data/tensor/matmul_5-5-5.tns", 10, 11);
+        //SetUp("./data/tensor/matmul_5-5-5.tns", 10, 50);
+        SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 50);
         Run();
         Verify();
         Assert();

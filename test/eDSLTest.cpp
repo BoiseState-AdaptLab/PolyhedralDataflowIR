@@ -1101,12 +1101,13 @@ TEST(eDSLTest, CP_ALS) {
 TEST(eDSLTest, CP_ALS_COO) {
     const unsigned N = 3;
 
-    Iter m('m'), q('q'), r('r'), s('s'), t('t');
-    Const M("M"), R("R"), T("T");
+    Iter m('m'), p('p'), q('q'), r('r'), s('s'), t('t');
+    Const M("M"), R("R"), T("T"), F("F");
     Space X("X",M);
 
     vector<string> names(N+1);
     Func indices[N];
+    Func offsets[N];
     Iter iters[N];
     Const uppers[N];
     Space matrices[N];
@@ -1119,6 +1120,7 @@ TEST(eDSLTest, CP_ALS_COO) {
     Real zero(0.0);
 
     Space coo("coo", 0 <= t < T ^ 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
+    Space csf("csf", 0 <= t < T ^ 0 <= p < F); //  ^ i==ind0(p) ^ pos0(p) <= m < pos0(p+1) ^ j==ind1(m) ^ pos1(m) <= q < pos1(m+1) ^ k==ind2(q));
 
     for (int n = 0; n < N; n++) {
         names[n] = string(1, 'A' + n);
@@ -1128,16 +1130,25 @@ TEST(eDSLTest, CP_ALS_COO) {
         matrices[n] = Space(names[n], uppers[n], R);
         new_mtx[n] = Space(names[n] + "new", uppers[n], R);
         indices[n] = Func("ind" + to_string(n));
+        offsets[n] = Func("pos" + to_string(n));
         coo ^= (iters[n] == indices[n](m));
     }
 
-    Space krp = coo ^ 0 <= r < R;
+    csf ^= (iters[0] == indices[0](p));
+    csf ^= (offsets[0](p) <= m < offsets[0](p+1));
+    csf ^= (iters[1] == indices[1](m));
+    csf ^= (offsets[1](m) <= q < offsets[1](m+1));
+    csf ^= (iters[2] == indices[2](q));
+
+    names[N] = "lmbda";
     Space vec("vec", 0 <= t < T ^ 0 <= r < R);
     Space had("had", 0 <= t < T ^ 0 <= r < R ^ 0 <= q < R);
     Space sca("sca", 0 <= t < T);
-    names[N] = "lmbda";
+    //Space krp = coo ^ 0 <= r < R;
+    Space krp = csf ^ 0 <= r < R;
 
-    string fxn = "cp_als_" + to_string(N) + "d_coo";
+    //string fxn = "cp_als_" + to_string(N) + "d_coo";
+    string fxn = "cp_als_" + to_string(N) + "d_csf";
     init(fxn, "", "f", "u", names, to_string(0));
 
     // Build the computations...
