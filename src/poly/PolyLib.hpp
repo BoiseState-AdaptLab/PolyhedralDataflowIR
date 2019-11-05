@@ -55,11 +55,11 @@ namespace poly {
             }
         }
 
-        void addStatements(unsigned count, const vector<string>& statements, const vector<string>& guards,
-                           const vector<string>& schedules, string& defines) {
+        void addStatements(const string& name, unsigned count, const vector<string>& statements,
+             const vector<string>& guards, const vector<string>& schedules, string& defines) {
             if (!statements.empty()) {
                 for (size_t i = 0; i < statements.size(); i++) {
-                    defines += "#undef s" + to_string(count + i) + "\n";
+                    defines += "// " + name + "\n#undef s" + to_string(count + i) + "\n";
                 }
 
                 for (size_t i = 0; i < statements.size(); i++) {
@@ -202,7 +202,7 @@ namespace poly {
                        map<string, vector<string> >& guards, map<string, vector<string> >& schedules,
                        const vector<string>& parTypes = {}, const string& iterType = "", bool defineMacros = false) {
             string code = codegen(names, schedules);
-            if (code.find("ERROR") == string::npos) {
+            if (code.find("ERROR") == string::npos && code.find("error") == string::npos) {
                 string outIters = out_iterators(code);
 
                 // Replace 'intFloor' with 'floord' to maintain compatibility w/ ISCC generated code.
@@ -223,11 +223,13 @@ namespace poly {
                 string defines = "";
                 unsigned nstatements = 0;
                 for (const string& setname : names) {
-                    addStatements(nstatements, statements[setname], guards[setname], schedules[setname], defines);
+                    addStatements(setname, nstatements, statements[setname], guards[setname], schedules[setname], defines);
                     nstatements += statements[setname].size();
                 }
 
                 code = defines + "\n" + code;
+            } else {
+                cerr << code << endl;
             }
 
             return code;

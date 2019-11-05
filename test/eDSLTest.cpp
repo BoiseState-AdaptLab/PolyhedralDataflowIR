@@ -1101,7 +1101,7 @@ TEST(eDSLTest, CP_ALS) {
 TEST(eDSLTest, CP_ALS_COO) {
     const unsigned N = 3;
 
-    Iter m('m'), q('q'), r('r'), t('t');
+    Iter m('m'), q('q'), r('r'), s('s'), t('t');
     Const M("M"), R("R"), T("T");
     Space X("X",M);
 
@@ -1126,8 +1126,6 @@ TEST(eDSLTest, CP_ALS_COO) {
         uppers[n] = Const(string(1, 'I' + n));
         inits[n] = Space(names[n], 0 <= r < R ^ 0 <= iters[n] < uppers[n]);
         matrices[n] = Space(names[n], uppers[n], R);
-        //matrices[n] = Space(names[n], 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
-        //new_mtx[n] = Space(names[n] + "new", 0 <= iters[n] < uppers[n] ^ 0 <= r < R);
         new_mtx[n] = Space(names[n] + "new", uppers[n], R);
         indices[n] = Func("ind" + to_string(n));
         coo ^= (iters[n] == indices[n](m));
@@ -1144,13 +1142,14 @@ TEST(eDSLTest, CP_ALS_COO) {
 
     // Build the computations...
 
-    for (int n = 0; n < N; n++) {
+    Comp init0(names[0] + "init", inits[0], (matrices[0](iters[0],r) = zero+0));
+    for (int n = 1; n < N; n++) {
         // Randomize factor matrices...
         Comp init(names[n] + "init", inits[n], (matrices[n](iters[n],r) = urand()));
     }
 
     //int n = 0;
-    int s = 0;
+    int d = 0;
     for (int n = 0; n < N; n++) {
         //Comp vinit("Vinit", sca, arrInit(V, 1.0));
         // Initialize 'V' to one
@@ -1158,17 +1157,16 @@ TEST(eDSLTest, CP_ALS_COO) {
         for (int p = 0; p < N; p++) {
             if (n != p) {
                 // MatrixMult: U(m)^T * U(m)
-                //Comp yinit("Yinit" + to_string(p), sca, memSet(Y));
                 // Initialize 'Y' to zero
-                Comp yinit("Yinit" + to_string(s), had, (Y(r,q)=zero+0));
+                Comp yinit("Yinit" + to_string(d), had, (Y(r,q)=zero+0));
                 // Multply factor matrices by transpose and store in 'Y'
                 Space mmul(names[p] + "mmul", 0 <= t < T ^ 0 <= r < R ^ 0 <= q < R ^ 0 <= iters[p] < uppers[p]);
-                Comp mm(names[p] + "Ymm" + to_string(s), mmul, (Y(r,q) +=
-                        matrices[p](iters[p],r) * matrices[p](q,iters[p])));
+                Comp mm(names[p] + "Ymm" + to_string(d), mmul, (Y(r,q) +=
+                    matrices[p](q,iters[p]) * matrices[p](iters[p],r)));
                 // Hadamard: V *= Y
                 // Pointwise multiplication (Hadamard) of V*Y
-                Comp hp("VYhp" + to_string(s), had, (V(r,q) *= Y(r,q)));
-                s += 1;
+                Comp hp("VYhp" + to_string(d), had, (V(r,q) *= Y(r,q)));
+                d += 1;
             }
         }
 
@@ -1188,19 +1186,19 @@ TEST(eDSLTest, CP_ALS_COO) {
         Comp mmp(names[n] + "mmp", pmm, (new_mtx[n](iters[n],r) += new_mtx[n](iters[n],q) * Vinv(r,q)));
 
         // Normalize...
-        Space sum(names[n] + "sum", 0 <= t < T ^ 0 <= r < R ^ 0 <= iters[n] < uppers[n]);
+        Space sum(names[n] + "sum", 0 <= t < T ^ 0 <= s < R ^ 0 <= iters[n] < uppers[n]);
         // Sum of squares of factor matrix.
-        Comp ssq(names[n] + "ssq", sum, (sums(r) += new_mtx[n](iters[n],r) * new_mtx[n](iters[n],r)));
+        Comp ssq(names[n] + "ssq", sum, (sums(s) += new_mtx[n](iters[n],s) * new_mtx[n](iters[n],s)));
         // Compute the Froebenius norm
         Comp norm(names[n] + "norm", vec, (lmbda(r) = sqrt(sums(r))));
         // Finally, normalize factor matrix by lambda.
         // U[n] = Unew / lmbda
-        Comp div(names[n] + "div", sum, (matrices[n](iters[n],r) = new_mtx[n](iters[n],r) / lmbda(r)));
+        Comp div(names[n] + "div", sum, (matrices[n](iters[n],s) = new_mtx[n](iters[n],s) / lmbda(s)));
     }
 
     fuse(); // Fuse-all nodes...
     print("out/" + fxn + ".json");
-    string result = codegen("out/" + fxn + ".h", "", "C++");
+    string result = codegen("out/" + fxn + ".c", "", "C++");
 
     // cp_als in sktensor returns Kruskal tensor P=(U,\lambda), where U(0)=A, U(1)=B, U(2)=C
 

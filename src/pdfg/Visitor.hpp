@@ -774,9 +774,7 @@ namespace pdfg {
                              map<string, vector<string>>& statements,
                              map<string, vector<string>>& guards,
                              map<string, vector<string>>& schedules) {
-            string code = "// " + node->label() + "\n" + _poly.codegen(
-                names, statements, guards, schedules, {}, "", true);
-            _body.push_back(code);
+            _body.push_back(_poly.codegen(names, statements, guards, schedules, {}, "", true));
         }
 
         unsigned _niters;
@@ -912,8 +910,7 @@ namespace pdfg {
                 }
             }
 
-            string code = "// " + node->label() + "\n" + _poly.codegen(names,
-                          statements, guards, schedules, partypes, "", true);
+            string code = _poly.codegen(names, statements, guards, schedules, partypes, "", true);
             _body.push_back(code);
         }
     };

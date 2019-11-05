@@ -1248,6 +1248,11 @@ namespace pdfg {
                 this->get(inode)->attr("shift", shift);
                 ig->attr(inode, "shift", shift);
             }
+
+//            if (curr->label() == "Adiv") {
+//                cerr << ig->to_dot() << endl;
+//                int stop = 1;
+//            }
         }
 
         string formatName(const string& name) const {
