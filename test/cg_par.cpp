@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
     if (argc > 4) {
         bs = atoi(argv[4]);
     } else {
-        bs = 128;
+        bs = 1;
     }
 
     setup(matrix, &nnz, &nrow, &ncol, &maxiter, &rows, &cols, &vals, &x, &b, Aspm, xVec, bVec);
@@ -171,6 +171,9 @@ int main(int argc, char **argv) {
             rowptr = (unsigned*) calloc(nrow + 1, sizeof(unsigned));
             coo_csr_insp(nnz, rows, rowptr);
         } else if (!strncmp(format, "csb", 3)) {
+            if (bs < 2) {
+                bs = 128;
+            }
             nb = coo_csb_insp(vals, bs, nnz, cols, rows, &bval, &bcol, &bptr, &brow, &ecol, &erow);
         } else if (!strncmp(format, "dsr", 3)) {
             nzr = coo_dsr_insp(rows, nnz, &crow, &crp);
@@ -280,8 +283,8 @@ int main(int argc, char **argv) {
             size = (sizeof(int) * (1 + (nrow * ndia))) + (sizeof(double) * (nrow * ndia));
         }
 
-        fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u,matrix='%s'\n",
-            name, format, niter, xval, nproc, nruns, tsum / (double) nruns, itime, size, matrix);
+        printf("%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u,bs=%u,matrix='%s'\n",
+            name, format, niter, xval, nproc, nruns, tsum / (double) nruns, itime, size, bs, matrix);
     }
 
     teardown(&rows, &cols, &vals, &x, &b);
