@@ -22,35 +22,38 @@ for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
 #define val(n) val[(n)]
 #define bval(p) (*bval)[(p)]
-#define bcol(b) (*bcol)[(b)]
-#define bmap(b,bi,bj,m) bmap[(bi)][(bj)][(m)]
-#define bp(i) (*bp)[(i)]
-#define brow(b) (*brow)[(b)]
-#define bsize(b,bi,bj) bsize[(bi)][(bj)]
-#define col(n) col[(n)]
+#define bmap(b,bi,bj,bk,m) bmap[(bi)][(bj)][(bk)][(m)]
+#define bp(b) (*bp)[(b)]
+#define bsize(b,bi,bj,bk) bsize[(bi)][(bj)][(bk)]
 #define p(i) p
-#define row(n) row[(n)]
-#define erow(p) (*erow)[(p)]
-#define ecol(p) (*ecol)[(p)]
+#define ind(m,n) indices[offset2((m),(n),M)]
+#define ind0(m) indices[offset2(0,(m),M)]
+#define ind1(m) indices[offset2(1,(m),M)]
+#define ind2(m) indices[offset2(2,(m),M)]
+#define bind0(b) (*bindices)[offset2((b),0,N)]
+#define bind1(b) (*bindices)[offset2((b),1,N)]
+#define bind2(b) (*bindices)[offset2((b),2,N)]
+#define eind0(m) (*eindices)[offset2((m),0,N)]
+#define eind1(m) (*eindices)[offset2((m),1,N)]
+#define eind2(m) (*eindices)[offset2((m),2,N)]
 
-//#define bid(n,bi,bj) {\
-//if(!bmap[(bi)]){\
-//bid[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
-//bsize[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
-//bmap[(bi)]=(unsigned**)calloc(((N/B)+1),sizeof(int*));\
-//}\
-//if(!bmap[(bi)][(bj)]){\
-//bmap[(bi)][(bj)]=(unsigned*)calloc(B*B,sizeof(int));\
-//bid[(bi)][(bj)]=(NB);\
-//}\
-//b=bid[(bi)][(bj)];\
-//bmap[(bi)][(bj)][(bsize[(bi)][(bj)])++]=(n);\
-//}
-
-inline unsigned ilog2(unsigned x);
-inline unsigned ilog2(unsigned x) {
-#define clz(x) __builtin_clz((x))
-    return sizeof(uint32_t) * CHAR_BIT - clz(x) - 1;
+#define bid(m,bi,bj,bk) {\
+if(!bmap[(bi)]){\
+bsize[(bi)]=(unsigned**)calloc(((J/B)+1),sizeof(unsigned*));\
+bid[(bi)]=(unsigned**)calloc(((J/B)+1),sizeof(unsigned*));\
+bmap[(bi)]=(unsigned***)calloc(((J/B)+1),sizeof(unsigned**));\
+}\
+if(!bmap[(bi)][(bj)]){\
+bsize[(bi)][(bj)]=(unsigned*)calloc(((K/B)+1),sizeof(unsigned));\
+bid[(bi)][(bj)]=(unsigned*)calloc(((K/B)+1),sizeof(unsigned));\
+bmap[(bi)][(bj)]=(unsigned**)calloc((K/B)+1,sizeof(unsigned*));\
+}\
+if(!bmap[(bi)][(bj)][(bk)]){\
+bid[(bi)][(bj)][(bk)]=(NB);\
+bmap[(bi)][(bj)][(bk)]=(unsigned*)calloc(B*B*B,sizeof(unsigned));\
+}\
+b=bid[(bi)][(bj)][(bk)];\
+bmap[(bi)][(bj)][(bk)][(bsize[(bi)][(bj)][(bk)])++]=(m);\
 }
 
 unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigned M, const unsigned N, const unsigned* dims, const unsigned* indices, float** bval, unsigned short** bindices, unsigned** bp, unsigned char** eindices);
@@ -58,81 +61,103 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned NB = 0;
     unsigned b = 0;
-    unsigned i,m,n,p = 0;
-    unsigned char e;
-    unsigned char bits;
+    unsigned p = 0;
+    unsigned I = dims[0];
+    unsigned J = dims[1];
+    unsigned K = dims[2];
 
+    //fprintf(stderr,"I=%u,J=%u,K=%u,M=%u,N=%u,B=%u\n",I,J,K,M,N,B);
     // TODO: Does 'bval' to be own space, or can we do a swap? Will that be faster or slower?
-//    unsigned** bid = (unsigned**) calloc((N/B)+1,sizeof(int*));
-//    unsigned** bsize = (unsigned**) calloc((N/B)+1,sizeof(int*));
-//    unsigned*** bmap = (unsigned***) calloc((N/B)+1,sizeof(int**));
+    unsigned*** bid = (unsigned***) calloc((I/B)+1,sizeof(unsigned**));
+    unsigned*** bsize = (unsigned***) calloc((I/B)+1,sizeof(unsigned**));
+    unsigned**** bmap = (unsigned****) calloc((I/B)+1,sizeof(unsigned***));
 
-    unsigned* __restrict bcoord = (unsigned*) calloc(N, sizeof(int));
-    unsigned short* __restrict bbegin = (unsigned short*) calloc(N, sizeof(short));
-    unsigned short* __restrict bprev = (unsigned short*) calloc(N, sizeof(short));
-
+    *bindices = (unsigned short*) malloc(M*N*sizeof(short));
     *bp = (unsigned*) calloc(M, sizeof(int));
     *bval = (float*) malloc(M*sizeof(float));
-    *bindices = (unsigned short*) malloc(M*N*sizeof(short));
     *eindices = (unsigned char*) malloc(M*N*sizeof(char));
 
-    bits = ilog2(B);
+// bs_put+br_put+bc_put+nb_cnt
+#undef s0
+#define s0(m,i,j,k) bid((m),(i)/B,(j)/B,(k)/B)
+#undef s1
+#define s1(m,i,j,k) if (b >= NB) NB=b+1
+#undef s2
+#define s2(m,i,j,k) bind0(b)=(i)/B
+#undef s3
+#define s3(m,i,j,k) bind1(b)=(j)/B
+#undef s4
+#define s4(m,i,j,k) bind2(b)=(k)/B
 
-    /* Process first M */
-    for(m = 0; m < N; m++) {
-        bcoord[m] = indices[offset2(m,0,M)];    // first nonzero indices
-        bprev[m] = bcoord[m] >> bits;
-        //sptAppendBlockIndexVector(&hitsr->binds[m], (sptBlockIndex) block_begin_prior[m]);
-        (*bindices)[m] = bprev[m];
-    }
+#pragma omp simd
+for(t2 = 0; t2 <= M-1; t2++) {
+  t4=ind0(t2);
+  t6=ind1(t2);
+  t8=ind2(t2);
+  //fprintf(stderr,"m=%u,i=%u,j=%u,k=%u,b=%u\n",t2,t4,t6,t8,b);
+  s0(t2,t4,t6,t8);
+  s1(t2,t4,t6,t8);
+  s2(t2,t4,t6,t8);
+  s3(t2,t4,t6,t8);
+  s4(t2,t4,t6,t8);
+}
 
-    //bp[0] = 0;
-    //sptAppendNnzIndexVector(&hitsr->bptr, 0);
+// bp_put+er_put+ec_put+bv_put+p_inc
+#undef s0
+#define s0(b,bi,bj,bk,m,n) if (p >= bp((b)+1)) bp((b)+1)=p+1
+#undef s1
+#define s1(b,bi,bj,bk,m,n) eind0(p)=ind0((n))-B*(bi)
+#undef s2
+#define s2(b,bi,bj,bk,m,n) eind1(p)=ind1((n))-B*(bj)
+#undef s3
+#define s3(b,bi,bj,bk,m,n) eind2(p)=ind2((n))-B*(bk)
+#undef s4
+#define s4(b,bi,bj,bk,m,n) bval(p)=val((n))
+#undef s5
+#define s5(b,bi,bj,bk,m,n) p+=1
 
-    //#pragma omp parallel for schedule(runtime)
-    for (n = 0; n < M; n++) {
-        for (m = 0; m < N; m++) {
-            bcoord[m] = indices[offset2(m,n,M)];    // first nonzero indices
-            // spt_LocateBeginCoord(block_begin, tsr, block_coord, sb_bits);
-            bbegin[m] = bcoord[m] >> bits;
-        }
+for(t2 = 0; t2 <= NB-1; t2++) {
+  t4=bind0(t2);
+  t6=bind1(t2);
+  t8=bind2(t2);
+  #pragma omp simd
+  for(t10 = 0; t10 <= bsize(t2,t4,t6,t8)-1; t10++) {
+    t12=bmap(t2,t4,t6,t8,t10);
+    s0(t2,t4,t6,t8,t10,t12);
+    s1(t2,t4,t6,t8,t10,t12);
+    s2(t2,t4,t6,t8,t10,t12);
+    s3(t2,t4,t6,t8,t10,t12);
+    s4(t2,t4,t6,t8,t10,t12);
+    s5(t2,t4,t6,t8,t10,t12);
+  }
+}
 
-        /* Append einds and values */
-        for (m = 0; m < N; m++) {
-            i = indices[offset2(m,n,M)];
-            e = i < (bbegin[m] << bits) ? i : i - (bbegin[m] << bits);
-            (*eindices)[offset2(n,m,N)] = e;
-        }
+  *bindices = (unsigned short*) realloc(*bindices, N * NB * sizeof(short));
+  *bp = (unsigned*) realloc(*bp, (NB+1) * sizeof(int));
 
-        //sptAppendValueVector(&hitsr->values, tsr->values.data[z]);
-        /* z in the same block with last z */
-        //byte equal = spt_EqualWithTwoCoordinates(block_begin, block_begin_prior, nmodes);
-        e = 1;
-        for (m = 0; m < N && e; m++) {
-            //if (bbegin[m] != bprev[m]) {
-            e = (bbegin[m] == bprev[m]);
-            //}
-        }
-
-        if (!e) {
-            /* ne: #Elements in the last block */
-            /* Append block bptr and bidx */
-            //sptAppendNnzIndexVector(&hitsr->bptr, (sptBlockIndex)z);
-            (*bp)[NB] = n;
-            for (m = 0; m < N; m++) {
-                // Copy bbegin to bprev
-                //sptAppendBlockIndexVector(&hitsr->binds[m], (sptBlockIndex) block_begin[m]);
-                (*bindices)[offset2(NB,m,N)] = bbegin[m];
-                bprev[m] = bbegin[m];
+  // Free temporary storage
+  for(t2=0;t2<=(N/B);t2++) {
+    if(bmap[t2]) {
+      for(t4=0;t4<=(N/B);t4++) {
+        if (bmap[t2][t4]) {
+          for(t6=0;t6<=(N/B);t6++) {
+            if (bmap[t2][t4][t6]) {
+              free(bmap[t2][t4][t6]);
             }
-            NB += 1;
-        } // End new block
+            free(bid[t2][t4]);
+            free(bsize[t2][t4]);
+          }
+          free(bmap[t2][t4]);
+        }
+      }
+      free(bmap[t2]);
+      free(bid[t2]);
+      free(bsize[t2]);
     }
-
-    //free(bend);
-    free(bprev);
-    free(bbegin);
-    free(bcoord);
+  }
+  free(bmap);
+  free(bid);
+  free(bsize);
 
   return (NB);
 }    // coo_hicoo_insp
@@ -151,13 +176,16 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
 #undef arrprnt
 #undef B
 #undef val
-#undef bcol
 #undef bmap
 #undef bp
-#undef brow
+#undef bind0
+#undef bind1
+#undef bind2
 #undef bsize
-#undef col
 #undef p
-#undef row
-#undef erow
-#undef ecol
+#undef ind0
+#undef ind1
+#undef ind2
+#undef eind0
+#undef eind1
+#undef eind2

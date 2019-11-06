@@ -19,6 +19,7 @@
 fprintf(stderr,"%s={",(name));\
 for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
 fprintf(stderr,"}\n");}
+#define N 3
 #define urand(m) (rand()/nextafter(RAND_MAX,DBL_MAX)+(m))
 #define pinv(A,Ainv) (mp_pinv((A),(Ainv),R))
 #define A(i,r) A[offset2((i),(r),(R))]
@@ -35,15 +36,15 @@ fprintf(stderr,"}\n");}
 #define Cnew(k,r) Cnew[offset2((k),(r),(R))]
 #define bp(b) bp[(b)]
 #define bp1(b) bp[(b)+1]
-#define bind1(b) bindices[offset2((b),0,M)]
-#define bind2(b) bindices[offset2((b),1,M)]
-#define bind3(b) bindices[offset2((b),2,M)]
-#define eind1(b,bi,bj,bk,n) eindices[offset2((n),0,M)]
-#define eind2(b,bi,bj,bk,n) eindices[offset2((n),1,M)]
-#define eind3(b,bi,bj,bk,n) eindices[offset2((n),2,M)]
+#define bind0(b) bindices[offset2((b),0,N)]
+#define bind1(b) bindices[offset2((b),1,N)]
+#define bind2(b) bindices[offset2((b),2,N)]
+#define eind0(b,bi,bj,bk,m) eindices[offset2((m),0,N)]
+#define eind1(b,bi,bj,bk,m) eindices[offset2((m),1,N)]
+#define eind2(b,bi,bj,bk,m) eindices[offset2((m),2,N)]
 
-void cp_als_3d_hicoo(const float* X, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned T, const unsigned short* bindices, const unsigned* bp, const unsigned char* eindices, float* A, float* B, float* C, float* lmbda);
-inline void cp_als_3d_hicoo(const float* X, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned T, const unsigned short* bindices, const unsigned* bp, const unsigned char* eindices, float* A, float* B, float* C, float* lmbda) {
+void cp_als_3d_hicoo(const float* X, const unsigned BS, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned NB, const unsigned R, const unsigned T, const unsigned short* bindices, const unsigned* bp, const unsigned char* eindices, float* A, float* B, float* C, float* lmbda);
+inline void cp_als_3d_hicoo(const float* X, const unsigned BS, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned NB, const unsigned R, const unsigned T, const unsigned short* bindices, const unsigned* bp, const unsigned char* eindices, float* A, float* B, float* C, float* lmbda) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     float* __restrict V = (float*) calloc((R)*(R),sizeof(float));
     float* __restrict Y = (float*) calloc((R)*(R),sizeof(float));
@@ -88,7 +89,8 @@ inline void cp_als_3d_hicoo(const float* X, const unsigned I, const unsigned J, 
 #define s9(t,r,q) V((r),(q))*=Y((r),(q))
 // Akrp
 #undef s10
-#define s10(t,m,i,j,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
+//#define s10(t,m,i,j,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
+#define s10(t,b,bi,bj,bk,m,ei,ej,ek,i,j,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
 // Apinv
 #undef s11
 #define s11(t) Vinv=pinv(V,Vinv)
@@ -127,7 +129,8 @@ inline void cp_als_3d_hicoo(const float* X, const unsigned I, const unsigned J, 
 #define s22(t,r,q) V((r),(q))*=Y((r),(q))
 // Bkrp
 #undef s23
-#define s23(t,m,i,j,k,r) Bnew((j),(r))+=X((m))*C((k),(r))*A((i),(r))
+//#define s23(t,m,i,j,k,r) Bnew((j),(r))+=X((m))*C((k),(r))*A((i),(r))
+#define s23(t,b,bi,bj,bk,m,ei,ej,ek,i,j,k,r) Bnew((j),(r))+=X((m))*C((k),(r))*A((i),(r))
 // Bpinv
 #undef s24
 #define s24(t) Vinv=pinv(V,Vinv)
@@ -166,7 +169,8 @@ inline void cp_als_3d_hicoo(const float* X, const unsigned I, const unsigned J, 
 #define s35(t,r,q) V((r),(q))*=Y((r),(q))
 // Ckrp
 #undef s36
-#define s36(t,m,i,j,k,r) Cnew((k),(r))+=X((m))*B((j),(r))*A((i),(r))
+//#define s36(t,m,i,j,k,r) Cnew((k),(r))+=X((m))*B((j),(r))*A((i),(r))
+#define s36(t,b,bi,bj,bk,m,ei,ej,ek,i,j,k,r) Cnew((k),(r))+=X((m))*B((j),(r))*A((i),(r))
 // Cpinv
 #undef s37
 #define s37(t) Vinv=pinv(V,Vinv)
@@ -226,12 +230,21 @@ for(t2 = 0; t2 <= T-1; t2++) {
       s9(t2,t4,t6);
     }
   }
-  for(t4 = 0; t4 <= M-1; t4++) {
-    t6=ind0(t2,t4);
-    t8=ind1(t2,t4);
-    t10=ind2(t2,t4);
-    for(t12 = 0; t12 <= R-1; t12++) {
-      s10(t2,t4,t6,t8,t10,t12);
+  for(t4 = 0; t4 < NB; t4++) {
+    t5=bind0(t4);
+    t6=bind1(t4);
+    t7=bind2(t4);
+    for(t8 = bp(t4); t8 < bp1(t4); t8++) {
+      t9=eind0(t4,t5,t6,t7,t8);
+      t10=eind1(t4,t5,t6,t7,t8);
+      t11=eind2(t4,t5,t6,t7,t8);
+      t12=BS*t5+t9;
+      t13=BS*t6+t10;
+      t14=BS*t7+t11;
+      //#pragma omp simd
+      for(t15 = 0; t15 < R; t15++) {
+        s10(t2,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15);
+      }
     }
   }
   s11(t2);
@@ -288,12 +301,21 @@ for(t2 = 0; t2 <= T-1; t2++) {
       s22(t2,t4,t6);
     }
   }
-  for(t4 = 0; t4 <= M-1; t4++) {
-    t6=ind0(t2,t4);
-    t8=ind1(t2,t4);
-    t10=ind2(t2,t4);
-    for(t12 = 0; t12 <= R-1; t12++) {
-      s23(t2,t4,t6,t8,t10,t12);
+  for(t4 = 0; t4 < NB; t4++) {
+    t5=bind0(t4);
+    t6=bind1(t4);
+    t7=bind2(t4);
+    for(t8 = bp(t4); t8 < bp1(t4); t8++) {
+      t9=eind0(t4,t5,t6,t7,t8);
+      t10=eind1(t4,t5,t6,t7,t8);
+      t11=eind2(t4,t5,t6,t7,t8);
+      t12=BS*t5+t9;
+      t13=BS*t6+t10;
+      t14=BS*t7+t11;
+      //#pragma omp simd
+      for(t15 = 0; t15 < R; t15++) {
+        s23(t2,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15);
+      }
     }
   }
   s24(t2);
@@ -350,12 +372,21 @@ for(t2 = 0; t2 <= T-1; t2++) {
       s35(t2,t4,t6);
     }
   }
-  for(t4 = 0; t4 <= M-1; t4++) {
-    t6=ind0(t2,t4);
-    t8=ind1(t2,t4);
-    t10=ind2(t2,t4);
-    for(t12 = 0; t12 <= R-1; t12++) {
-      s36(t2,t4,t6,t8,t10,t12);
+  for(t4 = 0; t4 < NB; t4++) {
+    t5=bind0(t4);
+    t6=bind1(t4);
+    t7=bind2(t4);
+    for(t8 = bp(t4); t8 < bp1(t4); t8++) {
+      t9=eind0(t4,t5,t6,t7,t8);
+      t10=eind1(t4,t5,t6,t7,t8);
+      t11=eind2(t4,t5,t6,t7,t8);
+      t12=BS*t5+t9;
+      t13=BS*t6+t10;
+      t14=BS*t7+t11;
+      //#pragma omp simd
+      for(t15 = 0; t15 < R; t15++) {
+        s36(t2,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15);
+      }
     }
   }
   s37(t2);
