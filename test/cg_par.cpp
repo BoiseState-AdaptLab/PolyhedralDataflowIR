@@ -13,7 +13,6 @@ using std::to_string;
 #include <vector>
 using std::vector;
 
-#ifdef EIGEN_EXEC
 #include <Eigen/Sparse>
 #include <Eigen/SparseExtra>
 #include <Eigen/IterativeLinearSolvers>
@@ -23,7 +22,6 @@ using Eigen::ConjugateGradient;
 using Eigen::Lower;
 using Eigen::Upper;
 typedef Eigen::Triplet<double> Triple;
-#endif
 
 // Inspectors
 #include "coo_csr_insp.h"
@@ -47,12 +45,8 @@ double get_wtime() {
 }
 
 void setup(const char* matrix, unsigned* nnz, unsigned* nrow, unsigned* ncol, unsigned* maxiter,
-           unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b
-#ifdef EIGEN_EXEC
-           , SparseMatrix<double>& Aspm, VectorXd& xVec, VectorXd& bVec) {
-#else
-           ) {
-#endif
+           unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b,
+           SparseMatrix<double>& Aspm, VectorXd& xVec, VectorXd& bVec) {
     // Read matrix file
     MatrixIO mtx(matrix);
     mtx.read();
@@ -72,41 +66,25 @@ void setup(const char* matrix, unsigned* nnz, unsigned* nrow, unsigned* ncol, un
     *vals = (double*) malloc(nbytes);
     memcpy(*vals, mtx.vals(), nbytes);
 
-#ifdef EIGEN_EXEC
-    vector<Triple> triples;
-    triples.reserve(*nnz);
-    for (unsigned n = 0; n < *nnz; n++) {
-        triples.push_back(Triple((*rows)[n], (*cols)[n], (*vals)[n]));
-    }
-
-    Aspm.resize(*nrow, *ncol);
-    Aspm.setFromTriplets(triples.begin(), triples.end());
+    *x = (double*) calloc(*ncol, sizeof(double));
+    *b = (double*) malloc(*nrow * sizeof(double));
 
     xVec.resize(*ncol);
     bVec.resize(*nrow);
 
-    for (unsigned i = 0; i < *nrow; i++) {
-        bVec(i) = 1.0;
-    }
-#else
-    *x = (double*) calloc(*ncol, sizeof(double));
-    *b = (double*) malloc(*nrow * sizeof(double));
-
     // Initialize b to something more interesting than 0
     for (unsigned i = 0; i < *nrow; i++) {
         (*b)[i] = 1.0;
+        bVec(i) = (*b)[i];
     }
-#endif
 }
 
 void teardown(unsigned** rows, unsigned** cols, double* __restrict* vals, double* __restrict* x, double* __restrict* b) {
     free(*rows);
     free(*cols);
     free(*vals);
-#ifndef EIGEN_EXEC
     free(*x);
     free(*b);
-#endif
 }
 
 int main(int argc, char **argv) {
@@ -152,12 +130,10 @@ int main(int argc, char **argv) {
     double* __restrict x;
     double* __restrict b;
 
-#ifdef EIGEN_EXEC
     // Eigen Objects:
     VectorXd xVec, bVec;
     SparseMatrix<double> Aspm;
     ConjugateGradient<SparseMatrix<double>, Lower|Upper> cg;
-#endif
 
     #pragma omp parallel num_threads(1)
     {
@@ -180,14 +156,9 @@ int main(int argc, char **argv) {
         bs = 128;
     }
 
-    setup(matrix, &nnz, &nrow, &ncol, &maxiter, &rows, &cols, &vals, &x, &b
-#ifdef EIGEN_EXEC
-    , Aspm, xVec, bVec);
+    setup(matrix, &nnz, &nrow, &ncol, &maxiter, &rows, &cols, &vals, &x, &b, Aspm, xVec, bVec);
     cg.setMaxIterations(maxiter);
     cg.setTolerance(tol);
-#else
-    );
-#endif
 
 #ifdef LIKWID_PERF
     LIKWID_MARKER_INIT
@@ -207,6 +178,14 @@ int main(int argc, char **argv) {
             nell = coo_ell_insp(nnz, rows, cols, vals, &nrow, &lcol, &lval);
         } else if (!strncmp(format, "dia", 3)) {
             ndia = coo_dia_insp(vals, nnz, cols, rows, &nrow, &dval, &doff);
+        } else if (!strncmp(format, "eig", 3)) {
+            vector<Triple> triples;
+            triples.reserve(nnz);
+            for (unsigned n = 0; n < nnz; n++) {
+                triples.push_back(Triple((rows)[n], (cols)[n], (vals)[n]));
+            }
+            Aspm.resize(nrow, ncol);
+            Aspm.setFromTriplets(triples.begin(), triples.end());
         } else {
             itime = 0.0;
         }
@@ -230,14 +209,6 @@ int main(int argc, char **argv) {
     __itt_resume(); // start VTune, again use 2 underscores
 #endif
 
-#ifdef EIGEN_EXEC
-        ptime = get_wtime();
-        cg.compute(Aspm);
-        xVec = cg.solve(bVec);
-        niter = cg.iterations();
-        err = cg.error();
-        x = xVec.data();
-#else
         if (strstr(format, "coo")) {
             ptime = get_wtime();
             err = conjgrad_coo(vals, b, nnz, nrow, maxiter, cols, rows, x);
@@ -256,13 +227,16 @@ int main(int argc, char **argv) {
         } else if (strstr(format, "dia")) {
             ptime = get_wtime();
             err = conjgrad_dia(dval, b, ndia, nrow, ncol, maxiter, doff, x);
+        } else if (strstr(format, "eig")) {
+            ptime = get_wtime();
+            cg.compute(Aspm);
+            xVec = cg.solve(bVec);
+            niter = cg.iterations();
+            err = cg.error();
         } else {
             fprintf(stderr, "%s: Unrecognized format: '%s'\n", name, format);
             return -1;
         }
-
-        niter = maxiter;
-#endif
 
 #ifdef LIKWID_PERF
         LIKWID_MARKER_STOP(name);
@@ -273,6 +247,7 @@ int main(int argc, char **argv) {
     __SSC_MARK(0x222); // stop SDE tracing
 #endif
 
+        niter = maxiter;
         ptime = get_wtime() - ptime;
         tsum += ptime;
     }
@@ -282,6 +257,14 @@ int main(int argc, char **argv) {
 #endif
 
     if (pid < 1) {
+        double xval;
+        if (strstr(format, "eig")) {
+            strcpy(format, "csr");
+            xval = xVec[0];
+        } else {
+            xval = x[0];
+        }
+
         // Compute the data size...
         if (strstr(format, "coo")) {
             size = (2 * sizeof(int) * nnz) + (sizeof(double) * nnz);
@@ -298,7 +281,7 @@ int main(int argc, char **argv) {
         }
 
         fprintf(stdout, "%s: format=%s,niter=%d,x=%lf,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u,matrix='%s'\n",
-            name, format, niter, x[0], nproc, nruns, tsum / (double) nruns, itime, size, matrix);
+            name, format, niter, xval, nproc, nruns, tsum / (double) nruns, itime, size, matrix);
     }
 
     teardown(&rows, &cols, &vals, &x, &b);

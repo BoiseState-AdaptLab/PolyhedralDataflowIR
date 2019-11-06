@@ -157,10 +157,10 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
                 lib/chill/omega/code_gen/src/CG_stringBuilder.cc
 )
 
-set(TESTING "true")
+#set(TESTING "true")
 #set(MAKELIB "true")
 #set(PAPI_ON "true")
-#set(PARBUILD "true")
+set(PARBUILD "true")
 
 link_directories(lib lib/taco/lib)
 if (PAPI_ON)
@@ -217,7 +217,6 @@ elseif (PARBUILD)
     add_executable(cg_par test/cg_par.cpp)
     target_link_libraries(cg_par m omp) #${MPI_LIBRARIES})
     #target_compile_definitions(cg_par PRIVATE LIKWID_PERF=1)
-    #target_compile_definitions(cg_par PRIVATE EIGEN_EXEC=1)
 
 else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -Wno-deprecated -Wno-deprecated-declarations -Wno-format-overflow")
