@@ -31,6 +31,35 @@ namespace test {
             //mttkrp_csf(_factors[1], _factors[2], _vals, _fptr[0][1], _rank, _findx[0], _findx[1], _findx[2], _fptr[1], _fptr[2], _factors[0]);
         }
 
+        virtual void TensorEqual() {
+            unsigned m,i,j,k,p,q;
+
+            map<tuple<unsigned, unsigned, unsigned>, double> coo_map;
+            for (m = 0; m < _nnz; m++) {
+                i = _indices[m];
+                j = _indices[_nnz+m];
+                k = _indices[_nnz+_nnz+m];
+                tuple<unsigned, unsigned, unsigned> triple(i,j,k);
+                coo_map[triple] = _vals[m];
+            }
+
+            // TODO: Implement HiCOO traversal!
+            map<tuple<unsigned, unsigned, unsigned>, double> hicoo_map;
+            for(p = _fptr[0][0]; p < _fptr[0][1]; p++) {
+                i = _findx[0][p];
+                for(q = _fptr[1][p]; q < _fptr[1][p+1]; q++) {
+                    j = _findx[1][q];
+                    for(m = _fptr[2][q]; m < _fptr[2][q+1]; m++) {
+                        k = _findx[2][m];
+                        tuple<unsigned, unsigned, unsigned> triple(i,j,k);
+                        hicoo_map[triple] = _vals[m];
+                    }
+                }
+            }
+
+            ASSERT_EQ(coo_map, hicoo_map);
+        }
+
         unsigned* _bptr;
         unsigned short* _bindices;
         unsigned char* _eindices;

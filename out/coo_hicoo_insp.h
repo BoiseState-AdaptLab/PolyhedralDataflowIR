@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <math.h>
 #include <string.h>
+#include <assert.h>
 
 #define min(x,y) (((x)<(y))?(x):(y))
 #define max(x,y) (((x)>(y))?(x):(y))
@@ -77,6 +78,11 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
     *bval = (float*) malloc(M*sizeof(float));
     *eindices = (unsigned char*) malloc(M*N*sizeof(char));
 
+    //assert(*bindices != NULL);
+    //assert(*bp != NULL);
+    //assert(*bval != NULL);
+    //assert(*eindices != NULL);
+
 // bs_put+br_put+bc_put+nb_cnt
 #undef s0
 #define s0(m,i,j,k) bid((m),(i)/B,(j)/B,(k)/B)
@@ -136,17 +142,17 @@ for(t2 = 0; t2 <= NB-1; t2++) {
   *bp = (unsigned*) realloc(*bp, (NB+1) * sizeof(int));
 
   // Free temporary storage
-  for(t2=0;t2<=(N/B);t2++) {
+  for(t2=0;t2<=(I/B);t2++) {
     if(bmap[t2]) {
-      for(t4=0;t4<=(N/B);t4++) {
+      for(t4=0;t4<=(J/B);t4++) {
         if (bmap[t2][t4]) {
-          for(t6=0;t6<=(N/B);t6++) {
+          for(t6=0;t6<=(K/B);t6++) {
             if (bmap[t2][t4][t6]) {
               free(bmap[t2][t4][t6]);
             }
-            free(bid[t2][t4]);
-            free(bsize[t2][t4]);
           }
+          free(bid[t2][t4]);
+          free(bsize[t2][t4]);
           free(bmap[t2][t4]);
         }
       }

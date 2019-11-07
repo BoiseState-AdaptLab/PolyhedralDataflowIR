@@ -1,6 +1,9 @@
 #ifndef _TENSORDECOMPTEST_HPP_
 #define _TENSORDECOMPTEST_HPP_
 
+#include <tuple>
+using std::tuple;
+
 #include <util/MatrixIO.hpp>
 using util::MatlabIO;
 using util::TensorIO;
@@ -113,6 +116,8 @@ namespace test {
 //            splatt_free_kruskal(&_fac);
 //            splatt_free_opts(_opts);
         }
+
+        virtual void TensorEqual() {}
 
         unsigned _niter;
         unsigned _nnz;
