@@ -52,6 +52,7 @@ inline void cp_als_4d_coo(const float* X, const unsigned I, const unsigned J, co
     float* __restrict Bnew = (float*) calloc((J)*(R),sizeof(float));
     float* __restrict Cnew = (float*) calloc((K)*(R),sizeof(float));
     float* __restrict Dnew = (float*) calloc((L)*(R),sizeof(float));
+    float dot;
 
     srand(1568224077);
 

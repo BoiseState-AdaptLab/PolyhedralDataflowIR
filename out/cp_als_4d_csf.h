@@ -72,7 +72,7 @@ inline void cp_als_4d_csf(const float* X, const unsigned F, const unsigned I, co
 #define s2(r,k) C((k),(r))=urand(0)
 // Dinit
 #undef s3
-#define s3(r,k) D((k),(r))=urand(0)
+#define s3(r,l) D((l),(r))=urand(0)
 // Vinit0
 #undef s4
 #define s4(t,r,q) V((r),(q))=1.000000
@@ -94,7 +94,6 @@ inline void cp_als_4d_csf(const float* X, const unsigned F, const unsigned I, co
 // VYhp1
 #undef s10
 #define s10(t,r,q) V((r),(q))*=Y((r),(q))
-
 // Yinit2
 #undef s11
 #define s11(t,r,q) Y((r),(q))=0.000000
@@ -104,104 +103,168 @@ inline void cp_als_4d_csf(const float* X, const unsigned F, const unsigned I, co
 // VYhp2
 #undef s13
 #define s13(t,r,q) V((r),(q))*=Y((r),(q))
-
-
 // Akrp
 #undef s14
-#define s14(t,p,i,m,j,q,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
+#define s14(t,m,i,j,k,l,r) Anew((i),(r))+=X((m))*D((l),(r))*C((k),(r))*B((j),(r))
 // Apinv
 #undef s15
 #define s15(t) Vinv=pinv(V,Vinv)
 // Ammp
 #undef s16
-#define s16(t,i,r,q) dot+=Anew((i),(q))*Vinv((r),(q))
+#define s16(t,i,r,q) Anew((i),(r))+=Anew((i),(q))*Vinv((r),(q))
 // Assq
 #undef s17
 #define s17(t,s,i) sums((s))+=Anew((i),(s))*Anew((i),(s))
 // Anorm
-#undef s17
-#define s17(t,r) lmbda((r))=sqrt(sums((r)))
-// Adiv
-#undef s15
-#define s15(t,s,i) A((i),(s))=Anew((i),(s))/lmbda((s))
-// Vinit1
-#undef s16
-#define s16(t,r,q) V((r),(q))=1.000000
-// Yinit2
-#undef s17
-#define s17(t,r,q) Y((r),(q))=0.000000
-// AYmm2
 #undef s18
-#define s18(t,r,q,i) Y((r),(q))+=A((q),(i))*A((i),(r))
-// VYhp2
+#define s18(t,r) lmbda((r))=sqrt(sums((r)))
+// Adiv
 #undef s19
-#define s19(t,r,q) V((r),(q))*=Y((r),(q))
-// Yinit3
+#define s19(t,s,i) A((i),(s))=Anew((i),(s))/lmbda((s))
+// Vinit1
 #undef s20
-#define s20(t,r,q) Y((r),(q))=0.000000
-// CYmm3
+#define s20(t,r,q) V((r),(q))=1.000000
+// Yinit3
 #undef s21
-#define s21(t,r,q,k) Y((r),(q))+=C((q),(k))*C((k),(r))
-// VYhp3
+#define s21(t,r,q) Y((r),(q))=0.000000
+// AYmm3
 #undef s22
-#define s22(t,r,q) V((r),(q))*=Y((r),(q))
-// Bkrp
+#define s22(t,r,q,i) Y((r),(q))+=A((q),(i))*A((i),(r))
+// VYhp3
 #undef s23
-#define s23(t,p,i,m,j,q,k,r) Bnew((j),(r))+=X((m))*C((k),(r))*A((i),(r))
-// Bpinv
-#undef s24
-#define s24(t) Vinv=pinv(V,Vinv)
-// Bmmp
-#undef s25
-#define s25(t,j,r,q) dot+=Bnew((j),(q))*Vinv((r),(q))
-// Bssq
-#undef s26
-#define s26(t,s,j) sums((s))+=Bnew((j),(s))*Bnew((j),(s))
-// Bnorm
-#undef s27
-#define s27(t,r) lmbda((r))=sqrt(sums((r)))
-// Bdiv
-#undef s28
-#define s28(t,s,j) B((j),(s))=Bnew((j),(s))/lmbda((s))
-// Vinit2
-#undef s29
-#define s29(t,r,q) V((r),(q))=1.000000
+#define s23(t,r,q) V((r),(q))*=Y((r),(q))
 // Yinit4
-#undef s30
-#define s30(t,r,q) Y((r),(q))=0.000000
-// AYmm4
-#undef s31
-#define s31(t,r,q,i) Y((r),(q))+=A((q),(i))*A((i),(r))
+#undef s24
+#define s24(t,r,q) Y((r),(q))=0.000000
+// CYmm4
+#undef s25
+#define s25(t,r,q,k) Y((r),(q))+=C((q),(k))*C((k),(r))
 // VYhp4
-#undef s32
-#define s32(t,r,q) V((r),(q))*=Y((r),(q))
+#undef s26
+#define s26(t,r,q) V((r),(q))*=Y((r),(q))
 // Yinit5
-#undef s33
-#define s33(t,r,q) Y((r),(q))=0.000000
-// BYmm5
-#undef s34
-#define s34(t,r,q,j) Y((r),(q))+=B((q),(j))*B((j),(r))
+#undef s27
+#define s27(t,r,q) Y((r),(q))=0.000000
+// DYmm5
+#undef s28
+#define s28(t,r,q,l) Y((r),(q))+=D((q),(l))*D((l),(r))
 // VYhp5
+#undef s29
+#define s29(t,r,q) V((r),(q))*=Y((r),(q))
+// Bkrp
+#undef s30
+#define s30(t,m,i,j,k,l,r) Bnew((j),(r))+=X((m))*D((l),(r))*C((k),(r))*A((i),(r))
+// Bpinv
+#undef s31
+#define s31(t) Vinv=pinv(V,Vinv)
+// Bmmp
+#undef s32
+#define s32(t,j,r,q) Bnew((j),(r))+=Bnew((j),(q))*Vinv((r),(q))
+// Bssq
+#undef s33
+#define s33(t,s,j) sums((s))+=Bnew((j),(s))*Bnew((j),(s))
+// Bnorm
+#undef s34
+#define s34(t,r) lmbda((r))=sqrt(sums((r)))
+// Bdiv
 #undef s35
-#define s35(t,r,q) V((r),(q))*=Y((r),(q))
-// Ckrp
+#define s35(t,s,j) B((j),(s))=Bnew((j),(s))/lmbda((s))
+// Vinit2
 #undef s36
-#define s36(t,p,i,m,j,q,k,r) Cnew((k),(r))+=X((m))*B((j),(r))*A((i),(r))
-// Cpinv
+#define s36(t,r,q) V((r),(q))=1.000000
+// Yinit6
 #undef s37
-#define s37(t) Vinv=pinv(V,Vinv)
-// Cmmp
+#define s37(t,r,q) Y((r),(q))=0.000000
+// AYmm6
 #undef s38
-#define s38(t,k,r,q) dot+=Cnew((k),(q))*Vinv((r),(q))
-// Cssq
+#define s38(t,r,q,i) Y((r),(q))+=A((q),(i))*A((i),(r))
+// VYhp6
 #undef s39
-#define s39(t,s,k) sums((s))+=Cnew((k),(s))*Cnew((k),(s))
-// Cnorm
+#define s39(t,r,q) V((r),(q))*=Y((r),(q))
+// Yinit7
 #undef s40
-#define s40(t,r) lmbda((r))=sqrt(sums((r)))
-// Cdiv
+#define s40(t,r,q) Y((r),(q))=0.000000
+// BYmm7
 #undef s41
-#define s41(t,s,k) C((k),(s))=Cnew((k),(s))/lmbda((s))
+#define s41(t,r,q,j) Y((r),(q))+=B((q),(j))*B((j),(r))
+// VYhp7
+#undef s42
+#define s42(t,r,q) V((r),(q))*=Y((r),(q))
+// Yinit8
+#undef s43
+#define s43(t,r,q) Y((r),(q))=0.000000
+// DYmm8
+#undef s44
+#define s44(t,r,q,l) Y((r),(q))+=D((q),(l))*D((l),(r))
+// VYhp8
+#undef s45
+#define s45(t,r,q) V((r),(q))*=Y((r),(q))
+// Ckrp
+#undef s46
+#define s46(t,m,i,j,k,l,r) Cnew((k),(r))+=X((m))*D((l),(r))*B((j),(r))*A((i),(r))
+// Cpinv
+#undef s47
+#define s47(t) Vinv=pinv(V,Vinv)
+// Cmmp
+#undef s48
+#define s48(t,k,r,q) Cnew((k),(r))+=Cnew((k),(q))*Vinv((r),(q))
+// Cssq
+#undef s49
+#define s49(t,s,k) sums((s))+=Cnew((k),(s))*Cnew((k),(s))
+// Cnorm
+#undef s50
+#define s50(t,r) lmbda((r))=sqrt(sums((r)))
+// Cdiv
+#undef s51
+#define s51(t,s,k) C((k),(s))=Cnew((k),(s))/lmbda((s))
+// Vinit3
+#undef s52
+#define s52(t,r,q) V((r),(q))=1.000000
+// Yinit9
+#undef s53
+#define s53(t,r,q) Y((r),(q))=0.000000
+// AYmm9
+#undef s54
+#define s54(t,r,q,i) Y((r),(q))+=A((q),(i))*A((i),(r))
+// VYhp9
+#undef s55
+#define s55(t,r,q) V((r),(q))*=Y((r),(q))
+// Yinit10
+#undef s56
+#define s56(t,r,q) Y((r),(q))=0.000000
+// BYmm10
+#undef s57
+#define s57(t,r,q,j) Y((r),(q))+=B((q),(j))*B((j),(r))
+// VYhp10
+#undef s58
+#define s58(t,r,q) V((r),(q))*=Y((r),(q))
+// Yinit11
+#undef s59
+#define s59(t,r,q) Y((r),(q))=0.000000
+// CYmm11
+#undef s60
+#define s60(t,r,q,k) Y((r),(q))+=C((q),(k))*C((k),(r))
+// VYhp11
+#undef s61
+#define s61(t,r,q) V((r),(q))*=Y((r),(q))
+// Dkrp
+#undef s62
+#define s62(t,m,i,j,k,l,r) Dnew((l),(r))+=X((m))*C((k),(r))*B((j),(r))*A((i),(r))
+// Dpinv
+#undef s63
+#define s63(t) Vinv=pinv(V,Vinv)
+// Dmmp
+#undef s64
+#define s64(t,l,r,q) Dnew((l),(r))+=Dnew((l),(q))*Vinv((r),(q))
+// Dssq
+#undef s65
+#define s65(t,s,l) sums((s))+=Dnew((l),(s))*Dnew((l),(s))
+// Dnorm
+#undef s66
+#define s66(t,r) lmbda((r))=sqrt(sums((r)))
+// Ddiv
+#undef s67
+#define s67(t,s,l) D((l),(s))=Dnew((l),(s))/lmbda((s))
 
 for(t2 = 0; t2 <= R-1; t2++) {
   for(t4 = 0; t4 <= I-1; t4++) {
