@@ -45,17 +45,17 @@ namespace test {
             // TODO: Implement HiCOO traversal!
             map<tuple<unsigned, unsigned, unsigned>, double> hicoo_map;
             for(b = 0; b < NB; b++) {
-                 bi=bind0(b);
-    bj=bind1(b);
-    bk=bind2(b);
-    for(m = bp(b); m < bp(b+1); m++) {
-      i=_bs*bi+eind0(b,bi,bj,bk,m);
-      j=_bs*bj+eind1(b,bi,bj,bk,m);
-      k=_bs*bk+eind2(b,bi,bj,bk,m);
-                tuple<unsigned, unsigned, unsigned> triple(i,j,k);
-                coo_map[triple] = _vals[m];
-    }
-  }
+                bi=_bindices[(b)*_order];
+                bj=_bindices[(b)*_order+1];
+                bk=_bindices[(b)*_order+2];
+                for(m = _bptr[b]; m < bp[b+1]; m++) {
+                    i=_bs*bi+_eindices[(m)*_order];
+                    j=_bs*bj+_eindices[(m)*_order+1];
+                    k=_bs*bk+_eindices[(m)*_order+2];
+                    tuple<unsigned, unsigned, unsigned> triple(i,j,k);
+                    hicoo_map[triple] = _vals[m];
+                }
+            }
 
             ASSERT_EQ(coo_map, hicoo_map);
         }

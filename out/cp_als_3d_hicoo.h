@@ -90,7 +90,7 @@ inline void cp_als_3d_hicoo(const float* X, const unsigned BS, const unsigned I,
 // Akrp
 #undef s10
 //#define s10(t,m,i,j,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
-#define s10(t,b,bi,bj,bk,m,ei,ej,ek,i,j,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
+#define s10(t,b,bi,bj,bk,m,i,j,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
 // Apinv
 #undef s11
 #define s11(t) Vinv=pinv(V,Vinv)
@@ -130,7 +130,7 @@ inline void cp_als_3d_hicoo(const float* X, const unsigned BS, const unsigned I,
 // Bkrp
 #undef s23
 //#define s23(t,m,i,j,k,r) Bnew((j),(r))+=X((m))*C((k),(r))*A((i),(r))
-#define s23(t,b,bi,bj,bk,m,ei,ej,ek,i,j,k,r) Bnew((j),(r))+=X((m))*C((k),(r))*A((i),(r))
+#define s23(t,b,bi,bj,bk,m,i,j,k,r) Bnew((j),(r))+=X((m))*C((k),(r))*A((i),(r))
 // Bpinv
 #undef s24
 #define s24(t) Vinv=pinv(V,Vinv)
@@ -170,7 +170,7 @@ inline void cp_als_3d_hicoo(const float* X, const unsigned BS, const unsigned I,
 // Ckrp
 #undef s36
 //#define s36(t,m,i,j,k,r) Cnew((k),(r))+=X((m))*B((j),(r))*A((i),(r))
-#define s36(t,b,bi,bj,bk,m,ei,ej,ek,i,j,k,r) Cnew((k),(r))+=X((m))*B((j),(r))*A((i),(r))
+#define s36(t,b,bi,bj,bk,m,i,j,k,r) Cnew((k),(r))+=X((m))*B((j),(r))*A((i),(r))
 // Cpinv
 #undef s37
 #define s37(t) Vinv=pinv(V,Vinv)
@@ -235,15 +235,12 @@ for(t2 = 0; t2 <= T-1; t2++) {
     t6=bind1(t4);
     t7=bind2(t4);
     for(t8 = bp(t4); t8 < bp1(t4); t8++) {
-      t9=eind0(t4,t5,t6,t7,t8);
-      t10=eind1(t4,t5,t6,t7,t8);
-      t11=eind2(t4,t5,t6,t7,t8);
-      t12=BS*t5+t9;
-      t13=BS*t6+t10;
-      t14=BS*t7+t11;
+      t9=BS*t5+eind0(t4,t5,t6,t7,t8);
+      t10=BS*t6+eind1(t4,t5,t6,t7,t8);
+      t11=BS*t7+eind2(t4,t5,t6,t7,t8);
       //#pragma omp simd
-      for(t15 = 0; t15 < R; t15++) {
-        s10(t2,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15);
+      for(t12 = 0; t12 < R; t12++) {
+        s10(t2,t4,t5,t6,t7,t8,t9,t10,t11,t12);
       }
     }
   }
@@ -306,15 +303,12 @@ for(t2 = 0; t2 <= T-1; t2++) {
     t6=bind1(t4);
     t7=bind2(t4);
     for(t8 = bp(t4); t8 < bp1(t4); t8++) {
-      t9=eind0(t4,t5,t6,t7,t8);
-      t10=eind1(t4,t5,t6,t7,t8);
-      t11=eind2(t4,t5,t6,t7,t8);
-      t12=BS*t5+t9;
-      t13=BS*t6+t10;
-      t14=BS*t7+t11;
+      t9=BS*t5+eind0(t4,t5,t6,t7,t8);
+      t10=BS*t6+eind1(t4,t5,t6,t7,t8);
+      t11=BS*t7+eind2(t4,t5,t6,t7,t8);
       //#pragma omp simd
-      for(t15 = 0; t15 < R; t15++) {
-        s23(t2,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15);
+      for(t12 = 0; t12 < R; t12++) {
+        s23(t2,t4,t5,t6,t7,t8,t9,t10,t11,t12);
       }
     }
   }
@@ -377,15 +371,12 @@ for(t2 = 0; t2 <= T-1; t2++) {
     t6=bind1(t4);
     t7=bind2(t4);
     for(t8 = bp(t4); t8 < bp1(t4); t8++) {
-      t9=eind0(t4,t5,t6,t7,t8);
-      t10=eind1(t4,t5,t6,t7,t8);
-      t11=eind2(t4,t5,t6,t7,t8);
-      t12=BS*t5+t9;
-      t13=BS*t6+t10;
-      t14=BS*t7+t11;
+      t9=BS*t5+eind0(t4,t5,t6,t7,t8);
+      t10=BS*t6+eind1(t4,t5,t6,t7,t8);
+      t11=BS*t7+eind2(t4,t5,t6,t7,t8);
       //#pragma omp simd
-      for(t15 = 0; t15 < R; t15++) {
-        s36(t2,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15);
+      for(t12 = 0; t12 < R; t12++) {
+        s36(t2,t4,t5,t6,t7,t8,t9,t10,t11,t12);
       }
     }
   }
