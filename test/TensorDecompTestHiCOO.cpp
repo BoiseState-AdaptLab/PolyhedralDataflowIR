@@ -1,7 +1,7 @@
 #include "TensorDecompTest.hpp"
 #include <coo_hicoo_insp.h>
-//#include <mttkrp_csf.h>
 #include <cp_als_3d_hicoo.h>
+//#include <cp_als_4d_hicoo.h>
 
 namespace test {
     class TensorDecompTestHiCOO : public TensorDecompTest {
@@ -20,20 +20,25 @@ namespace test {
 
         virtual void Inspect() {
             // Run COO->HiCOO Inspector!
-            //_nb = coo_hicoo_insp(_vals, _bs, _nnz, _order, _dims, _indices, &_bindices, &_bptr, &_eindices, &_bval);
             _nb = coo_hicoo_insp(_vals, _bs, _nnz, _order, _dims, _indices, &_bval, &_bindices, &_bptr, &_eindices);
             cerr << "NB = " << _nb << endl;
+            //TensorEqual();
         }
 
         virtual void Execute() {
-            cp_als_3d_hicoo(_vals, _bs, _dims[0], _dims[1], _dims[2], _nnz, _nb, _rank, _niter, _bindices, _bptr, _eindices, _factors[0], _factors[1], _factors[2], _lambda);
-            //mttkrp_csf(_factors[1], _factors[2], _vals, _fptr[0][1], _rank, _findx[0], _findx[1], _findx[2], _fptr[1], _fptr[2], _factors[0]);
+            if (_order == 3) {
+                cp_als_3d_hicoo(_vals, _bs, _dims[0], _dims[1], _dims[2], _nnz, _nb, _rank, _niter, _bindices,
+                                _bptr, _eindices, _factors[0], _factors[1], _factors[2], _lambda);
+            } else if (_order == 4) {
+//                cp_als_4d_hicoo(_vals, _bs, _dims[0], _dims[1], _dims[2], _dims[3], _nnz, _nb, _rank, _niter, _bindices,
+//                                _bptr, _eindices, _factors[0], _factors[1], _factors[2], _factors[3], _lambda);
+            }
         }
 
-        virtual void TensorEqual() {
+        virtual void TensorEqua3Dl() {
             unsigned m,i,j,k,b,bi,bj,bk;
 
-            map<tuple<unsigned, unsigned, unsigned>, double> coo_map;
+            map<tuple<unsigned, unsigned, unsigned>, float> coo_map;
             for (m = 0; m < _nnz; m++) {
                 i = _indices[m];
                 j = _indices[_nnz+m];
@@ -42,18 +47,49 @@ namespace test {
                 coo_map[triple] = _vals[m];
             }
 
-            // TODO: Implement HiCOO traversal!
-            map<tuple<unsigned, unsigned, unsigned>, double> hicoo_map;
-            for(b = 0; b < NB; b++) {
+            map<tuple<unsigned, unsigned, unsigned>, float> hicoo_map;
+            for(b = 0; b < _nb; b++) {
                 bi=_bindices[(b)*_order];
                 bj=_bindices[(b)*_order+1];
                 bk=_bindices[(b)*_order+2];
-                for(m = _bptr[b]; m < bp[b+1]; m++) {
+                for(m = _bptr[b]; m < _bptr[b+1]; m++) {
                     i=_bs*bi+_eindices[(m)*_order];
                     j=_bs*bj+_eindices[(m)*_order+1];
                     k=_bs*bk+_eindices[(m)*_order+2];
                     tuple<unsigned, unsigned, unsigned> triple(i,j,k);
-                    hicoo_map[triple] = _vals[m];
+                    hicoo_map[triple] = _bval[m]; //_vals[m];
+                }
+            }
+
+            ASSERT_EQ(coo_map, hicoo_map);
+        }
+
+        virtual void TensorEqual4D() {
+            unsigned m,i,j,k,l,b,bi,bj,bk,bl;
+
+            map<tuple<unsigned, unsigned, unsigned, unsigned>, float> coo_map;
+            for (m = 0; m < _nnz; m++) {
+                i = _indices[m];
+                j = _indices[_nnz+m];
+                k = _indices[_nnz+_nnz+m];
+                l = _indices[_nnz+_nnz+_nnz+m];
+                tuple<unsigned, unsigned, unsigned, unsigned> coords(i,j,k,l);
+                coo_map[coords] = _vals[m];
+            }
+
+            map<tuple<unsigned, unsigned, unsigned, unsigned>, float> hicoo_map;
+            for(b = 0; b < _nb; b++) {
+                bi=_bindices[(b)*_order];
+                bj=_bindices[(b)*_order+1];
+                bk=_bindices[(b)*_order+2];
+                bl=_bindices[(b)*_order+3];
+                for(m = _bptr[b]; m < _bptr[b+1]; m++) {
+                    i=_bs*bi+_eindices[(m)*_order];
+                    j=_bs*bj+_eindices[(m)*_order+1];
+                    k=_bs*bk+_eindices[(m)*_order+2];
+                    l=_bs*bl+_eindices[(m)*_order+3];
+                    tuple<unsigned, unsigned, unsigned, unsigned> coords(i,j,k,l);
+                    hicoo_map[coords] = _vals[m];
                 }
             }
 
@@ -70,7 +106,9 @@ namespace test {
 
     TEST_F(TensorDecompTestHiCOO, CPD) {
         //SetUp("./data/tensor/matmul_5-5-5.tns", 10, 11);
+        //SetUp("../VarDevEddie/themes/tensors/matmul_3-3-3.tns", 10, 50);
         SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 50);
+        //SetUp("../VarDevEddie/themes/tensors/nell-2.tns", 10, 50);
         Run();
         Verify();
         Assert();

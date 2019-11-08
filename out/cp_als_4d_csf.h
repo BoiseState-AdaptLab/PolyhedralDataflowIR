@@ -24,25 +24,30 @@ fprintf(stderr,"}\n");}
 #define A(i,r) A[offset2((i),(r),(R))]
 #define B(j,r) B[offset2((j),(r),(R))]
 #define C(k,r) C[offset2((k),(r),(R))]
+#define D(l,r) C[offset2((l),(r),(R))]
 #define V(r,q) V[offset2((r),(q),(R))]
 #define Y(r,q) Y[offset2((r),(q),(R))]
-#define Anew(i,r) Anew[offset2((i),(r),(R))]
 #define X(m) X[(m)]
 #define Vinv(r,q) Vinv[offset2((r),(q),(R))]
 #define sums(s) sums[(s)]
 #define lmbda(r) lmbda[(r)]
+#define Anew(i,r) Anew[offset2((i),(r),(R))]
 #define Bnew(j,r) Bnew[offset2((j),(r),(R))]
 #define Cnew(k,r) Cnew[offset2((k),(r),(R))]
+#define Dnew(l,r) Dnew[offset2((l),(r),(R))]
 #define ind0(t,p) ind0[(p)]
 #define ind1(t,p,i,q) ind1[(q)]
-#define ind2(t,p,i,q,j,m) ind2[(m)]
+#define ind2(t,p,i,q,j,n) ind2[(n)]
+#define ind3(t,p,i,q,j,n,k,m) ind3[(m)]
 #define pos0(t,p) pos0[(p)]
 #define pos0_1(t,p) pos0[(p+1)]
 #define pos1(t,p,i,q) pos1[(q)]
 #define pos1_1(t,p,i,q) pos1[(q+1)]
+#define pos2(t,p,i,q,j,n) pos2[(n)]
+#define pos2_1(t,p,i,q,j,n) pos2[(n+1)]
 
-void cp_als_3d_csf(const float* X, const unsigned F, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned T, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, const unsigned* pos0, const unsigned* pos1, float* A, float* B, float* C, float* lmbda);
-inline void cp_als_3d_csf(const float* X, const unsigned F, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned T, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, const unsigned* pos0, const unsigned* pos1, float* A, float* B, float* C, float* lmbda) {
+void cp_als_4d_csf(const float* X, const unsigned F, const unsigned I, const unsigned J, const unsigned K, const unsigned M, const unsigned R, const unsigned T, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, const unsigned* pos0, const unsigned* pos1, float* A, float* B, float* C, float* lmbda);
+inline void cp_als_4d_csf(const float* X, const unsigned F, const unsigned I, const unsigned J, const unsigned K, const unsigned L, const unsigned M, const unsigned R, const unsigned T, const unsigned* ind0, const unsigned* ind1, const unsigned* ind2, const unsigned* ind3, const unsigned* pos0, const unsigned* pos1, const unsigned* pos2, float* A, float* B, float* C, float* D, float* lmbda) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t16;
     float* __restrict V = (float*) calloc((R)*(R),sizeof(float));
     float* __restrict Y = (float*) calloc((R)*(R),sizeof(float));
@@ -51,6 +56,7 @@ inline void cp_als_3d_csf(const float* X, const unsigned F, const unsigned I, co
     float* __restrict sums = (float*) calloc((R),sizeof(float));
     float* __restrict Bnew = (float*) calloc((J)*(R),sizeof(float));
     float* __restrict Cnew = (float*) calloc((K)*(R),sizeof(float));
+    float* __restrict Dnew = (float*) calloc((L)*(R),sizeof(float));
     float dot;
 
     srand(1568224077);
@@ -64,42 +70,57 @@ inline void cp_als_3d_csf(const float* X, const unsigned F, const unsigned I, co
 // Cinit
 #undef s2
 #define s2(r,k) C((k),(r))=urand(0)
-// Vinit0
+// Dinit
 #undef s3
-#define s3(t,r,q) V((r),(q))=1.000000
-// Yinit0
+#define s3(r,k) D((k),(r))=urand(0)
+// Vinit0
 #undef s4
-#define s4(t,r,q) Y((r),(q))=0.000000
-// BYmm0
+#define s4(t,r,q) V((r),(q))=1.000000
+// Yinit0
 #undef s5
-#define s5(t,r,q,j) Y((r),(q))+=B((q),(j))*B((j),(r))
-// VYhp0
+#define s5(t,r,q) Y((r),(q))=0.000000
+// BYmm0
 #undef s6
-#define s6(t,r,q) V((r),(q))*=Y((r),(q))
-// Yinit1
+#define s6(t,r,q,j) Y((r),(q))+=B((q),(j))*B((j),(r))
+// VYhp0
 #undef s7
-#define s7(t,r,q) Y((r),(q))=0.000000
-// CYmm1
+#define s7(t,r,q) V((r),(q))*=Y((r),(q))
+// Yinit1
 #undef s8
-#define s8(t,r,q,k) Y((r),(q))+=C((q),(k))*C((k),(r))
-// VYhp1
+#define s8(t,r,q) Y((r),(q))=0.000000
+// CYmm1
 #undef s9
-#define s9(t,r,q) V((r),(q))*=Y((r),(q))
-// Akrp
+#define s9(t,r,q,k) Y((r),(q))+=C((q),(k))*C((k),(r))
+// VYhp1
 #undef s10
-#define s10(t,p,i,m,j,q,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
-// Apinv
+#define s10(t,r,q) V((r),(q))*=Y((r),(q))
+
+// Yinit2
 #undef s11
-#define s11(t) Vinv=pinv(V,Vinv)
-// Ammp
+#define s11(t,r,q) Y((r),(q))=0.000000
+// DYmm2
 #undef s12
-#define s12(t,i,r,q) dot+=Anew((i),(q))*Vinv((r),(q))
-// Assq
+#define s12(t,r,q,l) Y((r),(q))+=D((q),(l))*D((l),(r))
+// VYhp2
 #undef s13
-#define s13(t,s,i) sums((s))+=Anew((i),(s))*Anew((i),(s))
-// Anorm
+#define s13(t,r,q) V((r),(q))*=Y((r),(q))
+
+
+// Akrp
 #undef s14
-#define s14(t,r) lmbda((r))=sqrt(sums((r)))
+#define s14(t,p,i,m,j,q,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
+// Apinv
+#undef s15
+#define s15(t) Vinv=pinv(V,Vinv)
+// Ammp
+#undef s16
+#define s16(t,i,r,q) dot+=Anew((i),(q))*Vinv((r),(q))
+// Assq
+#undef s17
+#define s17(t,s,i) sums((s))+=Anew((i),(s))*Anew((i),(s))
+// Anorm
+#undef s17
+#define s17(t,r) lmbda((r))=sqrt(sums((r)))
 // Adiv
 #undef s15
 #define s15(t,s,i) A((i),(s))=Anew((i),(s))/lmbda((s))

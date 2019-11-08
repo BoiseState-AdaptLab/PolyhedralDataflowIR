@@ -28,144 +28,141 @@ fprintf(stderr,"}\n");}
 #define bsize(b,bi,bj,bk) bsize[(bi)][(bj)][(bk)]
 #define p(i) p
 #define ind(m,n) indices[offset2((m),(n),M)]
-#define ind0(m) indices[offset2(0,(m),M)]
-#define ind1(m) indices[offset2(1,(m),M)]
-#define ind2(m) indices[offset2(2,(m),M)]
-#define bind0(b) (*bindices)[offset2((b),0,N)]
-#define bind1(b) (*bindices)[offset2((b),1,N)]
-#define bind2(b) (*bindices)[offset2((b),2,N)]
-#define eind0(m) (*eindices)[offset2((m),0,N)]
-#define eind1(m) (*eindices)[offset2((m),1,N)]
-#define eind2(m) (*eindices)[offset2((m),2,N)]
+#define bind(m,b) (*bindices)[offset2((b),(m),ord)]
+#define eind(m,n) (*eindices)[offset2((n),(m),ord)]
 
-#define bid(m,bi,bj,bk) {\
-if(!bmap[(bi)]){\
-bsize[(bi)]=(unsigned**)calloc(((J/B)+1),sizeof(unsigned*));\
-bid[(bi)]=(unsigned**)calloc(((J/B)+1),sizeof(unsigned*));\
-bmap[(bi)]=(unsigned***)calloc(((J/B)+1),sizeof(unsigned**));\
-}\
-if(!bmap[(bi)][(bj)]){\
-bsize[(bi)][(bj)]=(unsigned*)calloc(((K/B)+1),sizeof(unsigned));\
-bid[(bi)][(bj)]=(unsigned*)calloc(((K/B)+1),sizeof(unsigned));\
-bmap[(bi)][(bj)]=(unsigned**)calloc((K/B)+1,sizeof(unsigned*));\
-}\
-if(!bmap[(bi)][(bj)][(bk)]){\
-bid[(bi)][(bj)][(bk)]=(NB);\
-bmap[(bi)][(bj)][(bk)]=(unsigned*)calloc(B*B*B,sizeof(unsigned));\
-}\
-b=bid[(bi)][(bj)][(bk)];\
-bmap[(bi)][(bj)][(bk)][(bsize[(bi)][(bj)][(bk)])++]=(m);\
+unsigned ilog2(unsigned x);
+inline unsigned ilog2(unsigned x) {
+#define clz(x) __builtin_clz((x))
+    return sizeof(uint32_t) * CHAR_BIT - clz(x) - 1;
 }
 
-unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigned M, const unsigned N, const unsigned* dims, const unsigned* indices, float** bval, unsigned short** bindices, unsigned** bp, unsigned char** eindices);
-inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigned M, const unsigned N, const unsigned* dims, const unsigned* indices, float** bval, unsigned short** bindices, unsigned** bp, unsigned char** eindices) {
+//#define bid(m,bi,bj,bk) {\
+//if(!bmap[(bi)]){\
+//bsize[(bi)]=(unsigned**)calloc(((J/B)+1),sizeof(unsigned*));\
+//bid[(bi)]=(unsigned**)calloc(((J/B)+1),sizeof(unsigned*));\
+//bmap[(bi)]=(unsigned***)calloc(((J/B)+1),sizeof(unsigned**));\
+//}\
+//if(!bmap[(bi)][(bj)]){\
+//bsize[(bi)][(bj)]=(unsigned*)calloc(((K/B)+1),sizeof(unsigned));\
+//bid[(bi)][(bj)]=(unsigned*)calloc(((K/B)+1),sizeof(unsigned));\
+//bmap[(bi)][(bj)]=(unsigned**)calloc((K/B)+1,sizeof(unsigned*));\
+//}\
+//if(!bmap[(bi)][(bj)][(bk)]){\
+//bid[(bi)][(bj)][(bk)]=(NB);\
+//bmap[(bi)][(bj)][(bk)]=(unsigned*)calloc(B*B*B,sizeof(unsigned));\
+//}\
+//b=bid[(bi)][(bj)][(bk)];\
+//bmap[(bi)][(bj)][(bk)][(bsize[(bi)][(bj)][(bk)])++]=(m);\
+//}
+
+typedef unsigned int uint;
+typedef unsigned short ushort;
+typedef unsigned char byte;
+typedef float real;
+
+unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigned M, const unsigned N, const unsigned* dim, const unsigned* indices, float** bval, unsigned short** bindices, unsigned** bp, unsigned char** eindices);
+inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigned M, const unsigned N, const unsigned* dim, const unsigned* indices, float** bval, unsigned short** bindices, unsigned** bp, unsigned char** eindices) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
-    unsigned NB = 0;
-    unsigned b = 0;
-    unsigned p = 0;
-    unsigned I = dims[0];
-    unsigned J = dims[1];
-    unsigned K = dims[2];
+    unsigned nnz = M;
+    unsigned ord = N;
+    unsigned bs = B;
 
-    //fprintf(stderr,"I=%u,J=%u,K=%u,M=%u,N=%u,B=%u\n",I,J,K,M,N,B);
-    // TODO: Does 'bval' to be own space, or can we do a swap? Will that be faster or slower?
-    unsigned*** bid = (unsigned***) calloc((I/B)+1,sizeof(unsigned**));
-    unsigned*** bsize = (unsigned***) calloc((I/B)+1,sizeof(unsigned**));
-    unsigned**** bmap = (unsigned****) calloc((I/B)+1,sizeof(unsigned***));
+    *bp = (uint*) calloc(nnz, sizeof(uint));
+    *eindices = (byte*) calloc(nnz * ord, sizeof(byte));
+    *bindices = (ushort*) calloc(nnz * ord, sizeof(ushort));
+    *bval = (real*) calloc(nnz, sizeof(real));
 
-    *bindices = (unsigned short*) malloc(M*N*sizeof(short));
-    *bp = (unsigned*) calloc(M, sizeof(int));
-    *bval = (float*) malloc(M*sizeof(float));
-    *eindices = (unsigned char*) malloc(M*N*sizeof(char));
+    uint n, m = 0, c, i, j, k, b = 0, nb = 0, p = 0, pmax = 0, z;
+    ushort bc, bi, bj, bk;
+    byte r, ec, ei, ej, ek;
+    ushort bcrd[ord];
+    ushort bdim[ord];
 
-    //assert(*bindices != NULL);
-    //assert(*bp != NULL);
-    //assert(*bval != NULL);
-    //assert(*eindices != NULL);
-
-// bs_put+br_put+bc_put+nb_cnt
-#undef s0
-#define s0(m,i,j,k) bid((m),(i)/B,(j)/B,(k)/B)
-#undef s1
-#define s1(m,i,j,k) if (b >= NB) NB=b+1
-#undef s2
-#define s2(m,i,j,k) bind0(b)=(i)/B
-#undef s3
-#define s3(m,i,j,k) bind1(b)=(j)/B
-#undef s4
-#define s4(m,i,j,k) bind2(b)=(k)/B
-
-#pragma omp simd
-for(t2 = 0; t2 <= M-1; t2++) {
-  t4=ind0(t2);
-  t6=ind1(t2);
-  t8=ind2(t2);
-  //fprintf(stderr,"m=%u,i=%u,j=%u,k=%u,b=%u\n",t2,t4,t6,t8,b);
-  s0(t2,t4,t6,t8);
-  s1(t2,t4,t6,t8);
-  s2(t2,t4,t6,t8);
-  s3(t2,t4,t6,t8);
-  s4(t2,t4,t6,t8);
-}
-
-// bp_put+er_put+ec_put+bv_put+p_inc
-#undef s0
-#define s0(b,bi,bj,bk,m,n) if (p >= bp((b)+1)) bp((b)+1)=p+1
-#undef s1
-#define s1(b,bi,bj,bk,m,n) eind0(p)=ind0((n))-B*(bi)
-#undef s2
-#define s2(b,bi,bj,bk,m,n) eind1(p)=ind1((n))-B*(bj)
-#undef s3
-#define s3(b,bi,bj,bk,m,n) eind2(p)=ind2((n))-B*(bk)
-#undef s4
-#define s4(b,bi,bj,bk,m,n) bval(p)=val((n))
-#undef s5
-#define s5(b,bi,bj,bk,m,n) p+=1
-
-for(t2 = 0; t2 <= NB-1; t2++) {
-  t4=bind0(t2);
-  t6=bind1(t2);
-  t8=bind2(t2);
-  #pragma omp simd
-  for(t10 = 0; t10 <= bsize(t2,t4,t6,t8)-1; t10++) {
-    t12=bmap(t2,t4,t6,t8,t10);
-    s0(t2,t4,t6,t8,t10,t12);
-    s1(t2,t4,t6,t8,t10,t12);
-    s2(t2,t4,t6,t8,t10,t12);
-    s3(t2,t4,t6,t8,t10,t12);
-    s4(t2,t4,t6,t8,t10,t12);
-    s5(t2,t4,t6,t8,t10,t12);
-  }
-}
-
-  *bindices = (unsigned short*) realloc(*bindices, N * NB * sizeof(short));
-  *bp = (unsigned*) realloc(*bp, (NB+1) * sizeof(int));
-
-  // Free temporary storage
-  for(t2=0;t2<=(I/B);t2++) {
-    if(bmap[t2]) {
-      for(t4=0;t4<=(J/B);t4++) {
-        if (bmap[t2][t4]) {
-          for(t6=0;t6<=(K/B);t6++) {
-            if (bmap[t2][t4][t6]) {
-              free(bmap[t2][t4][t6]);
-            }
-          }
-          free(bid[t2][t4]);
-          free(bsize[t2][t4]);
-          free(bmap[t2][t4]);
-        }
-      }
-      free(bmap[t2]);
-      free(bid[t2]);
-      free(bsize[t2]);
+    // Unroll...
+    bdim[0] = (dim[0] / bs) + 1;
+    bdim[1] = (dim[1] / bs) + 1;
+    bdim[2] = (dim[2] / bs) + 1;
+    uint size = bdim[0] * bdim[1] * bdim[2];// * bdim[3];
+    if (ord > 3) {
+        bdim[3] = (dim[3] / bs) + 1;
+        size *= bdim[3];
     }
-  }
-  free(bmap);
-  free(bid);
-  free(bsize);
 
-  return (NB);
+    uint* __restrict b_id = (uint*) malloc(size * sizeof(uint));
+    memset(b_id, UINT_MAX, size * sizeof(uint));
+    uint* __restrict b_sz = (uint*) calloc(size, sizeof(uint));
+    uint** __restrict b_map = (uint**) calloc(size, sizeof(uint*));
+    byte bs_bits = ilog2(bs);
+
+    nb = 0;
+    //#pragma omp parallel for schedule(runtime)
+    for (n = 0; n < nnz; n++) {
+        //  Unroll...
+        bcrd[0] = (ind(0,n)) >> bs_bits;
+        bcrd[1] = (ind(1,n)) >> bs_bits;
+        bcrd[2] = (ind(2,n)) >> bs_bits;
+        if (ord > 3) {
+            bcrd[3] = (ind(3,n)) >> bs_bits;
+            p = offset4(bcrd[0],bcrd[1],bcrd[2],bcrd[3],bdim[1],bdim[2],bdim[3]);
+        } else {
+            p = offset3(bcrd[0],bcrd[1],bcrd[2],bdim[1],bdim[2]);
+        }
+
+        //if(b_id[p] == USHRT_MAX) {
+        if (b_id[p] == UINT_MAX) {
+            b_id[p] = nb;
+            b_map[nb] = (uint*) calloc((bs*bs)/8,sizeof(uint));
+        }
+        b = b_id[p];
+        b_map[b][b_sz[b]++] = n;
+
+        if (b >= nb) {
+            nb = b + 1;
+        }
+
+//        #pragma omp simd
+//        for (r = 0; r < ord; r++)
+//            bind(r,b) = bcrd[r];
+        // Unroll...
+        bind(0,b) = bcrd[0];
+        bind(1,b) = bcrd[1];
+        bind(2,b) = bcrd[2];
+        if (ord > 3) bind(3,b) = bcrd[3];
+    }
+
+    p = 0;
+    //#pragma omp parallel for schedule(runtime)
+    for (b = 0; b < nb; b++) {
+        //#pragma omp parallel for schedule(runtime)
+        for (m = 0; m < b_sz[b]; m++) {
+            n = b_map[b][m];
+            // Unroll...
+            eind(0,p) = ind(0,n) < (bind(0,b) << bs_bits) ? ind(0,n) : ind(0,n) - (bind(0,b) << bs_bits);
+            eind(1,p) = ind(1,n) < (bind(1,b) << bs_bits) ? ind(1,n) : ind(1,n) - (bind(1,b) << bs_bits);
+            eind(2,p) = ind(2,n) < (bind(2,b) << bs_bits) ? ind(2,n) : ind(2,n) - (bind(2,b) << bs_bits);
+            if (ord > 3) eind(3,p) = ind(3,n) < (bind(3,b) << bs_bits) ? ind(3,n) : ind(3,n) - (bind(3,b) << bs_bits);
+
+            if (p >= bp(b+1))
+                bp(b+1) = p+1;
+
+            (*bval)[p] = val[n];
+            p += 1;
+        }
+    }
+
+    *bindices = (ushort*) realloc(*bindices, nb * ord * sizeof(ushort));
+    *bp = (uint*) realloc(*bp, (nb+1) * sizeof(uint));
+    //fprintf(stderr, "size=%u,nb=%u\n", size, nb);
+
+//    for (b = 0; b < nb; b++)
+//        if (b_map[b])
+//            free(b_map[b]);
+    free(b_map);
+    free(b_sz);
+    free(b_id);
+
+    return (nb);
 }    // coo_hicoo_insp
 
 #undef min
@@ -182,16 +179,11 @@ for(t2 = 0; t2 <= NB-1; t2++) {
 #undef arrprnt
 #undef B
 #undef val
+#undef bid
 #undef bmap
 #undef bp
-#undef bind0
-#undef bind1
-#undef bind2
+#undef bind
 #undef bsize
 #undef p
-#undef ind0
-#undef ind1
-#undef ind2
-#undef eind0
-#undef eind1
-#undef eind2
+#undef ind
+#undef eind

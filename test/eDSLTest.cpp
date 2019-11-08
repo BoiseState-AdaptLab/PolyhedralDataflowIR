@@ -1099,7 +1099,7 @@ TEST(eDSLTest, CP_ALS) {
 }
 
 TEST(eDSLTest, CP_ALS_COO) {
-    const unsigned N = 3;
+    const unsigned N = 4;
 
     Iter m('m'), p('p'), q('q'), r('r'), s('s'), t('t');
     Const M("M"), R("R"), T("T"), F("F");
@@ -1135,20 +1135,24 @@ TEST(eDSLTest, CP_ALS_COO) {
     }
 
     csf ^= (iters[0] == indices[0](p));
-    csf ^= (offsets[0](p) <= m < offsets[0](p+1));
-    csf ^= (iters[1] == indices[1](m));
-    csf ^= (offsets[1](m) <= q < offsets[1](m+1));
-    csf ^= (iters[2] == indices[2](q));
+    csf ^= (offsets[0](p) <= q < offsets[0](p+1));
+    csf ^= (iters[1] == indices[1](q));
+    csf ^= (offsets[1](q) <= m < offsets[1](q+1));
+    csf ^= (iters[2] == indices[2](m));
+    if (N > 3) {
+        csf ^= (offsets[2](m) <= s < offsets[2](m+1));
+        csf ^= (iters[3] == indices[3](s));
+    }
 
     names[N] = "lmbda";
     Space vec("vec", 0 <= t < T ^ 0 <= r < R);
     Space had("had", 0 <= t < T ^ 0 <= r < R ^ 0 <= q < R);
     Space sca("sca", 0 <= t < T);
-    //Space krp = coo ^ 0 <= r < R;
-    Space krp = csf ^ 0 <= r < R;
+    Space krp = coo ^ 0 <= r < R;
+    //Space krp = csf ^ 0 <= r < R;
 
-    //string fxn = "cp_als_" + to_string(N) + "d_coo";
-    string fxn = "cp_als_" + to_string(N) + "d_csf";
+    string fxn = "cp_als_" + to_string(N) + "d_coo";
+    //string fxn = "cp_als_" + to_string(N) + "d_csf";
     init(fxn, "", "f", "u", names, to_string(0));
 
     // Build the computations...
@@ -1209,7 +1213,7 @@ TEST(eDSLTest, CP_ALS_COO) {
 
     fuse(); // Fuse-all nodes...
     print("out/" + fxn + ".json");
-    string result = codegen("out/" + fxn + ".c", "", "C++");
+    string result = codegen("out/" + fxn + ".h", "", "C++");
 
     // cp_als in sktensor returns Kruskal tensor P=(U,\lambda), where U(0)=A, U(1)=B, U(2)=C
 

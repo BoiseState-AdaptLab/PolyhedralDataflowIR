@@ -36,6 +36,8 @@ namespace test {
             _nnz = tns.nnz();
             _order = tns.order();
 
+            ASSERT_TRUE(_order == 3 || _order == 4);
+
             unsigned nbytes = _order * _nnz * sizeof(unsigned);
             _indices = (unsigned*) malloc(nbytes);
             memcpy(_indices, tns.indices(), nbytes);
@@ -117,7 +119,17 @@ namespace test {
 //            splatt_free_opts(_opts);
         }
 
-        virtual void TensorEqual() {}
+        virtual void TensorEqual() {
+            if (_order == 3) {
+                TensorEqual3D();
+            } else if (_order == 4) {
+                TensorEqual4D();
+            }
+        }
+
+        virtual void TensorEqual3D() {}
+
+        virtual void TensorEqual4D() {}
 
         unsigned _niter;
         unsigned _nnz;
