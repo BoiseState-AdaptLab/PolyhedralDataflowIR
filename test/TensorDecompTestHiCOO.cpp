@@ -20,7 +20,6 @@ namespace test {
 
         virtual void Inspect() {
             // Run COO->HiCOO Inspector!
-            //coo_csf_insp(_dims, _indices, _nnz, _order, &_fptr, &_findx);
             //_nb = coo_hicoo_insp(_vals, _bs, _nnz, _order, _dims, _indices, &_bindices, &_bptr, &_eindices, &_bval);
             _nb = coo_hicoo_insp(_vals, _bs, _nnz, _order, _dims, _indices, &_bval, &_bindices, &_bptr, &_eindices);
             cerr << "NB = " << _nb << endl;
@@ -32,7 +31,7 @@ namespace test {
         }
 
         virtual void TensorEqual() {
-            unsigned m,i,j,k,p,q;
+            unsigned m,i,j,k,b,bi,bj,bk;
 
             map<tuple<unsigned, unsigned, unsigned>, double> coo_map;
             for (m = 0; m < _nnz; m++) {
@@ -45,17 +44,18 @@ namespace test {
 
             // TODO: Implement HiCOO traversal!
             map<tuple<unsigned, unsigned, unsigned>, double> hicoo_map;
-            for(p = _fptr[0][0]; p < _fptr[0][1]; p++) {
-                i = _findx[0][p];
-                for(q = _fptr[1][p]; q < _fptr[1][p+1]; q++) {
-                    j = _findx[1][q];
-                    for(m = _fptr[2][q]; m < _fptr[2][q+1]; m++) {
-                        k = _findx[2][m];
-                        tuple<unsigned, unsigned, unsigned> triple(i,j,k);
-                        hicoo_map[triple] = _vals[m];
-                    }
-                }
-            }
+            for(b = 0; b < NB; b++) {
+                 bi=bind0(b);
+    bj=bind1(b);
+    bk=bind2(b);
+    for(m = bp(b); m < bp(b+1); m++) {
+      i=_bs*bi+eind0(b,bi,bj,bk,m);
+      j=_bs*bj+eind1(b,bi,bj,bk,m);
+      k=_bs*bk+eind2(b,bi,bj,bk,m);
+                tuple<unsigned, unsigned, unsigned> triple(i,j,k);
+                coo_map[triple] = _vals[m];
+    }
+  }
 
             ASSERT_EQ(coo_map, hicoo_map);
         }
