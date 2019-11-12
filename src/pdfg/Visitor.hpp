@@ -508,6 +508,12 @@ namespace pdfg {
             if (_define_flags["absmax"]) {
                 define("absmax(x,y)", "((x)=max(abs((x)),abs((y))))");
             }
+            if (_define_flags["argmin"]) {
+                define("argmin(val,args,size)", "for(unsigned __i__=0;__i__<(size);__i__++) (val)=min((args)[i],(val))");
+            }
+            if (_define_flags["argmax"]) {
+                define("argmax(val,args,size)", "for(unsigned __i__=0;__i__<(size);__i__++) (val)=max((args)[i],(val))");
+            }
             if (_define_flags["sgn"]) {
                 define("sgn(x)", "((x)<0?-1:1)");
             }

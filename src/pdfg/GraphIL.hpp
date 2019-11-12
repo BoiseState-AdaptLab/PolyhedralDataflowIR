@@ -2090,6 +2090,12 @@ namespace pdfg {
         return spc;
     }
 
+    Space operator^(const Space& lhs, const Constr &rhs) {
+        Space spc = lhs;
+        spc.add(rhs);
+        return spc;
+    }
+
     ostream &operator<<(ostream &os, const Space &space) {
         os << space.name() << '(';
         unsigned i = 0, niters = space.iterators().size();

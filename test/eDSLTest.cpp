@@ -1221,6 +1221,114 @@ TEST(eDSLTest, CP_ALS_COO) {
     ASSERT_TRUE(!result.empty());
 }
 
+TEST(eDSLTest, CP_ALS_ND) {
+    const unsigned N = 4;
+
+    Iter i('i'), n('n'), m('m'), p('p'), q('q'), r('r'), s('s'), t('t');
+    Const M("M"), R("R"), T("T"), F("F"), D("D");
+    Space X("X",M);
+
+    Space V("V", R, R), Vinv("Vinv", R, R);
+    Space Y("Y", R, R);
+    Space lmbda("lmbda", R), sums("sums",R);
+    Func dim("dim");
+    Func crd("crd");
+    Func ind("ind", 2);
+    //Func crd("crd");
+    Real one(1.0);
+    Real zero(0.0);
+    Space prod("prod");
+
+    // Iteration spaces
+    Space sca("sca", 0 <= t < T ^ 0 <= n < N);
+    Space coo("coo", 0 <= t < T ^ 0 <= n < N ^ 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
+    Space csf("csf", 0 <= t < T ^ 0 <= n < N ^ 0 <= p < F); //  ^ i==ind0(p) ^ pos0(p) <= m < pos0(p+1) ^ j==ind1(m) ^ pos1(m) <= q < pos1(m+1) ^ k==ind2(q));
+    Space tns = coo;
+    Space krp = tns ^ (0 <= r < R);
+
+    // Data spaces
+    Space mats("mats", N, dim(n), R);
+    Space aTa("aTa", N, R, R);
+
+    //string fxn = "cp_als_" + to_string(N) + "d_coo";
+    string fxn = "cp_als_coo";
+    //string fxn = "cp_als_" + to_string(N) + "d_csf";
+    init(fxn, "", "f", "u", {}, to_string(0));
+
+    // Build the computations...
+
+    // Find max D
+    Space smax("smax", 0 <= n < N);
+    Comp dmax("dmax", smax, D=max(D,dim(n)));
+    Space ws("ws", D, R);
+
+    // Randomize factor matrices...
+    Space sinit("sinit", 0 <= n < N ^ 0 <= i < dim(n) ^ 0 <= r < R);
+    Comp init("init", sinit, (mats(n,i,r) = urand()));
+
+    // Compute 1st round of A^T * A...
+    Space sata0("sata0", 0 <= n < N ^ 0 <= r < R ^ 0 <= q < R ^ 0 <= i < dim(n));
+    Comp ata0("ata0", sata0, (aTa(n,r,q) += mats(n,r,i) * mats(n,i,q)));
+
+    // Buffer coordinates to minimize trips through index structure...
+    Space scopy = tns ^ (0 <= p < N) ^ (i==ind(p,m));
+    Comp icopy("icopy", scopy, crd(p) = i+0);
+
+    // Compute KRP
+    Comp pinit("pinit", krp, prod = one+0);
+    Space sprod = krp ^ (0 <= p < N) ^ (i==crd(p));
+    Comp pprod("pprod", sprod, (n != p), prod *= mats(p,i,r));
+    Space ssum = krp ^ (i==crd(n));
+    Comp psum("krp", ssum, mats(n,i,r) += X(m) * prod);
+
+    // Initialize V for later use in Hadamard product
+    Space had0("had0", 0 <= t < T ^ 0 <= n < N ^ 0 <= r < R ^ 0 <= q < R);
+    Comp vinit("vinit", had0, V(r,q) = one+0);
+
+    /* Calculate Hadamard product, V -- NOTE: This is calc_gram_inv in SPLATT */
+    Space had("had", 0 <= t < T ^ 0 <= n < N ^ 0 <= p < N ^ 0 <= r < R ^ 0 <= q < R);
+    Comp vhad("vhad", had, (n != p), V(r,q) *= aTa(p,r,q));
+
+    // Moore-Penrose Pseudoinverse of V
+    Comp inv("inv", sca, Vinv=pinv(V,Vinv));
+
+    // Multiply factor matrix by Vinv
+    Space pmm("pmm", 0 <= t < T ^ 0 <= n < N ^ 0 <= i < dim(n) ^ 0 <= r < R ^ 0 <= q < R);
+    Comp mmp("mmp", pmm, (ws(i,r) += mats(n,i,q) * Vinv(q,r)));
+
+    // Now copy workspace into mats(n) and reset ws to zero for next iteration...
+    Space wcopy("wcopy", 0 <= t < T ^ 0 <= n < N ^ 0 <= i < dim(n) ^ 0 <= r < R);
+    Comp wscpy("wscpy", wcopy, (mats(n,i,r) = ws(i,r) + 0));
+    Comp wszro("wszro", wcopy, (ws(i,r) = zero + 0));
+
+    /* Normalize columns and extract lambda */
+    Space sum("sum", 0 <= t < T ^ 0 <= n < N ^ 0 <= s < R ^ 0 <= i < dim(n));
+    // Sum of squares of factor matrix.
+    Comp ssq("ssq", sum, (sums(s) += mats(n,i,s) * mats(n,i,s)));
+    // Compute the Froebenius norm
+    Space vec("vec", 0 <= t < T ^ 0 <= n < N ^ 0 <= s < R);
+    Comp norm("norm", vec, (lmbda(s) = sqrt(sums(s))));
+    // Finally, normalize factor matrix by lambda.
+    // U[n] = Unew / lmbda
+    Comp div("div", sum, (mats(n,i,s) = mats(n,i,s) / lmbda(s)));
+
+    // Compute updated A^T * A
+    Comp zata("zata", had, aTa(n,r,q) = zero + 0);
+    Space sata = had ^ 0 <= i < dim(n);
+    Comp ata("ata", sata, (aTa(n,r,q) += mats(n,r,i) * mats(n,i,q)));
+
+    // Compute fit...
+
+    fuse(); // Fuse-all nodes...
+    print("out/" + fxn + ".json");
+    string result = codegen("out/" + fxn + ".h", "", "C++");
+
+    // cp_als in sktensor returns Kruskal tensor P=(U,\lambda), where U(0)=A, U(1)=B, U(2)=C
+
+    //cerr << result << endl;
+    ASSERT_TRUE(!result.empty());
+}
+
 TEST(eDSLTest, Transpose) {
     const int M = 2;
     const int N = 3;
