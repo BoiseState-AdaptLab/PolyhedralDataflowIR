@@ -1302,7 +1302,6 @@ TEST(eDSLTest, CP_ALS_ND) {
     Comp wszro("wszro", wsum, (ws(i,r) = zero + 0));
 
     /* Normalize columns and extract lambda */
-    //Space sum("sum", 0 <= t < T ^ 0 <= n < N ^ 0 <= s < R ^ 0 <= i < dim(n));
     // Sum of squares of factor matrix.
     Comp ssq("ssq", wsum, (sums(r) += mats(n,i,r) * mats(n,i,r)));
     // Compute the Froebenius norm
@@ -1310,7 +1309,7 @@ TEST(eDSLTest, CP_ALS_ND) {
     Comp norm("norm", vec, (lmbda(r) = sqrt(sums(r))));
     // Finally, normalize factor matrix by lambda.
     // U[n] = Unew / lmbda
-    Comp div("div", sum, (mats(n,i,r) /= lmbda(r)));
+    Comp div("div", wsum, (mats(n,i,r) /= lmbda(r)));
 
     // Compute updated A^T * A
     Space sata = vec ^ (0 <= q < R);
