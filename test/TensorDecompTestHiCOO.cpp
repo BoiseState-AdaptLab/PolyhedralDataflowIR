@@ -1,7 +1,8 @@
 #include "TensorDecompTest.hpp"
 #include <coo_hicoo_insp.h>
-#include <cp_als_3d_hicoo.h>
+//#include <cp_als_3d_hicoo.h>
 //#include <cp_als_4d_hicoo.h>
+#include <cp_als_nd_hicoo.h>
 
 namespace test {
     class TensorDecompTestHiCOO : public TensorDecompTest {
@@ -26,13 +27,14 @@ namespace test {
         }
 
         virtual void Execute() {
-            if (_order == 3) {
-                cp_als_3d_hicoo(_vals, _bs, _dims[0], _dims[1], _dims[2], _nnz, _nb, _rank, _niter, _bindices,
-                                _bptr, _eindices, _factors[0], _factors[1], _factors[2], _lambda);
-            } else if (_order == 4) {
+//            if (_order == 3) {
+//                cp_als_3d_hicoo(_bval, _bs, _dims[0], _dims[1], _dims[2], _nnz, _nb, _rank, _niter, _bindices,
+//                                _bptr, _eindices, _factors[0], _factors[1], _factors[2], _lambda);
+//            } else if (_order == 4) {
 //                cp_als_4d_hicoo(_vals, _bs, _dims[0], _dims[1], _dims[2], _dims[3], _nnz, _nb, _rank, _niter, _bindices,
 //                                _bptr, _eindices, _factors[0], _factors[1], _factors[2], _factors[3], _lambda);
-            }
+//            }
+            cp_als_nd_hicoo(_bval, _bs, _nnz, _order, _nb, _rank, _niter, _dims, _bindices, _bptr, _eindices, _factors, _lambda);
         }
 
         virtual void TensorEqua3Dl() {
@@ -107,7 +109,7 @@ namespace test {
     TEST_F(TensorDecompTestHiCOO, CPD) {
         //SetUp("./data/tensor/matmul_5-5-5.tns", 10, 11);
         //SetUp("../VarDevEddie/themes/tensors/matmul_3-3-3.tns", 10, 50);
-        SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 50);
+        SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 10);
         //SetUp("../VarDevEddie/themes/tensors/nell-2.tns", 10, 50);
         Run();
         Verify();

@@ -61,8 +61,8 @@ typedef unsigned short ushort;
 typedef unsigned char byte;
 typedef float real;
 
-unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigned M, const unsigned N, const unsigned* dim, const unsigned* indices, float** bval, unsigned short** bindices, unsigned** bp, unsigned char** eindices);
-inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigned M, const unsigned N, const unsigned* dim, const unsigned* indices, float** bval, unsigned short** bindices, unsigned** bp, unsigned char** eindices) {
+unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigned M, const unsigned N, const unsigned* dim, const unsigned* indices, real** bval, unsigned short** bindices, unsigned** bp, unsigned char** eindices);
+inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigned M, const unsigned N, const unsigned* dim, const unsigned* indices, real** bval, unsigned short** bindices, unsigned** bp, unsigned char** eindices) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned nnz = M;
     unsigned ord = N;
@@ -146,7 +146,7 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
             if (p >= bp(b+1))
                 bp(b+1) = p+1;
 
-            (*bval)[p] = val[n];
+            bval(p) = val(n);
             p += 1;
         }
     }
