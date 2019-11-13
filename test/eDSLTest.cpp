@@ -1222,10 +1222,10 @@ TEST(eDSLTest, CP_ALS_COO) {
 }
 
 TEST(eDSLTest, CP_ALS_ND) {
-    const unsigned N = 4;
+    //const unsigned N = 4;
 
     Iter i('i'), n('n'), m('m'), p('p'), q('q'), r('r'), s('s'), t('t');
-    Const M("M"), R("R"), T("T"), F("F"), D("D");
+    Const M("M"), N("N"), R("R"), T("T"), F("F"), D("D");
     Space X("X",M);
 
     Space V("V", R, R), Vinv("Vinv", R, R);
@@ -1244,14 +1244,13 @@ TEST(eDSLTest, CP_ALS_ND) {
     Space coo("coo", 0 <= t < T ^ 0 <= n < N ^ 0 <= m < M);       // The 'coo' iteration space visits each element in the sparse tensor...
     Space csf("csf", 0 <= t < T ^ 0 <= n < N ^ 0 <= p < F); //  ^ i==ind0(p) ^ pos0(p) <= m < pos0(p+1) ^ j==ind1(m) ^ pos1(m) <= q < pos1(m+1) ^ k==ind2(q));
     Space tns = coo;
-    Space krp = tns ^ (0 <= r < R);
 
     // Data spaces
     Space mats("mats", N, dim(n), R);
     Space aTa("aTa", N, R, R);
 
     //string fxn = "cp_als_" + to_string(N) + "d_coo";
-    string fxn = "cp_als_coo";
+    string fxn = "cp_als_nd";
     //string fxn = "cp_als_" + to_string(N) + "d_csf";
     init(fxn, "", "f", "u", {}, to_string(0));
 
@@ -1271,12 +1270,13 @@ TEST(eDSLTest, CP_ALS_ND) {
     Comp ata0("ata0", sata0, (aTa(n,r,q) += mats(n,r,i) * mats(n,i,q)));
 
     // Buffer coordinates to minimize trips through index structure...
-    Space scopy = tns ^ (0 <= p < N) ^ (i==ind(p,m));
+    Space scopy = tns ^ (0 <= p < N) ^ (i==ind(m,p));
     Comp icopy("icopy", scopy, crd(p) = i+0);
 
     // Compute KRP
+    Space krp = tns ^ (0 <= r < R);
     Comp pinit("pinit", krp, prod = one+0);
-    Space sprod = krp ^ (0 <= p < N) ^ (i==crd(p));
+    Space sprod = krp ^  (0 <= p < N) ^ (i==crd(p));
     Comp pprod("pprod", sprod, (n != p), prod *= mats(p,i,r));
     Space ssum = krp ^ (i==crd(n));
     Comp psum("krp", ssum, mats(n,i,r) += X(m) * prod);
@@ -1297,14 +1297,14 @@ TEST(eDSLTest, CP_ALS_ND) {
     Comp mmp("mmp", pmm, (ws(i,r) += mats(n,i,q) * Vinv(q,r)));
 
     // Now copy workspace into mats(n) and reset ws to zero for next iteration...
-    Space wcopy("wcopy", 0 <= t < T ^ 0 <= n < N ^ 0 <= i < dim(n) ^ 0 <= r < R);
-    Comp wscpy("wscpy", wcopy, (mats(n,i,r) = ws(i,r) + 0));
-    Comp wszro("wszro", wcopy, (ws(i,r) = zero + 0));
+    Space wsum("wsum", 0 <= t < T ^ 0 <= n < N ^ 0 <= i < dim(n) ^ 0 <= r < R);
+    Comp wscpy("wscpy", wsum, (mats(n,i,r) = ws(i,r) + 0));
+    Comp wszro("wszro", wsum, (ws(i,r) = zero + 0));
 
     /* Normalize columns and extract lambda */
-    Space sum("sum", 0 <= t < T ^ 0 <= n < N ^ 0 <= s < R ^ 0 <= i < dim(n));
+    //Space sum("sum", 0 <= t < T ^ 0 <= n < N ^ 0 <= s < R ^ 0 <= i < dim(n));
     // Sum of squares of factor matrix.
-    Comp ssq("ssq", sum, (sums(s) += mats(n,i,s) * mats(n,i,s)));
+    Comp ssq("ssq", wsum, (sums(r) += mats(n,i,r) * mats(n,i,r)));
     // Compute the Froebenius norm
     Space vec("vec", 0 <= t < T ^ 0 <= n < N ^ 0 <= s < R);
     Comp norm("norm", vec, (lmbda(s) = sqrt(sums(s))));
