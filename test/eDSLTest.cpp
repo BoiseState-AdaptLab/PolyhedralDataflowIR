@@ -1306,15 +1306,16 @@ TEST(eDSLTest, CP_ALS_ND) {
     // Sum of squares of factor matrix.
     Comp ssq("ssq", wsum, (sums(r) += mats(n,i,r) * mats(n,i,r)));
     // Compute the Froebenius norm
-    Space vec("vec", 0 <= t < T ^ 0 <= n < N ^ 0 <= s < R);
-    Comp norm("norm", vec, (lmbda(s) = sqrt(sums(s))));
+    Space vec("vec", 0 <= t < T ^ 0 <= n < N ^ 0 <= r < R);
+    Comp norm("norm", vec, (lmbda(r) = sqrt(sums(r))));
     // Finally, normalize factor matrix by lambda.
     // U[n] = Unew / lmbda
-    Comp div("div", sum, (mats(n,i,s) = mats(n,i,s) / lmbda(s)));
+    Comp div("div", sum, (mats(n,i,r) /= lmbda(r)));
 
     // Compute updated A^T * A
-    Comp zata("zata", had, aTa(n,r,q) = zero + 0);
-    Space sata = had ^ 0 <= i < dim(n);
+    Space sata = vec ^ (0 <= q < R);
+    Comp zata("zata", sata, aTa(n,r,q) = zero + 0);
+    sata ^= (0 <= i < dim(n));
     Comp ata("ata", sata, (aTa(n,r,q) += mats(n,r,i) * mats(n,i,q)));
 
     // Compute fit...

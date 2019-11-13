@@ -99,16 +99,89 @@ inline void cp_als_nd(const float* X, const unsigned M, const unsigned N, const 
 #define s14(t,n,r) lmbda((r))=sqrt(sums((r)))
 // div
 #undef s15
-#define s15(t,n,r,i) mats((n),(i),(r))=mats((n),(i),(r))/lmbda((r))
+#define s15(t,n,r,i) mats((n),(i),(r))/=lmbda((r))
 // zata
 #undef s16
-#define s16(t,n,p,r,q) aTa((n),(r),(q))=0.000000
+#define s16(t,n,r,q) aTa((n),(r),(q))=0.000000
 // ata
 #undef s17
-#define s17(t,n,p,r,q,i) aTa((n),(r),(q))+=mats((n),(r),(i))*mats((n),(i),(q))
+#define s17(t,n,r,q,i) aTa((n),(r),(q))+=mats((n),(r),(i))*mats((n),(i),(q))
 
-arguments to function must be prefix of input or output tuple at line 38
-...skipping to statement end...
+for(t2 = 0; t2 <= N-1; t2++) {
+  s0(t2);
+  for(t4 = 0; t4 <= dim(t2)-1; t4++) {
+    for(t6 = 0; t6 <= R-1; t6++) {
+      s1(t2,t4,t6);
+      for(t8 = 0; t8 <= R-1; t8++) {
+        s2(t2,t6,t8,t4);
+      }
+    }
+  }
+}
+for(t2 = 0; t2 <= T-1; t2++) {
+  for(t4 = 0; t4 <= N-1; t4++) {
+    for(t6 = 0; t6 <= M-1; t6++) {
+      for(t8 = 0; t8 <= N-1; t8++) {
+        t10=ind(t2,t4,t6,t8);
+        s3(t2,t4,t6,t8,t10);
+      }
+      for(t8 = 0; t8 <= R-1; t8++) {
+        s4(t2,t4,t6,t8);
+        for(t10 = 0; t10 <= t4-1; t10++) {
+          t12=crd(t2,t4,t6,t8,t10);
+          s5(t2,t4,t6,t8,t10,t12);
+        }
+        for(t10 = t4+1; t10 <= N-1; t10++) {
+          t12=crd(t2,t4,t6,t8,t10);
+          s5(t2,t4,t6,t8,t10,t12);
+        }
+        t10=crd1(t2,t4,t6,t8);
+        s6(t2,t4,t6,t8,t10);
+      }
+    }
+    for(t6 = 0; t6 <= R-1; t6++) {
+      for(t8 = 0; t8 <= R-1; t8++) {
+        s7(t2,t4,t6,t8);
+        for(t10 = 0; t10 <= t4-1; t10++) {
+          s8(t2,t4,t6,t8,t10);
+        }
+        for(t10 = t4+1; t10 <= N-1; t10++) {
+          s8(t2,t4,t6,t8,t10);
+        }
+      }
+    }
+    s9(t2,t4);
+    for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
+      for(t8 = 0; t8 <= R-1; t8++) {
+        for(t10 = 0; t10 <= R-1; t10++) {
+          s10(t2,t4,t6,t8,t10);
+        }
+      }
+    }
+    for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
+      for(t8 = 0; t8 <= R-1; t8++) {
+        s11(t2,t4,t6,t8);
+        s12(t2,t4,t6,t8);
+        s13(t2,t4,t6,t8);
+      }
+    }
+    for(t6 = 0; t6 <= R-1; t6++) {
+      s14(t2,t4,t6);
+      for(t8 = 0; t8 <= dim1(t2,t4)-1; t8++) {
+        s15(t2,t4,t6,t8);
+      }
+    }
+    for(t6 = 0; t6 <= R-1; t6++) {
+      for(t8 = 0; t8 <= R-1; t8++) {
+        s16(t2,t4,t6,t8);
+        for(t10 = 0; t10 <= dim1(t2,t4)-1; t10++) {
+          s17(t2,t4,t6,t8,t10);
+        }
+      }
+    }
+  }
+}
+
     free(mats);
     free(aTa);
     free(crd);
