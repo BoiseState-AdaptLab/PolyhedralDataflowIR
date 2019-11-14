@@ -27,6 +27,7 @@ typedef Eigen::Triplet<double> Triple;
 #include "coo_csr_insp.h"
 #include "coo_dsr_insp.h"
 #include "coo_ell_insp.h"
+#include "coo_ellmap_insp.h"
 #include "coo_csb_insp.h"
 #include "coo_dia_insp.h"
 
@@ -35,6 +36,7 @@ typedef Eigen::Triplet<double> Triple;
 #include "conjgrad_csr.h"
 #include "conjgrad_dsr.h"
 #include "conjgrad_ell.h"
+#include "conjgrad_ellmap.h"
 #include "conjgrad_csb.h"
 #include "conjgrad_dia.h"
 
@@ -120,6 +122,7 @@ int main(int argc, char **argv) {
     unsigned* crow;
     unsigned nell;
     unsigned* lcol;
+    unsigned* lmap;
     double* lval;
     unsigned ndia;
     int* doff;
@@ -179,6 +182,8 @@ int main(int argc, char **argv) {
             nzr = coo_dsr_insp(rows, nnz, &crow, &crp);
         } else if (!strncmp(format, "ell", 3)) {
             nell = coo_ell_insp(nnz, rows, cols, vals, &nrow, &lcol, &lval);
+        } else if (strstr(format, "lmap")) {
+            nell = coo_ellmap_insp(nnz, rows, cols, vals, &nrow, &lmap);
         } else if (!strncmp(format, "dia", 3)) {
             ndia = coo_dia_insp(vals, nnz, cols, rows, &nrow, &dval, &doff);
         } else if (!strncmp(format, "eig", 3)) {
@@ -227,6 +232,10 @@ int main(int argc, char **argv) {
         } else if (strstr(format, "ell")) {
             ptime = get_wtime();
             err = conjgrad_ell(lval, b, nell, nrow, maxiter, lcol, x);
+        } else if (strstr(format, "lmap")) {
+            fprintf(stderr, "N=%u,K=%u\n", nrow, nell);
+            ptime = get_wtime();
+            err = conjgrad_ellmap(vals, b, nell, nrow, maxiter, cols, lmap, x);
         } else if (strstr(format, "dia")) {
             ptime = get_wtime();
             err = conjgrad_dia(dval, b, ndia, nrow, ncol, maxiter, doff, x);
@@ -279,6 +288,8 @@ int main(int argc, char **argv) {
             size = (sizeof(int) * (nnz + 2 * nzr + 1)) + (sizeof(double) * nnz);
         } else if (strstr(format, "ell")) {
             size = (sizeof(int) * (1 + (nrow * nell))) + (sizeof(double) * (nrow * nell));
+        } else if (strstr(format, "lmap")) {
+            size = (sizeof(int) * nnz) + (sizeof(double) * nnz) + (sizeof(int) * (1 + (nrow * nell)));
         } else if (strstr(format, "dia")) {
             size = (sizeof(int) * (1 + (nrow * ndia))) + (sizeof(double) * (nrow * ndia));
         }

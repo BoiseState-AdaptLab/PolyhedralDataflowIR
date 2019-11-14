@@ -157,10 +157,10 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
                 lib/chill/omega/code_gen/src/CG_stringBuilder.cc
 )
 
-set(TESTING "true")
+#set(TESTING "true")
 #set(MAKELIB "true")
 #set(PAPI_ON "true")
-#set(PARBUILD "true")
+set(PARBUILD "true")
 
 link_directories(lib lib/taco/lib)
 if (PAPI_ON)
