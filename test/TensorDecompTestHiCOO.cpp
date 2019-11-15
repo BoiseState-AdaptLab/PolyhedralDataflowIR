@@ -14,7 +14,7 @@ namespace test {
             _eindices = nullptr;
             _bval = nullptr;
             _nb = 0;
-            _bs = 128;
+            _bs = 256; //64; //128;
         }
 
         virtual ~TensorDecompTestHiCOO() {}
@@ -109,7 +109,7 @@ namespace test {
     TEST_F(TensorDecompTestHiCOO, CPD) {
         //SetUp("./data/tensor/matmul_5-5-5.tns", 10, 11);
         //SetUp("../VarDevEddie/themes/tensors/matmul_3-3-3.tns", 10, 50);
-        SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 10);
+        SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 7);
         //SetUp("../VarDevEddie/themes/tensors/nell-2.tns", 10, 50);
         Run();
         Verify();

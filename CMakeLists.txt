@@ -157,10 +157,10 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
                 lib/chill/omega/code_gen/src/CG_stringBuilder.cc
 )
 
-#set(TESTING "true")
+set(TESTING "true")
 #set(MAKELIB "true")
 #set(PAPI_ON "true")
-set(PARBUILD "true")
+#set(PARBUILD "true")
 
 link_directories(lib lib/taco/lib)
 if (PAPI_ON)
@@ -189,7 +189,7 @@ if (TESTING)
             test/TensorDecompTestCSF.cpp test/TensorDecompTestHiCOO.cpp) # test/TensAlgCompTest.cpp)
     #set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
     #               test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O0")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O3")
 
     enable_testing()
     add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES})
