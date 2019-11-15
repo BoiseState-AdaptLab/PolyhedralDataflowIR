@@ -31,7 +31,7 @@ fprintf(stderr,"}\n");}
 #define ws(i,r) ws[offset2((i),(r),(R))]
 #define sums(s) sums[(s)]
 #define lmbda(s) lmbda[(s)]
-#define crd(t,n,m,p,i) crd[(p)]
+#define crd(t,n,m,r,p) crd[(p)]
 #define crd1(t,n,m,r) crd[(n)]
 #define dim(n) dim[(n)]
 #define dim1(t,n) dim[(n)]

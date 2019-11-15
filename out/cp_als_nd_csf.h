@@ -31,7 +31,7 @@ fprintf(stderr,"}\n");}
 #define ws(i,r) ws[offset2((i),(r),(R))]
 #define sums(s) sums[(s)]
 #define lmbda(s) lmbda[(s)]
-#define crd(t,n,m,p,i) crd[(p)]
+#define crd(t,n,m,r,p) crd[(p)]
 #define crd1(t,n,m,r) crd[(n)]
 #define dim(n) dim[(n)]
 #define dim1(t,n) dim[(n)]
@@ -130,18 +130,44 @@ for(t2 = 0; t2 <= T-1; t2++) {
   for(t4 = 0; t4 <= N-1; t4++) {
     //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
     for(t6 = fptr(0,0); t6 <= fptr(0,1)-1; t6++) {
-      t8=fndx(0,t6);
-      for(t10 = fptr(1,t6); t10 <= fptr(1,t6+1); t10++) {
-        t12=fndx(1,t6);
-        for(t14 = fptr(2,t12); t14 <= fptr(2,t12+1); t14++) {
-          t16=fndx(2,t14);
+      crd[0]=fndx(0,t6);
+      for(t8 = fptr(1,t6); t8 <= fptr(1,t6+1)-1; t8++) {
+        crd[1]=fndx(1,t8);
+        for(t10 = fptr(2,t8); t10 <= fptr(2,t8+1)-1; t10++) {
+          crd[2]=fndx(2,t10);
           if (N < 4) {
-            for(t18 = 0; t18 <= R-1; t18++) {
+            for (t12 = 0; t12 <= R-1; t12++) {
+              s4(t2,t4,t10,t12);
+              #pragma omp simd
+              for (t14 = 0; t14 <= t4-1; t14++) {
+                t16=crd(t2,t4,t10,t12,t14);
+                s5(t2,t4,t10,t12,t14,t16);
+              }
+              #pragma omp simd
+              for (t14 = t4+1; t14 <= N-1; t14++) {
+                t16=crd(t2,t4,t10,t12,t14);
+                s5(t2,t4,t10,t12,t14,t16);
+              }
+              t14=crd1(t2,t4,t10,t12);
+              s6(t2,t4,t10,t12,t14);
             }
           } else {
-            for(t18 = fptr(3,t14); t18 <= fptr(3,t14+1); t18++) {
-              t20=fndx(3,t18);
-              for(t22 = 0; t22 <= R-1; t22++) {
+            for(t12 = fptr(3,t10); t12 <= fptr(3,t10+1)-1; t12++) {
+              crd[3]=fndx(3,t12);
+              for (t14 = 0; t14 <= R-1; t14++) {
+                s4(t2,t4,t12,t14);
+                #pragma omp simd
+                for (t16 = 0; t16 <= t4-1; t16++) {
+                  t18=crd(t2,t4,t12,t14,t16);
+                  s5(t2,t4,t12,t14,t16,t18);
+                }
+                #pragma omp simd
+                for (t16 = t4+1; t16 <= N-1; t16++) {
+                  t18=crd(t2,t4,t12,t14,t16);
+                  s5(t2,t4,t12,t14,t16,t18);
+                }
+                t16=crd1(t2,t4,t12,t14);
+                s6(t2,t4,t12,t14,t16);
               }
             }
           }

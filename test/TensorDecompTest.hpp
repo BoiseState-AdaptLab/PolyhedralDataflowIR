@@ -48,7 +48,17 @@ namespace test {
 
             nbytes = _nnz * sizeof(real);
             _vals = (real*) malloc(nbytes);
-            memcpy(_vals, tns.vals(), nbytes);
+            double* tvals = tns.vals();
+            for (unsigned m = 0; m < _nnz; m++) {
+                _vals[m] = tvals[m];
+            }
+            //memcpy(_vals, tns.vals(), nbytes);
+
+//            fprintf(stderr, "[");
+//            for (unsigned m = 0; m < _nnz; m++) {
+//                fprintf(stderr, "%g ", _vals[m]);
+//            }
+//            fprintf(stderr, "]\n");
 
             // Get file prefix
             string prefix = filename;

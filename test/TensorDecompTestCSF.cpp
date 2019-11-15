@@ -1,4 +1,5 @@
 #include "TensorDecompTest.hpp"
+#include <coo_dns_insp.h>
 #include <coo_csf_insp.h>
 //#include <mttkrp_csf.h>
 //#include <cp_als_3d_csf.h>
@@ -15,6 +16,8 @@ namespace test {
         virtual ~TensorDecompTestCSF() {}
 
         virtual void Inspect() {
+            // Run COO->Dense inspector
+            //coo_dns_insp(_vals, _dims, _indices, _nnz, _order, &_dval);
             // Run COO->CSF Inspector!
             coo_csf_insp(_dims, _indices, _nnz, _order, &_fptr, &_findex);
             cerr << "F = " << _fptr[0][1] << endl;
@@ -149,12 +152,14 @@ namespace test {
 
         unsigned** _fptr;
         unsigned** _findex;
+        float* _dval;
     };
 
     TEST_F(TensorDecompTestCSF, CPD) {
         //SetUp("./data/tensor/matmul_5-5-5.tns", 10, 11);
-        SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 10);
+        SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 7);
         //SetUp("../VarDevEddie/themes/tensors/nell-2.tns", 10, 50);
+        //SetUp("../VarDevEddie/themes/tensors/hicoo.tns", 10, 7);
         Run();
         Verify();
         Assert();

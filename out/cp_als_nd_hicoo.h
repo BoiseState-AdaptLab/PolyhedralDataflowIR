@@ -31,7 +31,7 @@ fprintf(stderr,"}\n");}
 #define ws(i,r) ws[offset2((i),(r),(R))]
 #define sums(s) sums[(s)]
 #define lmbda(s) lmbda[(s)]
-#define crd(t,n,m,p,i) crd[(p)]
+#define crd(t,n,m,r,p) crd[(p)]
 #define crd1(t,n,m,r) crd[(n)]
 #define dim(n) dim[(n)]
 #define dim1(t,n) dim[(n)]
@@ -127,7 +127,6 @@ ws = (float*) calloc((D)*(R),sizeof(float));
 for(t2 = 0; t2 <= T-1; t2++) {
   for(t4 = 0; t4 <= N-1; t4++) {
     //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
-    //for(t6 = 0; t6 <= M-1; t6++) {
     for (t6 = 0; t6 <= NB-1; t6++) {
       for(t7 = bp(t6); t7 <= bp1(t6)-1; t7++) {
         #pragma omp simd
