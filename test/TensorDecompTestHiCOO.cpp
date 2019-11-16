@@ -22,8 +22,8 @@ namespace test {
         virtual void Inspect() {
             // Run COO->HiCOO Inspector!
             _nb = coo_hicoo_insp(_vals, _bs, _nnz, _order, _dims, _indices, &_bval, &_bindices, &_bptr, &_eindices);
-            cerr << "NB = " << _nb << endl;
             TensorEqual();
+            cerr << "NB = " << _nb << endl;
         }
 
         virtual void Execute() {
@@ -110,6 +110,7 @@ namespace test {
         //SetUp("./data/tensor/matmul_5-5-5.tns", 10, 11);
         //SetUp("../VarDevEddie/themes/tensors/matmul_3-3-3.tns", 10, 50);
         SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 7);
+        //SetUp("../VarDevEddie/themes/tensors/hicoo.tns", 10, 7);
         //SetUp("../VarDevEddie/themes/tensors/nell-2.tns", 10, 50);
         Run();
         Verify();

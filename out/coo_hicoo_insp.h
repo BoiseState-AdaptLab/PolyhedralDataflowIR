@@ -109,10 +109,17 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
             p = offset3(bcrd[0],bcrd[1],bcrd[2],bdim[1],bdim[2]);
         }
 
+        if (ind(0,n) == 0 && ind(1,n) == 7 && ind(2,n) == 289 && ind(3,n) == 0) { // 5
+            fprintf("")
+        }
+
         //if(b_id[p] == USHRT_MAX) {
         if (b_id[p] == UINT_MAX) {
             b_id[p] = nb;
+            //  TODO: I  think this is the bug, block map needs to be larger for 4D tensors.
             b_map[nb] = (uint*) calloc((bs*bs)/8,sizeof(uint));
+        } else {
+            int stop = 1;
         }
         b = b_id[p];
         b_map[b][b_sz[b]++] = n;

@@ -70,6 +70,12 @@ namespace test {
 
             // Lambda is an Rx1 vector.
             string lambda_file = prefix + "lambda.mat";
+            FILE* fp = fopen(lambda_file.c_str(), "r");
+            if  (fp == NULL) {
+                return;
+            }
+            fclose(fp);
+
             MatlabIO lam(lambda_file, rank, 1);
             lam.read();
 
