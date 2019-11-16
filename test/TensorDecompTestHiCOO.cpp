@@ -23,7 +23,7 @@ namespace test {
             // Run COO->HiCOO Inspector!
             _nb = coo_hicoo_insp(_vals, _bs, _nnz, _order, _dims, _indices, &_bval, &_bindices, &_bptr, &_eindices);
             cerr << "NB = " << _nb << endl;
-            //TensorEqual();
+            TensorEqual();
         }
 
         virtual void Execute() {

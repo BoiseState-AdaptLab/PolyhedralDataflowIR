@@ -64,7 +64,7 @@ inline void cp_als_nd_hicoo(const float* X, const unsigned B, const unsigned M, 
 #define s2(n,r,q,i) ata((n),(r),(q))+=mtx((n),(r),(i))*mtx((n),(i),(q))
 // icopy
 #undef s3
-#define s3(t,n,m,p,i) crd((t),(n),(m),(p),(i))=(i)
+#define s3(t,n,m,p,i) crd[(p)]=(i)
 // pinit
 #undef s4
 #define s4(t,n,m,r) prod=1.000000

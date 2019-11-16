@@ -63,10 +63,7 @@ inline void cp_als_nd_csf(const float* X, const unsigned M, const unsigned N, co
 #define s2(n,r,q,i) ata((n),(r),(q))+=mtx((n),(r),(i))*mtx((n),(i),(q))
 // icopy
 #undef s3
-#define s3(t,n,m,p,i) crd((t),(n),(m),(p),(i))=(i)
-// Akrp
-//#undef s3
-//#define s3(t,p,i,m,j,q,k,r) Anew((i),(r))+=X((m))*C((k),(r))*B((j),(r))
+#define s3(t,n,m,p,i) crd[(p)]=(i)
 // pinit
 #undef s4
 #define s4(t,n,m,r) prod=1.000000
