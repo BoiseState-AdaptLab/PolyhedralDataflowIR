@@ -3,7 +3,7 @@
 
 #include <util/LIKWID.hpp>
 #include <util/MatrixIO.hpp>
-using util::MatrixIO;
+using util::TensorIO;
 
 #include <cstring>
 #include <string>
@@ -14,12 +14,13 @@ using std::to_string;
 using std::vector;
 
 // Inspectors
-#include "coo_csf_insp.h"
-//#include "coo_hicoo_insp.h"
+#include <coo_csf_insp.h>
+#include <coo_hicoo_insp.h>
 
 // Executors
-#include "mttkrp_csf.h"
-//#include "mttkrp_hicoo.h"
+#include <cp_als_nd_coo.h>
+#include <cp_als_nd_csf.h>
+#include <cp_als_nd_hicoo.h>
 
 double get_wtime() {
     struct timeval tv;
@@ -27,8 +28,8 @@ double get_wtime() {
     return (double) tv.tv_sec + (((double) tv.tv_usec) * 1E-6);
 }
 
-void setup(const char* tnsfile, const unsigned rank, unsigned* nnz, unsigned* maxiter, unsigned* order, unsigned** dims,
-           unsigned** indices, float** __restrict vals, float*** __restrict factors, float** __restrict lambda) {
+void setup(const char* tnsfile, const unsigned rank, unsigned* nnz, unsigned* maxiter, unsigned* order,
+           unsigned** dims, unsigned** indices, float** vals, float*** factors, float** lambda) {
     *maxiter = 50;
 
     // Read tensor file
@@ -51,18 +52,18 @@ void setup(const char* tnsfile, const unsigned rank, unsigned* nnz, unsigned* ma
 
     *factors = (float**) calloc(*order, sizeof(float*));
     for (unsigned n = 0; n <  *order; n++) {
-        (*factors)[n] = (float*) calloc((*dims)[n] * rank);
+        (*factors)[n] = (float*) calloc((*dims)[n] * rank, sizeof(float));
     }
 
     *lambda = (float*) calloc(rank, sizeof(float));
 }
 
-void teardown(unsigned order, unsigned** indices, unsigned** dims, float** __restrict* vals, float*** __restrict factors, float** __restrict lambda) {
+void teardown(unsigned order, unsigned** indices, unsigned** dims, float** vals, float*** factors, float** lambda) {
     free(*indices);
     free(*dims);
     free(*vals);
     free(*lambda);
-    for (unsigned n = 0; n <  *order; n++) {
+    for (unsigned n = 0; n <  order; n++) {
         free((*factors)[n]);
     }
     free(*factors);
@@ -82,7 +83,7 @@ int main(int argc, char **argv) {
     const char* tensor = argv[1];
     char format[16] = {'\0'};
 
-    unsigned nnz, order, maxiter = 500;
+    unsigned nnz, order, maxiter = 50;
     unsigned niter = 0;
     unsigned size = 0;
     unsigned* indices;
@@ -91,23 +92,16 @@ int main(int argc, char **argv) {
     unsigned** fptr;
     unsigned** findx;
     unsigned* bptr;
-    unsigned* bindices;
+    unsigned short* bindices;
     unsigned char* eindices;
     unsigned nb;
     unsigned bs = 128;
-    double* bval;
 
     double err = 1.0, tol = 1e-10;
-    double* __restrict vals;
-    double** __restrict factors;
-    double* __restrict lambda;
-
-#ifdef SPLATT_EXEC
-    // SPLATT Objects:
-    VectorXd xVec, bVec;
-    SparseMatrix<double> Aspm;
-    ConjugateGradient<SparseMatrix<double>, Lower|Upper> cg;
-#endif
+    float* vals;
+    float** factors;
+    float* lambda;
+    float* bval;
 
     #pragma omp parallel num_threads(1)
     {
@@ -147,7 +141,8 @@ int main(int argc, char **argv) {
         if (!strncmp(format, "csf", 3)) {
             coo_csf_insp(dims, indices, nnz, order, &fptr, &findx);
         } else if (!strncmp(format, "csb", 3) || !strncmp(format, "hic", 3)) {
-            nb = coo_hicoo_insp(vals, bs, dims, indices, nnz, order, &bval, &bindices, &bptr, &eindices);
+            //nb = coo_hicoo_insp(vals, bs, dims, indices, nnz, order, &bval, &bindices, &bptr, &eindices);
+            nb = coo_hicoo_insp(vals, bs, nnz, order, dims, indices, &bval, &bindices, &bptr, &eindices);
         } else {
             itime = 0.0;
         }
@@ -170,30 +165,24 @@ int main(int argc, char **argv) {
     __itt_resume(); // start VTune, again use 2 underscores
 #endif
 
-#ifdef SPLATT_EXEC
         ptime = get_wtime();
-        cg.compute(Aspm);
-        xVec = cg.solve(bVec);
-        niter = cg.iterations();
-        err = cg.error();
-        x = xVec.data();
-#else
         if (strstr(format, "coo")) {
-            ptime = get_wtime();
-            err = cpd_coo(vals, dims, maxiter, nnz, order, indices, factors, lambda);
+            //err = cpd_coo(vals, dims, maxiter, nnz, order, indices, factors, lambda);
+            cp_als_nd_coo(vals, nnz, order, rank, maxiter, dims, indices, factors, lambda);
         } else if (strstr(format, "csf")) {
-            ptime = get_wtime();
-            err = cpd_csf(vals, dims, maxiter, order, findx, fptr, factors, lambda);
+            //err = cpd_csf(vals, dims, maxiter, order, findx, fptr, factors, lambda);
+            cp_als_nd_csf(vals, nnz, order, rank, maxiter, dims, fptr, findx, factors, lambda);
         } else if (strstr(format, "csb") || strstr(format, "hic")) {
-            ptime = get_wtime();
-            err = cpd_hicoo(bval, bs, dims, nb, maxiter, order, bptr, bindices, eindices, lambda);
+            //err = cpd_hicoo(bval, bs, dims, nb, maxiter, order, bptr, bindices, eindices, lambda);
+            cp_als_nd_hicoo(bval, bs, nnz, order, nb, rank, maxiter, dims, bindices, bptr, eindices, factors, lambda);
+        } else if (strstr(format, "splatt")) {
+            //cpd_als_nd_splatt(vals, nnz, order, rank, maxiter, dims, fptr, findx, factors, lambda);
         } else {
             fprintf(stderr, "%s: Unrecognized format: '%s'\n", name, format);
             return -1;
         }
 
         niter = maxiter;
-#endif
 
 #ifdef LIKWID_PERF
         LIKWID_MARKER_STOP(name);
@@ -219,7 +208,7 @@ int main(int argc, char **argv) {
             size = (sizeof(int) * (nnz + fptr[0][1] + 1)) + sizeof(float) * nnz;
         } else if (strstr(format, "csb") || strstr(format, "hic")) {
             size = (sizeof(int) * ((order + 1) * nb + 1)) + (sizeof(char) * order* nnz) + (sizeof(float) * nnz);
-        })
+        }
 
         fprintf(stdout, "%s: format=%s,niter=%d,A=%lf,B=%lf,C=%lf,lambda=%lf,order=%u,rank=%u,nprocs=%d,nruns=%d,exec-time=%lf,insp-time=%lf,size=%u\n",
             name, format, niter, factors[0][0], factors[1][0], factors[2][0], lambda[0], order, rank, nproc, nruns, tsum / (double) nruns, itime, size);

@@ -157,10 +157,10 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
                 lib/chill/omega/code_gen/src/CG_stringBuilder.cc
 )
 
-set(TESTING "true")
+#set(TESTING "true")
 #set(MAKELIB "true")
 #set(PAPI_ON "true")
-#set(PARBUILD "true")
+set(PARBUILD "true")
 
 link_directories(lib lib/taco/lib)
 if (PAPI_ON)
@@ -187,8 +187,6 @@ if (TESTING)
             test/ConjGradELLTest.cpp test/ConjGradCSBTest.cpp test/ConjGradDIATest.cpp test/JacobiTest.cpp
             test/MiniFluxDivTest.cpp test/TensorDecompTest.hpp test/TensorDecompTestCOO.cpp
             test/TensorDecompTestCSF.cpp test/TensorDecompTestHiCOO.cpp) # test/TensAlgCompTest.cpp)
-    #set(UNIT_TESTS test/driver.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp test/ConjGradTest.hpp
-    #               test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O3")
 
     enable_testing()
@@ -217,6 +215,9 @@ elseif (PARBUILD)
     add_executable(cg_par test/cg_par.cpp)
     target_link_libraries(cg_par m omp) #${MPI_LIBRARIES})
     #target_compile_definitions(cg_par PRIVATE LIKWID_PERF=1)
+
+    add_executable(cp_par test/cp_par.cpp)
+    target_link_libraries(cp_par m omp gsl gslcblas)
 
 else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -Wno-deprecated -Wno-deprecated-declarations -Wno-format-overflow")

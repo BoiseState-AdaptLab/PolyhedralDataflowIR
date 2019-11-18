@@ -1,6 +1,4 @@
 #include "TensorDecompTest.hpp"
-//#include <cp_als_coo.h>
-//#include <cp_als_3d_coo.h>
 #include <cp_als_nd_coo.h>
 
 namespace test {

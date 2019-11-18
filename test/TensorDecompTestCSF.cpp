@@ -1,9 +1,6 @@
 #include "TensorDecompTest.hpp"
-#include <coo_dns_insp.h>
+//#include <coo_dns_insp.h>
 #include <coo_csf_insp.h>
-//#include <mttkrp_csf.h>
-//#include <cp_als_3d_csf.h>
-//#include <cp_als_4d_csf.h>
 #include <cp_als_nd_csf.h>
 
 namespace test {

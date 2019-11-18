@@ -1,7 +1,5 @@
 #include "TensorDecompTest.hpp"
 #include <coo_hicoo_insp.h>
-//#include <cp_als_3d_hicoo.h>
-//#include <cp_als_4d_hicoo.h>
 #include <cp_als_nd_hicoo.h>
 
 namespace test {

@@ -4,7 +4,8 @@
 #include <stdint.h>
 #include <math.h>
 #include <string.h>
-#include <assert.h>
+//#include <assert.h>
+#include <limits.h>
 
 #define min(x,y) (((x)<(y))?(x):(y))
 #define max(x,y) (((x)>(y))?(x):(y))
