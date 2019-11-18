@@ -52,13 +52,6 @@ namespace test {
             for (unsigned m = 0; m < _nnz; m++) {
                 _vals[m] = tvals[m];
             }
-            //memcpy(_vals, tns.vals(), nbytes);
-
-//            fprintf(stderr, "[");
-//            for (unsigned m = 0; m < _nnz; m++) {
-//                fprintf(stderr, "%g ", _vals[m]);
-//            }
-//            fprintf(stderr, "]\n");
 
             // Get file prefix
             string prefix = filename;
@@ -109,8 +102,10 @@ namespace test {
         }
 
         virtual void Assert() {
+            ASSERT_FALSE(isnan(_lambda[0]));
             ASSERT_LT(Compare<real>(_lambda, _lambda_ref, _rank), 0);
             for (unsigned d = 0; d < _order; d++) {
+                ASSERT_FALSE(isnan(_factors[d][0]));
                 ASSERT_LT(Compare<real>(_factors[d], _factors_ref[d], _dims[d] * _rank), 0);
             }
         }

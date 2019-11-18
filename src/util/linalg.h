@@ -105,6 +105,8 @@ inline gsl_matrix* moore_penrose_pinv(gsl_matrix *A, const double rcond) {
     return A_pinv;
 }
 
+//float* mp_pinv_gsl(const float* a, float* a_inv, int N);
+//inline float* mp_pinv_gsl(const float* a, float* a_inv, int N) {
 float* mp_pinv(const float* a, float* a_inv, int N);
 inline float* mp_pinv(const float* a, float* a_inv, int N) {
     gsl_matrix* A = gsl_matrix_alloc(N, N);
@@ -125,6 +127,17 @@ inline float* mp_pinv(const float* a, float* a_inv, int N) {
     gsl_matrix_free(A_inv);
 
     return a_inv;
+}
+
+float* mp_pinv_div(const float* a, float* a_inv, int N);
+inline float* mp_pinv_div(const float* a, float* a_inv, int N) {
+    for (unsigned i = 0; i < N * N; i++) {
+        if (a[i] != 0.0) {
+            a_inv[i] = 1.0 / a[i];
+        } else {
+            fprintf(stderr,"div by zero at i=%d!\n", i);
+        }
+    }
 }
 
 static double pythag(double a, double b) {
