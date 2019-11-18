@@ -20,17 +20,11 @@ namespace test {
             //coo_dns_insp(_vals, _dims, _indices, _nnz, _order, &_dval);
             // Run COO->CSF Inspector!
             coo_csf_insp(_dims, _indices, _nnz, _order, &_fptr, &_findex);
-            cerr << "F = " << _fptr[0][1] << endl;
             //TensorEqual();
-            //TensorEqualND();
+            cerr << "F = " << _fptr[0][1] << endl;
         }
 
         virtual void Execute() {
-//            if (_order == 3) {
-//                cp_als_3d_csf(_vals, _fptr[0][1], _dims[0], _dims[1], _dims[2], _nnz, _rank, _niter, _findx[0], _findx[1], _findx[2], _fptr[1], _fptr[2], _factors[0], _factors[1], _factors[2], _lambda);
-//            } else if (_order == 4) {
-//                //cp_als_4d_csf(_vals, _fptr[0][1], _dims[0], _dims[1], _dims[2], _dims[3], _nnz, _rank, _niter, _findx[0], _findx[1], _findx[2], _findx[3], _fptr[1], _fptr[2], _fptr[3], _factors[0], _factors[1], _factors[2], _factors[3], _lambda);
-//            }
             cp_als_nd_csf(_vals, _nnz, _order, _rank, _niter, _dims, _fptr, _findex, _factors, _lambda);
         }
 

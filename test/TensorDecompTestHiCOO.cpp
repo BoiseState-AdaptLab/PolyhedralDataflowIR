@@ -27,13 +27,6 @@ namespace test {
         }
 
         virtual void Execute() {
-//            if (_order == 3) {
-//                cp_als_3d_hicoo(_bval, _bs, _dims[0], _dims[1], _dims[2], _nnz, _nb, _rank, _niter, _bindices,
-//                                _bptr, _eindices, _factors[0], _factors[1], _factors[2], _lambda);
-//            } else if (_order == 4) {
-//                cp_als_4d_hicoo(_vals, _bs, _dims[0], _dims[1], _dims[2], _dims[3], _nnz, _nb, _rank, _niter, _bindices,
-//                                _bptr, _eindices, _factors[0], _factors[1], _factors[2], _factors[3], _lambda);
-//            }
             cp_als_nd_hicoo(_bval, _bs, _nnz, _order, _nb, _rank, _niter, _dims, _bindices, _bptr, _eindices, _factors, _lambda);
         }
 
