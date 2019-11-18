@@ -77,15 +77,18 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
     ushort bc, bi, bj, bk;
     byte r, ec, ei, ej, ek;
     ushort bcrd[ord];
+    uint crd[ord];
+    byte ecrd[ord];
     ushort bdim[ord];
+    byte bs_bits = ilog2(bs);
 
     // Unroll...
-    bdim[0] = (dim[0] / bs) + 1;
-    bdim[1] = (dim[1] / bs) + 1;
-    bdim[2] = (dim[2] / bs) + 1;
+    bdim[0] = (dim[0] >> bs_bits) + 1;
+    bdim[1] = (dim[1] >> bs_bits) + 1;
+    bdim[2] = (dim[2] >> bs_bits) + 1;
     uint size = bdim[0] * bdim[1] * bdim[2];// * bdim[3];
     if (ord > 3) {
-        bdim[3] = (dim[3] / bs) + 1;
+        bdim[3] = (dim[3] >> bs_bits) + 1;
         size *= bdim[3];
     }
 
@@ -93,7 +96,6 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
     memset(b_id, UINT_MAX, size * sizeof(uint));
     uint* __restrict b_sz = (uint*) calloc(size, sizeof(uint));
     uint** __restrict b_map = (uint**) calloc(size, sizeof(uint*));
-    byte bs_bits = ilog2(bs);
 
     nb = 0;
     //#pragma omp parallel for schedule(runtime)
@@ -109,18 +111,19 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
             p = offset3(bcrd[0],bcrd[1],bcrd[2],bdim[1],bdim[2]);
         }
 
-        if (ind(0,n) == 0 && ind(1,n) == 7 && ind(2,n) == 289 && ind(3,n) == 0) { // 5
-            fprintf("")
-        }
+//        if (ind(0,n) == 0 && ind(1,n) == 7 && ind(2,n) == 289 && ind(3,n) == 0) { // 5
+//            fprintf(stderr,"stop\n");
+//        }
 
         //if(b_id[p] == USHRT_MAX) {
         if (b_id[p] == UINT_MAX) {
             b_id[p] = nb;
-            //  TODO: I  think this is the bug, block map needs to be larger for 4D tensors.
-            b_map[nb] = (uint*) calloc((bs*bs)/8,sizeof(uint));
-        } else {
-            int stop = 1;
+            //b_map[nb] = (uint*) calloc((bs*bs)/8,sizeof(uint));
+            b_map[nb] = (uint*) calloc((bs*bs),sizeof(uint));
         }
+
+        //assert(b_sz[b] < bs*bs);
+
         b = b_id[p];
         b_map[b][b_sz[b]++] = n;
 
@@ -144,14 +147,31 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
         //#pragma omp parallel for schedule(runtime)
         for (m = 0; m < b_sz[b]; m++) {
             n = b_map[b][m];
+
+//            crd[0] = ind(0,n);
+//            crd[1] = ind(1,n);
+//            crd[2] = ind(2,n);
+//            if (ord > 3) crd[3] = ind(3,n);
+//
+//            bcrd[0] = bind(0,b);
+//            bcrd[1] = bind(1,b);
+//            bcrd[2] = bind(2,b);
+//            if (ord > 3) bcrd[3] = bind(3,b);
+
             // Unroll...
             eind(0,p) = ind(0,n) < (bind(0,b) << bs_bits) ? ind(0,n) : ind(0,n) - (bind(0,b) << bs_bits);
             eind(1,p) = ind(1,n) < (bind(1,b) << bs_bits) ? ind(1,n) : ind(1,n) - (bind(1,b) << bs_bits);
             eind(2,p) = ind(2,n) < (bind(2,b) << bs_bits) ? ind(2,n) : ind(2,n) - (bind(2,b) << bs_bits);
             if (ord > 3) eind(3,p) = ind(3,n) < (bind(3,b) << bs_bits) ? ind(3,n) : ind(3,n) - (bind(3,b) << bs_bits);
 
-            if (p >= bp(b+1))
+//            assert(bs*bind(0,b)+eind(0,p)==ind(0,n));
+//            assert(bs*bind(1,b)+eind(1,p)==ind(1,n));
+//            assert(bs*bind(2,b)+eind(2,p)==ind(2,n));
+//            assert(bs*bind(3,b)+eind(3,p)==ind(3,n));
+
+            if (p >= bp(b+1)) {
                 bp(b+1) = p+1;
+            }
 
             bval(p) = val(n);
             p += 1;
@@ -162,9 +182,9 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
     *bp = (uint*) realloc(*bp, (nb+1) * sizeof(uint));
     //fprintf(stderr, "size=%u,nb=%u\n", size, nb);
 
-//    for (b = 0; b < nb; b++)
-//        if (b_map[b])
-//            free(b_map[b]);
+    for (b = 0; b < nb; b++)
+        if (b_map[b])
+            free(b_map[b]);
     free(b_map);
     free(b_sz);
     free(b_id);

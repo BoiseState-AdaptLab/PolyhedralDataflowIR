@@ -22,7 +22,7 @@ namespace test {
         virtual void Inspect() {
             // Run COO->HiCOO Inspector!
             _nb = coo_hicoo_insp(_vals, _bs, _nnz, _order, _dims, _indices, &_bval, &_bindices, &_bptr, &_eindices);
-            TensorEqual();
+            //TensorEqual();
             cerr << "NB = " << _nb << endl;
         }
 
@@ -90,8 +90,9 @@ namespace test {
                     j=_bs*bj+_eindices[(m)*_order+1];
                     k=_bs*bk+_eindices[(m)*_order+2];
                     l=_bs*bl+_eindices[(m)*_order+3];
+
                     tuple<unsigned, unsigned, unsigned, unsigned> coords(i,j,k,l);
-                    hicoo_map[coords] = _vals[m];
+                    hicoo_map[coords] = _bval[m];
                 }
             }
 
