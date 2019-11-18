@@ -100,6 +100,7 @@ inline unsigned coo_hicoo_insp(const float* val, const unsigned B, const unsigne
 
     nb = 0;
     //#pragma omp parallel for schedule(runtime)
+    #pragma omp simd
     for (n = 0; n < nnz; n++) {
         //  Unroll...
         bcrd[0] = (ind(0,n)) >> bs_bits;

@@ -209,7 +209,21 @@ int main(int argc, char **argv) {
         if (strstr(format, "coo")) {
             size = (nnz * order * sizeof(int)) + sizeof(float) * nnz;
         } else if (strstr(format, "csf")) {
-            size = (sizeof(int) * (nnz + fptr[0][1] + 1)) + sizeof(float) * nnz;
+            unsigned ncrds = 0;
+            for(unsigned p = fptr[0][0]; p < fptr[0][1]; p++) {
+                for (unsigned q = fptr[1][p]; q < fptr[1][p+1]; q++) {
+                    for (unsigned r = fptr[2][q]; r < fptr[2][q+1]; q++) {
+                        if (order > 3) {
+                            for (unsigned s = fptr[3][r]; s < fptr[3][r+1]; s++) {
+                                ncrds++;
+                            }
+                        } else {
+                            ncrds++;
+                        }
+                    }
+                }
+            }
+            size = ((ncrds + nnz) * sizeof(int)) + (nnz * sizeof(float));
         } else if (strstr(format, "csb") || strstr(format, "hic")) {
             size = (sizeof(int) * ((order + 1) * nb + 1)) + (sizeof(char) * order* nnz) + (sizeof(float) * nnz);
         }

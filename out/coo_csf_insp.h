@@ -43,12 +43,14 @@ void coo_csf_insp(const unsigned* dims, const unsigned* indices, const unsigned 
         pos(n) = 1;
         findx(n,0) = indices[n*M];
         fptr(n,pos[n])++;
+        #pragma omp simd
         for (m = 1; m < M; m++) {
             findx(n,m) = UINT32_MAX;
         }
     }
 
     for (m = 1; m < M; m++) {
+        #pragma omp simd
         for (n = 0; n < N; n++) {
             i = indices[n*M+m];
             if (i != findx(n,loc[n]) || mark(n)) {
