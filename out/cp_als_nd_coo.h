@@ -24,7 +24,8 @@ fprintf(stderr,"}\n");}
 #define pinv(A,Ainv) (mp_pinv((A),(Ainv),R))
 #define A(i,r) A[offset2((i),(r),(R))]
 #define mtx(n,i,r) mtx[(n)][offset2((i),(r),(R))]
-#define ata(n,r,q) ata[offset3((n),(r),(q),(R),(R))]
+//#define ata(n,r,q) ata[offset3((n),(r),(q),(R),(R))]
+#define ata(n,r,q) ata[offset2((r),(q),(R))]
 #define X(m) X[(m)]
 #define V(r,q) V[offset2((r),(q),(R))]
 #define Vinv(q,r) Vinv[offset2((q),(r),(R))]
@@ -41,7 +42,8 @@ void cp_als_nd_coo(const float* X, const unsigned M, const unsigned N, const uns
 inline void cp_als_nd_coo(const float* X, const unsigned M, const unsigned N, const unsigned R, const unsigned T, const unsigned* dim, const unsigned* ind, float** mtx, float* lmbda) {
     int t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned D = 0;
-    float* __restrict ata = (float*) calloc((N)*(R)*(R),sizeof(float));
+    //float* __restrict ata = (float*) calloc((N)*(R)*(R),sizeof(float));
+    float* __restrict ata = (float*) calloc((R)*(R),sizeof(float));
     unsigned* __restrict crd = (unsigned*) calloc((N),sizeof(unsigned));
     float prod;
     float* __restrict V = (float*) calloc((R)*(R),sizeof(float));
@@ -68,7 +70,6 @@ inline void cp_als_nd_coo(const float* X, const unsigned M, const unsigned N, co
 #define s4(t,n,m,r) prod=1.000000
 // pprod
 #undef s5
-//#define s5(t,n,m,r,p,i) if ((n) != (p)) prod*=mtx((p),(i),(r))
 #define s5(t,n,m,r,p,i) prod*=mtx((p),(i),(r))
 // krp
 #undef s6
@@ -78,7 +79,6 @@ inline void cp_als_nd_coo(const float* X, const unsigned M, const unsigned N, co
 #define s7(t,n,r,q) V((r),(q))=1.000000
 // vhad
 #undef s8
-//#define s8(t,n,p,r,q) if ((n) != (p)) V((r),(q))*=ata((p),(r),(q))
 #define s8(t,n,p,r,q) V((r),(q))*=ata((p),(r),(q))
 // inv
 #undef s9

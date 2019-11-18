@@ -24,7 +24,8 @@ fprintf(stderr,"}\n");}
 #define pinv(A,Ainv) (mp_pinv((A),(Ainv),R))
 #define A(i,r) A[offset2((i),(r),(R))]
 #define mtx(n,i,r) mtx[(n)][offset2((i),(r),(R))]
-#define ata(n,r,q) ata[offset3((n),(r),(q),(R),(R))]
+//#define ata(n,r,q) ata[offset3((n),(r),(q),(R),(R))]
+#define ata(n,r,q) ata[offset2((r),(q),(R))]
 #define X(m) X[(m)]
 #define V(r,q) V[offset2((r),(q),(R))]
 #define Vinv(q,r) Vinv[offset2((q),(r),(R))]
@@ -42,7 +43,8 @@ void cp_als_nd_csf(const float* X, const unsigned M, const unsigned N, const uns
 inline void cp_als_nd_csf(const float* X, const unsigned M, const unsigned N, const unsigned R, const unsigned T, const unsigned* dim, unsigned** fptr, unsigned** fndx, float** mtx, float* lmbda) {
     int t2,t4,t6,t8,t10,t12,t14,t16,t18,t20,t22;
     unsigned D = 0;
-    float* __restrict ata = (float*) calloc((N)*(R)*(R),sizeof(float));
+    //float* __restrict ata = (float*) calloc((N)*(R)*(R),sizeof(float));
+    float* __restrict ata = (float*) calloc((R)*(R),sizeof(float));
     unsigned* __restrict crd = (unsigned*) calloc((N),sizeof(unsigned));
     float prod;
     float* __restrict V = (float*) calloc((R)*(R),sizeof(float));
@@ -108,7 +110,7 @@ inline void cp_als_nd_csf(const float* X, const unsigned M, const unsigned N, co
 // ata
 #undef s17
 #define s17(t,n,r,q,i) ata((n),(r),(q))+=mtx((n),(r),(i))*mtx((n),(i),(q))
-
+    
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
   //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
@@ -171,7 +173,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
         }
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8) collapse(2)
     for(t6 = 0; t6 <= R-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
         s7(t2,t4,t6,t8);
@@ -212,7 +214,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
         s15(t2,t4,t6,t8);
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8) collapse(2)
     for(t6 = 0; t6 <= R-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
         s16(t2,t4,t6,t8);

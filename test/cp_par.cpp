@@ -28,10 +28,8 @@ double get_wtime() {
     return (double) tv.tv_sec + (((double) tv.tv_usec) * 1E-6);
 }
 
-void setup(const char* tnsfile, const unsigned rank, unsigned* nnz, unsigned* maxiter, unsigned* order,
+void setup(const char* tnsfile, const unsigned rank, unsigned* nnz, unsigned* order,
            unsigned** dims, unsigned** indices, float** vals, float*** factors, float** lambda) {
-    *maxiter = 50;
-
     // Read tensor file
     TensorIO tns(tnsfile, rank);
     tns.read();
@@ -83,7 +81,7 @@ int main(int argc, char **argv) {
     const char* tensor = argv[1];
     char format[16] = {'\0'};
 
-    unsigned nnz, order, maxiter = 50;
+    unsigned nnz, order, maxiter;
     unsigned niter = 0;
     unsigned size = 0;
     unsigned* indices;
@@ -119,18 +117,24 @@ int main(int argc, char **argv) {
     }
 
     if (argc > 4) {
-        rank = atoi(argv[4]);
+        maxiter = atoi(argv[4]);
+    } else {
+        maxiter = 50;
+    }
+
+    if (argc > 5) {
+        rank = atoi(argv[5]);
     } else {
         rank = 10;
     }
 
-    if (argc > 5) {
-        bs = atoi(argv[5]);
+    if (argc > 6) {
+        bs = atoi(argv[6]);
     } else {
         bs = 128;
     }
 
-    setup(tensor, rank, &nnz, &maxiter, &order, &dims, &indices, &vals, &factors, &lambda);
+    setup(tensor, rank, &nnz, &order, &dims, &indices, &vals, &factors, &lambda);
 
 #ifdef LIKWID_PERF
     LIKWID_MARKER_INIT
