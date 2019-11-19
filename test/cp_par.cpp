@@ -141,17 +141,17 @@ int main(int argc, char **argv) {
 #endif
 
     if (strlen(format) > 0) {
-        itime = get_wtime();
         if (!strncmp(format, "csf", 3)) {
+            itime = get_wtime();
             coo_csf_insp(dims, indices, nnz, order, &fptr, &findx);
+            itime = get_wtime() - itime;
         } else if (!strncmp(format, "csb", 3) || !strncmp(format, "hic", 3)) {
             //nb = coo_hicoo_insp(vals, bs, dims, indices, nnz, order, &bval, &bindices, &bptr, &eindices);
+            itime = get_wtime();
             nb = coo_hicoo_insp(vals, bs, nnz, order, dims, indices, &bval, &bindices, &bptr, &eindices);
+            itime = get_wtime() - itime;
         } else {
             itime = 0.0;
-        }
-        if (itime != 0.0) {
-            itime = get_wtime() - itime;
         }
     }
 

@@ -7,6 +7,7 @@
 #include <float.h>
 #include <time.h>
 #include <linalg.h>
+#include <assert.h>
 
 #define min(x,y) (((x)<(y))?(x):(y))
 #define max(x,y) (((x)>(y))?(x):(y))
@@ -90,12 +91,12 @@ inline void cp_als_nd_hicoo(const float* X, const unsigned B, const unsigned M, 
 // wscpy
 #undef s11
 #define s11(t,n,i,r) mtx((n),(i),(r))=ws((i),(r))
-// wszro
-#undef s12
-#define s12(t,n,i,r) ws((i),(r))=0.000000
 // ssq
+#undef s12
+#define s12(t,n,i,r) sums((r))+=ws((i),(r))*ws((i),(r))
+// wszro
 #undef s13
-#define s13(t,n,i,r) sums((r))+=mtx((n),(i),(r))*mtx((n),(i),(r))
+#define s13(t,n,i,r) ws((i),(r))=0.000000
 // norm
 #undef s14
 #define s14(t,n,r) lmbda((r))=sqrt(sums((r)))
@@ -111,7 +112,7 @@ inline void cp_als_nd_hicoo(const float* X, const unsigned B, const unsigned M, 
 
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
-  //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  #pragma omp parallel for schedule(auto) firstprivate(t2)
   for(t4 = 0; t4 <= dim(t2)-1; t4++) {
     for(t6 = 0; t6 <= R-1; t6++) {
       s1(t2,t4,t6);
@@ -125,7 +126,7 @@ for(t2 = 0; t2 <= N-1; t2++) {
 ws = (float*) calloc((D)*(R),sizeof(float));
 for(t2 = 0; t2 <= T-1; t2++) {
   for(t4 = 0; t4 <= N-1; t4++) {
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    #pragma omp parallel for schedule(auto) firstprivate(t2)
     for (t6 = 0; t6 <= NB-1; t6++) {
       for(t7 = bp(t6); t7 <= bp1(t6)-1; t7++) {
         #pragma omp simd
@@ -150,7 +151,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
         }
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
     for(t6 = 0; t6 <= R-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
         s7(t2,t4,t6,t8);
@@ -165,7 +166,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
       }
     }
     s9(t2,t4);
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
     for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
         #pragma omp simd
@@ -174,7 +175,12 @@ for(t2 = 0; t2 <= T-1; t2++) {
         }
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    // Init sums to 0
+    #pragma omp simd
+    for(t8 = 0; t8 <= R-1; t8++) {
+        sums(t8)=0.0;
+    }
+    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
     for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
       #pragma omp simd
       for(t8 = 0; t8 <= R-1; t8++) {
@@ -183,19 +189,21 @@ for(t2 = 0; t2 <= T-1; t2++) {
         s13(t2,t4,t6,t8);
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    //#pragma omp parallel for schedule(auto) firstprivate(t2,t4,t6,t8)
     for(t6 = 0; t6 <= R-1; t6++) {
       s14(t2,t4,t6);
-      #pragma omp simd
+      //#pragma omp simd
+      #pragma omp parallel for schedule(auto) firstprivate(t2,t4,t6)
       for(t8 = 0; t8 <= dim1(t2,t4)-1; t8++) {
         s15(t2,t4,t6,t8);
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    //#pragma omp parallel for schedule(auto) firstprivate(t2,t4,t6,t8)
     for(t6 = 0; t6 <= R-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
         s16(t2,t4,t6,t8);
-        #pragma omp simd
+        //#pragma omp simd
+        #pragma omp parallel for schedule(auto) firstprivate(t2,t4,t6,t8)
         for(t10 = 0; t10 <= dim1(t2,t4)-1; t10++) {
           s17(t2,t4,t6,t8,t10);
         }

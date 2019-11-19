@@ -108,7 +108,7 @@ inline void cp_als_nd_coo(const float* X, const unsigned M, const unsigned N, co
 
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
-  //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  #pragma omp parallel for schedule(auto) firstprivate(t2)
   for(t4 = 0; t4 <= dim(t2)-1; t4++) {
     for(t6 = 0; t6 <= R-1; t6++) {
       s1(t2,t4,t6);
@@ -122,7 +122,7 @@ for(t2 = 0; t2 <= N-1; t2++) {
 ws = (float*) calloc((D)*(R),sizeof(float));
 for(t2 = 0; t2 <= T-1; t2++) {
   for(t4 = 0; t4 <= N-1; t4++) {
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
     for(t6 = 0; t6 <= M-1; t6++) {
       #pragma omp simd
       for(t8 = 0; t8 <= N-1; t8++) {
@@ -145,7 +145,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
         s6(t2,t4,t6,t8,t10);
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
     for(t6 = 0; t6 <= R-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
         s7(t2,t4,t6,t8);
@@ -160,7 +160,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
       }
     }
     s9(t2,t4);
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
     for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
         #pragma omp simd
@@ -169,7 +169,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
         }
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
     for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
       #pragma omp simd
       for(t8 = 0; t8 <= R-1; t8++) {
@@ -178,7 +178,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
         s13(t2,t4,t6,t8);
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
     for(t6 = 0; t6 <= R-1; t6++) {
       s14(t2,t4,t6);
       #pragma omp simd
@@ -186,7 +186,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
         s15(t2,t4,t6,t8);
       }
     }
-    //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
     for(t6 = 0; t6 <= R-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
         s16(t2,t4,t6,t8);
