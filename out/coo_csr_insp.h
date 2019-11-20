@@ -35,21 +35,21 @@ inline unsigned coo_csr_insp(const unsigned M, const unsigned* row, unsigned* rp
 s0();
 
 // insp_rp
-#undef s0
-#define s0(n,i) rp((i)+1)++
+#undef s1
+#define s1(n,i) rp((i)+1)++
 
 #pragma omp simd
 for(t2 = 0; t2 <= M-1; t2++) {
-  s0(t2,row(t2));
+  s1(t2,row(t2));
 }
 
 // insp_rp2
-#undef s1
-#define s1(i) rp((i)+1)+=rp((i))
+#undef s2
+#define s2(i) rp((i)+1)+=rp((i))
 
 #pragma omp simd
 for(t2 = 0; t2 <= N-1; t2++) {
-  s1(t2);
+  s2(t2);
 }
     return (N);
 }    // coo_csr_insp

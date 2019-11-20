@@ -193,11 +193,6 @@ for(t2 = 0; t2 <= T-1; t2++) {
         }
       }
     }
-    // Init sums to 0
-    #pragma omp simd
-    for(t8 = 0; t8 <= R-1; t8++) {
-        sums(t8)=0.0;
-    }
     //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
     for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
       #pragma omp simd
@@ -210,6 +205,7 @@ for(t2 = 0; t2 <= T-1; t2++) {
     //#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
     for(t6 = 0; t6 <= R-1; t6++) {
       s14(t2,t4,t6);
+      sums(t6)=0.0;
       #pragma omp simd
       for(t8 = 0; t8 <= dim1(t2,t4)-1; t8++) {
         s15(t2,t4,t6,t8);
