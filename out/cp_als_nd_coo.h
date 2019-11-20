@@ -25,6 +25,7 @@ fprintf(stderr,"}\n");}
 #define A(i,r) A[offset2((i),(r),(R))]
 #define mtx(n,i,r) mtx[(n)][offset2((i),(r),(R))]
 #define ata(n,r,q) ata[offset3((n),(r),(q),(R),(R))]
+//#define ata(n,r,q) ata[offset2((r),(q),(R))]
 #define X(m) X[(m)]
 #define V(r,q) V[offset2((r),(q),(R))]
 #define Vinv(q,r) Vinv[offset2((q),(r),(R))]
@@ -42,6 +43,7 @@ inline void cp_als_nd_coo(const float* X, const unsigned M, const unsigned N, co
     int t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned D = 0;
     float* __restrict ata = (float*) calloc((N)*(R)*(R),sizeof(float));
+    //float* __restrict ata = (float*) calloc((R)*(R),sizeof(float));
     unsigned* __restrict crd = (unsigned*) calloc((N),sizeof(unsigned));
     float prod;
     float* __restrict V = (float*) calloc((R)*(R),sizeof(float));
@@ -149,6 +151,11 @@ for(t2 = 0; t2 <= T-1; t2++) {
     for(t6 = 0; t6 <= R-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
         s7(t2,t4,t6,t8);
+//        s16(t2,t4,t6,t8);
+//        #pragma omp simd
+//        for(t10 = 0; t10 <= dim1(t2,t4)-1; t10++) {
+//          s17(t2,t4,t6,t8,t10);
+//        }
         #pragma omp simd
         for(t10 = 0; t10 <= t4-1; t10++) {
           s8(t2,t4,t6,t8,t10);
