@@ -71,10 +71,10 @@ inline double conjgrad_csr(const double* A, const double* b, const unsigned N, c
     memcpy(d, b, sizeof(double) * N);
     memcpy(r, d, sizeof(double) * N);
 
-#pragma acc data copy(r,d)
+#pragma acc data copy(col,rp,A,r,d,x)
 for(t2 = 1; t2 <= T; t2++) {
   s1(t2);
-  #pragma acc kernels present(r,d)
+  #pragma acc kernels present(col,rp,A,r,d,x)
   {
   #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {

@@ -64,17 +64,24 @@ inline double conjgrad_csb(const double* A, const double* b, const unsigned B, c
 #undef s11
 #define s11(t,i) d[(i)]=r[(i)]+beta*d[(i)]
 
-#pragma omp parallel for schedule(auto)
-for(t2 = 0; t2 <= N-1; t2++) {
-  s0(t2);
-}
+//#pragma omp parallel for schedule(auto)
+//for(t2 = 0; t2 <= N-1; t2++) {
+//  s0(t2);
+//}
+
+memcpy(d, b, sizeof(double) * N);
+memcpy(r, d, sizeof(double) * N);
+
+#pragma acc data copy(bp,brow,bcol,erow,ecol,A,r,d,x)
 for(t2 = 0; t2 <= T-1; t2++) {
   s1(t2);
-  #pragma omp parallel for schedule(auto)
+  #pragma acc kernels present(bp,brow,bcol,erow,ecol,A,r,d,x)
+  {
+  #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {
     s2(t2,t4);
   }
-  #pragma omp parallel for schedule(auto)
+  #pragma acc loop independent
   for (t4 = 0; t4 < NB; t4++) {
     unsigned begin = bp(t2,t4);
     unsigned stop = bp1(t2,t4);
@@ -85,22 +92,23 @@ for(t2 = 0; t2 <= T-1; t2++) {
       s3(t2,t4,t6,t8,t10);
     }
   }
-  #pragma omp parallel for schedule(auto) reduction(+:ds,rs0)
+  #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {
     s4(t2,t4);
     s5(t2,t4);
   }
   s6(t2);
-  #pragma omp parallel for schedule(auto) firstprivate(alpha) reduction(+:rs)
+  #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {
     s7(t2,t4);
     s8(t2,t4);
     s9(t2,t4);
   }
   s10(t2);
-  #pragma omp parallel for schedule(auto) firstprivate(beta)
+  #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {
     s11(t2,t4);
+  }
   }
 }
 

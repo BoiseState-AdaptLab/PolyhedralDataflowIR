@@ -62,19 +62,17 @@ inline double conjgrad_dia(double** A, const double* b, const unsigned D, const 
 #undef s11
 #define s11(t,i) d[(i)]=r[(i)]+beta*d[(i)]
 
-//fprintf(stderr,"N=%d,D=%d\n",N,D);
-
-#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+#pragma omp parallel for schedule(auto)
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
 }
 for(t2 = 1; t2 <= T; t2++) {
   s1(t2);
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  #pragma omp parallel for schedule(auto)
   for(t4 = 0; t4 <= N-1; t4++) {
     s2(t2, t4);
   }
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  #pragma omp parallel for schedule(auto)
   for(t6 = 0; t6 <= D-1; t6++) {
     t8=doff(t2,t6);
     #pragma omp simd
@@ -82,20 +80,20 @@ for(t2 = 1; t2 <= T; t2++) {
       s3(t2,t4,t6,t4+t8);
     }
   }
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  #pragma omp parallel for schedule(auto) reduction(+:ds,rs0)
   for(t4 = 0; t4 <= N-1; t4++) {
     s4(t2,t4);
     s5(t2,t4);
   }
   s6(t2);
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8,alpha)
+  #pragma omp parallel for schedule(auto) firstprivate(alpha) reduction(+:rs)
   for(t4 = 0; t4 <= N-1; t4++) {
     s7(t2,t4);
     s8(t2,t4);
     s9(t2,t4);
   }
   s10(t2);
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8,beta)
+  #pragma omp parallel for schedule(auto) firstprivate(beta)
   for(t4 = 0; t4 <= N-1; t4++) {
     s11(t2,t4);
   }

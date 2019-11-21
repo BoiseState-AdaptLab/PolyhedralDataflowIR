@@ -26,7 +26,7 @@ using std::vector;
 // Inspectors
 #include "coo_csr_insp.h"
 #include "coo_dsr_insp.h"
-#include "coo_ell_insp.h"
+#include "coo_ell_insp_acc.h"
 #include "coo_ellmap_insp.h"
 #include "coo_csb_insp.h"
 #include "coo_dia_insp.h"
@@ -35,10 +35,10 @@ using std::vector;
 #include "conjgrad_coo_acc.h"
 #include "conjgrad_csr_acc.h"
 #include "conjgrad_dsr_acc.h"
-#include "conjgrad_ell.h"
+#include "conjgrad_ell_acc.h"
 #include "conjgrad_ellmap.h"
-#include "conjgrad_csb.h"
-#include "conjgrad_dia.h"
+#include "conjgrad_csb_acc.h"
+#include "conjgrad_dia_acc.h"
 
 double get_wtime() {
     struct timeval tv;
