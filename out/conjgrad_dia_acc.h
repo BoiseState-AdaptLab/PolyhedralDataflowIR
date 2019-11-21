@@ -74,7 +74,7 @@ memcpy(r, d, sizeof(double) * N);
 #pragma acc data copy(doff,A,r,d,x)
 for(t2 = 1; t2 <= T; t2++) {
   s1(t2);
-  #pragma acc kernels present(lcol,A,r,d,x)
+  #pragma acc kernels present(doff,A,r,d,x)
   {
   #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {
