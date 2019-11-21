@@ -75,27 +75,26 @@ inline double conjgrad_coo(const double* A, const double* b, const unsigned M, c
     for (t2 = 1; t2 <= T; t2++) {
         s1(t2);
         //s2(t2);
-//#pragma acc kernels present(r,d)
-#pragma acc kernels
+#pragma acc kernels present(r,d)
         {
-//#pragma acc loop device_type(nvidia) vector(32)
+//#pragma acc loop device_type(nvidia) vector(128)
         #pragma acc loop independent
         for (t4 = 0; t4 <= N-1; t4++) {
             s2(t2,t4);
         }
-//#pragma acc loop device_type(nvidia) vector(32)
+//#pragma acc loop device_type(nvidia) vector(128)
         #pragma acc loop independent
         for (t4 = 0; t4 <= M-1; t4++) {
             s3(t2, row(t2, t4), t4, col(t2, t4));
         }
-        //#pragma acc loop device_type(nvidia) vector(32)
+        //#pragma acc loop device_type(nvidia) vector(128)
         #pragma acc loop independent
         for (t4 = 0; t4 <= N - 1; t4++) {
             s4(t2, t4);
             s5(t2, t4);
         }
         s6(t2);
-        //#pragma acc loop device_type(nvidia) vector(32)
+        //#pragma acc loop device_type(nvidia) vector(128)
         #pragma acc loop independent
         for (t4 = 0; t4 <= N - 1; t4++) {
             s7(t2, t4);
@@ -103,7 +102,7 @@ inline double conjgrad_coo(const double* A, const double* b, const unsigned M, c
             s9(t2, t4);
         }
         s10(t2);
-//#pragma acc loop device_type(nvidia) vector(32)
+//#pragma acc loop device_type(nvidia) vector(128)
         #pragma acc loop independent
         for (t4 = 0; t4 <= N - 1; t4++) {
             s11(t2, t4);
