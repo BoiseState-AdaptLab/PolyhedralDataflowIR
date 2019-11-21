@@ -34,7 +34,7 @@ using std::vector;
 // Executors
 #include "conjgrad_coo_acc.h"
 #include "conjgrad_csr_acc.h"
-#include "conjgrad_dsr.h"
+#include "conjgrad_dsr_acc.h"
 #include "conjgrad_ell.h"
 #include "conjgrad_ellmap.h"
 #include "conjgrad_csb.h"

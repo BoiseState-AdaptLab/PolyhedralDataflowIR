@@ -44,7 +44,8 @@ inline double conjgrad_csr(const double* A, const double* b, const unsigned N, c
 #undef s2
 #define s2(t,i) s[(i)]=0.0
 #undef s3
-#define s3(t,i,n,j) s[(i)]+=A[(n)]*d[(j)]
+//#define s3(t,i,n,j) s[(i)]+=A[(n)]*d[(j)]
+#define s3(t,i,n,j) dot+=A[(n)]*d[(j)]
 #undef s4
 #define s4(t,i) ds+=d[(i)]*s[(i)]
 #undef s5
@@ -71,11 +72,13 @@ for(t2 = 1; t2 <= T; t2++) {
   #pragma omp parallel for schedule(auto) reduction(+:ds,rs0)
   for(t4 = 0; t4 <= N-1; t4++) {
     s2(t2,t4);
-    #pragma omp simd
+    double dot = 0.0;
+    #pragma omp simd reduction(+:dot)
     for(t6 = rp(t2,t4); t6 <= rp1(t2,t4)-1; t6++) {
       t8=col(t2,t4,t6);
       s3(t2,t4,t6,t8);
     }
+    s[t4] += dot;
     s4(t2,t4);
     s5(t2,t4);
   }

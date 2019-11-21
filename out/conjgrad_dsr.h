@@ -44,7 +44,8 @@ inline double conjgrad_dsr(const double* A, const double* b, const unsigned N, c
 #undef s2
 #define s2(t,i) s[(i)]=0.000000
 #undef s3
-#define s3(t,m,i,n,j) s[(i)]+=A[(n)]*d[(j)]
+//#define s3(t,m,i,n,j) s[(i)]+=A[(n)]*d[(j)]
+#define s3(t,m,i,n,j) dot+=A[(n)]*d[(j)]
 #undef s4
 #define s4(t,i) ds+=d[(i)]*s[(i)]
 #undef s5
@@ -62,37 +63,40 @@ inline double conjgrad_dsr(const double* A, const double* b, const unsigned N, c
 #undef s11
 #define s11(t,i) d[(i)]=r[(i)]+beta*d[(i)]
 
-#pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+#pragma omp parallel for schedule(auto)
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
 }
 for(t2 = 1; t2 <= T; t2++) {
   s1(t2);
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  #pragma omp parallel for schedule(auto)
   for(t4 = 0; t4 <= N-1; t4++) {
     s2(t2,t4);
   }
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8)
+  #pragma omp parallel for schedule(auto) reduction(+:ds,rs0)
   for(t4 = 0; t4 <= R-1; t4++) {
     t6=crow(t2,t4);
-    #pragma omp simd
-    for(t8 = crp(t2,t4,t6); t8 < crp1(t2,t4,t6); t8++) {
+    double dot = 0.0;
+    unsigned begin = crp(t2,t4,t6);
+    unsigned stop = crp1(t2,t4,t6);
+    #pragma omp simd reduction(+:dot)
+    for(t8 = begin; t8 < stop; t8++) {
       t10=col(t2,t4,t6,t8);
-      //fprintf(stderr,"t=%u,m=%u,i=%u,n=%u,j=%u\n",t2,t4,t6,t8,t10);
       s3(t2,t4,t6,t8,t10);
     }
+    s[t6] += dot;
     s4(t2,t6);
     s5(t2,t6);
   }
   s6(t2);
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8,alpha)
+  #pragma omp parallel for schedule(auto) reduction(+:rs) firstprivate(alpha)
   for(t4 = 0; t4 <= N-1; t4++) {
     s7(t2,t4);
     s8(t2,t4);
     s9(t2,t4);
   }
   s10(t2);
-  #pragma omp parallel for schedule(auto) private(t2,t4,t6,t8,beta)
+  #pragma omp parallel for schedule(auto) firstprivate(beta)
   for(t4 = 0; t4 <= N-1; t4++) {
     s11(t2,t4);
   }
