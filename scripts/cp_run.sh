@@ -20,4 +20,7 @@ export NRUNS=1
 #splatt cpd --seed $RAND_SEED -r $TNS_RANK -i $MAX_ITER -t $OMP_NUM_THREADS $TNS_PATH/flickr-3d.tns &> $TNS_PATH/flickr_splatt.out
 #splatt cpd --seed $RAND_SEED -r $TNS_RANK -i $MAX_ITER -t $OMP_NUM_THREADS $TNS_PATH/uber.tns &> $TNS_PATH/uber_splatt.out
 
-./cp_par $TNS_PATH/nips.tns $NRUNS
+./cp_par $TNS_PATH/nips.tns $NRUNS coo 7
+./cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 64
+./cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 128
+./cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 256
