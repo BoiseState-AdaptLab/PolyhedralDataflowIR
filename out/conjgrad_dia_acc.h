@@ -43,8 +43,8 @@ inline double conjgrad_dia(double** A, const double* b, const unsigned D, const 
 #undef s2
 #define s2(t,i) s[(i)]=0.000000
 #undef s3
-//#define s3(t,i,k,j) if ((j) < P) s[(i)]+=A((k),(i))*d[(j)]
-#define s3(t,i,k,j) if ((j) < P) dot+=A((k),(i))*d[(j)]
+#define s3(t,i,k,j) if ((j) < P) s[(i)]+=A((k),(i))*d[(j)]
+//#define s3(t,i,k,j) if ((j) < P) dot+=A((k),(i))*d[(j)]
 //#define s3(t,i,k,j) s[(i)]+=A((k),(i))*d[(j)]
 #undef s4
 #define s4(t,i) ds+=d[(i)]*s[(i)]
@@ -71,24 +71,24 @@ inline double conjgrad_dia(double** A, const double* b, const unsigned D, const 
 memcpy(d, b, sizeof(double) * N);
 memcpy(r, d, sizeof(double) * N);
 
-#pragma acc data copy(doff,A,r,d,x)
+#pragma acc data copy(doff[0:D],A[0:N*D],r[0:N],d[0:N],s[0:N],x[0:N]) copyout(x[0:N])
 for(t2 = 1; t2 <= T; t2++) {
   s1(t2);
-  #pragma acc kernels present(doff,A,r,d,x)
+  #pragma acc kernels present(doff,A,r,d,s,x)
   {
   #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {
     s2(t2, t4);
   }
-  #pragma acc loop independent
+  #pragma acc loop independent collapse(2)
   for(t4 = 0; t4 < N; t4++) {
-    double dot = 0.0;
-    #pragma acc loop independent
+    //double dot = 0.0;
+    //#pragma acc loop independent
     for(t6 = 0; t6 < D; t6++) {
       t8=doff(t2,t6);
       s3(t2,t4,t6,t4+t8);
     }
-    s[t4]+=dot;
+    //s[t4]+=dot;
   }
   #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {

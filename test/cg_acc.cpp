@@ -228,12 +228,11 @@ int main(int argc, char **argv) {
             err = conjgrad_csb(bval, b, bs, nrow, nb, maxiter, bptr, brow, bcol, erow, ecol, x);
         } else if (strstr(format, "dsr")) {
             ptime = get_wtime();
-            err = conjgrad_dsr(vals, b, nrow, nzr, maxiter, cols, crow, crp, x);
+            err = conjgrad_dsr(vals, b, nnz, nrow, nzr, maxiter, cols, crow, crp, x);
         } else if (strstr(format, "ell")) {
             ptime = get_wtime();
             err = conjgrad_ell(lval, b, nell, nrow, maxiter, lcol, x);
         } else if (strstr(format, "lmap")) {
-            fprintf(stderr, "N=%u,K=%u\n", nrow, nell);
             ptime = get_wtime();
             err = conjgrad_ellmap(vals, b, nell, nrow, maxiter, cols, lmap, x);
         } else if (strstr(format, "dia")) {

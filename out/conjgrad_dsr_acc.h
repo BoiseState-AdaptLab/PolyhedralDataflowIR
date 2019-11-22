@@ -24,8 +24,8 @@ fprintf(stderr,"}\n");}
 #define crp(t,m,i) crp[(m)]
 #define crp1(t,m,i) crp[(m)+1]
 
-double conjgrad_dsr(const double* A, const double* b, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp, double* x);
-inline double conjgrad_dsr(const double* A, const double* b, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp, double* x) {
+double conjgrad_dsr(const double* A, const double* b, const unsigned M, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp, double* x);
+inline double conjgrad_dsr(const double* A, const double* b, const unsigned M, const unsigned N, const unsigned R, const unsigned T, const unsigned* col, const unsigned* crow, const unsigned* crp, double* x) {
     unsigned t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     double* __restrict r = (double*) calloc((N),sizeof(double));
     double* __restrict d = (double*) calloc((N),sizeof(double));
@@ -44,8 +44,8 @@ inline double conjgrad_dsr(const double* A, const double* b, const unsigned N, c
 #undef s2
 #define s2(t,i) s[(i)]=0.000000
 #undef s3
-//#define s3(t,m,i,n,j) s[(i)]+=A[(n)]*d[(j)]
-#define s3(t,m,i,n,j) dot+=A[(n)]*d[(j)]
+#define s3(t,m,i,n,j) s[(i)]+=A[(n)]*d[(j)]
+//#define s3(t,m,i,n,j) dot+=A[(n)]*d[(j)]
 #undef s4
 #define s4(t,i) ds+=d[(i)]*s[(i)]
 #undef s5
@@ -70,27 +70,32 @@ inline double conjgrad_dsr(const double* A, const double* b, const unsigned N, c
     memcpy(d, b, sizeof(double) * N);
     memcpy(r, d, sizeof(double) * N);
 
-#pragma acc data copy(col,crow,crp,r,d)
+#pragma acc data copy(col[0:M],crow[0:R],crp[0:R+1],A[0:M],r[0:N],d[0:N],s[0:N],x[0:N])
 for(t2 = 1; t2 <= T; t2++) {
   s1(t2);
-#pragma acc kernels present(col,crow,crp,r,d)
+//#pragma acc kernels present(col,crow,crp,A,r,d,s,x)
+  #pragma acc kernels
   {
   #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {
     s2(t2,t4);
   }
+  //#pragma acc loop independent
   #pragma acc loop independent
   for(t4 = 0; t4 <= R-1; t4++) {
-    t6=crow[t4];
-    unsigned begin = crp[t4];
-    unsigned stop = crp[t4+1];
-    double dot = 0.0;
-    #pragma acc loop independent
-    for(t8 = begin; t8 < stop; t8++) {
+    //t6=crow[t4];
+//    unsigned begin = crp[t4];
+//    unsigned stop = crp[t4+1];
+//    double dot = 0.0;
+    //#pragma acc loop independent
+    //for(t8 = begin; t8 < stop; t8++) {
+    for(t8 = crp[t4]; t8 < crp[t4+1]; t8++) {
+      t6=crow[t4];
       t10=col(t2,t4,t6,t8);
+      //fprintf(stderr,"(t,m,i,n,j)=(%d,%d,%d,%d,%d)\n", t2, t4, t6, t8, t10);
       s3(t2,t4,t6,t8,t10);
     }
-    s[t6] += dot;
+    //s[t6] += dot;
   }
   #pragma acc loop independent
   for(t4 = 0; t4 <= N-1; t4++) {
