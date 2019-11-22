@@ -9,7 +9,7 @@ export OMP_SCHEDULE=auto
 export RAND_SEED=1568224077
 export TNS_RANK=10
 export MAX_ITER=50
-export NRUNS=1
+export NRUNS=5
 
 #splatt cpd --seed $RAND_SEED -r $TNS_RANK -i $MAX_ITER -t $OMP_NUM_THREADS $TNS_PATH/nips.tns &> $TNS_PATH/nips_splatt.out
 #splatt cpd --seed $RAND_SEED -r $TNS_RANK -i $MAX_ITER -t $OMP_NUM_THREADS $TNS_PATH/nell-1.tns &> $TNS_PATH/nell1_splatt.out
@@ -58,6 +58,6 @@ export NRUNS=1
 /home/edavis/Work/pdfl/cp_par $TNS_PATH/flickr-3d.tns $NRUNS csf 5 10
 /home/edavis/Work/pdfl/cp_par $TNS_PATH/flickr-3d.tns $NRUNS hicoo 5 10 256
 #
-/home/edavis/Work/pdfl/cp_par $TNS_PATH/uber.tns $NRUNS coo 5 10
-/home/edavis/Work/pdfl/cp_par $TNS_PATH/uber.tns $NRUNS csf 5 10
-/home/edavis/Work/pdfl/cp_par $TNS_PATH/uber.tns $NRUNS hicoo 5 10 256
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/uber.tns $NRUNS coo 50 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/uber.tns $NRUNS csf 50 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/uber.tns $NRUNS hicoo 50 10 256
