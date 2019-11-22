@@ -4,7 +4,7 @@ export SPLATTHOME=/home/edavis/Work/PolyhedralDataflowIR/artifact/lib/splatt
 export LD_LIBRARY_PATH=$SPLATTHOME/lib:$LD_LIBRARY_PATH
 export PATH=$SPLATTHOME/bin:$PATH
 export TNS_PATH=/home/edavis/Work/VarDevEddie/themes/tensors
-export OMP_NUM_THREADS=16
+export OMP_NUM_THREADS=1
 export OMP_SCHEDULE=auto
 export RAND_SEED=1568224077
 export TNS_RANK=10
@@ -20,7 +20,44 @@ export NRUNS=1
 #splatt cpd --seed $RAND_SEED -r $TNS_RANK -i $MAX_ITER -t $OMP_NUM_THREADS $TNS_PATH/flickr-3d.tns &> $TNS_PATH/flickr_splatt.out
 #splatt cpd --seed $RAND_SEED -r $TNS_RANK -i $MAX_ITER -t $OMP_NUM_THREADS $TNS_PATH/uber.tns &> $TNS_PATH/uber_splatt.out
 
-./cp_par $TNS_PATH/nips.tns $NRUNS coo 7
-./cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 64
-./cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 128
-./cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 256
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/nips.tns $NRUNS coo 7 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/nips.tns $NRUNS csf 7 10
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 64
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 128
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 256
+#
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS coo 7 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS csf 7 10
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS hicoo 7 10 64
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS hicoo 7 10 128
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS hicoo 7 10 256
+#
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-2.tns $NRUNS coo 10 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-2.tns $NRUNS csf 10 10
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-2.tns $NRUNS hicoo 10 10 64
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-2.tns $NRUNS hicoo 10 10 128
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-2.tns $NRUNS hicoo 10 10 256
+#
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/enron.tns $NRUNS coo 26 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/enron.tns $NRUNS csf 26 10
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/enron.tns $NRUNS hicoo 26 10 64
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/enron.tns $NRUNS hicoo 26 10 128
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/enron.tns $NRUNS hicoo 26 10 256
+#
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/delicious-3d.tns $NRUNS coo 9 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/delicious-3d.tns $NRUNS csf 9 10
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/delicious-3d.tns $NRUNS hicoo 9 10 64
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/delicious-3d.tns $NRUNS hicoo 9 10 128
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/delicious-3d.tns $NRUNS hicoo 9 10 256
+#
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/chicago-crime-geo.tns $NRUNS coo 9 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/chicago-crime-geo.tns $NRUNS csf 9 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/chicago-crime-geo.tns $NRUNS hicoo 9 10 256
+#
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/flickr-3d.tns $NRUNS coo 5 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/flickr-3d.tns $NRUNS csf 5 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/flickr-3d.tns $NRUNS hicoo 5 10 256
+#
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/uber.tns $NRUNS coo 5 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/uber.tns $NRUNS csf 5 10
+/home/edavis/Work/pdfl/cp_par $TNS_PATH/uber.tns $NRUNS hicoo 5 10 256
