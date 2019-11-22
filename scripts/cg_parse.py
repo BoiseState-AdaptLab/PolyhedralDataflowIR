@@ -31,8 +31,9 @@ def main():
 
             data = {'exec': exe}
             for item in items:
-                (key, val) = item.split('=')
-                data[key] = val
+                if '=' in item:
+                    (key, val) = item.split('=')
+                    data[key] = val
 
             if 'format' in data and data['format'].startswith('eig'):
                 data['format'] += 'en'
