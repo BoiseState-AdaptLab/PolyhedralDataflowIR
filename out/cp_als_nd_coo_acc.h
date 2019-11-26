@@ -171,7 +171,10 @@ for(t2 = 0; t2 <= T-1; t2++) {
         }
       }
     }
+    }
     s9(t2,t4);
+    #pragma acc kernels present(mtx,dim)
+    {
     #pragma acc loop independent collapse(2)
     for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
