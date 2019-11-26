@@ -28,7 +28,7 @@ namespace test {
             cp_als_nd_hicoo(_bval, _bs, _nnz, _order, _nb, _rank, _niter, _dims, _bindices, _bptr, _eindices, _factors, _lambda);
         }
 
-        virtual void TensorEqua3Dl() {
+        virtual void TensorEqua3D() {
             unsigned m,i,j,k,b,bi,bj,bk;
 
             map<tuple<unsigned, unsigned, unsigned>, float> coo_map;
@@ -101,9 +101,11 @@ namespace test {
     TEST_F(TensorDecompTestHiCOO, CPD) {
         //SetUp("./data/tensor/matmul_5-5-5.tns", 10, 11);
         //SetUp("../VarDevEddie/themes/tensors/matmul_3-3-3.tns", 10, 50);
-        SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 7);
         //SetUp("../VarDevEddie/themes/tensors/hicoo.tns", 10, 7);
+        //SetUp("../VarDevEddie/themes/tensors/nell-1.tns", 10, 7);
         //SetUp("../VarDevEddie/themes/tensors/nell-2.tns", 10, 50);
+        //SetUp("../VarDevEddie/themes/tensors/nips.tns", 10, 7);
+        SetUp("../VarDevEddie/themes/tensors/enron.tns", 10, 7);
         Run();
         Verify();
         Assert();

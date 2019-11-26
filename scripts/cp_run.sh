@@ -26,11 +26,11 @@ export NRUNS=5
 #/home/edavis/Work/pdfl/cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 128
 /home/edavis/Work/pdfl/cp_par $TNS_PATH/nips.tns $NRUNS hicoo 7 10 256
 #
-/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS coo 7 10
-/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS csf 7 10
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS coo 7 10
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS csf 7 10
 #/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS hicoo 7 10 64
 #/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS hicoo 7 10 128
-/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS hicoo 7 10 256
+#/home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-1.tns $NRUNS hicoo 7 10 256
 #
 /home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-2.tns $NRUNS coo 10 10
 /home/edavis/Work/pdfl/cp_par $TNS_PATH/nell-2.tns $NRUNS csf 10 10
