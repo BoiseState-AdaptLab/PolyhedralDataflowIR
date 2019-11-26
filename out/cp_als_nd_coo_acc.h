@@ -42,7 +42,8 @@ void cp_als_nd_coo(const float* X, const unsigned M, const unsigned N, const uns
 inline void cp_als_nd_coo(const float* X, const unsigned M, const unsigned N, const unsigned R, const unsigned T, const unsigned* dim, const unsigned* ind, float** mtx, float* lmbda) {
     int t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     unsigned D = 0;
-    //float* __restrict ata = (float*) calloc((N)*(R)*(R),sizeof(float));
+    float* __restrict ata = (float*) calloc((N)*(R)*(R),sizeof(float));
+    //float* __restrict ata = (float*) calloc((R)*(R),sizeof(float));
     unsigned* __restrict crd = (unsigned*) calloc((N),sizeof(unsigned));
     float prod;
     float* __restrict V = (float*) calloc((R)*(R),sizeof(float));
@@ -109,35 +110,35 @@ inline void cp_als_nd_coo(const float* X, const unsigned M, const unsigned N, co
 
 for(t2 = 0; t2 <= N-1; t2++) {
   s0(t2);
-  #pragma omp parallel for schedule(auto) firstprivate(t2)
+  //#pragma omp parallel for schedule(auto) firstprivate(t2)
   for(t4 = 0; t4 <= dim(t2)-1; t4++) {
     for(t6 = 0; t6 <= R-1; t6++) {
       s1(t2,t4,t6);
-//      #pragma omp simd
-//      for(t8 = 0; t8 <= R-1; t8++) {
-//        s2(t2,t6,t8,t4);
-//      }
     }
   }
 }
 ws = (float*) calloc((D)*(R),sizeof(float));
+#pragma acc data copy(mtx,dim)
 for(t2 = 0; t2 <= T-1; t2++) {
   for(t4 = 0; t4 <= N-1; t4++) {
-    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
+    #pragma acc kernels present(mtx,dim)
+    {
+    #pragma acc loop independent
     for(t6 = 0; t6 <= M-1; t6++) {
-      #pragma omp simd
+      #pragma acc loop independent
       for(t8 = 0; t8 <= N-1; t8++) {
         t10=ind(t2,t4,t6,t8);
         s3(t2,t4,t6,t8,t10);
       }
+      #pragma acc loop independent
       for(t8 = 0; t8 <= R-1; t8++) {
         s4(t2,t4,t6,t8);
-        #pragma omp simd
+        #pragma acc loop independent
         for(t10 = 0; t10 <= t4-1; t10++) {
           t12=crd(t2,t4,t6,t8,t10);
           s5(t2,t4,t6,t8,t10,t12);
         }
-        #pragma omp simd
+        #pragma acc loop independent
         for(t10 = t4+1; t10 <= N-1; t10++) {
           t12=crd(t2,t4,t6,t8,t10);
           s5(t2,t4,t6,t8,t10,t12);
@@ -146,62 +147,58 @@ for(t2 = 0; t2 <= T-1; t2++) {
         s6(t2,t4,t6,t8,t10);
       }
     }
-    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
+    #pragma acc loop independent collapse(2)
     for(t6 = 0; t6 <= R-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
-        s7(t2,t4,t6,t8);
         s16(t2,t4,t6,t8);
-        #pragma omp simd
+        #pragma acc loop independent
         for(t10 = 0; t10 <= dim1(t2,t4)-1; t10++) {
           s17(t2,t4,t6,t8,t10);
         }
-        #pragma omp simd
+      }
+    }
+    #pragma acc loop independent collapse(2)
+    for(t6 = 0; t6 <= R-1; t6++) {
+      for(t8 = 0; t8 <= R-1; t8++) {
+        s7(t2,t4,t6,t8);
+        #pragma acc loop independent
         for(t10 = 0; t10 <= t4-1; t10++) {
           s8(t2,t4,t6,t8,t10);
         }
-        #pragma omp simd
+        #pragma acc loop independent
         for(t10 = t4+1; t10 <= N-1; t10++) {
           s8(t2,t4,t6,t8,t10);
         }
       }
     }
     s9(t2,t4);
-    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
+    #pragma acc loop independent collapse(2)
     for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
       for(t8 = 0; t8 <= R-1; t8++) {
-        #pragma omp simd
+        #pragma acc loop independent
         for(t10 = 0; t10 <= R-1; t10++) {
           s10(t2,t4,t6,t8,t10);
         }
       }
     }
-    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
+    #pragma acc loop independent collapse(2)
     for(t6 = 0; t6 <= dim1(t2,t4)-1; t6++) {
-      #pragma omp simd
+      //#pragma omp simd
       for(t8 = 0; t8 <= R-1; t8++) {
         s11(t2,t4,t6,t8);
         s12(t2,t4,t6,t8);
         s13(t2,t4,t6,t8);
       }
     }
-    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
+    #pragma acc loop independent
     for(t6 = 0; t6 <= R-1; t6++) {
       s14(t2,t4,t6);
       sums(t6)=0.0;
-      #pragma omp simd
+      #pragma acc loop independent
       for(t8 = 0; t8 <= dim1(t2,t4)-1; t8++) {
         s15(t2,t4,t6,t8);
       }
     }
-    #pragma omp parallel for schedule(auto) firstprivate(t2,t4)
-    for(t6 = 0; t6 <= R-1; t6++) {
-      for(t8 = 0; t8 <= R-1; t8++) {
-        s16(t2,t4,t6,t8);
-        #pragma omp simd
-        for(t10 = 0; t10 <= dim1(t2,t4)-1; t10++) {
-          s17(t2,t4,t6,t8,t10);
-        }
-      }
     }
   }
 }
