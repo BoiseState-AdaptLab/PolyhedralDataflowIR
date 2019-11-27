@@ -22,9 +22,9 @@
 void coo_csf_insp(const unsigned* dims, const unsigned* indices, const unsigned M, const unsigned N, unsigned*** fptr, unsigned*** findx);
 void coo_csf_insp(const unsigned* dims, const unsigned* indices, const unsigned M, const unsigned N, unsigned*** fptr, unsigned*** findx) {
     unsigned i,m,n;
-    unsigned pos[N] = {0};
-    unsigned loc[N] = {0};
-    unsigned mark[N] = {0};
+    unsigned pos[N];// = {0};
+    unsigned loc[N];// = {0};
+    unsigned mark[N];// = {0};
     unsigned psize = 2;
 
     *fptr = (unsigned**) calloc(N, sizeof(int*));
@@ -32,6 +32,7 @@ void coo_csf_insp(const unsigned* dims, const unsigned* indices, const unsigned 
 
     // Copy dimensions and size up arrays...
     for (n = 0; n < N; n++) {
+        pos[n] = loc[n] = mark[n] = 0;
         (*fptr)[n] = (unsigned*) calloc(psize, sizeof(int));
         (*findx)[n] = (unsigned*) calloc(M, sizeof(int));
         psize = M + 1;

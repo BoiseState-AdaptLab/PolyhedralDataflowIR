@@ -123,9 +123,9 @@ for(t2 = 0; t2 <= T-1; t2++) {
   for(t4 = 0; t4 <= N-1; t4++) {
     #pragma acc kernels present(mtx,dim)
     {
-    #pragma acc loop independent collapse(2)
+    #pragma acc loop independent
     for(t6 = 0; t6 <= M-1; t6++) {
-      //#pragma acc loop independent
+      #pragma acc loop independent
       for(t8 = 0; t8 <= N-1; t8++) {
         t10=ind(t2,t4,t6,t8);
         s3(t2,t4,t6,t8,t10);
