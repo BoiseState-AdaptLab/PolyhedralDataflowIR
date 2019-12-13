@@ -31,7 +31,7 @@ set(IEGEN_FILES  lib/iegenlib/src/set_relation/environment.cc
                  lib/iegenlib/src/set_relation/set_relation.cc
                  lib/iegenlib/src/set_relation/SubMap.cc
                  lib/iegenlib/src/set_relation/TupleDecl.cc
-                 lib/iegenlib/src/set_relation/UFCallMlib/taco/includeap.cc
+                 lib/iegenlib/src/set_relation/UFCallMap.cc
                  lib/iegenlib/src/set_relation/UninterpFunc.cc
                  lib/iegenlib/src/util/util.cc
                  lib/iegenlib/src/parser/gen_scanner.cc

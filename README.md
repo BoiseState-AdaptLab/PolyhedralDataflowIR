@@ -31,7 +31,7 @@ Python 3.6.7
 Clone the repository and enter the directory:
 
 ```
-$ git clone https://github.com/BoiseState/PolyhedralDataflowIR.git
+$ git clone https://github.com/BoiseState-AdaptLab/PolyhedralDataflowIR.git
 ```
 
 Enter the directory:
