@@ -10,8 +10,8 @@
 //#include <pdfg/FlowGraph.hpp>
 //#include <isl/IntSetLib.hpp>
 //#include <solve/Z3Lib.hpp>
-#include <ConjGradTest.hpp>
-using test::ConjGradTest;
+//#include <ConjGradTest.hpp>
+//using test::ConjGradTest;
 
 using namespace pdfg;
 using namespace poly;

@@ -157,8 +157,8 @@ set(OMEGA_FILES lib/chill/omega/basic/src/ConstString.cc
                 lib/chill/omega/code_gen/src/CG_stringBuilder.cc
 )
 
-#set(TESTING "true")
-set(MAKELIB "true")
+set(TESTING "true")
+#set(MAKELIB "true")
 #set(PAPI_ON "true")
 #set(PARBUILD "true")
 
@@ -173,6 +173,9 @@ if (TACO_ON)
     link_directories(lib/taco/lib)
 endif()
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3")
+add_library(polylib SHARED ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
+
 if (TESTING)
     set(GTEST_FILES lib/gtest/src/gtest.cc
                     lib/gtest/src/gtest-filepath.cc
@@ -182,31 +185,31 @@ if (TESTING)
                     lib/gtest/src/gtest-port.cc
     )
 
-    set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp
-            test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp test/ConjGradDSRTest.cpp
-            test/ConjGradELLTest.cpp test/ConjGradCSBTest.cpp test/ConjGradDIATest.cpp test/JacobiTest.cpp
-            test/MiniFluxDivTest.cpp test/TensorDecompTest.hpp test/TensorDecompTestCOO.cpp
-            test/TensorDecompTestCSF.cpp test/TensorDecompTestHiCOO.cpp) # test/TensAlgCompTest.cpp)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -fopenmp -ftree-vectorize -funroll-all-loops -O3")
+    set(UNIT_TESTS test/driver.cpp test/eDSLTest.cpp test/BenchmarkTest.hpp test/InspExecTest.hpp)
+    #       test/ConjGradTest.hpp test/ConjGradCOOTest.cpp test/ConjGradCSRTest.cpp test/ConjGradDSRTest.cpp
+    #       test/ConjGradELLTest.cpp test/ConjGradCSBTest.cpp test/ConjGradDIATest.cpp test/JacobiTest.cpp
+    #       test/MiniFluxDivTest.cpp test/TensorDecompTest.hpp test/TensorDecompTestCOO.cpp
+    #       test/TensorDecompTestCSF.cpp test/TensorDecompTestHiCOO.cpp) # test/TensAlgCompTest.cpp)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -fopenmp -ftree-vectorize -funroll-all-loops")
 
     enable_testing()
     add_executable(edslTest ${UNIT_TESTS} ${GTEST_FILES} ${EDSL_FILES})
 
-    target_link_libraries(edslTest m omp polylib gsl gslcblas)
+    target_link_libraries(edslTest m polylib)# omp gsl gslcblas)
     if (PAPI_ON)
         target_link_libraries(edslTest papi pfm)
         target_compile_definitions(edslTest PRIVATE PAPI_ON=1)
-    else()
-        target_link_libraries(edslTest likwid) # taco) # cudart) # blas lapack lapacke splatt)
+    #else()
+    #    target_link_libraries(edslTest likwid) # taco) # cudart) # blas lapack lapacke splatt)
     endif()
 
-    target_link_libraries(edslTest ${LINK_LIBS})
-    add_test(driver eDSLTest ConjGradCOOTest ConjGradCSRTest TensorDecompTest) #TensAlgCompTest) # JacobiTest)
+    #target_link_libraries(edslTest ${LINK_LIBS})
+    add_test(driver eDSLTest) # ConjGradCOOTest ConjGradCSRTest TensorDecompTest) #TensAlgCompTest) # JacobiTest)
     #add_test(driver ConjGradCOOTest ConjGradCSRTest)# TensorDecompTest)
 
-elseif (MAKELIB)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3")
-    add_library(polylib SHARED ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
+#elseif (MAKELIB)
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3")
+#    add_library(polylib SHARED ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
 
 elseif (PARBUILD)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -ftree-vectorize -funroll-all-loops -O3")
