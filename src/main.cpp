@@ -30,7 +30,9 @@ int main() {
                       j==bind(b,1)*B+eind(n,1) ^ k==bind(b,2)*B+eind(n,2));
 
     //Relation rel("Tcoo_csr", coo, csr);
-    //cout << Codegen().gen(coo) << endl;
+    cout << Codegen().gen(coo) << endl;
+
+    return 0;
     //InspGen(coo, csr).gen();
 
     Space val("val", NNZ), x("x", N), y("y", N);
