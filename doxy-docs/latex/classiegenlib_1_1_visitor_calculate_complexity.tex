@@ -1,0 +1,141 @@
+\hypertarget{classiegenlib_1_1_visitor_calculate_complexity}{}\doxysection{iegenlib\+::Visitor\+Calculate\+Complexity Class Reference}
+\label{classiegenlib_1_1_visitor_calculate_complexity}\index{iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}}
+
+
+Inheritance diagram for iegenlib\+::Visitor\+Calculate\+Complexity\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=219pt]{classiegenlib_1_1_visitor_calculate_complexity__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for iegenlib\+::Visitor\+Calculate\+Complexity\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=219pt]{classiegenlib_1_1_visitor_calculate_complexity__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_visitor_calculate_complexity_af54b62f25e04a0cdcb0100aa31e48e39}{Visitor\+Calculate\+Complexity}} (int $\ast$i\+Complexity)
+\item 
+virtual \mbox{\hyperlink{classiegenlib_1_1_visitor_calculate_complexity_af5e25e3a864c5d194d4e3bb183918de1}{$\sim$\+Visitor\+Calculate\+Complexity}} ()
+\item 
+void \mbox{\hyperlink{classiegenlib_1_1_visitor_calculate_complexity_a7d7498fd947d16750dad82a8daf8c490}{post\+Visit\+U\+F\+Call\+Term}} (\mbox{\hyperlink{classiegenlib_1_1_u_f_call_term}{U\+F\+Call\+Term}} $\ast$t)
+\item 
+void \mbox{\hyperlink{classiegenlib_1_1_visitor_calculate_complexity_a2c7d8695464928a3306074b88de70816}{post\+Visit\+Var\+Term}} (\mbox{\hyperlink{classiegenlib_1_1_var_term}{Var\+Term}} $\ast$t)
+\item 
+void \mbox{\hyperlink{classiegenlib_1_1_visitor_calculate_complexity_ae9d9617aac8035ee56b205701d40fc07}{post\+Visit\+Tuple\+Var\+Term}} (\mbox{\hyperlink{classiegenlib_1_1_tuple_var_term}{Tuple\+Var\+Term}} $\ast$t)
+\item 
+void \mbox{\hyperlink{classiegenlib_1_1_visitor_calculate_complexity_a84204c8b613e4d2592075b00f613b3b6}{pre\+Visit\+Exp}} (\mbox{\hyperlink{classiegenlib_1_1_exp}{iegenlib\+::\+Exp}} $\ast$\mbox{\hyperlink{oc__quick__kill_8cc_a88859ce72faebb79ea0a2bca00a0f46b}{e}})
+\item 
+void \mbox{\hyperlink{classiegenlib_1_1_visitor_calculate_complexity_ae3846e168b484a36bfad09f2edc3117b}{post\+Visit\+Exp}} (\mbox{\hyperlink{classiegenlib_1_1_exp}{iegenlib\+::\+Exp}} $\ast$\mbox{\hyperlink{oc__quick__kill_8cc_a88859ce72faebb79ea0a2bca00a0f46b}{e}})
+\item 
+int $\ast$ \mbox{\hyperlink{classiegenlib_1_1_visitor_calculate_complexity_ac071515573670370a5fdb1fdad52985f}{get\+Complexity}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Vistor Class used in \mbox{\hyperlink{classiegenlib_1_1_visitor_calculate_complexity}{Visitor\+Calculate\+Complexity}} The visitor class calculates complexity for Tuple\+Var\+Terms The way it works in general is that\+: we want to determine whether a (smart) code generator would generate loop for any of the iterators and if so, what is the complexity of that loop. For instance, consider following example\+:
+
+\{\mbox{[}i,j\mbox{]} \+: i = j \&\& 0 $<$= j $<$ n \}
+
+(Smart) Code genrator would not generate a loop for i-\/iterator, because we have the constraints\+: i=j. But we need a loop with complexity of O(n) in that example. So, the output of this visitor would be\+:
+
+\mbox{[}1,3\mbox{]} \+: indicating i has complexity O(1), and j has complexity O(n).
+
+We use inequalities to determine upper bounds of each term. If we have already find an upper bound but we see a smaller one, we would replace the bigger one. We also use useful equalities to make complexity of one of the tuple terms in equalities like i=j, or i=f(j), to be O(1). The important thing to note here is that we make the complexity of an iterator with bigger complexity O(1). If a term is in an equality constraint with another constraints, \textquotesingle{}and we know the upper bound of the other iterator, then we do not have to find the upper bounds of this iterator.
+
+Note\+: we need to call this visitor at least twice since, it might be the case that while traversing the constraints (\mbox{\hyperlink{classiegenlib_1_1_exp}{iegenlib\+::\+Exp}}\textquotesingle{}s) we pass by an useful equality like i=j, but we do not know upper bound of neither i or j. So, we would not make complexity of any of them O(1). 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classiegenlib_1_1_visitor_calculate_complexity_af54b62f25e04a0cdcb0100aa31e48e39}\label{classiegenlib_1_1_visitor_calculate_complexity_af54b62f25e04a0cdcb0100aa31e48e39}} 
+\index{iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}!VisitorCalculateComplexity@{VisitorCalculateComplexity}}
+\index{VisitorCalculateComplexity@{VisitorCalculateComplexity}!iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}}
+\doxysubsubsection{\texorpdfstring{VisitorCalculateComplexity()}{VisitorCalculateComplexity()}}
+{\footnotesize\ttfamily iegenlib\+::\+Visitor\+Calculate\+Complexity\+::\+Visitor\+Calculate\+Complexity (\begin{DoxyParamCaption}\item[{int $\ast$}]{i\+Complexity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classiegenlib_1_1_visitor_calculate_complexity_af5e25e3a864c5d194d4e3bb183918de1}\label{classiegenlib_1_1_visitor_calculate_complexity_af5e25e3a864c5d194d4e3bb183918de1}} 
+\index{iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}!````~VisitorCalculateComplexity@{$\sim$VisitorCalculateComplexity}}
+\index{````~VisitorCalculateComplexity@{$\sim$VisitorCalculateComplexity}!iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}}
+\doxysubsubsection{\texorpdfstring{$\sim$VisitorCalculateComplexity()}{~VisitorCalculateComplexity()}}
+{\footnotesize\ttfamily virtual iegenlib\+::\+Visitor\+Calculate\+Complexity\+::$\sim$\+Visitor\+Calculate\+Complexity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classiegenlib_1_1_visitor_calculate_complexity_ac071515573670370a5fdb1fdad52985f}\label{classiegenlib_1_1_visitor_calculate_complexity_ac071515573670370a5fdb1fdad52985f}} 
+\index{iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}!getComplexity@{getComplexity}}
+\index{getComplexity@{getComplexity}!iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}}
+\doxysubsubsection{\texorpdfstring{getComplexity()}{getComplexity()}}
+{\footnotesize\ttfamily int$\ast$ iegenlib\+::\+Visitor\+Calculate\+Complexity\+::get\+Complexity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classiegenlib_1_1_visitor_calculate_complexity_ae3846e168b484a36bfad09f2edc3117b}\label{classiegenlib_1_1_visitor_calculate_complexity_ae3846e168b484a36bfad09f2edc3117b}} 
+\index{iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}!postVisitExp@{postVisitExp}}
+\index{postVisitExp@{postVisitExp}!iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}}
+\doxysubsubsection{\texorpdfstring{postVisitExp()}{postVisitExp()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Visitor\+Calculate\+Complexity\+::post\+Visit\+Exp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_exp}{iegenlib\+::\+Exp}} $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_visitor_a91dd5d1988e417d3fb238ed8db4ef061}{Visitor}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_visitor_calculate_complexity_ae3846e168b484a36bfad09f2edc3117b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_visitor_calculate_complexity_ae9d9617aac8035ee56b205701d40fc07}\label{classiegenlib_1_1_visitor_calculate_complexity_ae9d9617aac8035ee56b205701d40fc07}} 
+\index{iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}!postVisitTupleVarTerm@{postVisitTupleVarTerm}}
+\index{postVisitTupleVarTerm@{postVisitTupleVarTerm}!iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}}
+\doxysubsubsection{\texorpdfstring{postVisitTupleVarTerm()}{postVisitTupleVarTerm()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Visitor\+Calculate\+Complexity\+::post\+Visit\+Tuple\+Var\+Term (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_tuple_var_term}{Tuple\+Var\+Term}} $\ast$}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_visitor_a292dfecd2976af52ee48f1dc459654b9}{Visitor}}.
+
+\mbox{\Hypertarget{classiegenlib_1_1_visitor_calculate_complexity_a7d7498fd947d16750dad82a8daf8c490}\label{classiegenlib_1_1_visitor_calculate_complexity_a7d7498fd947d16750dad82a8daf8c490}} 
+\index{iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}!postVisitUFCallTerm@{postVisitUFCallTerm}}
+\index{postVisitUFCallTerm@{postVisitUFCallTerm}!iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}}
+\doxysubsubsection{\texorpdfstring{postVisitUFCallTerm()}{postVisitUFCallTerm()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Visitor\+Calculate\+Complexity\+::post\+Visit\+U\+F\+Call\+Term (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_u_f_call_term}{U\+F\+Call\+Term}} $\ast$}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_visitor_a11a72aa3cc4dcb7671d90d2b43d9560c}{Visitor}}.
+
+\mbox{\Hypertarget{classiegenlib_1_1_visitor_calculate_complexity_a2c7d8695464928a3306074b88de70816}\label{classiegenlib_1_1_visitor_calculate_complexity_a2c7d8695464928a3306074b88de70816}} 
+\index{iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}!postVisitVarTerm@{postVisitVarTerm}}
+\index{postVisitVarTerm@{postVisitVarTerm}!iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}}
+\doxysubsubsection{\texorpdfstring{postVisitVarTerm()}{postVisitVarTerm()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Visitor\+Calculate\+Complexity\+::post\+Visit\+Var\+Term (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_var_term}{Var\+Term}} $\ast$}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_visitor_a07fcb772f89e019c2457d10f058f57b6}{Visitor}}.
+
+\mbox{\Hypertarget{classiegenlib_1_1_visitor_calculate_complexity_a84204c8b613e4d2592075b00f613b3b6}\label{classiegenlib_1_1_visitor_calculate_complexity_a84204c8b613e4d2592075b00f613b3b6}} 
+\index{iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}!preVisitExp@{preVisitExp}}
+\index{preVisitExp@{preVisitExp}!iegenlib::VisitorCalculateComplexity@{iegenlib::VisitorCalculateComplexity}}
+\doxysubsubsection{\texorpdfstring{preVisitExp()}{preVisitExp()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Visitor\+Calculate\+Complexity\+::pre\+Visit\+Exp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_exp}{iegenlib\+::\+Exp}} $\ast$}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_visitor_a2c5510b97d876854279b74587a1e2246}{Visitor}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/iegenlib/src/set\+\_\+relation/\mbox{\hyperlink{complexity_for_partial_parallel_8cc}{complexity\+For\+Partial\+Parallel.\+cc}}\end{DoxyCompactItemize}

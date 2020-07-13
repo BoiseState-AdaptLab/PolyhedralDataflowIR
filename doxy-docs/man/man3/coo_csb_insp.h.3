@@ -1,0 +1,232 @@
+.TH "out/coo_csb_insp.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/coo_csb_insp.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBabsmin\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBabsmax\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBsgn\fP(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBval\fP(\fBn\fP)   val[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbval\fP(\fBp\fP)   (*bval)[(\fBp\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbcol\fP(\fBb\fP)   (*bcol)[(\fBb\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbmap\fP(\fBb\fP,  bi,  bj,  \fBm\fP)   bmap[(bi)][(bj)][(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbp\fP(\fBi\fP)   (*bp)[(\fBi\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbrow\fP(\fBb\fP)   (*brow)[(\fBb\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbsize\fP(\fBb\fP,  bi,  bj)   bsize[(bi)][(bj)]"
+.br
+.ti -1c
+.RI "#define \fBcol\fP(\fBn\fP)   col[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBp\fP(\fBi\fP)   p"
+.br
+.ti -1c
+.RI "#define \fBrow\fP(\fBn\fP)   row[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBerow\fP(\fBp\fP)   (*erow)[(\fBp\fP)]"
+.br
+.ti -1c
+.RI "#define \fBecol\fP(\fBp\fP)   (*ecol)[(\fBp\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbid\fP(\fBn\fP,  bi,  bj)"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBn\fP,  \fBi\fP,  \fBj\fP)   \fBbid\fP((\fBn\fP),(\fBi\fP)/\fBB\fP,(\fBj\fP)/\fBB\fP)"
+.br
+.ti -1c
+.RI "#define \fBs1\fP(\fBn\fP,  \fBi\fP,  \fBj\fP)   \fBif\fP (\fBb\fP >= NB) NB=\fBb\fP+1"
+.br
+.ti -1c
+.RI "#define \fBs2\fP(\fBn\fP,  \fBi\fP,  \fBj\fP)   \fBbrow\fP(\fBb\fP)=(\fBi\fP)/\fBB\fP"
+.br
+.ti -1c
+.RI "#define \fBs3\fP(\fBn\fP,  \fBi\fP,  \fBj\fP)   \fBbcol\fP(\fBb\fP)=(\fBj\fP)/\fBB\fP"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBb\fP,  bi,  bj,  \fBm\fP,  \fBn\fP)   \fBif\fP (\fBp\fP >= \fBbp\fP((\fBb\fP)+1)) \fBbp\fP((\fBb\fP)+1)=\fBp\fP+1"
+.br
+.ti -1c
+.RI "#define \fBs1\fP(\fBb\fP,  bi,  bj,  \fBm\fP,  \fBn\fP)   \fBerow\fP(\fBp\fP)=\fBrow\fP((\fBn\fP))\-\fBB\fP*(bi)"
+.br
+.ti -1c
+.RI "#define \fBs2\fP(\fBb\fP,  bi,  bj,  \fBm\fP,  \fBn\fP)   \fBecol\fP(\fBp\fP)=\fBcol\fP((\fBn\fP))\-\fBB\fP*(bj)"
+.br
+.ti -1c
+.RI "#define \fBs3\fP(\fBb\fP,  bi,  bj,  \fBm\fP,  \fBn\fP)   \fBbval\fP(\fBp\fP)=\fBval\fP((\fBn\fP))"
+.br
+.ti -1c
+.RI "#define \fBs4\fP(\fBb\fP,  bi,  bj,  \fBm\fP,  \fBn\fP)   \fBp\fP+=1"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBcoo_csb_insp\fP (\fBconst\fP double *\fBval\fP, \fBconst\fP unsigned \fBB\fP, \fBconst\fP unsigned M, \fBconst\fP unsigned *\fBcol\fP, \fBconst\fP unsigned *\fBrow\fP, double **\fBbval\fP, unsigned **\fBbcol\fP, unsigned **\fBbp\fP, unsigned **\fBbrow\fP, unsigned char **\fBecol\fP, unsigned char **\fBerow\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define absmax(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define absmin(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define bcol(\fBb\fP)   (*bcol)[(\fBb\fP)]"
+
+.SS "#define bid(\fBn\fP, bi, bj)"
+\fBValue:\fP
+.PP
+.nf
+{\
+if(!bmap[(bi)]){\
+bid[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
+bsize[(bi)]=(unsigned*)calloc(((N/B)+1),sizeof(int));\
+bmap[(bi)]=(unsigned**)calloc(((N/B)+1),sizeof(int*));\
+}\
+if(!bmap[(bi)][(bj)]){\
+bmap[(bi)][(bj)]=(unsigned*)calloc(B*B,sizeof(int));\
+bid[(bi)][(bj)]=(NB);\
+}\
+b=bid[(bi)][(bj)];\
+bmap[(bi)][(bj)][(bsize[(bi)][(bj)])++]=(n);\
+}
+.fi
+.SS "#define bmap(\fBb\fP, bi, bj, \fBm\fP)   bmap[(bi)][(bj)][(\fBm\fP)]"
+
+.SS "#define bp(\fBi\fP)   (*bp)[(\fBi\fP)]"
+
+.SS "#define brow(\fBb\fP)   (*brow)[(\fBb\fP)]"
+
+.SS "#define bsize(\fBb\fP, bi, bj)   bsize[(bi)][(bj)]"
+
+.SS "#define bval(\fBp\fP)   (*bval)[(\fBp\fP)]"
+
+.SS "#define col(\fBn\fP)   col[(\fBn\fP)]"
+
+.SS "#define ecol(\fBp\fP)   (*ecol)[(\fBp\fP)]"
+
+.SS "#define erow(\fBp\fP)   (*erow)[(\fBp\fP)]"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define p(\fBi\fP)   p"
+
+.SS "#define row(\fBn\fP)   row[(\fBn\fP)]"
+
+.SS "#define s0(\fBb\fP, bi, bj, \fBm\fP, \fBn\fP)   \fBif\fP (\fBp\fP >= \fBbp\fP((\fBb\fP)+1)) \fBbp\fP((\fBb\fP)+1)=\fBp\fP+1"
+
+.SS "#define s0(\fBn\fP, \fBi\fP, \fBj\fP)   \fBbid\fP((\fBn\fP),(\fBi\fP)/\fBB\fP,(\fBj\fP)/\fBB\fP)"
+
+.SS "#define s1(\fBb\fP, bi, bj, \fBm\fP, \fBn\fP)   \fBerow\fP(\fBp\fP)=\fBrow\fP((\fBn\fP))\-\fBB\fP*(bi)"
+
+.SS "#define s1(\fBn\fP, \fBi\fP, \fBj\fP)   \fBif\fP (\fBb\fP >= NB) NB=\fBb\fP+1"
+
+.SS "#define s2(\fBb\fP, bi, bj, \fBm\fP, \fBn\fP)   \fBecol\fP(\fBp\fP)=\fBcol\fP((\fBn\fP))\-\fBB\fP*(bj)"
+
+.SS "#define s2(\fBn\fP, \fBi\fP, \fBj\fP)   \fBbrow\fP(\fBb\fP)=(\fBi\fP)/\fBB\fP"
+
+.SS "#define s3(\fBb\fP, bi, bj, \fBm\fP, \fBn\fP)   \fBbval\fP(\fBp\fP)=\fBval\fP((\fBn\fP))"
+
+.SS "#define s3(\fBn\fP, \fBi\fP, \fBj\fP)   \fBbcol\fP(\fBb\fP)=(\fBj\fP)/\fBB\fP"
+
+.SS "#define s4(\fBb\fP, bi, bj, \fBm\fP, \fBn\fP)   \fBp\fP+=1"
+
+.SS "#define sgn(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+
+.SS "#define val(\fBn\fP)   val[(\fBn\fP)]"
+
+.SH "Function Documentation"
+.PP 
+.SS "unsigned coo_csb_insp (\fBconst\fP double * val, \fBconst\fP unsigned B, \fBconst\fP unsigned M, \fBconst\fP unsigned * col, \fBconst\fP unsigned * row, double ** bval, unsigned ** bcol, unsigned ** bp, unsigned ** brow, unsigned char ** ecol, unsigned char ** erow)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

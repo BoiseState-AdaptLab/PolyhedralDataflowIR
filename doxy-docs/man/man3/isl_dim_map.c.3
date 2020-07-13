@@ -1,0 +1,86 @@
+.TH "lib/isl/isl_dim_map.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_dim_map.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl_dim_map\&.h>\fP
+.br
+\fC#include <isl_reordering\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_dim_map_entry\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_dim_map\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_dim_map\fP * \fBisl_dim_map_alloc\fP (\fBisl_ctx\fP *ctx, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_dim_map_range\fP (\fB__isl_keep\fP \fBisl_dim_map\fP *dim_map, unsigned dst_pos, unsigned dst_stride, unsigned src_pos, unsigned src_stride, unsigned \fBn\fP, int sign)"
+.br
+.ti -1c
+.RI "void \fBisl_dim_map_dim_range\fP (\fB__isl_keep\fP \fBisl_dim_map\fP *dim_map, \fB__isl_keep\fP \fBisl_space\fP *\fBdim\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP, unsigned dst_pos)"
+.br
+.ti -1c
+.RI "void \fBisl_dim_map_dim\fP (\fB__isl_keep\fP \fBisl_dim_map\fP *dim_map, \fB__isl_keep\fP \fBisl_space\fP *\fBdim\fP, enum \fBisl_dim_type\fP type, unsigned dst_pos)"
+.br
+.ti -1c
+.RI "void \fBisl_dim_map_div\fP (\fB__isl_keep\fP \fBisl_dim_map\fP *dim_map, \fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP, unsigned dst_pos)"
+.br
+.ti -1c
+.RI "void \fBisl_dim_map_dump\fP (struct \fBisl_dim_map\fP *dim_map)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_add_constraints_dim_map\fP (\fB__isl_take\fP \fBisl_basic_map\fP *dst, \fB__isl_take\fP \fBisl_basic_map\fP *src, \fB__isl_take\fP \fBisl_dim_map\fP *dim_map)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_add_constraints_dim_map\fP (\fB__isl_take\fP \fBisl_basic_set\fP *dst, \fB__isl_take\fP \fBisl_basic_set\fP *src, \fB__isl_take\fP \fBisl_dim_map\fP *dim_map)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_dim_map\fP * \fBisl_dim_map_extend\fP (\fB__isl_keep\fP \fBisl_dim_map\fP *dim_map, \fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_dim_map\fP * \fBisl_dim_map_from_reordering\fP (\fB__isl_keep\fP \fBisl_reordering\fP *exp)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_add_constraints_dim_map (\fB__isl_take\fP \fBisl_basic_map\fP * dst, \fB__isl_take\fP \fBisl_basic_map\fP * src, \fB__isl_take\fP \fBisl_dim_map\fP * dim_map)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_add_constraints_dim_map (\fB__isl_take\fP \fBisl_basic_set\fP * dst, \fB__isl_take\fP \fBisl_basic_set\fP * src, \fB__isl_take\fP \fBisl_dim_map\fP * dim_map)"
+
+.SS "\fB__isl_give\fP \fBisl_dim_map\fP* isl_dim_map_alloc (\fBisl_ctx\fP * ctx, unsigned len)"
+
+.SS "void isl_dim_map_dim (\fB__isl_keep\fP \fBisl_dim_map\fP * dim_map, \fB__isl_keep\fP \fBisl_space\fP * dim, enum \fBisl_dim_type\fP type, unsigned dst_pos)"
+
+.SS "void isl_dim_map_dim_range (\fB__isl_keep\fP \fBisl_dim_map\fP * dim_map, \fB__isl_keep\fP \fBisl_space\fP * dim, enum \fBisl_dim_type\fP type, unsigned first, unsigned n, unsigned dst_pos)"
+
+.SS "void isl_dim_map_div (\fB__isl_keep\fP \fBisl_dim_map\fP * dim_map, \fB__isl_keep\fP \fBisl_basic_map\fP * bmap, unsigned dst_pos)"
+
+.SS "void isl_dim_map_dump (struct \fBisl_dim_map\fP * dim_map)"
+
+.SS "\fB__isl_give\fP \fBisl_dim_map\fP* isl_dim_map_extend (\fB__isl_keep\fP \fBisl_dim_map\fP * dim_map, \fB__isl_keep\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_dim_map\fP* isl_dim_map_from_reordering (\fB__isl_keep\fP \fBisl_reordering\fP * exp)"
+
+.SS "void isl_dim_map_range (\fB__isl_keep\fP \fBisl_dim_map\fP * dim_map, unsigned dst_pos, unsigned dst_stride, unsigned src_pos, unsigned src_stride, unsigned n, int sign)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

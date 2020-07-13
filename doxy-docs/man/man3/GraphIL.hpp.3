@@ -1,0 +1,673 @@
+.TH "src/pdfg/GraphIL.hpp" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/pdfg/GraphIL.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <algorithm>\fP
+.br
+\fC#include <array>\fP
+.br
+\fC#include <deque>\fP
+.br
+\fC#include <initializer_list>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <numeric>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <unordered_map>\fP
+.br
+\fC#include <unordered_set>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <poly/PolyLib\&.hpp>\fP
+.br
+\fC#include <pdfg/FlowGraph\&.hpp>\fP
+.br
+\fC#include <pdfg/Visitor\&.hpp>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBpdfg::Expr\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Int\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Real\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Pointer\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Math\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Iter\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Func\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Const\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Macro\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Constr\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Range\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Condition\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Access\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Space\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Rel\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::Comp\fP"
+.br
+.ti -1c
+.RI "class \fBpdfg::GraphMaker\fP"
+.br
+.ti -1c
+.RI "struct \fBpdfg::GraphMaker::Checkpoint\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBpdfg\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBPOLYEXT_GRAPHIL_H\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef vector< Iter > \fBpdfg::Tuple\fP"
+.br
+.ti -1c
+.RI "typedef vector< Expr > \fBpdfg::ExprTuple\fP"
+.br
+.ti -1c
+.RI "typedef vector< int > \fBpdfg::IntTuple\fP"
+.br
+.ti -1c
+.RI "typedef vector< double > \fBpdfg::RealTuple\fP"
+.br
+.ti -1c
+.RI "typedef vector< Constr > \fBpdfg::ConstrTuple\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class T > string \fBpdfg::stringify\fP (\fBconst\fP \fBT\fP &obj)"
+.br
+.ti -1c
+.RI "template<class T > \fBT\fP \fBpdfg::unstring\fP (\fBconst\fP string &\fBstr\fP)"
+.br
+.ti -1c
+.RI "template<class T > vector< string > \fBpdfg::stringify\fP (\fBconst\fP vector< \fBT\fP > &vec)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addSpace\fP (\fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "void \fBpdfg::clearFLOPs\fP ()"
+.br
+.ti -1c
+.RI "void \fBpdfg::incFLOPs\fP (unsigned increment=1)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addDefine\fP (\fBconst\fP string &define)"
+.br
+.ti -1c
+.RI "int \fBpdfg::abs\fP (\fBconst\fP int &\fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::abs\fP (\fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::min\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::max\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::absmin\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::absmax\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::pow\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::pow\fP (\fBconst\fP Expr &\fBlhs\fP, int exp)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::pow\fP (\fBconst\fP Expr &\fBlhs\fP, double exp)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::sgn\fP (\fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::urand\fP (\fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::urand\fP ()"
+.br
+.ti -1c
+.RI "Math \fBpdfg::sqrt\fP (\fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::paren\fP (\fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "vector< Math > \fBpdfg::operator^\fP (\fBconst\fP Math &\fBlhs\fP, \fBconst\fP Math &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "vector< Math > \fBpdfg::operator^\fP (\fBconst\fP vector< Math > &\fBlhs\fP, \fBconst\fP Math &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator+\fP (\fBconst\fP Expr &expr, \fBconst\fP unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator+\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator+=\fP (\fBconst\fP Expr &expr, \fBconst\fP unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator+=\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator\-\fP (\fBconst\fP Expr &expr, \fBconst\fP unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator\-\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator\-\fP (\fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator\-=\fP (\fBconst\fP Expr &expr, \fBconst\fP unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator\-=\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator*\fP (\fBconst\fP Expr &expr, \fBconst\fP unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator*\fP (\fBconst\fP Expr &expr, \fBconst\fP double \fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator*\fP (\fBconst\fP double \fBval\fP, \fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator*\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator*=\fP (\fBconst\fP Expr &expr, \fBconst\fP unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator*=\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator/\fP (\fBconst\fP Expr &expr, \fBconst\fP unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator/\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator/=\fP (\fBconst\fP Expr &expr, \fBconst\fP unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator/=\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator%\fP (\fBconst\fP Expr &expr, \fBconst\fP unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Math &math)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addIterator\fP (\fBconst\fP Iter &iter)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addFunction\fP (\fBconst\fP Func &func)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Func &func)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addConstant\fP (\fBconst\fP Const &con)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Const &constant)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addMacro\fP (Macro &macro)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Macro &macro)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::call\fP (\fBconst\fP Func &func)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::call\fP (Macro &macro)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::call\fP (\fBconst\fP Expr &retval, \fBconst\fP Func &func)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator<=\fP (int \fBval\fP, \fBconst\fP Iter &iter)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator<\fP (int \fBval\fP, \fBconst\fP Iter &iter)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator>=\fP (int \fBval\fP, \fBconst\fP Iter &iter)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator>\fP (int \fBval\fP, \fBconst\fP Iter &iter)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator>\fP (\fBconst\fP Expr &expr, int \fBval\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator<=\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::less\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator<\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator<\fP (\fBconst\fP double &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator<\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP double &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator>=\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator>\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator==\fP (\fBconst\fP Iter &iter, \fBconst\fP int \fBval\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator==\fP (\fBconst\fP Expr &expr, \fBconst\fP int \fBval\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator==\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator!=\fP (\fBconst\fP Iter &iter, \fBconst\fP int \fBval\fP)"
+.br
+.ti -1c
+.RI "Constr \fBpdfg::operator!=\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Constr &constr)"
+.br
+.ti -1c
+.RI "vector< Constr > \fBpdfg::operator^\fP (\fBconst\fP Range &\fBlhs\fP, \fBconst\fP Range &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "vector< Constr > \fBpdfg::operator^\fP (\fBconst\fP Range &\fBlhs\fP, \fBconst\fP Constr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "vector< Constr > \fBpdfg::operator^\fP (\fBconst\fP Constr &\fBlhs\fP, \fBconst\fP Range &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "vector< Constr > \fBpdfg::operator^\fP (\fBconst\fP vector< Constr > &\fBlhs\fP, \fBconst\fP Range &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "vector< Constr > \fBpdfg::operator^\fP (\fBconst\fP vector< Constr > &\fBlhs\fP, \fBconst\fP Constr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Range \fBpdfg::operator<=\fP (\fBconst\fP Constr &constr, \fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "Range \fBpdfg::operator<\fP (\fBconst\fP Constr &constr, \fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "Range \fBpdfg::operator>=\fP (\fBconst\fP Constr &constr, \fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "Range \fBpdfg::operator>\fP (\fBconst\fP Constr &constr, \fBconst\fP Expr &expr)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Range &range)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Condition &cond)"
+.br
+.ti -1c
+.RI "void \fBpdfg::checkpoint\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBpdfg::restore\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addSpace\fP (\fBconst\fP Space &space)"
+.br
+.ti -1c
+.RI "Space \fBpdfg::getSpace\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBpdfg::newSpace\fP (\fBconst\fP Space &space)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addAccess\fP (\fBconst\fP Access &access)"
+.br
+.ti -1c
+.RI "Space \fBpdfg::operator^\fP (\fBconst\fP Space &\fBlhs\fP, \fBconst\fP Range &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "Space \fBpdfg::operator^\fP (\fBconst\fP Space &\fBlhs\fP, \fBconst\fP Constr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Space &space)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Access &access)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::pinv\fP (\fBconst\fP Expr &\fBlhs\fP, \fBconst\fP Expr &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "ExprTuple \fBpdfg::tupleMath\fP (\fBconst\fP ExprTuple &\fBlhs\fP, \fBconst\fP ExprTuple &\fBrhs\fP, \fBconst\fP char oper)"
+.br
+.ti -1c
+.RI "\fBTuple\fP \fBpdfg::tupleMath\fP (\fBconst\fP \fBTuple\fP &\fBlhs\fP, \fBconst\fP \fBTuple\fP &\fBrhs\fP, \fBconst\fP char oper)"
+.br
+.ti -1c
+.RI "ExprTuple \fBpdfg::operator\-\fP (\fBconst\fP ExprTuple &\fBlhs\fP, \fBconst\fP ExprTuple &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBTuple\fP \fBpdfg::operator\-\fP (\fBconst\fP \fBTuple\fP &\fBlhs\fP, \fBconst\fP \fBTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "ExprTuple \fBpdfg::operator+\fP (\fBconst\fP ExprTuple &\fBlhs\fP, \fBconst\fP ExprTuple &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBTuple\fP \fBpdfg::operator+\fP (\fBconst\fP \fBTuple\fP &\fBlhs\fP, \fBconst\fP \fBTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBTuple\fP \fBpdfg::operator+\fP (\fBconst\fP \fBTuple\fP &\fBlhs\fP, \fBconst\fP \fBIntTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "ExprTuple \fBpdfg::abs\fP (\fBconst\fP ExprTuple &tuple)"
+.br
+.ti -1c
+.RI "bool \fBpdfg::operator<\fP (\fBconst\fP ExprTuple &\fBlhs\fP, \fBconst\fP ExprTuple &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "ExprTuple \fBpdfg::max\fP (\fBconst\fP ExprTuple &\fBlhs\fP, \fBconst\fP ExprTuple &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBTuple\fP \fBpdfg::compress\fP (\fBconst\fP \fBTuple\fP &tuple)"
+.br
+.ti -1c
+.RI "void \fBpdfg::reorder\fP (\fBconst\fP \fBTuple\fP &src_tuple, vector< Expr > &dest_tuple)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBpdfg::to_int\fP (\fBconst\fP ExprTuple &tuple)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBpdfg::absmax\fP (\fBconst\fP \fBIntTuple\fP &\fBlhs\fP, \fBconst\fP \fBIntTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBpdfg::absmin\fP (\fBconst\fP \fBIntTuple\fP &\fBlhs\fP, \fBconst\fP \fBIntTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBpdfg::min\fP (\fBconst\fP \fBIntTuple\fP &\fBlhs\fP, \fBconst\fP \fBIntTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBpdfg::max\fP (\fBconst\fP \fBIntTuple\fP &\fBlhs\fP, \fBconst\fP \fBIntTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "int \fBpdfg::sum\fP (\fBconst\fP \fBIntTuple\fP &tuple)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBpdfg::operator+\fP (\fBconst\fP \fBIntTuple\fP &\fBlhs\fP, \fBconst\fP \fBIntTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBpdfg::operator+\fP (\fBconst\fP \fBIntTuple\fP &\fBlhs\fP, \fBconst\fP int &scalar)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBpdfg::operator\-\fP (\fBconst\fP \fBIntTuple\fP &\fBlhs\fP, \fBconst\fP \fBIntTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBpdfg::operator\-\fP (\fBconst\fP \fBIntTuple\fP &\fBlhs\fP, \fBconst\fP int &scalar)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP & \fBpdfg::operator+=\fP (\fBIntTuple\fP &\fBlhs\fP, \fBconst\fP \fBIntTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP & \fBpdfg::operator\-=\fP (\fBIntTuple\fP &\fBlhs\fP, \fBconst\fP \fBIntTuple\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP \fBTuple\fP &tuple)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::mathSpace\fP (\fBconst\fP Space &space, \fBconst\fP Access &acc, \fBconst\fP string &oper)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator+\fP (\fBconst\fP Space &space, \fBconst\fP Access &acc)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator\-\fP (\fBconst\fP Space &space, \fBconst\fP Access &acc)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator*\fP (\fBconst\fP Space &space, \fBconst\fP Access &acc)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator/\fP (\fBconst\fP Space &space, \fBconst\fP Access &acc)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::operator%\fP (\fBconst\fP Space &space, \fBconst\fP Access &acc)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addRelation\fP (\fBconst\fP Rel &rel)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Rel &rel)"
+.br
+.ti -1c
+.RI "vector< Constr > \fBpdfg::exists\fP (\fBconst\fP vector< Constr > &incons)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addComputation\fP (Comp &comp)"
+.br
+.ti -1c
+.RI "Expr * \fBpdfg::getSize\fP (\fBconst\fP Comp &comp, \fBconst\fP Func &func)"
+.br
+.ti -1c
+.RI "ostream & \fBpdfg::operator<<\fP (ostream &os, \fBconst\fP Comp &comp)"
+.br
+.ti -1c
+.RI "Comp \fBpdfg::operator+\fP (\fBconst\fP Space &space, \fBconst\fP Math &expr)"
+.br
+.ti -1c
+.RI "Comp \fBpdfg::operator+\fP (\fBconst\fP Space &space, \fBconst\fP vector< Math > &exprs)"
+.br
+.ti -1c
+.RI "Comp \fBpdfg::operator+\fP (\fBconst\fP Space &space, \fBconst\fP Constr &constr)"
+.br
+.ti -1c
+.RI "Comp \fBpdfg::operator+\fP (\fBconst\fP Constr &constr, \fBconst\fP Comp &comp)"
+.br
+.ti -1c
+.RI "Comp \fBpdfg::operator+\fP (\fBconst\fP Comp &comp, \fBconst\fP Constr &constr)"
+.br
+.ti -1c
+.RI "Comp \fBpdfg::operator+\fP (\fBconst\fP Comp &comp, \fBconst\fP Math &expr)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::memSet\fP (\fBconst\fP Space &space, \fBconst\fP Expr &\fBval\fP=\fBInt\fP(0))"
+.br
+.ti -1c
+.RI "Math \fBpdfg::memCopy\fP (\fBconst\fP Space &dest, \fBconst\fP Space &src)"
+.br
+.ti -1c
+.RI "Math \fBpdfg::arrInit\fP (\fBconst\fP Space &space, \fBconst\fP Expr &\fBval\fP=\fBReal\fP(0\&.))"
+.br
+.ti -1c
+.RI "Math \fBpdfg::arrInit\fP (\fBconst\fP Space &space, double \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBpdfg::init\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP string &retname='', \fBconst\fP string &datatype='', \fBconst\fP string &indextype='', initializer_list< string > outputs={}, \fBconst\fP string &defval='')"
+.br
+.ti -1c
+.RI "void \fBpdfg::init\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP string &retname, \fBconst\fP string &datatype, \fBconst\fP string &indextype, \fBconst\fP vector< string > &outputs, \fBconst\fP string &defval='')"
+.br
+.ti -1c
+.RI "void \fBpdfg::print\fP (\fBconst\fP string &file='')"
+.br
+.ti -1c
+.RI "string \fBpdfg::codegen\fP (\fBconst\fP string &path='', \fBconst\fP string &\fBname\fP='', \fBconst\fP string &lang='C', const string &ompsched='')"
+.br
+.ti -1c
+.RI "void \fBpdfg::perfmodel\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBpdfg::reschedule\fP (Digraph &itergraph)"
+.br
+.ti -1c
+.RI "void \fBpdfg::reschedule\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBpdfg::data_reduce\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBpdfg::mem_alloc\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBpdfg::parallelize\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBpdfg::transform\fP (\fBconst\fP string &\fBname\fP='', initializer_list< string > tile_iters={}, initializer_list< unsigned > tile_sizes={}, initializer_list< initializer_list< string > > fuse_names={}, bool reduce_precision=false)"
+.br
+.ti -1c
+.RI "string \fBpdfg::to_dot\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBpdfg::addConstants\fP (initializer_list< string > names, initializer_list< int > values)"
+.br
+.ti -1c
+.RI "void \fBpdfg::addConstant\fP (\fBconst\fP string &\fBname\fP, int value=0)"
+.br
+.ti -1c
+.RI "Const \fBpdfg::getConstant\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "bool \fBpdfg::mergeComps\fP (\fBconst\fP string &\fBname\fP, Space &lspace, Space &rspace, \fBconst\fP string &oper)"
+.br
+.ti -1c
+.RI "Access \fBpdfg::addAccess\fP (\fBconst\fP Space &space, \fBconst\fP vector< int > &offsets)"
+.br
+.ti -1c
+.RI "void \fBpdfg::printAccesses\fP ()"
+.br
+.ti -1c
+.RI "unsigned \fBpdfg::getFLOPs\fP ()"
+.br
+.ti -1c
+.RI "void \fBpdfg::setFLOPs\fP (unsigned flops)"
+.br
+.ti -1c
+.RI "void \fBpdfg::fuse\fP ()"
+.br
+.ti -1c
+.RI "void \fBpdfg::fuse\fP (Comp &comp1, Comp &comp2)"
+.br
+.ti -1c
+.RI "void \fBpdfg::fuse\fP (Comp &comp1, Comp &comp2, Comp &comp3)"
+.br
+.ti -1c
+.RI "void \fBpdfg::fuse\fP (Comp &comp1, Comp &comp2, Comp &comp3, Comp &comp4)"
+.br
+.ti -1c
+.RI "void \fBpdfg::fuse\fP (Comp &first, vector< Comp > &others)"
+.br
+.ti -1c
+.RI "void \fBpdfg::fuse\fP (\fBconst\fP string &name1, \fBconst\fP string &name2)"
+.br
+.ti -1c
+.RI "void \fBpdfg::fuse\fP (\fBconst\fP string &name1, \fBconst\fP string &name2, \fBconst\fP string &name3)"
+.br
+.ti -1c
+.RI "void \fBpdfg::fuse\fP (\fBconst\fP string &name1, \fBconst\fP string &name2, \fBconst\fP string &name3, \fBconst\fP string &name4)"
+.br
+.ti -1c
+.RI "void \fBpdfg::fuse\fP (initializer_list< string > names)"
+.br
+.ti -1c
+.RI "void \fBpdfg::tile\fP (initializer_list< string > names, initializer_list< string > iters, initializer_list< unsigned > sizes)"
+.br
+.ti -1c
+.RI "void \fBpdfg::tile\fP (initializer_list< string > iters, initializer_list< unsigned > sizes)"
+.br
+.ti -1c
+.RI "void \fBpdfg::align_iters\fP (bool align=true)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBpdfg::_iter_counter\fP = 0"
+.br
+.ti -1c
+.RI "unsigned \fBpdfg::_space_counter\fP = 0"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define POLYEXT_GRAPHIL_H"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

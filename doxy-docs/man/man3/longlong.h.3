@@ -1,0 +1,313 @@
+.TH "lib/gmp/longlong.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/gmp/longlong.h
+.SH SYNOPSIS
+.br
+.PP
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__BITS4\fP   (\fBW_TYPE_SIZE\fP / 4)"
+.br
+.ti -1c
+.RI "#define \fB__ll_B\fP   ((\fBUWtype\fP) 1 << (\fBW_TYPE_SIZE\fP / 2))"
+.br
+.ti -1c
+.RI "#define \fB__ll_lowpart\fP(\fBt\fP)   ((\fBUWtype\fP) (\fBt\fP) & (\fB__ll_B\fP \- 1))"
+.br
+.ti -1c
+.RI "#define \fB__ll_highpart\fP(\fBt\fP)   ((\fBUWtype\fP) (\fBt\fP) >> (\fBW_TYPE_SIZE\fP / 2))"
+.br
+.ti -1c
+.RI "#define \fB__MPN\fP(\fBx\fP)   __##\fBx\fP"
+.br
+.ti -1c
+.RI "#define \fBcount_leading_zeros_gcc_clz\fP(\fBcount\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBcount_trailing_zeros_gcc_ctz\fP(\fBcount\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fB__umulsidi3\fP(\fBu\fP,  v)"
+.br
+.ti -1c
+.RI "#define \fB__longlong_h_C\fP"
+.br
+.ti -1c
+.RI "#define \fBmpn_umul_ppmm\fP   \fB__MPN\fP(\fBumul_ppmm\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_umul_ppmm_r\fP   \fB__MPN\fP(umul_ppmm_r)"
+.br
+.ti -1c
+.RI "#define \fBmpn_udiv_qrnnd\fP   \fB__MPN\fP(\fBudiv_qrnnd\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_udiv_qrnnd_r\fP   \fB__MPN\fP(udiv_qrnnd_r)"
+.br
+.ti -1c
+.RI "#define \fBadd_ssaaaa\fP(sh,  sl,  ah,  al,  bh,  bl)"
+.br
+.ti -1c
+.RI "#define \fBsub_ddmmss\fP(sh,  sl,  ah,  al,  bh,  bl)"
+.br
+.ti -1c
+.RI "#define \fBumul_ppmm\fP(w1,  w0,  \fBu\fP,  v)"
+.br
+.ti -1c
+.RI "#define \fBsmul_ppmm\fP(w1,  w0,  \fBu\fP,  v)"
+.br
+.ti -1c
+.RI "#define \fB__udiv_qrnnd_c\fP(q,  r,  n1,  n0,  d)"
+.br
+.ti -1c
+.RI "#define \fBUDIV_NEEDS_NORMALIZATION\fP   1"
+.br
+.ti -1c
+.RI "#define \fBudiv_qrnnd\fP   \fB__udiv_qrnnd_c\fP"
+.br
+.ti -1c
+.RI "#define \fBcount_leading_zeros\fP(\fBcount\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBCOUNT_LEADING_ZEROS_0\fP   (\fBW_TYPE_SIZE\fP \- 1)"
+.br
+.ti -1c
+.RI "#define \fBCOUNT_LEADING_ZEROS_NEED_CLZ_TAB\fP"
+.br
+.ti -1c
+.RI "#define \fBCOUNT_LEADING_ZEROS_SLOW\fP"
+.br
+.ti -1c
+.RI "#define \fBcount_trailing_zeros\fP(\fBcount\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBUDIV_PREINV_ALWAYS\fP   0"
+.br
+.ti -1c
+.RI "#define \fBUMUL_TIME\fP   1"
+.br
+.ti -1c
+.RI "#define \fBUDIV_TIME\fP   \fBUMUL_TIME\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__longlong_h_C\fP \fBUWtype\fP \fBmpn_umul_ppmm\fP (\fBUWtype\fP *, \fBUWtype\fP, \fBUWtype\fP)"
+.br
+.ti -1c
+.RI "\fB__longlong_h_C\fP \fBUWtype\fP \fBmpn_umul_ppmm_r\fP (\fBUWtype\fP, \fBUWtype\fP, \fBUWtype\fP *)"
+.br
+.ti -1c
+.RI "\fB__longlong_h_C\fP \fBUWtype\fP \fBmpn_udiv_qrnnd\fP (\fBUWtype\fP *, \fBUWtype\fP, \fBUWtype\fP, \fBUWtype\fP)"
+.br
+.ti -1c
+.RI "\fB__longlong_h_C\fP \fBUWtype\fP \fBmpn_udiv_qrnnd_r\fP (\fBUWtype\fP, \fBUWtype\fP, \fBUWtype\fP, \fBUWtype\fP *)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP unsigned char \fB__GMP_DECLSPEC\fP \fB__clz_tab\fP [129]"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define __BITS4   (\fBW_TYPE_SIZE\fP / 4)"
+
+.SS "#define __ll_B   ((\fBUWtype\fP) 1 << (\fBW_TYPE_SIZE\fP / 2))"
+
+.SS "#define __ll_highpart(\fBt\fP)   ((\fBUWtype\fP) (\fBt\fP) >> (\fBW_TYPE_SIZE\fP / 2))"
+
+.SS "#define __ll_lowpart(\fBt\fP)   ((\fBUWtype\fP) (\fBt\fP) & (\fB__ll_B\fP \- 1))"
+
+.SS "#define __longlong_h_C"
+
+.SS "#define __MPN(\fBx\fP)   __##\fBx\fP"
+
+.SS "#define __udiv_qrnnd_c(q, r, n1, n0, d)"
+
+.SS "#define __umulsidi3(\fBu\fP, v)"
+\fBValue:\fP
+.PP
+.nf
+  ({UWtype __hi, __lo;                           \
+    umul_ppmm (__hi, __lo, u, v);                   \
+    ((UDWtype) __hi << W_TYPE_SIZE) | __lo; })
+.fi
+.SS "#define add_ssaaaa(sh, sl, ah, al, bh, bl)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                    \
+    UWtype __x;                             \
+    __x = (al) + (bl);                          \
+    (sh) = (ah) + (bh) + (__x < (al));                  \
+    (sl) = __x;                             \
+  } while (0)
+.fi
+.SS "#define count_leading_zeros(\fBcount\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                 \
+    UWtype __xr = (x);                          \
+    UWtype __a;                             \\
+									\\
+    if (W_TYPE_SIZE == 32)                      \
+      {                                 \
+    __a = __xr < ((UWtype) 1 << 2*__BITS4)              \
+      ? (__xr < ((UWtype) 1 << __BITS4) ? 1 : __BITS4 + 1)      \
+      : (__xr < ((UWtype) 1 << 3*__BITS4) ? 2*__BITS4 + 1       \
+      : 3*__BITS4 + 1);                     \
+      }                                 \
+    else                                \
+      {                                 \
+    for (__a = W_TYPE_SIZE - 8; __a > 0; __a -= 8)          \
+      if (((__xr >> __a) & 0xff) != 0)              \
+        break;                          \
+    ++__a;                              \
+      }                                 \
+                                    \
+    (count) = W_TYPE_SIZE + 1 - __a - __clz_tab[__xr >> __a];       \
+  } while (0)
+.fi
+.SS "#define COUNT_LEADING_ZEROS_0   (\fBW_TYPE_SIZE\fP \- 1)"
+
+.SS "#define count_leading_zeros_gcc_clz(\fBcount\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+  do {                        \
+    ASSERT ((x) != 0);              \
+    (count) = __builtin_clzl (x);       \
+  } while (0)
+.fi
+.SS "#define COUNT_LEADING_ZEROS_NEED_CLZ_TAB"
+
+.SS "#define COUNT_LEADING_ZEROS_SLOW"
+
+.SS "#define count_trailing_zeros(\fBcount\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                    \
+    UWtype __ctz_x = (x);                       \
+    int __ctz_c;                            \\
+									\\
+    if (LIKELY ((__ctz_x & 0xff) != 0))                 \
+      (count) = __clz_tab[__ctz_x & -__ctz_x] - 2;          \
+    else                                \
+      {                                 \
+    for (__ctz_c = 8 - 2; __ctz_c < W_TYPE_SIZE - 2; __ctz_c += 8)  \
+      {                             \
+        __ctz_x >>= 8;                      \
+        if (LIKELY ((__ctz_x & 0xff) != 0))             \
+          break;                            \
+      }                             \
+                                    \
+    (count) = __ctz_c + __clz_tab[__ctz_x & -__ctz_x];      \
+      }                                 \
+  } while (0)
+.fi
+.SS "#define count_trailing_zeros_gcc_ctz(\fBcount\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+  do {                        \
+    ASSERT ((x) != 0);              \
+    (count) = __builtin_ctzl (x);       \
+  } while (0)
+.fi
+.SS "#define mpn_udiv_qrnnd   \fB__MPN\fP(\fBudiv_qrnnd\fP)"
+
+.SS "#define mpn_udiv_qrnnd_r   \fB__MPN\fP(udiv_qrnnd_r)"
+
+.SS "#define mpn_umul_ppmm   \fB__MPN\fP(\fBumul_ppmm\fP)"
+
+.SS "#define mpn_umul_ppmm_r   \fB__MPN\fP(umul_ppmm_r)"
+
+.SS "#define smul_ppmm(w1, w0, \fBu\fP, v)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                   \
+    UWtype __w1;                            \
+    UWtype __xm0 = (u), __xm1 = (v);                    \
+    umul_ppmm (__w1, w0, __xm0, __xm1);                 \
+    (w1) = __w1 - (-(__xm0 >> (W_TYPE_SIZE - 1)) & __xm1)       \
+        - (-(__xm1 >> (W_TYPE_SIZE - 1)) & __xm0);      \
+  } while (0)
+.fi
+.SS "#define sub_ddmmss(sh, sl, ah, al, bh, bl)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                    \
+    UWtype __x;                             \
+    __x = (al) - (bl);                          \
+    (sh) = (ah) - (bh) - ((al) < (bl));                 \
+    (sl) = __x;                             \
+  } while (0)
+.fi
+.SS "#define UDIV_NEEDS_NORMALIZATION   1"
+
+.SS "#define UDIV_PREINV_ALWAYS   0"
+
+.SS "#define udiv_qrnnd   \fB__udiv_qrnnd_c\fP"
+
+.SS "#define UDIV_TIME   \fBUMUL_TIME\fP"
+
+.SS "#define umul_ppmm(w1, w0, \fBu\fP, v)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                 \
+    UWtype __x0, __x1, __x2, __x3;                  \
+    UHWtype __ul, __vl, __uh, __vh;                 \
+    UWtype __u = (u), __v = (v);                    \
+                                    \
+    __ul = __ll_lowpart (__u);                      \
+    __uh = __ll_highpart (__u);                     \
+    __vl = __ll_lowpart (__v);                      \
+    __vh = __ll_highpart (__v);                     \
+                                    \
+    __x0 = (UWtype) __ul * __vl;                    \
+    __x1 = (UWtype) __ul * __vh;                    \
+    __x2 = (UWtype) __uh * __vl;                    \
+    __x3 = (UWtype) __uh * __vh;                    \
+                                    \
+    __x1 += __ll_highpart (__x0);/* this can't give carry */        \
+    __x1 += __x2;       /* but this indeed can */       \
+    if (__x1 < __x2)        /* did we get it? */            \
+      __x3 += __ll_B;       /* yes, add it in the proper pos\&. */ \
+                                    \
+    (w1) = __x3 + __ll_highpart (__x1);                 \
+    (w0) = (__x1 << W_TYPE_SIZE/2) + __ll_lowpart (__x0);       \
+  } while (0)
+.fi
+.SS "#define UMUL_TIME   1"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__longlong_h_C\fP \fBUWtype\fP mpn_udiv_qrnnd (\fBUWtype\fP *, \fBUWtype\fP, \fBUWtype\fP, \fBUWtype\fP)"
+
+.SS "\fB__longlong_h_C\fP \fBUWtype\fP mpn_udiv_qrnnd_r (\fBUWtype\fP, \fBUWtype\fP, \fBUWtype\fP, \fBUWtype\fP *)"
+
+.SS "\fB__longlong_h_C\fP \fBUWtype\fP mpn_umul_ppmm (\fBUWtype\fP *, \fBUWtype\fP, \fBUWtype\fP)"
+
+.SS "\fB__longlong_h_C\fP \fBUWtype\fP mpn_umul_ppmm_r (\fBUWtype\fP, \fBUWtype\fP, \fBUWtype\fP *)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBconst\fP unsigned char \fB__GMP_DECLSPEC\fP __clz_tab[129]"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

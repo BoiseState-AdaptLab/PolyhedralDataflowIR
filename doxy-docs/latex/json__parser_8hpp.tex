@@ -1,0 +1,102 @@
+\hypertarget{json__parser_8hpp}{}\doxysection{lib/iegenlib/src/parser/jsoncons/json\+\_\+parser.hpp File Reference}
+\label{json__parser_8hpp}\index{lib/iegenlib/src/parser/jsoncons/json\_parser.hpp@{lib/iegenlib/src/parser/jsoncons/json\_parser.hpp}}
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$istream$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$stdexcept$>$}\newline
+{\ttfamily \#include $<$system\+\_\+error$>$}\newline
+{\ttfamily \#include \char`\"{}jsoncons.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}json\+\_\+input\+\_\+handler.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}parse\+\_\+error\+\_\+handler.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}json\+\_\+error\+\_\+category.\+hpp\char`\"{}}\newline
+Include dependency graph for json\+\_\+parser.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{json__parser_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{json__parser_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classjsoncons_1_1basic__json__parser}{jsoncons\+::basic\+\_\+json\+\_\+parser$<$ Char\+T $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacejsoncons}{jsoncons}}
+\begin{DoxyCompactList}\small\item\em Copyright 2013 Daniel Parker. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef basic\+\_\+json\+\_\+parser$<$ char $>$ \mbox{\hyperlink{namespacejsoncons_ab04408e8ac70b94860c908b0fa5ee564}{jsoncons\+::json\+\_\+parser}}
+\item 
+typedef basic\+\_\+json\+\_\+parser$<$ wchar\+\_\+t $>$ \mbox{\hyperlink{namespacejsoncons_a7cd549a04a8bbcaf79ceeabf52410f21}{jsoncons\+::wjson\+\_\+parser}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468}{jsoncons\+::states}} \{ \newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a63a9f0ea7bb98050796b649e85481845}{jsoncons\+::states\+::root}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468aea2b2676c28c0db26d39331a336c6b92}{jsoncons\+::states\+::start}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a9fbbaa4cc515bc46e0c12e82a31df736}{jsoncons\+::states\+::slash}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a2093c8f3261f41d0fdf8c8f72e9cc994}{jsoncons\+::states\+::slash\+\_\+slash}}, 
+\newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a01ef743b656e95030747b74fa55ff244}{jsoncons\+::states\+::slash\+\_\+star}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a632be05b77d0203355d59431d7573cc4}{jsoncons\+::states\+::slash\+\_\+star\+\_\+star}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a2e62724f615e17f66cd8b9f0cc1df376}{jsoncons\+::states\+::expect\+\_\+comma\+\_\+or\+\_\+end}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468aa8cfde6331bd59eb2ac96f8911c4b666}{jsoncons\+::states\+::object}}, 
+\newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a83fea720c53e6ce486f0b2bb1efae50f}{jsoncons\+::states\+::expect\+\_\+member\+\_\+name\+\_\+or\+\_\+end}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468abe3a00153764afbef28cad49c84c4375}{jsoncons\+::states\+::expect\+\_\+member\+\_\+name}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a47de4647ed02c04e29ef15fbd0d2a216}{jsoncons\+::states\+::expect\+\_\+colon}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a8089ae9ae487494bc16b88d5855716af}{jsoncons\+::states\+::expect\+\_\+value\+\_\+or\+\_\+end}}, 
+\newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a6584b9f7d2b5bcbfd4ee62d6acd96f7e}{jsoncons\+::states\+::expect\+\_\+value}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468af1f713c9e000f5d3f280adbd124df4f5}{jsoncons\+::states\+::array}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468ab45cffe084dd3d20d928bee85e7b0f21}{jsoncons\+::states\+::string}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a70dc9ff7bfcd23a6bd0ef794630b2095}{jsoncons\+::states\+::member\+\_\+name}}, 
+\newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468ae0ebc3c409070d07f1df0f2f4132509e}{jsoncons\+::states\+::escape}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468ae4774cdda0793f86414e8b9140bb6db4}{jsoncons\+::states\+::u1}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a270c1b084f3f146eb5787075158d9c53}{jsoncons\+::states\+::u2}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a532a7b8e0328a8d05a8e6258b28b9a36}{jsoncons\+::states\+::u3}}, 
+\newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a7b8d62fd2f0f5b2e3ba5437e5b983128}{jsoncons\+::states\+::u4}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a1a8f0e0794d313d4a76672668ed74471}{jsoncons\+::states\+::expect\+\_\+surrogate\+\_\+pair1}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468af778c0cb288b0d5c91a7f029cdc05bfe}{jsoncons\+::states\+::expect\+\_\+surrogate\+\_\+pair2}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468aa6a03a321dfc9ab85c186fe4b38338a2}{jsoncons\+::states\+::u6}}, 
+\newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a6bce05df9831da7799a5edc4f7abfbec}{jsoncons\+::states\+::u7}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a077393852be20e37026d6281827662f2}{jsoncons\+::states\+::u8}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a5486259f9c01e2199ac7cddcae3b383d}{jsoncons\+::states\+::u9}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468adabe6e597b70e5760826aea1dcc564f7}{jsoncons\+::states\+::minus}}, 
+\newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468ad02c4c4cde7ae76252540d116a40f23a}{jsoncons\+::states\+::zero}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a157db7df530023575515d366c9b672e8}{jsoncons\+::states\+::integer}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a03f0356d2d1c334d3567c9d67818f5d0}{jsoncons\+::states\+::fraction}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468aa03936a341bded3004cc5d039a7cfa37}{jsoncons\+::states\+::exp1}}, 
+\newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468ae578203a9e0b19048f8868e46958c2ed}{jsoncons\+::states\+::exp2}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a5124d6d647608bcace4ce24eaf581e99}{jsoncons\+::states\+::exp3}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a7b8b965ad4bca0e41ab51de7b31363a1}{jsoncons\+::states\+::n}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468ae358efa489f58062f10dd7316b65649e}{jsoncons\+::states\+::t}}, 
+\newline
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a8fa14cdd754f91cc6554c9e71929cce7}{jsoncons\+::states\+::f}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a324d8a1d3f81e730d5099a48cee0c5b6}{jsoncons\+::states\+::cr}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a69011ae7d1f3c17284b99c42254aca2d}{jsoncons\+::states\+::lf}}, 
+\mbox{\hyperlink{namespacejsoncons_a11bfb1ce8adbe10552e1cec508bae468a6b2ded51d81a4403d8a4bd25fa1e57ee}{jsoncons\+::states\+::done}}
+ \}
+\end{DoxyCompactItemize}

@@ -1,0 +1,176 @@
+\hypertarget{isl__coalesce_8c}{}\doxysection{lib/isl/isl\+\_\+coalesce.c File Reference}
+\label{isl__coalesce_8c}\index{lib/isl/isl\_coalesce.c@{lib/isl/isl\_coalesce.c}}
+{\ttfamily \#include \char`\"{}isl\+\_\+map\+\_\+private.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$isl\+\_\+seq.\+h$>$}\newline
+{\ttfamily \#include $<$isl/options.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}isl\+\_\+tab.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$isl\+\_\+mat\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+local\+\_\+space\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+vec\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+aff\+\_\+private.\+h$>$}\newline
+Include dependency graph for isl\+\_\+coalesce.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__coalesce_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structisl__coalesce__info}{isl\+\_\+coalesce\+\_\+info}}
+\item 
+struct \mbox{\hyperlink{structisl__wraps}{isl\+\_\+wraps}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{isl__coalesce_8c_ae4a97f0d170bc8dc771aac6c4f38ad1d}{S\+T\+A\+T\+U\+S\+\_\+\+E\+R\+R\+OR}}~-\/1
+\item 
+\#define \mbox{\hyperlink{isl__coalesce_8c_a1d3aeb57ba0401df07b8fb2b77951a6b}{S\+T\+A\+T\+U\+S\+\_\+\+R\+E\+D\+U\+N\+D\+A\+NT}}~1
+\item 
+\#define \mbox{\hyperlink{isl__coalesce_8c_a0cd917edfed3cc334eb3e816a9e3d41b}{S\+T\+A\+T\+U\+S\+\_\+\+V\+A\+L\+ID}}~2
+\item 
+\#define \mbox{\hyperlink{isl__coalesce_8c_ad913f4ef7d7d97926f5c99188f95a7e5}{S\+T\+A\+T\+U\+S\+\_\+\+S\+E\+P\+A\+R\+A\+TE}}~3
+\item 
+\#define \mbox{\hyperlink{isl__coalesce_8c_a6a2cc42aeb2d178aa899db88bf9cfa9e}{S\+T\+A\+T\+U\+S\+\_\+\+C\+UT}}~4
+\item 
+\#define \mbox{\hyperlink{isl__coalesce_8c_ac374aa8e5363cf25cbd37d063c585dfb}{S\+T\+A\+T\+U\+S\+\_\+\+A\+D\+J\+\_\+\+EQ}}~5
+\item 
+\#define \mbox{\hyperlink{isl__coalesce_8c_a645e3b0246b54f57cf56aa3bf738afbe}{S\+T\+A\+T\+U\+S\+\_\+\+A\+D\+J\+\_\+\+I\+N\+EQ}}~6
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369}{isl\+\_\+change}} \{ \newline
+\mbox{\hyperlink{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a335d6a37f0baf7b0256aead9fc01dd79}{isl\+\_\+change\+\_\+error}} = -\/1, 
+\mbox{\hyperlink{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369aaa5d73b2ab6c2dcbd282c428e5853f52}{isl\+\_\+change\+\_\+none}} = 0, 
+\mbox{\hyperlink{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a4bdf6c5fe4f2dd8a4db50cd7979341e0}{isl\+\_\+change\+\_\+drop\+\_\+first}}, 
+\mbox{\hyperlink{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a79a8daec2269c905fe02e28a49aa461e}{isl\+\_\+change\+\_\+drop\+\_\+second}}, 
+\newline
+\mbox{\hyperlink{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a7baf7b51949e29a02ece51f0b96ceea7}{isl\+\_\+change\+\_\+fuse}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__coalesce_8c_a5c05605a00f6a3469e043d09bbc2cc4d}{isl\+\_\+map\+\_\+coalesce}} (struct \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}})
+\item 
+struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__coalesce_8c_af144bb6dfd448d6e6c0369d96c0911cd}{isl\+\_\+set\+\_\+coalesce}} (struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{isl__coalesce_8c_ac374aa8e5363cf25cbd37d063c585dfb}\label{isl__coalesce_8c_ac374aa8e5363cf25cbd37d063c585dfb}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!STATUS\_ADJ\_EQ@{STATUS\_ADJ\_EQ}}
+\index{STATUS\_ADJ\_EQ@{STATUS\_ADJ\_EQ}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{STATUS\_ADJ\_EQ}{STATUS\_ADJ\_EQ}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+U\+S\+\_\+\+A\+D\+J\+\_\+\+EQ~5}
+
+\mbox{\Hypertarget{isl__coalesce_8c_a645e3b0246b54f57cf56aa3bf738afbe}\label{isl__coalesce_8c_a645e3b0246b54f57cf56aa3bf738afbe}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!STATUS\_ADJ\_INEQ@{STATUS\_ADJ\_INEQ}}
+\index{STATUS\_ADJ\_INEQ@{STATUS\_ADJ\_INEQ}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{STATUS\_ADJ\_INEQ}{STATUS\_ADJ\_INEQ}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+U\+S\+\_\+\+A\+D\+J\+\_\+\+I\+N\+EQ~6}
+
+\mbox{\Hypertarget{isl__coalesce_8c_a6a2cc42aeb2d178aa899db88bf9cfa9e}\label{isl__coalesce_8c_a6a2cc42aeb2d178aa899db88bf9cfa9e}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!STATUS\_CUT@{STATUS\_CUT}}
+\index{STATUS\_CUT@{STATUS\_CUT}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{STATUS\_CUT}{STATUS\_CUT}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+U\+S\+\_\+\+C\+UT~4}
+
+\mbox{\Hypertarget{isl__coalesce_8c_ae4a97f0d170bc8dc771aac6c4f38ad1d}\label{isl__coalesce_8c_ae4a97f0d170bc8dc771aac6c4f38ad1d}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!STATUS\_ERROR@{STATUS\_ERROR}}
+\index{STATUS\_ERROR@{STATUS\_ERROR}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{STATUS\_ERROR}{STATUS\_ERROR}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+U\+S\+\_\+\+E\+R\+R\+OR~-\/1}
+
+\mbox{\Hypertarget{isl__coalesce_8c_a1d3aeb57ba0401df07b8fb2b77951a6b}\label{isl__coalesce_8c_a1d3aeb57ba0401df07b8fb2b77951a6b}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!STATUS\_REDUNDANT@{STATUS\_REDUNDANT}}
+\index{STATUS\_REDUNDANT@{STATUS\_REDUNDANT}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{STATUS\_REDUNDANT}{STATUS\_REDUNDANT}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+U\+S\+\_\+\+R\+E\+D\+U\+N\+D\+A\+NT~1}
+
+\mbox{\Hypertarget{isl__coalesce_8c_ad913f4ef7d7d97926f5c99188f95a7e5}\label{isl__coalesce_8c_ad913f4ef7d7d97926f5c99188f95a7e5}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!STATUS\_SEPARATE@{STATUS\_SEPARATE}}
+\index{STATUS\_SEPARATE@{STATUS\_SEPARATE}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{STATUS\_SEPARATE}{STATUS\_SEPARATE}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+U\+S\+\_\+\+S\+E\+P\+A\+R\+A\+TE~3}
+
+\mbox{\Hypertarget{isl__coalesce_8c_a0cd917edfed3cc334eb3e816a9e3d41b}\label{isl__coalesce_8c_a0cd917edfed3cc334eb3e816a9e3d41b}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!STATUS\_VALID@{STATUS\_VALID}}
+\index{STATUS\_VALID@{STATUS\_VALID}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{STATUS\_VALID}{STATUS\_VALID}}
+{\footnotesize\ttfamily \#define S\+T\+A\+T\+U\+S\+\_\+\+V\+A\+L\+ID~2}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369}\label{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!isl\_change@{isl\_change}}
+\index{isl\_change@{isl\_change}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{isl\_change}{isl\_change}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369}{isl\+\_\+change}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_change\_error@{isl\_change\_error}!isl\_coalesce.c@{isl\_coalesce.c}}\index{isl\_coalesce.c@{isl\_coalesce.c}!isl\_change\_error@{isl\_change\_error}}}\mbox{\Hypertarget{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a335d6a37f0baf7b0256aead9fc01dd79}\label{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a335d6a37f0baf7b0256aead9fc01dd79}} 
+isl\+\_\+change\+\_\+error&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_change\_none@{isl\_change\_none}!isl\_coalesce.c@{isl\_coalesce.c}}\index{isl\_coalesce.c@{isl\_coalesce.c}!isl\_change\_none@{isl\_change\_none}}}\mbox{\Hypertarget{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369aaa5d73b2ab6c2dcbd282c428e5853f52}\label{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369aaa5d73b2ab6c2dcbd282c428e5853f52}} 
+isl\+\_\+change\+\_\+none&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_change\_drop\_first@{isl\_change\_drop\_first}!isl\_coalesce.c@{isl\_coalesce.c}}\index{isl\_coalesce.c@{isl\_coalesce.c}!isl\_change\_drop\_first@{isl\_change\_drop\_first}}}\mbox{\Hypertarget{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a4bdf6c5fe4f2dd8a4db50cd7979341e0}\label{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a4bdf6c5fe4f2dd8a4db50cd7979341e0}} 
+isl\+\_\+change\+\_\+drop\+\_\+first&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_change\_drop\_second@{isl\_change\_drop\_second}!isl\_coalesce.c@{isl\_coalesce.c}}\index{isl\_coalesce.c@{isl\_coalesce.c}!isl\_change\_drop\_second@{isl\_change\_drop\_second}}}\mbox{\Hypertarget{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a79a8daec2269c905fe02e28a49aa461e}\label{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a79a8daec2269c905fe02e28a49aa461e}} 
+isl\+\_\+change\+\_\+drop\+\_\+second&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_change\_fuse@{isl\_change\_fuse}!isl\_coalesce.c@{isl\_coalesce.c}}\index{isl\_coalesce.c@{isl\_coalesce.c}!isl\_change\_fuse@{isl\_change\_fuse}}}\mbox{\Hypertarget{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a7baf7b51949e29a02ece51f0b96ceea7}\label{isl__coalesce_8c_a16fb79cd7ac70b61dd4c99c629e33369a7baf7b51949e29a02ece51f0b96ceea7}} 
+isl\+\_\+change\+\_\+fuse&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{isl__coalesce_8c_a5c05605a00f6a3469e043d09bbc2cc4d}\label{isl__coalesce_8c_a5c05605a00f6a3469e043d09bbc2cc4d}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!isl\_map\_coalesce@{isl\_map\_coalesce}}
+\index{isl\_map\_coalesce@{isl\_map\_coalesce}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_coalesce()}{isl\_map\_coalesce()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structisl__map}{isl\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+coalesce (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__coalesce_8c_a5c05605a00f6a3469e043d09bbc2cc4d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=315pt]{isl__coalesce_8c_a5c05605a00f6a3469e043d09bbc2cc4d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__coalesce_8c_af144bb6dfd448d6e6c0369d96c0911cd}\label{isl__coalesce_8c_af144bb6dfd448d6e6c0369d96c0911cd}} 
+\index{isl\_coalesce.c@{isl\_coalesce.c}!isl\_set\_coalesce@{isl\_set\_coalesce}}
+\index{isl\_set\_coalesce@{isl\_set\_coalesce}!isl\_coalesce.c@{isl\_coalesce.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_coalesce()}{isl\_set\_coalesce()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}}$\ast$ isl\+\_\+set\+\_\+coalesce (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__coalesce_8c_af144bb6dfd448d6e6c0369d96c0911cd_cgraph}
+\end{center}
+\end{figure}

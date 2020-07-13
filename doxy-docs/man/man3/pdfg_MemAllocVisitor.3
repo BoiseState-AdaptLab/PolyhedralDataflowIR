@@ -1,0 +1,121 @@
+.TH "pdfg::MemAllocVisitor" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::MemAllocVisitor
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Visitor\&.hpp>\fP
+.PP
+Inherits \fBpdfg::ReverseVisitor\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMemAllocVisitor\fP (\fBconst\fP \fBmap\fP< string, \fBConst\fP > &constants={}, bool reduce_precision=false)"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, unsigned > \fBspaces\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBMemTableEntry\fP > \fBentries\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBenter\fP (\fBCompNode\fP *node) override"
+.br
+.ti -1c
+.RI "virtual void \fBexit\fP (\fBCompNode\fP *node)"
+.br
+.ti -1c
+.RI "void \fBfinish\fP (\fBFlowGraph\fP *graph) override"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBfind\fP (\fBconst\fP unsigned &\fBsize\fP)"
+.br
+.ti -1c
+.RI "void \fBprocess\fP (\fBDataNode\fP *node)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fB_reduce_precision\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, int > \fB_constants\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, unsigned > \fB_space_map\fP"
+.br
+.ti -1c
+.RI "vector< \fBMemTableEntry\fP > \fB_entries\fP"
+.br
+.ti -1c
+.RI "unordered_map< string, vector< string > > \fB_producers\fP"
+.br
+.ti -1c
+.RI "unordered_map< string, bool > \fB_visited\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "ostream & \fBoperator<<\fP (ostream &os, \fBconst\fP \fBMemAllocVisitor\fP &alloc)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::MemAllocVisitor::MemAllocVisitor (\fBconst\fP \fBmap\fP< string, \fBConst\fP > & constants = \fC{}\fP, bool reduce_precision = \fCfalse\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void pdfg::MemAllocVisitor::enter (\fBCompNode\fP * node)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "vector<\fBMemTableEntry\fP> pdfg::MemAllocVisitor::entries () const\fC [inline]\fP"
+
+.SS "virtual void pdfg::MemAllocVisitor::exit (\fBCompNode\fP * node)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "unsigned pdfg::MemAllocVisitor::find (\fBconst\fP unsigned & size)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::MemAllocVisitor::finish (\fBFlowGraph\fP * graph)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "void pdfg::MemAllocVisitor::process (\fBDataNode\fP * node)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBmap\fP<string, unsigned> pdfg::MemAllocVisitor::spaces () const\fC [inline]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "ostream& operator<< (ostream & os, \fBconst\fP \fBMemAllocVisitor\fP & alloc)\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBmap\fP<string, int> pdfg::MemAllocVisitor::_constants\fC [protected]\fP"
+
+.SS "vector<\fBMemTableEntry\fP> pdfg::MemAllocVisitor::_entries\fC [protected]\fP"
+
+.SS "unordered_map<string, vector<string> > pdfg::MemAllocVisitor::_producers\fC [protected]\fP"
+
+.SS "bool pdfg::MemAllocVisitor::_reduce_precision\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, unsigned> pdfg::MemAllocVisitor::_space_map\fC [protected]\fP"
+
+.SS "unordered_map<string, bool> pdfg::MemAllocVisitor::_visited\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,272 @@
+\hypertarget{print_8c}{}\doxysection{lib/isl/print.c File Reference}
+\label{print_8c}\index{lib/isl/print.c@{lib/isl/print.c}}
+{\ttfamily \#include $<$isl/ctx.\+h$>$}\newline
+{\ttfamily \#include $<$isl/id.\+h$>$}\newline
+{\ttfamily \#include $<$isl/space.\+h$>$}\newline
+{\ttfamily \#include $<$isl/local\+\_\+space.\+h$>$}\newline
+{\ttfamily \#include $<$isl/set.\+h$>$}\newline
+{\ttfamily \#include $<$isl/map.\+h$>$}\newline
+{\ttfamily \#include $<$isl/union\+\_\+set.\+h$>$}\newline
+{\ttfamily \#include $<$isl/union\+\_\+map.\+h$>$}\newline
+{\ttfamily \#include $<$isl/polynomial.\+h$>$}\newline
+{\ttfamily \#include $<$isl/band.\+h$>$}\newline
+{\ttfamily \#include $<$isl/constraint.\+h$>$}\newline
+{\ttfamily \#include $<$isl/aff.\+h$>$}\newline
+{\ttfamily \#include $<$isl/ast.\+h$>$}\newline
+{\ttfamily \#include $<$isl/printer.\+h$>$}\newline
+{\ttfamily \#include $<$isl/val.\+h$>$}\newline
+{\ttfamily \#include $<$print\+\_\+templ.\+c$>$}\newline
+Include dependency graph for print.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{print_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~id
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}}
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~multi\+\_\+val
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~space
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~local\+\_\+space
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~basic\+\_\+set
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~basic\+\_\+map
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}}
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}}
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~union\+\_\+set
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~union\+\_\+map
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~qpolynomial
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~qpolynomial\+\_\+fold
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~pw\+\_\+qpolynomial
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~pw\+\_\+qpolynomial\+\_\+fold
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~union\+\_\+pw\+\_\+qpolynomial
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~union\+\_\+pw\+\_\+qpolynomial\+\_\+fold
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~band
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~constraint
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~aff
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~pw\+\_\+aff
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~multi\+\_\+aff
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~pw\+\_\+multi\+\_\+aff
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~union\+\_\+pw\+\_\+multi\+\_\+aff
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~multi\+\_\+pw\+\_\+aff
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~union\+\_\+pw\+\_\+aff
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~multi\+\_\+union\+\_\+pw\+\_\+aff
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~point
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~ast\+\_\+expr
+\item 
+\#define \mbox{\hyperlink{print_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~ast\+\_\+node
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [1/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~id}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [2/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}}}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [3/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~multi\+\_\+val}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [4/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~space}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [5/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~local\+\_\+space}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [6/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~basic\+\_\+set}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [7/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~basic\+\_\+map}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [8/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}}}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [9/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}}}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [10/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~union\+\_\+set}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [11/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~union\+\_\+map}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [12/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~qpolynomial}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [13/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~qpolynomial\+\_\+fold}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [14/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~pw\+\_\+qpolynomial}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [15/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~pw\+\_\+qpolynomial\+\_\+fold}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [16/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~union\+\_\+pw\+\_\+qpolynomial}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [17/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [18/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~band}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [19/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~constraint}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [20/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~aff}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [21/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~pw\+\_\+aff}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [22/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~multi\+\_\+aff}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [23/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~pw\+\_\+multi\+\_\+aff}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [24/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~union\+\_\+pw\+\_\+multi\+\_\+aff}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [25/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~multi\+\_\+pw\+\_\+aff}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [26/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~union\+\_\+pw\+\_\+aff}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [27/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~multi\+\_\+union\+\_\+pw\+\_\+aff}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [28/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~point}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [29/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~ast\+\_\+expr}
+
+\mbox{\Hypertarget{print_8c_a79bcfb6bde984f42d1124b068a509af7}\label{print_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{print.c@{print.c}!BASE@{BASE}}
+\index{BASE@{BASE}!print.c@{print.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [30/30]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~ast\+\_\+node}
+

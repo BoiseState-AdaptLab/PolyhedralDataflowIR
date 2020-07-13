@@ -1,0 +1,198 @@
+.TH "lib/isl/isl_convex_hull.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_convex_hull.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl_lp_private\&.h>\fP
+.br
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_options_private\&.h>\fP
+.br
+\fC#include 'isl_equalities\&.h'\fP
+.br
+\fC#include 'isl_tab\&.h'\fP
+.br
+\fC#include <isl_sort\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBmax_constraint\fP"
+.br
+.ti -1c
+.RI "struct \fBsh_data_entry\fP"
+.br
+.ti -1c
+.RI "struct \fBsh_data\fP"
+.br
+.ti -1c
+.RI "struct \fBineq_cmp_data\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBisl_basic_map_constraint_is_redundant\fP (struct \fBisl_basic_map\fP **\fBbmap\fP, \fBisl_int\fP *\fBc\fP, \fBisl_int\fP *opt_n, \fBisl_int\fP *opt_d)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_constraint_is_redundant\fP (struct \fBisl_basic_set\fP **bset, \fBisl_int\fP *\fBc\fP, \fBisl_int\fP *opt_n, \fBisl_int\fP *opt_d)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_remove_redundancies\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_remove_redundancies\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_remove_redundancies\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_remove_redundancies\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_set_rational\fP (\fB__isl_take\fP \fBisl_basic_set\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_set_rational\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_set_rational\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_set_rational\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fBisl_int\fP * \fBisl_set_wrap_facet\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, \fBisl_int\fP *facet, \fBisl_int\fP *ridge)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_is_bounded\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_map_image_is_bounded\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_is_bounded\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_lineality_space\fP (struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_map_convex_hull\fP (struct \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_set_convex_hull\fP (struct \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_map_polyhedral_hull\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_polyhedral_hull\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_map_simple_hull\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_set_simple_hull\fP (struct \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_map_unshifted_simple_hull\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_unshifted_simple_hull\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_plain_unshifted_simple_hull\fP (\fB__isl_take\fP \fBisl_basic_map\fP *bmap1, \fB__isl_take\fP \fBisl_basic_map\fP *bmap2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_map_plain_unshifted_simple_hull\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_map_unshifted_simple_hull_from_map_list\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_take\fP isl_map_list *list)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_unshifted_simple_hull_from_set_list\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_set_list\fP *list)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_set_bounded_simple_hull\fP (struct \fBisl_set\fP *\fBset\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int isl_basic_map_constraint_is_redundant (struct \fBisl_basic_map\fP ** bmap, \fBisl_int\fP * c, \fBisl_int\fP * opt_n, \fBisl_int\fP * opt_d)"
+
+.SS "int isl_basic_map_image_is_bounded (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_plain_unshifted_simple_hull (\fB__isl_take\fP \fBisl_basic_map\fP * bmap1, \fB__isl_take\fP \fBisl_basic_map\fP * bmap2)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_remove_redundancies (\fB__isl_take\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_set_rational (\fB__isl_take\fP \fBisl_basic_set\fP * bmap)"
+
+.SS "int isl_basic_set_constraint_is_redundant (struct \fBisl_basic_set\fP ** bset, \fBisl_int\fP * c, \fBisl_int\fP * opt_n, \fBisl_int\fP * opt_d)"
+
+.SS "int isl_basic_set_is_bounded (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_lineality_space (struct \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_remove_redundancies (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_set_rational (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "struct \fBisl_basic_map\fP* isl_map_convex_hull (struct \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_map_plain_unshifted_simple_hull (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_map_polyhedral_hull (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_remove_redundancies (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_set_rational (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_map_simple_hull (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_map_unshifted_simple_hull (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_map_unshifted_simple_hull_from_map_list (\fB__isl_take\fP \fBisl_map\fP * map, \fB__isl_take\fP isl_map_list * list)"
+
+.SS "struct \fBisl_basic_set\fP* isl_set_bounded_simple_hull (struct \fBisl_set\fP * set)"
+
+.SS "struct \fBisl_basic_set\fP* isl_set_convex_hull (struct \fBisl_set\fP * set)"
+
+.SS "int isl_set_is_bounded (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_set_polyhedral_hull (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_remove_redundancies (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_set_rational (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "struct \fBisl_basic_set\fP* isl_set_simple_hull (struct \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_set_unshifted_simple_hull (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_set_unshifted_simple_hull_from_set_list (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_set_list\fP * list)"
+
+.SS "\fBisl_int\fP* isl_set_wrap_facet (\fB__isl_keep\fP \fBisl_set\fP * set, \fBisl_int\fP * facet, \fBisl_int\fP * ridge)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

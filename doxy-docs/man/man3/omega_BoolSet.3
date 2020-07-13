@@ -1,0 +1,218 @@
+.TH "omega::BoolSet< T >" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::BoolSet< T > \- \fBBoolSet\fP implemented using bitmasks\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <boolset\&.h>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBconst_iterator\fP"
+.br
+.ti -1c
+.RI "class \fBiterator\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBoolSet\fP (unsigned int \fBsize\fP=0)"
+.br
+.ti -1c
+.RI "\fB~BoolSet\fP ()"
+.br
+.ti -1c
+.RI "void \fBset\fP (unsigned int)"
+.br
+.ti -1c
+.RI "void \fBunset\fP (unsigned int)"
+.br
+.ti -1c
+.RI "void \fBset_all\fP ()"
+.br
+.ti -1c
+.RI "void \fBunset_all\fP ()"
+.br
+.ti -1c
+.RI "bool \fBget\fP (unsigned int) \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBsize\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBnum_elem\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBimply\fP (\fBconst\fP \fBBoolSet\fP< \fBT\fP > &) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBempty\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdump\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBBoolSet\fP< \fBT\fP > & \fBoperator|=\fP (\fBconst\fP \fBBoolSet\fP< \fBT\fP > &)"
+.br
+.ti -1c
+.RI "\fBBoolSet\fP< \fBT\fP > & \fBoperator&=\fP (\fBconst\fP \fBBoolSet\fP< \fBT\fP > &)"
+.br
+.ti -1c
+.RI "\fBBoolSet\fP< \fBT\fP > & \fBoperator\-=\fP (\fBconst\fP \fBBoolSet\fP< \fBT\fP > &)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBbegin\fP ()"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBend\fP ()"
+.br
+.ti -1c
+.RI "\fBconst_iterator\fP \fBbegin\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst_iterator\fP \fBend\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned int \fBsize_\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBT\fP > \fBset_\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "template<typename TT > \fBBoolSet\fP< TT > \fBoperator|\fP (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)"
+.br
+.RI "Union\&. "
+.ti -1c
+.RI "template<typename TT > \fBBoolSet\fP< TT > \fBoperator&\fP (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)"
+.br
+.RI "intersection "
+.ti -1c
+.RI "template<typename TT > \fBBoolSet\fP< TT > \fBoperator\-\fP (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)"
+.br
+.RI "difference "
+.ti -1c
+.RI "template<typename TT > \fBBoolSet\fP< TT > \fBoperator~\fP (\fBconst\fP \fBBoolSet\fP< TT > &)"
+.br
+.RI "complement "
+.ti -1c
+.RI "template<typename TT > bool \fBoperator==\fP (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)"
+.br
+.ti -1c
+.RI "template<typename TT > bool \fBoperator!=\fP (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)"
+.br
+.ti -1c
+.RI "template<typename TT > std::ostream & \fBoperator<<\fP (std::ostream &, \fBconst\fP \fBBoolSet\fP< TT > &)"
+.br
+.ti -1c
+.RI "template<typename TT > bool \fBoperator<\fP (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T = unsigned int>
+.br
+class omega::BoolSet< T >"
+\fBBoolSet\fP implemented using bitmasks\&. 
+
+
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIT\fP Individual cell type holding the bits - defaults to unsigned int 
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename T > \fBomega::BoolSet\fP< \fBT\fP >::\fBBoolSet\fP (unsigned int size = \fC0\fP)"
+
+.SS "template<typename T  = unsigned int> \fBomega::BoolSet\fP< \fBT\fP >::~\fBBoolSet\fP ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename T > \fBBoolSet\fP< \fBT\fP >::\fBconst_iterator\fP \fBomega::BoolSet\fP< \fBT\fP >::begin"
+
+.SS "template<typename T  = unsigned int> \fBconst_iterator\fP \fBomega::BoolSet\fP< \fBT\fP >::begin () const"
+
+.SS "template<typename T > void \fBomega::BoolSet\fP< \fBT\fP >::dump"
+
+.SS "template<typename T > bool \fBomega::BoolSet\fP< \fBT\fP >::empty"
+
+.SS "template<typename T > \fBBoolSet\fP< \fBT\fP >::\fBconst_iterator\fP \fBomega::BoolSet\fP< \fBT\fP >::end"
+
+.SS "template<typename T  = unsigned int> \fBconst_iterator\fP \fBomega::BoolSet\fP< \fBT\fP >::end () const"
+
+.SS "template<typename T > bool \fBomega::BoolSet\fP< \fBT\fP >::get (unsigned int i) const"
+
+.SS "template<typename T > bool \fBomega::BoolSet\fP< \fBT\fP >::imply (\fBconst\fP \fBBoolSet\fP< \fBT\fP > & b) const"
+
+.SS "template<typename T > unsigned int \fBomega::BoolSet\fP< \fBT\fP >::num_elem"
+
+.SS "template<typename T > \fBBoolSet\fP< \fBT\fP > & \fBomega::BoolSet\fP< \fBT\fP >::operator&= (\fBconst\fP \fBBoolSet\fP< \fBT\fP > & b)"
+
+.SS "template<typename T > \fBBoolSet\fP< \fBT\fP > & \fBomega::BoolSet\fP< \fBT\fP >::operator\-= (\fBconst\fP \fBBoolSet\fP< \fBT\fP > & b)"
+
+.SS "template<typename T > \fBBoolSet\fP< \fBT\fP > & \fBomega::BoolSet\fP< \fBT\fP >::operator|= (\fBconst\fP \fBBoolSet\fP< \fBT\fP > & b)"
+
+.SS "template<typename T > void \fBomega::BoolSet\fP< \fBT\fP >::set (unsigned int i)"
+
+.SS "template<typename T > void \fBomega::BoolSet\fP< \fBT\fP >::set_all"
+
+.SS "template<typename T  = unsigned int> unsigned int \fBomega::BoolSet\fP< \fBT\fP >::size () const\fC [inline]\fP"
+
+.SS "template<typename T > void \fBomega::BoolSet\fP< \fBT\fP >::unset (unsigned int i)"
+
+.SS "template<typename T > void \fBomega::BoolSet\fP< \fBT\fP >::unset_all"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "template<typename T  = unsigned int> template<typename TT > bool operator!= (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)\fC [friend]\fP"
+
+.SS "template<typename T  = unsigned int> template<typename TT > \fBBoolSet\fP<TT> operator& (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)\fC [friend]\fP"
+
+.PP
+intersection 
+.SS "template<typename T  = unsigned int> template<typename TT > \fBBoolSet\fP<TT> operator\- (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)\fC [friend]\fP"
+
+.PP
+difference 
+.SS "template<typename T  = unsigned int> template<typename TT > bool operator< (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)\fC [friend]\fP"
+
+.SS "template<typename T  = unsigned int> template<typename TT > std::ostream& operator<< (std::ostream &, \fBconst\fP \fBBoolSet\fP< TT > &)\fC [friend]\fP"
+
+.SS "template<typename T  = unsigned int> template<typename TT > bool operator== (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)\fC [friend]\fP"
+
+.SS "template<typename T  = unsigned int> template<typename TT > \fBBoolSet\fP<TT> operator| (\fBconst\fP \fBBoolSet\fP< TT > &, \fBconst\fP \fBBoolSet\fP< TT > &)\fC [friend]\fP"
+
+.PP
+Union\&. 
+.SS "template<typename T  = unsigned int> template<typename TT > \fBBoolSet\fP<TT> operator~ (\fBconst\fP \fBBoolSet\fP< TT > &)\fC [friend]\fP"
+
+.PP
+complement 
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename T  = unsigned int> std::vector<\fBT\fP> \fBomega::BoolSet\fP< \fBT\fP >::set_\fC [protected]\fP"
+
+.SS "template<typename T  = unsigned int> unsigned int \fBomega::BoolSet\fP< \fBT\fP >::size_\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

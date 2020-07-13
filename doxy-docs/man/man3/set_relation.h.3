@@ -1,0 +1,134 @@
+.TH "lib/iegenlib/src/set_relation/set_relation.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/iegenlib/src/set_relation/set_relation.h \- Declarations for the set and relation classes and classes they contain except for the Exp and Term classes\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <util/util\&.h>\fP
+.br
+\fC#include 'expression\&.h'\fP
+.br
+\fC#include 'SubMap\&.h'\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include 'isl_str_manipulation\&.h'\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include 'parser/jsoncons/json\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBiegenlib::Conjunction\fP"
+.br
+.RI "Class containing sets of all the equalities and inequalities\&. "
+.ti -1c
+.RI "class \fBiegenlib::SparseConstraints\fP"
+.br
+.RI "Base class that contains the conjunctions and a pointer to an environment\&. "
+.ti -1c
+.RI "class \fBiegenlib::Set\fP"
+.br
+.RI "A \fBSparseConstraints\fP class that represents a \fBSet\fP\&. "
+.ti -1c
+.RI "class \fBiegenlib::Relation\fP"
+.br
+.RI "A \fBSparseConstraints\fP class that represents a \fBRelation\fP\&. "
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBiegenlib\fP"
+.br
+.ti -1c
+.RI " \fBiegenlib::parser\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "Set * \fBiegenlib::parser::parse_set\fP (std::string set_string)"
+.br
+.ti -1c
+.RI "Relation * \fBiegenlib::parser::parse_relation\fP (std::string relation_string)"
+.br
+.ti -1c
+.RI "string \fBiegenlib::passSetStrThruISL\fP (string sstr)"
+.br
+.RI "Runs an Affine \fBSet\fP (string) through ISL and returns the resulting set\&. "
+.ti -1c
+.RI "string \fBiegenlib::passUnionSetStrThruISL\fP (string sstr)"
+.br
+.RI "Runs an Affine Union Set* (string) through ISL\&. "
+.ti -1c
+.RI "string \fBiegenlib::passRelationStrThruISL\fP (string rstr)"
+.br
+.RI "Runs an Affine \fBRelation\fP through ISL and returns the normalized result\&. "
+.ti -1c
+.RI "string \fBiegenlib::passUnionRelationStrThruISL\fP (string rstr)"
+.br
+.RI "Runs an Affine Union \fBRelation\fP through ISL and returns the normalized result\&. "
+.ti -1c
+.RI "Set * \fBiegenlib::passSetThruISL\fP (Set *s)"
+.br
+.RI "Runs an Affine \fBSet\fP through ISL and returns the resulting normalized set\&. "
+.ti -1c
+.RI "Relation * \fBiegenlib::passRelationThruISL\fP (Relation *r)"
+.br
+.RI "Runs an Affine \fBRelation\fP through ISL and returns the normalized result\&. "
+.ti -1c
+.RI "std::pair< std::string, std::string > \fBiegenlib::instantiate\fP (UniQuantRule *uqRule, Exp x1, Exp x2, UFCallMap *ufcmap, TupleDecl origTupleDecl)"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< std::pair< std::string, std::string > > \fBiegenlib::ruleInstantiation\fP (\fBstd::set\fP< Exp > instExps, bool *useRule, TupleDecl origTupleDecl, UFCallMap *ufcmap)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Declarations for the set and relation classes and classes they contain except for the Exp and Term classes\&. 
+
+The Set and Relation classes represent integer tuple sets and relations with sets of conjunctions that contain sets of affine inequality and equality constraints\&. The constraints can include uninterpreted function symbol terms\&.
+.PP
+\fBDate\fP
+.RS 4
+Started: 3/28/12
+.RE
+.PP
+\fBAuthors\fP
+.RS 4
+Michelle Strout, and Mahdi Soltan Mohammadi
+.RE
+.PP
+Copyright (c) 2012, Colorado State University 
+.br
+ Copyright (c) 2015, University of Arizona 
+.br
+ All rights reserved\&. 
+.br
+ See \&.\&./\&.\&./COPYING for details\&. 
+.br
+ 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

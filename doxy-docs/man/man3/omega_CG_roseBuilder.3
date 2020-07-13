@@ -1,0 +1,366 @@
+.TH "omega::CG_roseBuilder" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::CG_roseBuilder
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <CG_roseBuilder\&.h>\fP
+.PP
+Inherits \fBomega::CG_outputBuilder\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCG_roseBuilder\fP (SgGlobal *global, SgGlobal *global_scope, SgSymbolTable *symtab1, SgSymbolTable *symtab2, SgNode *root)"
+.br
+.ti -1c
+.RI "\fB~CG_roseBuilder\fP ()"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBClassName\fP ()"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateSubstitutedStmt\fP (int indent, \fBCG_outputRepr\fP *stmt, \fBconst\fP std::vector< std::string > &\fBvars\fP, std::vector< \fBCG_outputRepr\fP * > &subs, bool actuallyPrint) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateAssignment\fP (int indent, \fBCG_outputRepr\fP *\fBlhs\fP, \fBCG_outputRepr\fP *\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreatePlusAssignment\fP (int indent, \fBCG_outputRepr\fP *\fBlhs\fP, \fBCG_outputRepr\fP *\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateInvoke\fP (\fBconst\fP std::string &funcName, std::vector< \fBCG_outputRepr\fP * > &argList, bool is_array=false) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateComment\fP (int indent, \fBconst\fP std::string &commentText) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateAttribute\fP (\fBCG_outputRepr\fP *control, \fBconst\fP std::string &commentText) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreatePragmaAttribute\fP (\fBCG_outputRepr\fP *scopeStmt, int looplevel, \fBconst\fP std::string &pragmaText) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreatePrefetchAttribute\fP (\fBCG_outputRepr\fP *scopeStmt, int looplevel, \fBconst\fP std::string &arrName, int hint) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateIf\fP (int indent, \fBCG_outputRepr\fP *guardCondition, \fBCG_outputRepr\fP *true_stmtList, \fBCG_outputRepr\fP *false_stmtList) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateInductive\fP (\fBCG_outputRepr\fP *index, \fBCG_outputRepr\fP *lower, \fBCG_outputRepr\fP *upper, \fBCG_outputRepr\fP *step) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateLoop\fP (int indent, \fBCG_outputRepr\fP *control, \fBCG_outputRepr\fP *stmtList) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateInt\fP (int \fBnum\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateFloat\fP (float \fBnum\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateDouble\fP (double \fBnum\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateNullStatement\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisInteger\fP (\fBCG_outputRepr\fP *\fBop\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBQueryInspectorType\fP (\fBconst\fP std::string &varName) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateIdent\fP (\fBconst\fP std::string &varName) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateDotExpression\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateArrayRefExpression\fP (\fBconst\fP std::string &_s, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateArrayRefExpression\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBObtainInspectorData\fP (\fBconst\fP std::string &_s, \fBconst\fP std::string &member_name) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreatePlus\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateMinus\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateTimes\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateIntegerFloor\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateIntegerMod\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateAnd\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateLE\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateEQ\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateNEQ\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBStmtListAppend\fP (\fBCG_outputRepr\fP *list1, \fBCG_outputRepr\fP *list2) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateDim3\fP (\fBconst\fP char *varName, \fBCG_outputRepr\fP *\fBarg1\fP, \fBCG_outputRepr\fP *\fBarg2\fP, \fBCG_outputRepr\fP *arg3=\fBNULL\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBObtainInspectorRange\fP (\fBconst\fP std::string &_s, \fBconst\fP std::string &_name) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateArrowRefExpression\fP (\fBconst\fP std::string &_s, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateArrowRefExpression\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateNullExpression\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateStruct\fP (\fBconst\fP std::string struct_name, std::vector< std::string > data_members, std::vector< \fBCG_outputRepr\fP * > data_types)"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateClass\fP (\fBconst\fP std::string class_name, std::vector< std::string > class_data_members=std::vector< std::string >(), std::vector< \fBCG_outputRepr\fP * > class_data_types=std::vector< \fBCG_outputRepr\fP * >(), std::vector< std::string > methods=std::vector< std::string >(), std::vector< std::vector< std::string > > method_params=std::vector< std::vector< std::string > >(), std::vector< \fBCG_outputRepr\fP * > method_return_types=std::vector< \fBCG_outputRepr\fP * >(), std::vector< \fBCG_outputRepr\fP * > method_bodies=std::vector< \fBCG_outputRepr\fP * >())"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateLinkedListStruct\fP (\fBconst\fP std::string class_name, std::vector< std::string > class_data_members, std::vector< \fBCG_outputRepr\fP * > class_data_types)"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBlookup_member_function\fP (\fBCG_outputRepr\fP *scope, std::string varName)"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBlookup_member_data\fP (\fBCG_outputRepr\fP *scope, std::string varName, \fBCG_outputRepr\fP *instance)"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreatePointer\fP (std::string &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBsetFunctionBody\fP (\fBCG_outputRepr\fP *scope, \fBCG_outputRepr\fP *body)"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateClassInstance\fP (std::string \fBname\fP, \fBCG_outputRepr\fP *class_def)"
+.br
+.ti -1c
+.RI "bool \fBisInputFortran\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateAddressOf\fP (\fBCG_outputRepr\fP *\fBop\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateBreakStatement\fP (void) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateStatementFromExpression\fP (\fBCG_outputRepr\fP *exp) \fBconst\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::CG_roseBuilder::CG_roseBuilder (SgGlobal * global, SgGlobal * global_scope, SgSymbolTable * symtab1, SgSymbolTable * symtab2, SgNode * root)"
+
+.SS "omega::CG_roseBuilder::~CG_roseBuilder ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBconst\fP char* omega::CG_roseBuilder::ClassName ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateAddressOf (\fBCG_outputRepr\fP * op) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateAnd (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateArrayRefExpression (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateArrayRefExpression (\fBconst\fP std::string & _s, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateArrowRefExpression (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const"
+
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateArrowRefExpression (\fBconst\fP std::string & _s, \fBCG_outputRepr\fP * rop) const"
+
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateAssignment (int indent, \fBCG_outputRepr\fP * lhs, \fBCG_outputRepr\fP * rhs) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateAttribute (\fBCG_outputRepr\fP * control, \fBconst\fP std::string & commentText) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateBreakStatement (void) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateClass (\fBconst\fP std::string class_name, std::vector< std::string > class_data_members = \fCstd::vector< std::string >()\fP, std::vector< \fBCG_outputRepr\fP * > class_data_types = \fCstd::vector< \fBCG_outputRepr\fP * >()\fP, std::vector< std::string > methods = \fCstd::vector< std::string >()\fP, std::vector< std::vector< std::string > > method_params = \fCstd::vector< std::vector< std::string > >()\fP, std::vector< \fBCG_outputRepr\fP * > method_return_types = \fCstd::vector< \fBCG_outputRepr\fP * >()\fP, std::vector< \fBCG_outputRepr\fP * > method_bodies = \fCstd::vector< \fBCG_outputRepr\fP * >()\fP)"
+
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateClassInstance (std::string name, \fBCG_outputRepr\fP * class_def)\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateComment (int indent, \fBconst\fP std::string & commentText) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateDim3 (\fBconst\fP char * varName, \fBCG_outputRepr\fP * arg1, \fBCG_outputRepr\fP * arg2, \fBCG_outputRepr\fP * arg3 = \fC\fBNULL\fP\fP) const"
+
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateDotExpression (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateDouble (double num) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateEQ (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateFloat (float num) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateIdent (\fBconst\fP std::string & varName) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateIf (int indent, \fBCG_outputRepr\fP * guardCondition, \fBCG_outputRepr\fP * true_stmtList, \fBCG_outputRepr\fP * false_stmtList) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateInductive (\fBCG_outputRepr\fP * index, \fBCG_outputRepr\fP * lower, \fBCG_outputRepr\fP * upper, \fBCG_outputRepr\fP * step) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateInt (int num) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateIntegerFloor (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateIntegerMod (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateInvoke (\fBconst\fP std::string & funcName, std::vector< \fBCG_outputRepr\fP * > & argList, bool is_array = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateLE (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateLinkedListStruct (\fBconst\fP std::string class_name, std::vector< std::string > class_data_members, std::vector< \fBCG_outputRepr\fP * > class_data_types)"
+
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateLoop (int indent, \fBCG_outputRepr\fP * control, \fBCG_outputRepr\fP * stmtList) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateMinus (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateNEQ (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateNullExpression () const"
+
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateNullStatement () const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreatePlus (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreatePlusAssignment (int indent, \fBCG_outputRepr\fP * lhs, \fBCG_outputRepr\fP * rhs) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreatePointer (std::string & name) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreatePragmaAttribute (\fBCG_outputRepr\fP * scopeStmt, int looplevel, \fBconst\fP std::string & pragmaText) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreatePrefetchAttribute (\fBCG_outputRepr\fP * scopeStmt, int looplevel, \fBconst\fP std::string & arrName, int hint) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateStatementFromExpression (\fBCG_outputRepr\fP * exp) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateStruct (\fBconst\fP std::string struct_name, std::vector< std::string > data_members, std::vector< \fBCG_outputRepr\fP * > data_types)\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateSubstitutedStmt (int indent, \fBCG_outputRepr\fP * stmt, \fBconst\fP std::vector< std::string > & vars, std::vector< \fBCG_outputRepr\fP * > & subs, bool actuallyPrint) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::CreateTimes (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "bool omega::CG_roseBuilder::isInputFortran () const"
+
+.SS "bool omega::CG_roseBuilder::isInteger (\fBCG_outputRepr\fP * op) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::lookup_member_data (\fBCG_outputRepr\fP * scope, std::string varName, \fBCG_outputRepr\fP * instance)\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::lookup_member_function (\fBCG_outputRepr\fP * scope, std::string varName)"
+
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::ObtainInspectorData (\fBconst\fP std::string & _s, \fBconst\fP std::string & member_name) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::ObtainInspectorRange (\fBconst\fP std::string & _s, \fBconst\fP std::string & _name) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "bool omega::CG_roseBuilder::QueryInspectorType (\fBconst\fP std::string & varName) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "void omega::CG_roseBuilder::setFunctionBody (\fBCG_outputRepr\fP * scope, \fBCG_outputRepr\fP * body)"
+
+.SS "\fBCG_outputRepr\fP* omega::CG_roseBuilder::StmtListAppend (\fBCG_outputRepr\fP * list1, \fBCG_outputRepr\fP * list2) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

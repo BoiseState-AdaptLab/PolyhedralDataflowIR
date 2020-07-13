@@ -1,0 +1,274 @@
+.TH "chillAST_BinaryOperator" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_BinaryOperator
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_BinaryOperator\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_BinaryOperator\fP (\fBchillAST_node\fP *\fBlhs\fP, \fBconst\fP char *\fBop\fP, \fBchillAST_node\fP *\fBrhs\fP)"
+.br
+.ti -1c
+.RI "int \fBevalAsInt\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisNotLeaf\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisLeaf\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetRHS\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetLHS\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetLHS\fP (\fBchillAST_node\fP *newlhs)"
+.br
+.ti -1c
+.RI "void \fBsetRHS\fP (\fBchillAST_node\fP *newrhs)"
+.br
+.ti -1c
+.RI "char * \fBgetOp\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisAugmentedAssignmentOp\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisAssignmentOp\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisComparisonOp\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisPlusOp\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisMinusOp\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisPlusMinusOp\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisMultDivOp\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisRemOp\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisStructOp\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBclone\fP () override"
+.br
+.ti -1c
+.RI "void \fBgatherArrayRefs\fP (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarRefs\fP (std::vector< \fBchillAST_DeclRefExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherVarLHSUsage\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather all variable that is used as a lefthand side operand "
+.ti -1c
+.RI "void \fBreplaceVarDecls\fP (\fBchillAST_VarDecl\fP *olddecl, \fBchillAST_VarDecl\fP *newdecl) override"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "void \fBloseLoopWithLoopVar\fP (char *\fBvar\fP) override"
+.br
+.RI "Replace the loop with the loop body, if loop is with this variable\&. "
+.ti -1c
+.RI "void \fBgatherStatements\fP (std::vector< \fBchillAST_node\fP * > &statements) override"
+.br
+.RI "Get a vector of statements\&. "
+.ti -1c
+.RI "bool \fBisSameAs\fP (\fBchillAST_node\fP *other) override"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBop\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBlhs\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBrhs\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_BinaryOperator::chillAST_BinaryOperator ()"
+
+.SS "chillAST_BinaryOperator::chillAST_BinaryOperator (\fBchillAST_node\fP * lhs, \fBconst\fP char * op, \fBchillAST_node\fP * rhs)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "class \fBchillAST_node\fP * chillAST_BinaryOperator::clone ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "class \fBchillAST_node\fP * chillAST_BinaryOperator::constantFold ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "int chillAST_BinaryOperator::evalAsInt ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_BinaryOperator::gatherArrayRefs (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_BinaryOperator::gatherScalarRefs (std::vector< \fBchillAST_DeclRefExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_BinaryOperator::gatherStatements (std::vector< \fBchillAST_node\fP * > & statements)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Get a vector of statements\&. 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_BinaryOperator::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_BinaryOperator::gatherVarLHSUsage (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather all variable that is used as a lefthand side operand 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP* chillAST_BinaryOperator::getLHS ()\fC [inline]\fP"
+
+.SS "char* chillAST_BinaryOperator::getOp ()\fC [inline]\fP"
+
+.SS "\fBchillAST_node\fP* chillAST_BinaryOperator::getRHS ()\fC [inline]\fP"
+
+.SS "\fBCHILL_ASTNODE_TYPE\fP chillAST_BinaryOperator::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isAssignmentOp ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isAugmentedAssignmentOp ()\fC [inline]\fP"
+
+.SS "bool chillAST_BinaryOperator::isComparisonOp ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isLeaf ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isMinusOp ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isMultDivOp ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isNotLeaf ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isPlusMinusOp ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isPlusOp ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isRemOp ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isSameAs (\fBchillAST_node\fP * other)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_BinaryOperator::isStructOp ()\fC [inline]\fP"
+
+.SS "void chillAST_BinaryOperator::loseLoopWithLoopVar (char * var)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Replace the loop with the loop body, if loop is with this variable\&. The loop will be spread across a bunch of cores that will each calculate their own loop variable\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIvar\fP 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_BinaryOperator::replaceVarDecls (\fBchillAST_VarDecl\fP * olddecl, \fBchillAST_VarDecl\fP * newdecl)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_BinaryOperator::setLHS (\fBchillAST_node\fP * newlhs)\fC [inline]\fP"
+
+.SS "void chillAST_BinaryOperator::setRHS (\fBchillAST_node\fP * newrhs)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_BinaryOperator::lhs"
+
+.SS "char* chillAST_BinaryOperator::op"
+
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_BinaryOperator::rhs"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

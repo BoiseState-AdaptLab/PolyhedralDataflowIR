@@ -1,0 +1,283 @@
+\hypertarget{irtools_8cc}{}\doxysection{lib/chill/irtools.cc File Reference}
+\label{irtools_8cc}\index{lib/chill/irtools.cc@{lib/chill/irtools.cc}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G\+\_\+output\+Builder.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}irtools.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}omegatools.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}chill\+\_\+error.\+hh\char`\"{}}\newline
+Include dependency graph for irtools.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$ $>$ \mbox{\hyperlink{irtools_8cc_a2d4b998df7c88171ec470925a9f194b3}{build\+\_\+ir\+\_\+tree}} (\mbox{\hyperlink{struct_i_r___control}{I\+R\+\_\+\+Control}} $\ast$control, \mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$parent)
+\begin{DoxyCompactList}\small\item\em Build IR tree from the source code. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$ $>$ \mbox{\hyperlink{irtools_8cc_a8987e0dfe7b86f55ca93994755ac3c9f}{extract\+\_\+ir\+\_\+stmts}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$ $>$ \&ir\+\_\+tree)
+\begin{DoxyCompactList}\small\item\em Extract statements from IR tree. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{irtools_8cc_a8fefa03d0337aded6a49f4e651a4533d}{chill\+\_\+ir\+\_\+control\+\_\+type\+\_\+string}} (\mbox{\hyperlink{ir__enums_8hh_ab01134ad2025433cf587342fee4a4578}{I\+R\+\_\+\+C\+O\+N\+T\+R\+O\+L\+\_\+\+T\+Y\+PE}} type)
+\item 
+std\+::string \mbox{\hyperlink{irtools_8cc_a813440fae7f5d7ac3b6f076b65714ea2}{chill\+\_\+ir\+\_\+node\+\_\+type\+\_\+string}} (\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$node)
+\item 
+bool \mbox{\hyperlink{irtools_8cc_abdaeac84e60041e30d9e1e9bb8e12db4}{is\+\_\+dependence\+\_\+valid}} (\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$src\+\_\+node, \mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$dst\+\_\+node, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}} \&dv, bool before)
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ \mbox{\hyperlink{irtools_8cc_a576c55ef210ac8263e06f3bd0d27ef99}{collect\+\_\+loop\+\_\+inductive\+\_\+and\+\_\+conditionals}} (\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$stmt\+\_\+node)
+\item 
+std\+::pair$<$ std\+::vector$<$ \mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}} $>$, std\+::vector$<$ \mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}} $>$ $>$ \mbox{\hyperlink{irtools_8cc_a88b28d0c79dc1f0e09bdfb00d36905c5}{test\+\_\+data\+\_\+dependences}} (\mbox{\hyperlink{class_loop}{Loop}} $\ast$loop, \mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$ir, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$repr1, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&I\+S1, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$repr2, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&I\+S2, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_free___var___decl}{Free\+\_\+\+Var\+\_\+\+Decl}} $\ast$ $>$ \&freevar, std\+::vector$<$ std\+::string $>$ index, int nest\+Leveli, int nest\+Levelj, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&uninterpreted\+\_\+symbols, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&uninterpreted\+\_\+symbols\+\_\+stringrepr, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ $>$ \&unin\+\_\+rel, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ \&dep\+\_\+relation)
+\item 
+bool \mbox{\hyperlink{irtools_8cc_a8174908b44b7cd7916673ab4b28d68d4}{from\+\_\+same\+\_\+statement}} (\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$ir, \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$\mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}})
+\item 
+int \mbox{\hyperlink{irtools_8cc_a72cf4c11cbc3facc4a7bd894299a91aa}{stmt\+Type}} (\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$ir, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$repr)
+\item 
+\mbox{\hyperlink{ir__enums_8hh_a9f3bc8ce6a37505188e7066effcc8d35}{I\+R\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+T\+Y\+PE}} \mbox{\hyperlink{irtools_8cc_aa35794594c50b87d664e779945de632b}{get\+Reduction\+Operator}} (\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$ir, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$repr)
+\item 
+void \mbox{\hyperlink{irtools_8cc_ae1f8cb1430cb989bf4d6a0e953a48d33}{map\+Refsto\+Statements}} (\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$ir, std\+::vector$<$ \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$ $>$ access, int ref2\+Stmt\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ int, \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$ $>$ \&r\+Map, \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$ \&tnr\+Stmts, \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$ \&nr\+Stmts)
+\item 
+void \mbox{\hyperlink{irtools_8cc_ab5e8f26e45abb8b4ace30437cc8c3811}{check\+Reduction\+Dependence}} (int \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}}, int \mbox{\hyperlink{notes_8txt_a32e329a40eff16f4bfb7e1dbd9a0736b}{j}}, int nest\+Leveli, \mbox{\hyperlink{namespaceomega_a896b2dc166bb71eb65bd759a1e061049}{omega\+::coef\+\_\+t}} lbound\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{namespaceomega_a896b2dc166bb71eb65bd759a1e061049}{omega\+::coef\+\_\+t}} ubound\mbox{[}$\,$\mbox{]}, int ref2\+Stmt\mbox{[}$\,$\mbox{]}, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ int, \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$ $>$ \&r\+Map, \mbox{\hyperlink{irtools_8hh_a7a282d2d6cf3f5eb7e5b1ca7467bf1f4}{D\+V\+Pair}} \&dv, \mbox{\hyperlink{irtools_8hh_a02739a2558d65712764f707e2f62a251}{temp\+Result\+Map}} \&tr\+Map, \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$ nr\+Stmts)
+\item 
+void \mbox{\hyperlink{irtools_8cc_a1ee22ad0be79ea3ca2f2ce90bd956ba9}{print\+\_\+control}} (\mbox{\hyperlink{struct_i_r___control}{I\+R\+\_\+\+Control}} $\ast$con)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{irtools_8cc_a2d4b998df7c88171ec470925a9f194b3}\label{irtools_8cc_a2d4b998df7c88171ec470925a9f194b3}} 
+\index{irtools.cc@{irtools.cc}!build\_ir\_tree@{build\_ir\_tree}}
+\index{build\_ir\_tree@{build\_ir\_tree}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{build\_ir\_tree()}{build\_ir\_tree()}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$$>$ build\+\_\+ir\+\_\+tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_i_r___control}{I\+R\+\_\+\+Control}} $\ast$}]{control,  }\item[{\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$}]{parent = {\ttfamily \mbox{\hyperlink{_profiler_8hpp_a070d2ce7b6bb7e5c05602aa8c308d0c4}{N\+U\+LL}}} }\end{DoxyParamCaption})}
+
+
+
+Build IR tree from the source code. 
+
+Block type node can only be leaf, i.\+e., there is no further stuctures inside a block allowed
+
+
+\begin{DoxyParams}{Parameters}
+{\em control} & \\
+\hline
+{\em parent} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_a2d4b998df7c88171ec470925a9f194b3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_a2d4b998df7c88171ec470925a9f194b3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_ab5e8f26e45abb8b4ace30437cc8c3811}\label{irtools_8cc_ab5e8f26e45abb8b4ace30437cc8c3811}} 
+\index{irtools.cc@{irtools.cc}!checkReductionDependence@{checkReductionDependence}}
+\index{checkReductionDependence@{checkReductionDependence}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{checkReductionDependence()}{checkReductionDependence()}}
+{\footnotesize\ttfamily void check\+Reduction\+Dependence (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{j,  }\item[{int}]{nest\+Leveli,  }\item[{\mbox{\hyperlink{namespaceomega_a896b2dc166bb71eb65bd759a1e061049}{omega\+::coef\+\_\+t}}}]{lbound\mbox{[}$\,$\mbox{]},  }\item[{\mbox{\hyperlink{namespaceomega_a896b2dc166bb71eb65bd759a1e061049}{omega\+::coef\+\_\+t}}}]{ubound\mbox{[}$\,$\mbox{]},  }\item[{int}]{ref2\+Stmt\mbox{[}$\,$\mbox{]},  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ int, \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$ $>$ \&}]{r\+Map,  }\item[{\mbox{\hyperlink{irtools_8hh_a7a282d2d6cf3f5eb7e5b1ca7467bf1f4}{D\+V\+Pair}} \&}]{dv,  }\item[{\mbox{\hyperlink{irtools_8hh_a02739a2558d65712764f707e2f62a251}{temp\+Result\+Map}} \&}]{tr\+Map,  }\item[{\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$}]{nr\+Stmts }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_ab5e8f26e45abb8b4ace30437cc8c3811_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_a8fefa03d0337aded6a49f4e651a4533d}\label{irtools_8cc_a8fefa03d0337aded6a49f4e651a4533d}} 
+\index{irtools.cc@{irtools.cc}!chill\_ir\_control\_type\_string@{chill\_ir\_control\_type\_string}}
+\index{chill\_ir\_control\_type\_string@{chill\_ir\_control\_type\_string}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{chill\_ir\_control\_type\_string()}{chill\_ir\_control\_type\_string()}}
+{\footnotesize\ttfamily std\+::string chill\+\_\+ir\+\_\+control\+\_\+type\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ir__enums_8hh_ab01134ad2025433cf587342fee4a4578}{I\+R\+\_\+\+C\+O\+N\+T\+R\+O\+L\+\_\+\+T\+Y\+PE}}}]{type }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{irtools_8cc_a8fefa03d0337aded6a49f4e651a4533d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_a813440fae7f5d7ac3b6f076b65714ea2}\label{irtools_8cc_a813440fae7f5d7ac3b6f076b65714ea2}} 
+\index{irtools.cc@{irtools.cc}!chill\_ir\_node\_type\_string@{chill\_ir\_node\_type\_string}}
+\index{chill\_ir\_node\_type\_string@{chill\_ir\_node\_type\_string}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{chill\_ir\_node\_type\_string()}{chill\_ir\_node\_type\_string()}}
+{\footnotesize\ttfamily std\+::string chill\+\_\+ir\+\_\+node\+\_\+type\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{irtools_8cc_a813440fae7f5d7ac3b6f076b65714ea2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_a576c55ef210ac8263e06f3bd0d27ef99}\label{irtools_8cc_a576c55ef210ac8263e06f3bd0d27ef99}} 
+\index{irtools.cc@{irtools.cc}!collect\_loop\_inductive\_and\_conditionals@{collect\_loop\_inductive\_and\_conditionals}}
+\index{collect\_loop\_inductive\_and\_conditionals@{collect\_loop\_inductive\_and\_conditionals}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{collect\_loop\_inductive\_and\_conditionals()}{collect\_loop\_inductive\_and\_conditionals()}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$$>$ collect\+\_\+loop\+\_\+inductive\+\_\+and\+\_\+conditionals (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$}]{stmt\+\_\+node }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_a576c55ef210ac8263e06f3bd0d27ef99_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_a8987e0dfe7b86f55ca93994755ac3c9f}\label{irtools_8cc_a8987e0dfe7b86f55ca93994755ac3c9f}} 
+\index{irtools.cc@{irtools.cc}!extract\_ir\_stmts@{extract\_ir\_stmts}}
+\index{extract\_ir\_stmts@{extract\_ir\_stmts}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{extract\_ir\_stmts()}{extract\_ir\_stmts()}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$$>$ extract\+\_\+ir\+\_\+stmts (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$ $>$ \&}]{ir\+\_\+tree }\end{DoxyParamCaption})}
+
+
+
+Extract statements from IR tree. 
+
+Statements returned are ordered in lexical order in the source code
+
+
+\begin{DoxyParams}{Parameters}
+{\em ir\+\_\+tree} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=176pt]{irtools_8cc_a8987e0dfe7b86f55ca93994755ac3c9f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_a8987e0dfe7b86f55ca93994755ac3c9f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_a8174908b44b7cd7916673ab4b28d68d4}\label{irtools_8cc_a8174908b44b7cd7916673ab4b28d68d4}} 
+\index{irtools.cc@{irtools.cc}!from\_same\_statement@{from\_same\_statement}}
+\index{from\_same\_statement@{from\_same\_statement}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{from\_same\_statement()}{from\_same\_statement()}}
+{\footnotesize\ttfamily bool from\+\_\+same\+\_\+statement (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$}]{ir,  }\item[{\mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$}]{a,  }\item[{\mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$}]{b }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_a8174908b44b7cd7916673ab4b28d68d4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_a8174908b44b7cd7916673ab4b28d68d4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_aa35794594c50b87d664e779945de632b}\label{irtools_8cc_aa35794594c50b87d664e779945de632b}} 
+\index{irtools.cc@{irtools.cc}!getReductionOperator@{getReductionOperator}}
+\index{getReductionOperator@{getReductionOperator}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{getReductionOperator()}{getReductionOperator()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ir__enums_8hh_a9f3bc8ce6a37505188e7066effcc8d35}{I\+R\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+T\+Y\+PE}} get\+Reduction\+Operator (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$}]{ir,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$}]{repr }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_aa35794594c50b87d664e779945de632b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_abdaeac84e60041e30d9e1e9bb8e12db4}\label{irtools_8cc_abdaeac84e60041e30d9e1e9bb8e12db4}} 
+\index{irtools.cc@{irtools.cc}!is\_dependence\_valid@{is\_dependence\_valid}}
+\index{is\_dependence\_valid@{is\_dependence\_valid}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{is\_dependence\_valid()}{is\_dependence\_valid()}}
+{\footnotesize\ttfamily bool is\+\_\+dependence\+\_\+valid (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$}]{src\+\_\+node,  }\item[{\mbox{\hyperlink{structir__tree__node}{ir\+\_\+tree\+\_\+node}} $\ast$}]{dst\+\_\+node,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}} \&}]{dv,  }\item[{bool}]{before }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{irtools_8cc_ae1f8cb1430cb989bf4d6a0e953a48d33}\label{irtools_8cc_ae1f8cb1430cb989bf4d6a0e953a48d33}} 
+\index{irtools.cc@{irtools.cc}!mapRefstoStatements@{mapRefstoStatements}}
+\index{mapRefstoStatements@{mapRefstoStatements}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{mapRefstoStatements()}{mapRefstoStatements()}}
+{\footnotesize\ttfamily void map\+Refsto\+Statements (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$}]{ir,  }\item[{std\+::vector$<$ \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$ $>$}]{access,  }\item[{int}]{ref2\+Stmt\mbox{[}$\,$\mbox{]},  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ int, \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$ $>$ \&}]{r\+Map,  }\item[{\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$ \&}]{tnr\+Stmts,  }\item[{\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ int $>$ \&}]{nr\+Stmts }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_ae1f8cb1430cb989bf4d6a0e953a48d33_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_ae1f8cb1430cb989bf4d6a0e953a48d33_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_a1ee22ad0be79ea3ca2f2ce90bd956ba9}\label{irtools_8cc_a1ee22ad0be79ea3ca2f2ce90bd956ba9}} 
+\index{irtools.cc@{irtools.cc}!print\_control@{print\_control}}
+\index{print\_control@{print\_control}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{print\_control()}{print\_control()}}
+{\footnotesize\ttfamily void print\+\_\+control (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_i_r___control}{I\+R\+\_\+\+Control}} $\ast$}]{con }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{irtools_8cc_a1ee22ad0be79ea3ca2f2ce90bd956ba9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{irtools_8cc_a72cf4c11cbc3facc4a7bd894299a91aa}\label{irtools_8cc_a72cf4c11cbc3facc4a7bd894299a91aa}} 
+\index{irtools.cc@{irtools.cc}!stmtType@{stmtType}}
+\index{stmtType@{stmtType}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{stmtType()}{stmtType()}}
+{\footnotesize\ttfamily int stmt\+Type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$}]{ir,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$}]{repr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{irtools_8cc_a88b28d0c79dc1f0e09bdfb00d36905c5}\label{irtools_8cc_a88b28d0c79dc1f0e09bdfb00d36905c5}} 
+\index{irtools.cc@{irtools.cc}!test\_data\_dependences@{test\_data\_dependences}}
+\index{test\_data\_dependences@{test\_data\_dependences}!irtools.cc@{irtools.cc}}
+\doxysubsubsection{\texorpdfstring{test\_data\_dependences()}{test\_data\_dependences()}}
+{\footnotesize\ttfamily std\+::pair$<$std\+::vector$<$\mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}}$>$, std\+::vector$<$\mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}}$>$ $>$ test\+\_\+data\+\_\+dependences (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_loop}{Loop}} $\ast$}]{loop,  }\item[{\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$}]{ir,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$}]{repr1,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{I\+S1,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$}]{repr2,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{I\+S2,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_free___var___decl}{Free\+\_\+\+Var\+\_\+\+Decl}} $\ast$ $>$ \&}]{freevar,  }\item[{std\+::vector$<$ std\+::string $>$}]{index,  }\item[{int}]{nest\+Leveli,  }\item[{int}]{nest\+Levelj,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&}]{uninterpreted\+\_\+symbols,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&}]{uninterpreted\+\_\+symbols\+\_\+stringrepr,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ $>$ \&}]{unin\+\_\+rel,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ \&}]{dep\+\_\+relation }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{irtools_8cc_a88b28d0c79dc1f0e09bdfb00d36905c5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{irtools_8cc_a88b28d0c79dc1f0e09bdfb00d36905c5_icgraph}
+\end{center}
+\end{figure}

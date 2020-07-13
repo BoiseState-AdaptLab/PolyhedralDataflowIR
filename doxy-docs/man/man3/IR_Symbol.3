@@ -1,0 +1,108 @@
+.TH "IR_Symbol" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IR_Symbol \- Base abstract class for scalar and array symbols\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ir_code\&.hh>\fP
+.PP
+Inherited by \fBIR_ArraySymbol\fP, \fBIR_FunctionSymbol\fP, \fBIR_PointerSymbol\fP, and \fBIR_ScalarSymbol\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fB~IR_Symbol\fP ()"
+.br
+.RI "ir_ is not the responsibility of this object "
+.ti -1c
+.RI "virtual int \fBn_dim\fP () \fBconst\fP =0"
+.br
+.ti -1c
+.RI "virtual std::string \fBname\fP () \fBconst\fP =0"
+.br
+.ti -1c
+.RI "virtual bool \fBoperator==\fP (\fBconst\fP \fBIR_Symbol\fP &that) \fBconst\fP =0"
+.br
+.ti -1c
+.RI "virtual bool \fBoperator!=\fP (\fBconst\fP \fBIR_Symbol\fP &that) \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual \fBIR_Symbol\fP * \fBclone\fP () \fBconst\fP =0"
+.br
+.RI "shallow copy "
+.ti -1c
+.RI "virtual bool \fBisScalar\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual bool \fBisArray\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual bool \fBisPointer\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP \fBIR_Code\fP * \fBir_\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Base abstract class for scalar and array symbols\&. 
+
+This is a place holder for related declaration in IR code\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "virtual IR_Symbol::~IR_Symbol ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+ir_ is not the responsibility of this object 
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual \fBIR_Symbol\fP* IR_Symbol::clone () const\fC [pure virtual]\fP"
+
+.PP
+shallow copy 
+.PP
+Implemented in \fBIR_chillPointerSymbol\fP, \fBIR_chillArraySymbol\fP, \fBIR_chillFunctionSymbol\fP, and \fBIR_chillScalarSymbol\fP\&.
+.SS "virtual bool IR_Symbol::isArray () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBIR_ArraySymbol\fP\&.
+.SS "virtual bool IR_Symbol::isPointer () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBIR_PointerSymbol\fP\&.
+.SS "virtual bool IR_Symbol::isScalar () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBIR_ScalarSymbol\fP\&.
+.SS "virtual int IR_Symbol::n_dim () const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_chillPointerSymbol\fP, \fBIR_FunctionSymbol\fP, \fBIR_ScalarSymbol\fP, and \fBIR_chillArraySymbol\fP\&.
+.SS "virtual std::string IR_Symbol::name () const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_chillPointerSymbol\fP, \fBIR_chillArraySymbol\fP, \fBIR_chillFunctionSymbol\fP, and \fBIR_chillScalarSymbol\fP\&.
+.SS "virtual bool IR_Symbol::operator!= (\fBconst\fP \fBIR_Symbol\fP & that) const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBIR_chillArraySymbol\fP\&.
+.SS "virtual bool IR_Symbol::operator== (\fBconst\fP \fBIR_Symbol\fP & that) const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_chillPointerSymbol\fP, \fBIR_chillArraySymbol\fP, \fBIR_chillFunctionSymbol\fP, and \fBIR_chillScalarSymbol\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBconst\fP \fBIR_Code\fP* IR_Symbol::ir_"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

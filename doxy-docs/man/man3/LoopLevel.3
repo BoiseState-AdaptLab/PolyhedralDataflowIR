@@ -1,0 +1,49 @@
+.TH "LoopLevel" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+LoopLevel \- Describes properties of each loop level of a statement\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <loop\&.hh>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBLoopLevelType\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "int \fBpayload\fP"
+.br
+.ti -1c
+.RI "int \fBparallel_level\fP"
+.br
+.ti -1c
+.RI "bool \fBsegreducible\fP"
+.br
+.ti -1c
+.RI "std::string \fBsegment_descriptor\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Describes properties of each loop level of a statement\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "int LoopLevel::parallel_level"
+Used by code generation to support multi-level parallelization (default 0 means sequential loop under the current parallelization level)\&. 
+.SS "int LoopLevel::payload"
+For LoopLevelOriginal means iteration space dimension For LoopLevelTile means tiled loop level\&. Special value -1 for LoopLevelTile means purely derived loop\&. For dependence dimension payloads, the values must be in an increasing order\&. 
+.SS "std::string LoopLevel::segment_descriptor"
+
+.SS "bool LoopLevel::segreducible"
+
+.SS "\fBLoopLevelType\fP LoopLevel::type"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

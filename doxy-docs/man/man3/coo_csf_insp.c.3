@@ -1,0 +1,179 @@
+.TH "artifact/src/pdfl/coo_csf_insp.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+artifact/src/pdfl/coo_csf_insp.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <sys/time\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBcoo_data_t\fP"
+.br
+.ti -1c
+.RI "struct \fBcsf_data_t\fP"
+.br
+.ti -1c
+.RI "struct \fB_coo_node_t\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEPS\fP   0\&.01"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   (((\fBx\fP) < 0\&.0) ? \-(\fBx\fP) : (\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  \fBN\fP)   ((\fBi\fP)*(\fBN\fP)+(\fBj\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+(\fBN\fP)*((\fBj\fP)+(M)*(\fBi\fP)))"
+.br
+.ti -1c
+.RI "#define \fBarray_init\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0; __i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBintdiv\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBn\fP,  d)   \fBintdiv\fP((\fBn\fP),(d))"
+.br
+.ti -1c
+.RI "#define \fBread\fP()   \fBcoo_read\fP(path,\fBB\fP)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef float \fBreal\fP"
+.br
+.ti -1c
+.RI "typedef int32_t \fBitype\fP"
+.br
+.ti -1c
+.RI "typedef struct \fB_coo_node_t\fP \fBcoo_node_t\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "double \fBget_time\fP ()"
+.br
+.ti -1c
+.RI "int \fBcoo_tnode_comp\fP (\fBconst\fP void *\fBa\fP, \fBconst\fP void *\fBb\fP)"
+.br
+.ti -1c
+.RI "void \fBcoo_read\fP (\fBconst\fP char *fpath, \fBcoo_data_t\fP *coo)"
+.br
+.ti -1c
+.RI "\fBcoo_data_t\fP * \fBcoo_csf_setup\fP (\fBconst\fP char *path, \fBreal\fP **\fBA\fP, \fBreal\fP **\fBC\fP, \fBreal\fP **\fBD\fP)"
+.br
+.ti -1c
+.RI "\fBcsf_data_t\fP * \fBcoo_csf_insp\fP (\fBcoo_data_t\fP \fBconst\fP *coo)"
+.br
+.ti -1c
+.RI "void \fBtaco_exec\fP (\fBcoo_data_t\fP \fBconst\fP *coo, \fBcsf_data_t\fP *\fBB\fP, \fBreal\fP *\fBA\fP, \fBreal\fP *\fBC\fP, \fBreal\fP *\fBD\fP)"
+.br
+.ti -1c
+.RI "void \fBcoo_csf_exec\fP (\fBcoo_data_t\fP \fBconst\fP *coo, \fBcsf_data_t\fP \fBconst\fP *csf, \fBreal\fP *\fBA\fP, \fBreal\fP \fBconst\fP *\fBC\fP, \fBreal\fP \fBconst\fP *\fBD\fP)"
+.br
+.ti -1c
+.RI "void \fBcoo_exec\fP (\fBcoo_data_t\fP \fBconst\fP *coo, \fBreal\fP *\fBA\fP, \fBreal\fP \fBconst\fP *\fBC\fP, \fBreal\fP \fBconst\fP *\fBD\fP)"
+.br
+.ti -1c
+.RI "int \fBcoo_csf_verify\fP (\fBcoo_data_t\fP \fBconst\fP *coo, \fBcsf_data_t\fP \fBconst\fP *csf, \fBreal\fP *\fBA\fP, \fBreal\fP \fBconst\fP *\fBC\fP, \fBreal\fP \fBconst\fP *\fBD\fP)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, \fBconst\fP char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBitype\fP \fB_tns_order\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define abs(\fBx\fP)   (((\fBx\fP) < 0\&.0) ? \-(\fBx\fP) : (\fBx\fP))"
+
+.SS "#define array_init(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0; __i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define EPS   0\&.01"
+
+.SS "#define floord(\fBn\fP, d)   \fBintdiv\fP((\fBn\fP),(d))"
+
+.SS "#define intdiv(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, \fBN\fP)   ((\fBi\fP)*(\fBN\fP)+(\fBj\fP))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+(\fBN\fP)*((\fBj\fP)+(M)*(\fBi\fP)))"
+
+.SS "#define read()   \fBcoo_read\fP(path,\fBB\fP)"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fB_coo_node_t\fP \fBcoo_node_t\fP"
+
+.SS "typedef int32_t \fBitype\fP"
+
+.SS "typedef float \fBreal\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "void coo_csf_exec (\fBcoo_data_t\fP \fBconst\fP * coo, \fBcsf_data_t\fP \fBconst\fP * csf, \fBreal\fP * A, \fBreal\fP \fBconst\fP * C, \fBreal\fP \fBconst\fP * D)\fC [inline]\fP"
+
+.SS "\fBcsf_data_t\fP * coo_csf_insp (\fBcoo_data_t\fP \fBconst\fP * coo)\fC [inline]\fP"
+
+.SS "\fBcoo_data_t\fP * coo_csf_setup (\fBconst\fP char * path, \fBreal\fP ** A, \fBreal\fP ** C, \fBreal\fP ** D)\fC [inline]\fP"
+
+.SS "int coo_csf_verify (\fBcoo_data_t\fP \fBconst\fP * coo, \fBcsf_data_t\fP \fBconst\fP * csf, \fBreal\fP * A, \fBreal\fP \fBconst\fP * C, \fBreal\fP \fBconst\fP * D)\fC [inline]\fP"
+
+.SS "void coo_exec (\fBcoo_data_t\fP \fBconst\fP * coo, \fBreal\fP * A, \fBreal\fP \fBconst\fP * C, \fBreal\fP \fBconst\fP * D)"
+
+.SS "void coo_read (\fBconst\fP char * fpath, \fBcoo_data_t\fP * coo)"
+
+.SS "int coo_tnode_comp (\fBconst\fP void * a, \fBconst\fP void * b)\fC [inline]\fP"
+
+.SS "double get_time ()\fC [inline]\fP"
+
+.SS "int main (int argc, \fBconst\fP char ** argv)"
+
+.SS "void taco_exec (\fBcoo_data_t\fP \fBconst\fP * coo, \fBcsf_data_t\fP * B, \fBreal\fP * A, \fBreal\fP * C, \fBreal\fP * D)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBitype\fP _tns_order"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

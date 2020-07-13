@@ -1,0 +1,1563 @@
+\hypertarget{isl__val_8c}{}\doxysection{lib/isl/isl\+\_\+val.c File Reference}
+\label{isl__val_8c}\index{lib/isl/isl\_val.c@{lib/isl/isl\_val.c}}
+{\ttfamily \#include $<$isl\+\_\+int.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+ctx\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+val\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+list\+\_\+templ.\+c$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+multi\+\_\+templ.\+c$>$}\newline
+Include dependency graph for isl\+\_\+val.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{isl__val_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}}
+\item 
+\#define \mbox{\hyperlink{isl__val_8c_a79bcfb6bde984f42d1124b068a509af7}{B\+A\+SE}}~\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}}
+\item 
+\#define \mbox{\hyperlink{isl__val_8c_a38e2a407ab1d5ad41ee84f5ee4a9bd93}{N\+O\+\_\+\+D\+O\+M\+A\+IN}}
+\item 
+\#define \mbox{\hyperlink{isl__val_8c_ad5a23e8ee55824368ed07740198416a4}{N\+O\+\_\+\+I\+D\+E\+N\+T\+I\+TY}}
+\item 
+\#define \mbox{\hyperlink{isl__val_8c_ab200c75fa32bd3e2ed5f3537fdfb9afd}{N\+O\+\_\+\+F\+R\+O\+M\+\_\+\+B\+A\+SE}}
+\item 
+\#define \mbox{\hyperlink{isl__val_8c_a8e09f416358435ec196b5511d99348bf}{N\+O\+\_\+\+M\+O\+V\+E\+\_\+\+D\+I\+MS}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_ac888cfdebf918a522cb7c2487588e394}{isl\+\_\+val\+\_\+alloc}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a73bc801d23721fb1a0dfdbd0e1b0a00c}{isl\+\_\+val\+\_\+zero}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a6e86c9a30dda3f20a52518bb8dc22a2d}{isl\+\_\+val\+\_\+one}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a73c42a2f9f74db1819822e362fa7b92e}{isl\+\_\+val\+\_\+negone}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a664002fe758411f55e61d82254935821}{isl\+\_\+val\+\_\+nan}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a14b21c40f18985c7f51a2da04873aec5}{isl\+\_\+val\+\_\+set\+\_\+nan}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_aa37d7e06b4c9444bd37206581c561447}{isl\+\_\+val\+\_\+infty}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a755887d4999f28f5dfe6c03030e6740f}{isl\+\_\+val\+\_\+neginfty}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_aa63290bb17a5da955244feca538c33fc}{isl\+\_\+val\+\_\+int\+\_\+from\+\_\+si}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx, long \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a63f0827ec596711da523fdaedb950631}{isl\+\_\+val\+\_\+set\+\_\+si}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, long \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a94d02f7468561b90625e6b29edc80c95}{isl\+\_\+val\+\_\+set\+\_\+zero}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a7734e62248743156d2be18dfdca4b7ca}{isl\+\_\+val\+\_\+int\+\_\+from\+\_\+ui}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx, unsigned long \mbox{\hyperlink{euler__step__3d__ff__tile__cu_8h_af7325b366c4aecba2c4331767c0c3fe7}{u}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a12a56d3dbd49ced06c70254c688c58cb}{isl\+\_\+val\+\_\+int\+\_\+from\+\_\+isl\+\_\+int}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a007dba032c5caac131a489a5e564b266}{isl\+\_\+val\+\_\+rat\+\_\+from\+\_\+isl\+\_\+int}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} d)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a875a5a94ecf389e19f81165959b7021b}{isl\+\_\+val\+\_\+copy}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a58c102c5056be9537bacf3b1c9334e9a}{isl\+\_\+val\+\_\+dup}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a53d4aff9d984cb3f07d4478cb079d444}{isl\+\_\+val\+\_\+cow}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}})
+\item 
+\mbox{\hyperlink{ctx_8h_a452b57ad9167af3e3cf5eaa8b9a45f78}{\+\_\+\+\_\+isl\+\_\+null}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a7b7af12fe04c06b9bee998405b5869bc}{isl\+\_\+val\+\_\+free}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+long \mbox{\hyperlink{isl__val_8c_aa96356ebd1054a1f1a30859e77eaac51}{isl\+\_\+val\+\_\+get\+\_\+num\+\_\+si}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+int \mbox{\hyperlink{isl__val_8c_a5d7ba7cd77504343a56a144eb33365ec}{isl\+\_\+val\+\_\+get\+\_\+num\+\_\+isl\+\_\+int}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+long \mbox{\hyperlink{isl__val_8c_a200224036f4af1b157fc24a522b6555d}{isl\+\_\+val\+\_\+get\+\_\+den\+\_\+si}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a35d75e44f7d6465129a6f05bf7bfaecf}{isl\+\_\+val\+\_\+get\+\_\+den\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+double \mbox{\hyperlink{isl__val_8c_adf4b572fe8bbaafa8d2c99fd4050a6c7}{isl\+\_\+val\+\_\+get\+\_\+d}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ \mbox{\hyperlink{isl__val_8c_a95592ecd7d4d26e9f29e834e03ba792d}{isl\+\_\+val\+\_\+get\+\_\+ctx}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a0fe9cc279a85921469f36d32f1517a0c}{isl\+\_\+val\+\_\+normalize}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a5f38997bbc0b61a46f65e56b3c55eb1b}{isl\+\_\+val\+\_\+neg}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a4b57a926cc9642edf77242875a764766}{isl\+\_\+val\+\_\+inv}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a759e194b7f78d15ccfc5750ffc9beb65}{isl\+\_\+val\+\_\+abs}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a74901ada40b0fcc50201ae4185720d15}{isl\+\_\+val\+\_\+floor}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a705b4ee46956d5b859ad15924dadcde3}{isl\+\_\+val\+\_\+ceil}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_ac492a7610704c564faa99c0df972115c}{isl\+\_\+val\+\_\+trunc}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a833cbc7921b2ea1476fc2cda3f74aa3e}{isl\+\_\+val\+\_\+2exp}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a57a0006945d01a610d4e31c0d7bf5cd1}{isl\+\_\+val\+\_\+min}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_ae5ef733e89b85f948ea620ffe4218cff}{isl\+\_\+val\+\_\+max}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a93fb16f535e5c2a67ccf2a000b194213}{isl\+\_\+val\+\_\+add}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_ab4ba21d0134ac91e317fc007838c5973}{isl\+\_\+val\+\_\+add\+\_\+ui}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, unsigned long v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_ade8fcf685985471e79fb6a4705acd7f0}{isl\+\_\+val\+\_\+sub}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_aee64e4ff2bbb0dc731effdda82393ebf}{isl\+\_\+val\+\_\+sub\+\_\+ui}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, unsigned long v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_ac004595aead5b28b8262d634948f3b7e}{isl\+\_\+val\+\_\+mul}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a9b121c30671e12d8efd9e3d0564c74ba}{isl\+\_\+val\+\_\+scale\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a478f1a3cc1e74dcdd692ec2084eeb950}{isl\+\_\+val\+\_\+mul\+\_\+ui}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, unsigned long v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a442c97ad2648adc6cd6566bde4b3e131}{isl\+\_\+val\+\_\+div}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a6bf940e4b44857ef6f2892643d1df873}{isl\+\_\+val\+\_\+scale\+\_\+down\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_af939db4c9b1998b8993e866e278c78fb}{isl\+\_\+val\+\_\+is\+\_\+divisible\+\_\+by}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a3256577620b50ff9059a3eafb9a47bae}{isl\+\_\+val\+\_\+mod}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_abb4e1e0f47197f991fd8eec0341334a1}{isl\+\_\+val\+\_\+mod\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a45616df51a4d381db218698b1d315574}{isl\+\_\+val\+\_\+gcd}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a8e0d7526ed95bafbc773fb1b8a438bfc}{isl\+\_\+val\+\_\+gcdext}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2, \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$$\ast$\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}, \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$$\ast$\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_afa20d34c93cee68b544e6a238194fc8e}{isl\+\_\+val\+\_\+is\+\_\+int}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a8e125a1552132f7fc9b12d5f3b3c4883}{isl\+\_\+val\+\_\+is\+\_\+rat}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a8a164088f496b3f26abb99330c97fe5d}{isl\+\_\+val\+\_\+is\+\_\+nan}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a1038c1a4462cafa723ccb17aad62c8f2}{isl\+\_\+val\+\_\+is\+\_\+infty}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_aa0d222c3b4fd4f9ad4c0e382875dd31b}{isl\+\_\+val\+\_\+is\+\_\+neginfty}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a8acf0dc9e27cfac18e8b9255614b3b22}{isl\+\_\+val\+\_\+is\+\_\+zero}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a27127d329988c53a6273e62e009b20fc}{isl\+\_\+val\+\_\+is\+\_\+one}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_ac2f271f4cfec57c782a673f7fceb9dad}{isl\+\_\+val\+\_\+is\+\_\+negone}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_af50136055f0f102cfa41d625aec30dc0}{isl\+\_\+val\+\_\+is\+\_\+pos}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a6b705961642de90717ea10b32fe125b7}{isl\+\_\+val\+\_\+is\+\_\+neg}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a2c8e1ae7c4afd4c874f206006b8b36df}{isl\+\_\+val\+\_\+is\+\_\+nonneg}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a14cc0acca47a1a3ca99f56e9a2c5ba84}{isl\+\_\+val\+\_\+is\+\_\+nonpos}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+int \mbox{\hyperlink{isl__val_8c_ae684669d0d98a65ab9a5528492413f0f}{isl\+\_\+val\+\_\+sgn}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_aa5ca13722727f58df1898de005388b91}{isl\+\_\+val\+\_\+lt}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a8b10b841dda190b79e9ddbf74d8899e2}{isl\+\_\+val\+\_\+gt}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_ac32cc07a9a6e65c86cfe12c8a3415232}{isl\+\_\+val\+\_\+le}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_ada7fe3b748f27a5d34c5b15eb94627b1}{isl\+\_\+val\+\_\+ge}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+int \mbox{\hyperlink{isl__val_8c_a2ac2889c76440c3fb4bdb7c7d2109e5e}{isl\+\_\+val\+\_\+cmp\+\_\+si}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, long \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a5e018046f951bae504a6c1e646b74a45}{isl\+\_\+val\+\_\+eq}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_a7d21aa996bd3704d27e19dc0e7e1711e}{isl\+\_\+val\+\_\+abs\+\_\+eq}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__val_8c_ac9eb2ce6c6889ec7e08299a3b4b0a356}{isl\+\_\+val\+\_\+ne}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}} $\ast$ \mbox{\hyperlink{isl__val_8c_ae86c37ed9242002236968765ad288d06}{isl\+\_\+printer\+\_\+print\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}} $\ast$\mbox{\hyperlink{coo__hicoo__insp_8h_a27a91efbb4d6f311c8d8ee5fdad44fd2}{p}}, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+int \mbox{\hyperlink{isl__val_8c_aa28850c6e9cde6b15d2b46924f2cef78}{isl\+\_\+val\+\_\+plain\+\_\+is\+\_\+equal}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$val1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$val2)
+\item 
+int \mbox{\hyperlink{isl__val_8c_a9534217f45c0de69417a721aff14ee2a}{isl\+\_\+val\+\_\+involves\+\_\+dims}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} type, unsigned first, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a3de75b9f12716c47d85424bb17914313}{isl\+\_\+val\+\_\+insert\+\_\+dims}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} type, unsigned first, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a23fbbb799c70506d2b8ad1d7b04a7191}{isl\+\_\+val\+\_\+drop\+\_\+dims}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} type, unsigned first, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a2fc4afd5193e4bda59abe4b753e49f14}{isl\+\_\+val\+\_\+set\+\_\+dim\+\_\+name}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} type, unsigned \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$s)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$ \mbox{\hyperlink{isl__val_8c_a81d51488f5544808845913159b068b74}{isl\+\_\+val\+\_\+get\+\_\+space}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_afadd51a07884f5179862e2866abb237f}{isl\+\_\+val\+\_\+reset\+\_\+domain\+\_\+space}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$space)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a8b50d072adbc271ff26fef62e1e455a3}{isl\+\_\+val\+\_\+align\+\_\+params}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$space)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a813bd34dd70c458052f4deff40f8d643}{isl\+\_\+val\+\_\+realign\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__reordering}{isl\+\_\+reordering}} $\ast$r)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_aa9499f77f830aa177103e21d30b1bef4}{isl\+\_\+val\+\_\+zero\+\_\+on\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__local__space}{isl\+\_\+local\+\_\+space}} $\ast$ls)
+\item 
+int \mbox{\hyperlink{isl__val_8c_a177da9fcc01daface8359dff4c0bc678}{isl\+\_\+val\+\_\+matching\+\_\+params}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$space)
+\item 
+int \mbox{\hyperlink{isl__val_8c_a5f6b1b19d5fedd84d4243350b7adf54f}{isl\+\_\+val\+\_\+check\+\_\+match\+\_\+domain\+\_\+space}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$space)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{val_8h_afa3961b1b92441d132c0c1c40e4d5d2d}{isl\+\_\+multi\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a86d21dbd042900da6601d1e7cfc4c2bd}{isl\+\_\+multi\+\_\+val\+\_\+add\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{val_8h_afa3961b1b92441d132c0c1c40e4d5d2d}{isl\+\_\+multi\+\_\+val}} $\ast$mv, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{val_8h_afa3961b1b92441d132c0c1c40e4d5d2d}{isl\+\_\+multi\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__val_8c_a855644817d6e0f965e5587d2cf0b711f}{isl\+\_\+multi\+\_\+val\+\_\+mod\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{val_8h_afa3961b1b92441d132c0c1c40e4d5d2d}{isl\+\_\+multi\+\_\+val}} $\ast$mv, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{isl__val_8c_a79bcfb6bde984f42d1124b068a509af7}\label{isl__val_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{isl\_val.c@{isl\_val.c}!BASE@{BASE}}
+\index{BASE@{BASE}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}}}
+
+\mbox{\Hypertarget{isl__val_8c_a79bcfb6bde984f42d1124b068a509af7}\label{isl__val_8c_a79bcfb6bde984f42d1124b068a509af7}} 
+\index{isl\_val.c@{isl\_val.c}!BASE@{BASE}}
+\index{BASE@{BASE}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{BASE}{BASE}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \#define B\+A\+SE~\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}}}
+
+\mbox{\Hypertarget{isl__val_8c_a38e2a407ab1d5ad41ee84f5ee4a9bd93}\label{isl__val_8c_a38e2a407ab1d5ad41ee84f5ee4a9bd93}} 
+\index{isl\_val.c@{isl\_val.c}!NO\_DOMAIN@{NO\_DOMAIN}}
+\index{NO\_DOMAIN@{NO\_DOMAIN}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{NO\_DOMAIN}{NO\_DOMAIN}}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+D\+O\+M\+A\+IN}
+
+\mbox{\Hypertarget{isl__val_8c_ab200c75fa32bd3e2ed5f3537fdfb9afd}\label{isl__val_8c_ab200c75fa32bd3e2ed5f3537fdfb9afd}} 
+\index{isl\_val.c@{isl\_val.c}!NO\_FROM\_BASE@{NO\_FROM\_BASE}}
+\index{NO\_FROM\_BASE@{NO\_FROM\_BASE}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{NO\_FROM\_BASE}{NO\_FROM\_BASE}}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+F\+R\+O\+M\+\_\+\+B\+A\+SE}
+
+\mbox{\Hypertarget{isl__val_8c_ad5a23e8ee55824368ed07740198416a4}\label{isl__val_8c_ad5a23e8ee55824368ed07740198416a4}} 
+\index{isl\_val.c@{isl\_val.c}!NO\_IDENTITY@{NO\_IDENTITY}}
+\index{NO\_IDENTITY@{NO\_IDENTITY}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{NO\_IDENTITY}{NO\_IDENTITY}}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+I\+D\+E\+N\+T\+I\+TY}
+
+\mbox{\Hypertarget{isl__val_8c_a8e09f416358435ec196b5511d99348bf}\label{isl__val_8c_a8e09f416358435ec196b5511d99348bf}} 
+\index{isl\_val.c@{isl\_val.c}!NO\_MOVE\_DIMS@{NO\_MOVE\_DIMS}}
+\index{NO\_MOVE\_DIMS@{NO\_MOVE\_DIMS}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{NO\_MOVE\_DIMS}{NO\_MOVE\_DIMS}}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+M\+O\+V\+E\+\_\+\+D\+I\+MS}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{isl__val_8c_a86d21dbd042900da6601d1e7cfc4c2bd}\label{isl__val_8c_a86d21dbd042900da6601d1e7cfc4c2bd}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_multi\_val\_add\_val@{isl\_multi\_val\_add\_val}}
+\index{isl\_multi\_val\_add\_val@{isl\_multi\_val\_add\_val}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_multi\_val\_add\_val()}{isl\_multi\_val\_add\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{val_8h_afa3961b1b92441d132c0c1c40e4d5d2d}{isl\+\_\+multi\+\_\+val}}$\ast$ isl\+\_\+multi\+\_\+val\+\_\+add\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{val_8h_afa3961b1b92441d132c0c1c40e4d5d2d}{isl\+\_\+multi\+\_\+val}} $\ast$}]{mv,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a86d21dbd042900da6601d1e7cfc4c2bd_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a855644817d6e0f965e5587d2cf0b711f}\label{isl__val_8c_a855644817d6e0f965e5587d2cf0b711f}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_multi\_val\_mod\_val@{isl\_multi\_val\_mod\_val}}
+\index{isl\_multi\_val\_mod\_val@{isl\_multi\_val\_mod\_val}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_multi\_val\_mod\_val()}{isl\_multi\_val\_mod\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{val_8h_afa3961b1b92441d132c0c1c40e4d5d2d}{isl\+\_\+multi\+\_\+val}}$\ast$ isl\+\_\+multi\+\_\+val\+\_\+mod\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{val_8h_afa3961b1b92441d132c0c1c40e4d5d2d}{isl\+\_\+multi\+\_\+val}} $\ast$}]{mv,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__val_8c_ae86c37ed9242002236968765ad288d06}\label{isl__val_8c_ae86c37ed9242002236968765ad288d06}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_printer\_print\_val@{isl\_printer\_print\_val}}
+\index{isl\_printer\_print\_val@{isl\_printer\_print\_val}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_printer\_print\_val()}{isl\_printer\_print\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}}$\ast$ isl\+\_\+printer\+\_\+print\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}} $\ast$}]{p,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ae86c37ed9242002236968765ad288d06_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a833cbc7921b2ea1476fc2cda3f74aa3e}\label{isl__val_8c_a833cbc7921b2ea1476fc2cda3f74aa3e}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_2exp@{isl\_val\_2exp}}
+\index{isl\_val\_2exp@{isl\_val\_2exp}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_2exp()}{isl\_val\_2exp()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+2exp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a833cbc7921b2ea1476fc2cda3f74aa3e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a759e194b7f78d15ccfc5750ffc9beb65}\label{isl__val_8c_a759e194b7f78d15ccfc5750ffc9beb65}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_abs@{isl\_val\_abs}}
+\index{isl\_val\_abs@{isl\_val\_abs}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_abs()}{isl\_val\_abs()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+abs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a759e194b7f78d15ccfc5750ffc9beb65_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a7d21aa996bd3704d27e19dc0e7e1711e}\label{isl__val_8c_a7d21aa996bd3704d27e19dc0e7e1711e}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_abs\_eq@{isl\_val\_abs\_eq}}
+\index{isl\_val\_abs\_eq@{isl\_val\_abs\_eq}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_abs\_eq()}{isl\_val\_abs\_eq()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+abs\+\_\+eq (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=289pt]{isl__val_8c_a7d21aa996bd3704d27e19dc0e7e1711e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a93fb16f535e5c2a67ccf2a000b194213}\label{isl__val_8c_a93fb16f535e5c2a67ccf2a000b194213}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_add@{isl\_val\_add}}
+\index{isl\_val\_add@{isl\_val\_add}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_add()}{isl\_val\_add()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a93fb16f535e5c2a67ccf2a000b194213_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ab4ba21d0134ac91e317fc007838c5973}\label{isl__val_8c_ab4ba21d0134ac91e317fc007838c5973}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_add\_ui@{isl\_val\_add\_ui}}
+\index{isl\_val\_add\_ui@{isl\_val\_add\_ui}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_add\_ui()}{isl\_val\_add\_ui()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+add\+\_\+ui (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{unsigned long}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ab4ba21d0134ac91e317fc007838c5973_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a8b50d072adbc271ff26fef62e1e455a3}\label{isl__val_8c_a8b50d072adbc271ff26fef62e1e455a3}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_align\_params@{isl\_val\_align\_params}}
+\index{isl\_val\_align\_params@{isl\_val\_align\_params}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_align\_params()}{isl\_val\_align\_params()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+align\+\_\+params (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{space }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a8b50d072adbc271ff26fef62e1e455a3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ac888cfdebf918a522cb7c2487588e394}\label{isl__val_8c_ac888cfdebf918a522cb7c2487588e394}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_alloc@{isl\_val\_alloc}}
+\index{isl\_val\_alloc@{isl\_val\_alloc}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_alloc()}{isl\_val\_alloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+alloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{isl__val_8c_ac888cfdebf918a522cb7c2487588e394_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ac888cfdebf918a522cb7c2487588e394_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a705b4ee46956d5b859ad15924dadcde3}\label{isl__val_8c_a705b4ee46956d5b859ad15924dadcde3}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_ceil@{isl\_val\_ceil}}
+\index{isl\_val\_ceil@{isl\_val\_ceil}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_ceil()}{isl\_val\_ceil()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+ceil (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a705b4ee46956d5b859ad15924dadcde3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a5f6b1b19d5fedd84d4243350b7adf54f}\label{isl__val_8c_a5f6b1b19d5fedd84d4243350b7adf54f}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_check\_match\_domain\_space@{isl\_val\_check\_match\_domain\_space}}
+\index{isl\_val\_check\_match\_domain\_space@{isl\_val\_check\_match\_domain\_space}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_check\_match\_domain\_space()}{isl\_val\_check\_match\_domain\_space()}}
+{\footnotesize\ttfamily int isl\+\_\+val\+\_\+check\+\_\+match\+\_\+domain\+\_\+space (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{space }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__val_8c_a2ac2889c76440c3fb4bdb7c7d2109e5e}\label{isl__val_8c_a2ac2889c76440c3fb4bdb7c7d2109e5e}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_cmp\_si@{isl\_val\_cmp\_si}}
+\index{isl\_val\_cmp\_si@{isl\_val\_cmp\_si}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_cmp\_si()}{isl\_val\_cmp\_si()}}
+{\footnotesize\ttfamily int isl\+\_\+val\+\_\+cmp\+\_\+si (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{long}]{i }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a2ac2889c76440c3fb4bdb7c7d2109e5e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a875a5a94ecf389e19f81165959b7021b}\label{isl__val_8c_a875a5a94ecf389e19f81165959b7021b}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_copy@{isl\_val\_copy}}
+\index{isl\_val\_copy@{isl\_val\_copy}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_copy()}{isl\_val\_copy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+copy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a875a5a94ecf389e19f81165959b7021b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a53d4aff9d984cb3f07d4478cb079d444}\label{isl__val_8c_a53d4aff9d984cb3f07d4478cb079d444}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_cow@{isl\_val\_cow}}
+\index{isl\_val\_cow@{isl\_val\_cow}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_cow()}{isl\_val\_cow()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+cow (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{val }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a53d4aff9d984cb3f07d4478cb079d444_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a53d4aff9d984cb3f07d4478cb079d444_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a442c97ad2648adc6cd6566bde4b3e131}\label{isl__val_8c_a442c97ad2648adc6cd6566bde4b3e131}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_div@{isl\_val\_div}}
+\index{isl\_val\_div@{isl\_val\_div}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_div()}{isl\_val\_div()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+div (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a442c97ad2648adc6cd6566bde4b3e131_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{isl__val_8c_a442c97ad2648adc6cd6566bde4b3e131_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a23fbbb799c70506d2b8ad1d7b04a7191}\label{isl__val_8c_a23fbbb799c70506d2b8ad1d7b04a7191}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_drop\_dims@{isl\_val\_drop\_dims}}
+\index{isl\_val\_drop\_dims@{isl\_val\_drop\_dims}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_drop\_dims()}{isl\_val\_drop\_dims()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+drop\+\_\+dims (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{type,  }\item[{unsigned}]{first,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__val_8c_a58c102c5056be9537bacf3b1c9334e9a}\label{isl__val_8c_a58c102c5056be9537bacf3b1c9334e9a}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_dup@{isl\_val\_dup}}
+\index{isl\_val\_dup@{isl\_val\_dup}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_dup()}{isl\_val\_dup()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+dup (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{val }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a58c102c5056be9537bacf3b1c9334e9a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a58c102c5056be9537bacf3b1c9334e9a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a5e018046f951bae504a6c1e646b74a45}\label{isl__val_8c_a5e018046f951bae504a6c1e646b74a45}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_eq@{isl\_val\_eq}}
+\index{isl\_val\_eq@{isl\_val\_eq}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_eq()}{isl\_val\_eq()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+eq (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{isl__val_8c_a5e018046f951bae504a6c1e646b74a45_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a5e018046f951bae504a6c1e646b74a45_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a74901ada40b0fcc50201ae4185720d15}\label{isl__val_8c_a74901ada40b0fcc50201ae4185720d15}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_floor@{isl\_val\_floor}}
+\index{isl\_val\_floor@{isl\_val\_floor}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_floor()}{isl\_val\_floor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+floor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a74901ada40b0fcc50201ae4185720d15_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a7b7af12fe04c06b9bee998405b5869bc}\label{isl__val_8c_a7b7af12fe04c06b9bee998405b5869bc}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_free@{isl\_val\_free}}
+\index{isl\_val\_free@{isl\_val\_free}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_free()}{isl\_val\_free()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a452b57ad9167af3e3cf5eaa8b9a45f78}{\+\_\+\+\_\+isl\+\_\+null}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=268pt]{isl__val_8c_a7b7af12fe04c06b9bee998405b5869bc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{isl__val_8c_a7b7af12fe04c06b9bee998405b5869bc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a45616df51a4d381db218698b1d315574}\label{isl__val_8c_a45616df51a4d381db218698b1d315574}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_gcd@{isl\_val\_gcd}}
+\index{isl\_val\_gcd@{isl\_val\_gcd}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_gcd()}{isl\_val\_gcd()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+gcd (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a45616df51a4d381db218698b1d315574_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{isl__val_8c_a45616df51a4d381db218698b1d315574_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a8e0d7526ed95bafbc773fb1b8a438bfc}\label{isl__val_8c_a8e0d7526ed95bafbc773fb1b8a438bfc}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_gcdext@{isl\_val\_gcdext}}
+\index{isl\_val\_gcdext@{isl\_val\_gcdext}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_gcdext()}{isl\_val\_gcdext()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+gcdext (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2,  }\item[{\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$$\ast$}]{x,  }\item[{\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$$\ast$}]{y }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a8e0d7526ed95bafbc773fb1b8a438bfc_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ada7fe3b748f27a5d34c5b15eb94627b1}\label{isl__val_8c_ada7fe3b748f27a5d34c5b15eb94627b1}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_ge@{isl\_val\_ge}}
+\index{isl\_val\_ge@{isl\_val\_ge}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_ge()}{isl\_val\_ge()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+ge (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ada7fe3b748f27a5d34c5b15eb94627b1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ada7fe3b748f27a5d34c5b15eb94627b1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a95592ecd7d4d26e9f29e834e03ba792d}\label{isl__val_8c_a95592ecd7d4d26e9f29e834e03ba792d}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_get\_ctx@{isl\_val\_get\_ctx}}
+\index{isl\_val\_get\_ctx@{isl\_val\_get\_ctx}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_get\_ctx()}{isl\_val\_get\_ctx()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}}$\ast$ isl\+\_\+val\+\_\+get\+\_\+ctx (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{val }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a95592ecd7d4d26e9f29e834e03ba792d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_adf4b572fe8bbaafa8d2c99fd4050a6c7}\label{isl__val_8c_adf4b572fe8bbaafa8d2c99fd4050a6c7}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_get\_d@{isl\_val\_get\_d}}
+\index{isl\_val\_get\_d@{isl\_val\_get\_d}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_get\_d()}{isl\_val\_get\_d()}}
+{\footnotesize\ttfamily double isl\+\_\+val\+\_\+get\+\_\+d (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=285pt]{isl__val_8c_adf4b572fe8bbaafa8d2c99fd4050a6c7_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a200224036f4af1b157fc24a522b6555d}\label{isl__val_8c_a200224036f4af1b157fc24a522b6555d}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_get\_den\_si@{isl\_val\_get\_den\_si}}
+\index{isl\_val\_get\_den\_si@{isl\_val\_get\_den\_si}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_get\_den\_si()}{isl\_val\_get\_den\_si()}}
+{\footnotesize\ttfamily long isl\+\_\+val\+\_\+get\+\_\+den\+\_\+si (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{isl__val_8c_a200224036f4af1b157fc24a522b6555d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a35d75e44f7d6465129a6f05bf7bfaecf}\label{isl__val_8c_a35d75e44f7d6465129a6f05bf7bfaecf}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_get\_den\_val@{isl\_val\_get\_den\_val}}
+\index{isl\_val\_get\_den\_val@{isl\_val\_get\_den\_val}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_get\_den\_val()}{isl\_val\_get\_den\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+get\+\_\+den\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a35d75e44f7d6465129a6f05bf7bfaecf_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a5d7ba7cd77504343a56a144eb33365ec}\label{isl__val_8c_a5d7ba7cd77504343a56a144eb33365ec}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_get\_num\_isl\_int@{isl\_val\_get\_num\_isl\_int}}
+\index{isl\_val\_get\_num\_isl\_int@{isl\_val\_get\_num\_isl\_int}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_get\_num\_isl\_int()}{isl\_val\_get\_num\_isl\_int()}}
+{\footnotesize\ttfamily int isl\+\_\+val\+\_\+get\+\_\+num\+\_\+isl\+\_\+int (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{isl__val_8c_a5d7ba7cd77504343a56a144eb33365ec_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_aa96356ebd1054a1f1a30859e77eaac51}\label{isl__val_8c_aa96356ebd1054a1f1a30859e77eaac51}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_get\_num\_si@{isl\_val\_get\_num\_si}}
+\index{isl\_val\_get\_num\_si@{isl\_val\_get\_num\_si}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_get\_num\_si()}{isl\_val\_get\_num\_si()}}
+{\footnotesize\ttfamily long isl\+\_\+val\+\_\+get\+\_\+num\+\_\+si (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=315pt]{isl__val_8c_aa96356ebd1054a1f1a30859e77eaac51_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a81d51488f5544808845913159b068b74}\label{isl__val_8c_a81d51488f5544808845913159b068b74}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_get\_space@{isl\_val\_get\_space}}
+\index{isl\_val\_get\_space@{isl\_val\_get\_space}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_get\_space()}{isl\_val\_get\_space()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}}$\ast$ isl\+\_\+val\+\_\+get\+\_\+space (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a81d51488f5544808845913159b068b74_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a8b10b841dda190b79e9ddbf74d8899e2}\label{isl__val_8c_a8b10b841dda190b79e9ddbf74d8899e2}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_gt@{isl\_val\_gt}}
+\index{isl\_val\_gt@{isl\_val\_gt}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_gt()}{isl\_val\_gt()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+gt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a8b10b841dda190b79e9ddbf74d8899e2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_aa37d7e06b4c9444bd37206581c561447}\label{isl__val_8c_aa37d7e06b4c9444bd37206581c561447}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_infty@{isl\_val\_infty}}
+\index{isl\_val\_infty@{isl\_val\_infty}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_infty()}{isl\_val\_infty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+infty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_aa37d7e06b4c9444bd37206581c561447_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a3de75b9f12716c47d85424bb17914313}\label{isl__val_8c_a3de75b9f12716c47d85424bb17914313}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_insert\_dims@{isl\_val\_insert\_dims}}
+\index{isl\_val\_insert\_dims@{isl\_val\_insert\_dims}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_insert\_dims()}{isl\_val\_insert\_dims()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+insert\+\_\+dims (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{type,  }\item[{unsigned}]{first,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__val_8c_a12a56d3dbd49ced06c70254c688c58cb}\label{isl__val_8c_a12a56d3dbd49ced06c70254c688c58cb}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_int\_from\_isl\_int@{isl\_val\_int\_from\_isl\_int}}
+\index{isl\_val\_int\_from\_isl\_int@{isl\_val\_int\_from\_isl\_int}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_int\_from\_isl\_int()}{isl\_val\_int\_from\_isl\_int()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+int\+\_\+from\+\_\+isl\+\_\+int (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a12a56d3dbd49ced06c70254c688c58cb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a12a56d3dbd49ced06c70254c688c58cb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_aa63290bb17a5da955244feca538c33fc}\label{isl__val_8c_aa63290bb17a5da955244feca538c33fc}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_int\_from\_si@{isl\_val\_int\_from\_si}}
+\index{isl\_val\_int\_from\_si@{isl\_val\_int\_from\_si}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_int\_from\_si()}{isl\_val\_int\_from\_si()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+int\+\_\+from\+\_\+si (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx,  }\item[{long}]{i }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_aa63290bb17a5da955244feca538c33fc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_aa63290bb17a5da955244feca538c33fc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a7734e62248743156d2be18dfdca4b7ca}\label{isl__val_8c_a7734e62248743156d2be18dfdca4b7ca}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_int\_from\_ui@{isl\_val\_int\_from\_ui}}
+\index{isl\_val\_int\_from\_ui@{isl\_val\_int\_from\_ui}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_int\_from\_ui()}{isl\_val\_int\_from\_ui()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+int\+\_\+from\+\_\+ui (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx,  }\item[{unsigned long}]{u }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a7734e62248743156d2be18dfdca4b7ca_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a4b57a926cc9642edf77242875a764766}\label{isl__val_8c_a4b57a926cc9642edf77242875a764766}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_inv@{isl\_val\_inv}}
+\index{isl\_val\_inv@{isl\_val\_inv}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_inv()}{isl\_val\_inv()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+inv (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a4b57a926cc9642edf77242875a764766_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{isl__val_8c_a4b57a926cc9642edf77242875a764766_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a9534217f45c0de69417a721aff14ee2a}\label{isl__val_8c_a9534217f45c0de69417a721aff14ee2a}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_involves\_dims@{isl\_val\_involves\_dims}}
+\index{isl\_val\_involves\_dims@{isl\_val\_involves\_dims}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_involves\_dims()}{isl\_val\_involves\_dims()}}
+{\footnotesize\ttfamily int isl\+\_\+val\+\_\+involves\+\_\+dims (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{type,  }\item[{unsigned}]{first,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__val_8c_af939db4c9b1998b8993e866e278c78fb}\label{isl__val_8c_af939db4c9b1998b8993e866e278c78fb}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_divisible\_by@{isl\_val\_is\_divisible\_by}}
+\index{isl\_val\_is\_divisible\_by@{isl\_val\_is\_divisible\_by}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_divisible\_by()}{isl\_val\_is\_divisible\_by()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+divisible\+\_\+by (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{isl__val_8c_af939db4c9b1998b8993e866e278c78fb_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a1038c1a4462cafa723ccb17aad62c8f2}\label{isl__val_8c_a1038c1a4462cafa723ccb17aad62c8f2}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_infty@{isl\_val\_is\_infty}}
+\index{isl\_val\_is\_infty@{isl\_val\_is\_infty}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_infty()}{isl\_val\_is\_infty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+infty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a1038c1a4462cafa723ccb17aad62c8f2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_afa20d34c93cee68b544e6a238194fc8e}\label{isl__val_8c_afa20d34c93cee68b544e6a238194fc8e}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_int@{isl\_val\_is\_int}}
+\index{isl\_val\_is\_int@{isl\_val\_is\_int}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_int()}{isl\_val\_is\_int()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+int (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_afa20d34c93cee68b544e6a238194fc8e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a8a164088f496b3f26abb99330c97fe5d}\label{isl__val_8c_a8a164088f496b3f26abb99330c97fe5d}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_nan@{isl\_val\_is\_nan}}
+\index{isl\_val\_is\_nan@{isl\_val\_is\_nan}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_nan()}{isl\_val\_is\_nan()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+nan (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a8a164088f496b3f26abb99330c97fe5d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a6b705961642de90717ea10b32fe125b7}\label{isl__val_8c_a6b705961642de90717ea10b32fe125b7}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_neg@{isl\_val\_is\_neg}}
+\index{isl\_val\_is\_neg@{isl\_val\_is\_neg}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_neg()}{isl\_val\_is\_neg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+neg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a6b705961642de90717ea10b32fe125b7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_aa0d222c3b4fd4f9ad4c0e382875dd31b}\label{isl__val_8c_aa0d222c3b4fd4f9ad4c0e382875dd31b}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_neginfty@{isl\_val\_is\_neginfty}}
+\index{isl\_val\_is\_neginfty@{isl\_val\_is\_neginfty}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_neginfty()}{isl\_val\_is\_neginfty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+neginfty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_aa0d222c3b4fd4f9ad4c0e382875dd31b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ac2f271f4cfec57c782a673f7fceb9dad}\label{isl__val_8c_ac2f271f4cfec57c782a673f7fceb9dad}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_negone@{isl\_val\_is\_negone}}
+\index{isl\_val\_is\_negone@{isl\_val\_is\_negone}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_negone()}{isl\_val\_is\_negone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+negone (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__val_8c_a2c8e1ae7c4afd4c874f206006b8b36df}\label{isl__val_8c_a2c8e1ae7c4afd4c874f206006b8b36df}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_nonneg@{isl\_val\_is\_nonneg}}
+\index{isl\_val\_is\_nonneg@{isl\_val\_is\_nonneg}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_nonneg()}{isl\_val\_is\_nonneg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+nonneg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{isl__val_8c_a2c8e1ae7c4afd4c874f206006b8b36df_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a2c8e1ae7c4afd4c874f206006b8b36df_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a14cc0acca47a1a3ca99f56e9a2c5ba84}\label{isl__val_8c_a14cc0acca47a1a3ca99f56e9a2c5ba84}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_nonpos@{isl\_val\_is\_nonpos}}
+\index{isl\_val\_is\_nonpos@{isl\_val\_is\_nonpos}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_nonpos()}{isl\_val\_is\_nonpos()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+nonpos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=303pt]{isl__val_8c_a14cc0acca47a1a3ca99f56e9a2c5ba84_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a27127d329988c53a6273e62e009b20fc}\label{isl__val_8c_a27127d329988c53a6273e62e009b20fc}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_one@{isl\_val\_is\_one}}
+\index{isl\_val\_is\_one@{isl\_val\_is\_one}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_one()}{isl\_val\_is\_one()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+one (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a27127d329988c53a6273e62e009b20fc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_af50136055f0f102cfa41d625aec30dc0}\label{isl__val_8c_af50136055f0f102cfa41d625aec30dc0}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_pos@{isl\_val\_is\_pos}}
+\index{isl\_val\_is\_pos@{isl\_val\_is\_pos}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_pos()}{isl\_val\_is\_pos()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_af50136055f0f102cfa41d625aec30dc0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a8e125a1552132f7fc9b12d5f3b3c4883}\label{isl__val_8c_a8e125a1552132f7fc9b12d5f3b3c4883}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_rat@{isl\_val\_is\_rat}}
+\index{isl\_val\_is\_rat@{isl\_val\_is\_rat}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_rat()}{isl\_val\_is\_rat()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+rat (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{isl__val_8c_a8e125a1552132f7fc9b12d5f3b3c4883_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a8acf0dc9e27cfac18e8b9255614b3b22}\label{isl__val_8c_a8acf0dc9e27cfac18e8b9255614b3b22}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_is\_zero@{isl\_val\_is\_zero}}
+\index{isl\_val\_is\_zero@{isl\_val\_is\_zero}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_is\_zero()}{isl\_val\_is\_zero()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+is\+\_\+zero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a8acf0dc9e27cfac18e8b9255614b3b22_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ac32cc07a9a6e65c86cfe12c8a3415232}\label{isl__val_8c_ac32cc07a9a6e65c86cfe12c8a3415232}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_le@{isl\_val\_le}}
+\index{isl\_val\_le@{isl\_val\_le}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_le()}{isl\_val\_le()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+le (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ac32cc07a9a6e65c86cfe12c8a3415232_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ac32cc07a9a6e65c86cfe12c8a3415232_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_aa5ca13722727f58df1898de005388b91}\label{isl__val_8c_aa5ca13722727f58df1898de005388b91}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_lt@{isl\_val\_lt}}
+\index{isl\_val\_lt@{isl\_val\_lt}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_lt()}{isl\_val\_lt()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+lt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_aa5ca13722727f58df1898de005388b91_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_aa5ca13722727f58df1898de005388b91_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a177da9fcc01daface8359dff4c0bc678}\label{isl__val_8c_a177da9fcc01daface8359dff4c0bc678}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_matching\_params@{isl\_val\_matching\_params}}
+\index{isl\_val\_matching\_params@{isl\_val\_matching\_params}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_matching\_params()}{isl\_val\_matching\_params()}}
+{\footnotesize\ttfamily int isl\+\_\+val\+\_\+matching\+\_\+params (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{space }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__val_8c_ae5ef733e89b85f948ea620ffe4218cff}\label{isl__val_8c_ae5ef733e89b85f948ea620ffe4218cff}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_max@{isl\_val\_max}}
+\index{isl\_val\_max@{isl\_val\_max}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_max()}{isl\_val\_max()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+max (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ae5ef733e89b85f948ea620ffe4218cff_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=335pt]{isl__val_8c_ae5ef733e89b85f948ea620ffe4218cff_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a57a0006945d01a610d4e31c0d7bf5cd1}\label{isl__val_8c_a57a0006945d01a610d4e31c0d7bf5cd1}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_min@{isl\_val\_min}}
+\index{isl\_val\_min@{isl\_val\_min}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_min()}{isl\_val\_min()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+min (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a57a0006945d01a610d4e31c0d7bf5cd1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=332pt]{isl__val_8c_a57a0006945d01a610d4e31c0d7bf5cd1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a3256577620b50ff9059a3eafb9a47bae}\label{isl__val_8c_a3256577620b50ff9059a3eafb9a47bae}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_mod@{isl\_val\_mod}}
+\index{isl\_val\_mod@{isl\_val\_mod}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_mod()}{isl\_val\_mod()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+mod (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a3256577620b50ff9059a3eafb9a47bae_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=286pt]{isl__val_8c_a3256577620b50ff9059a3eafb9a47bae_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_abb4e1e0f47197f991fd8eec0341334a1}\label{isl__val_8c_abb4e1e0f47197f991fd8eec0341334a1}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_mod\_val@{isl\_val\_mod\_val}}
+\index{isl\_val\_mod\_val@{isl\_val\_mod\_val}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_mod\_val()}{isl\_val\_mod\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+mod\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_abb4e1e0f47197f991fd8eec0341334a1_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ac004595aead5b28b8262d634948f3b7e}\label{isl__val_8c_ac004595aead5b28b8262d634948f3b7e}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_mul@{isl\_val\_mul}}
+\index{isl\_val\_mul@{isl\_val\_mul}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_mul()}{isl\_val\_mul()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+mul (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ac004595aead5b28b8262d634948f3b7e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=287pt]{isl__val_8c_ac004595aead5b28b8262d634948f3b7e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a478f1a3cc1e74dcdd692ec2084eeb950}\label{isl__val_8c_a478f1a3cc1e74dcdd692ec2084eeb950}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_mul\_ui@{isl\_val\_mul\_ui}}
+\index{isl\_val\_mul\_ui@{isl\_val\_mul\_ui}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_mul\_ui()}{isl\_val\_mul\_ui()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+mul\+\_\+ui (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{unsigned long}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a478f1a3cc1e74dcdd692ec2084eeb950_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a664002fe758411f55e61d82254935821}\label{isl__val_8c_a664002fe758411f55e61d82254935821}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_nan@{isl\_val\_nan}}
+\index{isl\_val\_nan@{isl\_val\_nan}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_nan()}{isl\_val\_nan()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+nan (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a664002fe758411f55e61d82254935821_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a664002fe758411f55e61d82254935821_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ac9eb2ce6c6889ec7e08299a3b4b0a356}\label{isl__val_8c_ac9eb2ce6c6889ec7e08299a3b4b0a356}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_ne@{isl\_val\_ne}}
+\index{isl\_val\_ne@{isl\_val\_ne}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_ne()}{isl\_val\_ne()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+val\+\_\+ne (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{isl__val_8c_ac9eb2ce6c6889ec7e08299a3b4b0a356_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a5f38997bbc0b61a46f65e56b3c55eb1b}\label{isl__val_8c_a5f38997bbc0b61a46f65e56b3c55eb1b}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_neg@{isl\_val\_neg}}
+\index{isl\_val\_neg@{isl\_val\_neg}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_neg()}{isl\_val\_neg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+neg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a5f38997bbc0b61a46f65e56b3c55eb1b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a5f38997bbc0b61a46f65e56b3c55eb1b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a755887d4999f28f5dfe6c03030e6740f}\label{isl__val_8c_a755887d4999f28f5dfe6c03030e6740f}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_neginfty@{isl\_val\_neginfty}}
+\index{isl\_val\_neginfty@{isl\_val\_neginfty}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_neginfty()}{isl\_val\_neginfty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+neginfty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a755887d4999f28f5dfe6c03030e6740f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a73c42a2f9f74db1819822e362fa7b92e}\label{isl__val_8c_a73c42a2f9f74db1819822e362fa7b92e}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_negone@{isl\_val\_negone}}
+\index{isl\_val\_negone@{isl\_val\_negone}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_negone()}{isl\_val\_negone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+negone (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a73c42a2f9f74db1819822e362fa7b92e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a0fe9cc279a85921469f36d32f1517a0c}\label{isl__val_8c_a0fe9cc279a85921469f36d32f1517a0c}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_normalize@{isl\_val\_normalize}}
+\index{isl\_val\_normalize@{isl\_val\_normalize}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_normalize()}{isl\_val\_normalize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+normalize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=307pt]{isl__val_8c_a0fe9cc279a85921469f36d32f1517a0c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a0fe9cc279a85921469f36d32f1517a0c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a6e86c9a30dda3f20a52518bb8dc22a2d}\label{isl__val_8c_a6e86c9a30dda3f20a52518bb8dc22a2d}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_one@{isl\_val\_one}}
+\index{isl\_val\_one@{isl\_val\_one}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_one()}{isl\_val\_one()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+one (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a6e86c9a30dda3f20a52518bb8dc22a2d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_aa28850c6e9cde6b15d2b46924f2cef78}\label{isl__val_8c_aa28850c6e9cde6b15d2b46924f2cef78}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_plain\_is\_equal@{isl\_val\_plain\_is\_equal}}
+\index{isl\_val\_plain\_is\_equal@{isl\_val\_plain\_is\_equal}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_plain\_is\_equal()}{isl\_val\_plain\_is\_equal()}}
+{\footnotesize\ttfamily int isl\+\_\+val\+\_\+plain\+\_\+is\+\_\+equal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{val1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{val2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_aa28850c6e9cde6b15d2b46924f2cef78_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a007dba032c5caac131a489a5e564b266}\label{isl__val_8c_a007dba032c5caac131a489a5e564b266}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_rat\_from\_isl\_int@{isl\_val\_rat\_from\_isl\_int}}
+\index{isl\_val\_rat\_from\_isl\_int@{isl\_val\_rat\_from\_isl\_int}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_rat\_from\_isl\_int()}{isl\_val\_rat\_from\_isl\_int()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+rat\+\_\+from\+\_\+isl\+\_\+int (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}}]{n,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}}]{d }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a007dba032c5caac131a489a5e564b266_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a007dba032c5caac131a489a5e564b266_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a813bd34dd70c458052f4deff40f8d643}\label{isl__val_8c_a813bd34dd70c458052f4deff40f8d643}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_realign\_domain@{isl\_val\_realign\_domain}}
+\index{isl\_val\_realign\_domain@{isl\_val\_realign\_domain}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_realign\_domain()}{isl\_val\_realign\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+realign\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__reordering}{isl\+\_\+reordering}} $\ast$}]{r }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a813bd34dd70c458052f4deff40f8d643_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_afadd51a07884f5179862e2866abb237f}\label{isl__val_8c_afadd51a07884f5179862e2866abb237f}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_reset\_domain\_space@{isl\_val\_reset\_domain\_space}}
+\index{isl\_val\_reset\_domain\_space@{isl\_val\_reset\_domain\_space}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_reset\_domain\_space()}{isl\_val\_reset\_domain\_space()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+reset\+\_\+domain\+\_\+space (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{space }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_afadd51a07884f5179862e2866abb237f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a6bf940e4b44857ef6f2892643d1df873}\label{isl__val_8c_a6bf940e4b44857ef6f2892643d1df873}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_scale\_down\_val@{isl\_val\_scale\_down\_val}}
+\index{isl\_val\_scale\_down\_val@{isl\_val\_scale\_down\_val}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_scale\_down\_val()}{isl\_val\_scale\_down\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+scale\+\_\+down\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a6bf940e4b44857ef6f2892643d1df873_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a9b121c30671e12d8efd9e3d0564c74ba}\label{isl__val_8c_a9b121c30671e12d8efd9e3d0564c74ba}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_scale\_val@{isl\_val\_scale\_val}}
+\index{isl\_val\_scale\_val@{isl\_val\_scale\_val}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_scale\_val()}{isl\_val\_scale\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+scale\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a9b121c30671e12d8efd9e3d0564c74ba_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a2fc4afd5193e4bda59abe4b753e49f14}\label{isl__val_8c_a2fc4afd5193e4bda59abe4b753e49f14}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_set\_dim\_name@{isl\_val\_set\_dim\_name}}
+\index{isl\_val\_set\_dim\_name@{isl\_val\_set\_dim\_name}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_set\_dim\_name()}{isl\_val\_set\_dim\_name()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+set\+\_\+dim\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{type,  }\item[{unsigned}]{pos,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{s }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__val_8c_a14b21c40f18985c7f51a2da04873aec5}\label{isl__val_8c_a14b21c40f18985c7f51a2da04873aec5}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_set\_nan@{isl\_val\_set\_nan}}
+\index{isl\_val\_set\_nan@{isl\_val\_set\_nan}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_set\_nan()}{isl\_val\_set\_nan()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+set\+\_\+nan (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a14b21c40f18985c7f51a2da04873aec5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a14b21c40f18985c7f51a2da04873aec5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a63f0827ec596711da523fdaedb950631}\label{isl__val_8c_a63f0827ec596711da523fdaedb950631}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_set\_si@{isl\_val\_set\_si}}
+\index{isl\_val\_set\_si@{isl\_val\_set\_si}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_set\_si()}{isl\_val\_set\_si()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+set\+\_\+si (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v,  }\item[{long}]{i }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a63f0827ec596711da523fdaedb950631_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a63f0827ec596711da523fdaedb950631_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a94d02f7468561b90625e6b29edc80c95}\label{isl__val_8c_a94d02f7468561b90625e6b29edc80c95}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_set\_zero@{isl\_val\_set\_zero}}
+\index{isl\_val\_set\_zero@{isl\_val\_set\_zero}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_set\_zero()}{isl\_val\_set\_zero()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+set\+\_\+zero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a94d02f7468561b90625e6b29edc80c95_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a94d02f7468561b90625e6b29edc80c95_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ae684669d0d98a65ab9a5528492413f0f}\label{isl__val_8c_ae684669d0d98a65ab9a5528492413f0f}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_sgn@{isl\_val\_sgn}}
+\index{isl\_val\_sgn@{isl\_val\_sgn}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_sgn()}{isl\_val\_sgn()}}
+{\footnotesize\ttfamily int isl\+\_\+val\+\_\+sgn (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=275pt]{isl__val_8c_ae684669d0d98a65ab9a5528492413f0f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ade8fcf685985471e79fb6a4705acd7f0}\label{isl__val_8c_ade8fcf685985471e79fb6a4705acd7f0}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_sub@{isl\_val\_sub}}
+\index{isl\_val\_sub@{isl\_val\_sub}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_sub()}{isl\_val\_sub()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+sub (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ade8fcf685985471e79fb6a4705acd7f0_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_aee64e4ff2bbb0dc731effdda82393ebf}\label{isl__val_8c_aee64e4ff2bbb0dc731effdda82393ebf}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_sub\_ui@{isl\_val\_sub\_ui}}
+\index{isl\_val\_sub\_ui@{isl\_val\_sub\_ui}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_sub\_ui()}{isl\_val\_sub\_ui()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+sub\+\_\+ui (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v1,  }\item[{unsigned long}]{v2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_aee64e4ff2bbb0dc731effdda82393ebf_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_ac492a7610704c564faa99c0df972115c}\label{isl__val_8c_ac492a7610704c564faa99c0df972115c}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_trunc@{isl\_val\_trunc}}
+\index{isl\_val\_trunc@{isl\_val\_trunc}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_trunc()}{isl\_val\_trunc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+trunc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_ac492a7610704c564faa99c0df972115c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_a73bc801d23721fb1a0dfdbd0e1b0a00c}\label{isl__val_8c_a73bc801d23721fb1a0dfdbd0e1b0a00c}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_zero@{isl\_val\_zero}}
+\index{isl\_val\_zero@{isl\_val\_zero}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_zero()}{isl\_val\_zero()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+zero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a73bc801d23721fb1a0dfdbd0e1b0a00c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_a73bc801d23721fb1a0dfdbd0e1b0a00c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__val_8c_aa9499f77f830aa177103e21d30b1bef4}\label{isl__val_8c_aa9499f77f830aa177103e21d30b1bef4}} 
+\index{isl\_val.c@{isl\_val.c}!isl\_val\_zero\_on\_domain@{isl\_val\_zero\_on\_domain}}
+\index{isl\_val\_zero\_on\_domain@{isl\_val\_zero\_on\_domain}!isl\_val.c@{isl\_val.c}}
+\doxysubsubsection{\texorpdfstring{isl\_val\_zero\_on\_domain()}{isl\_val\_zero\_on\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+val\+\_\+zero\+\_\+on\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__local__space}{isl\+\_\+local\+\_\+space}} $\ast$}]{ls }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__val_8c_aa9499f77f830aa177103e21d30b1bef4_cgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,567 @@
+\hypertarget{isl__convex__hull_8c}{}\doxysection{lib/isl/isl\+\_\+convex\+\_\+hull.c File Reference}
+\label{isl__convex__hull_8c}\index{lib/isl/isl\_convex\_hull.c@{lib/isl/isl\_convex\_hull.c}}
+{\ttfamily \#include $<$isl\+\_\+ctx\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+map\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+lp\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl/map.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+mat\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+vec\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl/set.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+seq.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+options\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}isl\+\_\+equalities.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}isl\+\_\+tab.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$isl\+\_\+sort.\+h$>$}\newline
+Include dependency graph for isl\+\_\+convex\+\_\+hull.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structmax__constraint}{max\+\_\+constraint}}
+\item 
+struct \mbox{\hyperlink{structsh__data__entry}{sh\+\_\+data\+\_\+entry}}
+\item 
+struct \mbox{\hyperlink{structsh__data}{sh\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structineq__cmp__data}{ineq\+\_\+cmp\+\_\+data}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{isl__convex__hull_8c_a1d1da6973dd210e0086b4413290cf92c}{isl\+\_\+basic\+\_\+map\+\_\+constraint\+\_\+is\+\_\+redundant}} (struct \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$$\ast$\mbox{\hyperlink{coo__hicoo__insp_8h_aa773f31017dafcfa32771a903b0f0f40}{bmap}}, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$opt\+\_\+n, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$opt\+\_\+d)
+\item 
+int \mbox{\hyperlink{isl__convex__hull_8c_a8331c7447ed83e5fb26ce3b6a2594670}{isl\+\_\+basic\+\_\+set\+\_\+constraint\+\_\+is\+\_\+redundant}} (struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$$\ast$bset, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$opt\+\_\+n, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$opt\+\_\+d)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_ad2a362f58884e6f7a09809a245f53cd0}{isl\+\_\+basic\+\_\+map\+\_\+remove\+\_\+redundancies}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$\mbox{\hyperlink{coo__hicoo__insp_8h_aa773f31017dafcfa32771a903b0f0f40}{bmap}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a305a14c2815b175b9d30cde3f392899f}{isl\+\_\+basic\+\_\+set\+\_\+remove\+\_\+redundancies}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$bset)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_afb999eb0ceab8489797257f6675e8f27}{isl\+\_\+map\+\_\+remove\+\_\+redundancies}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_acd4c432826fa82a452eb2b73daa6b767}{isl\+\_\+set\+\_\+remove\+\_\+redundancies}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_ae53e4609d6a61ffed410100a4483f834}{isl\+\_\+basic\+\_\+map\+\_\+set\+\_\+rational}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$\mbox{\hyperlink{coo__hicoo__insp_8h_aa773f31017dafcfa32771a903b0f0f40}{bmap}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_afa05217921bcbd73f9847a4314f16893}{isl\+\_\+basic\+\_\+set\+\_\+set\+\_\+rational}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$bset)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a7fb8764e1585a2c22d63c59761a4a60d}{isl\+\_\+map\+\_\+set\+\_\+rational}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a555c70e41f7a7d0805ab24b761f5e74e}{isl\+\_\+set\+\_\+set\+\_\+rational}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}})
+\item 
+\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_ae9a3af8121ef9615f73553211920038b}{isl\+\_\+set\+\_\+wrap\+\_\+facet}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}}, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$facet, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$ridge)
+\item 
+int \mbox{\hyperlink{isl__convex__hull_8c_a34debdab13d8fc9e5860409ebe73f69d}{isl\+\_\+basic\+\_\+set\+\_\+is\+\_\+bounded}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$bset)
+\item 
+int \mbox{\hyperlink{isl__convex__hull_8c_ae9bcaaadce6b1361b9204b74f3aa5f53}{isl\+\_\+basic\+\_\+map\+\_\+image\+\_\+is\+\_\+bounded}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$\mbox{\hyperlink{coo__hicoo__insp_8h_aa773f31017dafcfa32771a903b0f0f40}{bmap}})
+\item 
+int \mbox{\hyperlink{isl__convex__hull_8c_a4829f52cf52ac48db57cfeb3fac35bef}{isl\+\_\+set\+\_\+is\+\_\+bounded}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}})
+\item 
+struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_accecda3b44ea8f7aa6c9b530ad4b4fed}{isl\+\_\+basic\+\_\+set\+\_\+lineality\+\_\+space}} (struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$bset)
+\item 
+struct \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a3e4eb14f56ca2ab2423ea1abc500c8a9}{isl\+\_\+map\+\_\+convex\+\_\+hull}} (struct \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}})
+\item 
+struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a4f053eb9a658864b9a35f1526f567367}{isl\+\_\+set\+\_\+convex\+\_\+hull}} (struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a27c6daf42f920899d778123ed6d73c0c}{isl\+\_\+map\+\_\+polyhedral\+\_\+hull}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_aa3ff3348c80819521aab630a24fba177}{isl\+\_\+set\+\_\+polyhedral\+\_\+hull}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a90a3f23c626a4baf1f259d8b42845cf2}{isl\+\_\+map\+\_\+simple\+\_\+hull}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}})
+\item 
+struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_aaaf03a21764a1806fce3458f83a5851f}{isl\+\_\+set\+\_\+simple\+\_\+hull}} (struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_af61fb71612b1093a69f06a0de24489f5}{isl\+\_\+map\+\_\+unshifted\+\_\+simple\+\_\+hull}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_af205f7b77eeccd1e77bfa9471dd87d70}{isl\+\_\+set\+\_\+unshifted\+\_\+simple\+\_\+hull}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a31dfde95792bbb7b70f63698eb180197}{isl\+\_\+basic\+\_\+map\+\_\+plain\+\_\+unshifted\+\_\+simple\+\_\+hull}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$bmap1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$bmap2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_ad1273f416c7ff387f96528f3c754b951}{isl\+\_\+map\+\_\+plain\+\_\+unshifted\+\_\+simple\+\_\+hull}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a15305316c5a6b764b74a66befefff1e1}{isl\+\_\+map\+\_\+unshifted\+\_\+simple\+\_\+hull\+\_\+from\+\_\+map\+\_\+list}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}}, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} isl\+\_\+map\+\_\+list $\ast$list)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a9319d16795059dd30bf1449fedff3ce8}{isl\+\_\+set\+\_\+unshifted\+\_\+simple\+\_\+hull\+\_\+from\+\_\+set\+\_\+list}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}}, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{isl__map__private_8h_a8a6e8e35cc36d8fed0b66255f3c5387c}{isl\+\_\+set\+\_\+list}} $\ast$list)
+\item 
+struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__convex__hull_8c_a2ee8a63531670e60c4dd5ecac6390fa2}{isl\+\_\+set\+\_\+bounded\+\_\+simple\+\_\+hull}} (struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{isl__convex__hull_8c_a1d1da6973dd210e0086b4413290cf92c}\label{isl__convex__hull_8c_a1d1da6973dd210e0086b4413290cf92c}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_map\_constraint\_is\_redundant@{isl\_basic\_map\_constraint\_is\_redundant}}
+\index{isl\_basic\_map\_constraint\_is\_redundant@{isl\_basic\_map\_constraint\_is\_redundant}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_map\_constraint\_is\_redundant()}{isl\_basic\_map\_constraint\_is\_redundant()}}
+{\footnotesize\ttfamily int isl\+\_\+basic\+\_\+map\+\_\+constraint\+\_\+is\+\_\+redundant (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$$\ast$}]{bmap,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{c,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{opt\+\_\+n,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{opt\+\_\+d }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a1d1da6973dd210e0086b4413290cf92c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a1d1da6973dd210e0086b4413290cf92c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_ae9bcaaadce6b1361b9204b74f3aa5f53}\label{isl__convex__hull_8c_ae9bcaaadce6b1361b9204b74f3aa5f53}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_map\_image\_is\_bounded@{isl\_basic\_map\_image\_is\_bounded}}
+\index{isl\_basic\_map\_image\_is\_bounded@{isl\_basic\_map\_image\_is\_bounded}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_map\_image\_is\_bounded()}{isl\_basic\_map\_image\_is\_bounded()}}
+{\footnotesize\ttfamily int isl\+\_\+basic\+\_\+map\+\_\+image\+\_\+is\+\_\+bounded (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$}]{bmap }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_ae9bcaaadce6b1361b9204b74f3aa5f53_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a31dfde95792bbb7b70f63698eb180197}\label{isl__convex__hull_8c_a31dfde95792bbb7b70f63698eb180197}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_map\_plain\_unshifted\_simple\_hull@{isl\_basic\_map\_plain\_unshifted\_simple\_hull}}
+\index{isl\_basic\_map\_plain\_unshifted\_simple\_hull@{isl\_basic\_map\_plain\_unshifted\_simple\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_map\_plain\_unshifted\_simple\_hull()}{isl\_basic\_map\_plain\_unshifted\_simple\_hull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}}$\ast$ isl\+\_\+basic\+\_\+map\+\_\+plain\+\_\+unshifted\+\_\+simple\+\_\+hull (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$}]{bmap1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$}]{bmap2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a31dfde95792bbb7b70f63698eb180197_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_ad2a362f58884e6f7a09809a245f53cd0}\label{isl__convex__hull_8c_ad2a362f58884e6f7a09809a245f53cd0}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_map\_remove\_redundancies@{isl\_basic\_map\_remove\_redundancies}}
+\index{isl\_basic\_map\_remove\_redundancies@{isl\_basic\_map\_remove\_redundancies}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_map\_remove\_redundancies()}{isl\_basic\_map\_remove\_redundancies()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}}$\ast$ isl\+\_\+basic\+\_\+map\+\_\+remove\+\_\+redundancies (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}} $\ast$}]{bmap }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_ad2a362f58884e6f7a09809a245f53cd0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_ad2a362f58884e6f7a09809a245f53cd0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_ae53e4609d6a61ffed410100a4483f834}\label{isl__convex__hull_8c_ae53e4609d6a61ffed410100a4483f834}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_map\_set\_rational@{isl\_basic\_map\_set\_rational}}
+\index{isl\_basic\_map\_set\_rational@{isl\_basic\_map\_set\_rational}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_map\_set\_rational()}{isl\_basic\_map\_set\_rational()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}}$\ast$ isl\+\_\+basic\+\_\+map\+\_\+set\+\_\+rational (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$}]{bmap }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_ae53e4609d6a61ffed410100a4483f834_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_ae53e4609d6a61ffed410100a4483f834_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a8331c7447ed83e5fb26ce3b6a2594670}\label{isl__convex__hull_8c_a8331c7447ed83e5fb26ce3b6a2594670}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_set\_constraint\_is\_redundant@{isl\_basic\_set\_constraint\_is\_redundant}}
+\index{isl\_basic\_set\_constraint\_is\_redundant@{isl\_basic\_set\_constraint\_is\_redundant}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_set\_constraint\_is\_redundant()}{isl\_basic\_set\_constraint\_is\_redundant()}}
+{\footnotesize\ttfamily int isl\+\_\+basic\+\_\+set\+\_\+constraint\+\_\+is\+\_\+redundant (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$$\ast$}]{bset,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{c,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{opt\+\_\+n,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{opt\+\_\+d }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a8331c7447ed83e5fb26ce3b6a2594670_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a34debdab13d8fc9e5860409ebe73f69d}\label{isl__convex__hull_8c_a34debdab13d8fc9e5860409ebe73f69d}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_set\_is\_bounded@{isl\_basic\_set\_is\_bounded}}
+\index{isl\_basic\_set\_is\_bounded@{isl\_basic\_set\_is\_bounded}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_set\_is\_bounded()}{isl\_basic\_set\_is\_bounded()}}
+{\footnotesize\ttfamily int isl\+\_\+basic\+\_\+set\+\_\+is\+\_\+bounded (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$}]{bset }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a34debdab13d8fc9e5860409ebe73f69d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a34debdab13d8fc9e5860409ebe73f69d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_accecda3b44ea8f7aa6c9b530ad4b4fed}\label{isl__convex__hull_8c_accecda3b44ea8f7aa6c9b530ad4b4fed}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_set\_lineality\_space@{isl\_basic\_set\_lineality\_space}}
+\index{isl\_basic\_set\_lineality\_space@{isl\_basic\_set\_lineality\_space}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_set\_lineality\_space()}{isl\_basic\_set\_lineality\_space()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}}$\ast$ isl\+\_\+basic\+\_\+set\+\_\+lineality\+\_\+space (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$}]{bset }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_accecda3b44ea8f7aa6c9b530ad4b4fed_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a305a14c2815b175b9d30cde3f392899f}\label{isl__convex__hull_8c_a305a14c2815b175b9d30cde3f392899f}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_set\_remove\_redundancies@{isl\_basic\_set\_remove\_redundancies}}
+\index{isl\_basic\_set\_remove\_redundancies@{isl\_basic\_set\_remove\_redundancies}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_set\_remove\_redundancies()}{isl\_basic\_set\_remove\_redundancies()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}}$\ast$ isl\+\_\+basic\+\_\+set\+\_\+remove\+\_\+redundancies (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$}]{bset }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a305a14c2815b175b9d30cde3f392899f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_afa05217921bcbd73f9847a4314f16893}\label{isl__convex__hull_8c_afa05217921bcbd73f9847a4314f16893}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_basic\_set\_set\_rational@{isl\_basic\_set\_set\_rational}}
+\index{isl\_basic\_set\_set\_rational@{isl\_basic\_set\_set\_rational}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_basic\_set\_set\_rational()}{isl\_basic\_set\_set\_rational()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}}$\ast$ isl\+\_\+basic\+\_\+set\+\_\+set\+\_\+rational (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$}]{bset }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_afa05217921bcbd73f9847a4314f16893_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=299pt]{isl__convex__hull_8c_afa05217921bcbd73f9847a4314f16893_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a3e4eb14f56ca2ab2423ea1abc500c8a9}\label{isl__convex__hull_8c_a3e4eb14f56ca2ab2423ea1abc500c8a9}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_map\_convex\_hull@{isl\_map\_convex\_hull}}
+\index{isl\_map\_convex\_hull@{isl\_map\_convex\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_convex\_hull()}{isl\_map\_convex\_hull()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+convex\+\_\+hull (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a3e4eb14f56ca2ab2423ea1abc500c8a9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_ad1273f416c7ff387f96528f3c754b951}\label{isl__convex__hull_8c_ad1273f416c7ff387f96528f3c754b951}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_map\_plain\_unshifted\_simple\_hull@{isl\_map\_plain\_unshifted\_simple\_hull}}
+\index{isl\_map\_plain\_unshifted\_simple\_hull@{isl\_map\_plain\_unshifted\_simple\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_plain\_unshifted\_simple\_hull()}{isl\_map\_plain\_unshifted\_simple\_hull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+plain\+\_\+unshifted\+\_\+simple\+\_\+hull (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__convex__hull_8c_a27c6daf42f920899d778123ed6d73c0c}\label{isl__convex__hull_8c_a27c6daf42f920899d778123ed6d73c0c}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_map\_polyhedral\_hull@{isl\_map\_polyhedral\_hull}}
+\index{isl\_map\_polyhedral\_hull@{isl\_map\_polyhedral\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_polyhedral\_hull()}{isl\_map\_polyhedral\_hull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+polyhedral\+\_\+hull (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a27c6daf42f920899d778123ed6d73c0c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a27c6daf42f920899d778123ed6d73c0c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_afb999eb0ceab8489797257f6675e8f27}\label{isl__convex__hull_8c_afb999eb0ceab8489797257f6675e8f27}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_map\_remove\_redundancies@{isl\_map\_remove\_redundancies}}
+\index{isl\_map\_remove\_redundancies@{isl\_map\_remove\_redundancies}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_remove\_redundancies()}{isl\_map\_remove\_redundancies()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+remove\+\_\+redundancies (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_afb999eb0ceab8489797257f6675e8f27_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_afb999eb0ceab8489797257f6675e8f27_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a7fb8764e1585a2c22d63c59761a4a60d}\label{isl__convex__hull_8c_a7fb8764e1585a2c22d63c59761a4a60d}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_map\_set\_rational@{isl\_map\_set\_rational}}
+\index{isl\_map\_set\_rational@{isl\_map\_set\_rational}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_set\_rational()}{isl\_map\_set\_rational()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+set\+\_\+rational (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a7fb8764e1585a2c22d63c59761a4a60d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a7fb8764e1585a2c22d63c59761a4a60d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a90a3f23c626a4baf1f259d8b42845cf2}\label{isl__convex__hull_8c_a90a3f23c626a4baf1f259d8b42845cf2}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_map\_simple\_hull@{isl\_map\_simple\_hull}}
+\index{isl\_map\_simple\_hull@{isl\_map\_simple\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_simple\_hull()}{isl\_map\_simple\_hull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+simple\+\_\+hull (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a90a3f23c626a4baf1f259d8b42845cf2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_af61fb71612b1093a69f06a0de24489f5}\label{isl__convex__hull_8c_af61fb71612b1093a69f06a0de24489f5}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_map\_unshifted\_simple\_hull@{isl\_map\_unshifted\_simple\_hull}}
+\index{isl\_map\_unshifted\_simple\_hull@{isl\_map\_unshifted\_simple\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_unshifted\_simple\_hull()}{isl\_map\_unshifted\_simple\_hull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+unshifted\+\_\+simple\+\_\+hull (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_af61fb71612b1093a69f06a0de24489f5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a15305316c5a6b764b74a66befefff1e1}\label{isl__convex__hull_8c_a15305316c5a6b764b74a66befefff1e1}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_map\_unshifted\_simple\_hull\_from\_map\_list@{isl\_map\_unshifted\_simple\_hull\_from\_map\_list}}
+\index{isl\_map\_unshifted\_simple\_hull\_from\_map\_list@{isl\_map\_unshifted\_simple\_hull\_from\_map\_list}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_unshifted\_simple\_hull\_from\_map\_list()}{isl\_map\_unshifted\_simple\_hull\_from\_map\_list()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__basic__map}{isl\+\_\+basic\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+unshifted\+\_\+simple\+\_\+hull\+\_\+from\+\_\+map\+\_\+list (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} isl\+\_\+map\+\_\+list $\ast$}]{list }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a15305316c5a6b764b74a66befefff1e1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a15305316c5a6b764b74a66befefff1e1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a2ee8a63531670e60c4dd5ecac6390fa2}\label{isl__convex__hull_8c_a2ee8a63531670e60c4dd5ecac6390fa2}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_bounded\_simple\_hull@{isl\_set\_bounded\_simple\_hull}}
+\index{isl\_set\_bounded\_simple\_hull@{isl\_set\_bounded\_simple\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_bounded\_simple\_hull()}{isl\_set\_bounded\_simple\_hull()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}}$\ast$ isl\+\_\+set\+\_\+bounded\+\_\+simple\+\_\+hull (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a2ee8a63531670e60c4dd5ecac6390fa2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a4f053eb9a658864b9a35f1526f567367}\label{isl__convex__hull_8c_a4f053eb9a658864b9a35f1526f567367}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_convex\_hull@{isl\_set\_convex\_hull}}
+\index{isl\_set\_convex\_hull@{isl\_set\_convex\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_convex\_hull()}{isl\_set\_convex\_hull()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}}$\ast$ isl\+\_\+set\+\_\+convex\+\_\+hull (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=347pt]{isl__convex__hull_8c_a4f053eb9a658864b9a35f1526f567367_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a4829f52cf52ac48db57cfeb3fac35bef}\label{isl__convex__hull_8c_a4829f52cf52ac48db57cfeb3fac35bef}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_is\_bounded@{isl\_set\_is\_bounded}}
+\index{isl\_set\_is\_bounded@{isl\_set\_is\_bounded}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_is\_bounded()}{isl\_set\_is\_bounded()}}
+{\footnotesize\ttfamily int isl\+\_\+set\+\_\+is\+\_\+bounded (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a4829f52cf52ac48db57cfeb3fac35bef_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_aa3ff3348c80819521aab630a24fba177}\label{isl__convex__hull_8c_aa3ff3348c80819521aab630a24fba177}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_polyhedral\_hull@{isl\_set\_polyhedral\_hull}}
+\index{isl\_set\_polyhedral\_hull@{isl\_set\_polyhedral\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_polyhedral\_hull()}{isl\_set\_polyhedral\_hull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}}$\ast$ isl\+\_\+set\+\_\+polyhedral\+\_\+hull (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_aa3ff3348c80819521aab630a24fba177_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_acd4c432826fa82a452eb2b73daa6b767}\label{isl__convex__hull_8c_acd4c432826fa82a452eb2b73daa6b767}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_remove\_redundancies@{isl\_set\_remove\_redundancies}}
+\index{isl\_set\_remove\_redundancies@{isl\_set\_remove\_redundancies}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_remove\_redundancies()}{isl\_set\_remove\_redundancies()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}}$\ast$ isl\+\_\+set\+\_\+remove\+\_\+redundancies (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_acd4c432826fa82a452eb2b73daa6b767_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a555c70e41f7a7d0805ab24b761f5e74e}\label{isl__convex__hull_8c_a555c70e41f7a7d0805ab24b761f5e74e}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_set\_rational@{isl\_set\_set\_rational}}
+\index{isl\_set\_set\_rational@{isl\_set\_set\_rational}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_set\_rational()}{isl\_set\_set\_rational()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}}$\ast$ isl\+\_\+set\+\_\+set\+\_\+rational (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a555c70e41f7a7d0805ab24b761f5e74e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a555c70e41f7a7d0805ab24b761f5e74e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_aaaf03a21764a1806fce3458f83a5851f}\label{isl__convex__hull_8c_aaaf03a21764a1806fce3458f83a5851f}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_simple\_hull@{isl\_set\_simple\_hull}}
+\index{isl\_set\_simple\_hull@{isl\_set\_simple\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_simple\_hull()}{isl\_set\_simple\_hull()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}}$\ast$ isl\+\_\+set\+\_\+simple\+\_\+hull (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{isl__convex__hull_8c_aaaf03a21764a1806fce3458f83a5851f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_aaaf03a21764a1806fce3458f83a5851f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_af205f7b77eeccd1e77bfa9471dd87d70}\label{isl__convex__hull_8c_af205f7b77eeccd1e77bfa9471dd87d70}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_unshifted\_simple\_hull@{isl\_set\_unshifted\_simple\_hull}}
+\index{isl\_set\_unshifted\_simple\_hull@{isl\_set\_unshifted\_simple\_hull}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_unshifted\_simple\_hull()}{isl\_set\_unshifted\_simple\_hull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}}$\ast$ isl\+\_\+set\+\_\+unshifted\+\_\+simple\+\_\+hull (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_af205f7b77eeccd1e77bfa9471dd87d70_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_a9319d16795059dd30bf1449fedff3ce8}\label{isl__convex__hull_8c_a9319d16795059dd30bf1449fedff3ce8}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_unshifted\_simple\_hull\_from\_set\_list@{isl\_set\_unshifted\_simple\_hull\_from\_set\_list}}
+\index{isl\_set\_unshifted\_simple\_hull\_from\_set\_list@{isl\_set\_unshifted\_simple\_hull\_from\_set\_list}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_unshifted\_simple\_hull\_from\_set\_list()}{isl\_set\_unshifted\_simple\_hull\_from\_set\_list()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}}$\ast$ isl\+\_\+set\+\_\+unshifted\+\_\+simple\+\_\+hull\+\_\+from\+\_\+set\+\_\+list (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{isl__map__private_8h_a8a6e8e35cc36d8fed0b66255f3c5387c}{isl\+\_\+set\+\_\+list}} $\ast$}]{list }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_a9319d16795059dd30bf1449fedff3ce8_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__convex__hull_8c_ae9a3af8121ef9615f73553211920038b}\label{isl__convex__hull_8c_ae9a3af8121ef9615f73553211920038b}} 
+\index{isl\_convex\_hull.c@{isl\_convex\_hull.c}!isl\_set\_wrap\_facet@{isl\_set\_wrap\_facet}}
+\index{isl\_set\_wrap\_facet@{isl\_set\_wrap\_facet}!isl\_convex\_hull.c@{isl\_convex\_hull.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_wrap\_facet()}{isl\_set\_wrap\_facet()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}$\ast$ isl\+\_\+set\+\_\+wrap\+\_\+facet (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{facet,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{ridge }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__convex__hull_8c_ae9a3af8121ef9615f73553211920038b_cgraph}
+\end{center}
+\end{figure}

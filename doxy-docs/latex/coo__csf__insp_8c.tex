@@ -1,0 +1,328 @@
+\hypertarget{coo__csf__insp_8c}{}\doxysection{artifact/src/pdfl/coo\+\_\+csf\+\_\+insp.c File Reference}
+\label{coo__csf__insp_8c}\index{artifact/src/pdfl/coo\_csf\_insp.c@{artifact/src/pdfl/coo\_csf\_insp.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$sys/time.\+h$>$}\newline
+Include dependency graph for coo\+\_\+csf\+\_\+insp.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{coo__csf__insp_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structcsf__data__t}{csf\+\_\+data\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{struct__coo__node__t}{\+\_\+coo\+\_\+node\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_a6ebf6899d6c1c8b7b9d09be872c05aae}{E\+PS}}~0.\+01
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_a3aa069ac3980707dae1e0530f50d59e4}{abs}}(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~(((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}) $<$ 0.\+0) ? -\/(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}) \+: (\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_a1dcb0ba9eb92a293ec6e58a8b696c38b}{offset2}}(\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}},  \mbox{\hyperlink{notes_8txt_a32e329a40eff16f4bfb7e1dbd9a0736b}{j}},  \mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}})~((\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})$\ast$(\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}})+(\mbox{\hyperlink{notes_8txt_a32e329a40eff16f4bfb7e1dbd9a0736b}{j}}))
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_a23cd9b8a2316c9fee31b1e6336d39225}{offset3}}(\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}},  \mbox{\hyperlink{notes_8txt_a32e329a40eff16f4bfb7e1dbd9a0736b}{j}},  \mbox{\hyperlink{debug_8txt_acc5234e9b8d83af1f88e9e91b3c5ff27}{k}},  M,  \mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}})~((\mbox{\hyperlink{debug_8txt_acc5234e9b8d83af1f88e9e91b3c5ff27}{k}})+(\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}})$\ast$((\mbox{\hyperlink{notes_8txt_a32e329a40eff16f4bfb7e1dbd9a0736b}{j}})+(M)$\ast$(\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})))
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_a650a5bbd09b8da0674bf4ddb905e0d01}{array\+\_\+init}}(ptr,  \mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}},  \mbox{\hyperlink{hull__legacy_8cc_a6fe044f9a8b37fadb6109a82381c7dd3}{size}})~for(unsigned \+\_\+\+\_\+i\+\_\+\+\_\+=0; \+\_\+\+\_\+i\+\_\+\+\_\+$<$(\mbox{\hyperlink{hull__legacy_8cc_a6fe044f9a8b37fadb6109a82381c7dd3}{size}});\+\_\+\+\_\+i\+\_\+\+\_\+++) (ptr)\mbox{[}\+\_\+\+\_\+i\+\_\+\+\_\+\mbox{]}=(\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}})
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_abb702d8b501669a23aa0ab3b281b9384}{min}}(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})~(((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})$<$(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))?(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})\+:(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_ac39d9cef6a5e030ba8d9e11121054268}{max}}(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})~(((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})$>$(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))?(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})\+:(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_a37dbbd48542925e48da5bf5ee512f149}{intdiv}}(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})~((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})/(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_a11f332c4883a9bfc609f8d1264d38d17}{floord}}(\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}},  d)~\mbox{\hyperlink{csr__bsr__insp_8c_a37dbbd48542925e48da5bf5ee512f149}{intdiv}}((\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}),(d))
+\item 
+\#define \mbox{\hyperlink{coo__csf__insp_8c_acc1776963f15645040bc77e100b9db3a}{read}}()~\mbox{\hyperlink{coo__csf__insp_8c_aab1d2948bcfe93cc0eeb412f535c9e02}{coo\+\_\+read}}(path,\mbox{\hyperlink{gen-trialdivtab_8c_abe10ca12910a3554a67062016535231a}{B}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef float \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}}
+\item 
+typedef int32\+\_\+t \mbox{\hyperlink{coo__csf__insp_8c_a1b824676bee5dedcb3fa45f2fc41cd37}{itype}}
+\item 
+typedef struct \mbox{\hyperlink{struct__coo__node__t}{\+\_\+coo\+\_\+node\+\_\+t}} \mbox{\hyperlink{coo__csf__insp_8c_abd27c9a726f573c8efac17acd5c6f557}{coo\+\_\+node\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{coo__csf__insp_8c_af7ab092ab10d65db3b9051a12420fa52}{get\+\_\+time}} ()
+\item 
+int \mbox{\hyperlink{coo__csf__insp_8c_a188957d08c20f4b879bbf499119bb727}{coo\+\_\+tnode\+\_\+comp}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} void $\ast$\mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} void $\ast$\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}})
+\item 
+void \mbox{\hyperlink{coo__csf__insp_8c_aab1d2948bcfe93cc0eeb412f535c9e02}{coo\+\_\+read}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$fpath, \mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} $\ast$coo)
+\item 
+\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} $\ast$ \mbox{\hyperlink{coo__csf__insp_8c_a9e1b8a20ebc5062ac365bf58667e6024}{coo\+\_\+csf\+\_\+setup}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$path, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$$\ast$\mbox{\hyperlink{e_d_s_l_test_8cpp_ad4ef1f61b2ed48402ef638e3a6101a0f}{A}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$$\ast$\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$$\ast$\mbox{\hyperlink{euler__step__3d__ff__tile__cu_8h_af316c33cc298530f245e8b55330e86b5}{D}})
+\item 
+\mbox{\hyperlink{structcsf__data__t}{csf\+\_\+data\+\_\+t}} $\ast$ \mbox{\hyperlink{coo__csf__insp_8c_ac0d6a2dfa33447e2ad7a5cc3904298ed}{coo\+\_\+csf\+\_\+insp}} (\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$coo)
+\item 
+void \mbox{\hyperlink{coo__csf__insp_8c_a3a4dc391aa029a953b6f100ba9a4a777}{taco\+\_\+exec}} (\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$coo, \mbox{\hyperlink{structcsf__data__t}{csf\+\_\+data\+\_\+t}} $\ast$\mbox{\hyperlink{gen-trialdivtab_8c_abe10ca12910a3554a67062016535231a}{B}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$\mbox{\hyperlink{e_d_s_l_test_8cpp_ad4ef1f61b2ed48402ef638e3a6101a0f}{A}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$\mbox{\hyperlink{euler__step__3d__ff__tile__cu_8h_af316c33cc298530f245e8b55330e86b5}{D}})
+\item 
+void \mbox{\hyperlink{coo__csf__insp_8c_a258a5b12aecfca8fbf9e2486db82e465}{coo\+\_\+csf\+\_\+exec}} (\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$coo, \mbox{\hyperlink{structcsf__data__t}{csf\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$csf, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$\mbox{\hyperlink{e_d_s_l_test_8cpp_ad4ef1f61b2ed48402ef638e3a6101a0f}{A}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$\mbox{\hyperlink{euler__step__3d__ff__tile__cu_8h_af316c33cc298530f245e8b55330e86b5}{D}})
+\item 
+void \mbox{\hyperlink{coo__csf__insp_8c_a95cdf28f00c10f103c0b251fe3a8c4a6}{coo\+\_\+exec}} (\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$coo, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$\mbox{\hyperlink{e_d_s_l_test_8cpp_ad4ef1f61b2ed48402ef638e3a6101a0f}{A}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$\mbox{\hyperlink{euler__step__3d__ff__tile__cu_8h_af316c33cc298530f245e8b55330e86b5}{D}})
+\item 
+int \mbox{\hyperlink{coo__csf__insp_8c_ab4e59ba3fb57398e2444aefda969bec1}{coo\+\_\+csf\+\_\+verify}} (\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$coo, \mbox{\hyperlink{structcsf__data__t}{csf\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$csf, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$\mbox{\hyperlink{e_d_s_l_test_8cpp_ad4ef1f61b2ed48402ef638e3a6101a0f}{A}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}}, \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$\mbox{\hyperlink{euler__step__3d__ff__tile__cu_8h_af316c33cc298530f245e8b55330e86b5}{D}})
+\item 
+int \mbox{\hyperlink{coo__csf__insp_8c_a217dbf8b442f20279ea00b898af96f52}{main}} (int argc, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{coo__csf__insp_8c_a1b824676bee5dedcb3fa45f2fc41cd37}{itype}} \mbox{\hyperlink{coo__csf__insp_8c_af881faf802f3c021724964d454c42fac}{\+\_\+tns\+\_\+order}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{coo__csf__insp_8c_a3aa069ac3980707dae1e0530f50d59e4}\label{coo__csf__insp_8c_a3aa069ac3980707dae1e0530f50d59e4}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!abs@{abs}}
+\index{abs@{abs}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{abs}{abs}}
+{\footnotesize\ttfamily \#define abs(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~(((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}) $<$ 0.\+0) ? -\/(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}) \+: (\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_a650a5bbd09b8da0674bf4ddb905e0d01}\label{coo__csf__insp_8c_a650a5bbd09b8da0674bf4ddb905e0d01}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!array\_init@{array\_init}}
+\index{array\_init@{array\_init}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{array\_init}{array\_init}}
+{\footnotesize\ttfamily \#define array\+\_\+init(\begin{DoxyParamCaption}\item[{}]{ptr,  }\item[{}]{\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}},  }\item[{}]{\mbox{\hyperlink{hull__legacy_8cc_a6fe044f9a8b37fadb6109a82381c7dd3}{size}} }\end{DoxyParamCaption})~for(unsigned \+\_\+\+\_\+i\+\_\+\+\_\+=0; \+\_\+\+\_\+i\+\_\+\+\_\+$<$(\mbox{\hyperlink{hull__legacy_8cc_a6fe044f9a8b37fadb6109a82381c7dd3}{size}});\+\_\+\+\_\+i\+\_\+\+\_\+++) (ptr)\mbox{[}\+\_\+\+\_\+i\+\_\+\+\_\+\mbox{]}=(\mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}})}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_a6ebf6899d6c1c8b7b9d09be872c05aae}\label{coo__csf__insp_8c_a6ebf6899d6c1c8b7b9d09be872c05aae}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!EPS@{EPS}}
+\index{EPS@{EPS}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{EPS}{EPS}}
+{\footnotesize\ttfamily \#define E\+PS~0.\+01}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_a11f332c4883a9bfc609f8d1264d38d17}\label{coo__csf__insp_8c_a11f332c4883a9bfc609f8d1264d38d17}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!floord@{floord}}
+\index{floord@{floord}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{floord}{floord}}
+{\footnotesize\ttfamily \#define floord(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}},  }\item[{}]{d }\end{DoxyParamCaption})~\mbox{\hyperlink{csr__bsr__insp_8c_a37dbbd48542925e48da5bf5ee512f149}{intdiv}}((\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}),(d))}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_a37dbbd48542925e48da5bf5ee512f149}\label{coo__csf__insp_8c_a37dbbd48542925e48da5bf5ee512f149}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!intdiv@{intdiv}}
+\index{intdiv@{intdiv}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{intdiv}{intdiv}}
+{\footnotesize\ttfamily \#define intdiv(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}} }\end{DoxyParamCaption})~((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})/(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_ac39d9cef6a5e030ba8d9e11121054268}\label{coo__csf__insp_8c_ac39d9cef6a5e030ba8d9e11121054268}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!max@{max}}
+\index{max@{max}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{max}{max}}
+{\footnotesize\ttfamily \#define max(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}} }\end{DoxyParamCaption})~(((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})$>$(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))?(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})\+:(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_abb702d8b501669a23aa0ab3b281b9384}\label{coo__csf__insp_8c_abb702d8b501669a23aa0ab3b281b9384}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!min@{min}}
+\index{min@{min}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{min}{min}}
+{\footnotesize\ttfamily \#define min(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}} }\end{DoxyParamCaption})~(((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})$<$(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))?(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})\+:(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_a1dcb0ba9eb92a293ec6e58a8b696c38b}\label{coo__csf__insp_8c_a1dcb0ba9eb92a293ec6e58a8b696c38b}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!offset2@{offset2}}
+\index{offset2@{offset2}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{offset2}{offset2}}
+{\footnotesize\ttfamily \#define offset2(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}},  }\item[{}]{\mbox{\hyperlink{notes_8txt_a32e329a40eff16f4bfb7e1dbd9a0736b}{j}},  }\item[{}]{\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}} }\end{DoxyParamCaption})~((\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})$\ast$(\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}})+(\mbox{\hyperlink{notes_8txt_a32e329a40eff16f4bfb7e1dbd9a0736b}{j}}))}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_a23cd9b8a2316c9fee31b1e6336d39225}\label{coo__csf__insp_8c_a23cd9b8a2316c9fee31b1e6336d39225}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!offset3@{offset3}}
+\index{offset3@{offset3}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{offset3}{offset3}}
+{\footnotesize\ttfamily \#define offset3(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}},  }\item[{}]{\mbox{\hyperlink{notes_8txt_a32e329a40eff16f4bfb7e1dbd9a0736b}{j}},  }\item[{}]{\mbox{\hyperlink{debug_8txt_acc5234e9b8d83af1f88e9e91b3c5ff27}{k}},  }\item[{}]{M,  }\item[{}]{\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}} }\end{DoxyParamCaption})~((\mbox{\hyperlink{debug_8txt_acc5234e9b8d83af1f88e9e91b3c5ff27}{k}})+(\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}})$\ast$((\mbox{\hyperlink{notes_8txt_a32e329a40eff16f4bfb7e1dbd9a0736b}{j}})+(M)$\ast$(\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})))}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_acc1776963f15645040bc77e100b9db3a}\label{coo__csf__insp_8c_acc1776963f15645040bc77e100b9db3a}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!read@{read}}
+\index{read@{read}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{read}{read}}
+{\footnotesize\ttfamily \#define read(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{coo__csf__insp_8c_aab1d2948bcfe93cc0eeb412f535c9e02}{coo\+\_\+read}}(path,\mbox{\hyperlink{gen-trialdivtab_8c_abe10ca12910a3554a67062016535231a}{B}})}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{coo__csf__insp_8c_abd27c9a726f573c8efac17acd5c6f557}\label{coo__csf__insp_8c_abd27c9a726f573c8efac17acd5c6f557}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!coo\_node\_t@{coo\_node\_t}}
+\index{coo\_node\_t@{coo\_node\_t}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{coo\_node\_t}{coo\_node\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct__coo__node__t}{\+\_\+coo\+\_\+node\+\_\+t}} \mbox{\hyperlink{coo__csf__insp_8c_abd27c9a726f573c8efac17acd5c6f557}{coo\+\_\+node\+\_\+t}}}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_a1b824676bee5dedcb3fa45f2fc41cd37}\label{coo__csf__insp_8c_a1b824676bee5dedcb3fa45f2fc41cd37}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!itype@{itype}}
+\index{itype@{itype}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{itype}{itype}}
+{\footnotesize\ttfamily typedef int32\+\_\+t \mbox{\hyperlink{coo__csf__insp_8c_a1b824676bee5dedcb3fa45f2fc41cd37}{itype}}}
+
+\mbox{\Hypertarget{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}\label{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!real@{real}}
+\index{real@{real}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{real}{real}}
+{\footnotesize\ttfamily typedef float \mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{coo__csf__insp_8c_a258a5b12aecfca8fbf9e2486db82e465}\label{coo__csf__insp_8c_a258a5b12aecfca8fbf9e2486db82e465}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!coo\_csf\_exec@{coo\_csf\_exec}}
+\index{coo\_csf\_exec@{coo\_csf\_exec}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{coo\_csf\_exec()}{coo\_csf\_exec()}}
+{\footnotesize\ttfamily void coo\+\_\+csf\+\_\+exec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{coo,  }\item[{\mbox{\hyperlink{structcsf__data__t}{csf\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{csf,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$}]{A,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{C,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{D }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{coo__csf__insp_8c_a258a5b12aecfca8fbf9e2486db82e465_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{coo__csf__insp_8c_ac0d6a2dfa33447e2ad7a5cc3904298ed}\label{coo__csf__insp_8c_ac0d6a2dfa33447e2ad7a5cc3904298ed}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!coo\_csf\_insp@{coo\_csf\_insp}}
+\index{coo\_csf\_insp@{coo\_csf\_insp}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{coo\_csf\_insp()}{coo\_csf\_insp()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcsf__data__t}{csf\+\_\+data\+\_\+t}} $\ast$ coo\+\_\+csf\+\_\+insp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{coo }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=347pt]{coo__csf__insp_8c_ac0d6a2dfa33447e2ad7a5cc3904298ed_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{coo__csf__insp_8c_a9e1b8a20ebc5062ac365bf58667e6024}\label{coo__csf__insp_8c_a9e1b8a20ebc5062ac365bf58667e6024}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!coo\_csf\_setup@{coo\_csf\_setup}}
+\index{coo\_csf\_setup@{coo\_csf\_setup}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{coo\_csf\_setup()}{coo\_csf\_setup()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} $\ast$ coo\+\_\+csf\+\_\+setup (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{path,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$$\ast$}]{A,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$$\ast$}]{C,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$$\ast$}]{D }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{coo__csf__insp_8c_a9e1b8a20ebc5062ac365bf58667e6024_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{coo__csf__insp_8c_ab4e59ba3fb57398e2444aefda969bec1}\label{coo__csf__insp_8c_ab4e59ba3fb57398e2444aefda969bec1}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!coo\_csf\_verify@{coo\_csf\_verify}}
+\index{coo\_csf\_verify@{coo\_csf\_verify}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{coo\_csf\_verify()}{coo\_csf\_verify()}}
+{\footnotesize\ttfamily int coo\+\_\+csf\+\_\+verify (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{coo,  }\item[{\mbox{\hyperlink{structcsf__data__t}{csf\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{csf,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$}]{A,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{C,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{D }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=264pt]{coo__csf__insp_8c_ab4e59ba3fb57398e2444aefda969bec1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{coo__csf__insp_8c_ab4e59ba3fb57398e2444aefda969bec1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{coo__csf__insp_8c_a95cdf28f00c10f103c0b251fe3a8c4a6}\label{coo__csf__insp_8c_a95cdf28f00c10f103c0b251fe3a8c4a6}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!coo\_exec@{coo\_exec}}
+\index{coo\_exec@{coo\_exec}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{coo\_exec()}{coo\_exec()}}
+{\footnotesize\ttfamily void coo\+\_\+exec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{coo,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$}]{A,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{C,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{D }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{coo__csf__insp_8c_a95cdf28f00c10f103c0b251fe3a8c4a6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{coo__csf__insp_8c_aab1d2948bcfe93cc0eeb412f535c9e02}\label{coo__csf__insp_8c_aab1d2948bcfe93cc0eeb412f535c9e02}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!coo\_read@{coo\_read}}
+\index{coo\_read@{coo\_read}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{coo\_read()}{coo\_read()}}
+{\footnotesize\ttfamily void coo\+\_\+read (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{fpath,  }\item[{\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} $\ast$}]{coo }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=276pt]{coo__csf__insp_8c_aab1d2948bcfe93cc0eeb412f535c9e02_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{coo__csf__insp_8c_a188957d08c20f4b879bbf499119bb727}\label{coo__csf__insp_8c_a188957d08c20f4b879bbf499119bb727}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!coo\_tnode\_comp@{coo\_tnode\_comp}}
+\index{coo\_tnode\_comp@{coo\_tnode\_comp}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{coo\_tnode\_comp()}{coo\_tnode\_comp()}}
+{\footnotesize\ttfamily int coo\+\_\+tnode\+\_\+comp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} void $\ast$}]{a,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} void $\ast$}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=276pt]{coo__csf__insp_8c_a188957d08c20f4b879bbf499119bb727_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{coo__csf__insp_8c_af7ab092ab10d65db3b9051a12420fa52}\label{coo__csf__insp_8c_af7ab092ab10d65db3b9051a12420fa52}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!get\_time@{get\_time}}
+\index{get\_time@{get\_time}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{get\_time()}{get\_time()}}
+{\footnotesize\ttfamily double get\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{coo__csf__insp_8c_af7ab092ab10d65db3b9051a12420fa52_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{coo__csf__insp_8c_a217dbf8b442f20279ea00b898af96f52}\label{coo__csf__insp_8c_a217dbf8b442f20279ea00b898af96f52}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!main@{main}}
+\index{main@{main}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{coo__csf__insp_8c_a217dbf8b442f20279ea00b898af96f52_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{coo__csf__insp_8c_a3a4dc391aa029a953b6f100ba9a4a777}\label{coo__csf__insp_8c_a3a4dc391aa029a953b6f100ba9a4a777}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!taco\_exec@{taco\_exec}}
+\index{taco\_exec@{taco\_exec}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{taco\_exec()}{taco\_exec()}}
+{\footnotesize\ttfamily void taco\+\_\+exec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcoo__data__t}{coo\+\_\+data\+\_\+t}} \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} $\ast$}]{coo,  }\item[{\mbox{\hyperlink{structcsf__data__t}{csf\+\_\+data\+\_\+t}} $\ast$}]{B,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$}]{A,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$}]{C,  }\item[{\mbox{\hyperlink{coo__csf__insp_8c_a031f8951175b43076c2084a6c2173410}{real}} $\ast$}]{D }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{coo__csf__insp_8c_a3a4dc391aa029a953b6f100ba9a4a777_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{coo__csf__insp_8c_af881faf802f3c021724964d454c42fac}\label{coo__csf__insp_8c_af881faf802f3c021724964d454c42fac}} 
+\index{coo\_csf\_insp.c@{coo\_csf\_insp.c}!\_tns\_order@{\_tns\_order}}
+\index{\_tns\_order@{\_tns\_order}!coo\_csf\_insp.c@{coo\_csf\_insp.c}}
+\doxysubsubsection{\texorpdfstring{\_tns\_order}{\_tns\_order}}
+{\footnotesize\ttfamily \mbox{\hyperlink{coo__csf__insp_8c_a1b824676bee5dedcb3fa45f2fc41cd37}{itype}} \+\_\+tns\+\_\+order}
+

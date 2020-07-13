@@ -1,0 +1,74 @@
+\hypertarget{ir__code_8hh}{}\doxysection{lib/chill/ir\+\_\+code.hh File Reference}
+\label{ir__code_8hh}\index{lib/chill/ir\_code.hh@{lib/chill/ir\_code.hh}}
+
+
+C\+Hi\+LL\textquotesingle{}s compiler intermediate representation interface that extends Omega\textquotesingle{}s builder interface to accomodate compiler analyses and extra code generation.  
+
+
+{\ttfamily \#include $<$ir\+\_\+enums.\+hh$>$}\newline
+{\ttfamily \#include $<$chill\+\_\+ast.\+hh$>$}\newline
+{\ttfamily \#include \char`\"{}chill\+\_\+io.\+hh\char`\"{}}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$basic/util.\+h$>$}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G\+\_\+output\+Repr.\+h$>$}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G\+\_\+output\+Builder.\+h$>$}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G\+\_\+string\+Builder.\+h$>$}\newline
+Include dependency graph for ir\+\_\+code.\+hh\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ir__code_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ir__code_8hh__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_i_r___symbol}{I\+R\+\_\+\+Symbol}}
+\begin{DoxyCompactList}\small\item\em Base abstract class for scalar and array symbols. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_i_r___scalar_symbol}{I\+R\+\_\+\+Scalar\+Symbol}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___function_symbol}{I\+R\+\_\+\+Function\+Symbol}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___array_symbol}{I\+R\+\_\+\+Array\+Symbol}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___pointer_symbol}{I\+R\+\_\+\+Pointer\+Symbol}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___ref}{I\+R\+\_\+\+Ref}}
+\begin{DoxyCompactList}\small\item\em Base abstract class for scalar and array references. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_i_r___constant_ref}{I\+R\+\_\+\+Constant\+Ref}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___scalar_ref}{I\+R\+\_\+\+Scalar\+Ref}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___function_ref}{I\+R\+\_\+\+Function\+Ref}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___pointer_array_ref}{I\+R\+\_\+\+Pointer\+Array\+Ref}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___control}{I\+R\+\_\+\+Control}}
+\begin{DoxyCompactList}\small\item\em Base abstract class for code structures. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_i_r___loop}{I\+R\+\_\+\+Loop}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___block}{I\+R\+\_\+\+Block}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___if}{I\+R\+\_\+\+If}}
+\item 
+struct \mbox{\hyperlink{struct_i_r___while}{I\+R\+\_\+\+While}}
+\item 
+class \mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+C\+Hi\+LL\textquotesingle{}s compiler intermediate representation interface that extends Omega\textquotesingle{}s builder interface to accomodate compiler analyses and extra code generation. 
+
+Unlike C\+G\+\_\+output\+Repr, \mbox{\hyperlink{struct_i_r___symbol}{I\+R\+\_\+\+Symbol}},\mbox{\hyperlink{struct_i_r___ref}{I\+R\+\_\+\+Ref}} and \mbox{\hyperlink{struct_i_r___control}{I\+R\+\_\+\+Control}} are place holders to the underlying code, thus deleting or duplicating them does not affect the actual code. Similar to Omega builder\textquotesingle{}s memory allocation strategy, all non-\/const pointer parameters of C\+G\+\_\+output\+Repr/\+I\+R\+\_\+\+Symbol/\+I\+R\+\_\+\+Ref/\+I\+R\+\_\+\+Control are destroyed after the call. 

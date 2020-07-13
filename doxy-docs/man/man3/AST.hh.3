@@ -1,0 +1,214 @@
+.TH "lib/chill/omega/parser/AST.hh" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/parser/AST.hh
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <omega\&.h>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <set>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBVariable_Ref\fP"
+.br
+.ti -1c
+.RI "class \fBDeclaration_Site\fP"
+.br
+.ti -1c
+.RI "class \fBGlobal_Declaration_Site\fP"
+.br
+.ti -1c
+.RI "class \fBast::Exp\fP"
+.br
+.ti -1c
+.RI "struct \fBstrideConstraint\fP"
+.br
+.ti -1c
+.RI "class \fBTuple_Part\fP"
+.br
+.ti -1c
+.RI "class \fBAST\fP"
+.br
+.ti -1c
+.RI "class \fBAST_And\fP"
+.br
+.ti -1c
+.RI "class \fBAST_Or\fP"
+.br
+.ti -1c
+.RI "class \fBAST_Not\fP"
+.br
+.ti -1c
+.RI "class \fBAST_declare\fP"
+.br
+.ti -1c
+.RI "class \fBAST_exists\fP"
+.br
+.ti -1c
+.RI "class \fBAST_forall\fP"
+.br
+.ti -1c
+.RI "class \fBAST_constraints\fP"
+.br
+.ti -1c
+.RI "class \fBtupleDescriptor\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBast\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBRel_Op\fP { \fBeq\fP, \fBlt\fP, \fBgt\fP, \fBgeq\fP, \fBleq\fP, \fBneq\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBpopScope\fP ()"
+.br
+.ti -1c
+.RI "\fBVariable_Ref\fP * \fBlookupScalar\fP (char *s)"
+.br
+.ti -1c
+.RI "\fBDeclaration_Site\fP * \fBdefined\fP (char *)"
+.br
+.ti -1c
+.RI "\fBast::Exp\fP * \fBmultiply\fP (\fBomega::coef_t\fP \fBc\fP, \fBast::Exp\fP *\fBx\fP)"
+.br
+.ti -1c
+.RI "\fBast::Exp\fP * \fBmultiply\fP (\fBast::Exp\fP *\fBx\fP, \fBast::Exp\fP *\fBy\fP)"
+.br
+.ti -1c
+.RI "\fBast::Exp\fP * \fBnegate\fP (\fBast::Exp\fP *\fBx\fP)"
+.br
+.ti -1c
+.RI "\fBast::Exp\fP * \fBadd\fP (\fBast::Exp\fP *\fBx\fP, \fBast::Exp\fP *\fBy\fP)"
+.br
+.ti -1c
+.RI "\fBast::Exp\fP * \fBsubtract\fP (\fBast::Exp\fP *\fBx\fP, \fBast::Exp\fP *\fBy\fP)"
+.br
+.ti -1c
+.RI "void \fBinstall_stride\fP (\fBomega::F_And\fP *F, \fBstrideConstraint\fP *\fBc\fP)"
+.br
+.ti -1c
+.RI "void \fBinstall_eq\fP (\fBomega::F_And\fP *F, \fBast::Exp\fP *e1, \fBast::Exp\fP *e2)"
+.br
+.ti -1c
+.RI "void \fBinstall_geq\fP (\fBomega::F_And\fP *F, \fBast::Exp\fP *e1, \fBast::Exp\fP *e2)"
+.br
+.ti -1c
+.RI "void \fBinstall_gt\fP (\fBomega::F_And\fP *F, \fBast::Exp\fP *e1, \fBast::Exp\fP *e2)"
+.br
+.ti -1c
+.RI "void \fBinstall_neq\fP (\fBomega::F_And\fP *F, \fBast::Exp\fP *e1, \fBast::Exp\fP *e2)"
+.br
+.ti -1c
+.RI "void \fBresetGlobals\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBstd::map\fP< \fBomega::Const_String\fP, \fBVariable_Ref\fP * > \fBfunctionOfInput\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< \fBomega::Const_String\fP, \fBVariable_Ref\fP * > \fBfunctionOfOutput\fP"
+.br
+.ti -1c
+.RI "\fBDeclaration_Site\fP * \fBcurrent_Declaration_Site\fP"
+.br
+.ti -1c
+.RI "\fBGlobal_Declaration_Site\fP * \fBglobalDecls\fP"
+.br
+.ti -1c
+.RI "\fBDeclaration_Site\fP * \fBrelationDecl\fP"
+.br
+.ti -1c
+.RI "\fBtupleDescriptor\fP * \fBcurrentTupleDescriptor\fP"
+.br
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBRel_Op\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIeq \fP\fP
+.TP
+\fB\fIlt \fP\fP
+.TP
+\fB\fIgt \fP\fP
+.TP
+\fB\fIgeq \fP\fP
+.TP
+\fB\fIleq \fP\fP
+.TP
+\fB\fIneq \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "\fBast::Exp\fP* add (\fBast::Exp\fP * x, \fBast::Exp\fP * y)"
+
+.SS "\fBDeclaration_Site\fP* defined (char *)"
+
+.SS "void install_eq (\fBomega::F_And\fP * F, \fBast::Exp\fP * e1, \fBast::Exp\fP * e2)"
+
+.SS "void install_geq (\fBomega::F_And\fP * F, \fBast::Exp\fP * e1, \fBast::Exp\fP * e2)"
+
+.SS "void install_gt (\fBomega::F_And\fP * F, \fBast::Exp\fP * e1, \fBast::Exp\fP * e2)"
+
+.SS "void install_neq (\fBomega::F_And\fP * F, \fBast::Exp\fP * e1, \fBast::Exp\fP * e2)"
+
+.SS "void install_stride (\fBomega::F_And\fP * F, \fBstrideConstraint\fP * c)"
+
+.SS "\fBVariable_Ref\fP* lookupScalar (char * s)"
+
+.SS "\fBast::Exp\fP* multiply (\fBast::Exp\fP * x, \fBast::Exp\fP * y)"
+
+.SS "\fBast::Exp\fP* multiply (\fBomega::coef_t\fP c, \fBast::Exp\fP * x)"
+
+.SS "\fBast::Exp\fP* negate (\fBast::Exp\fP * x)"
+
+.SS "void popScope ()\fC [inline]\fP"
+
+.SS "void resetGlobals ()"
+
+.SS "\fBast::Exp\fP* subtract (\fBast::Exp\fP * x, \fBast::Exp\fP * y)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBDeclaration_Site\fP* current_Declaration_Site"
+
+.SS "\fBtupleDescriptor\fP* currentTupleDescriptor"
+
+.SS "\fBstd::map\fP<\fBomega::Const_String\fP, \fBVariable_Ref\fP *> functionOfInput"
+
+.SS "\fBstd::map\fP<\fBomega::Const_String\fP, \fBVariable_Ref\fP *> functionOfOutput"
+
+.SS "\fBGlobal_Declaration_Site\fP* globalDecls"
+
+.SS "\fBDeclaration_Site\fP* relationDecl"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

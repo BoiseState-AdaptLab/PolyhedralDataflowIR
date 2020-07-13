@@ -1,0 +1,163 @@
+.TH "pdfg::Func" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::Func
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <GraphIL\&.hpp>\fP
+.PP
+Inherits \fBpdfg::Expr\fP\&.
+.PP
+Inherited by \fBpdfg::Const\fP, and \fBpdfg::Macro\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFunc\fP (\fBconst\fP string &\fBname\fP='', \fBconst\fP unsigned \fBarity\fP=1, initializer_list< \fBExpr\fP > \fBargs\fP={})"
+.br
+.ti -1c
+.RI "\fBFunc\fP (\fBconst\fP \fBFunc\fP &other)"
+.br
+.ti -1c
+.RI "\fBFunc\fP (\fBconst\fP \fBExpr\fP &expr)"
+.br
+.ti -1c
+.RI "\fBFunc\fP & \fBoperator=\fP (\fBconst\fP \fBExpr\fP &expr) override"
+.br
+.ti -1c
+.RI "\fBMath\fP \fBoperator=\fP (\fBconst\fP \fBMath\fP &math)"
+.br
+.ti -1c
+.RI "\fBFunc\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &\fBarg\fP)"
+.br
+.ti -1c
+.RI "\fBFunc\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &\fBarg1\fP, \fBconst\fP \fBExpr\fP &\fBarg2\fP)"
+.br
+.ti -1c
+.RI "\fBFunc\fP \fBoperator()\fP (\fBconst\fP int \fBarg1\fP, \fBconst\fP \fBExpr\fP &\fBarg2\fP)"
+.br
+.ti -1c
+.RI "\fBFunc\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &\fBarg1\fP, \fBconst\fP int \fBarg2\fP)"
+.br
+.ti -1c
+.RI "\fBFunc\fP \fBoperator()\fP (initializer_list< \fBExpr\fP > \fBargs\fP)"
+.br
+.ti -1c
+.RI "string \fBname\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBname\fP (\fBconst\fP string &name)"
+.br
+.ti -1c
+.RI "virtual void \fBeval\fP ()"
+.br
+.ti -1c
+.RI "unsigned \fBarity\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBExpr\fP \fBarg\fP (unsigned \fBpos\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBExpr\fP > \fBargs\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBconst\fP vector< \fBExpr\fP > &\fBargs\fP)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBconst\fP \fBExpr\fP &\fBarg\fP)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcopy\fP (\fBconst\fP \fBFunc\fP &other)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "string \fB_name\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_arity\fP"
+.br
+.ti -1c
+.RI "vector< \fBExpr\fP > \fB_args\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "istream & \fBoperator>>\fP (istream &is, \fBFunc\fP &func)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::Func::Func (\fBconst\fP string & name = \fC''\fP, \fBconst\fP unsigned arity = \fC1\fP, initializer_list< \fBExpr\fP > args = \fC{}\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "pdfg::Func::Func (\fBconst\fP \fBFunc\fP & other)\fC [inline]\fP"
+
+.SS "pdfg::Func::Func (\fBconst\fP \fBExpr\fP & expr)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void pdfg::Func::add (\fBconst\fP \fBExpr\fP & arg)\fC [inline]\fP"
+
+.SS "void pdfg::Func::add (\fBconst\fP vector< \fBExpr\fP > & args)\fC [inline]\fP"
+
+.SS "\fBExpr\fP pdfg::Func::arg (unsigned pos) const\fC [inline]\fP"
+
+.SS "vector<\fBExpr\fP> pdfg::Func::args () const\fC [inline]\fP"
+
+.SS "unsigned pdfg::Func::arity () const\fC [inline]\fP"
+
+.SS "void pdfg::Func::copy (\fBconst\fP \fBFunc\fP & other)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "virtual void pdfg::Func::eval ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBpdfg::Macro\fP\&.
+.SS "string pdfg::Func::name () const\fC [inline]\fP"
+
+.SS "void pdfg::Func::name (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "\fBFunc\fP pdfg::Func::operator() (\fBconst\fP \fBExpr\fP & arg)\fC [inline]\fP"
+
+.SS "\fBFunc\fP pdfg::Func::operator() (\fBconst\fP \fBExpr\fP & arg1, \fBconst\fP \fBExpr\fP & arg2)\fC [inline]\fP"
+
+.SS "\fBFunc\fP pdfg::Func::operator() (\fBconst\fP \fBExpr\fP & arg1, \fBconst\fP int arg2)\fC [inline]\fP"
+
+.SS "\fBFunc\fP pdfg::Func::operator() (\fBconst\fP int arg1, \fBconst\fP \fBExpr\fP & arg2)\fC [inline]\fP"
+
+.SS "\fBFunc\fP pdfg::Func::operator() (initializer_list< \fBExpr\fP > args)\fC [inline]\fP"
+
+.SS "\fBFunc\fP& pdfg::Func::operator= (\fBconst\fP \fBExpr\fP & expr)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::Expr\fP\&.
+.PP
+Reimplemented in \fBpdfg::Const\fP\&.
+.SS "\fBMath\fP pdfg::Func::operator= (\fBconst\fP \fBMath\fP & math)\fC [inline]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "istream& operator>> (istream & is, \fBFunc\fP & func)\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "vector<\fBExpr\fP> pdfg::Func::_args\fC [protected]\fP"
+
+.SS "unsigned pdfg::Func::_arity\fC [protected]\fP"
+
+.SS "string pdfg::Func::_name\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

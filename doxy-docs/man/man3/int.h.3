@@ -1,0 +1,373 @@
+.TH "lib/isl/include/isl/deprecated/int.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/deprecated/int.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/hash\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <gmp\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBisl_int_init\fP(\fBi\fP)   \fBmpz_init\fP(\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_clear\fP(\fBi\fP)   \fBmpz_clear\fP(\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_set\fP(r,  \fBi\fP)   \fBmpz_set\fP(r,\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_set_gmp\fP(r,  \fBi\fP)   \fBmpz_set\fP(r,\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_set_si\fP(r,  \fBi\fP)   \fBmpz_set_si\fP(r,\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_set_ui\fP(r,  \fBi\fP)   \fBmpz_set_ui\fP(r,\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_get_gmp\fP(\fBi\fP,  g)   \fBmpz_set\fP(g,\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_get_si\fP(r)   \fBmpz_get_si\fP(r)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_get_ui\fP(r)   \fBmpz_get_ui\fP(r)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_get_d\fP(r)   \fBmpz_get_d\fP(r)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_get_str\fP(r)   \fBmpz_get_str\fP(0, 10, r)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_free_str\fP(s)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_abs\fP(r,  \fBi\fP)   \fBmpz_abs\fP(r,\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_neg\fP(r,  \fBi\fP)   \fBmpz_neg\fP(r,\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_swap\fP(\fBi\fP,  \fBj\fP)   \fBmpz_swap\fP(\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_swap_or_set\fP(\fBi\fP,  \fBj\fP)   \fBmpz_swap\fP(\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_add_ui\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_add_ui\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_sub_ui\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_sub_ui\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_add\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_add\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_sub\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_sub\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_mul\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_mul\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_mul_2exp\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_mul_2exp\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_mul_ui\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_mul_ui\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_pow_ui\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_pow_ui\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_addmul\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_addmul\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_submul\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_submul\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_gcd\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_gcd\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_lcm\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_lcm\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_divexact\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_divexact\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_divexact_ui\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_divexact_ui\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_tdiv_q\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_tdiv_q\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_cdiv_q\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_cdiv_q\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_fdiv_q\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_fdiv_q\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_fdiv_r\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_fdiv_r\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_fdiv_q_ui\fP(r,  \fBi\fP,  \fBj\fP)   \fBmpz_fdiv_q_ui\fP(r,\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_read\fP(r,  s)   \fBmpz_set_str\fP(r,s,10)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_print\fP(out,  \fBi\fP,  width)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_sgn\fP(\fBi\fP)   \fBmpz_sgn\fP(\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_cmp\fP(\fBi\fP,  \fBj\fP)   \fBmpz_cmp\fP(\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_cmp_si\fP(\fBi\fP,  si)   \fBmpz_cmp_si\fP(\fBi\fP,si)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_eq\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) == 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_ne\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) != 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_lt\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) < 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_le\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) <= 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_gt\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) > 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_ge\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) >= 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_abs_eq\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) == 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_abs_ne\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) != 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_abs_lt\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) < 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_abs_gt\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) > 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_abs_ge\fP(\fBi\fP,  \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) >= 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_is_zero\fP(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) == 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_is_one\fP(\fBi\fP)   (\fBisl_int_cmp_si\fP(\fBi\fP,1) == 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_is_negone\fP(\fBi\fP)   (\fBisl_int_cmp_si\fP(\fBi\fP,\-1) == 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_is_pos\fP(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) > 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_is_neg\fP(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) < 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_is_nonpos\fP(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) <= 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_is_nonneg\fP(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) >= 0)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_is_divisible_by\fP(\fBi\fP,  \fBj\fP)   \fBmpz_divisible_p\fP(\fBi\fP,\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_int_hash\fP(v,  h)   \fBisl_gmp_hash\fP(v,h)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBmpz_t\fP \fBisl_int\fP"
+.br
+.ti -1c
+.RI "typedef void(* \fBisl_int_print_gmp_free_t\fP) (void *, size_t)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBmp_get_memory_functions\fP (void *(**alloc_func_ptr)(size_t), void *(**realloc_func_ptr)(void *, size_t, size_t), void(**free_func_ptr)(void *, size_t))"
+.br
+.ti -1c
+.RI "uint32_t \fBisl_gmp_hash\fP (\fBmpz_t\fP v, uint32_t hash)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define isl_int_abs(r, \fBi\fP)   \fBmpz_abs\fP(r,\fBi\fP)"
+
+.SS "#define isl_int_abs_eq(\fBi\fP, \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) == 0)"
+
+.SS "#define isl_int_abs_ge(\fBi\fP, \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) >= 0)"
+
+.SS "#define isl_int_abs_gt(\fBi\fP, \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) > 0)"
+
+.SS "#define isl_int_abs_lt(\fBi\fP, \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) < 0)"
+
+.SS "#define isl_int_abs_ne(\fBi\fP, \fBj\fP)   (\fBmpz_cmpabs\fP(\fBi\fP,\fBj\fP) != 0)"
+
+.SS "#define isl_int_add(r, \fBi\fP, \fBj\fP)   \fBmpz_add\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_add_ui(r, \fBi\fP, \fBj\fP)   \fBmpz_add_ui\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_addmul(r, \fBi\fP, \fBj\fP)   \fBmpz_addmul\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_cdiv_q(r, \fBi\fP, \fBj\fP)   \fBmpz_cdiv_q\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_clear(\fBi\fP)   \fBmpz_clear\fP(\fBi\fP)"
+
+.SS "#define isl_int_cmp(\fBi\fP, \fBj\fP)   \fBmpz_cmp\fP(\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_cmp_si(\fBi\fP, si)   \fBmpz_cmp_si\fP(\fBi\fP,si)"
+
+.SS "#define isl_int_divexact(r, \fBi\fP, \fBj\fP)   \fBmpz_divexact\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_divexact_ui(r, \fBi\fP, \fBj\fP)   \fBmpz_divexact_ui\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_eq(\fBi\fP, \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) == 0)"
+
+.SS "#define isl_int_fdiv_q(r, \fBi\fP, \fBj\fP)   \fBmpz_fdiv_q\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_fdiv_q_ui(r, \fBi\fP, \fBj\fP)   \fBmpz_fdiv_q_ui\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_fdiv_r(r, \fBi\fP, \fBj\fP)   \fBmpz_fdiv_r\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_free_str(s)"
+\fBValue:\fP
+.PP
+.nf
+    do {                                \
+        isl_int_print_gmp_free_t gmp_free;          \
+        mp_get_memory_functions(NULL, NULL, &gmp_free);     \
+        (*gmp_free)(s, strlen(s) + 1);              \
+    } while (0)
+.fi
+.SS "#define isl_int_gcd(r, \fBi\fP, \fBj\fP)   \fBmpz_gcd\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_ge(\fBi\fP, \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) >= 0)"
+
+.SS "#define isl_int_get_d(r)   \fBmpz_get_d\fP(r)"
+
+.SS "#define isl_int_get_gmp(\fBi\fP, g)   \fBmpz_set\fP(g,\fBi\fP)"
+
+.SS "#define isl_int_get_si(r)   \fBmpz_get_si\fP(r)"
+
+.SS "#define isl_int_get_str(r)   \fBmpz_get_str\fP(0, 10, r)"
+
+.SS "#define isl_int_get_ui(r)   \fBmpz_get_ui\fP(r)"
+
+.SS "#define isl_int_gt(\fBi\fP, \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) > 0)"
+
+.SS "#define isl_int_hash(v, h)   \fBisl_gmp_hash\fP(v,h)"
+
+.SS "#define isl_int_init(\fBi\fP)   \fBmpz_init\fP(\fBi\fP)"
+
+.SS "#define isl_int_is_divisible_by(\fBi\fP, \fBj\fP)   \fBmpz_divisible_p\fP(\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_is_neg(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) < 0)"
+
+.SS "#define isl_int_is_negone(\fBi\fP)   (\fBisl_int_cmp_si\fP(\fBi\fP,\-1) == 0)"
+
+.SS "#define isl_int_is_nonneg(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) >= 0)"
+
+.SS "#define isl_int_is_nonpos(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) <= 0)"
+
+.SS "#define isl_int_is_one(\fBi\fP)   (\fBisl_int_cmp_si\fP(\fBi\fP,1) == 0)"
+
+.SS "#define isl_int_is_pos(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) > 0)"
+
+.SS "#define isl_int_is_zero(\fBi\fP)   (\fBisl_int_sgn\fP(\fBi\fP) == 0)"
+
+.SS "#define isl_int_lcm(r, \fBi\fP, \fBj\fP)   \fBmpz_lcm\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_le(\fBi\fP, \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) <= 0)"
+
+.SS "#define isl_int_lt(\fBi\fP, \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) < 0)"
+
+.SS "#define isl_int_mul(r, \fBi\fP, \fBj\fP)   \fBmpz_mul\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_mul_2exp(r, \fBi\fP, \fBj\fP)   \fBmpz_mul_2exp\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_mul_ui(r, \fBi\fP, \fBj\fP)   \fBmpz_mul_ui\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_ne(\fBi\fP, \fBj\fP)   (\fBmpz_cmp\fP(\fBi\fP,\fBj\fP) != 0)"
+
+.SS "#define isl_int_neg(r, \fBi\fP)   \fBmpz_neg\fP(r,\fBi\fP)"
+
+.SS "#define isl_int_pow_ui(r, \fBi\fP, \fBj\fP)   \fBmpz_pow_ui\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_print(out, \fBi\fP, width)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                \
+        char *s;                        \
+        s = mpz_get_str(0, 10, i);              \
+        fprintf(out, "%*s", width, s);              \
+        isl_int_free_str(s);                                        \
+    } while (0)
+.fi
+.SS "#define isl_int_read(r, s)   \fBmpz_set_str\fP(r,s,10)"
+
+.SS "#define isl_int_set(r, \fBi\fP)   \fBmpz_set\fP(r,\fBi\fP)"
+
+.SS "#define isl_int_set_gmp(r, \fBi\fP)   \fBmpz_set\fP(r,\fBi\fP)"
+
+.SS "#define isl_int_set_si(r, \fBi\fP)   \fBmpz_set_si\fP(r,\fBi\fP)"
+
+.SS "#define isl_int_set_ui(r, \fBi\fP)   \fBmpz_set_ui\fP(r,\fBi\fP)"
+
+.SS "#define isl_int_sgn(\fBi\fP)   \fBmpz_sgn\fP(\fBi\fP)"
+
+.SS "#define isl_int_sub(r, \fBi\fP, \fBj\fP)   \fBmpz_sub\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_sub_ui(r, \fBi\fP, \fBj\fP)   \fBmpz_sub_ui\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_submul(r, \fBi\fP, \fBj\fP)   \fBmpz_submul\fP(r,\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_swap(\fBi\fP, \fBj\fP)   \fBmpz_swap\fP(\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_swap_or_set(\fBi\fP, \fBj\fP)   \fBmpz_swap\fP(\fBi\fP,\fBj\fP)"
+
+.SS "#define isl_int_tdiv_q(r, \fBi\fP, \fBj\fP)   \fBmpz_tdiv_q\fP(r,\fBi\fP,\fBj\fP)"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBmpz_t\fP \fBisl_int\fP"
+
+.SS "typedef void(* isl_int_print_gmp_free_t) (void *, size_t)"
+
+.SH "Function Documentation"
+.PP 
+.SS "uint32_t isl_gmp_hash (\fBmpz_t\fP v, uint32_t hash)"
+
+.SS "void mp_get_memory_functions (void *(**)(size_t) alloc_func_ptr, void *(**)(void *, size_t, size_t) realloc_func_ptr, void(**)(void *, size_t) free_func_ptr)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

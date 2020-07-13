@@ -1,0 +1,338 @@
+.TH "chillAST_FunctionDecl" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_FunctionDecl
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBnumParameters\fP ()"
+.br
+.ti -1c
+.RI "bool \fBhasSymbolTable\fP () override"
+.br
+.ti -1c
+.RI "bool \fBhasTypeDefTable\fP ()"
+.br
+.ti -1c
+.RI "void \fBprintParameterTypes\fP (FILE *fp)"
+.br
+.ti -1c
+.RI "void \fBsetName\fP (char *\fBn\fP)"
+.br
+.ti -1c
+.RI "void \fBsetBuiltin\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisBuiltin\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetExtern\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisExtern\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetForward\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisForward\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisFunctionCPU\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisFunctionGPU\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetFunctionCPU\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetFunctionGPU\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_FunctionDecl\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_FunctionDecl\fP (\fBconst\fP char *rt, \fBconst\fP char *fname)"
+.br
+.ti -1c
+.RI "\fBchillAST_FunctionDecl\fP (\fBconst\fP char *rt, \fBconst\fP char *fname, void *unique)"
+.br
+.ti -1c
+.RI "void \fBaddParameter\fP (\fBchillAST_VarDecl\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBhasParameterNamed\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBfindParameterNamed\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBaddDecl\fP (\fBchillAST_VarDecl\fP *vd)"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBfuncHasVariableNamed\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBaddChild\fP (\fBchillAST_node\fP *node) override"
+.br
+.ti -1c
+.RI "void \fBinsertChild\fP (int \fBi\fP, \fBchillAST_node\fP *node) override"
+.br
+.ti -1c
+.RI "void \fBsetBody\fP (\fBchillAST_node\fP *bod)"
+.br
+.ti -1c
+.RI "\fBchillAST_CompoundStmt\fP * \fBgetBody\fP ()"
+.br
+.ti -1c
+.RI "void \fBgatherVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL variable declarations "
+.ti -1c
+.RI "void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL scalar variable declarations "
+.ti -1c
+.RI "void \fBgatherArrayVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL array variable declarations "
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBfindArrayDecl\fP (\fBconst\fP char *\fBname\fP) override"
+.br
+.ti -1c
+.RI "void \fBcleanUpVarDecls\fP ()"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBfindDatatype\fP (char *\fBt\fP) override"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBgetParameterSymbolTable\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBgetSymbolTable\fP () override"
+.br
+.ti -1c
+.RI "void \fBsetSymbolTable\fP (\fBchillAST_SymbolTable\fP *tab)"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBaddVariableToSymbolTable\fP (\fBchillAST_VarDecl\fP *vd) override"
+.br
+.ti -1c
+.RI "void \fBaddTypedefToTypedefTable\fP (\fBchillAST_TypedefDecl\fP *tdd) override"
+.br
+.ti -1c
+.RI "void \fBreplaceChild\fP (\fBchillAST_node\fP *old, \fBchillAST_node\fP *newchild) override"
+.br
+.ti -1c
+.RI "void \fBprependStatement\fP (\fBchillAST_node\fP *stmt) override"
+.br
+.RI "prepend a statement to the begining of a block, the body of a loop, or the body of a function "
+.ti -1c
+.RI "void \fBappendStatement\fP (\fBchillAST_node\fP *stmt) override"
+.br
+.RI "append a statement to the end of a block, the body of a loop, or the body of a function "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBreturnType\fP"
+.br
+.ti -1c
+.RI "char * \fBfunctionName\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP \fBparameters\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_TypedefTable\fP * \fBtypedef_table\fP"
+.br
+.ti -1c
+.RI "void * \fBuniquePtr\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_FunctionDecl::chillAST_FunctionDecl ()"
+
+.SS "chillAST_FunctionDecl::chillAST_FunctionDecl (\fBconst\fP char * rt, \fBconst\fP char * fname)"
+
+.SS "chillAST_FunctionDecl::chillAST_FunctionDecl (\fBconst\fP char * rt, \fBconst\fP char * fname, void * unique)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void chillAST_FunctionDecl::addChild (\fBchillAST_node\fP * node)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_FunctionDecl::addDecl (\fBchillAST_VarDecl\fP * vd)"
+
+.SS "void chillAST_FunctionDecl::addParameter (\fBchillAST_VarDecl\fP * p)"
+
+.SS "void chillAST_FunctionDecl::addTypedefToTypedefTable (\fBchillAST_TypedefDecl\fP * tdd)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_SymbolTable\fP* chillAST_FunctionDecl::addVariableToSymbolTable (\fBchillAST_VarDecl\fP * vd)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_FunctionDecl::appendStatement (\fBchillAST_node\fP * stmt)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+append a statement to the end of a block, the body of a loop, or the body of a function 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_FunctionDecl::cleanUpVarDecls ()"
+
+.SS "\fBchillAST_node\fP * chillAST_FunctionDecl::constantFold ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP * chillAST_FunctionDecl::findArrayDecl (\fBconst\fP char * name)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP* chillAST_FunctionDecl::findDatatype (char * t)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_FunctionDecl::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP* chillAST_FunctionDecl::findParameterNamed (\fBconst\fP char * name)\fC [inline]\fP"
+
+.SS "\fBchillAST_VarDecl\fP * chillAST_FunctionDecl::funcHasVariableNamed (\fBconst\fP char * name)"
+
+.SS "void chillAST_FunctionDecl::gatherArrayVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL array variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_FunctionDecl::gatherScalarVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL scalar variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_FunctionDecl::gatherVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_FunctionDecl::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_CompoundStmt\fP* chillAST_FunctionDecl::getBody ()\fC [inline]\fP"
+
+.SS "\fBchillAST_SymbolTable\fP* chillAST_FunctionDecl::getParameterSymbolTable ()\fC [inline]\fP"
+
+.SS "\fBchillAST_SymbolTable\fP* chillAST_FunctionDecl::getSymbolTable ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP * chillAST_FunctionDecl::hasParameterNamed (\fBconst\fP char * name)"
+
+.SS "bool chillAST_FunctionDecl::hasSymbolTable ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_FunctionDecl::hasTypeDefTable ()\fC [inline]\fP"
+
+.SS "void chillAST_FunctionDecl::insertChild (int i, \fBchillAST_node\fP * node)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_FunctionDecl::isBuiltin ()\fC [inline]\fP"
+
+.SS "bool chillAST_FunctionDecl::isExtern ()\fC [inline]\fP"
+
+.SS "bool chillAST_FunctionDecl::isForward ()\fC [inline]\fP"
+
+.SS "bool chillAST_FunctionDecl::isFunctionCPU ()\fC [inline]\fP"
+
+.SS "bool chillAST_FunctionDecl::isFunctionGPU ()\fC [inline]\fP"
+
+.SS "int chillAST_FunctionDecl::numParameters ()\fC [inline]\fP"
+
+.SS "void chillAST_FunctionDecl::prependStatement (\fBchillAST_node\fP * stmt)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+prepend a statement to the begining of a block, the body of a loop, or the body of a function 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_FunctionDecl::printParameterTypes (FILE * fp)"
+
+.SS "void chillAST_FunctionDecl::replaceChild (\fBchillAST_node\fP * old, \fBchillAST_node\fP * newchild)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_FunctionDecl::setBody (\fBchillAST_node\fP * bod)"
+
+.SS "void chillAST_FunctionDecl::setBuiltin ()\fC [inline]\fP"
+
+.SS "void chillAST_FunctionDecl::setExtern ()\fC [inline]\fP"
+
+.SS "void chillAST_FunctionDecl::setForward ()\fC [inline]\fP"
+
+.SS "void chillAST_FunctionDecl::setFunctionCPU ()\fC [inline]\fP"
+
+.SS "void chillAST_FunctionDecl::setFunctionGPU ()\fC [inline]\fP"
+
+.SS "void chillAST_FunctionDecl::setName (char * n)\fC [inline]\fP"
+
+.SS "void chillAST_FunctionDecl::setSymbolTable (\fBchillAST_SymbolTable\fP * tab)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "char* chillAST_FunctionDecl::functionName"
+
+.SS "\fBchillAST_SymbolTable\fP chillAST_FunctionDecl::parameters"
+
+.SS "char* chillAST_FunctionDecl::returnType"
+
+.SS "\fBchillAST_TypedefTable\fP* chillAST_FunctionDecl::typedef_table"
+
+.SS "void* chillAST_FunctionDecl::uniquePtr"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

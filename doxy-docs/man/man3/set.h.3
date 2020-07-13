@@ -1,0 +1,1164 @@
+.TH "lib/isl/include/isl/set.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/set.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/map_type\&.h>\fP
+.br
+\fC#include <isl/aff_type\&.h>\fP
+.br
+\fC#include <isl/list\&.h>\fP
+.br
+\fC#include <isl/mat\&.h>\fP
+.br
+\fC#include <isl/point\&.h>\fP
+.br
+\fC#include <isl/local_space\&.h>\fP
+.br
+\fC#include <isl/val\&.h>\fP
+.br
+\fC#include <isl/stdint\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBisl_basic_set_n_dim\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_basic_set_n_param\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_basic_set_total_dim\fP (\fBconst\fP struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_basic_set_dim\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_set_n_dim\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_set_n_param\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_set_dim\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_basic_set_get_ctx\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_set_get_ctx\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_basic_set_get_space\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_set_get_space\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_reset_space\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_basic_set_get_div\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_basic_set_get_local_space\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBisl_basic_set_get_tuple_name\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_has_tuple_name\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBisl_set_get_tuple_name\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_set_tuple_name\fP (\fB__isl_take\fP \fBisl_basic_set\fP *\fBset\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_set_tuple_name\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBisl_basic_set_get_dim_name\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_set_dim_name\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_has_dim_name\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBisl_set_get_dim_name\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_set_dim_name\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_basic_set_get_dim_id\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_set_tuple_id\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_set_dim_id\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_take\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_has_dim_id\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_set_get_dim_id\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_set_tuple_id\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_reset_tuple_id\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_has_tuple_id\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_set_get_tuple_id\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_reset_user\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_find_dim_by_id\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, \fB__isl_keep\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "int \fBisl_set_find_dim_by_name\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_is_rational\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_basic_set\fP * \fBisl_basic_set_free\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_copy\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_empty\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_universe\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_nat_universe\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_positive_orthant\fP (\fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "void \fBisl_basic_set_print_internal\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, FILE *out, int indent)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_intersect\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset1, \fB__isl_take\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_intersect_params\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset1, \fB__isl_take\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_apply\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_preimage_multi_aff\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_affine_hull\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_remove_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_sample\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_detect_equalities\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_remove_redundancies\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_remove_redundancies\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_list_intersect\fP (\fB__isl_take\fP struct \fBisl_basic_set_list\fP *list)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_list_product\fP (\fB__isl_take\fP struct \fBisl_basic_set_list\fP *list)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_basic_set_dump\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "void \fBisl_set_dump\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_basic_set\fP (\fB__isl_take\fP \fBisl_printer\fP *printer, \fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_set\fP (\fB__isl_take\fP \fBisl_printer\fP *printer, \fB__isl_keep\fP \fBisl_set\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_fix_si\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, int value)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_fix_val\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_fix_si\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, int value)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_lower_bound_si\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, int value)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_lower_bound_val\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_take\fP \fBisl_val\fP *value)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_upper_bound_si\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, int value)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_upper_bound_val\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_take\fP \fBisl_val\fP *value)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_equate\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type1, int \fBpos1\fP, enum \fBisl_dim_type\fP type2, int \fBpos2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_basic_set_is_equal\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset1, \fB__isl_keep\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_basic_set_is_disjoint\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset1, \fB__isl_keep\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_basic_set_partial_lexmin\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_give\fP \fBisl_set\fP **empty)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_basic_set_partial_lexmax\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_give\fP \fBisl_set\fP **empty)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_partial_lexmin\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_set\fP *dom, \fB__isl_give\fP \fBisl_set\fP **empty)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_partial_lexmax\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_set\fP *dom, \fB__isl_give\fP \fBisl_set\fP **empty)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_basic_set_lexmin\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_basic_set_lexmax\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_lexmin\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_lexmax\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_basic_set_partial_lexmin_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_give\fP \fBisl_set\fP **empty)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_basic_set_partial_lexmax_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_give\fP \fBisl_set\fP **empty)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_set_lexmin_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_set_lexmax_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_basic_set_union\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset1, \fB__isl_take\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_compare_at\fP (struct \fBisl_basic_set\fP *bset1, struct \fBisl_basic_set\fP *bset2, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_follows_at\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_params\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_from_params\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_params\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_from_params\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_dims_get_sign\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, unsigned \fBn\fP, int *signs)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_basic_set_is_universe\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_basic_set_plain_is_empty\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_basic_set_is_empty\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_is_bounded\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_basic_set_is_subset\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset1, \fB__isl_keep\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_basic_set_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset1, \fB__isl_keep\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_empty\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_universe\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_nat_universe\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_copy\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_set\fP * \fBisl_set_free\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_from_basic_set\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_sample\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_basic_set_sample_point\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_set_sample_point\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_detect_equalities\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_affine_hull\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_convex_hull\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_polyhedral_hull\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_simple_hull\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_unshifted_simple_hull\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_unshifted_simple_hull_from_set_list\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_set_list\fP *list)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_set_bounded_simple_hull\fP (struct \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_recession_cone\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_union_disjoint\fP (struct \fBisl_set\fP *\fBset1\fP, struct \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_union\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_product\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_flat_product\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset1, \fB__isl_take\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_flat_product\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_intersect\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_intersect_params\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_set\fP *params)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_subtract\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_complement\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_apply\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_preimage_multi_aff\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_preimage_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_preimage_multi_pw_aff\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_fix_val\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_fix_dim_si\fP (struct \fBisl_set\fP *\fBset\fP, unsigned \fBdim\fP, int value)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_insert_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_insert_dims\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_add_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fBISL_DEPRECATED\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_add\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_add_dims\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_move_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_move_dims\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_project_out\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_project_out\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_remove_divs\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_eliminate\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_eliminate\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_eliminate_dims\fP (struct \fBisl_set\fP *\fBset\fP, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_remove_dims\fP (\fB__isl_take\fP \fBisl_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_remove_divs_involving_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_remove_divs_involving_dims\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_remove_unknown_divs\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_remove_unknown_divs\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_remove_divs\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_split_dims\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_drop_constraints_involving_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_drop_constraints_not_involving_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_drop_constraints_involving_dims\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_basic_set_involves_dims\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_involves_dims\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_set_print_internal\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, FILE *out, int indent)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_plain_is_empty\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_plain_is_universe\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_is_params\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_set_is_empty\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_is_bounded\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_set_is_subset\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_set_is_strict_subset\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_set_is_equal\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_set_is_disjoint\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_is_singleton\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_is_box\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_has_equal_space\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_sum\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_neg\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_neg\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_make_disjoint\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_basic_set_compute_divs\fP (struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_compute_divs\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_align_divs\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_set_copy_basic_set\fP (struct \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_drop_basic_set\fP (struct \fBisl_set\fP *\fBset\fP, struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_set_plain_get_val_if_fixed\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_dim_is_bounded\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_dim_has_lower_bound\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_dim_has_upper_bound\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_dim_has_any_lower_bound\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_dim_has_any_upper_bound\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_gist\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_basic_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_gist_basic_set\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_basic_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_gist\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_gist_params\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_set_dim_residue_class_val\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, int \fBpos\fP, \fB__isl_give\fP \fBisl_val\fP **\fBmodulo\fP, \fB__isl_give\fP \fBisl_val\fP **residue)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_coalesce\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_plain_cmp\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_plain_is_disjoint\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "uint32_t \fBisl_set_get_hash\fP (struct \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_dim_is_unique\fP (struct \fBisl_set\fP *\fBset\fP, unsigned \fBdim\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_n_basic_set\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_stat\fP \fBisl_set_foreach_basic_set\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_basic_set\fP *bset, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set_list\fP * \fBisl_set_get_basic_set_list\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_set_foreach_point\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_point\fP *pnt, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_set_count_val\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_from_point\fP (\fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_set\fP * \fBisl_set_from_point\fP (\fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_box_from_points\fP (\fB__isl_take\fP \fBisl_point\fP *pnt1, \fB__isl_take\fP \fBisl_point\fP *pnt2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_box_from_points\fP (\fB__isl_take\fP \fBisl_point\fP *pnt1, \fB__isl_take\fP \fBisl_point\fP *pnt2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_lift\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_lift\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_set_lex_le_set\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_set_lex_lt_set\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_set_lex_ge_set\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_set_lex_gt_set\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_take\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_set_size\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_align_params\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_align_params\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_basic_set_equalities_matrix\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP c1, enum \fBisl_dim_type\fP c2, enum \fBisl_dim_type\fP c3, enum \fBisl_dim_type\fP c4)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_basic_set_inequalities_matrix\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP c1, enum \fBisl_dim_type\fP c2, enum \fBisl_dim_type\fP c3, enum \fBisl_dim_type\fP c4)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_from_constraint_matrices\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, \fB__isl_take\fP \fBisl_mat\fP *\fBeq\fP, \fB__isl_take\fP \fBisl_mat\fP *ineq, enum \fBisl_dim_type\fP c1, enum \fBisl_dim_type\fP c2, enum \fBisl_dim_type\fP c3, enum \fBisl_dim_type\fP c4)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_basic_set_reduced_basis\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_coefficients\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_coefficients\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_solutions\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_set_solutions\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_set_dim_max\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_set_dim_min\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP char * \fBisl_set_to_str\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fBISL_DEPRECATED\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_add (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_add_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned n)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_affine_hull (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_align_params (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_apply (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_box_from_points (\fB__isl_take\fP \fBisl_point\fP * pnt1, \fB__isl_take\fP \fBisl_point\fP * pnt2)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_coefficients (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "int isl_basic_set_compare_at (struct \fBisl_basic_set\fP * bset1, struct \fBisl_basic_set\fP * bset2, int pos)"
+
+.SS "struct \fBisl_set\fP* isl_basic_set_compute_divs (struct \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_copy (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_detect_equalities (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "unsigned isl_basic_set_dim (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type)"
+
+.SS "int isl_basic_set_dims_get_sign (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned pos, unsigned n, int * signs)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_drop_constraints_involving_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_drop_constraints_not_involving_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "void isl_basic_set_dump (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_eliminate (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_empty (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_basic_set_equalities_matrix (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP c1, enum \fBisl_dim_type\fP c2, enum \fBisl_dim_type\fP c3, enum \fBisl_dim_type\fP c4)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_fix_si (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned pos, int value)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_fix_val (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_flat_product (\fB__isl_take\fP \fBisl_basic_set\fP * bset1, \fB__isl_take\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "\fB__isl_null\fP \fBisl_basic_set\fP* isl_basic_set_free (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_from_constraint_matrices (\fB__isl_take\fP \fBisl_space\fP * dim, \fB__isl_take\fP \fBisl_mat\fP * eq, \fB__isl_take\fP \fBisl_mat\fP * ineq, enum \fBisl_dim_type\fP c1, enum \fBisl_dim_type\fP c2, enum \fBisl_dim_type\fP c3, enum \fBisl_dim_type\fP c4)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_from_params (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_from_point (\fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "\fBisl_ctx\fP* isl_basic_set_get_ctx (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_basic_set_get_dim_id (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBconst\fP char* isl_basic_set_get_dim_name (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_basic_set_get_div (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_basic_set_get_local_space (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_basic_set_get_space (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fBconst\fP char* isl_basic_set_get_tuple_name (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_gist (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_basic_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_basic_set_inequalities_matrix (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP c1, enum \fBisl_dim_type\fP c2, enum \fBisl_dim_type\fP c3, enum \fBisl_dim_type\fP c4)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_insert_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned pos, unsigned n)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_intersect (\fB__isl_take\fP \fBisl_basic_set\fP * bset1, \fB__isl_take\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_intersect_params (\fB__isl_take\fP \fBisl_basic_set\fP * bset1, \fB__isl_take\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "\fBisl_bool\fP isl_basic_set_involves_dims (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "int isl_basic_set_is_bounded (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fBisl_bool\fP isl_basic_set_is_disjoint (\fB__isl_keep\fP \fBisl_basic_set\fP * bset1, \fB__isl_keep\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_basic_set_is_empty (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_basic_set_is_equal (\fB__isl_keep\fP \fBisl_basic_set\fP * bset1, \fB__isl_keep\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "int isl_basic_set_is_rational (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_basic_set_is_subset (\fB__isl_keep\fP \fBisl_basic_set\fP * bset1, \fB__isl_keep\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "\fBisl_bool\fP isl_basic_set_is_universe (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_basic_set_lexmax (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_basic_set_lexmin (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_lift (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_list_intersect (\fB__isl_take\fP struct \fBisl_basic_set_list\fP * list)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_list_product (\fB__isl_take\fP struct \fBisl_basic_set_list\fP * list)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_move_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned n)"
+
+.SS "unsigned isl_basic_set_n_dim (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "unsigned isl_basic_set_n_param (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_nat_universe (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_neg (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_params (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_basic_set_partial_lexmax (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_basic_set\fP * dom, \fB__isl_give\fP \fBisl_set\fP ** empty)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_basic_set_partial_lexmax_pw_multi_aff (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_basic_set\fP * dom, \fB__isl_give\fP \fBisl_set\fP ** empty)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_basic_set_partial_lexmin (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_basic_set\fP * dom, \fB__isl_give\fP \fBisl_set\fP ** empty)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_basic_set_partial_lexmin_pw_multi_aff (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_basic_set\fP * dom, \fB__isl_give\fP \fBisl_set\fP ** empty)"
+
+.SS "\fBisl_bool\fP isl_basic_set_plain_is_empty (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fBisl_bool\fP isl_basic_set_plain_is_equal (\fB__isl_keep\fP \fBisl_basic_set\fP * bset1, \fB__isl_keep\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_positive_orthant (\fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_preimage_multi_aff (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "void isl_basic_set_print_internal (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, FILE * out, int indent)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_project_out (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_basic_set_reduced_basis (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_remove_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_remove_divs (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_remove_divs_involving_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_remove_redundancies (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_remove_unknown_divs (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_sample (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_basic_set_sample_point (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_set_dim_name (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_set_tuple_id (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_id\fP * id)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_set_tuple_name (\fB__isl_take\fP \fBisl_basic_set\fP * set, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_solutions (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "unsigned isl_basic_set_total_dim (\fBconst\fP struct \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_basic_set_union (\fB__isl_take\fP \fBisl_basic_set\fP * bset1, \fB__isl_take\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_universe (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_basic_set (\fB__isl_take\fP \fBisl_printer\fP * printer, \fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_set (\fB__isl_take\fP \fBisl_printer\fP * printer, \fB__isl_keep\fP \fBisl_set\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_add_dims (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned n)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_set_affine_hull (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_align_divs (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_align_params (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_apply (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "struct \fBisl_basic_set\fP* isl_set_bounded_simple_hull (struct \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_box_from_points (\fB__isl_take\fP \fBisl_point\fP * pnt1, \fB__isl_take\fP \fBisl_point\fP * pnt2)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_coalesce (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_set_coefficients (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_complement (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_compute_divs (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_set_convex_hull (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_copy (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "struct \fBisl_basic_set\fP* isl_set_copy_basic_set (struct \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_set_count_val (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_detect_equalities (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "unsigned isl_set_dim (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type)"
+
+.SS "\fBisl_bool\fP isl_set_dim_has_any_lower_bound (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBisl_bool\fP isl_set_dim_has_any_upper_bound (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBisl_bool\fP isl_set_dim_has_lower_bound (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBisl_bool\fP isl_set_dim_has_upper_bound (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "int isl_set_dim_is_bounded (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "int isl_set_dim_is_unique (struct \fBisl_set\fP * set, unsigned dim)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_set_dim_max (\fB__isl_take\fP \fBisl_set\fP * set, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_set_dim_min (\fB__isl_take\fP \fBisl_set\fP * set, int pos)"
+
+.SS "\fBisl_stat\fP isl_set_dim_residue_class_val (\fB__isl_keep\fP \fBisl_set\fP * set, int pos, \fB__isl_give\fP \fBisl_val\fP ** modulo, \fB__isl_give\fP \fBisl_val\fP ** residue)"
+
+.SS "struct \fBisl_set\fP* isl_set_drop_basic_set (struct \fBisl_set\fP * set, struct \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_drop_constraints_involving_dims (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "void isl_set_dump (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_eliminate (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_set\fP* isl_set_eliminate_dims (struct \fBisl_set\fP * set, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_empty (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_equate (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type1, int pos1, enum \fBisl_dim_type\fP type2, int pos2)"
+
+.SS "int isl_set_find_dim_by_id (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, \fB__isl_keep\fP \fBisl_id\fP * id)"
+
+.SS "int isl_set_find_dim_by_name (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, \fBconst\fP char * name)"
+
+.SS "struct \fBisl_set\fP* isl_set_fix_dim_si (struct \fBisl_set\fP * set, unsigned dim, int value)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_fix_si (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos, int value)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_fix_val (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_flat_product (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "int isl_set_follows_at (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2, int pos)"
+
+.SS "\fB__isl_export\fP \fBisl_stat\fP isl_set_foreach_basic_set (\fB__isl_keep\fP \fBisl_set\fP * set, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_basic_set\fP *bset, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fBisl_stat\fP isl_set_foreach_point (\fB__isl_keep\fP \fBisl_set\fP * set, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_point\fP *pnt, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_null\fP \fBisl_set\fP* isl_set_free (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_from_basic_set (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_from_params (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_from_point (\fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set_list\fP* isl_set_get_basic_set_list (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fBisl_ctx\fP* isl_set_get_ctx (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_set_get_dim_id (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBconst\fP char* isl_set_get_dim_name (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "uint32_t isl_set_get_hash (struct \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_set_get_space (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_set_get_tuple_id (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fBconst\fP char* isl_set_get_tuple_name (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_gist (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_gist_basic_set (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_basic_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_gist_params (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fBisl_bool\fP isl_set_has_dim_id (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBisl_bool\fP isl_set_has_dim_name (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "int isl_set_has_equal_space (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SS "\fBisl_bool\fP isl_set_has_tuple_id (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fBisl_bool\fP isl_set_has_tuple_name (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_insert_dims (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos, unsigned n)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_intersect (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_intersect_params (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_set\fP * params)"
+
+.SS "\fBisl_bool\fP isl_set_involves_dims (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "int isl_set_is_bounded (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "int isl_set_is_box (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_set_is_disjoint (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_set_is_empty (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_set_is_equal (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SS "\fBisl_bool\fP isl_set_is_params (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fBisl_bool\fP isl_set_is_singleton (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_set_is_strict_subset (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_set_is_subset (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_set_lex_ge_set (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_set_lex_gt_set (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_set_lex_le_set (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_set_lex_lt_set (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_lexmax (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_set_lexmax_pw_multi_aff (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_lexmin (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_set_lexmin_pw_multi_aff (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_lift (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_lower_bound_si (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos, int value)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_lower_bound_val (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_take\fP \fBisl_val\fP * value)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_make_disjoint (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_move_dims (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned n)"
+
+.SS "int isl_set_n_basic_set (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "unsigned isl_set_n_dim (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "unsigned isl_set_n_param (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_nat_universe (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_neg (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_params (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_partial_lexmax (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_set\fP * dom, \fB__isl_give\fP \fBisl_set\fP ** empty)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_partial_lexmin (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_set\fP * dom, \fB__isl_give\fP \fBisl_set\fP ** empty)"
+
+.SS "int isl_set_plain_cmp (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_set_plain_get_val_if_fixed (\fB__isl_keep\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBisl_bool\fP isl_set_plain_is_disjoint (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SS "\fBisl_bool\fP isl_set_plain_is_empty (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fBisl_bool\fP isl_set_plain_is_equal (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SS "\fBisl_bool\fP isl_set_plain_is_universe (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_set_polyhedral_hull (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_preimage_multi_aff (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_preimage_multi_pw_aff (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_preimage_pw_multi_aff (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "void isl_set_print_internal (\fB__isl_keep\fP \fBisl_set\fP * set, FILE * out, int indent)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_product (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_project_out (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_recession_cone (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_remove_dims (\fB__isl_take\fP \fBisl_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_remove_divs (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_remove_divs_involving_dims (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_remove_redundancies (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_remove_unknown_divs (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_reset_space (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_reset_tuple_id (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_reset_user (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_basic_set\fP* isl_set_sample (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_set_sample_point (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_set_dim_id (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_take\fP \fBisl_id\fP * id)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_set_dim_name (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_set_tuple_id (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_id\fP * id)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_set_tuple_name (\fB__isl_take\fP \fBisl_set\fP * set, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_set_simple_hull (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "int isl_set_size (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_set_solutions (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_split_dims (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_subtract (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_sum (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_give\fP char* isl_set_to_str (\fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_set\fP* isl_set_union (\fB__isl_take\fP \fBisl_set\fP * set1, \fB__isl_take\fP \fBisl_set\fP * set2)"
+
+.SS "struct \fBisl_set\fP* isl_set_union_disjoint (struct \fBisl_set\fP * set1, struct \fBisl_set\fP * set2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_universe (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_set_unshifted_simple_hull (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_set_unshifted_simple_hull_from_set_list (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_set_list\fP * list)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_upper_bound_si (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos, int value)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_upper_bound_val (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_take\fP \fBisl_val\fP * value)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

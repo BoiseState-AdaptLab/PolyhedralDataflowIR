@@ -1,0 +1,502 @@
+.TH "lib/iegenlib/src/set_relation/set_relation_test.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/iegenlib/src/set_relation/set_relation_test.cc \- Set and Relation tests\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'set_relation\&.h'\fP
+.br
+\fC#include 'expression\&.h'\fP
+.br
+\fC#include 'UFCallMap\&.h'\fP
+.br
+\fC#include 'Visitor\&.h'\fP
+.br
+\fC#include <util/util\&.h>\fP
+.br
+\fC#include <gtest/gtest\&.h>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <fstream>\fP
+.br
+\fC#include <iostream>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBSetRelationTest\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorDebugTest\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SetUpTest)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SetNoTupleVarDecl)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ConjunctionConstruction)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ConjunctionToDot)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, \fBSparseConstraints\fP)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, \fBSet\fP)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SetPrettyPrintString)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, \fBRelation\fP)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, RelationPrettyPrintString)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, RelationWithUFCall)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SolveForFactor)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SolveForFactorMultipleTerms)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, FindFunction)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ExpressionSignBug)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, EmptyExpressionBug)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SRToDot)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, CompositionIdentity)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, CompositionBreakIdentityOnly)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, CompositionInverses)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, CompositionVariousArities)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeNeedsRenaming)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeWithUFC)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeWithUFCNeedsInverse)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, CompositionCombo)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, CompositionOneFunctionWithConstraints)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, CompositionBothFunctionsWithConstraints)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ParseTest1)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeWithConstants)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, CheckDupTupleVars)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, FindConstantFunctions)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ApplySpMV)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, Union)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, Inverse)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeWithInnerConstants)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeWithUnions)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeWithOtherConstraints)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, CompositionWithNestedFunctions)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeWithUFCallConstraints)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, RemoveDuplicateConstraints)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, RemoveManyDups)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, RemoveColon)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, UsingEnvironment)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, LCPC12SubmissionComposeNotFunc)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, OrderingConstraints)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, IEGRONE64Apply)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, IEGRONE41Zeros)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, IEGRONE72CollapsingInverseFuncs)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, MoldynFSTExample)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, MoldynFSTExampleInverse)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, AnandComposeExample)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, MoldynManyTests)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, MoldynLoopAlign)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ISLString)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SetParserError)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SetZeroArity)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SetZeroArityIntersect)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SetTupleIterator)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SetTupleDecl)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ConjunctionLessThanCount)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ConjunctionLessThanValues)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SparseConstraintsLessThanCount)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SparseConstraintsLessThanValues)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SetLessThan)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, RelationLessThan)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeForDataReorderingMoldyn)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeForIterationReorderingMoldyn)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, ComposeForDataReorderingPlusIterationReorderingMoldyn)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, LoopFlatteningMoldyn)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, LoopFlatteningCSRtoCOO)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SubstituteInConstraints)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, SparseConstraintsSetTupleDecl)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, RelationIsFunction)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, \fBVisitorDebugTest\fP)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, isUFCallParam)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, mapUFCtoSym)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, boundDomainRange)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, superAffineSet)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, reverseAffineSubstitution)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, projectOut)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, numUFCallConstsMustRemove)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, removeUFCallConsts)"
+.br
+.ti -1c
+.RI "\fBTEST_F\fP (\fBSetRelationTest\fP, getString)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Set and Relation tests\&. 
+
+This file is to test all of the Set and Relation classes, along with the related Conjunction class\&.
+.PP
+\fBDate\fP
+.RS 4
+Started: 3/28/12
+.RE
+.PP
+\fBAuthors\fP
+.RS 4
+Michelle Strout, Joseph Strout, Mahdi Soltan Mohammadi
+.RE
+.PP
+Copyright (c) 2012, 2013 Colorado State University 
+.br
+ Copyright (c) 2015-2016, University of Arizona 
+.br
+ All rights reserved\&. 
+.br
+ See \&.\&./\&.\&./COPYING for details\&. 
+.br
+ 
+.SH "Function Documentation"
+.PP 
+.SS "TEST_F (\fBSetRelationTest\fP, AnandComposeExample)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ApplySpMV)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, boundDomainRange)"
+---------------- Testing boundDomainRange for Set ------------
+.PP
+---------------- Testing boundDomainRange for Relation -------
+.SS "TEST_F (\fBSetRelationTest\fP, CheckDupTupleVars)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeForDataReorderingMoldyn)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeForDataReorderingPlusIterationReorderingMoldyn)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeForIterationReorderingMoldyn)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeNeedsRenaming)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeWithConstants)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeWithInnerConstants)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeWithOtherConstraints)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeWithUFC)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeWithUFCallConstraints)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeWithUFCNeedsInverse)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ComposeWithUnions)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, CompositionBothFunctionsWithConstraints)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, CompositionBreakIdentityOnly)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, CompositionCombo)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, CompositionIdentity)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, CompositionInverses)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, CompositionOneFunctionWithConstraints)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, CompositionVariousArities)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, CompositionWithNestedFunctions)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ConjunctionConstruction)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ConjunctionLessThanCount)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ConjunctionLessThanValues)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ConjunctionToDot)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, EmptyExpressionBug)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ExpressionSignBug)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, FindConstantFunctions)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, FindFunction)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, getString)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, IEGRONE41Zeros)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, IEGRONE64Apply)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, IEGRONE72CollapsingInverseFuncs)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, Inverse)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ISLString)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, isUFCallParam)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, LCPC12SubmissionComposeNotFunc)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, LoopFlatteningCSRtoCOO)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, LoopFlatteningMoldyn)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, mapUFCtoSym)"
+Creating expected expression
+.SS "TEST_F (\fBSetRelationTest\fP, MoldynFSTExample)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, MoldynFSTExampleInverse)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, MoldynLoopAlign)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, MoldynManyTests)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, numUFCallConstsMustRemove)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, OrderingConstraints)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, ParseTest1)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, projectOut)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, \fBRelation\fP)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, RelationIsFunction)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, RelationLessThan)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, RelationPrettyPrintString)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, RelationWithUFCall)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, RemoveColon)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, RemoveDuplicateConstraints)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, RemoveManyDups)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, removeUFCallConsts)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, reverseAffineSubstitution)"
+-------- Testing reverseAffineSubstitution for Set ---
+.PP
+Getting the superAffineSet
+.PP
+Getting the reverseAffineSubstitution
+.PP
+Getting the superAffineSet
+.PP
+Getting the reverseAffineSubstitution
+.PP
+-------- Testing reverseAffineSubstitution for Relation ---
+.PP
+Getting the reverseAffineSubstitution
+.SS "TEST_F (\fBSetRelationTest\fP, \fBSet\fP)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SetLessThan)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SetNoTupleVarDecl)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SetParserError)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SetPrettyPrintString)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SetTupleDecl)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SetTupleIterator)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SetUpTest)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SetZeroArity)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SetZeroArityIntersect)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SolveForFactor)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SolveForFactorMultipleTerms)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, \fBSparseConstraints\fP)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SparseConstraintsLessThanCount)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SparseConstraintsLessThanValues)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SparseConstraintsSetTupleDecl)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SRToDot)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, SubstituteInConstraints)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, superAffineSet)"
+---------------- Testing superAffineSet ------------
+.PP
+Getting the superAffineSet
+.PP
+Getting the superAffineSet
+.PP
+---------------- Testing superAffineRelation ---------
+.SS "TEST_F (\fBSetRelationTest\fP, Union)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, UsingEnvironment)"
+
+.SS "TEST_F (\fBSetRelationTest\fP, \fBVisitorDebugTest\fP)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,351 @@
+.TH "lib/iegenlib/src/parser/parser_test.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/iegenlib/src/parser/parser_test.cc \- Test file for parsing sets and relations from an omega-like syntax\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <gtest/gtest\&.h>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <parser/parser\&.h>\fP
+.br
+\fC#include <iostream>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetEmpty)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSet1Tuple)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSet2Tuple)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetDuplicateTupleVar)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetUnion)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetInEqualityConstraintGT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetInEqualityConstraintGTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetInEqualityConstraintLT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetInEqualityConstraintLTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetEqualityConstraintEQ)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaRelation3to3)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaRelation1to3)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaRelationUnion)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaRelationInEqualityConstraintGT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaRelationInEqualityConstraintGTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaRelationInEqualityConstraintLT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaRelationInEqualityConstraintLTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaRelationEqualityConstraintEQ)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetNoConstraints1)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetNoConstraints2)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationNoConstraints1)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationNoConstraints2)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetConstraintsGT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationConstraintsEQ)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationConstraintsLT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetConstraintsGTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationConstraintsGTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationConstraintsEQandEQandLTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationConstraintsLTExp)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationConstraintsExpGTEandGTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetConstraintsExpGTEandExpGTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetDuplicateTupleVar)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationDuplicateTupleVar)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetDuplicateTupleVarConstraintsEXPEQ)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetUndeclaredSymbolic)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetUndeclaredSymbolicConstraintLTandLT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetUndeclaredSymbolicDuplicateTupleVarConstraintLTandLT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetUndeclaredSymbolicConstraintExpLT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetUndeclaredSymbolicConstraintGT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetUndeclaredSymbolicConstraintGT2)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetUFCallConstraintLT)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, SetUFCallConstraintExpGTE)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationComposeR1)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationComposeR2)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RelationComposeExpected)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, RestrictedIdent)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetExpMult)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, ISLSetUnion)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, ISLSetUnion2)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetInSymbolic)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, OmegaSetInSymbolicUnion)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, ISLSetInSymbolicUnion)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, ISLRelationUnion1)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, ISLRelationInSymbolicUnion1)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, ErrorHandlingBug)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, UFsThatReturnTuplesIndexed)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, UFsThatReturnTuples)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, ExpressionsFromISL)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (Parser, ConstraintRange)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Test file for parsing sets and relations from an omega-like syntax\&. 
+
+
+.PP
+\fBDate\fP
+.RS 4
+Started: 5/17/2010 
+.RE
+.PP
+.SH "$Revision:: 755                $: last committed revision"
+.PP
+.SH "$Date:: 2013-08-12 00:29:45 -0#$: date of last committed revision"
+.PP
+.SH "$Author:: mstrout              $: author of last committed revision"
+.PP
+\fBAuthors\fP
+.RS 4
+Michelle Strout, Alan LaMielle, Nicholas Jeanette
+.RE
+.PP
+Copyright (c) 2009, 2010, 2011, 2012, Colorado State University 
+.br
+ All rights reserved\&. 
+.br
+ See \&.\&./\&.\&./COPYING for details\&. 
+.br
+ 
+.SH "Function Documentation"
+.PP 
+.SS "TEST (Parser, ConstraintRange)"
+
+.SS "TEST (Parser, ErrorHandlingBug)"
+
+.SS "TEST (Parser, ExpressionsFromISL)"
+
+.SS "TEST (Parser, ISLRelationInSymbolicUnion1)"
+
+.SS "TEST (Parser, ISLRelationUnion1)"
+
+.SS "TEST (Parser, ISLSetInSymbolicUnion)"
+
+.SS "TEST (Parser, ISLSetUnion)"
+
+.SS "TEST (Parser, ISLSetUnion2)"
+
+.SS "TEST (Parser, OmegaRelation1to3)"
+
+.SS "TEST (Parser, OmegaRelation3to3)"
+
+.SS "TEST (Parser, OmegaRelationEqualityConstraintEQ)"
+
+.SS "TEST (Parser, OmegaRelationInEqualityConstraintGT)"
+
+.SS "TEST (Parser, OmegaRelationInEqualityConstraintGTE)"
+
+.SS "TEST (Parser, OmegaRelationInEqualityConstraintLT)"
+
+.SS "TEST (Parser, OmegaRelationInEqualityConstraintLTE)"
+
+.SS "TEST (Parser, OmegaRelationUnion)"
+
+.SS "TEST (Parser, OmegaSet1Tuple)"
+
+.SS "TEST (Parser, OmegaSet2Tuple)"
+
+.SS "TEST (Parser, OmegaSetDuplicateTupleVar)"
+
+.SS "TEST (Parser, OmegaSetEmpty)"
+
+.SS "TEST (Parser, OmegaSetEqualityConstraintEQ)"
+
+.SS "TEST (Parser, OmegaSetExpMult)"
+
+.SS "TEST (Parser, OmegaSetInEqualityConstraintGT)"
+
+.SS "TEST (Parser, OmegaSetInEqualityConstraintGTE)"
+
+.SS "TEST (Parser, OmegaSetInEqualityConstraintLT)"
+
+.SS "TEST (Parser, OmegaSetInEqualityConstraintLTE)"
+
+.SS "TEST (Parser, OmegaSetInSymbolic)"
+
+.SS "TEST (Parser, OmegaSetInSymbolicUnion)"
+
+.SS "TEST (Parser, OmegaSetUnion)"
+
+.SS "TEST (Parser, RelationComposeExpected)"
+
+.SS "TEST (Parser, RelationComposeR1)"
+
+.SS "TEST (Parser, RelationComposeR2)"
+
+.SS "TEST (Parser, RelationConstraintsEQ)"
+
+.SS "TEST (Parser, RelationConstraintsEQandEQandLTE)"
+
+.SS "TEST (Parser, RelationConstraintsExpGTEandGTE)"
+
+.SS "TEST (Parser, RelationConstraintsGTE)"
+
+.SS "TEST (Parser, RelationConstraintsLT)"
+
+.SS "TEST (Parser, RelationConstraintsLTExp)"
+
+.SS "TEST (Parser, RelationDuplicateTupleVar)"
+
+.SS "TEST (Parser, RelationNoConstraints1)"
+
+.SS "TEST (Parser, RelationNoConstraints2)"
+
+.SS "TEST (Parser, RestrictedIdent)"
+
+.SS "TEST (Parser, SetConstraintsExpGTEandExpGTE)"
+
+.SS "TEST (Parser, SetConstraintsGT)"
+
+.SS "TEST (Parser, SetConstraintsGTE)"
+
+.SS "TEST (Parser, SetDuplicateTupleVar)"
+
+.SS "TEST (Parser, SetDuplicateTupleVarConstraintsEXPEQ)"
+
+.SS "TEST (Parser, SetNoConstraints1)"
+
+.SS "TEST (Parser, SetNoConstraints2)"
+
+.SS "TEST (Parser, SetUFCallConstraintExpGTE)"
+
+.SS "TEST (Parser, SetUFCallConstraintLT)"
+
+.SS "TEST (Parser, SetUndeclaredSymbolic)"
+
+.SS "TEST (Parser, SetUndeclaredSymbolicConstraintExpLT)"
+
+.SS "TEST (Parser, SetUndeclaredSymbolicConstraintGT)"
+
+.SS "TEST (Parser, SetUndeclaredSymbolicConstraintGT2)"
+
+.SS "TEST (Parser, SetUndeclaredSymbolicConstraintLTandLT)"
+
+.SS "TEST (Parser, SetUndeclaredSymbolicDuplicateTupleVarConstraintLTandLT)"
+
+.SS "TEST (Parser, UFsThatReturnTuples)"
+
+.SS "TEST (Parser, UFsThatReturnTuplesIndexed)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

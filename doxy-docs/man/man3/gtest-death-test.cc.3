@@ -1,0 +1,47 @@
+.TH "lib/gtest/src/gtest-death-test.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/gtest/src/gtest-death-test.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/gtest\-death\-test\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+\fC#include 'gtest/internal/custom/gtest\&.h'\fP
+.br
+\fC#include 'gtest/gtest\-message\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-string\&.h'\fP
+.br
+\fC#include 'src/gtest\-internal\-inl\&.h'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_string_\fP (death_test_style, internal::StringFromGTestEnv('death_test_style', kDefaultDeathTestStyle), 'Indicates how to run \fBa\fP death test in \fBa\fP forked child process: ' '\\'threadsafe\\' (child process re\-executes the test binary ' 'from the beginning, running only the specific death test) or ' '\\'fast\\' (child process runs the death test immediately ' 'after forking)\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_bool_\fP (death_test_use_fork, internal::BoolFromGTestEnv('death_test_use_fork', false), 'Instructs to use fork()/_exit() instead of clone() in death tests\&. ' 'Ignored and always uses fork() on POSIX systems where clone() is not ' 'implemented\&. Useful when running under valgrind or similar tools \fBif\fP ' 'those do not support clone()\&. Valgrind 3\&.3\&.1 will just fail \fBif\fP ' 'it sees an unsupported combination of clone() flags\&. ' 'It is not recommended to use this flag w/o valgrind though it will ' 'work in 99% of the cases\&. Once valgrind is fixed, this flag will ' 'most likely be removed\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::internal::GTEST_DEFINE_string_\fP (internal_run_death_test, '', 'Indicates the file, line number, temporal index of ' 'the single death test to run, and \fBa\fP file descriptor to ' 'which \fBa\fP success code may be sent, all separated by ' 'the '|' characters\&.  This flag is specified \fBif\fP and only \fBif\fP the current ' 'process is \fBa\fP \fBsub\fP\-process launched for running \fBa\fP thread\-safe ' 'death test\&.  FOR INTERNAL USE ONLY\&.')"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

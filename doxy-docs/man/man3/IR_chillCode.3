@@ -1,0 +1,455 @@
+.TH "IR_chillCode" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IR_chillCode
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ir_chill\&.hh>\fP
+.PP
+Inherits \fBIR_Code\fP\&.
+.PP
+Inherited by \fBIR_cudaChillCode\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBIR_chillCode\fP (chill::Parser *\fBparser\fP, \fBconst\fP char *\fBfilename\fP, \fBconst\fP char *proc_name, \fBconst\fP char *dest_name)"
+.br
+.ti -1c
+.RI "\fB~IR_chillCode\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetOutputName\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "virtual \fBomega::CG_outputRepr\fP * \fBRetrieveMacro\fP (std::string s)"
+.br
+.ti -1c
+.RI "\fBIR_ScalarSymbol\fP * \fBCreateScalarSymbol\fP (\fBconst\fP \fBIR_Symbol\fP *sym, int \fBi\fP)"
+.br
+.ti -1c
+.RI "\fBIR_ScalarSymbol\fP * \fBCreateScalarSymbol\fP (\fBIR_CONSTANT_TYPE\fP type, int memory_type=0, std::string \fBname\fP='')"
+.br
+.ti -1c
+.RI "\fBIR_ArraySymbol\fP * \fBCreateArraySymbol\fP (\fBconst\fP \fBIR_Symbol\fP *sym, std::vector< \fBomega::CG_outputRepr\fP * > &\fBsize\fP, int \fBi\fP)"
+.br
+.ti -1c
+.RI "\fBIR_ArraySymbol\fP * \fBCreateArraySymbol\fP (\fBomega::CG_outputRepr\fP *type, std::vector< \fBomega::CG_outputRepr\fP * > &size_repr)"
+.br
+.ti -1c
+.RI "\fBIR_ArraySymbol\fP * \fBCreateArraySymbol\fP (\fBomega::CG_outputRepr\fP *\fBsize\fP, \fBconst\fP \fBIR_Symbol\fP *sym)"
+.br
+.ti -1c
+.RI "\fBIR_PointerSymbol\fP * \fBCreatePointerSymbol\fP (\fBconst\fP \fBIR_Symbol\fP *sym, std::vector< \fBomega::CG_outputRepr\fP * > &size_repr)"
+.br
+.ti -1c
+.RI "\fBIR_PointerSymbol\fP * \fBCreatePointerSymbol\fP (\fBconst\fP \fBIR_CONSTANT_TYPE\fP type, std::vector< \fBomega::CG_outputRepr\fP * > &size_repr, std::string \fBname\fP='')"
+.br
+.ti -1c
+.RI "\fBIR_PointerSymbol\fP * \fBCreatePointerSymbol\fP (\fBomega::CG_outputRepr\fP *type, std::vector< \fBomega::CG_outputRepr\fP * > &size_repr)"
+.br
+.ti -1c
+.RI "\fBIR_ScalarRef\fP * \fBCreateScalarRef\fP (\fBconst\fP \fBIR_ScalarSymbol\fP *sym)"
+.br
+.ti -1c
+.RI "\fBIR_ArrayRef\fP * \fBCreateArrayRef\fP (\fBconst\fP \fBIR_ArraySymbol\fP *sym, std::vector< \fBomega::CG_outputRepr\fP * > &index)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBCreateArrayRefRepr\fP (\fBconst\fP \fBIR_ArraySymbol\fP *sym, std::vector< \fBomega::CG_outputRepr\fP * > &index)"
+.br
+.ti -1c
+.RI "void \fBCreateDefineMacro\fP (std::string s, std::string args, \fBomega::CG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "void \fBCreateDefineMacro\fP (std::string s, std::string args, std::string repr)"
+.br
+.ti -1c
+.RI "void \fBCreateDefineMacro\fP (std::string s, std::vector< std::string >args, \fBomega::CG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "int \fBArrayIndexStartAt\fP ()"
+.br
+.ti -1c
+.RI "std::vector< \fBIR_ScalarRef\fP * > \fBFindScalarRef\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *repr) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBIR_ArrayRef\fP * > \fBFindArrayRef\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *repr) \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual std::vector< \fBIR_Loop\fP * > \fBFindLoops\fP (\fBomega::CG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "std::vector< \fBIR_PointerArrayRef\fP * > \fBFindPointerArrayRef\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *repr) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBIR_PointerArrayRef\fP * \fBCreatePointerArrayRef\fP (\fBIR_PointerSymbol\fP *sym, std::vector< \fBomega::CG_outputRepr\fP * > &index)"
+.br
+.ti -1c
+.RI "std::vector< \fBIR_Control\fP * > \fBFindOneLevelControlStructure\fP (\fBconst\fP \fBIR_Block\fP *block) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBIR_Block\fP * \fBMergeNeighboringControlStructures\fP (\fBconst\fP std::vector< \fBIR_Control\fP * > &controls) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBparent_is_array\fP (\fBIR_ArrayRef\fP *\fBa\fP)"
+.br
+.ti -1c
+.RI "bool \fBFromSameStmt\fP (\fBIR_ArrayRef\fP *\fBA\fP, \fBIR_ArrayRef\fP *\fBB\fP)"
+.br
+.ti -1c
+.RI "void \fBprintStmt\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "int \fBgetStmtType\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "\fBIR_OPERATION_TYPE\fP \fBgetReductionOp\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "\fBIR_Control\fP * \fBFromForStmt\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "\fBIR_Block\fP * \fBGetCode\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBIR_Control\fP * \fBGetCode\fP (\fBomega::CG_outputRepr\fP *) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBReplaceCode\fP (\fBIR_Control\fP *old, \fBomega::CG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "void \fBReplaceExpression\fP (\fBIR_Ref\fP *old, \fBomega::CG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "\fBIR_CONDITION_TYPE\fP \fBQueryBooleanExpOperation\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBIR_OPERATION_TYPE\fP \fBQueryExpOperation\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *repr) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::CG_outputRepr\fP * > \fBQueryExpOperand\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *repr) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBIR_Ref\fP * \fBRepr2Ref\fP (\fBconst\fP \fBomega::CG_outputRepr\fP *) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBCreateArrayType\fP (\fBIR_CONSTANT_TYPE\fP type, \fBomega::CG_outputRepr\fP *\fBsize\fP)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBCreatePointerType\fP (\fBIR_CONSTANT_TYPE\fP type)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBCreatePointerType\fP (\fBomega::CG_outputRepr\fP *type)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBCreateScalarType\fP (\fBIR_CONSTANT_TYPE\fP type)"
+.br
+.ti -1c
+.RI "bool \fBReplaceRHSExpression\fP (\fBomega::CG_outputRepr\fP *code, \fBIR_Ref\fP *ref)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBGetRHSExpression\fP (\fBomega::CG_outputRepr\fP *code)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBGetLHSExpression\fP (\fBomega::CG_outputRepr\fP *code)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBCreateMalloc\fP (\fBconst\fP \fBIR_CONSTANT_TYPE\fP type, std::string \fBlhs\fP, \fBomega::CG_outputRepr\fP *size_repr)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBCreateMalloc\fP (\fBomega::CG_outputRepr\fP *type, std::string \fBlhs\fP, \fBomega::CG_outputRepr\fP *size_repr)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBCreateFree\fP (\fBomega::CG_outputRepr\fP *exp)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBchillAST_SourceFile\fP * \fBentire_file_AST\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_FunctionDecl\fP * \fBchillfunc\fP"
+.br
+.ti -1c
+.RI "char * \fBprocedurename\fP"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBfilename\fP"
+.br
+.ti -1c
+.RI "char * \fBoutputname\fP"
+.br
+.ti -1c
+.RI "chill::Parser * \fBparser\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBchillAST_VarDecl\fP > \fBentire_file_symbol_table\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< std::string, \fBchillAST_node\fP * > \fBdefined_macros\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBIR_chillArraySymbol\fP"
+.br
+.ti -1c
+.RI "class \fBIR_chillArrayRef\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "IR_chillCode::IR_chillCode (chill::Parser * parser, \fBconst\fP char * filename, \fBconst\fP char * proc_name, \fBconst\fP char * dest_name)"
+
+.SS "IR_chillCode::~IR_chillCode ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "int IR_chillCode::ArrayIndexStartAt ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBIR_Code\fP\&.
+.SS "\fBIR_ArrayRef\fP * IR_chillCode::CreateArrayRef (\fBconst\fP \fBIR_ArraySymbol\fP * sym, std::vector< \fBomega::CG_outputRepr\fP * > & index)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::CreateArrayRefRepr (\fBconst\fP \fBIR_ArraySymbol\fP * sym, std::vector< \fBomega::CG_outputRepr\fP * > & index)\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBIR_Code\fP\&.
+.SS "\fBIR_ArraySymbol\fP* IR_chillCode::CreateArraySymbol (\fBconst\fP \fBIR_Symbol\fP * sym, std::vector< \fBomega::CG_outputRepr\fP * > & size, int i)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.PP
+Reimplemented in \fBIR_cudaChillCode\fP\&.
+.SS "\fBIR_ArraySymbol\fP * IR_chillCode::CreateArraySymbol (\fBomega::CG_outputRepr\fP * size, \fBconst\fP \fBIR_Symbol\fP * sym)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_ArraySymbol\fP* IR_chillCode::CreateArraySymbol (\fBomega::CG_outputRepr\fP * type, std::vector< \fBomega::CG_outputRepr\fP * > & size_repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::CreateArrayType (\fBIR_CONSTANT_TYPE\fP type, \fBomega::CG_outputRepr\fP * size)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "void IR_chillCode::CreateDefineMacro (std::string s, std::string args, \fBomega::CG_outputRepr\fP * repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "void IR_chillCode::CreateDefineMacro (std::string s, std::string args, std::string repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "void IR_chillCode::CreateDefineMacro (std::string s, std::vector< std::string > args, \fBomega::CG_outputRepr\fP * repr)\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::CreateFree (\fBomega::CG_outputRepr\fP * exp)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::CreateMalloc (\fBconst\fP \fBIR_CONSTANT_TYPE\fP type, std::string lhs, \fBomega::CG_outputRepr\fP * size_repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::CreateMalloc (\fBomega::CG_outputRepr\fP * type, std::string lhs, \fBomega::CG_outputRepr\fP * size_repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_PointerArrayRef\fP * IR_chillCode::CreatePointerArrayRef (\fBIR_PointerSymbol\fP * sym, std::vector< \fBomega::CG_outputRepr\fP * > & index)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_PointerSymbol\fP * IR_chillCode::CreatePointerSymbol (\fBconst\fP \fBIR_CONSTANT_TYPE\fP type, std::vector< \fBomega::CG_outputRepr\fP * > & size_repr, std::string name = \fC''\fP)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_PointerSymbol\fP * IR_chillCode::CreatePointerSymbol (\fBconst\fP \fBIR_Symbol\fP * sym, std::vector< \fBomega::CG_outputRepr\fP * > & size_repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_PointerSymbol\fP * IR_chillCode::CreatePointerSymbol (\fBomega::CG_outputRepr\fP * type, std::vector< \fBomega::CG_outputRepr\fP * > & size_repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::CreatePointerType (\fBIR_CONSTANT_TYPE\fP type)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::CreatePointerType (\fBomega::CG_outputRepr\fP * type)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_ScalarRef\fP * IR_chillCode::CreateScalarRef (\fBconst\fP \fBIR_ScalarSymbol\fP * sym)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_ScalarSymbol\fP * IR_chillCode::CreateScalarSymbol (\fBconst\fP \fBIR_Symbol\fP * sym, int memory_type)\fC [virtual]\fP"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fImemory_type\fP is for differentiating the location of where the new memory is allocated\&. this is useful for processors with heterogeneous memory hierarchy\&. 
+.RE
+.PP
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_ScalarSymbol\fP * IR_chillCode::CreateScalarSymbol (\fBIR_CONSTANT_TYPE\fP type, int memory_type = \fC0\fP, std::string name = \fC''\fP)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::CreateScalarType (\fBIR_CONSTANT_TYPE\fP type)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "vector< \fBIR_ArrayRef\fP * > IR_chillCode::FindArrayRef (\fBconst\fP \fBomega::CG_outputRepr\fP * repr) const\fC [virtual]\fP"
+Array references should be returned in their accessing order\&.
+.PP
+.PP
+.nf
+e\&.g\&. s1: A[i] = A[i-1]
+     s2: B[C[i]] = D[i] + E[i]
+return A[i-1], A[i], D[i], E[i], C[i], B[C[i]] in this order\&.
+.fi
+.PP
+ 
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "std::vector< \fBIR_Loop\fP * > IR_chillCode::FindLoops (\fBomega::CG_outputRepr\fP * repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "vector< \fBIR_Control\fP * > IR_chillCode::FindOneLevelControlStructure (\fBconst\fP \fBIR_Block\fP * block) const\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "vector< \fBIR_PointerArrayRef\fP * > IR_chillCode::FindPointerArrayRef (\fBconst\fP \fBomega::CG_outputRepr\fP * repr) const\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "vector< \fBIR_ScalarRef\fP * > IR_chillCode::FindScalarRef (\fBconst\fP \fBomega::CG_outputRepr\fP * repr) const\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_Control\fP * IR_chillCode::FromForStmt (\fBconst\fP \fBomega::CG_outputRepr\fP * repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "bool IR_chillCode::FromSameStmt (\fBIR_ArrayRef\fP * A, \fBIR_ArrayRef\fP * B)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_Block\fP * IR_chillCode::GetCode () const\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_Control\fP * IR_chillCode::GetCode (\fBomega::CG_outputRepr\fP * repr) const\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::GetLHSExpression (\fBomega::CG_outputRepr\fP * code)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_OPERATION_TYPE\fP IR_chillCode::getReductionOp (\fBconst\fP \fBomega::CG_outputRepr\fP * repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::GetRHSExpression (\fBomega::CG_outputRepr\fP * code)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "int IR_chillCode::getStmtType (\fBconst\fP \fBomega::CG_outputRepr\fP * repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_Block\fP * IR_chillCode::MergeNeighboringControlStructures (\fBconst\fP std::vector< \fBIR_Control\fP * > & controls) const\fC [virtual]\fP"
+All controls must be in the same block, at the same level and in contiguous lexical order as appeared in parameter vector\&. 
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "bool IR_chillCode::parent_is_array (\fBIR_ArrayRef\fP * a)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "void IR_chillCode::printStmt (\fBconst\fP \fBomega::CG_outputRepr\fP * repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_CONDITION_TYPE\fP IR_chillCode::QueryBooleanExpOperation (\fBconst\fP \fBomega::CG_outputRepr\fP * repr) const\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "vector< \fBCG_outputRepr\fP * > IR_chillCode::QueryExpOperand (\fBconst\fP \fBomega::CG_outputRepr\fP * repr) const\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_OPERATION_TYPE\fP IR_chillCode::QueryExpOperation (\fBconst\fP \fBomega::CG_outputRepr\fP * repr) const\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "void IR_chillCode::ReplaceCode (\fBIR_Control\fP * old, \fBomega::CG_outputRepr\fP * repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "void IR_chillCode::ReplaceExpression (\fBIR_Ref\fP * old, \fBomega::CG_outputRepr\fP * repr)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "bool IR_chillCode::ReplaceRHSExpression (\fBomega::CG_outputRepr\fP * code, \fBIR_Ref\fP * ref)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBIR_Ref\fP * IR_chillCode::Repr2Ref (\fBconst\fP \fBomega::CG_outputRepr\fP * repr) const\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "\fBomega::CG_outputRepr\fP * IR_chillCode::RetrieveMacro (std::string s)\fC [virtual]\fP"
+
+.PP
+Implements \fBIR_Code\fP\&.
+.SS "void IR_chillCode::setOutputName (\fBconst\fP char * name)\fC [inline]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBIR_chillArrayRef\fP\fC [friend]\fP"
+
+.SS "friend class \fBIR_chillArraySymbol\fP\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBchillAST_FunctionDecl\fP* IR_chillCode::chillfunc"
+
+.SS "\fBstd::map\fP<std::string, \fBchillAST_node\fP *> IR_chillCode::defined_macros\fC [protected]\fP"
+
+.SS "\fBchillAST_SourceFile\fP* IR_chillCode::entire_file_AST"
+
+.SS "std::vector<\fBchillAST_VarDecl\fP> IR_chillCode::entire_file_symbol_table\fC [protected]\fP"
+
+.SS "char* IR_chillCode::filename\fC [protected]\fP"
+
+.SS "char* IR_chillCode::outputname\fC [protected]\fP"
+
+.SS "chill::Parser* IR_chillCode::parser\fC [protected]\fP"
+
+.SS "char* IR_chillCode::procedurename"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,342 @@
+.TH "omega::CG_stringBuilder" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::CG_stringBuilder
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <CG_stringBuilder\&.h>\fP
+.PP
+Inherits \fBomega::CG_outputBuilder\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCG_stringBuilder\fP ()"
+.br
+.ti -1c
+.RI "\fB~CG_stringBuilder\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisInteger\fP (\fBCG_outputRepr\fP *\fBop\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBQueryInspectorType\fP (\fBconst\fP std::string &varName) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateInt\fP (int \fBnum\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateFloat\fP (float \fBnum\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateDouble\fP (double \fBnum\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateSubstitutedStmt\fP (int indent, \fBCG_outputRepr\fP *stmt, \fBconst\fP std::vector< std::string > &\fBvars\fP, std::vector< \fBCG_outputRepr\fP * > &subs, bool actuallyPrint) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateAssignment\fP (int indent, \fBCG_outputRepr\fP *\fBlhs\fP, \fBCG_outputRepr\fP *\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreatePlusAssignment\fP (int indent, \fBCG_outputRepr\fP *\fBlhs\fP, \fBCG_outputRepr\fP *\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateInvoke\fP (\fBconst\fP std::string &funcName, std::vector< \fBCG_outputRepr\fP * > &argList, bool is_array=false) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateComment\fP (int indent, \fBconst\fP std::string &commentText) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateAttribute\fP (\fBCG_outputRepr\fP *control, \fBconst\fP std::string &commentText) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreatePragmaAttribute\fP (\fBCG_outputRepr\fP *scopeStmt, int looplevel, \fBconst\fP std::string &pragmaText) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreatePrefetchAttribute\fP (\fBCG_outputRepr\fP *scopeStmt, int looplevel, \fBconst\fP std::string &arrName, int hint) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateNullStatement\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateIf\fP (int indent, \fBCG_outputRepr\fP *guardCondition, \fBCG_outputRepr\fP *true_stmtList, \fBCG_outputRepr\fP *false_stmtList) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateInductive\fP (\fBCG_outputRepr\fP *index, \fBCG_outputRepr\fP *lower, \fBCG_outputRepr\fP *upper, \fBCG_outputRepr\fP *step) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateLoop\fP (int indent, \fBCG_outputRepr\fP *control, \fBCG_outputRepr\fP *stmtList) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateAddressOf\fP (\fBCG_outputRepr\fP *\fBop\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateIdent\fP (\fBconst\fP std::string &varName) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateDotExpression\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateArrayRefExpression\fP (\fBconst\fP std::string &_s, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateArrayRefExpression\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBObtainInspectorData\fP (\fBconst\fP std::string &_s, \fBconst\fP std::string &member_name) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreatePlus\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateMinus\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateTimes\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateDivide\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateIntegerFloor\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateIntegerMod\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateIntegerCeil\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateAnd\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateGE\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateLE\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateEQ\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateNEQ\fP (\fBCG_outputRepr\fP *lop, \fBCG_outputRepr\fP *rop) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateBreakStatement\fP (void) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBStmtListAppend\fP (\fBCG_outputRepr\fP *list1, \fBCG_outputRepr\fP *list2) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_stringRepr\fP * \fBCreateStatementFromExpression\fP (\fBCG_outputRepr\fP *exp) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateStruct\fP (\fBconst\fP std::string struct_name, std::vector< std::string > data_members, std::vector< \fBCG_outputRepr\fP * > data_types)"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreateClassInstance\fP (std::string \fBname\fP, \fBCG_outputRepr\fP *class_def)"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBlookup_member_data\fP (\fBCG_outputRepr\fP *scope, std::string varName, \fBCG_outputRepr\fP *instance)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBClassName\fP ()"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBCreatePointer\fP (std::string &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBObtainInspectorRange\fP (\fBconst\fP std::string &_s, \fBconst\fP std::string &_name) \fBconst\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::CG_stringBuilder::CG_stringBuilder ()\fC [inline]\fP"
+
+.SS "omega::CG_stringBuilder::~CG_stringBuilder ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBconst\fP char* omega::CG_stringBuilder::ClassName ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateAddressOf (\fBCG_outputRepr\fP * op) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateAnd (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateArrayRefExpression (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateArrayRefExpression (\fBconst\fP std::string & _s, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateAssignment (int indent, \fBCG_outputRepr\fP * lhs, \fBCG_outputRepr\fP * rhs) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateAttribute (\fBCG_outputRepr\fP * control, \fBconst\fP std::string & commentText) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateBreakStatement (void) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP * omega::CG_stringBuilder::CreateClassInstance (std::string name, \fBCG_outputRepr\fP * class_def)\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateComment (int indent, \fBconst\fP std::string & commentText) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateDivide (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateDotExpression (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateDouble (double num) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateEQ (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateFloat (float num) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateGE (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateIdent (\fBconst\fP std::string & varName) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateIf (int indent, \fBCG_outputRepr\fP * guardCondition, \fBCG_outputRepr\fP * true_stmtList, \fBCG_outputRepr\fP * false_stmtList) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateInductive (\fBCG_outputRepr\fP * index, \fBCG_outputRepr\fP * lower, \fBCG_outputRepr\fP * upper, \fBCG_outputRepr\fP * step) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateInt (int num) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateIntegerCeil (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateIntegerFloor (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateIntegerMod (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateInvoke (\fBconst\fP std::string & funcName, std::vector< \fBCG_outputRepr\fP * > & argList, bool is_array = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateLE (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateLoop (int indent, \fBCG_outputRepr\fP * control, \fBCG_outputRepr\fP * stmtList) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateMinus (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateNEQ (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateNullStatement () const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreatePlus (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreatePlusAssignment (int indent, \fBCG_outputRepr\fP * lhs, \fBCG_outputRepr\fP * rhs) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP * omega::CG_stringBuilder::CreatePointer (std::string & name) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP * omega::CG_stringBuilder::CreatePragmaAttribute (\fBCG_outputRepr\fP * scopeStmt, int looplevel, \fBconst\fP std::string & pragmaText) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP * omega::CG_stringBuilder::CreatePrefetchAttribute (\fBCG_outputRepr\fP * scopeStmt, int looplevel, \fBconst\fP std::string & arrName, int hint) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateStatementFromExpression (\fBCG_outputRepr\fP * exp) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP * omega::CG_stringBuilder::CreateStruct (\fBconst\fP std::string struct_name, std::vector< std::string > data_members, std::vector< \fBCG_outputRepr\fP * > data_types)\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateSubstitutedStmt (int indent, \fBCG_outputRepr\fP * stmt, \fBconst\fP std::vector< std::string > & vars, std::vector< \fBCG_outputRepr\fP * > & subs, bool actuallyPrint) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::CreateTimes (\fBCG_outputRepr\fP * lop, \fBCG_outputRepr\fP * rop) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "bool omega::CG_stringBuilder::isInteger (\fBCG_outputRepr\fP * op) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP * omega::CG_stringBuilder::lookup_member_data (\fBCG_outputRepr\fP * scope, std::string varName, \fBCG_outputRepr\fP * instance)\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::ObtainInspectorData (\fBconst\fP std::string & _s, \fBconst\fP std::string & member_name) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_outputRepr\fP * omega::CG_stringBuilder::ObtainInspectorRange (\fBconst\fP std::string & _s, \fBconst\fP std::string & _name) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "bool omega::CG_stringBuilder::QueryInspectorType (\fBconst\fP std::string & varName) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+.SS "\fBCG_stringRepr\fP * omega::CG_stringBuilder::StmtListAppend (\fBCG_outputRepr\fP * list1, \fBCG_outputRepr\fP * list2) const\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_outputBuilder\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

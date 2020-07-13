@@ -1,0 +1,180 @@
+.TH "isl_ast_build" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+isl_ast_build
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <isl_ast_build_private\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBref\fP"
+.br
+.ti -1c
+.RI "int \fBouter_pos\fP"
+.br
+.ti -1c
+.RI "int \fBdepth\fP"
+.br
+.ti -1c
+.RI "isl_id_list * \fBiterators\fP"
+.br
+.ti -1c
+.RI "\fBisl_set\fP * \fBdomain\fP"
+.br
+.ti -1c
+.RI "\fBisl_set\fP * \fBgenerated\fP"
+.br
+.ti -1c
+.RI "\fBisl_set\fP * \fBpending\fP"
+.br
+.ti -1c
+.RI "\fBisl_multi_aff\fP * \fBvalues\fP"
+.br
+.ti -1c
+.RI "\fBisl_pw_aff\fP * \fBvalue\fP"
+.br
+.ti -1c
+.RI "\fBisl_vec\fP * \fBstrides\fP"
+.br
+.ti -1c
+.RI "\fBisl_multi_aff\fP * \fBoffsets\fP"
+.br
+.ti -1c
+.RI "\fBisl_multi_aff\fP * \fBschedule_map\fP"
+.br
+.ti -1c
+.RI "\fBisl_multi_aff\fP * \fBinternal2input\fP"
+.br
+.ti -1c
+.RI "\fBisl_union_map\fP * \fBoptions\fP"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP *(* \fBat_each_domain\fP )(\fB__isl_take\fP \fBisl_ast_node\fP *\fBnode\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "void * \fBat_each_domain_user\fP"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP *(* \fBbefore_each_for\fP )(\fB__isl_keep\fP \fBisl_ast_build\fP *\fBcontext\fP, void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "void * \fBbefore_each_for_user\fP"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP *(* \fBafter_each_for\fP )(\fB__isl_take\fP \fBisl_ast_node\fP *\fBnode\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *\fBcontext\fP, void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "void * \fBafter_each_for_user\fP"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP(* \fBbefore_each_mark\fP )(\fB__isl_keep\fP \fBisl_id\fP *\fBmark\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "void * \fBbefore_each_mark_user\fP"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP *(* \fBafter_each_mark\fP )(\fB__isl_take\fP \fBisl_ast_node\fP *\fBnode\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *\fBcontext\fP, void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "void * \fBafter_each_mark_user\fP"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP *(* \fBcreate_leaf\fP )(\fB__isl_take\fP \fBisl_ast_build\fP *build, void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "void * \fBcreate_leaf_user\fP"
+.br
+.ti -1c
+.RI "\fBisl_union_map\fP * \fBexecuted\fP"
+.br
+.ti -1c
+.RI "int \fBsingle_valued\fP"
+.br
+.ti -1c
+.RI "\fBisl_schedule_node\fP * \fBnode\fP"
+.br
+.ti -1c
+.RI "int \fBn\fP"
+.br
+.ti -1c
+.RI "enum \fBisl_ast_loop_type\fP * \fBloop_type\fP"
+.br
+.ti -1c
+.RI "\fBisl_set\fP * \fBisolated\fP"
+.br
+.in -1c
+.SH "Member Data Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP*(* isl_ast_build::after_each_for) (\fB__isl_take\fP \fBisl_ast_node\fP *\fBnode\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *\fBcontext\fP, void *\fBuser\fP)"
+
+.SS "void* isl_ast_build::after_each_for_user"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP*(* isl_ast_build::after_each_mark) (\fB__isl_take\fP \fBisl_ast_node\fP *\fBnode\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *\fBcontext\fP, void *\fBuser\fP)"
+
+.SS "void* isl_ast_build::after_each_mark_user"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP*(* isl_ast_build::at_each_domain) (\fB__isl_take\fP \fBisl_ast_node\fP *\fBnode\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP)"
+
+.SS "void* isl_ast_build::at_each_domain_user"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP*(* isl_ast_build::before_each_for) (\fB__isl_keep\fP \fBisl_ast_build\fP *\fBcontext\fP, void *\fBuser\fP)"
+
+.SS "void* isl_ast_build::before_each_for_user"
+
+.SS "\fBisl_stat\fP(* isl_ast_build::before_each_mark) (\fB__isl_keep\fP \fBisl_id\fP *\fBmark\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP)"
+
+.SS "void* isl_ast_build::before_each_mark_user"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP*(* isl_ast_build::create_leaf) (\fB__isl_take\fP \fBisl_ast_build\fP *build, void *\fBuser\fP)"
+
+.SS "void* isl_ast_build::create_leaf_user"
+
+.SS "int isl_ast_build::depth"
+
+.SS "\fBisl_set\fP* isl_ast_build::domain"
+
+.SS "\fBisl_union_map\fP* isl_ast_build::executed"
+
+.SS "\fBisl_set\fP* isl_ast_build::generated"
+
+.SS "\fBisl_multi_aff\fP* isl_ast_build::internal2input"
+
+.SS "\fBisl_set\fP* isl_ast_build::isolated"
+
+.SS "isl_id_list* isl_ast_build::iterators"
+
+.SS "enum \fBisl_ast_loop_type\fP* isl_ast_build::loop_type"
+
+.SS "int isl_ast_build::n"
+
+.SS "\fBisl_schedule_node\fP* isl_ast_build::node"
+
+.SS "\fBisl_multi_aff\fP* isl_ast_build::offsets"
+
+.SS "\fBisl_union_map\fP* isl_ast_build::options"
+
+.SS "int isl_ast_build::outer_pos"
+
+.SS "\fBisl_set\fP* isl_ast_build::pending"
+
+.SS "int isl_ast_build::ref"
+
+.SS "\fBisl_multi_aff\fP* isl_ast_build::schedule_map"
+
+.SS "int isl_ast_build::single_valued"
+
+.SS "\fBisl_vec\fP* isl_ast_build::strides"
+
+.SS "\fBisl_pw_aff\fP* isl_ast_build::value"
+
+.SS "\fBisl_multi_aff\fP* isl_ast_build::values"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

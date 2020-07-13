@@ -1,0 +1,105 @@
+.TH "src/util/exception.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/util/exception.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <setjmp\&.h>\fP
+.br
+\fC#include <signal\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtrycatch_exception\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBtry\fP   \fBif\fP (!setjmp(*\fBexception_newbuf\fP())) {"
+.br
+.ti -1c
+.RI "#define \fBcatch\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBend_try_catch\fP   }"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBtrycatch_exception\fP \fBexception_t\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBexception_init\fP ()"
+.br
+.ti -1c
+.RI "jmp_buf * \fBexception_newbuf\fP ()"
+.br
+.ti -1c
+.RI "void \fBexception_endbuf\fP ()"
+.br
+.ti -1c
+.RI "void \fBthrow\fP (\fBconst\fP char *msg, int code)"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBexception_t\fP \fBexception_get_last\fP ()"
+.br
+.ti -1c
+.RI "void \fBexception_end\fP ()"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define catch(\fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+     exception_endbuf(); \
+    } \
+    else { \
+        exception_endbuf(); \
+        const exception_t x = exception_get_last();
+.fi
+.SS "#define end_try_catch   }"
+
+.SS "#define try   \fBif\fP (!setjmp(*\fBexception_newbuf\fP())) {"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBtrycatch_exception\fP \fBexception_t\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "void exception_end ()"
+
+.SS "void exception_endbuf ()"
+
+.SS "\fBconst\fP \fBexception_t\fP exception_get_last ()"
+
+.SS "void exception_init ()"
+
+.SS "jmp_buf* exception_newbuf ()"
+
+.SS "void throw (\fBconst\fP char * msg, int code)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

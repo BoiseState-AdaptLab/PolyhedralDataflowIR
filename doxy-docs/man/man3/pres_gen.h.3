@@ -1,0 +1,118 @@
+.TH "lib/chill/omega/omega_lib/include/omega/pres_gen.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/omega_lib/include/omega/pres_gen.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <omega/omega_core/oc\&.h>\fP
+.br
+\fC#include <basic/ConstString\&.h>\fP
+.br
+\fC#include <basic/Iterator\&.h>\fP
+.br
+\fC#include <basic/List\&.h>\fP
+.br
+\fC#include <basic/Tuple\&.h>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLIE_ABOUT_CONST_TO_MAKE_ANSI_COMMITTEE_HAPPY\fP   0"
+.br
+.ti -1c
+.RI "#define \fBNOT_CONST\fP"
+.br
+.ti -1c
+.RI "#define \fBfriend_rel_ops\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef EQ_Handle \fBomega::Stride_Handle\fP"
+.br
+.ti -1c
+.RI "typedef Var_Decl * \fBomega::Variable_ID\fP"
+.br
+.RI "Uniquely identifies variables\&. "
+.ti -1c
+.RI "typedef Global_Var_Decl * \fBomega::Global_Var_ID\fP"
+.br
+.RI "Uniquely identifies global var-s through the whole program\&. "
+.ti -1c
+.RI "typedef Tuple< Variable_ID > \fBomega::Variable_ID_Tuple\fP"
+.br
+.ti -1c
+.RI "typedef Sequence< Variable_ID > \fBomega::Variable_ID_Sequence\fP"
+.br
+.ti -1c
+.RI "typedef Tuple_Iterator< Variable_ID > \fBomega::Variable_ID_Tuple_Iterator\fP"
+.br
+.ti -1c
+.RI "typedef Tuple_Iterator< Variable_ID > \fBomega::Variable_ID_Iterator\fP"
+.br
+.ti -1c
+.RI "typedef Variable_ID_Iterator \fBomega::Variable_Iterator\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBomega::Var_Kind\fP { \fBomega::Input_Var\fP, \fBomega::Set_Var\fP = Input_Var, \fBomega::Output_Var\fP, \fBomega::Global_Var\fP, \fBomega::Forall_Var\fP, \fBomega::Exists_Var\fP, \fBomega::Wildcard_Var\fP }"
+.br
+.RI "Variable declaration\&. "
+.ti -1c
+.RI "enum \fBomega::Argument_Tuple\fP { \fBomega::Unknown_Tuple\fP = 0, \fBomega::Input_Tuple\fP = 1, \fBomega::Output_Tuple\fP = 2, \fBomega::Set_Tuple\fP = Input_Tuple }"
+.br
+.ti -1c
+.RI "enum \fBomega::Combine_Type\fP { \fBomega::Comb_Id\fP, \fBomega::Comb_And\fP, \fBomega::Comb_Or\fP, \fBomega::Comb_AndNot\fP }"
+.br
+.ti -1c
+.RI "enum \fBomega::Merge_Action\fP { \fBomega::MERGE_REGULAR\fP, \fBomega::MERGE_COMPOSE\fP, \fBomega::MERGE_GIST\fP }"
+.br
+.ti -1c
+.RI "enum \fBomega::Bound_Type\fP { \fBomega::EXACT_BOUND\fP, \fBomega::UPPER_BOUND\fP, \fBomega::LOWER_BOUND\fP, \fBomega::UNSET_BOUND\fP }"
+.br
+.RI "Type of conjunct Conjunct can be exact or lower or upper bound\&. "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "FILE * \fBomega::DebugFile\fP =stderr"
+.br
+.ti -1c
+.RI "int \fBomega::mega_total\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+general presburger stuff that is needed everywhere 
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define friend_rel_ops"
+
+.SS "#define LIE_ABOUT_CONST_TO_MAKE_ANSI_COMMITTEE_HAPPY   0"
+
+.SS "#define NOT_CONST"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

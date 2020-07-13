@@ -1,0 +1,164 @@
+.TH "util::MatrixIO" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+util::MatrixIO
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <MatrixIO\&.hpp>\fP
+.PP
+Inherited by \fButil::MatlabIO\fP, and \fButil::TensorIO\fP\&.
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fB_coo_mnode\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMatrixIO\fP (\fBconst\fP string &\fBfilename\fP='', unsigned \fBorder\fP=2, unsigned \fBnnz\fP=0, char \fBsorted\fP=1)"
+.br
+.ti -1c
+.RI "virtual \fB~MatrixIO\fP ()"
+.br
+.ti -1c
+.RI "virtual int \fBread\fP ()"
+.br
+.ti -1c
+.RI "int \fBwrite\fP ()"
+.br
+.ti -1c
+.RI "unsigned \fBnrows\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned \fBncols\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned \fBnnz\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned \fBorder\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned * \fBrows\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned * \fBcols\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBdtype\fP * \fBvals\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP string & \fBfilename\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "char \fBsorted\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Protected Types"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fButil::MatrixIO::_coo_mnode\fP \fBcoo_mnode\fP"
+.br
+.in -1c
+.SS "Static Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBcoo_mnode_comp\fP (\fBconst\fP void *\fBlhs\fP, \fBconst\fP void *\fBrhs\fP)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "string \fB_filename\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_nnz\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_order\fP"
+.br
+.ti -1c
+.RI "unsigned * \fB_dims\fP"
+.br
+.ti -1c
+.RI "unsigned ** \fB_indices\fP"
+.br
+.ti -1c
+.RI "char \fB_sorted\fP"
+.br
+.ti -1c
+.RI "\fBdtype\fP * \fB_vals\fP"
+.br
+.ti -1c
+.RI "\fBMM_typecode\fP \fB_mtxcode\fP"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "typedef struct \fButil::MatrixIO::_coo_mnode\fP \fButil::MatrixIO::coo_mnode\fP\fC [protected]\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "util::MatrixIO::MatrixIO (\fBconst\fP string & filename = \fC''\fP, unsigned order = \fC2\fP, unsigned nnz = \fC0\fP, char sorted = \fC1\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "virtual util::MatrixIO::~MatrixIO ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "unsigned* util::MatrixIO::cols () const\fC [inline]\fP"
+
+.SS "static int util::MatrixIO::coo_mnode_comp (\fBconst\fP void * lhs, \fBconst\fP void * rhs)\fC [inline]\fP, \fC [static]\fP, \fC [protected]\fP"
+
+.SS "\fBconst\fP string& util::MatrixIO::filename () const\fC [inline]\fP"
+
+.SS "unsigned util::MatrixIO::ncols () const\fC [inline]\fP"
+
+.SS "unsigned util::MatrixIO::nnz () const\fC [inline]\fP"
+
+.SS "unsigned util::MatrixIO::nrows () const\fC [inline]\fP"
+
+.SS "unsigned util::MatrixIO::order () const\fC [inline]\fP"
+
+.SS "virtual int util::MatrixIO::read ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fButil::TensorIO\fP, and \fButil::MatlabIO\fP\&.
+.SS "unsigned* util::MatrixIO::rows () const\fC [inline]\fP"
+
+.SS "char util::MatrixIO::sorted () const\fC [inline]\fP"
+
+.SS "\fBdtype\fP* util::MatrixIO::vals () const\fC [inline]\fP"
+
+.SS "int util::MatrixIO::write ()\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "unsigned* util::MatrixIO::_dims\fC [protected]\fP"
+
+.SS "string util::MatrixIO::_filename\fC [protected]\fP"
+
+.SS "unsigned** util::MatrixIO::_indices\fC [protected]\fP"
+
+.SS "\fBMM_typecode\fP util::MatrixIO::_mtxcode\fC [protected]\fP"
+
+.SS "unsigned util::MatrixIO::_nnz\fC [protected]\fP"
+
+.SS "unsigned util::MatrixIO::_order\fC [protected]\fP"
+
+.SS "char util::MatrixIO::_sorted\fC [protected]\fP"
+
+.SS "\fBdtype\fP* util::MatrixIO::_vals\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

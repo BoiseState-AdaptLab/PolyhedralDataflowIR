@@ -1,0 +1,390 @@
+\hypertarget{iegenlib__calc_8cc}{}\doxysection{lib/iegenlib/src/iegenlib\+\_\+calc.cc File Reference}
+\label{iegenlib__calc_8cc}\index{lib/iegenlib/src/iegenlib\_calc.cc@{lib/iegenlib/src/iegenlib\_calc.cc}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$iegenlib.\+h$>$}\newline
+Include dependency graph for iegenlib\+\_\+calc.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{iegenlib__calc_8cc_a1c73e82bc570861a006bef2ddea46b12}{S\+E\+T\+\_\+\+R\+E\+L\+A\+T\+I\+O\+N\+\_\+\+D\+O\+T\+\_\+\+F\+I\+L\+E\+\_\+\+N\+A\+ME}}~\char`\"{}set\+\_\+relation.\+dot\char`\"{}
+\item 
+\#define \mbox{\hyperlink{iegenlib__calc_8cc_a707d29f88cf4b13fd91bd58af3301f8c}{A\+S\+T\+\_\+\+D\+O\+T\+\_\+\+F\+I\+L\+E\+\_\+\+N\+A\+ME}}~\char`\"{}ast.\+dot\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{iegenlib__calc_8cc_a22a8bcb54825d1c0ccf1200b1ebde407}{lowercase}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::string \&\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}})
+\item 
+bool \mbox{\hyperlink{iegenlib__calc_8cc_acc3754ed09afe93b026c8d9183a9a8b1}{contains}} (std\+::string s, std\+::string substring, bool case\+Sensitive=false)
+\item 
+bool \mbox{\hyperlink{iegenlib__calc_8cc_ac56932552d159c49ed62b00f3b23c002}{is\+Relation}} (std\+::string input)
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_relation}{Relation}} $\ast$ \mbox{\hyperlink{iegenlib__calc_8cc_a85478f3c07d346389dae121020743d20}{new\+Relation\+Or\+Null}} (std\+::string input)
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_set}{Set}} $\ast$ \mbox{\hyperlink{iegenlib__calc_8cc_a55ab8cb30ee5cd4ea092ee89af343061}{new\+Set\+Or\+Null}} (std\+::string input)
+\item 
+void \mbox{\hyperlink{iegenlib__calc_8cc_af36b9a8eb09524c8912d39f2ca322ec3}{handle\+Set}} (std\+::string \mbox{\hyperlink{gmp__compat_8h_aa788c0b8537ad82b96b6b9ae70af12b9}{set\+\_\+str}})
+\item 
+void \mbox{\hyperlink{iegenlib__calc_8cc_a38f47b3f1d710dac3281f61fa6d3bef0}{handle\+Relation}} (std\+::string relation\+\_\+str)
+\item 
+void \mbox{\hyperlink{iegenlib__calc_8cc_a1484c114da9b9dd71f63bb13d311eb82}{handle\+Inverse}} (std\+::string set\+\_\+relation\+\_\+str)
+\item 
+void \mbox{\hyperlink{iegenlib__calc_8cc_ae8f8b8bc0aeb9c7a699fc96c78a35bb5}{handle\+Compose}} (std\+::string set\+\_\+relation\+\_\+str)
+\item 
+void \mbox{\hyperlink{iegenlib__calc_8cc_a9bba98563608a96761af35c4f5da4c74}{handle\+Apply}} (std\+::string set\+\_\+relation\+\_\+str)
+\item 
+void \mbox{\hyperlink{iegenlib__calc_8cc_ad861ceed869f441247624e128143207f}{handle\+Union}} (std\+::string set\+\_\+relation\+\_\+str)
+\item 
+int \mbox{\hyperlink{iegenlib__calc_8cc_a0c99d968a34e803d378692bde2e3f18f}{main}} (int ac, char $\ast$$\ast$av)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{iegenlib__calc_8cc_a707d29f88cf4b13fd91bd58af3301f8c}\label{iegenlib__calc_8cc_a707d29f88cf4b13fd91bd58af3301f8c}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!AST\_DOT\_FILE\_NAME@{AST\_DOT\_FILE\_NAME}}
+\index{AST\_DOT\_FILE\_NAME@{AST\_DOT\_FILE\_NAME}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{AST\_DOT\_FILE\_NAME}{AST\_DOT\_FILE\_NAME}}
+{\footnotesize\ttfamily \#define A\+S\+T\+\_\+\+D\+O\+T\+\_\+\+F\+I\+L\+E\+\_\+\+N\+A\+ME~\char`\"{}ast.\+dot\char`\"{}}
+
+\mbox{\Hypertarget{iegenlib__calc_8cc_a1c73e82bc570861a006bef2ddea46b12}\label{iegenlib__calc_8cc_a1c73e82bc570861a006bef2ddea46b12}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!SET\_RELATION\_DOT\_FILE\_NAME@{SET\_RELATION\_DOT\_FILE\_NAME}}
+\index{SET\_RELATION\_DOT\_FILE\_NAME@{SET\_RELATION\_DOT\_FILE\_NAME}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{SET\_RELATION\_DOT\_FILE\_NAME}{SET\_RELATION\_DOT\_FILE\_NAME}}
+{\footnotesize\ttfamily \#define S\+E\+T\+\_\+\+R\+E\+L\+A\+T\+I\+O\+N\+\_\+\+D\+O\+T\+\_\+\+F\+I\+L\+E\+\_\+\+N\+A\+ME~\char`\"{}set\+\_\+relation.\+dot\char`\"{}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{iegenlib__calc_8cc_acc3754ed09afe93b026c8d9183a9a8b1}\label{iegenlib__calc_8cc_acc3754ed09afe93b026c8d9183a9a8b1}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!contains@{contains}}
+\index{contains@{contains}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily bool contains (\begin{DoxyParamCaption}\item[{std\+::string}]{s,  }\item[{std\+::string}]{substring,  }\item[{bool}]{case\+Sensitive = {\ttfamily false} }\end{DoxyParamCaption})}
+
+contains
+
+This is a small helper that reports whether one string contains a substring of interest. It is preferred over directly using the s.\+find() != string\+::npos idiom because (1) it is shorter, and (2) it more clearly expresses the intent to the human reader. Also, this method can now act in a case-\/insensitive manner, which find doesn\textquotesingle{}t naturally do.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & -- string to search \\
+\hline
+{\em substring} & -- substring to search for \\
+\hline
+{\em case\+Sensitive} & -- if true, do a case-\/sensitive search (defaults to false) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if s contains substring, false otherwise 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{iegenlib__calc_8cc_acc3754ed09afe93b026c8d9183a9a8b1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_acc3754ed09afe93b026c8d9183a9a8b1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_a9bba98563608a96761af35c4f5da4c74}\label{iegenlib__calc_8cc_a9bba98563608a96761af35c4f5da4c74}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!handleApply@{handleApply}}
+\index{handleApply@{handleApply}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{handleApply()}{handleApply()}}
+{\footnotesize\ttfamily void handle\+Apply (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Apply
+
+Handle the case of an Apply input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_a9bba98563608a96761af35c4f5da4c74_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{iegenlib__calc_8cc_a9bba98563608a96761af35c4f5da4c74_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_ae8f8b8bc0aeb9c7a699fc96c78a35bb5}\label{iegenlib__calc_8cc_ae8f8b8bc0aeb9c7a699fc96c78a35bb5}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!handleCompose@{handleCompose}}
+\index{handleCompose@{handleCompose}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{handleCompose()}{handleCompose()}}
+{\footnotesize\ttfamily void handle\+Compose (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Compose
+
+Handle the case of a Compose input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_ae8f8b8bc0aeb9c7a699fc96c78a35bb5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=252pt]{iegenlib__calc_8cc_ae8f8b8bc0aeb9c7a699fc96c78a35bb5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_a1484c114da9b9dd71f63bb13d311eb82}\label{iegenlib__calc_8cc_a1484c114da9b9dd71f63bb13d311eb82}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!handleInverse@{handleInverse}}
+\index{handleInverse@{handleInverse}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{handleInverse()}{handleInverse()}}
+{\footnotesize\ttfamily void handle\+Inverse (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Inverse
+
+Handle the case of an Inverse input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_a1484c114da9b9dd71f63bb13d311eb82_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{iegenlib__calc_8cc_a1484c114da9b9dd71f63bb13d311eb82_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_a38f47b3f1d710dac3281f61fa6d3bef0}\label{iegenlib__calc_8cc_a38f47b3f1d710dac3281f61fa6d3bef0}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!handleRelation@{handleRelation}}
+\index{handleRelation@{handleRelation}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{handleRelation()}{handleRelation()}}
+{\footnotesize\ttfamily void handle\+Relation (\begin{DoxyParamCaption}\item[{std\+::string}]{relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Relation
+
+Handle the case of a relation input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_a38f47b3f1d710dac3281f61fa6d3bef0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=247pt]{iegenlib__calc_8cc_a38f47b3f1d710dac3281f61fa6d3bef0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_af36b9a8eb09524c8912d39f2ca322ec3}\label{iegenlib__calc_8cc_af36b9a8eb09524c8912d39f2ca322ec3}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!handleSet@{handleSet}}
+\index{handleSet@{handleSet}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{handleSet()}{handleSet()}}
+{\footnotesize\ttfamily void handle\+Set (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Set
+
+Handle the case of a set input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_af36b9a8eb09524c8912d39f2ca322ec3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{iegenlib__calc_8cc_af36b9a8eb09524c8912d39f2ca322ec3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_ad861ceed869f441247624e128143207f}\label{iegenlib__calc_8cc_ad861ceed869f441247624e128143207f}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!handleUnion@{handleUnion}}
+\index{handleUnion@{handleUnion}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{handleUnion()}{handleUnion()}}
+{\footnotesize\ttfamily void handle\+Union (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Union
+
+Handle the case of a Union input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_ad861ceed869f441247624e128143207f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=235pt]{iegenlib__calc_8cc_ad861ceed869f441247624e128143207f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_ac56932552d159c49ed62b00f3b23c002}\label{iegenlib__calc_8cc_ac56932552d159c49ed62b00f3b23c002}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!isRelation@{isRelation}}
+\index{isRelation@{isRelation}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{isRelation()}{isRelation()}}
+{\footnotesize\ttfamily bool is\+Relation (\begin{DoxyParamCaption}\item[{std\+::string}]{input }\end{DoxyParamCaption})}
+
+is\+Relation
+
+Determine whether the given input is a relation, by searching for the arrow token (\char`\"{}-\/$>$\char`\"{}), which appears only in a relation (and never in a set).
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & -- string to examine \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true iff input appears to be a relation 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{iegenlib__calc_8cc_ac56932552d159c49ed62b00f3b23c002_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_ac56932552d159c49ed62b00f3b23c002_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_a22a8bcb54825d1c0ccf1200b1ebde407}\label{iegenlib__calc_8cc_a22a8bcb54825d1c0ccf1200b1ebde407}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!lowercase@{lowercase}}
+\index{lowercase@{lowercase}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{lowercase()}{lowercase()}}
+{\footnotesize\ttfamily std\+::string lowercase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::string \&}]{str }\end{DoxyParamCaption})}
+
+lowercase
+
+Converts the given string to lowercase.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & -- string to convert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+lowercase version of str 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_a22a8bcb54825d1c0ccf1200b1ebde407_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_a0c99d968a34e803d378692bde2e3f18f}\label{iegenlib__calc_8cc_a0c99d968a34e803d378692bde2e3f18f}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!main@{main}}
+\index{main@{main}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{ac,  }\item[{char $\ast$$\ast$}]{av }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_a0c99d968a34e803d378692bde2e3f18f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_a85478f3c07d346389dae121020743d20}\label{iegenlib__calc_8cc_a85478f3c07d346389dae121020743d20}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!newRelationOrNull@{newRelationOrNull}}
+\index{newRelationOrNull@{newRelationOrNull}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{newRelationOrNull()}{newRelationOrNull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_relation}{Relation}}$\ast$ new\+Relation\+Or\+Null (\begin{DoxyParamCaption}\item[{std\+::string}]{input }\end{DoxyParamCaption})}
+
+new\+Relation\+Or\+Null
+
+This factory function returns a new Relation object, if the input string appears to describe a relation; otherwise it returns N\+U\+LL.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & -- string to examine \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new Relation constructed with input, or N\+U\+LL 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_a85478f3c07d346389dae121020743d20_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_a85478f3c07d346389dae121020743d20_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__calc_8cc_a55ab8cb30ee5cd4ea092ee89af343061}\label{iegenlib__calc_8cc_a55ab8cb30ee5cd4ea092ee89af343061}} 
+\index{iegenlib\_calc.cc@{iegenlib\_calc.cc}!newSetOrNull@{newSetOrNull}}
+\index{newSetOrNull@{newSetOrNull}!iegenlib\_calc.cc@{iegenlib\_calc.cc}}
+\doxysubsubsection{\texorpdfstring{newSetOrNull()}{newSetOrNull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_set}{Set}}$\ast$ new\+Set\+Or\+Null (\begin{DoxyParamCaption}\item[{std\+::string}]{input }\end{DoxyParamCaption})}
+
+new\+Set\+Or\+Null
+
+This factory function returns a new Set object, if the input string appears to describe a Set; otherwise it returns N\+U\+LL.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & -- string to examine \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new Set constructed with input, or N\+U\+LL 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_a55ab8cb30ee5cd4ea092ee89af343061_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__calc_8cc_a55ab8cb30ee5cd4ea092ee89af343061_icgraph}
+\end{center}
+\end{figure}

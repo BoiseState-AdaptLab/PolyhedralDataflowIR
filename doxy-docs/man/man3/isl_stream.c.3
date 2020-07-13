@@ -1,0 +1,169 @@
+.TH "lib/isl/isl_stream.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_stream.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <isl/ctx\&.h>\fP
+.br
+\fC#include <isl_stream_private\&.h>\fP
+.br
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include <isl/aff\&.h>\fP
+.br
+\fC#include <isl_val_private\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_keyword\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "enum \fBisl_token_type\fP \fBisl_stream_register_keyword\fP (\fB__isl_keep\fP \fBisl_stream\fP *s, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_token\fP * \fBisl_token_new\fP (\fBisl_ctx\fP *ctx, int line, int \fBcol\fP, unsigned on_new_line)"
+.br
+.ti -1c
+.RI "int \fBisl_token_get_type\fP (struct \fBisl_token\fP *tok)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_token_get_val\fP (\fBisl_ctx\fP *ctx, struct \fBisl_token\fP *tok)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP char * \fBisl_token_get_str\fP (\fBisl_ctx\fP *ctx, struct \fBisl_token\fP *tok)"
+.br
+.ti -1c
+.RI "void \fBisl_token_free\fP (struct \fBisl_token\fP *tok)"
+.br
+.ti -1c
+.RI "void \fBisl_stream_error\fP (\fB__isl_keep\fP \fBisl_stream\fP *s, struct \fBisl_token\fP *tok, char *msg)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_stream\fP * \fBisl_stream_new_file\fP (struct \fBisl_ctx\fP *ctx, FILE *file)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_stream\fP * \fBisl_stream_new_str\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_stream_push_token\fP (\fB__isl_keep\fP \fBisl_stream\fP *s, struct \fBisl_token\fP *tok)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_skip_line\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "struct \fBisl_token\fP * \fBisl_stream_next_token\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "struct \fBisl_token\fP * \fBisl_stream_next_token_on_same_line\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_eat_if_available\fP (\fB__isl_keep\fP \fBisl_stream\fP *s, int type)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_next_token_is\fP (\fB__isl_keep\fP \fBisl_stream\fP *s, int type)"
+.br
+.ti -1c
+.RI "char * \fBisl_stream_read_ident_if_available\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_eat\fP (\fB__isl_keep\fP \fBisl_stream\fP *s, int type)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_is_empty\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "void \fBisl_stream_flush_tokens\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_stream_get_ctx\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "void \fBisl_stream_free\fP (\fB__isl_take\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_yaml_next\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_yaml_read_start_mapping\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_yaml_read_end_mapping\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_yaml_read_start_sequence\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "int \fBisl_stream_yaml_read_end_sequence\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int isl_stream_eat (\fB__isl_keep\fP \fBisl_stream\fP * s, int type)"
+
+.SS "int isl_stream_eat_if_available (\fB__isl_keep\fP \fBisl_stream\fP * s, int type)"
+
+.SS "void isl_stream_error (\fB__isl_keep\fP \fBisl_stream\fP * s, struct \fBisl_token\fP * tok, char * msg)"
+
+.SS "void isl_stream_flush_tokens (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "void isl_stream_free (\fB__isl_take\fP \fBisl_stream\fP * s)"
+
+.SS "\fBisl_ctx\fP* isl_stream_get_ctx (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "int isl_stream_is_empty (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_stream\fP* isl_stream_new_file (struct \fBisl_ctx\fP * ctx, FILE * file)"
+
+.SS "\fB__isl_give\fP \fBisl_stream\fP* isl_stream_new_str (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "struct \fBisl_token\fP* isl_stream_next_token (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "int isl_stream_next_token_is (\fB__isl_keep\fP \fBisl_stream\fP * s, int type)"
+
+.SS "struct \fBisl_token\fP* isl_stream_next_token_on_same_line (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "void isl_stream_push_token (\fB__isl_keep\fP \fBisl_stream\fP * s, struct \fBisl_token\fP * tok)"
+
+.SS "char* isl_stream_read_ident_if_available (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "enum \fBisl_token_type\fP isl_stream_register_keyword (\fB__isl_keep\fP \fBisl_stream\fP * s, \fBconst\fP char * name)"
+
+.SS "int isl_stream_skip_line (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "int isl_stream_yaml_next (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "int isl_stream_yaml_read_end_mapping (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "int isl_stream_yaml_read_end_sequence (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "int isl_stream_yaml_read_start_mapping (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "int isl_stream_yaml_read_start_sequence (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "void isl_token_free (struct \fBisl_token\fP * tok)"
+
+.SS "\fB__isl_give\fP char* isl_token_get_str (\fBisl_ctx\fP * ctx, struct \fBisl_token\fP * tok)"
+
+.SS "int isl_token_get_type (struct \fBisl_token\fP * tok)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_token_get_val (\fBisl_ctx\fP * ctx, struct \fBisl_token\fP * tok)"
+
+.SS "struct \fBisl_token\fP* isl_token_new (\fBisl_ctx\fP * ctx, int line, int col, unsigned on_new_line)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

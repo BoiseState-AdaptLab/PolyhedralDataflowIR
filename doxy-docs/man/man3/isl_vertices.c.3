@@ -1,0 +1,172 @@
+.TH "lib/isl/isl_vertices.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_vertices.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl_aff_private\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_tab\&.h>\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl_morph\&.h>\fP
+.br
+\fC#include <isl_vertices_private\&.h>\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_vertex_list\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_chamber_list\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_facet_todo\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBSELECTED\fP   1"
+.br
+.ti -1c
+.RI "#define \fBDESELECTED\fP   \-1"
+.br
+.ti -1c
+.RI "#define \fBUNSELECTED\fP   0"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vertices\fP * \fBisl_vertices_copy\fP (\fB__isl_keep\fP \fBisl_vertices\fP *vertices)"
+.br
+.ti -1c
+.RI "void \fBisl_vertices_free\fP (\fB__isl_take\fP \fBisl_vertices\fP *vertices)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vertices\fP * \fBisl_basic_set_compute_vertices\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_vertex_get_ctx\fP (\fB__isl_keep\fP \fBisl_vertex\fP *vertex)"
+.br
+.ti -1c
+.RI "int \fBisl_vertex_get_id\fP (\fB__isl_keep\fP \fBisl_vertex\fP *vertex)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_set_integral\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_vertex_get_domain\fP (\fB__isl_keep\fP \fBisl_vertex\fP *vertex)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_vertex_get_expr\fP (\fB__isl_keep\fP \fBisl_vertex\fP *vertex)"
+.br
+.ti -1c
+.RI "void \fBisl_vertex_free\fP (\fB__isl_take\fP \fBisl_vertex\fP *vertex)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_cell_get_ctx\fP (\fB__isl_keep\fP \fBisl_cell\fP *cell)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_cell_get_domain\fP (\fB__isl_keep\fP \fBisl_cell\fP *cell)"
+.br
+.ti -1c
+.RI "void \fBisl_cell_free\fP (\fB__isl_take\fP \fBisl_cell\fP *cell)"
+.br
+.ti -1c
+.RI "int \fBisl_vertices_foreach_disjoint_cell\fP (\fB__isl_keep\fP \fBisl_vertices\fP *vertices, int(*\fBfn\fP)(\fB__isl_take\fP \fBisl_cell\fP *cell, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_vertices_foreach_cell\fP (\fB__isl_keep\fP \fBisl_vertices\fP *vertices, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_cell\fP *cell, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_vertices_foreach_vertex\fP (\fB__isl_keep\fP \fBisl_vertices\fP *vertices, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_vertex\fP *vertex, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_cell_foreach_vertex\fP (\fB__isl_keep\fP \fBisl_cell\fP *cell, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_vertex\fP *vertex, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_vertices_get_ctx\fP (\fB__isl_keep\fP \fBisl_vertices\fP *vertices)"
+.br
+.ti -1c
+.RI "int \fBisl_vertices_get_n_vertices\fP (\fB__isl_keep\fP \fBisl_vertices\fP *vertices)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vertices\fP * \fBisl_morph_vertices\fP (\fB__isl_take\fP \fBisl_morph\fP *morph, \fB__isl_take\fP \fBisl_vertices\fP *vertices)"
+.br
+.ti -1c
+.RI "int \fBisl_cell_foreach_simplex\fP (\fB__isl_take\fP \fBisl_cell\fP *cell, int(*\fBfn\fP)(\fB__isl_take\fP \fBisl_cell\fP *simplex, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define DESELECTED   \-1"
+
+.SS "#define SELECTED   1"
+
+.SS "#define UNSELECTED   0"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_vertices\fP* isl_basic_set_compute_vertices (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_set_integral (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "int isl_cell_foreach_simplex (\fB__isl_take\fP \fBisl_cell\fP * cell, int(*)(\fB__isl_take\fP \fBisl_cell\fP *simplex, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fBisl_stat\fP isl_cell_foreach_vertex (\fB__isl_keep\fP \fBisl_cell\fP * cell, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_vertex\fP *vertex, void *\fBuser\fP) fn, void * user)"
+
+.SS "void isl_cell_free (\fB__isl_take\fP \fBisl_cell\fP * cell)"
+
+.SS "\fBisl_ctx\fP* isl_cell_get_ctx (\fB__isl_keep\fP \fBisl_cell\fP * cell)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_cell_get_domain (\fB__isl_keep\fP \fBisl_cell\fP * cell)"
+
+.SS "\fB__isl_give\fP \fBisl_vertices\fP* isl_morph_vertices (\fB__isl_take\fP \fBisl_morph\fP * morph, \fB__isl_take\fP \fBisl_vertices\fP * vertices)"
+
+.SS "void isl_vertex_free (\fB__isl_take\fP \fBisl_vertex\fP * vertex)"
+
+.SS "\fBisl_ctx\fP* isl_vertex_get_ctx (\fB__isl_keep\fP \fBisl_vertex\fP * vertex)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_vertex_get_domain (\fB__isl_keep\fP \fBisl_vertex\fP * vertex)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_vertex_get_expr (\fB__isl_keep\fP \fBisl_vertex\fP * vertex)"
+
+.SS "int isl_vertex_get_id (\fB__isl_keep\fP \fBisl_vertex\fP * vertex)"
+
+.SS "\fB__isl_give\fP \fBisl_vertices\fP* isl_vertices_copy (\fB__isl_keep\fP \fBisl_vertices\fP * vertices)"
+
+.SS "\fBisl_stat\fP isl_vertices_foreach_cell (\fB__isl_keep\fP \fBisl_vertices\fP * vertices, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_cell\fP *cell, void *\fBuser\fP) fn, void * user)"
+
+.SS "int isl_vertices_foreach_disjoint_cell (\fB__isl_keep\fP \fBisl_vertices\fP * vertices, int(*)(\fB__isl_take\fP \fBisl_cell\fP *cell, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fBisl_stat\fP isl_vertices_foreach_vertex (\fB__isl_keep\fP \fBisl_vertices\fP * vertices, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_vertex\fP *vertex, void *\fBuser\fP) fn, void * user)"
+
+.SS "void isl_vertices_free (\fB__isl_take\fP \fBisl_vertices\fP * vertices)"
+
+.SS "\fBisl_ctx\fP* isl_vertices_get_ctx (\fB__isl_keep\fP \fBisl_vertices\fP * vertices)"
+
+.SS "int isl_vertices_get_n_vertices (\fB__isl_keep\fP \fBisl_vertices\fP * vertices)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

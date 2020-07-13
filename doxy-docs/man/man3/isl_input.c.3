@@ -1,0 +1,277 @@
+.TH "lib/isl/isl_input.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_input.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_stream_private\&.h>\fP
+.br
+\fC#include <isl/obj\&.h>\fP
+.br
+\fC#include 'isl_polynomial_private\&.h'\fP
+.br
+\fC#include <isl/union_set\&.h>\fP
+.br
+\fC#include <isl/union_map\&.h>\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_aff_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl/list\&.h>\fP
+.br
+\fC#include <isl_val_private\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBvariable\fP"
+.br
+.ti -1c
+.RI "struct \fBvars\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_stream_read_val\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "struct \fBisl_val\fP * \fBisl_val_read_from_str\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_obj\fP \fBisl_stream_read_obj\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_stream_read_map\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_stream_read_set\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_stream_read_union_map\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_stream_read_union_set\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_read_from_str\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_read_from_str\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_read_from_file\fP (struct \fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_read_from_str\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_read_from_file\fP (struct \fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_read_from_str\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_read_from_str\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_set_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_set_read_from_str\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_stream_read_pw_qpolynomial\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_stream_read_aff\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_stream_read_pw_aff\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_stream_read_pw_multi_aff\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_stream_read_union_pw_multi_aff\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_val\fP * \fBisl_stream_read_multi_val\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_val\fP * \fBisl_multi_val_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_stream_read_multi_aff\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_pw_aff\fP * \fBisl_stream_read_multi_pw_aff\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_pw_aff\fP * \fBisl_multi_pw_aff_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_stream_read_union_pw_aff\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_union_pw_aff_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_stream_read_multi_union_pw_aff\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_stream_read_union_pw_qpolynomial\fP (\fB__isl_keep\fP \fBisl_stream\fP *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_read_from_str (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_read_from_str (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_read_from_file (struct \fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_read_from_str (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_pw_aff\fP* isl_multi_pw_aff_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_val\fP* isl_multi_val_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_read_from_file (struct \fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "struct \fBisl_set\fP* isl_set_read_from_str (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_stream_read_aff (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_stream_read_map (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_stream_read_multi_aff (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_pw_aff\fP* isl_stream_read_multi_pw_aff (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_stream_read_multi_union_pw_aff (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_val\fP* isl_stream_read_multi_val (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "struct \fBisl_obj\fP isl_stream_read_obj (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_stream_read_pw_aff (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_stream_read_pw_multi_aff (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_stream_read_pw_qpolynomial (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_stream_read_set (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_stream_read_union_map (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_stream_read_union_pw_aff (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_stream_read_union_pw_multi_aff (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_stream_read_union_pw_qpolynomial (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_stream_read_union_set (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_stream_read_val (\fB__isl_keep\fP \fBisl_stream\fP * s)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_read_from_str (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_union_pw_aff_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_union_set_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_union_set_read_from_str (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "struct \fBisl_val\fP* isl_val_read_from_str (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,412 @@
+.TH "lib/gtest/src/gtest.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/gtest/src/gtest.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include 'gtest/internal/custom/gtest\&.h'\fP
+.br
+\fC#include 'gtest/gtest\-spi\&.h'\fP
+.br
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <stdarg\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+\fC#include <wchar\&.h>\fP
+.br
+\fC#include <wctype\&.h>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <iomanip>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <list>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <sys/time\&.h>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include 'src/gtest\-internal\-inl\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::internal::PrettyUnitTestResultPrinter\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestEventRepeater\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::XmlUnitTestResultPrinter\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ScopedPrematureExitFile\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestCaseNameIs\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal::edit_distance\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_HAS_GETTIMEOFDAY_\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGTEST_IMPL_CMP_HELPER_\fP(op_name,  \fBop\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REPEATER_METHOD_\fP(Name,  \fBType\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REVERSE_REPEATER_METHOD_\fP(Name,  \fBType\fP)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBtesting::internal::GTestColor\fP { \fBtesting::internal::COLOR_DEFAULT\fP, \fBtesting::internal::COLOR_RED\fP, \fBtesting::internal::COLOR_GREEN\fP, \fBtesting::internal::COLOR_YELLOW\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_bool_\fP (also_run_disabled_tests, internal::BoolFromGTestEnv('also_run_disabled_tests', false), 'Run disabled \fBtests\fP too, in addition to the \fBtests\fP normally being run\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_bool_\fP (break_on_failure, internal::BoolFromGTestEnv('break_on_failure', false), 'True iff \fBa\fP failed assertion should be \fBa\fP debugger break\-point\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_bool_\fP (catch_exceptions, internal::BoolFromGTestEnv('catch_exceptions', true), 'True iff ' GTEST_NAME_ ' should \fBcatch\fP exceptions and treat them as test failures\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_string_\fP (color, internal::StringFromGTestEnv('color', 'auto'), 'Whether to use colors in the output\&.  Valid values: yes, no, ' 'and auto\&.  'auto' means to use colors \fBif\fP the output is ' 'being sent to \fBa\fP terminal and the TERM environment \fBvariable\fP ' 'is \fBset\fP to \fBa\fP terminal type that supports colors\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_string_\fP (filter, internal::StringFromGTestEnv('filter', GetDefaultFilter()), 'A colon\-separated list of glob (not regex) patterns ' 'for filtering the \fBtests\fP to run, optionally followed by \fBa\fP ' ''\-' and \fBa\fP : separated list of negative patterns (\fBtests\fP to ' 'exclude)\&.  \fBA\fP test is run \fBif\fP it matches one of the positive ' 'patterns and does not match any of the negative patterns\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_bool_\fP (list_tests, false, 'List all \fBtests\fP without running them\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_string_\fP (output, internal::StringFromGTestEnv('output', ''), '\fBA\fP format (currently must be \\'xml\\'), optionally followed ' 'by \fBa\fP colon and an output file \fBname\fP or directory\&. \fBA\fP directory ' 'is indicated by \fBa\fP trailing pathname separator\&. ' 'Examples: \\'xml:filename\&.xml\\', \\'xml::directoryname/\\'\&. ' 'If \fBa\fP directory is specified, output files will be created ' 'within that directory, with file\-names based on the test ' 'executable's \fBname\fP and, \fBif\fP necessary, made unique by adding ' 'digits\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_bool_\fP (print_time, internal::BoolFromGTestEnv('print_time', true), 'True iff ' GTEST_NAME_ ' should display elapsed time in text output\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_int32_\fP (random_seed, internal::Int32FromGTestEnv('random_seed', 0), 'Random number seed to use when shuffling test orders\&.  Must be in range ' '[1, 99999], or 0 to use \fBa\fP seed based on the current time\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_int32_\fP (repeat, internal::Int32FromGTestEnv('repeat', 1), 'How many times to repeat each test\&.  Specify \fBa\fP negative number ' 'for repeating forever\&.  Useful for shaking out flaky tests\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_bool_\fP (show_internal_stack_frames, false, 'True iff ' GTEST_NAME_ ' should include internal stack frames when ' 'printing test failure stack traces\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_bool_\fP (shuffle, internal::BoolFromGTestEnv('shuffle', false), 'True iff ' GTEST_NAME_ ' should randomize \fBtests\fP' order on every run\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_int32_\fP (stack_trace_depth, internal::Int32FromGTestEnv('stack_trace_depth', kMaxStackTraceDepth), 'The maximum number of stack frames to \fBprint\fP when an ' 'assertion fails\&.  The valid range is 0 through 100, inclusive\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_string_\fP (stream_result_to, internal::StringFromGTestEnv('stream_result_to', ''), 'This flag specifies the host \fBname\fP and the port number on which to stream ' 'test results\&. Example: \\'localhost:555\\'\&. The flag is effective only on ' 'Linux\&.')"
+.br
+.ti -1c
+.RI "\fBtesting::GTEST_DEFINE_bool_\fP (throw_on_failure, internal::BoolFromGTestEnv('throw_on_failure', false), 'When this flag is specified, \fBa\fP failed assertion will \fBthrow\fP an exception ' '\fBif\fP exceptions are enabled or exit the program with \fBa\fP non\-zero code ' 'otherwise\&.')"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP \fBtesting::internal::GTEST_DEFINE_STATIC_MUTEX_\fP (g_linked_ptr_mutex)"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBGTEST_API_\fP ::std::vector< \fBtesting::internal::string\fP > & \fBtesting::internal::GetArgvs\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP FilePath \fBtesting::internal::GetCurrentExecutableName\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TypeId \fBtesting::internal::GetTestTypeId\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TimeInMillis \fBtesting::internal::GetTimeInMillis\fP ()"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::SplitString\fP (\fBconst\fP ::std::string &\fBstr\fP, char delimiter, ::std::vector< ::std::string > *dest)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::AssertionSuccess\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::AssertionFailure\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::AssertionFailure\fP (\fBconst\fP Message &msg)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< EditType > \fBtesting::internal::edit_distance::CalculateOptimalEdits\fP (\fBconst\fP std::vector< size_t > &left, \fBconst\fP std::vector< size_t > &right)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< EditType > \fBtesting::internal::edit_distance::CalculateOptimalEdits\fP (\fBconst\fP std::vector< std::string > &left, \fBconst\fP std::vector< std::string > &right)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::edit_distance::CreateUnifiedDiff\fP (\fBconst\fP std::vector< std::string > &left, \fBconst\fP std::vector< std::string > &right, size_t \fBcontext\fP=2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::EqFailure\fP (\fBconst\fP char *expected_expression, \fBconst\fP char *actual_expression, \fBconst\fP std::string &expected_value, \fBconst\fP std::string &actual_value, bool ignoring_case)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetBoolAssertionFailureMessage\fP (\fBconst\fP AssertionResult &assertion_result, \fBconst\fP char *expression_text, \fBconst\fP char *actual_predicate_value, \fBconst\fP char *expected_predicate_value)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::DoubleNearPredFormat\fP (\fBconst\fP char *expr1, \fBconst\fP char *expr2, \fBconst\fP char *abs_error_expr, double val1, double val2, double abs_error)"
+.br
+.ti -1c
+.RI "template<typename RawType > AssertionResult \fBtesting::internal::FloatingPointLE\fP (\fBconst\fP char *expr1, \fBconst\fP char *expr2, RawType val1, RawType val2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::FloatLE\fP (\fBconst\fP char *expr1, \fBconst\fP char *expr2, float val1, float val2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::DoubleLE\fP (\fBconst\fP char *expr1, \fBconst\fP char *expr2, double val1, double val2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperEQ\fP (\fBconst\fP char *lhs_expression, \fBconst\fP char *rhs_expression, BiggestInt \fBlhs\fP, BiggestInt \fBrhs\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTREQ\fP (\fBconst\fP char *s1_expression, \fBconst\fP char *s2_expression, \fBconst\fP char *\fBs1\fP, \fBconst\fP char *\fBs2\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTRCASEEQ\fP (\fBconst\fP char *s1_expression, \fBconst\fP char *s2_expression, \fBconst\fP char *\fBs1\fP, \fBconst\fP char *\fBs2\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTRNE\fP (\fBconst\fP char *s1_expression, \fBconst\fP char *s2_expression, \fBconst\fP char *\fBs1\fP, \fBconst\fP char *\fBs2\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTRCASENE\fP (\fBconst\fP char *s1_expression, \fBconst\fP char *s2_expression, \fBconst\fP char *\fBs1\fP, \fBconst\fP char *\fBs2\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsSubstring\fP (\fBconst\fP char *needle_expr, \fBconst\fP char *haystack_expr, \fBconst\fP char *needle, \fBconst\fP char *haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsSubstring\fP (\fBconst\fP char *needle_expr, \fBconst\fP char *haystack_expr, \fBconst\fP wchar_t *needle, \fBconst\fP wchar_t *haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsNotSubstring\fP (\fBconst\fP char *needle_expr, \fBconst\fP char *haystack_expr, \fBconst\fP char *needle, \fBconst\fP char *haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsNotSubstring\fP (\fBconst\fP char *needle_expr, \fBconst\fP char *haystack_expr, \fBconst\fP wchar_t *needle, \fBconst\fP wchar_t *haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsSubstring\fP (\fBconst\fP char *needle_expr, \fBconst\fP char *haystack_expr, \fBconst\fP ::std::string &needle, \fBconst\fP ::std::string &haystack)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::IsNotSubstring\fP (\fBconst\fP char *needle_expr, \fBconst\fP char *haystack_expr, \fBconst\fP ::std::string &needle, \fBconst\fP ::std::string &haystack)"
+.br
+.ti -1c
+.RI "UInt32 \fBtesting::internal::ChopLowBits\fP (UInt32 *bits, int \fBn\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::CodePointToUtf8\fP (UInt32 code_point)"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::IsUtf16SurrogatePair\fP (wchar_t first, wchar_t second)"
+.br
+.ti -1c
+.RI "UInt32 \fBtesting::internal::CreateCodePointFromUtf16SurrogatePair\fP (wchar_t first, wchar_t second)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::WideStringToUtf8\fP (\fBconst\fP wchar_t *\fBstr\fP, int num_chars)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTREQ\fP (\fBconst\fP char *s1_expression, \fBconst\fP char *s2_expression, \fBconst\fP wchar_t *\fBs1\fP, \fBconst\fP wchar_t *\fBs2\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::CmpHelperSTRNE\fP (\fBconst\fP char *s1_expression, \fBconst\fP char *s2_expression, \fBconst\fP wchar_t *\fBs1\fP, \fBconst\fP wchar_t *\fBs2\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::StringStreamToString\fP (::std::stringstream *stream)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::AppendUserMessage\fP (\fBconst\fP std::string &gtest_msg, \fBconst\fP Message &user_msg)"
+.br
+.ti -1c
+.RI "template<int kSize> std::vector< std::string > \fBtesting::ArrayAsVector\fP (\fBconst\fP char *\fBconst\fP (&array)[kSize])"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::ReportFailureInUnknownLocation\fP (\fBTestPartResult::Type\fP result_type, \fBconst\fP std::string &message)"
+.br
+.ti -1c
+.RI "template<class T , typename Result > Result \fBtesting::internal::HandleSehExceptionsInMethodIfSupported\fP (\fBT\fP *object, Result(T::*method)(), \fBconst\fP char *location)"
+.br
+.ti -1c
+.RI "template<class T , typename Result > Result \fBtesting::internal::HandleExceptionsInMethodIfSupported\fP (\fBT\fP *object, Result(T::*method)(), \fBconst\fP char *location)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TestInfo * \fBtesting::internal::MakeAndRegisterTestInfo\fP (\fBconst\fP char *test_case_name, \fBconst\fP char *\fBname\fP, \fBconst\fP char *type_param, \fBconst\fP char *value_param, CodeLocation code_location, TypeId fixture_class_id, SetUpTestCaseFunc set_up_tc, TearDownTestCaseFunc tear_down_tc, TestFactoryBase *factory)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::ReportInvalidTestCaseType\fP (\fBconst\fP char *test_case_name, CodeLocation code_location)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ShouldUseColor\fP (bool stdout_is_tty)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::FormatTimeInMillisAsSeconds\fP (TimeInMillis ms)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::FormatEpochTimeInMillisAsIso8601\fP (TimeInMillis ms)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::WriteToShardStatusFileIfNeeded\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ShouldShard\fP (\fBconst\fP char *total_shards_str, \fBconst\fP char *shard_index_str, bool in_subprocess_for_death_test)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP Int32 \fBtesting::internal::Int32FromEnvOrDie\fP (\fBconst\fP char *env_var, Int32 default_val)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ShouldRunTestOnShard\fP (int total_shards, int shard_index, int test_id)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetCurrentOsStackTraceExceptTop\fP (UnitTest *unit_test, int skip_count)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::IsTrue\fP (bool \fBcondition\fP)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::AlwaysTrue\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::SkipPrefix\fP (\fBconst\fP char *prefix, \fBconst\fP char **pstr)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ParseInt32Flag\fP (\fBconst\fP char *\fBstr\fP, \fBconst\fP char *flag, Int32 *value)"
+.br
+.ti -1c
+.RI "template<typename CharType > void \fBtesting::internal::ParseGoogleTestFlagsOnlyImpl\fP (int *argc, CharType **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::ParseGoogleTestFlagsOnly\fP (int *argc, char **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::ParseGoogleTestFlagsOnly\fP (int *argc, wchar_t **argv)"
+.br
+.ti -1c
+.RI "template<typename CharType > void \fBtesting::internal::InitGoogleTestImpl\fP (int *argc, CharType **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::InitGoogleTest\fP (int *argc, char **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::InitGoogleTest\fP (int *argc, wchar_t **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::TempDir\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "::std::vector< \fBtesting::internal::string\fP > \fBtesting::internal::g_argvs\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP UInt32 \fBtesting::internal::kMaxCodePoint1\fP = (static_cast<UInt32>(1) << 7) \- 1"
+.br
+.ti -1c
+.RI "\fBconst\fP UInt32 \fBtesting::internal::kMaxCodePoint2\fP = (static_cast<UInt32>(1) << (5 + 6)) \- 1"
+.br
+.ti -1c
+.RI "\fBconst\fP UInt32 \fBtesting::internal::kMaxCodePoint3\fP = (static_cast<UInt32>(1) << (4 + 2*6)) \- 1"
+.br
+.ti -1c
+.RI "\fBconst\fP UInt32 \fBtesting::internal::kMaxCodePoint4\fP = (static_cast<UInt32>(1) << (3 + 3*6)) \- 1"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GTEST_HAS_GETTIMEOFDAY_   1"
+
+.SS "#define GTEST_IMPL_CMP_HELPER_(op_name, \fBop\fP)"
+\fBValue:\fP
+.PP
+.nf
+AssertionResult CmpHelper##op_name(const char* expr1, const char* expr2, \
+                                   BiggestInt val1, BiggestInt val2) {\
+  if (val1 op val2) {\
+    return AssertionSuccess();\
+  } else {\
+    return AssertionFailure() \
+        << "Expected: (" << expr1 << ") " #op " (" << expr2\
+        << "), actual: " << FormatForComparisonFailureMessage(val1, val2)\
+        << " vs " << FormatForComparisonFailureMessage(val2, val1);\
+  }\
+}
+.fi
+.SS "#define GTEST_REPEATER_METHOD_(Name, \fBType\fP)"
+\fBValue:\fP
+.PP
+.nf
+void TestEventRepeater::Name(const Type& parameter) { \
+  if (forwarding_enabled_) { \
+    for (size_t i = 0; i < listeners_\&.size(); i++) { \
+      listeners_[i]->Name(parameter); \
+    } \
+  } \
+}
+.fi
+.SS "#define GTEST_REVERSE_REPEATER_METHOD_(Name, \fBType\fP)"
+\fBValue:\fP
+.PP
+.nf
+void TestEventRepeater::Name(const Type& parameter) { \
+  if (forwarding_enabled_) { \
+    for (int i = static_cast<int>(listeners_\&.size()) - 1; i >= 0; i--) { \
+      listeners_[i]->Name(parameter); \
+    } \
+  } \
+}
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

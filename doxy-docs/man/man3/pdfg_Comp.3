@@ -1,0 +1,306 @@
+.TH "pdfg::Comp" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::Comp
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <GraphIL\&.hpp>\fP
+.PP
+Inherits \fBpdfg::Expr\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP vector< \fBConstr\fP > &constrs, \fBconst\fP \fBMath\fP &\fBstatement\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP vector< \fBConstr\fP > &constrs, \fBconst\fP \fBMath\fP &\fBstatement\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP string &\fBname\fP, \fBSpace\fP &\fBspace\fP, \fBconst\fP \fBMath\fP &\fBstatement\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, \fBconst\fP \fBMath\fP &\fBstatement\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP \fBSpace\fP &\fBspace\fP, \fBconst\fP \fBConstr\fP &guard, \fBconst\fP \fBMath\fP &\fBstatement\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, \fBconst\fP \fBConstr\fP &guard, \fBconst\fP \fBMath\fP &\fBstatement\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, initializer_list< \fBMath\fP > \fBstatements\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, initializer_list< \fBMath\fP > \fBstatements\fP, initializer_list< \fBConstr\fP > \fBguards\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, \fBconst\fP vector< \fBConstr\fP > &\fBguards\fP, \fBconst\fP \fBMath\fP &expr)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP string &\fBname\fP, \fBSpace\fP &\fBspace\fP, \fBconst\fP \fBConstr\fP &guard, \fBconst\fP vector< \fBMath\fP > &\fBstatements\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, \fBconst\fP \fBConstr\fP &guard, \fBconst\fP vector< \fBMath\fP > &\fBstatements\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP string &\fBname\fP, \fBSpace\fP &\fBspace\fP, \fBconst\fP vector< \fBMath\fP > &\fBstatements\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, \fBconst\fP vector< \fBMath\fP > &\fBstatements\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, \fBconst\fP vector< \fBMath\fP > &\fBstatements\fP, \fBconst\fP vector< \fBConstr\fP > &\fBguards\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP (\fBconst\fP \fBComp\fP &other)"
+.br
+.ti -1c
+.RI "\fBComp\fP & \fBoperator=\fP (\fBconst\fP \fBComp\fP &other)"
+.br
+.ti -1c
+.RI "\fBComp\fP & \fBoperator=\fP (\fBconst\fP \fBExpr\fP &expr) override"
+.br
+.ti -1c
+.RI "\fBconst\fP string \fBname\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBname\fP (\fBconst\fP string &name)"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBSpace\fP & \fBspace\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBspace\fP (\fBconst\fP \fBSpace\fP &space)"
+.br
+.ti -1c
+.RI "vector< \fBMath\fP > \fBstatements\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBConstr\fP > \fBguards\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBRel\fP > & \fBschedules\fP ()"
+.br
+.ti -1c
+.RI "\fBRel\fP \fBschedule\fP (unsigned index) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBMath\fP \fBstatement\fP (unsigned index) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBstatement\fP (unsigned index, \fBconst\fP \fBMath\fP &stmt)"
+.br
+.ti -1c
+.RI "unsigned \fBnschedules\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBinterchanged\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBinterchanged\fP (bool flag)"
+.br
+.ti -1c
+.RI "bool \fBtiled\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBtiled\fP (bool flag)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBconst\fP \fBConstr\fP &constr)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBconst\fP \fBMath\fP &\fBstatement\fP)"
+.br
+.ti -1c
+.RI "void \fBreschedule\fP (unsigned index, \fBconst\fP \fBTuple\fP &tuple)"
+.br
+.ti -1c
+.RI "vector< \fBConstr\fP > \fBconstraints\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBExprTuple\fP \fBlowers\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBExprTuple\fP \fBuppers\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBComp\fP \fBoperator+=\fP (\fBconst\fP \fBMath\fP &\fBstatement\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP \fBoperator+=\fP (\fBconst\fP vector< \fBMath\fP > &\fBstatements\fP)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBinit\fP (\fBconst\fP string &\fBname\fP, \fBSpace\fP &\fBspace\fP, initializer_list< \fBMath\fP > \fBstatements\fP)"
+.br
+.ti -1c
+.RI "void \fBinit\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, initializer_list< \fBMath\fP > \fBstatements\fP)"
+.br
+.ti -1c
+.RI "void \fBinit\fP (\fBconst\fP string &\fBname\fP, \fBSpace\fP &\fBspace\fP, initializer_list< \fBMath\fP > \fBstatements\fP, initializer_list< \fBConstr\fP > \fBguards\fP)"
+.br
+.ti -1c
+.RI "void \fBinit\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, initializer_list< \fBMath\fP > \fBstatements\fP, initializer_list< \fBConstr\fP > \fBguards\fP)"
+.br
+.ti -1c
+.RI "void \fBinit\fP (\fBconst\fP string &\fBname\fP, \fBSpace\fP &\fBspace\fP, \fBconst\fP vector< \fBMath\fP > &\fBstatements\fP, \fBconst\fP vector< \fBConstr\fP > &\fBguards\fP)"
+.br
+.ti -1c
+.RI "void \fBinit\fP (\fBconst\fP \fBSpace\fP &\fBspace\fP, \fBconst\fP vector< \fBMath\fP > &\fBstatements\fP, \fBconst\fP vector< \fBConstr\fP > &\fBguards\fP)"
+.br
+.ti -1c
+.RI "void \fBcopy\fP (\fBconst\fP \fBComp\fP &other)"
+.br
+.ti -1c
+.RI "void \fBschedule\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBSpace\fP \fB_space\fP"
+.br
+.ti -1c
+.RI "vector< \fBMath\fP > \fB_statements\fP"
+.br
+.ti -1c
+.RI "vector< \fBConstr\fP > \fB_guards\fP"
+.br
+.ti -1c
+.RI "vector< \fBRel\fP > \fB_schedules\fP"
+.br
+.ti -1c
+.RI "bool \fB_interchanged\fP"
+.br
+.ti -1c
+.RI "bool \fB_tiled\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::Comp::Comp (\fBconst\fP string & name, \fBconst\fP vector< \fBConstr\fP > & constrs, \fBconst\fP \fBMath\fP & statement)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP vector< \fBConstr\fP > & constrs, \fBconst\fP \fBMath\fP & statement)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP string & name, \fBSpace\fP & space, \fBconst\fP \fBMath\fP & statement)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP \fBSpace\fP & space, \fBconst\fP \fBMath\fP & statement)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP string & name, \fBconst\fP \fBSpace\fP & space, \fBconst\fP \fBConstr\fP & guard, \fBconst\fP \fBMath\fP & statement)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP \fBSpace\fP & space, \fBconst\fP \fBConstr\fP & guard, \fBconst\fP \fBMath\fP & statement)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP \fBSpace\fP & space, initializer_list< \fBMath\fP > statements)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP \fBSpace\fP & space, initializer_list< \fBMath\fP > statements, initializer_list< \fBConstr\fP > guards)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP \fBSpace\fP & space, \fBconst\fP vector< \fBConstr\fP > & guards, \fBconst\fP \fBMath\fP & expr)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP string & name, \fBSpace\fP & space, \fBconst\fP \fBConstr\fP & guard, \fBconst\fP vector< \fBMath\fP > & statements)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP \fBSpace\fP & space, \fBconst\fP \fBConstr\fP & guard, \fBconst\fP vector< \fBMath\fP > & statements)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP string & name, \fBSpace\fP & space, \fBconst\fP vector< \fBMath\fP > & statements)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP \fBSpace\fP & space, \fBconst\fP vector< \fBMath\fP > & statements)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP \fBSpace\fP & space, \fBconst\fP vector< \fBMath\fP > & statements, \fBconst\fP vector< \fBConstr\fP > & guards)\fC [inline]\fP"
+
+.SS "pdfg::Comp::Comp (\fBconst\fP \fBComp\fP & other)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void pdfg::Comp::add (\fBconst\fP \fBConstr\fP & constr)\fC [inline]\fP"
+
+.SS "void pdfg::Comp::add (\fBconst\fP \fBMath\fP & statement)\fC [inline]\fP"
+
+.SS "vector<\fBConstr\fP> pdfg::Comp::constraints () const\fC [inline]\fP"
+
+.SS "void pdfg::Comp::copy (\fBconst\fP \fBComp\fP & other)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "vector<\fBConstr\fP> pdfg::Comp::guards () const\fC [inline]\fP"
+
+.SS "void pdfg::Comp::init (\fBconst\fP \fBSpace\fP & space, \fBconst\fP vector< \fBMath\fP > & statements, \fBconst\fP vector< \fBConstr\fP > & guards)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::Comp::init (\fBconst\fP \fBSpace\fP & space, initializer_list< \fBMath\fP > statements)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::Comp::init (\fBconst\fP \fBSpace\fP & space, initializer_list< \fBMath\fP > statements, initializer_list< \fBConstr\fP > guards)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::Comp::init (\fBconst\fP string & name, \fBSpace\fP & space, \fBconst\fP vector< \fBMath\fP > & statements, \fBconst\fP vector< \fBConstr\fP > & guards)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::Comp::init (\fBconst\fP string & name, \fBSpace\fP & space, initializer_list< \fBMath\fP > statements)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::Comp::init (\fBconst\fP string & name, \fBSpace\fP & space, initializer_list< \fBMath\fP > statements, initializer_list< \fBConstr\fP > guards)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "bool pdfg::Comp::interchanged () const\fC [inline]\fP"
+
+.SS "void pdfg::Comp::interchanged (bool flag)\fC [inline]\fP"
+
+.SS "\fBExprTuple\fP pdfg::Comp::lowers () const\fC [inline]\fP"
+
+.SS "\fBconst\fP string pdfg::Comp::name () const\fC [inline]\fP"
+
+.SS "void pdfg::Comp::name (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "unsigned pdfg::Comp::nschedules () const\fC [inline]\fP"
+
+.SS "\fBComp\fP pdfg::Comp::operator+= (\fBconst\fP \fBMath\fP & statement)\fC [inline]\fP"
+
+.SS "\fBComp\fP pdfg::Comp::operator+= (\fBconst\fP vector< \fBMath\fP > & statements)\fC [inline]\fP"
+
+.SS "\fBComp\fP& pdfg::Comp::operator= (\fBconst\fP \fBComp\fP & other)\fC [inline]\fP"
+
+.SS "\fBComp\fP& pdfg::Comp::operator= (\fBconst\fP \fBExpr\fP & expr)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::Expr\fP\&.
+.SS "void pdfg::Comp::reschedule (unsigned index, \fBconst\fP \fBTuple\fP & tuple)\fC [inline]\fP"
+
+.SS "void pdfg::Comp::schedule ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBRel\fP pdfg::Comp::schedule (unsigned index) const\fC [inline]\fP"
+
+.SS "vector<\fBRel\fP>& pdfg::Comp::schedules ()\fC [inline]\fP"
+
+.SS "\fBconst\fP \fBSpace\fP& pdfg::Comp::space () const\fC [inline]\fP"
+
+.SS "void pdfg::Comp::space (\fBconst\fP \fBSpace\fP & space)\fC [inline]\fP"
+
+.SS "\fBMath\fP pdfg::Comp::statement (unsigned index) const\fC [inline]\fP"
+
+.SS "void pdfg::Comp::statement (unsigned index, \fBconst\fP \fBMath\fP & stmt)\fC [inline]\fP"
+
+.SS "vector<\fBMath\fP> pdfg::Comp::statements () const\fC [inline]\fP"
+
+.SS "bool pdfg::Comp::tiled () const\fC [inline]\fP"
+
+.SS "void pdfg::Comp::tiled (bool flag)\fC [inline]\fP"
+
+.SS "\fBExprTuple\fP pdfg::Comp::uppers () const\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "vector<\fBConstr\fP> pdfg::Comp::_guards\fC [protected]\fP"
+
+.SS "bool pdfg::Comp::_interchanged\fC [protected]\fP"
+
+.SS "vector<\fBRel\fP> pdfg::Comp::_schedules\fC [protected]\fP"
+
+.SS "\fBSpace\fP pdfg::Comp::_space\fC [protected]\fP"
+
+.SS "vector<\fBMath\fP> pdfg::Comp::_statements\fC [protected]\fP"
+
+.SS "bool pdfg::Comp::_tiled\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

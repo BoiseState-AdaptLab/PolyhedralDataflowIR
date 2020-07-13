@@ -1,0 +1,321 @@
+.TH "testing::internal::UnitTestImpl" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+testing::internal::UnitTestImpl
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <gtest\-internal\-inl\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBReactionToSharding\fP { \fBHONOR_SHARDING_PROTOCOL\fP, \fBIGNORE_SHARDING_PROTOCOL\fP }"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBUnitTestImpl\fP (\fBUnitTest\fP *parent)"
+.br
+.ti -1c
+.RI "virtual \fB~UnitTestImpl\fP ()"
+.br
+.ti -1c
+.RI "\fBTestPartResultReporterInterface\fP * \fBGetGlobalTestPartResultReporter\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetGlobalTestPartResultReporter\fP (\fBTestPartResultReporterInterface\fP *reporter)"
+.br
+.ti -1c
+.RI "\fBTestPartResultReporterInterface\fP * \fBGetTestPartResultReporterForCurrentThread\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetTestPartResultReporterForCurrentThread\fP (\fBTestPartResultReporterInterface\fP *reporter)"
+.br
+.ti -1c
+.RI "int \fBsuccessful_test_case_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBfailed_test_case_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBtotal_test_case_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBtest_case_to_run_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBsuccessful_test_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBfailed_test_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBreportable_disabled_test_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBdisabled_test_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBreportable_test_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBtotal_test_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBtest_to_run_count\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBTimeInMillis\fP \fBstart_timestamp\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBTimeInMillis\fP \fBelapsed_time\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBPassed\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBFailed\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBTestCase\fP * \fBGetTestCase\fP (int \fBi\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBTestCase\fP * \fBGetMutableTestCase\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "\fBTestEventListeners\fP * \fBlisteners\fP ()"
+.br
+.ti -1c
+.RI "\fBTestResult\fP * \fBcurrent_test_result\fP ()"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBTestResult\fP * \fBad_hoc_test_result\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBset_os_stack_trace_getter\fP (\fBOsStackTraceGetterInterface\fP *getter)"
+.br
+.ti -1c
+.RI "\fBOsStackTraceGetterInterface\fP * \fBos_stack_trace_getter\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBCurrentOsStackTraceExceptTop\fP (int skip_count) \fBGTEST_NO_INLINE_\fP"
+.br
+.ti -1c
+.RI "\fBTestCase\fP * \fBGetTestCase\fP (\fBconst\fP char *test_case_name, \fBconst\fP char *type_param, \fBTest::SetUpTestCaseFunc\fP set_up_tc, \fBTest::TearDownTestCaseFunc\fP tear_down_tc)"
+.br
+.ti -1c
+.RI "void \fBAddTestInfo\fP (\fBTest::SetUpTestCaseFunc\fP set_up_tc, \fBTest::TearDownTestCaseFunc\fP tear_down_tc, \fBTestInfo\fP *test_info)"
+.br
+.ti -1c
+.RI "\fBinternal::ParameterizedTestCaseRegistry\fP & \fBparameterized_test_registry\fP ()"
+.br
+.ti -1c
+.RI "void \fBset_current_test_case\fP (\fBTestCase\fP *a_current_test_case)"
+.br
+.ti -1c
+.RI "void \fBset_current_test_info\fP (\fBTestInfo\fP *a_current_test_info)"
+.br
+.ti -1c
+.RI "void \fBRegisterParameterizedTests\fP ()"
+.br
+.ti -1c
+.RI "bool \fBRunAllTests\fP ()"
+.br
+.ti -1c
+.RI "void \fBClearNonAdHocTestResult\fP ()"
+.br
+.ti -1c
+.RI "void \fBClearAdHocTestResult\fP ()"
+.br
+.ti -1c
+.RI "void \fBRecordProperty\fP (\fBconst\fP \fBTestProperty\fP &test_property)"
+.br
+.ti -1c
+.RI "int \fBFilterTests\fP (\fBReactionToSharding\fP shard_tests)"
+.br
+.ti -1c
+.RI "void \fBListTestsMatchingFilter\fP ()"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBTestCase\fP * \fBcurrent_test_case\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBTestInfo\fP * \fBcurrent_test_info\fP ()"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBTestInfo\fP * \fBcurrent_test_info\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBEnvironment\fP * > & \fBenvironments\fP ()"
+.br
+.ti -1c
+.RI "std::vector< \fBTraceInfo\fP > & \fBgtest_trace_stack\fP ()"
+.br
+.ti -1c
+.RI "\fBconst\fP std::vector< \fBTraceInfo\fP > & \fBgtest_trace_stack\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBConfigureXmlOutput\fP ()"
+.br
+.ti -1c
+.RI "void \fBPostFlagParsingInit\fP ()"
+.br
+.ti -1c
+.RI "int \fBrandom_seed\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBinternal::Random\fP * \fBrandom\fP ()"
+.br
+.ti -1c
+.RI "void \fBShuffleTests\fP ()"
+.br
+.ti -1c
+.RI "void \fBUnshuffleTests\fP ()"
+.br
+.ti -1c
+.RI "bool \fBcatch_exceptions\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fB::testing::UnitTest\fP"
+.br
+.in -1c
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBtesting::internal::UnitTestImpl::ReactionToSharding\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIHONOR_SHARDING_PROTOCOL \fP\fP
+.TP
+\fB\fIIGNORE_SHARDING_PROTOCOL \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "testing::internal::UnitTestImpl::UnitTestImpl (\fBUnitTest\fP * parent)\fC [explicit]\fP"
+
+.SS "testing::internal::UnitTestImpl::~UnitTestImpl ()\fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBconst\fP \fBTestResult\fP* testing::internal::UnitTestImpl::ad_hoc_test_result () const\fC [inline]\fP"
+
+.SS "void testing::internal::UnitTestImpl::AddTestInfo (\fBTest::SetUpTestCaseFunc\fP set_up_tc, \fBTest::TearDownTestCaseFunc\fP tear_down_tc, \fBTestInfo\fP * test_info)\fC [inline]\fP"
+
+.SS "bool testing::internal::UnitTestImpl::catch_exceptions () const\fC [inline]\fP"
+
+.SS "void testing::internal::UnitTestImpl::ClearAdHocTestResult ()\fC [inline]\fP"
+
+.SS "void testing::internal::UnitTestImpl::ClearNonAdHocTestResult ()\fC [inline]\fP"
+
+.SS "void testing::internal::UnitTestImpl::ConfigureXmlOutput ()"
+
+.SS "\fBconst\fP \fBTestCase\fP* testing::internal::UnitTestImpl::current_test_case () const\fC [inline]\fP"
+
+.SS "\fBTestInfo\fP* testing::internal::UnitTestImpl::current_test_info ()\fC [inline]\fP"
+
+.SS "\fBconst\fP \fBTestInfo\fP* testing::internal::UnitTestImpl::current_test_info () const\fC [inline]\fP"
+
+.SS "\fBTestResult\fP * testing::internal::UnitTestImpl::current_test_result ()"
+
+.SS "std::string testing::internal::UnitTestImpl::CurrentOsStackTraceExceptTop (int skip_count)"
+
+.SS "int testing::internal::UnitTestImpl::disabled_test_count () const"
+
+.SS "\fBTimeInMillis\fP testing::internal::UnitTestImpl::elapsed_time () const\fC [inline]\fP"
+
+.SS "std::vector<\fBEnvironment\fP*>& testing::internal::UnitTestImpl::environments ()\fC [inline]\fP"
+
+.SS "bool testing::internal::UnitTestImpl::Failed () const\fC [inline]\fP"
+
+.SS "int testing::internal::UnitTestImpl::failed_test_case_count () const"
+
+.SS "int testing::internal::UnitTestImpl::failed_test_count () const"
+
+.SS "int testing::internal::UnitTestImpl::FilterTests (\fBReactionToSharding\fP shard_tests)"
+
+.SS "\fBTestPartResultReporterInterface\fP * testing::internal::UnitTestImpl::GetGlobalTestPartResultReporter ()"
+
+.SS "\fBTestCase\fP* testing::internal::UnitTestImpl::GetMutableTestCase (int i)\fC [inline]\fP"
+
+.SS "\fBTestCase\fP * testing::internal::UnitTestImpl::GetTestCase (\fBconst\fP char * test_case_name, \fBconst\fP char * type_param, \fBTest::SetUpTestCaseFunc\fP set_up_tc, \fBTest::TearDownTestCaseFunc\fP tear_down_tc)"
+
+.SS "\fBconst\fP \fBTestCase\fP* testing::internal::UnitTestImpl::GetTestCase (int i) const\fC [inline]\fP"
+
+.SS "\fBTestPartResultReporterInterface\fP * testing::internal::UnitTestImpl::GetTestPartResultReporterForCurrentThread ()"
+
+.SS "std::vector<\fBTraceInfo\fP>& testing::internal::UnitTestImpl::gtest_trace_stack ()\fC [inline]\fP"
+
+.SS "\fBconst\fP std::vector<\fBTraceInfo\fP>& testing::internal::UnitTestImpl::gtest_trace_stack () const\fC [inline]\fP"
+
+.SS "\fBTestEventListeners\fP* testing::internal::UnitTestImpl::listeners ()\fC [inline]\fP"
+
+.SS "void testing::internal::UnitTestImpl::ListTestsMatchingFilter ()"
+
+.SS "\fBOsStackTraceGetterInterface\fP * testing::internal::UnitTestImpl::os_stack_trace_getter ()"
+
+.SS "\fBinternal::ParameterizedTestCaseRegistry\fP& testing::internal::UnitTestImpl::parameterized_test_registry ()\fC [inline]\fP"
+
+.SS "bool testing::internal::UnitTestImpl::Passed () const\fC [inline]\fP"
+
+.SS "void testing::internal::UnitTestImpl::PostFlagParsingInit ()"
+
+.SS "\fBinternal::Random\fP* testing::internal::UnitTestImpl::random ()\fC [inline]\fP"
+
+.SS "int testing::internal::UnitTestImpl::random_seed () const\fC [inline]\fP"
+
+.SS "void testing::internal::UnitTestImpl::RecordProperty (\fBconst\fP \fBTestProperty\fP & test_property)"
+
+.SS "void testing::internal::UnitTestImpl::RegisterParameterizedTests ()"
+
+.SS "int testing::internal::UnitTestImpl::reportable_disabled_test_count () const"
+
+.SS "int testing::internal::UnitTestImpl::reportable_test_count () const"
+
+.SS "bool testing::internal::UnitTestImpl::RunAllTests ()"
+
+.SS "void testing::internal::UnitTestImpl::set_current_test_case (\fBTestCase\fP * a_current_test_case)\fC [inline]\fP"
+
+.SS "void testing::internal::UnitTestImpl::set_current_test_info (\fBTestInfo\fP * a_current_test_info)\fC [inline]\fP"
+
+.SS "void testing::internal::UnitTestImpl::set_os_stack_trace_getter (\fBOsStackTraceGetterInterface\fP * getter)"
+
+.SS "void testing::internal::UnitTestImpl::SetGlobalTestPartResultReporter (\fBTestPartResultReporterInterface\fP * reporter)"
+
+.SS "void testing::internal::UnitTestImpl::SetTestPartResultReporterForCurrentThread (\fBTestPartResultReporterInterface\fP * reporter)"
+
+.SS "void testing::internal::UnitTestImpl::ShuffleTests ()"
+
+.SS "\fBTimeInMillis\fP testing::internal::UnitTestImpl::start_timestamp () const\fC [inline]\fP"
+
+.SS "int testing::internal::UnitTestImpl::successful_test_case_count () const"
+
+.SS "int testing::internal::UnitTestImpl::successful_test_count () const"
+
+.SS "int testing::internal::UnitTestImpl::test_case_to_run_count () const"
+
+.SS "int testing::internal::UnitTestImpl::test_to_run_count () const"
+
+.SS "int testing::internal::UnitTestImpl::total_test_case_count () const"
+
+.SS "int testing::internal::UnitTestImpl::total_test_count () const"
+
+.SS "void testing::internal::UnitTestImpl::UnshuffleTests ()"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class ::\fBtesting::UnitTest\fP\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,409 @@
+.TH "pdfg::Space" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::Space
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <GraphIL\&.hpp>\fP
+.PP
+Inherits \fBpdfg::Expr\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP='', initializer_list< \fBIter\fP > \fBiterators\fP={})"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP int upper)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP \fBExpr\fP &upper)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP \fBRange\fP &range)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP int lower, \fBconst\fP \fBExpr\fP &upper)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP \fBExpr\fP &upper1, \fBconst\fP \fBExpr\fP &upper2)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, int upper1, \fBconst\fP \fBExpr\fP &upper2, \fBconst\fP \fBExpr\fP &upper3)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP \fBExpr\fP &upper1, \fBconst\fP \fBExpr\fP &upper2, \fBconst\fP \fBExpr\fP &upper3)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, int lower1, int upper1, int lower2, int upper2)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP \fBExpr\fP &lower1, \fBconst\fP \fBExpr\fP &upper1, \fBconst\fP \fBExpr\fP &lower2, \fBconst\fP \fBExpr\fP &upper2)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, double defval)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP \fBReal\fP &defval)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP \fBExpr\fP &upper1, \fBconst\fP \fBExpr\fP &upper2, double defval)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP \fBFunc\fP &func)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP vector< \fBIter\fP > &\fBiterators\fP)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP vector< \fBIter\fP > &\fBiterators\fP, \fBconst\fP vector< \fBConstr\fP > &\fBconstraints\fP)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP vector< \fBConstr\fP > &\fBconstraints\fP)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP vector< \fBRange\fP > &ranges)"
+.br
+.ti -1c
+.RI "\fBSpace\fP (\fBconst\fP \fBSpace\fP &other)"
+.br
+.ti -1c
+.RI "\fBSpace\fP & \fBoperator=\fP (\fBconst\fP \fBExpr\fP &expr) override"
+.br
+.ti -1c
+.RI "\fBMath\fP \fBoperator=\fP (\fBconst\fP \fBMath\fP &math)"
+.br
+.ti -1c
+.RI "string \fBtext\fP () \fBconst\fP override"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (int index)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &one)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP int &one, \fBconst\fP \fBExpr\fP &two)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &one, \fBconst\fP int &two)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &one, \fBconst\fP \fBExpr\fP &two)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP int &one, \fBconst\fP \fBExpr\fP &two, \fBconst\fP \fBExpr\fP &three)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &one, \fBconst\fP int &two, \fBconst\fP \fBExpr\fP &three)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &one, \fBconst\fP \fBExpr\fP &two, \fBconst\fP int &three)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &one, \fBconst\fP \fBExpr\fP &two, \fBconst\fP \fBExpr\fP &three)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (int one, \fBconst\fP \fBExpr\fP &two, \fBconst\fP \fBExpr\fP &three, \fBconst\fP \fBExpr\fP &four)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &one, \fBconst\fP \fBExpr\fP &two, \fBconst\fP \fBExpr\fP &three, \fBconst\fP \fBExpr\fP &four)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBmakeAccess\fP (\fBconst\fP \fBExpr\fP &first, \fBconst\fP vector< \fBExpr\fP > &rest)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP vector< \fBExpr\fP > &tuple)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP int &first, \fBconst\fP vector< \fBExpr\fP > &rest)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (\fBconst\fP \fBExpr\fP &first, \fBconst\fP vector< \fBExpr\fP > &rest)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator()\fP (initializer_list< \fBExpr\fP > tuple)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator[]\fP (int index)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator[]\fP (\fBconst\fP \fBExpr\fP &one)"
+.br
+.ti -1c
+.RI "\fBAccess\fP \fBoperator[]\fP (initializer_list< \fBExpr\fP > tuple)"
+.br
+.ti -1c
+.RI "void \fBoperator^=\fP (\fBconst\fP \fBRange\fP &rng)"
+.br
+.ti -1c
+.RI "void \fBoperator^=\fP (\fBconst\fP \fBConstr\fP &constr)"
+.br
+.ti -1c
+.RI "string \fBname\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBname\fP (\fBconst\fP string &name)"
+.br
+.ti -1c
+.RI "\fBTuple\fP \fBiterators\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBiterators\fP (\fBconst\fP \fBTuple\fP &iters)"
+.br
+.ti -1c
+.RI "vector< \fBConstr\fP > \fBconstraints\fP (\fBconst\fP string &itername='') \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBconstraints\fP (\fBconst\fP vector< \fBConstr\fP > &constraints)"
+.br
+.ti -1c
+.RI "\fBExpr\fP \fBdefaultValue\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdefaultValue\fP (\fBconst\fP \fBExpr\fP &defVal)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBconst\fP \fBIter\fP &iter)"
+.br
+.ti -1c
+.RI "void \fBmerge\fP (\fBconst\fP \fBSpace\fP &other)"
+.br
+.ti -1c
+.RI "\fBSpace\fP \fBslice\fP (unsigned bdim, unsigned edim)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBconst\fP \fBRange\fP &range)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBconst\fP vector< \fBConstr\fP > &\fBconstraints\fP)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBconst\fP \fBConstr\fP &constr)"
+.br
+.ti -1c
+.RI "bool \fBhas\fP (\fBconst\fP \fBIter\fP &other)"
+.br
+.ti -1c
+.RI "bool \fBhas\fP (\fBconst\fP \fBConstr\fP &other)"
+.br
+.ti -1c
+.RI "void \fBset\fP (unsigned \fBpos\fP, \fBconst\fP \fBIter\fP &iter)"
+.br
+.ti -1c
+.RI "void \fBset\fP (unsigned \fBpos\fP, \fBconst\fP \fBConstr\fP &constr)"
+.br
+.ti -1c
+.RI "string \fBto_iset\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBExpr\fP > \fBbounds\fP (initializer_list< string > ilist) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBMath\fP \fBsize\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBExprTuple\fP \fBlowers\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBExprTuple\fP \fBuppers\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcopy\fP (\fBconst\fP \fBSpace\fP &other)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "string \fB_name\fP"
+.br
+.ti -1c
+.RI "vector< \fBIter\fP > \fB_iterators\fP"
+.br
+.ti -1c
+.RI "vector< \fBConstr\fP > \fB_constraints\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, vector< size_t > > \fB_itermap\fP"
+.br
+.ti -1c
+.RI "\fBExpr\fP \fB_defaultVal\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "istream & \fBoperator>>\fP (istream &is, \fBSpace\fP &space)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::Space::Space (\fBconst\fP string & name = \fC''\fP, initializer_list< \fBIter\fP > iterators = \fC{}\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP int upper)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP \fBExpr\fP & upper)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP \fBRange\fP & range)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP int lower, \fBconst\fP \fBExpr\fP & upper)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP \fBExpr\fP & upper1, \fBconst\fP \fBExpr\fP & upper2)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, int upper1, \fBconst\fP \fBExpr\fP & upper2, \fBconst\fP \fBExpr\fP & upper3)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP \fBExpr\fP & upper1, \fBconst\fP \fBExpr\fP & upper2, \fBconst\fP \fBExpr\fP & upper3)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, int lower1, int upper1, int lower2, int upper2)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP \fBExpr\fP & lower1, \fBconst\fP \fBExpr\fP & upper1, \fBconst\fP \fBExpr\fP & lower2, \fBconst\fP \fBExpr\fP & upper2)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, double defval)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP \fBReal\fP & defval)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP \fBExpr\fP & upper1, \fBconst\fP \fBExpr\fP & upper2, double defval)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP \fBFunc\fP & func)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP vector< \fBIter\fP > & iterators)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP vector< \fBIter\fP > & iterators, \fBconst\fP vector< \fBConstr\fP > & constraints)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP vector< \fBConstr\fP > & constraints)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP string & name, \fBconst\fP vector< \fBRange\fP > & ranges)\fC [inline]\fP"
+
+.SS "pdfg::Space::Space (\fBconst\fP \fBSpace\fP & other)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void pdfg::Space::add (\fBconst\fP \fBConstr\fP & constr)\fC [inline]\fP"
+
+.SS "void pdfg::Space::add (\fBconst\fP \fBIter\fP & iter)\fC [inline]\fP"
+
+.SS "void pdfg::Space::add (\fBconst\fP \fBRange\fP & range)\fC [inline]\fP"
+
+.SS "void pdfg::Space::add (\fBconst\fP vector< \fBConstr\fP > & constraints)\fC [inline]\fP"
+
+.SS "vector<\fBExpr\fP> pdfg::Space::bounds (initializer_list< string > ilist) const\fC [inline]\fP"
+
+.SS "vector<\fBConstr\fP> pdfg::Space::constraints (\fBconst\fP string & itername = \fC''\fP) const\fC [inline]\fP"
+
+.SS "void pdfg::Space::constraints (\fBconst\fP vector< \fBConstr\fP > & constraints)\fC [inline]\fP"
+
+.SS "void pdfg::Space::copy (\fBconst\fP \fBSpace\fP & other)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBExpr\fP pdfg::Space::defaultValue () const\fC [inline]\fP"
+
+.SS "void pdfg::Space::defaultValue (\fBconst\fP \fBExpr\fP & defVal)\fC [inline]\fP"
+
+.SS "bool pdfg::Space::has (\fBconst\fP \fBConstr\fP & other)\fC [inline]\fP"
+
+.SS "bool pdfg::Space::has (\fBconst\fP \fBIter\fP & other)\fC [inline]\fP"
+
+.SS "\fBTuple\fP pdfg::Space::iterators () const\fC [inline]\fP"
+
+.SS "void pdfg::Space::iterators (\fBconst\fP \fBTuple\fP & iters)\fC [inline]\fP"
+
+.SS "\fBExprTuple\fP pdfg::Space::lowers () const\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::makeAccess (\fBconst\fP \fBExpr\fP & first, \fBconst\fP vector< \fBExpr\fP > & rest)\fC [inline]\fP"
+
+.SS "void pdfg::Space::merge (\fBconst\fP \fBSpace\fP & other)\fC [inline]\fP"
+
+.SS "string pdfg::Space::name () const\fC [inline]\fP"
+
+.SS "void pdfg::Space::name (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP \fBExpr\fP & first, \fBconst\fP vector< \fBExpr\fP > & rest)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP \fBExpr\fP & one)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP \fBExpr\fP & one, \fBconst\fP \fBExpr\fP & two)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP \fBExpr\fP & one, \fBconst\fP \fBExpr\fP & two, \fBconst\fP \fBExpr\fP & three)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP \fBExpr\fP & one, \fBconst\fP \fBExpr\fP & two, \fBconst\fP \fBExpr\fP & three, \fBconst\fP \fBExpr\fP & four)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP \fBExpr\fP & one, \fBconst\fP \fBExpr\fP & two, \fBconst\fP int & three)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP \fBExpr\fP & one, \fBconst\fP int & two)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP \fBExpr\fP & one, \fBconst\fP int & two, \fBconst\fP \fBExpr\fP & three)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP int & first, \fBconst\fP vector< \fBExpr\fP > & rest)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP int & one, \fBconst\fP \fBExpr\fP & two)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP int & one, \fBconst\fP \fBExpr\fP & two, \fBconst\fP \fBExpr\fP & three)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (\fBconst\fP vector< \fBExpr\fP > & tuple)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (initializer_list< \fBExpr\fP > tuple)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (int index)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator() (int one, \fBconst\fP \fBExpr\fP & two, \fBconst\fP \fBExpr\fP & three, \fBconst\fP \fBExpr\fP & four)\fC [inline]\fP"
+
+.SS "\fBSpace\fP& pdfg::Space::operator= (\fBconst\fP \fBExpr\fP & expr)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::Expr\fP\&.
+.SS "\fBMath\fP pdfg::Space::operator= (\fBconst\fP \fBMath\fP & math)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator[] (\fBconst\fP \fBExpr\fP & one)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator[] (initializer_list< \fBExpr\fP > tuple)\fC [inline]\fP"
+
+.SS "\fBAccess\fP pdfg::Space::operator[] (int index)\fC [inline]\fP"
+
+.SS "void pdfg::Space::operator^= (\fBconst\fP \fBConstr\fP & constr)\fC [inline]\fP"
+
+.SS "void pdfg::Space::operator^= (\fBconst\fP \fBRange\fP & rng)\fC [inline]\fP"
+
+.SS "void pdfg::Space::set (unsigned pos, \fBconst\fP \fBConstr\fP & constr)\fC [inline]\fP"
+
+.SS "void pdfg::Space::set (unsigned pos, \fBconst\fP \fBIter\fP & iter)\fC [inline]\fP"
+
+.SS "\fBMath\fP pdfg::Space::size () const\fC [inline]\fP"
+
+.SS "\fBSpace\fP pdfg::Space::slice (unsigned bdim, unsigned edim)\fC [inline]\fP"
+
+.SS "string pdfg::Space::text () const\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::Expr\fP\&.
+.SS "string pdfg::Space::to_iset () const\fC [inline]\fP"
+
+.SS "\fBExprTuple\fP pdfg::Space::uppers () const\fC [inline]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "istream& operator>> (istream & is, \fBSpace\fP & space)\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "vector<\fBConstr\fP> pdfg::Space::_constraints\fC [protected]\fP"
+
+.SS "\fBExpr\fP pdfg::Space::_defaultVal\fC [protected]\fP"
+
+.SS "vector<\fBIter\fP> pdfg::Space::_iterators\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, vector<size_t> > pdfg::Space::_itermap\fC [protected]\fP"
+
+.SS "string pdfg::Space::_name\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

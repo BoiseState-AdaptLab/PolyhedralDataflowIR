@@ -1,0 +1,168 @@
+.TH "out/conjgrad_ell.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/conjgrad_ell.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <omp\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBtid\fP   \fBomp_get_thread_num\fP()"
+.br
+.ti -1c
+.RI "#define \fBA\fP(\fBk\fP,  \fBi\fP)   A[\fBoffset2\fP((\fBk\fP),(\fBi\fP),\fBN\fP)]"
+.br
+.ti -1c
+.RI "#define \fBlcol\fP(\fBt\fP,  \fBk\fP,  \fBi\fP)   lcol[\fBoffset2\fP((\fBk\fP),(\fBi\fP),\fBN\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBi\fP)   r[(\fBi\fP)]=d[(\fBi\fP)]=\fBb\fP[(\fBi\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs1\fP(\fBt\fP)   ds=rs0=rs=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs2\fP(\fBt\fP,  \fBi\fP)   s[(\fBi\fP)]=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs3\fP(\fBt\fP,  \fBk\fP,  \fBi\fP,  \fBj\fP)   s[(\fBi\fP)]+=\fBA\fP((\fBk\fP),(\fBi\fP))*d[(\fBj\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs4\fP(\fBt\fP,  \fBi\fP)   ds+=d[(\fBi\fP)]*s[(\fBi\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs5\fP(\fBt\fP,  \fBi\fP)   rs0+=r[(\fBi\fP)]*r[(\fBi\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs6\fP(\fBt\fP)   alpha=rs0/ds"
+.br
+.ti -1c
+.RI "#define \fBs7\fP(\fBt\fP,  \fBi\fP)   \fBx\fP[(\fBi\fP)]+=alpha*d[(\fBi\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs8\fP(\fBt\fP,  \fBi\fP)   r[(\fBi\fP)]\-=alpha*s[(\fBi\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs9\fP(\fBt\fP,  \fBi\fP)   rs+=r[(\fBi\fP)]*r[(\fBi\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs10\fP(\fBt\fP)   beta=rs/rs0"
+.br
+.ti -1c
+.RI "#define \fBs11\fP(\fBt\fP,  \fBi\fP)   d[(\fBi\fP)]=r[(\fBi\fP)]+beta*d[(\fBi\fP)]"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "double \fBconjgrad_ell\fP (\fBconst\fP double *\fBA\fP, \fBconst\fP double *\fBb\fP, \fBconst\fP unsigned K, \fBconst\fP unsigned \fBN\fP, \fBconst\fP unsigned \fBT\fP, \fBconst\fP unsigned *\fBlcol\fP, double *\fBx\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define A(\fBk\fP, \fBi\fP)   A[\fBoffset2\fP((\fBk\fP),(\fBi\fP),\fBN\fP)]"
+
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define lcol(\fBt\fP, \fBk\fP, \fBi\fP)   lcol[\fBoffset2\fP((\fBk\fP),(\fBi\fP),\fBN\fP)]"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define s0(\fBi\fP)   r[(\fBi\fP)]=d[(\fBi\fP)]=\fBb\fP[(\fBi\fP)]"
+
+.SS "#define s1(\fBt\fP)   ds=rs0=rs=0\&.000000"
+
+.SS "#define s10(\fBt\fP)   beta=rs/rs0"
+
+.SS "#define s11(\fBt\fP, \fBi\fP)   d[(\fBi\fP)]=r[(\fBi\fP)]+beta*d[(\fBi\fP)]"
+
+.SS "#define s2(\fBt\fP, \fBi\fP)   s[(\fBi\fP)]=0\&.000000"
+
+.SS "#define s3(\fBt\fP, \fBk\fP, \fBi\fP, \fBj\fP)   s[(\fBi\fP)]+=\fBA\fP((\fBk\fP),(\fBi\fP))*d[(\fBj\fP)]"
+
+.SS "#define s4(\fBt\fP, \fBi\fP)   ds+=d[(\fBi\fP)]*s[(\fBi\fP)]"
+
+.SS "#define s5(\fBt\fP, \fBi\fP)   rs0+=r[(\fBi\fP)]*r[(\fBi\fP)]"
+
+.SS "#define s6(\fBt\fP)   alpha=rs0/ds"
+
+.SS "#define s7(\fBt\fP, \fBi\fP)   \fBx\fP[(\fBi\fP)]+=alpha*d[(\fBi\fP)]"
+
+.SS "#define s8(\fBt\fP, \fBi\fP)   r[(\fBi\fP)]\-=alpha*s[(\fBi\fP)]"
+
+.SS "#define s9(\fBt\fP, \fBi\fP)   rs+=r[(\fBi\fP)]*r[(\fBi\fP)]"
+
+.SS "#define tid   \fBomp_get_thread_num\fP()"
+
+.SH "Function Documentation"
+.PP 
+.SS "double conjgrad_ell (\fBconst\fP double * A, \fBconst\fP double * b, \fBconst\fP unsigned K, \fBconst\fP unsigned N, \fBconst\fP unsigned T, \fBconst\fP unsigned * lcol, double * x)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,214 @@
+.TH "omega::Constraint_Handle" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::Constraint_Handle
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <pres_cnstr\&.h>\fP
+.PP
+Inherited by \fBomega::EQ_Handle\fP, \fBomega::GEQ_Handle\fP, and \fBomega::Sub_Handle\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBConstraint_Handle\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~Constraint_Handle\fP ()"
+.br
+.ti -1c
+.RI "void \fBupdate_coef\fP (\fBVariable_ID\fP, \fBcoef_t\fP delta)"
+.br
+.RI "ADD delta to the coefficient of the variable\&. "
+.ti -1c
+.RI "void \fBupdate_const\fP (\fBcoef_t\fP delta)"
+.br
+.RI "ADD delta to the constant term of the constraint\&. "
+.ti -1c
+.RI "\fBcoef_t\fP \fBget_coef\fP (\fBVariable_ID\fP v) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBcoef_t\fP \fBget_const\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBhas_wildcards\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBmax_tuple_pos\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBmin_tuple_pos\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_const\fP (\fBVariable_ID\fP v)"
+.br
+.RI "Constraint is constant on variable v\&. "
+.ti -1c
+.RI "bool \fBis_const_except_for_global\fP (\fBVariable_ID\fP v)"
+.br
+.RI "Constraint is constant that only involves v and globals\&. "
+.ti -1c
+.RI "virtual std::string \fBprint_to_string\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual std::string \fBprint_term_to_string\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBget_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP)"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBget_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP, \fBArgument_Tuple\fP of)"
+.br
+.ti -1c
+.RI "void \fBfinalize\fP ()"
+.br
+.RI "Multiply each coefficient and the constant term by multiplier\&. "
+.ti -1c
+.RI "void \fBmultiply\fP (int multiplier)"
+.br
+.ti -1c
+.RI "\fBRel_Body\fP * \fBrelation\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBConstraint_Handle\fP (\fBConjunct\fP *, \fBeqn\fP **, int)"
+.br
+.ti -1c
+.RI "void \fBupdate_coef_during_simplify\fP (\fBVariable_ID\fP, \fBcoef_t\fP delta)"
+.br
+.ti -1c
+.RI "void \fBupdate_const_during_simplify\fP (\fBcoef_t\fP delta)"
+.br
+.ti -1c
+.RI "\fBcoef_t\fP \fBget_const_during_simplify\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBcoef_t\fP \fBget_coef_during_simplify\fP (\fBVariable_ID\fP v) \fBconst\fP"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBConjunct\fP * \fBc\fP"
+.br
+.ti -1c
+.RI "\fBeqn\fP ** \fBeqns\fP"
+.br
+.ti -1c
+.RI "int \fBe\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBConstr_Vars_Iter\fP"
+.br
+.ti -1c
+.RI "class \fBConstraint_Iterator\fP"
+.br
+.ti -1c
+.RI "class \fBConjunct\fP"
+.br
+.ti -1c
+.RI "class \fBDNF\fP"
+.br
+.ti -1c
+.RI "void \fBcopy_constraint\fP (\fBConstraint_Handle\fP H, \fBconst\fP \fBConstraint_Handle\fP initial)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::Constraint_Handle::Constraint_Handle ()\fC [inline]\fP"
+
+.SS "virtual omega::Constraint_Handle::~Constraint_Handle ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "omega::Constraint_Handle::Constraint_Handle (\fBConjunct\fP * _c, \fBeqn\fP ** _eqns, int _e)\fC [protected]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void omega::Constraint_Handle::finalize ()"
+
+.PP
+Multiply each coefficient and the constant term by multiplier\&. 
+.SS "\fBcoef_t\fP omega::Constraint_Handle::get_coef (\fBVariable_ID\fP v) const"
+
+.SS "\fBcoef_t\fP omega::Constraint_Handle::get_coef_during_simplify (\fBVariable_ID\fP v) const\fC [protected]\fP"
+
+.SS "\fBcoef_t\fP omega::Constraint_Handle::get_const () const"
+
+.SS "\fBcoef_t\fP omega::Constraint_Handle::get_const_during_simplify () const\fC [protected]\fP"
+
+.SS "\fBVariable_ID\fP omega::Constraint_Handle::get_local (\fBconst\fP \fBGlobal_Var_ID\fP G)"
+
+.SS "\fBVariable_ID\fP omega::Constraint_Handle::get_local (\fBconst\fP \fBGlobal_Var_ID\fP G, \fBArgument_Tuple\fP of)"
+
+.SS "bool omega::Constraint_Handle::has_wildcards () const"
+
+.SS "bool omega::Constraint_Handle::is_const (\fBVariable_ID\fP v)"
+
+.PP
+Constraint is constant on variable v\&. 
+.SS "bool omega::Constraint_Handle::is_const_except_for_global (\fBVariable_ID\fP v)"
+
+.PP
+Constraint is constant that only involves v and globals\&. 
+.SS "int omega::Constraint_Handle::max_tuple_pos () const"
+
+.SS "int omega::Constraint_Handle::min_tuple_pos () const"
+
+.SS "void omega::Constraint_Handle::multiply (int multiplier)"
+
+.SS "std::string omega::Constraint_Handle::print_term_to_string () const\fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBomega::EQ_Handle\fP, \fBomega::GEQ_Handle\fP, and \fBomega::Sub_Handle\fP\&.
+.SS "std::string omega::Constraint_Handle::print_to_string () const\fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBomega::EQ_Handle\fP, \fBomega::GEQ_Handle\fP, and \fBomega::Sub_Handle\fP\&.
+.SS "\fBRel_Body\fP * omega::Constraint_Handle::relation () const"
+
+.SS "void omega::Constraint_Handle::update_coef (\fBVariable_ID\fP D, \fBcoef_t\fP delta)"
+
+.PP
+ADD delta to the coefficient of the variable\&. 
+.SS "void omega::Constraint_Handle::update_coef_during_simplify (\fBVariable_ID\fP D, \fBcoef_t\fP delta)\fC [protected]\fP"
+
+.SS "void omega::Constraint_Handle::update_const (\fBcoef_t\fP delta)"
+
+.PP
+ADD delta to the constant term of the constraint\&. 
+.SS "void omega::Constraint_Handle::update_const_during_simplify (\fBcoef_t\fP delta)\fC [protected]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBConjunct\fP\fC [friend]\fP"
+
+.SS "friend class \fBConstr_Vars_Iter\fP\fC [friend]\fP"
+
+.SS "friend class \fBConstraint_Iterator\fP\fC [friend]\fP"
+
+.SS "void copy_constraint (\fBConstraint_Handle\fP H, \fBconst\fP \fBConstraint_Handle\fP initial)\fC [friend]\fP"
+
+.SS "friend class \fBDNF\fP\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBConjunct\fP* omega::Constraint_Handle::c\fC [protected]\fP"
+
+.SS "int omega::Constraint_Handle::e\fC [protected]\fP"
+
+.SS "\fBeqn\fP** omega::Constraint_Handle::eqns\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,118 @@
+.TH "lib/isl/pip.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/pip.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl/aff\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include 'isl_tab\&.h'\fP
+.br
+\fC#include 'isl_sample\&.h'\fP
+.br
+\fC#include 'isl_scan\&.h'\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_ilp_private\&.h>\fP
+.br
+\fC#include <isl/printer\&.h>\fP
+.br
+\fC#include <isl_point_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl/options\&.h>\fP
+.br
+\fC#include <isl_config\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBoptions\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_scan_pip\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBFORMAT_SET\fP   0"
+.br
+.ti -1c
+.RI "#define \fBFORMAT_AFF\fP   1"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBISL_ARG_CHOICE\fP (struct \fBoptions\fP, format, 0, 'format', pip_format, \fBFORMAT_SET\fP, 'output format')"
+.br
+.ti -1c
+.RI "\fBisl_basic_set\fP * \fBplug_in_parameters\fP (\fBisl_basic_set\fP *bset, struct \fBisl_vec\fP *params)"
+.br
+.ti -1c
+.RI "\fBisl_set\fP * \fBset_plug_in_parameters\fP (\fBisl_set\fP *\fBset\fP, struct \fBisl_vec\fP *params)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBopt_at\fP (struct \fBisl_basic_set\fP *bset, struct \fBisl_vec\fP *params, int \fBmax\fP)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_arg_choice\fP \fBpip_format\fP []"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define FORMAT_AFF   1"
+
+.SS "#define FORMAT_SET   0"
+
+.SH "Function Documentation"
+.PP 
+.SS "ISL_ARG_CHOICE (struct \fBoptions\fP, format, 0, 'format', \fBpip_format\fP, \fBFORMAT_SET\fP, 'output format')"
+
+.SS "int main (int argc, char ** argv)"
+
+.SS "struct \fBisl_vec\fP* opt_at (struct \fBisl_basic_set\fP * bset, struct \fBisl_vec\fP * params, int max)"
+
+.SS "\fBisl_basic_set\fP* plug_in_parameters (\fBisl_basic_set\fP * bset, struct \fBisl_vec\fP * params)"
+
+.SS "\fBisl_set\fP* set_plug_in_parameters (\fBisl_set\fP * set, struct \fBisl_vec\fP * params)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "struct \fBisl_arg_choice\fP pip_format[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    {"set",     FORMAT_SET},
+    {"affine",  FORMAT_AFF},
+    {0}
+}
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

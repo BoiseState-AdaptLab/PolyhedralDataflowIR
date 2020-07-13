@@ -1,0 +1,225 @@
+\hypertarget{isl__transitive__closure_8c}{}\doxysection{lib/isl/isl\+\_\+transitive\+\_\+closure.c File Reference}
+\label{isl__transitive__closure_8c}\index{lib/isl/isl\_transitive\_closure.c@{lib/isl/isl\_transitive\_closure.c}}
+{\ttfamily \#include $<$isl\+\_\+ctx\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+map\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl/map.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+seq.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+space\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+lp\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl/union\+\_\+map.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+mat\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+vec\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+options\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+tarjan.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}isl\+\_\+power\+\_\+templ.\+c\char`\"{}}\newline
+Include dependency graph for isl\+\_\+transitive\+\_\+closure.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__transitive__closure_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structisl__tc__follows__data}{isl\+\_\+tc\+\_\+follows\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__union__power}{isl\+\_\+union\+\_\+power}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{isl__transitive__closure_8c_a51744c3a3e1d74206ed19487e7990e7f}{I\+M\+P\+U\+RE}}~0
+\item 
+\#define \mbox{\hyperlink{isl__transitive__closure_8c_aa9c7616fafd0c6b01cc7b965dc1f88ee}{P\+U\+R\+E\+\_\+\+P\+A\+R\+AM}}~1
+\item 
+\#define \mbox{\hyperlink{isl__transitive__closure_8c_ad7a9d7f87079ab09096677ab6f5a2df1}{P\+U\+R\+E\+\_\+\+V\+AR}}~2
+\item 
+\#define \mbox{\hyperlink{isl__transitive__closure_8c_ae986d11d87f10095fbb8250f77272ef3}{M\+I\+X\+ED}}~3
+\item 
+\#define \mbox{\hyperlink{isl__transitive__closure_8c_a437ef08681e7210d6678427030446a54}{L\+E\+FT}}~2
+\item 
+\#define \mbox{\hyperlink{isl__transitive__closure_8c_a80fb826a684cf3f0d306b22aa100ddac}{R\+I\+G\+HT}}~1
+\item 
+\#define \mbox{\hyperlink{isl__transitive__closure_8c_a5a392548f2df67370cb15d2a5d75cd7b}{T\+Y\+PE}}~\mbox{\hyperlink{structisl__map}{isl\+\_\+map}}
+\item 
+\#define \mbox{\hyperlink{isl__transitive__closure_8c_a5a392548f2df67370cb15d2a5d75cd7b}{T\+Y\+PE}}~\mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{isl__transitive__closure_8c_ab5c42f342cedad72128397e023a0f1b8}{isl\+\_\+map\+\_\+is\+\_\+transitively\+\_\+closed}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}})
+\item 
+int \mbox{\hyperlink{isl__transitive__closure_8c_a01a5bb372c731654972636e84f8f2c4d}{isl\+\_\+union\+\_\+map\+\_\+is\+\_\+transitively\+\_\+closed}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$umap)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__transitive__closure_8c_a974fbe200cd31fe547af6e234a650dbe}{isl\+\_\+map\+\_\+power}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}}, int $\ast$exact)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__transitive__closure_8c_a06eb3eb3f2abcaf6a5f10965de1d2d9e}{isl\+\_\+map\+\_\+reaching\+\_\+path\+\_\+lengths}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}}, int $\ast$exact)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__transitive__closure_8c_a28b0aac6043a59186381fb39e6719e19}{isl\+\_\+map\+\_\+transitive\+\_\+closure}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}}, int $\ast$exact)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__transitive__closure_8c_a1224aac28b449df6cae05c4544b906a9}{isl\+\_\+union\+\_\+map\+\_\+transitive\+\_\+closure}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$umap, int $\ast$exact)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__transitive__closure_8c_a47c87b38ba99a341fd17c15a7d684cf2}{isl\+\_\+union\+\_\+map\+\_\+power}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$umap, int $\ast$exact)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{isl__transitive__closure_8c_a51744c3a3e1d74206ed19487e7990e7f}\label{isl__transitive__closure_8c_a51744c3a3e1d74206ed19487e7990e7f}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!IMPURE@{IMPURE}}
+\index{IMPURE@{IMPURE}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{IMPURE}{IMPURE}}
+{\footnotesize\ttfamily \#define I\+M\+P\+U\+RE~0}
+
+\mbox{\Hypertarget{isl__transitive__closure_8c_a437ef08681e7210d6678427030446a54}\label{isl__transitive__closure_8c_a437ef08681e7210d6678427030446a54}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!LEFT@{LEFT}}
+\index{LEFT@{LEFT}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{LEFT}{LEFT}}
+{\footnotesize\ttfamily \#define L\+E\+FT~2}
+
+\mbox{\Hypertarget{isl__transitive__closure_8c_ae986d11d87f10095fbb8250f77272ef3}\label{isl__transitive__closure_8c_ae986d11d87f10095fbb8250f77272ef3}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!MIXED@{MIXED}}
+\index{MIXED@{MIXED}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{MIXED}{MIXED}}
+{\footnotesize\ttfamily \#define M\+I\+X\+ED~3}
+
+\mbox{\Hypertarget{isl__transitive__closure_8c_aa9c7616fafd0c6b01cc7b965dc1f88ee}\label{isl__transitive__closure_8c_aa9c7616fafd0c6b01cc7b965dc1f88ee}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!PURE\_PARAM@{PURE\_PARAM}}
+\index{PURE\_PARAM@{PURE\_PARAM}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{PURE\_PARAM}{PURE\_PARAM}}
+{\footnotesize\ttfamily \#define P\+U\+R\+E\+\_\+\+P\+A\+R\+AM~1}
+
+\mbox{\Hypertarget{isl__transitive__closure_8c_ad7a9d7f87079ab09096677ab6f5a2df1}\label{isl__transitive__closure_8c_ad7a9d7f87079ab09096677ab6f5a2df1}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!PURE\_VAR@{PURE\_VAR}}
+\index{PURE\_VAR@{PURE\_VAR}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{PURE\_VAR}{PURE\_VAR}}
+{\footnotesize\ttfamily \#define P\+U\+R\+E\+\_\+\+V\+AR~2}
+
+\mbox{\Hypertarget{isl__transitive__closure_8c_a80fb826a684cf3f0d306b22aa100ddac}\label{isl__transitive__closure_8c_a80fb826a684cf3f0d306b22aa100ddac}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!RIGHT@{RIGHT}}
+\index{RIGHT@{RIGHT}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{RIGHT}{RIGHT}}
+{\footnotesize\ttfamily \#define R\+I\+G\+HT~1}
+
+\mbox{\Hypertarget{isl__transitive__closure_8c_a5a392548f2df67370cb15d2a5d75cd7b}\label{isl__transitive__closure_8c_a5a392548f2df67370cb15d2a5d75cd7b}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!TYPE@{TYPE}}
+\index{TYPE@{TYPE}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{TYPE}{TYPE}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \#define T\+Y\+PE~\mbox{\hyperlink{structisl__map}{isl\+\_\+map}}}
+
+\mbox{\Hypertarget{isl__transitive__closure_8c_a5a392548f2df67370cb15d2a5d75cd7b}\label{isl__transitive__closure_8c_a5a392548f2df67370cb15d2a5d75cd7b}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!TYPE@{TYPE}}
+\index{TYPE@{TYPE}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{TYPE}{TYPE}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \#define T\+Y\+PE~\mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{isl__transitive__closure_8c_ab5c42f342cedad72128397e023a0f1b8}\label{isl__transitive__closure_8c_ab5c42f342cedad72128397e023a0f1b8}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!isl\_map\_is\_transitively\_closed@{isl\_map\_is\_transitively\_closed}}
+\index{isl\_map\_is\_transitively\_closed@{isl\_map\_is\_transitively\_closed}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_is\_transitively\_closed()}{isl\_map\_is\_transitively\_closed()}}
+{\footnotesize\ttfamily int isl\+\_\+map\+\_\+is\+\_\+transitively\+\_\+closed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__transitive__closure_8c_ab5c42f342cedad72128397e023a0f1b8_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__transitive__closure_8c_a974fbe200cd31fe547af6e234a650dbe}\label{isl__transitive__closure_8c_a974fbe200cd31fe547af6e234a650dbe}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!isl\_map\_power@{isl\_map\_power}}
+\index{isl\_map\_power@{isl\_map\_power}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_power()}{isl\_map\_power()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+power (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map,  }\item[{int $\ast$}]{exact }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__transitive__closure_8c_a974fbe200cd31fe547af6e234a650dbe_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__transitive__closure_8c_a06eb3eb3f2abcaf6a5f10965de1d2d9e}\label{isl__transitive__closure_8c_a06eb3eb3f2abcaf6a5f10965de1d2d9e}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!isl\_map\_reaching\_path\_lengths@{isl\_map\_reaching\_path\_lengths}}
+\index{isl\_map\_reaching\_path\_lengths@{isl\_map\_reaching\_path\_lengths}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_reaching\_path\_lengths()}{isl\_map\_reaching\_path\_lengths()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+reaching\+\_\+path\+\_\+lengths (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map,  }\item[{int $\ast$}]{exact }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__transitive__closure_8c_a06eb3eb3f2abcaf6a5f10965de1d2d9e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__transitive__closure_8c_a28b0aac6043a59186381fb39e6719e19}\label{isl__transitive__closure_8c_a28b0aac6043a59186381fb39e6719e19}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!isl\_map\_transitive\_closure@{isl\_map\_transitive\_closure}}
+\index{isl\_map\_transitive\_closure@{isl\_map\_transitive\_closure}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_transitive\_closure()}{isl\_map\_transitive\_closure()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}}$\ast$ isl\+\_\+map\+\_\+transitive\+\_\+closure (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map,  }\item[{int $\ast$}]{exact }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=264pt]{isl__transitive__closure_8c_a28b0aac6043a59186381fb39e6719e19_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__transitive__closure_8c_a01a5bb372c731654972636e84f8f2c4d}\label{isl__transitive__closure_8c_a01a5bb372c731654972636e84f8f2c4d}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!isl\_union\_map\_is\_transitively\_closed@{isl\_union\_map\_is\_transitively\_closed}}
+\index{isl\_union\_map\_is\_transitively\_closed@{isl\_union\_map\_is\_transitively\_closed}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{isl\_union\_map\_is\_transitively\_closed()}{isl\_union\_map\_is\_transitively\_closed()}}
+{\footnotesize\ttfamily int isl\+\_\+union\+\_\+map\+\_\+is\+\_\+transitively\+\_\+closed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$}]{umap }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__transitive__closure_8c_a01a5bb372c731654972636e84f8f2c4d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__transitive__closure_8c_a01a5bb372c731654972636e84f8f2c4d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__transitive__closure_8c_a47c87b38ba99a341fd17c15a7d684cf2}\label{isl__transitive__closure_8c_a47c87b38ba99a341fd17c15a7d684cf2}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!isl\_union\_map\_power@{isl\_union\_map\_power}}
+\index{isl\_union\_map\_power@{isl\_union\_map\_power}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{isl\_union\_map\_power()}{isl\_union\_map\_power()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}}$\ast$ isl\+\_\+union\+\_\+map\+\_\+power (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$}]{umap,  }\item[{int $\ast$}]{exact }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__transitive__closure_8c_a47c87b38ba99a341fd17c15a7d684cf2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__transitive__closure_8c_a1224aac28b449df6cae05c4544b906a9}\label{isl__transitive__closure_8c_a1224aac28b449df6cae05c4544b906a9}} 
+\index{isl\_transitive\_closure.c@{isl\_transitive\_closure.c}!isl\_union\_map\_transitive\_closure@{isl\_union\_map\_transitive\_closure}}
+\index{isl\_union\_map\_transitive\_closure@{isl\_union\_map\_transitive\_closure}!isl\_transitive\_closure.c@{isl\_transitive\_closure.c}}
+\doxysubsubsection{\texorpdfstring{isl\_union\_map\_transitive\_closure()}{isl\_union\_map\_transitive\_closure()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}}$\ast$ isl\+\_\+union\+\_\+map\+\_\+transitive\+\_\+closure (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$}]{umap,  }\item[{int $\ast$}]{exact }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__transitive__closure_8c_a1224aac28b449df6cae05c4544b906a9_cgraph}
+\end{center}
+\end{figure}

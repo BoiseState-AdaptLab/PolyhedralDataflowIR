@@ -1,0 +1,85 @@
+.TH "iegenlib::VisitorCalculateComplexity" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::VisitorCalculateComplexity
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBVisitor\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBVisitorCalculateComplexity\fP (int *iComplexity)"
+.br
+.ti -1c
+.RI "virtual \fB~VisitorCalculateComplexity\fP ()"
+.br
+.ti -1c
+.RI "void \fBpostVisitUFCallTerm\fP (\fBUFCallTerm\fP *t)"
+.br
+.ti -1c
+.RI "void \fBpostVisitVarTerm\fP (\fBVarTerm\fP *t)"
+.br
+.ti -1c
+.RI "void \fBpostVisitTupleVarTerm\fP (\fBTupleVarTerm\fP *t)"
+.br
+.ti -1c
+.RI "void \fBpreVisitExp\fP (\fBiegenlib::Exp\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "void \fBpostVisitExp\fP (\fBiegenlib::Exp\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "int * \fBgetComplexity\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Vistor Class used in \fBVisitorCalculateComplexity\fP The visitor class calculates complexity for TupleVarTerms The way it works in general is that: we want to determine whether a (smart) code generator would generate loop for any of the iterators and if so, what is the complexity of that loop\&. For instance, consider following example:
+.PP
+{[i,j] : i = j && 0 <= j < n }
+.PP
+(Smart) Code genrator would not generate a loop for i-iterator, because we have the constraints: i=j\&. But we need a loop with complexity of O(n) in that example\&. So, the output of this visitor would be:
+.PP
+[1,3] : indicating i has complexity O(1), and j has complexity O(n)\&.
+.PP
+We use inequalities to determine upper bounds of each term\&. If we have already find an upper bound but we see a smaller one, we would replace the bigger one\&. We also use useful equalities to make complexity of one of the tuple terms in equalities like i=j, or i=f(j), to be O(1)\&. The important thing to note here is that we make the complexity of an iterator with bigger complexity O(1)\&. If a term is in an equality constraint with another constraints, 'and we know the upper bound of the other iterator, then we do not have to find the upper bounds of this iterator\&.
+.PP
+Note: we need to call this visitor at least twice since, it might be the case that while traversing the constraints (\fBiegenlib::Exp\fP's) we pass by an useful equality like i=j, but we do not know upper bound of neither i or j\&. So, we would not make complexity of any of them O(1)\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::VisitorCalculateComplexity::VisitorCalculateComplexity (int * iComplexity)\fC [inline]\fP"
+
+.SS "virtual iegenlib::VisitorCalculateComplexity::~VisitorCalculateComplexity ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "int* iegenlib::VisitorCalculateComplexity::getComplexity ()\fC [inline]\fP"
+
+.SS "void iegenlib::VisitorCalculateComplexity::postVisitExp (\fBiegenlib::Exp\fP * e)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorCalculateComplexity::postVisitTupleVarTerm (\fBTupleVarTerm\fP * t)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorCalculateComplexity::postVisitUFCallTerm (\fBUFCallTerm\fP * t)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorCalculateComplexity::postVisitVarTerm (\fBVarTerm\fP * t)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorCalculateComplexity::preVisitExp (\fBiegenlib::Exp\fP * e)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBVisitor\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

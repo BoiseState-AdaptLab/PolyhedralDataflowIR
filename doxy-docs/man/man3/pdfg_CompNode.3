@@ -1,0 +1,203 @@
+.TH "pdfg::CompNode" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::CompNode
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FlowGraph\&.hpp>\fP
+.PP
+Inherits \fBpdfg::Node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCompNode\fP (\fBComp\fP *\fBcomp\fP, \fBconst\fP string &\fBlabel\fP='')"
+.br
+.ti -1c
+.RI "\fB~CompNode\fP ()"
+.br
+.ti -1c
+.RI "\fBCompNode\fP (\fBconst\fP \fBCompNode\fP &other)"
+.br
+.ti -1c
+.RI "\fBCompNode\fP & \fBoperator=\fP (\fBconst\fP \fBCompNode\fP &other)"
+.br
+.ti -1c
+.RI "\fBComp\fP * \fBcomp\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBcomp\fP (\fBComp\fP *comp)"
+.br
+.ti -1c
+.RI "bool \fBis_parent\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBCompNode\fP * \fBfind_child\fP (\fBconst\fP string &pattern)"
+.br
+.ti -1c
+.RI "\fBDigraph\fP * \fBiter_graph\fP ()"
+.br
+.ti -1c
+.RI "void \fBiter_graph\fP (\fBDigraph\fP *graph)"
+.br
+.ti -1c
+.RI "string \fBfirst_label\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBTuple\fP > \fBschedules\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBschedules\fP (\fBconst\fP \fBmap\fP< string, \fBTuple\fP > &sched_map)"
+.br
+.ti -1c
+.RI "void \fBschedules\fP (\fBconst\fP vector< \fBTuple\fP > &tuples)"
+.br
+.ti -1c
+.RI "vector< \fBAccess\fP * > \fBaccesses\fP (\fBconst\fP string &space='') \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBAccess\fP * > \fBreads\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBAccess\fP * > \fBwrites\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP * \fBshifts\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBshifts\fP (\fBconst\fP \fBIntTuple\fP &shifts)"
+.br
+.ti -1c
+.RI "void \fBadd_read\fP (\fBconst\fP \fBAccess\fP &\fBread\fP)"
+.br
+.ti -1c
+.RI "void \fBadd_write\fP (\fBconst\fP \fBAccess\fP &\fBwrite\fP)"
+.br
+.ti -1c
+.RI "vector< \fBCompNode\fP * > \fBchildren\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBfuse\fP (\fBCompNode\fP *other)"
+.br
+.ti -1c
+.RI "unsigned \fBflops\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBtile\fP (initializer_list< string > iters, initializer_list< unsigned > sizes, initializer_list< string > outs={})"
+.br
+.ti -1c
+.RI "void \fBtile\fP (vector< string > iters, vector< unsigned > sizes, vector< string > t_iters={})"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static vector< string > \fBmathFunctions\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcopy\fP (\fBconst\fP \fBCompNode\fP &other)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "vector< \fBCompNode\fP * > \fB_children\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBAccess\fP * > \fB_reads\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBAccess\fP * > \fB_writes\fP"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP * \fB_shifts\fP"
+.br
+.ti -1c
+.RI "\fBDigraph\fP * \fB_igraph\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::CompNode::CompNode (\fBComp\fP * comp, \fBconst\fP string & label = \fC''\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "pdfg::CompNode::~CompNode ()\fC [inline]\fP"
+
+.SS "pdfg::CompNode::CompNode (\fBconst\fP \fBCompNode\fP & other)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "vector<\fBAccess\fP*> pdfg::CompNode::accesses (\fBconst\fP string & space = \fC''\fP) const\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::add_read (\fBconst\fP \fBAccess\fP & read)\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::add_write (\fBconst\fP \fBAccess\fP & write)\fC [inline]\fP"
+
+.SS "vector<\fBCompNode\fP*> pdfg::CompNode::children () const\fC [inline]\fP"
+
+.SS "\fBComp\fP* pdfg::CompNode::comp () const\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::comp (\fBComp\fP * comp)\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::copy (\fBconst\fP \fBCompNode\fP & other)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBCompNode\fP* pdfg::CompNode::find_child (\fBconst\fP string & pattern)\fC [inline]\fP"
+
+.SS "string pdfg::CompNode::first_label () const\fC [inline]\fP"
+
+.SS "unsigned pdfg::CompNode::flops () const\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::fuse (\fBCompNode\fP * other)\fC [inline]\fP"
+
+.SS "bool pdfg::CompNode::is_parent () const\fC [inline]\fP"
+
+.SS "\fBDigraph\fP* pdfg::CompNode::iter_graph ()\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::iter_graph (\fBDigraph\fP * graph)\fC [inline]\fP"
+
+.SS "static vector<string> pdfg::CompNode::mathFunctions ()\fC [inline]\fP, \fC [static]\fP"
+
+.SS "\fBCompNode\fP& pdfg::CompNode::operator= (\fBconst\fP \fBCompNode\fP & other)\fC [inline]\fP"
+
+.SS "\fBmap\fP<string, \fBAccess\fP*> pdfg::CompNode::reads () const\fC [inline]\fP"
+
+.SS "vector<\fBTuple\fP> pdfg::CompNode::schedules () const\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::schedules (\fBconst\fP \fBmap\fP< string, \fBTuple\fP > & sched_map)\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::schedules (\fBconst\fP vector< \fBTuple\fP > & tuples)\fC [inline]\fP"
+
+.SS "\fBIntTuple\fP* pdfg::CompNode::shifts () const\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::shifts (\fBconst\fP \fBIntTuple\fP & shifts)\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::tile (initializer_list< string > iters, initializer_list< unsigned > sizes, initializer_list< string > outs = \fC{}\fP)\fC [inline]\fP"
+
+.SS "void pdfg::CompNode::tile (vector< string > iters, vector< unsigned > sizes, vector< string > t_iters = \fC{}\fP)\fC [inline]\fP"
+
+.SS "\fBmap\fP<string, \fBAccess\fP*> pdfg::CompNode::writes () const\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "vector<\fBCompNode\fP*> pdfg::CompNode::_children\fC [protected]\fP"
+
+.SS "\fBDigraph\fP* pdfg::CompNode::_igraph\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBAccess\fP*> pdfg::CompNode::_reads\fC [protected]\fP"
+
+.SS "\fBIntTuple\fP* pdfg::CompNode::_shifts\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBAccess\fP*> pdfg::CompNode::_writes\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

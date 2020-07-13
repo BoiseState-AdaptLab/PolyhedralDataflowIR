@@ -1,0 +1,382 @@
+.TH "lib/chill/chill_ast.hh" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/chill_ast.hh
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'chill_io\&.hh'\fP
+.br
+\fC#include 'chill_error\&.hh'\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <ir_enums\&.hh>\fP
+.br
+\fC#include 'chill_ast\&.def'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBchillAST_node\fP"
+.br
+.RI "generic node of the actual chillAST, a multiway tree node\&. "
+.ti -1c
+.RI "class \fBchillAST_Child< ASTNodeClass >\fP"
+.br
+.RI "Generic class to handle children in chillAST nodes\&. "
+.ti -1c
+.RI "class \fBchillAST_NULL\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_Preprocessing\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_TypedefDecl\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_VarDecl\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_DeclRefExpr\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_CompoundStmt\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_RecordDecl\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_FunctionDecl\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_SourceFile\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_MacroDefinition\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_ForStmt\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_WhileStmt\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_TernaryOperator\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_BinaryOperator\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_ArraySubscriptExpr\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_MemberExpr\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_IntegerLiteral\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_FloatingLiteral\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_UnaryOperator\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_ImplicitCastExpr\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_CStyleCastExpr\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_CStyleAddressOf\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_CudaMalloc\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_CudaFree\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_Malloc\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_Free\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_CudaMemcpy\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_CudaSyncthreads\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_ReturnStmt\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_CallExpr\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_ParenExpr\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_Sizeof\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_NoOp\fP"
+.br
+.ti -1c
+.RI "class \fBchillAST_IfStmt\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCHILL_INDENT_AMOUNT\fP   2"
+.br
+.ti -1c
+.RI "#define \fBchillast_nodetype\fP(\fBn\fP,  \fBi\fP,  s)   CHILLAST_NODETYPE_##\fBi\fP,"
+.br
+.ti -1c
+.RI "#define \fBchillast_nodetype_alias\fP(\fBa\fP,  \fBb\fP)   CHILLAST_NODETYPE_##\fBa\fP = CHILLAST_NODETYPE_##\fBb\fP,"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef std::vector< \fBchillAST_VarDecl\fP * > \fBchillAST_SymbolTable\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< \fBchillAST_TypedefDecl\fP * > \fBchillAST_TypedefTable\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< \fBchillAST_node\fP * > \fBchillAST_NodeList\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBCHILL_ASTNODE_TYPE\fP { \fBCHILLAST_NODETYPE_UNKNOWN\fP = 0 }"
+.br
+.ti -1c
+.RI "enum \fBCHILL_FUNCTION_TYPE\fP { \fBCHILL_FUNCTION_CPU\fP = 0, \fBCHILL_FUNCTION_GPU\fP }"
+.br
+.ti -1c
+.RI "enum \fBCHILL_MEMBER_EXP_TYPE\fP { \fBCHILL_MEMBER_EXP_DOT\fP = 0, \fBCHILL_MEMBER_EXP_ARROW\fP }"
+.br
+.ti -1c
+.RI "enum \fBCHILL_PREPROCESSING_TYPE\fP { \fBCHILL_PREPROCESSING_TYPEUNKNOWN\fP = 0, \fBCHILL_PREPROCESSING_COMMENT\fP, \fBCHILL_PREPROCESSING_POUNDDEFINE\fP, \fBCHILL_PREPROCESSING_POUNDINCLUDE\fP, \fBCHILL_PREPROCESSING_PRAGMA\fP }"
+.br
+.ti -1c
+.RI "enum \fBCHILL_PREPROCESSING_POSITION\fP { \fBCHILL_PREPROCESSING_POSITIONUNKNOWN\fP = 0, \fBCHILL_PREPROCESSING_LINEBEFORE\fP, \fBCHILL_PREPROCESSING_LINEAFTER\fP, \fBCHILL_PREPROCESSING_TOTHERIGHT\fP, \fBCHILL_PREPROCESSING_IMMEDIATELYBEFORE\fP }"
+.br
+.RI "When tied to another statement\&. "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "char * \fBparseUnderlyingType\fP (char *sometype)"
+.br
+.RI "Parse to the most basic type\&. "
+.ti -1c
+.RI "char * \fBparseArrayParts\fP (char *sometype)"
+.br
+.ti -1c
+.RI "bool \fBisRestrict\fP (\fBconst\fP char *sometype)"
+.br
+.ti -1c
+.RI "char * \fBsplitTypeInfo\fP (char *underlyingtype)"
+.br
+.RI "return the bracketed part of a type "
+.ti -1c
+.RI "char * \fBulhack\fP (char *brackets)"
+.br
+.RI "remove UL from numbers, MODIFIES the argument! "
+.ti -1c
+.RI "char * \fBrestricthack\fP (char *typeinfo)"
+.br
+.RI "remove \fBrestrict\fP , MODIFIES the argument! "
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBsymbolTableFindVariableNamed\fP (\fBchillAST_SymbolTable\fP *\fBtable\fP, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBprintSymbolTable\fP (\fBchillAST_SymbolTable\fP *st)"
+.br
+.ti -1c
+.RI "void \fBprintSymbolTableMoreInfo\fP (\fBchillAST_SymbolTable\fP *st)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBminmaxTernary\fP (\fBconst\fP char *\fBop\fP, \fBchillAST_node\fP *left, \fBchillAST_node\fP *right)"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBaddSymbolToTable\fP (\fBchillAST_SymbolTable\fP *st, \fBchillAST_VarDecl\fP *vd)"
+.br
+.ti -1c
+.RI "\fBchillAST_TypedefTable\fP * \fBaddTypedefToTable\fP (\fBchillAST_TypedefTable\fP *tt, \fBchillAST_TypedefDecl\fP *td)"
+.br
+.ti -1c
+.RI "bool \fBstreq\fP (\fBconst\fP char *\fBa\fP, \fBconst\fP char *\fBb\fP)"
+.br
+.ti -1c
+.RI "void \fBchillindent\fP (int \fBi\fP, FILE *fp)"
+.br
+.ti -1c
+.RI "void \fBinsertNewDeclAtLocationOfOldIfNeeded\fP (\fBchillAST_VarDecl\fP *newdecl, \fBchillAST_VarDecl\fP *olddecl)"
+.br
+.ti -1c
+.RI "\fBchillAST_FunctionDecl\fP * \fBfindFunctionDecl\fP (\fBchillAST_node\fP *node, \fBconst\fP char *procname)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP char * \fBChill_AST_Node_Names\fP []"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define CHILL_INDENT_AMOUNT   2"
+
+.SS "#define chillast_nodetype(\fBn\fP, \fBi\fP, s)   CHILLAST_NODETYPE_##\fBi\fP,"
+
+.SS "#define chillast_nodetype_alias(\fBa\fP, \fBb\fP)   CHILLAST_NODETYPE_##\fBa\fP = CHILLAST_NODETYPE_##\fBb\fP,"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef std::vector<\fBchillAST_node\fP *> \fBchillAST_NodeList\fP"
+
+.SS "typedef std::vector<\fBchillAST_VarDecl\fP *> \fBchillAST_SymbolTable\fP"
+
+.SS "typedef std::vector<\fBchillAST_TypedefDecl\fP *> \fBchillAST_TypedefTable\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBCHILL_ASTNODE_TYPE\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICHILLAST_NODETYPE_UNKNOWN \fP\fP
+.SS "enum \fBCHILL_FUNCTION_TYPE\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICHILL_FUNCTION_CPU \fP\fP
+.TP
+\fB\fICHILL_FUNCTION_GPU \fP\fP
+.SS "enum \fBCHILL_MEMBER_EXP_TYPE\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICHILL_MEMBER_EXP_DOT \fP\fP
+.TP
+\fB\fICHILL_MEMBER_EXP_ARROW \fP\fP
+.SS "enum \fBCHILL_PREPROCESSING_POSITION\fP"
+
+.PP
+When tied to another statement\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICHILL_PREPROCESSING_POSITIONUNKNOWN \fP\fP
+.TP
+\fB\fICHILL_PREPROCESSING_LINEBEFORE \fP\fP
+previous line 
+.TP
+\fB\fICHILL_PREPROCESSING_LINEAFTER \fP\fP
+next line 
+.TP
+\fB\fICHILL_PREPROCESSING_TOTHERIGHT \fP\fP
+for this kind of comment, on same line 
+.TP
+\fB\fICHILL_PREPROCESSING_IMMEDIATELYBEFORE \fP\fP
+on same line 
+.SS "enum \fBCHILL_PREPROCESSING_TYPE\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fICHILL_PREPROCESSING_TYPEUNKNOWN \fP\fP
+.TP
+\fB\fICHILL_PREPROCESSING_COMMENT \fP\fP
+.TP
+\fB\fICHILL_PREPROCESSING_POUNDDEFINE \fP\fP
+.TP
+\fB\fICHILL_PREPROCESSING_POUNDINCLUDE \fP\fP
+.TP
+\fB\fICHILL_PREPROCESSING_PRAGMA \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "\fBchillAST_SymbolTable\fP* addSymbolToTable (\fBchillAST_SymbolTable\fP * st, \fBchillAST_VarDecl\fP * vd)"
+
+.SS "\fBchillAST_TypedefTable\fP* addTypedefToTable (\fBchillAST_TypedefTable\fP * tt, \fBchillAST_TypedefDecl\fP * td)"
+
+.SS "void chillindent (int i, FILE * fp)"
+
+.SS "\fBchillAST_FunctionDecl\fP* findFunctionDecl (\fBchillAST_node\fP * node, \fBconst\fP char * procname)"
+
+.SS "void insertNewDeclAtLocationOfOldIfNeeded (\fBchillAST_VarDecl\fP * newdecl, \fBchillAST_VarDecl\fP * olddecl)"
+
+.SS "bool isRestrict (\fBconst\fP char * sometype)"
+
+.SS "\fBchillAST_node\fP* minmaxTernary (\fBconst\fP char * op, \fBchillAST_node\fP * left, \fBchillAST_node\fP * right)"
+
+.SS "char* parseArrayParts (char * sometype)"
+
+.SS "char* parseUnderlyingType (char * sometype)"
+
+.PP
+Parse to the most basic type\&. 
+.SS "void printSymbolTable (\fBchillAST_SymbolTable\fP * st)"
+
+.SS "void printSymbolTableMoreInfo (\fBchillAST_SymbolTable\fP * st)"
+
+.SS "char* restricthack (char * typeinfo)"
+
+.PP
+remove \fBrestrict\fP , MODIFIES the argument! 
+.SS "char* splitTypeInfo (char * underlyingtype)"
+
+.PP
+return the bracketed part of a type 
+.SS "bool streq (\fBconst\fP char * a, \fBconst\fP char * b)"
+
+.SS "\fBchillAST_VarDecl\fP* symbolTableFindVariableNamed (\fBchillAST_SymbolTable\fP * table, \fBconst\fP char * name)"
+
+.SS "char* ulhack (char * brackets)"
+
+.PP
+remove UL from numbers, MODIFIES the argument! change '1024UL' to '1024' 
+.SH "Variable Documentation"
+.PP 
+.SS "\fBconst\fP char* Chill_AST_Node_Names[]"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

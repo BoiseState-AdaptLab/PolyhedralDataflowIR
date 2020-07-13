@@ -1,0 +1,76 @@
+.TH "lib/isl/isl_schedule_node_private.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_schedule_node_private.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/schedule_node\&.h>\fP
+.br
+\fC#include <isl_schedule_band\&.h>\fP
+.br
+\fC#include <isl_schedule_tree\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_schedule_node\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_schedule_node_alloc\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule, \fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP isl_schedule_tree_list *ancestors, int *child_pos)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_schedule_node_graft_tree\fP (\fB__isl_take\fP \fBisl_schedule_node\fP *\fBpos\fP, \fB__isl_take\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_node_get_tree\fP (\fB__isl_keep\fP \fBisl_schedule_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_schedule_node_pullback_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_schedule_node\fP *node, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_schedule_node_gist\fP (\fB__isl_take\fP \fBisl_schedule_node\fP *node, \fB__isl_take\fP \fBisl_union_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_schedule_node_domain_intersect_domain\fP (\fB__isl_take\fP \fBisl_schedule_node\fP *node, \fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_schedule_node_domain_gist_params\fP (\fB__isl_take\fP \fBisl_schedule_node\fP *node, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_schedule_node_insert_expansion\fP (\fB__isl_take\fP \fBisl_schedule_node\fP *node, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *contraction, \fB__isl_take\fP \fBisl_union_map\fP *expansion)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_schedule_node_insert_extension\fP (\fB__isl_take\fP \fBisl_schedule_node\fP *node, \fB__isl_take\fP \fBisl_union_map\fP *extension)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_schedule_node\fP* isl_schedule_node_alloc (\fB__isl_take\fP \fBisl_schedule\fP * schedule, \fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP isl_schedule_tree_list * ancestors, int * child_pos)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_node\fP* isl_schedule_node_domain_gist_params (\fB__isl_take\fP \fBisl_schedule_node\fP * node, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_node\fP* isl_schedule_node_domain_intersect_domain (\fB__isl_take\fP \fBisl_schedule_node\fP * node, \fB__isl_take\fP \fBisl_union_set\fP * domain)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_node_get_tree (\fB__isl_keep\fP \fBisl_schedule_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_node\fP* isl_schedule_node_gist (\fB__isl_take\fP \fBisl_schedule_node\fP * node, \fB__isl_take\fP \fBisl_union_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_node\fP* isl_schedule_node_graft_tree (\fB__isl_take\fP \fBisl_schedule_node\fP * pos, \fB__isl_take\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_node\fP* isl_schedule_node_insert_expansion (\fB__isl_take\fP \fBisl_schedule_node\fP * node, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * contraction, \fB__isl_take\fP \fBisl_union_map\fP * expansion)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_node\fP* isl_schedule_node_insert_extension (\fB__isl_take\fP \fBisl_schedule_node\fP * node, \fB__isl_take\fP \fBisl_union_map\fP * extension)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_node\fP* isl_schedule_node_pullback_union_pw_multi_aff (\fB__isl_take\fP \fBisl_schedule_node\fP * node, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

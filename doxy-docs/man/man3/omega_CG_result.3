@@ -1,0 +1,188 @@
+.TH "omega::CG_result" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::CG_result \- Tree-like structure holding the iteration space\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <CG\&.h>\fP
+.PP
+Inherited by \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCG_result\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~CG_result\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBCG_result\fP * \fBrecompute\fP (\fBconst\fP \fBBoolSet\fP<> &parent_active, \fBconst\fP \fBRelation\fP &known, \fBconst\fP \fBRelation\fP &restriction)=0"
+.br
+.RI "break down the complete iteration space condition to levels of bound/guard condtions "
+.ti -1c
+.RI "virtual int \fBpopulateDepth\fP ()=0"
+.br
+.RI "calculate each loop's nesting depth Used in liftOverhead - depth start with 0 at leaf "
+.ti -1c
+.RI "virtual std::pair< \fBCG_result\fP *, \fBRelation\fP > \fBliftOverhead\fP (int \fBdepth\fP, bool propagate_up)=0"
+.br
+.RI "redistribute guard condition locations by additional splittings "
+.ti -1c
+.RI "virtual \fBRelation\fP \fBhoistGuard\fP ()=0"
+.br
+.RI "Hoist guard conditions for non-loop levels Enables proper if-condition simplication when outputting actual code\&. "
+.ti -1c
+.RI "virtual void \fBremoveGuard\fP (\fBconst\fP \fBRelation\fP &guard)=0"
+.br
+.ti -1c
+.RI "virtual \fBCG_outputRepr\fP * \fBprintRepr\fP (int indent, \fBCG_outputBuilder\fP *ocg, \fBconst\fP std::vector< \fBCG_outputRepr\fP * > &stmts, \fBconst\fP std::vector< std::pair< \fBCG_outputRepr\fP *, int > > &assigned_on_the_fly, std::vector< \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > > unin, bool \fBprintString\fP=false) \fBconst\fP =0"
+.br
+.RI "Signature for printRepr of actual node types\&. "
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBprintRepr\fP (\fBCG_outputBuilder\fP *ocg, \fBconst\fP std::vector< \fBCG_outputRepr\fP * > &stmts, std::vector< \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > >uninterpreted_symbols, bool \fBprintString\fP=false) \fBconst\fP"
+.br
+.RI "Main entry point for codegen\&. "
+.ti -1c
+.RI "std::string \fBprintString\fP (std::vector< \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > >uninterpreted_symbols=std::vector< \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > >()) \fBconst\fP"
+.br
+.RI "Using stringBuilder to generate loop representation\&. "
+.ti -1c
+.RI "int \fBnum_level\fP () \fBconst\fP"
+.br
+.RI "Total number of levels\&. "
+.ti -1c
+.RI "virtual \fBCG_result\fP * \fBclone\fP () \fBconst\fP =0"
+.br
+.RI "A deep clone of the tree\&. "
+.ti -1c
+.RI "virtual void \fBdump\fP (int indent) \fBconst\fP"
+.br
+.RI "Dump content for debug information\&. "
+.ti -1c
+.RI "virtual void \fBaddPragma\fP (int stmt, int loop_level, std::string \fBname\fP)=0"
+.br
+.RI "Add pragma info prior to code generation\&. "
+.ti -1c
+.RI "virtual void \fBaddOmpPragma\fP (int stmt, int loop_level, \fBconst\fP std::vector< std::string > &, \fBconst\fP std::vector< std::string > &)=0"
+.br
+.RI "Add omp pragma info prior to code generation\&. "
+.ti -1c
+.RI "virtual void \fBcollectIterationVariableNames\fP (\fBstd::set\fP< std::string > &) noexcept=0"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBCodeGen\fP * \fBcodegen_\fP"
+.br
+.RI "Reference to the codegen\&. "
+.ti -1c
+.RI "\fBBoolSet\fP \fBactive_\fP"
+.br
+.RI "Active set of statements\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Tree-like structure holding the iteration space\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::CG_result::CG_result ()\fC [inline]\fP"
+
+.SS "virtual omega::CG_result::~CG_result ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void omega::CG_result::addOmpPragma (int stmt, int loop_level, \fBconst\fP std::vector< std::string > &, \fBconst\fP std::vector< std::string > &)\fC [pure virtual]\fP"
+
+.PP
+Add omp pragma info prior to code generation\&. 
+.PP
+Implemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "virtual void omega::CG_result::addPragma (int stmt, int loop_level, std::string name)\fC [pure virtual]\fP"
+
+.PP
+Add pragma info prior to code generation\&. 
+.PP
+Implemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "virtual \fBCG_result\fP* omega::CG_result::clone () const\fC [pure virtual]\fP"
+
+.PP
+A deep clone of the tree\&. 
+.PP
+Implemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "virtual void omega::CG_result::collectIterationVariableNames (\fBstd::set\fP< std::string > &)\fC [pure virtual]\fP, \fC [noexcept]\fP"
+
+.PP
+Implemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "virtual void omega::CG_result::dump (int indent) const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Dump content for debug information\&. 
+.PP
+Reimplemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "virtual \fBRelation\fP omega::CG_result::hoistGuard ()\fC [pure virtual]\fP"
+
+.PP
+Hoist guard conditions for non-loop levels Enables proper if-condition simplication when outputting actual code\&. 
+.PP
+Implemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "virtual std::pair<\fBCG_result\fP *, \fBRelation\fP> omega::CG_result::liftOverhead (int depth, bool propagate_up)\fC [pure virtual]\fP"
+
+.PP
+redistribute guard condition locations by additional splittings 
+.PP
+Implemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "int omega::CG_result::num_level () const"
+
+.PP
+Total number of levels\&. 
+.SS "virtual int omega::CG_result::populateDepth ()\fC [pure virtual]\fP"
+
+.PP
+calculate each loop's nesting depth Used in liftOverhead - depth start with 0 at leaf 
+.PP
+Implemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "\fBCG_outputRepr\fP * omega::CG_result::printRepr (\fBCG_outputBuilder\fP * ocg, \fBconst\fP std::vector< \fBCG_outputRepr\fP * > & stmts, std::vector< \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > > uninterpreted_symbols, bool printString = \fCfalse\fP) const"
+
+.PP
+Main entry point for codegen\&. 
+.SS "virtual \fBCG_outputRepr\fP* omega::CG_result::printRepr (int indent, \fBCG_outputBuilder\fP * ocg, \fBconst\fP std::vector< \fBCG_outputRepr\fP * > & stmts, \fBconst\fP std::vector< std::pair< \fBCG_outputRepr\fP *, int > > & assigned_on_the_fly, std::vector< \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > > unin, bool printString = \fCfalse\fP) const\fC [pure virtual]\fP"
+
+.PP
+Signature for printRepr of actual node types\&. 
+.PP
+Implemented in \fBomega::CG_loop\fP, \fBomega::CG_leaf\fP, and \fBomega::CG_split\fP\&.
+.SS "std::string omega::CG_result::printString (std::vector< \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > > uninterpreted_symbols = \fCstd::vector<\fBstd::map\fP<std::string, std::vector<\fBCG_outputRepr\fP *> > >()\fP) const"
+
+.PP
+Using stringBuilder to generate loop representation\&. 
+.SS "virtual \fBCG_result\fP* omega::CG_result::recompute (\fBconst\fP \fBBoolSet\fP<> & parent_active, \fBconst\fP \fBRelation\fP & known, \fBconst\fP \fBRelation\fP & restriction)\fC [pure virtual]\fP"
+
+.PP
+break down the complete iteration space condition to levels of bound/guard condtions 
+.PP
+Implemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SS "virtual void omega::CG_result::removeGuard (\fBconst\fP \fBRelation\fP & guard)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBomega::CG_leaf\fP, \fBomega::CG_loop\fP, and \fBomega::CG_split\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBBoolSet\fP omega::CG_result::active_"
+
+.PP
+Active set of statements\&. 
+.SS "\fBCodeGen\fP* omega::CG_result::codegen_"
+
+.PP
+Reference to the codegen\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

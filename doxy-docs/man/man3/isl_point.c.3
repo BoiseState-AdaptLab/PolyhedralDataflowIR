@@ -1,0 +1,179 @@
+.TH "lib/isl/isl_point.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_point.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl_point_private\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl/union_set\&.h>\fP
+.br
+\fC#include <isl_sample\&.h>\fP
+.br
+\fC#include <isl_scan\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl_val_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl_output_private\&.h>\fP
+.br
+\fC#include <isl/deprecated/point_int\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_foreach_point\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_point_get_ctx\fP (\fB__isl_keep\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_point_get_space\fP (\fB__isl_keep\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_alloc\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, \fB__isl_take\fP \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_zero\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_dup\fP (\fB__isl_keep\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_cow\fP (\fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_copy\fP (\fB__isl_keep\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "void \fBisl_point_free\fP (\fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_void\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_point_is_void\fP (\fB__isl_keep\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "int \fBisl_point_get_coordinate\fP (\fB__isl_keep\fP \fBisl_point\fP *pnt, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fBisl_int\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_point_get_coordinate_val\fP (\fB__isl_keep\fP \fBisl_point\fP *pnt, enum \fBisl_dim_type\fP type, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_set_coordinate\fP (\fB__isl_take\fP \fBisl_point\fP *pnt, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_set_coordinate_val\fP (\fB__isl_take\fP \fBisl_point\fP *pnt, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_add_ui\fP (\fB__isl_take\fP \fBisl_point\fP *pnt, enum \fBisl_dim_type\fP type, int \fBpos\fP, unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_point\fP * \fBisl_point_sub_ui\fP (\fB__isl_take\fP \fBisl_point\fP *pnt, enum \fBisl_dim_type\fP type, int \fBpos\fP, unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_set_foreach_point\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_point\fP *pnt, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_basic_map_contains_point\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP, \fB__isl_keep\fP \fBisl_point\fP *point)"
+.br
+.ti -1c
+.RI "int \fBisl_map_contains_point\fP (\fB__isl_keep\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_keep\fP \fBisl_point\fP *point)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_contains_point\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset\fP, \fB__isl_keep\fP \fBisl_point\fP *point)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_from_point\fP (\fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_from_point\fP (\fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_set_from_point\fP (\fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_box_from_points\fP (\fB__isl_take\fP \fBisl_point\fP *pnt1, \fB__isl_take\fP \fBisl_point\fP *pnt2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_box_from_points\fP (\fB__isl_take\fP \fBisl_point\fP *pnt1, \fB__isl_take\fP \fBisl_point\fP *pnt2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_point\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_point\fP *pnt)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fBisl_bool\fP isl_basic_map_contains_point (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap, \fB__isl_keep\fP \fBisl_point\fP * point)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_box_from_points (\fB__isl_take\fP \fBisl_point\fP * pnt1, \fB__isl_take\fP \fBisl_point\fP * pnt2)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_from_point (\fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "int isl_map_contains_point (\fB__isl_keep\fP \fBisl_map\fP * map, \fB__isl_keep\fP \fBisl_point\fP * point)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_add_ui (\fB__isl_take\fP \fBisl_point\fP * pnt, enum \fBisl_dim_type\fP type, int pos, unsigned val)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_alloc (\fB__isl_take\fP \fBisl_space\fP * dim, \fB__isl_take\fP \fBisl_vec\fP * vec)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_copy (\fB__isl_keep\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_cow (\fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_dup (\fB__isl_keep\fP \fBisl_point\fP * pnt)"
+
+.SS "void isl_point_free (\fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "int isl_point_get_coordinate (\fB__isl_keep\fP \fBisl_point\fP * pnt, enum \fBisl_dim_type\fP type, int pos, \fBisl_int\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_point_get_coordinate_val (\fB__isl_keep\fP \fBisl_point\fP * pnt, enum \fBisl_dim_type\fP type, int pos)"
+
+.SS "\fBisl_ctx\fP* isl_point_get_ctx (\fB__isl_keep\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_point_get_space (\fB__isl_keep\fP \fBisl_point\fP * pnt)"
+
+.SS "\fBisl_bool\fP isl_point_is_void (\fB__isl_keep\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_set_coordinate (\fB__isl_take\fP \fBisl_point\fP * pnt, enum \fBisl_dim_type\fP type, int pos, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_set_coordinate_val (\fB__isl_take\fP \fBisl_point\fP * pnt, enum \fBisl_dim_type\fP type, int pos, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_sub_ui (\fB__isl_take\fP \fBisl_point\fP * pnt, enum \fBisl_dim_type\fP type, int pos, unsigned val)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_void (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_point\fP* isl_point_zero (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_point (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_box_from_points (\fB__isl_take\fP \fBisl_point\fP * pnt1, \fB__isl_take\fP \fBisl_point\fP * pnt2)"
+
+.SS "\fBisl_bool\fP isl_set_contains_point (\fB__isl_keep\fP \fBisl_set\fP * set, \fB__isl_keep\fP \fBisl_point\fP * point)"
+
+.SS "\fBisl_stat\fP isl_set_foreach_point (\fB__isl_keep\fP \fBisl_set\fP * set, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_point\fP *pnt, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_from_point (\fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_union_set_from_point (\fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

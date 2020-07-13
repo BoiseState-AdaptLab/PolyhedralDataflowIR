@@ -1,0 +1,239 @@
+\hypertarget{_mini_flux_div_test_8cpp}{}\doxysection{test/\+Mini\+Flux\+Div\+Test.cpp File Reference}
+\label{_mini_flux_div_test_8cpp}\index{test/MiniFluxDivTest.cpp@{test/MiniFluxDivTest.cpp}}
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$gtest/gtest.\+h$>$}\newline
+{\ttfamily \#include $<$Benchmark\+Test.\+hpp$>$}\newline
+{\ttfamily \#include $<$util/\+Lists.\+hpp$>$}\newline
+{\ttfamily \#include \char`\"{}mfd\+\_\+3d.\+h\char`\"{}}\newline
+Include dependency graph for Mini\+Flux\+Div\+Test.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_mini_flux_div_test_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classtest_1_1_mini_flux_div_test}{test\+::\+Mini\+Flux\+Div\+Test}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacetest}{test}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_ae1d0d606e7eb860732925d6dbb82f18a}{dx}}~0.\+5
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_aaedef816fa5d64b2a4916e9b0938fb09}{factor1}}~(1.\+0/12.\+0)
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_ae43404e3ae14aadfba94bcc6b4b243c5}{factor2}}~2.\+0
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_af94f9e3ec50d28e34bbfb778369348b6}{N\+B\+O\+X\+ES}}~32
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a15aa1c5e10c8c98390269f78ccf316c5}{N\+C\+E\+L\+LS}}~128
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a51ca9914034cd3e92903476fd4eebbd6}{N\+T\+H\+R\+E\+A\+DS}}~1
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_aa831695ab6b5b36d12747bb769b9a43e}{N\+D\+I\+MS}}~3
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a22bc9d6f1ad600b96fdf86442683e993}{N\+C\+O\+MP}}~5
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a54d22ac6ab49335f93559dfc609a1feb}{N\+G\+H\+O\+ST}}~2
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}},  \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_aa0f6880685d7a0a93e10dbc850486850}{P\+H\+I\+\_\+\+IN}}(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(old\+\_\+box,(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})))
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a8aa1dc8f6acc22028196adb05bdbe797}{P\+H\+I\+\_\+\+O\+UT}}(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(new\+\_\+box,(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})))
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a9be489b5018bc93439fd77d31b27106c}{P\+H\+I\+\_\+\+P\+TR}}(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(new\+\_\+box,(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})))
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a5f19091ca9e6b8c42b6fab945ccf5e8b}{P\+H\+I\+\_\+\+R\+EF}}(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(ref\+\_\+box,(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})))
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a524a368089b63804bc0bbe5eecee7087}{p\+\_\+data}}(box,  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),0,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_af0f36369e3ca219296ee07b8788fb565}{e\+\_\+data}}(box,  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),1,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_aac7b516a856b217e017a69313ad6f341}{u\+\_\+data}}(box,  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),2,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_aad2d4706d845d9a61e1eb18d076fb8bd}{v\+\_\+data}}(box,  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),3,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a210994a8668f7474b66eb162ef8ebb66}{w\+\_\+data}}(box,  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),4,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}},  \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})
+\item 
+\#define \mbox{\hyperlink{_mini_flux_div_test_8cpp_a0398d2e67c72643214107b90ed95e709}{G\+E\+T\+\_\+\+F\+A\+C\+E\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(d,  \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}},  \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef double \mbox{\hyperlink{_mini_flux_div_test_8cpp_a445a5f0e2a34c9d97d69a3c2d1957907}{Real}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacetest_acc4db683e61a5ec8fd69e940b55ac103}{test\+::\+T\+E\+S\+T\+\_\+F}} (Mini\+Flux\+Div\+Test, M\+FD)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_ae1d0d606e7eb860732925d6dbb82f18a}\label{_mini_flux_div_test_8cpp_ae1d0d606e7eb860732925d6dbb82f18a}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!dx@{dx}}
+\index{dx@{dx}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{dx}{dx}}
+{\footnotesize\ttfamily \#define dx~0.\+5}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_af0f36369e3ca219296ee07b8788fb565}\label{_mini_flux_div_test_8cpp_af0f36369e3ca219296ee07b8788fb565}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!e\_data@{e\_data}}
+\index{e\_data@{e\_data}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{e\_data}{e\_data}}
+{\footnotesize\ttfamily \#define e\+\_\+data(\begin{DoxyParamCaption}\item[{}]{box,  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),1,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_aaedef816fa5d64b2a4916e9b0938fb09}\label{_mini_flux_div_test_8cpp_aaedef816fa5d64b2a4916e9b0938fb09}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!factor1@{factor1}}
+\index{factor1@{factor1}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{factor1}{factor1}}
+{\footnotesize\ttfamily \#define factor1~(1.\+0/12.\+0)}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_ae43404e3ae14aadfba94bcc6b4b243c5}\label{_mini_flux_div_test_8cpp_ae43404e3ae14aadfba94bcc6b4b243c5}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!factor2@{factor2}}
+\index{factor2@{factor2}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{factor2}{factor2}}
+{\footnotesize\ttfamily \#define factor2~2.\+0}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a0398d2e67c72643214107b90ed95e709}\label{_mini_flux_div_test_8cpp_a0398d2e67c72643214107b90ed95e709}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!GET\_FACE\_VAL\_PTR@{GET\_FACE\_VAL\_PTR}}
+\index{GET\_FACE\_VAL\_PTR@{GET\_FACE\_VAL\_PTR}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{GET\_FACE\_VAL\_PTR}{GET\_FACE\_VAL\_PTR}}
+{\footnotesize\ttfamily \#define G\+E\+T\+\_\+\+F\+A\+C\+E\+\_\+\+V\+A\+L\+\_\+\+P\+TR(\begin{DoxyParamCaption}\item[{}]{d,  }\item[{}]{\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}},  }\item[{}]{\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{                                     (\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}})+\(\backslash\)}
+\DoxyCodeLine{                                     (\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})*(numCell+((d)==2))*(numCell+((d)==1))*(numCell+((d)==0)) +\(\backslash\)}
+\DoxyCodeLine{                                     (\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}})*(numCell+((d)==1))*(numCell+((d)==0))+\(\backslash\)}
+\DoxyCodeLine{                                     (\mbox{\hyperlink{debug_8txt_a747fe083c247e80cbbb6dae440f8d19e}{y}})*(numCell+((d)==0))+(\mbox{\hyperlink{jacobi_8h_a1b1a273bc7c0756f5076011a306f4f13}{x}})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}\label{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!GET\_VAL\_PTR@{GET\_VAL\_PTR}}
+\index{GET\_VAL\_PTR@{GET\_VAL\_PTR}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{GET\_VAL\_PTR}{GET\_VAL\_PTR}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \#define G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}},  }\item[{}]{\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{                               (\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}})+(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})*\_fullNumCell3+((\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}})+\mbox{\hyperlink{_mini_flux_div_test_8cpp_a54d22ac6ab49335f93559dfc609a1feb}{NGHOST}})*\_fullNumCell2+\(\backslash\)}
+\DoxyCodeLine{                               ((\mbox{\hyperlink{debug_8txt_a747fe083c247e80cbbb6dae440f8d19e}{y}})+\mbox{\hyperlink{_mini_flux_div_test_8cpp_a54d22ac6ab49335f93559dfc609a1feb}{NGHOST}})*\_fullNumCell+((\mbox{\hyperlink{jacobi_8h_a1b1a273bc7c0756f5076011a306f4f13}{x}})+\mbox{\hyperlink{_mini_flux_div_test_8cpp_a54d22ac6ab49335f93559dfc609a1feb}{NGHOST}})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}\label{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!GET\_VAL\_PTR@{GET\_VAL\_PTR}}
+\index{GET\_VAL\_PTR@{GET\_VAL\_PTR}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{GET\_VAL\_PTR}{GET\_VAL\_PTR}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \#define G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}},  }\item[{}]{\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{                    (\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}})+ (\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})*full\_numCell3 + ((\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}})+nGhost) * full\_numCell2 +\(\backslash\)}
+\DoxyCodeLine{                    ((\mbox{\hyperlink{debug_8txt_a747fe083c247e80cbbb6dae440f8d19e}{y}})+nGhost)*full\_numCell+((\mbox{\hyperlink{jacobi_8h_a1b1a273bc7c0756f5076011a306f4f13}{x}})+nGhost)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_af94f9e3ec50d28e34bbfb778369348b6}\label{_mini_flux_div_test_8cpp_af94f9e3ec50d28e34bbfb778369348b6}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!NBOXES@{NBOXES}}
+\index{NBOXES@{NBOXES}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{NBOXES}{NBOXES}}
+{\footnotesize\ttfamily \#define N\+B\+O\+X\+ES~32}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a15aa1c5e10c8c98390269f78ccf316c5}\label{_mini_flux_div_test_8cpp_a15aa1c5e10c8c98390269f78ccf316c5}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!NCELLS@{NCELLS}}
+\index{NCELLS@{NCELLS}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{NCELLS}{NCELLS}}
+{\footnotesize\ttfamily \#define N\+C\+E\+L\+LS~128}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a22bc9d6f1ad600b96fdf86442683e993}\label{_mini_flux_div_test_8cpp_a22bc9d6f1ad600b96fdf86442683e993}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!NCOMP@{NCOMP}}
+\index{NCOMP@{NCOMP}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{NCOMP}{NCOMP}}
+{\footnotesize\ttfamily \#define N\+C\+O\+MP~5}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_aa831695ab6b5b36d12747bb769b9a43e}\label{_mini_flux_div_test_8cpp_aa831695ab6b5b36d12747bb769b9a43e}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!NDIMS@{NDIMS}}
+\index{NDIMS@{NDIMS}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{NDIMS}{NDIMS}}
+{\footnotesize\ttfamily \#define N\+D\+I\+MS~3}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a54d22ac6ab49335f93559dfc609a1feb}\label{_mini_flux_div_test_8cpp_a54d22ac6ab49335f93559dfc609a1feb}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!NGHOST@{NGHOST}}
+\index{NGHOST@{NGHOST}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{NGHOST}{NGHOST}}
+{\footnotesize\ttfamily \#define N\+G\+H\+O\+ST~2}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a51ca9914034cd3e92903476fd4eebbd6}\label{_mini_flux_div_test_8cpp_a51ca9914034cd3e92903476fd4eebbd6}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!NTHREADS@{NTHREADS}}
+\index{NTHREADS@{NTHREADS}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{NTHREADS}{NTHREADS}}
+{\footnotesize\ttfamily \#define N\+T\+H\+R\+E\+A\+DS~1}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a524a368089b63804bc0bbe5eecee7087}\label{_mini_flux_div_test_8cpp_a524a368089b63804bc0bbe5eecee7087}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!p\_data@{p\_data}}
+\index{p\_data@{p\_data}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{p\_data}{p\_data}}
+{\footnotesize\ttfamily \#define p\+\_\+data(\begin{DoxyParamCaption}\item[{}]{box,  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),0,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_aa0f6880685d7a0a93e10dbc850486850}\label{_mini_flux_div_test_8cpp_aa0f6880685d7a0a93e10dbc850486850}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!PHI\_IN@{PHI\_IN}}
+\index{PHI\_IN@{PHI\_IN}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{PHI\_IN}{PHI\_IN}}
+{\footnotesize\ttfamily \#define P\+H\+I\+\_\+\+IN(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(old\+\_\+box,(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})))}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a8aa1dc8f6acc22028196adb05bdbe797}\label{_mini_flux_div_test_8cpp_a8aa1dc8f6acc22028196adb05bdbe797}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!PHI\_OUT@{PHI\_OUT}}
+\index{PHI\_OUT@{PHI\_OUT}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{PHI\_OUT}{PHI\_OUT}}
+{\footnotesize\ttfamily \#define P\+H\+I\+\_\+\+O\+UT(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(new\+\_\+box,(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})))}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a9be489b5018bc93439fd77d31b27106c}\label{_mini_flux_div_test_8cpp_a9be489b5018bc93439fd77d31b27106c}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!PHI\_PTR@{PHI\_PTR}}
+\index{PHI\_PTR@{PHI\_PTR}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{PHI\_PTR}{PHI\_PTR}}
+{\footnotesize\ttfamily \#define P\+H\+I\+\_\+\+P\+TR(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(new\+\_\+box,(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})))}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a5f19091ca9e6b8c42b6fab945ccf5e8b}\label{_mini_flux_div_test_8cpp_a5f19091ca9e6b8c42b6fab945ccf5e8b}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!PHI\_REF@{PHI\_REF}}
+\index{PHI\_REF@{PHI\_REF}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{PHI\_REF}{PHI\_REF}}
+{\footnotesize\ttfamily \#define P\+H\+I\+\_\+\+R\+EF(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}(ref\+\_\+box,(\mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}),(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})))}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_aac7b516a856b217e017a69313ad6f341}\label{_mini_flux_div_test_8cpp_aac7b516a856b217e017a69313ad6f341}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!u\_data@{u\_data}}
+\index{u\_data@{u\_data}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{u\_data}{u\_data}}
+{\footnotesize\ttfamily \#define u\+\_\+data(\begin{DoxyParamCaption}\item[{}]{box,  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),2,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_aad2d4706d845d9a61e1eb18d076fb8bd}\label{_mini_flux_div_test_8cpp_aad2d4706d845d9a61e1eb18d076fb8bd}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!v\_data@{v\_data}}
+\index{v\_data@{v\_data}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{v\_data}{v\_data}}
+{\footnotesize\ttfamily \#define v\+\_\+data(\begin{DoxyParamCaption}\item[{}]{box,  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),3,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))}
+
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a210994a8668f7474b66eb162ef8ebb66}\label{_mini_flux_div_test_8cpp_a210994a8668f7474b66eb162ef8ebb66}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!w\_data@{w\_data}}
+\index{w\_data@{w\_data}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{w\_data}{w\_data}}
+{\footnotesize\ttfamily \#define w\+\_\+data(\begin{DoxyParamCaption}\item[{}]{box,  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})~$\ast$(\mbox{\hyperlink{_mini_flux_div_test_8cpp_aaa25324ef44bcf07760f8500a30eb039}{G\+E\+T\+\_\+\+V\+A\+L\+\_\+\+P\+TR}}((box),4,\mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}},\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}},\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}))}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{_mini_flux_div_test_8cpp_a445a5f0e2a34c9d97d69a3c2d1957907}\label{_mini_flux_div_test_8cpp_a445a5f0e2a34c9d97d69a3c2d1957907}} 
+\index{MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}!Real@{Real}}
+\index{Real@{Real}!MiniFluxDivTest.cpp@{MiniFluxDivTest.cpp}}
+\doxysubsubsection{\texorpdfstring{Real}{Real}}
+{\footnotesize\ttfamily typedef double \mbox{\hyperlink{_mini_flux_benchmark-fuse_all_8h_a1ac130d5aace9560fdc7b464e200e066}{Real}}}
+

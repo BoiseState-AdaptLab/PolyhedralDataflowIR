@@ -1,0 +1,68 @@
+.TH "artifact/src/mfd/MiniFluxBenchmark-fuseAll.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+artifact/src/mfd/MiniFluxBenchmark-fuseAll.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'MiniFluxBenchmark\-fuseAll\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGET_VAL_PTR\fP(\fBb\fP,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBGET_FACE_VAL_PTR\fP(d,  \fBb\fP,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMiniFluxDivData\fP * \fBmini_flux_div_init\fP (\fBConfiguration\fP &config)"
+.br
+.ti -1c
+.RI "void \fBmini_flux_div_truth\fP (\fBDType\fP **old_boxes, \fBDType\fP **new_boxes, \fBReal\fP *\fBtimer\fP, \fBConfiguration\fP &config)"
+.br
+.ti -1c
+.RI "void \fBmini_flux_div_lc\fP (\fBReal\fP **old_boxes, \fBReal\fP **new_boxes, \fBReal\fP *\fBtimer\fP, \fBConfiguration\fP &config)"
+.br
+.ti -1c
+.RI "bool \fBmini_flux_div_comp\fP (\fBReal\fP **new_boxes, \fBReal\fP **ref_boxes, \fBConfiguration\fP &config, vector< int > &\fBloc\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GET_FACE_VAL_PTR(d, \fBb\fP, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+        (b)+\
+        (c)*(numCell+((d)==2))*(numCell+((d)==1))*(numCell+((d)==0)) +\
+        (z)*(numCell+((d)==1))*(numCell+((d)==0))+\
+        (y)*(numCell+((d)==0))+(x)
+.fi
+.SS "#define GET_VAL_PTR(\fBb\fP, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+                    (b)+ (c)*full_numCell3 + ((z)+nGhost) * full_numCell2 +\
+                    ((y)+nGhost)*full_numCell+((x)+nGhost)
+.fi
+.SH "Function Documentation"
+.PP 
+.SS "bool mini_flux_div_comp (\fBReal\fP ** new_boxes, \fBReal\fP ** ref_boxes, \fBConfiguration\fP & config, vector< int > & loc)"
+
+.SS "\fBMiniFluxDivData\fP* mini_flux_div_init (\fBConfiguration\fP & config)"
+
+.SS "void mini_flux_div_lc (\fBReal\fP ** old_boxes, \fBReal\fP ** new_boxes, \fBReal\fP * timer, \fBConfiguration\fP & config)"
+
+.SS "void mini_flux_div_truth (\fBDType\fP ** old_boxes, \fBDType\fP ** new_boxes, \fBReal\fP * timer, \fBConfiguration\fP & config)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

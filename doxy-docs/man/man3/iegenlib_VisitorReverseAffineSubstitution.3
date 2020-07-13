@@ -1,0 +1,132 @@
+.TH "iegenlib::VisitorReverseAffineSubstitution" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::VisitorReverseAffineSubstitution
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBVisitor\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBVisitorReverseAffineSubstitution\fP (\fBUFCallMap\fP *imap)"
+.br
+.ti -1c
+.RI "void \fBpreVisitTerm\fP (\fBTerm\fP *t)"
+.br
+.ti -1c
+.RI "void \fBpreVisitUFCallTerm\fP (\fBUFCallTerm\fP *t)"
+.br
+.RI "Affine seta cannot have UFC terms! "
+.ti -1c
+.RI "void \fBpreVisitTupleVarTerm\fP (\fBTupleVarTerm\fP *t)"
+.br
+.ti -1c
+.RI "void \fBpreVisitVarTerm\fP (\fBVarTerm\fP *t)"
+.br
+.ti -1c
+.RI "void \fBpreVisitTupleExpTerm\fP (\fBTupleExpTerm\fP *t)"
+.br
+.ti -1c
+.RI "void \fBpreVisitExp\fP (\fBiegenlib::Exp\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "void \fBpostVisitExp\fP (\fBiegenlib::Exp\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "void \fBpreVisitConjunction\fP (\fBiegenlib::Conjunction\fP *\fBc\fP)"
+.br
+.RI "Initializes an nonAffineConj\&. "
+.ti -1c
+.RI "void \fBpostVisitConjunction\fP (\fBiegenlib::Conjunction\fP *\fBc\fP)"
+.br
+.RI "adds the current nonAffineConj to nonMAffineConj "
+.ti -1c
+.RI "void \fBpostVisitSet\fP (\fBiegenlib::Set\fP *s)"
+.br
+.RI "Add Conjunctions in nonMAffineConj to nonAffineSet\&. "
+.ti -1c
+.RI "void \fBpostVisitRelation\fP (\fBiegenlib::Relation\fP *r)"
+.br
+.RI "Add Conjunctions in nonMAffineConj to nonAffineRelation\&. "
+.ti -1c
+.RI "\fBSet\fP * \fBgetSet\fP ()"
+.br
+.ti -1c
+.RI "\fBRelation\fP * \fBgetRelation\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Vistor Class used in SuperAffineSet Used in traversing a Set/Relation to replace UFCs with symbolic constants We will build up a nonAffineSet (or nonAffineRelation), term by term\&. And if a term is UFCall, we will convert it to symbolic constant, which is pre-computed and stored in the ufcmap 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::VisitorReverseAffineSubstitution::VisitorReverseAffineSubstitution (\fBUFCallMap\fP * imap)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBRelation\fP* iegenlib::VisitorReverseAffineSubstitution::getRelation ()\fC [inline]\fP"
+
+.SS "\fBSet\fP* iegenlib::VisitorReverseAffineSubstitution::getSet ()\fC [inline]\fP"
+
+.SS "void iegenlib::VisitorReverseAffineSubstitution::postVisitConjunction (\fBiegenlib::Conjunction\fP * c)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+adds the current nonAffineConj to nonMAffineConj 
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::postVisitExp (\fBiegenlib::Exp\fP * e)\fC [inline]\fP, \fC [virtual]\fP"
+There cannot be argument to UFCalls in affine set, since there cannot be UFCalls in affine set\&. preVisitUFCallTerm for details 
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::postVisitRelation (\fBiegenlib::Relation\fP * r)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Add Conjunctions in nonMAffineConj to nonAffineRelation\&. 
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::postVisitSet (\fBiegenlib::Set\fP * s)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Add Conjunctions in nonMAffineConj to nonAffineSet\&. 
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::preVisitConjunction (\fBiegenlib::Conjunction\fP * c)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Initializes an nonAffineConj\&. 
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::preVisitExp (\fBiegenlib::Exp\fP * e)\fC [inline]\fP, \fC [virtual]\fP"
+Intialize an nonAffineExp if \fBExp\fP is not a UFCall argument See VisitorsuperAffineSet::preVisitExp for more details 
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::preVisitTerm (\fBTerm\fP * t)\fC [inline]\fP, \fC [virtual]\fP"
+We iterate over terms in \fBExp\fP, if the term is not a \fBVarTerm\fP then we just add it to our non-affine set\&. On the other hand, if a symbolic constants is in our ufcmap, we need to turn it into corresponding UFCalls to make an non-affine set\&. 
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::preVisitTupleExpTerm (\fBTupleExpTerm\fP * t)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::preVisitTupleVarTerm (\fBTupleVarTerm\fP * t)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::preVisitUFCallTerm (\fBUFCallTerm\fP * t)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Affine seta cannot have UFC terms! 
+.PP
+Reimplemented from \fBVisitor\fP\&.
+.SS "void iegenlib::VisitorReverseAffineSubstitution::preVisitVarTerm (\fBVarTerm\fP * t)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBVisitor\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

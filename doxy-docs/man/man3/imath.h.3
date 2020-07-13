@@ -1,0 +1,557 @@
+.TH "lib/isl/imath/imath.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/imath/imath.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <limits\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBmpz\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBUSE_64BIT_WORDS\fP"
+.br
+.ti -1c
+.RI "#define \fBMP_DIGITS\fP(Z)   ((Z)\->digits)"
+.br
+.ti -1c
+.RI "#define \fBMP_ALLOC\fP(Z)   ((Z)\->alloc)"
+.br
+.ti -1c
+.RI "#define \fBMP_USED\fP(Z)   ((Z)\->used)"
+.br
+.ti -1c
+.RI "#define \fBMP_SIGN\fP(Z)   ((Z)\->sign)"
+.br
+.ti -1c
+.RI "#define \fBMP_DIGIT_BIT\fP   (sizeof(\fBmp_digit\fP) * CHAR_BIT)"
+.br
+.ti -1c
+.RI "#define \fBMP_WORD_BIT\fP   (sizeof(\fBmp_word\fP) * CHAR_BIT)"
+.br
+.ti -1c
+.RI "#define \fBMP_SMALL_MIN\fP   LONG_MIN"
+.br
+.ti -1c
+.RI "#define \fBMP_SMALL_MAX\fP   LONG_MAX"
+.br
+.ti -1c
+.RI "#define \fBMP_USMALL_MIN\fP   \fBULONG_MIN\fP"
+.br
+.ti -1c
+.RI "#define \fBMP_USMALL_MAX\fP   ULONG_MAX"
+.br
+.ti -1c
+.RI "#define \fBMP_DIGIT_MAX\fP   (\fBUINT32_MAX\fP * UINT64_C(1))"
+.br
+.ti -1c
+.RI "#define \fBMP_WORD_MAX\fP   (UINT64_MAX)"
+.br
+.ti -1c
+.RI "#define \fBMP_MIN_RADIX\fP   2"
+.br
+.ti -1c
+.RI "#define \fBMP_MAX_RADIX\fP   36"
+.br
+.ti -1c
+.RI "#define \fBMP_MULT_THRESH\fP   22"
+.br
+.ti -1c
+.RI "#define \fBMP_DEFAULT_PREC\fP   8   /* default memory allocation, in digits */"
+.br
+.ti -1c
+.RI "#define \fBmp_int_is_odd\fP(Z)   ((Z)\->digits[0] & 1)"
+.br
+.ti -1c
+.RI "#define \fBmp_int_is_even\fP(Z)   !((Z)\->digits[0] & 1)"
+.br
+.ti -1c
+.RI "#define \fBmp_int_mod_value\fP(\fBA\fP,  \fBV\fP,  \fBR\fP)   \fBmp_int_div_value\fP((\fBA\fP), (\fBV\fP), 0, (\fBR\fP))"
+.br
+.ti -1c
+.RI "#define \fBmp_int_sqrt\fP(\fBa\fP,  \fBc\fP)   \fBmp_int_root\fP(\fBa\fP, 2, \fBc\fP)       /* \fBc\fP = floor(sqrt(\fBa\fP)) */"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef unsigned char \fBmp_sign\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBmp_size\fP"
+.br
+.ti -1c
+.RI "typedef int \fBmp_result\fP"
+.br
+.ti -1c
+.RI "typedef long \fBmp_small\fP"
+.br
+.ti -1c
+.RI "typedef unsigned long \fBmp_usmall\fP"
+.br
+.ti -1c
+.RI "typedef uint32_t \fBmp_digit\fP"
+.br
+.ti -1c
+.RI "typedef uint64_t \fBmp_word\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBmpz\fP \fBmpz_t\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBmpz\fP * \fBmp_int\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_init\fP (\fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBmp_int\fP \fBmp_int_alloc\fP (void)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_init_size\fP (\fBmp_int\fP \fBz\fP, \fBmp_size\fP prec)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_init_copy\fP (\fBmp_int\fP \fBz\fP, \fBmp_int\fP old)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_init_value\fP (\fBmp_int\fP \fBz\fP, \fBmp_small\fP value)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_init_uvalue\fP (\fBmp_int\fP \fBz\fP, \fBmp_usmall\fP uvalue)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_set_value\fP (\fBmp_int\fP \fBz\fP, \fBmp_small\fP value)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_set_uvalue\fP (\fBmp_int\fP \fBz\fP, \fBmp_usmall\fP uvalue)"
+.br
+.ti -1c
+.RI "void \fBmp_int_clear\fP (\fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "void \fBmp_int_free\fP (\fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_copy\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "void \fBmp_int_swap\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "void \fBmp_int_zero\fP (\fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_abs\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_neg\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_add\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_add_value\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP value, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_sub\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_sub_value\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP value, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_mul\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_mul_value\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP value, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_mul_pow2\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP \fBp2\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_sqr\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_div\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP q, \fBmp_int\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_div_value\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP value, \fBmp_int\fP q, \fBmp_small\fP *r)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_div_pow2\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP \fBp2\fP, \fBmp_int\fP q, \fBmp_int\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_mod\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBm\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_expt\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP \fBb\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_expt_value\fP (\fBmp_small\fP \fBa\fP, \fBmp_small\fP \fBb\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_expt_full\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "int \fBmp_int_compare\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP)"
+.br
+.ti -1c
+.RI "int \fBmp_int_compare_unsigned\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP)"
+.br
+.ti -1c
+.RI "int \fBmp_int_compare_zero\fP (\fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "int \fBmp_int_compare_value\fP (\fBmp_int\fP \fBz\fP, \fBmp_small\fP v)"
+.br
+.ti -1c
+.RI "int \fBmp_int_compare_uvalue\fP (\fBmp_int\fP \fBz\fP, \fBmp_usmall\fP uv)"
+.br
+.ti -1c
+.RI "int \fBmp_int_divisible_value\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP v)"
+.br
+.ti -1c
+.RI "int \fBmp_int_is_pow2\fP (\fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_exptmod\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBm\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_exptmod_evalue\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP value, \fBmp_int\fP \fBm\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_exptmod_bvalue\fP (\fBmp_small\fP value, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBm\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_exptmod_known\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBm\fP, \fBmp_int\fP mu, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_redux_const\fP (\fBmp_int\fP \fBm\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_invmod\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBm\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_gcd\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_egcd\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBc\fP, \fBmp_int\fP \fBx\fP, \fBmp_int\fP \fBy\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_lcm\fP (\fBmp_int\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_root\fP (\fBmp_int\fP \fBa\fP, \fBmp_small\fP \fBb\fP, \fBmp_int\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_to_int\fP (\fBmp_int\fP \fBz\fP, \fBmp_small\fP *out)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_to_uint\fP (\fBmp_int\fP \fBz\fP, \fBmp_usmall\fP *out)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_to_string\fP (\fBmp_int\fP \fBz\fP, \fBmp_size\fP radix, char *\fBstr\fP, int limit)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_string_len\fP (\fBmp_int\fP \fBz\fP, \fBmp_size\fP radix)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_read_string\fP (\fBmp_int\fP \fBz\fP, \fBmp_size\fP radix, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_read_cstring\fP (\fBmp_int\fP \fBz\fP, \fBmp_size\fP radix, \fBconst\fP char *\fBstr\fP, char **end)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_count_bits\fP (\fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_to_binary\fP (\fBmp_int\fP \fBz\fP, unsigned char *buf, int limit)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_read_binary\fP (\fBmp_int\fP \fBz\fP, unsigned char *buf, int len)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_binary_len\fP (\fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_to_unsigned\fP (\fBmp_int\fP \fBz\fP, unsigned char *buf, int limit)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_read_unsigned\fP (\fBmp_int\fP \fBz\fP, unsigned char *buf, int len)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_int_unsigned_len\fP (\fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBmp_error_string\fP (\fBmp_result\fP \fBres\fP)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP \fBmp_result\fP \fBMP_OK\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_result\fP \fBMP_FALSE\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_result\fP \fBMP_TRUE\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_result\fP \fBMP_MEMORY\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_result\fP \fBMP_RANGE\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_result\fP \fBMP_UNDEF\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_result\fP \fBMP_TRUNC\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_result\fP \fBMP_BADARG\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_result\fP \fBMP_MINERR\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_sign\fP \fBMP_NEG\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBmp_sign\fP \fBMP_ZPOS\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define MP_ALLOC(Z)   ((Z)\->alloc)"
+
+.SS "#define MP_DEFAULT_PREC   8   /* default memory allocation, in digits */"
+
+.SS "#define MP_DIGIT_BIT   (sizeof(\fBmp_digit\fP) * CHAR_BIT)"
+
+.SS "#define MP_DIGIT_MAX   (\fBUINT32_MAX\fP * UINT64_C(1))"
+
+.SS "#define MP_DIGITS(Z)   ((Z)\->digits)"
+
+.SS "#define mp_int_is_even(Z)   !((Z)\->digits[0] & 1)"
+
+.SS "#define mp_int_is_odd(Z)   ((Z)\->digits[0] & 1)"
+
+.SS "#define mp_int_mod_value(\fBA\fP, \fBV\fP, \fBR\fP)   \fBmp_int_div_value\fP((\fBA\fP), (\fBV\fP), 0, (\fBR\fP))"
+
+.SS "#define mp_int_sqrt(\fBa\fP, \fBc\fP)   \fBmp_int_root\fP(\fBa\fP, 2, \fBc\fP)       /* \fBc\fP = floor(sqrt(\fBa\fP)) */"
+
+.SS "#define MP_MAX_RADIX   36"
+
+.SS "#define MP_MIN_RADIX   2"
+
+.SS "#define MP_MULT_THRESH   22"
+
+.SS "#define MP_SIGN(Z)   ((Z)\->sign)"
+
+.SS "#define MP_SMALL_MAX   LONG_MAX"
+
+.SS "#define MP_SMALL_MIN   LONG_MIN"
+
+.SS "#define MP_USED(Z)   ((Z)\->used)"
+
+.SS "#define MP_USMALL_MAX   ULONG_MAX"
+
+.SS "#define MP_USMALL_MIN   \fBULONG_MIN\fP"
+
+.SS "#define MP_WORD_BIT   (sizeof(\fBmp_word\fP) * CHAR_BIT)"
+
+.SS "#define MP_WORD_MAX   (UINT64_MAX)"
+
+.SS "#define USE_64BIT_WORDS"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef uint32_t \fBmp_digit\fP"
+
+.SS "typedef struct \fBmpz\fP * \fBmp_int\fP"
+
+.SS "typedef int \fBmp_result\fP"
+
+.SS "typedef unsigned char \fBmp_sign\fP"
+
+.SS "typedef unsigned int \fBmp_size\fP"
+
+.SS "typedef long \fBmp_small\fP"
+
+.SS "typedef unsigned long \fBmp_usmall\fP"
+
+.SS "typedef uint64_t \fBmp_word\fP"
+
+.SS "typedef struct \fBmpz\fP \fBmpz_t\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fBconst\fP char* mp_error_string (\fBmp_result\fP res)"
+
+.SS "\fBmp_result\fP mp_int_abs (\fBmp_int\fP a, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_add (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_add_value (\fBmp_int\fP a, \fBmp_small\fP value, \fBmp_int\fP c)"
+
+.SS "\fBmp_int\fP mp_int_alloc (void)"
+
+.SS "\fBmp_result\fP mp_int_binary_len (\fBmp_int\fP z)"
+
+.SS "void mp_int_clear (\fBmp_int\fP z)"
+
+.SS "int mp_int_compare (\fBmp_int\fP a, \fBmp_int\fP b)"
+
+.SS "int mp_int_compare_unsigned (\fBmp_int\fP a, \fBmp_int\fP b)"
+
+.SS "int mp_int_compare_uvalue (\fBmp_int\fP z, \fBmp_usmall\fP uv)"
+
+.SS "int mp_int_compare_value (\fBmp_int\fP z, \fBmp_small\fP v)"
+
+.SS "int mp_int_compare_zero (\fBmp_int\fP z)"
+
+.SS "\fBmp_result\fP mp_int_copy (\fBmp_int\fP a, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_count_bits (\fBmp_int\fP z)"
+
+.SS "\fBmp_result\fP mp_int_div (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP q, \fBmp_int\fP r)"
+
+.SS "\fBmp_result\fP mp_int_div_pow2 (\fBmp_int\fP a, \fBmp_small\fP p2, \fBmp_int\fP q, \fBmp_int\fP r)"
+
+.SS "\fBmp_result\fP mp_int_div_value (\fBmp_int\fP a, \fBmp_small\fP value, \fBmp_int\fP q, \fBmp_small\fP * r)"
+
+.SS "int mp_int_divisible_value (\fBmp_int\fP a, \fBmp_small\fP v)"
+
+.SS "\fBmp_result\fP mp_int_egcd (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP c, \fBmp_int\fP x, \fBmp_int\fP y)"
+
+.SS "\fBmp_result\fP mp_int_expt (\fBmp_int\fP a, \fBmp_small\fP b, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_expt_full (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_expt_value (\fBmp_small\fP a, \fBmp_small\fP b, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_exptmod (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP m, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_exptmod_bvalue (\fBmp_small\fP value, \fBmp_int\fP b, \fBmp_int\fP m, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_exptmod_evalue (\fBmp_int\fP a, \fBmp_small\fP value, \fBmp_int\fP m, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_exptmod_known (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP m, \fBmp_int\fP mu, \fBmp_int\fP c)"
+
+.SS "void mp_int_free (\fBmp_int\fP z)"
+
+.SS "\fBmp_result\fP mp_int_gcd (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_init (\fBmp_int\fP z)"
+
+.SS "\fBmp_result\fP mp_int_init_copy (\fBmp_int\fP z, \fBmp_int\fP old)"
+
+.SS "\fBmp_result\fP mp_int_init_size (\fBmp_int\fP z, \fBmp_size\fP prec)"
+
+.SS "\fBmp_result\fP mp_int_init_uvalue (\fBmp_int\fP z, \fBmp_usmall\fP uvalue)"
+
+.SS "\fBmp_result\fP mp_int_init_value (\fBmp_int\fP z, \fBmp_small\fP value)"
+
+.SS "\fBmp_result\fP mp_int_invmod (\fBmp_int\fP a, \fBmp_int\fP m, \fBmp_int\fP c)"
+
+.SS "int mp_int_is_pow2 (\fBmp_int\fP z)"
+
+.SS "\fBmp_result\fP mp_int_lcm (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_mod (\fBmp_int\fP a, \fBmp_int\fP m, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_mul (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_mul_pow2 (\fBmp_int\fP a, \fBmp_small\fP p2, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_mul_value (\fBmp_int\fP a, \fBmp_small\fP value, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_neg (\fBmp_int\fP a, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_read_binary (\fBmp_int\fP z, unsigned char * buf, int len)"
+
+.SS "\fBmp_result\fP mp_int_read_cstring (\fBmp_int\fP z, \fBmp_size\fP radix, \fBconst\fP char * str, char ** end)"
+
+.SS "\fBmp_result\fP mp_int_read_string (\fBmp_int\fP z, \fBmp_size\fP radix, \fBconst\fP char * str)"
+
+.SS "\fBmp_result\fP mp_int_read_unsigned (\fBmp_int\fP z, unsigned char * buf, int len)"
+
+.SS "\fBmp_result\fP mp_int_redux_const (\fBmp_int\fP m, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_root (\fBmp_int\fP a, \fBmp_small\fP b, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_set_uvalue (\fBmp_int\fP z, \fBmp_usmall\fP uvalue)"
+
+.SS "\fBmp_result\fP mp_int_set_value (\fBmp_int\fP z, \fBmp_small\fP value)"
+
+.SS "\fBmp_result\fP mp_int_sqr (\fBmp_int\fP a, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_string_len (\fBmp_int\fP z, \fBmp_size\fP radix)"
+
+.SS "\fBmp_result\fP mp_int_sub (\fBmp_int\fP a, \fBmp_int\fP b, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_sub_value (\fBmp_int\fP a, \fBmp_small\fP value, \fBmp_int\fP c)"
+
+.SS "void mp_int_swap (\fBmp_int\fP a, \fBmp_int\fP c)"
+
+.SS "\fBmp_result\fP mp_int_to_binary (\fBmp_int\fP z, unsigned char * buf, int limit)"
+
+.SS "\fBmp_result\fP mp_int_to_int (\fBmp_int\fP z, \fBmp_small\fP * out)"
+
+.SS "\fBmp_result\fP mp_int_to_string (\fBmp_int\fP z, \fBmp_size\fP radix, char * str, int limit)"
+
+.SS "\fBmp_result\fP mp_int_to_uint (\fBmp_int\fP z, \fBmp_usmall\fP * out)"
+
+.SS "\fBmp_result\fP mp_int_to_unsigned (\fBmp_int\fP z, unsigned char * buf, int limit)"
+
+.SS "\fBmp_result\fP mp_int_unsigned_len (\fBmp_int\fP z)"
+
+.SS "void mp_int_zero (\fBmp_int\fP z)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBconst\fP \fBmp_result\fP MP_BADARG"
+
+.SS "\fBconst\fP \fBmp_result\fP MP_FALSE"
+
+.SS "\fBconst\fP \fBmp_result\fP MP_MEMORY"
+
+.SS "\fBconst\fP \fBmp_result\fP MP_MINERR"
+
+.SS "\fBconst\fP \fBmp_sign\fP MP_NEG"
+
+.SS "\fBconst\fP \fBmp_result\fP MP_OK"
+
+.SS "\fBconst\fP \fBmp_result\fP MP_RANGE"
+
+.SS "\fBconst\fP \fBmp_result\fP MP_TRUE"
+
+.SS "\fBconst\fP \fBmp_result\fP MP_TRUNC"
+
+.SS "\fBconst\fP \fBmp_result\fP MP_UNDEF"
+
+.SS "\fBconst\fP \fBmp_sign\fP MP_ZPOS"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

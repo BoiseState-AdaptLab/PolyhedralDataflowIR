@@ -1,0 +1,118 @@
+.TH "lib/chill/loop.hh" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/loop.hh \- Core loop transformation functionality\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <omega\&.h>\fP
+.br
+\fC#include <omega/code_gen/include/codegen\&.h>\fP
+.br
+\fC#include <code_gen/CG\&.h>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include 'dep\&.hh'\fP
+.br
+\fC#include 'ir_code\&.hh'\fP
+.br
+\fC#include 'irtools\&.hh'\fP
+.br
+\fC#include <code_gen/CG_stringBuilder\&.h>\fP
+.br
+\fC#include 'stencil\&.hh'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBLoopLevel\fP"
+.br
+.RI "Describes properties of each loop level of a statement\&. "
+.ti -1c
+.RI "struct \fBStatement\fP"
+.br
+.ti -1c
+.RI "struct \fBPragmaInfo\fP"
+.br
+.RI "Info for pragmas during code generation\&. "
+.ti -1c
+.RI "struct \fBOMPPragmaInfo\fP"
+.br
+.RI "Info for omp pragma during code generation\&. "
+.ti -1c
+.RI "class \fBLoop\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBTilingMethodType\fP { \fBStridedTile\fP, \fBCountedTile\fP }"
+.br
+.ti -1c
+.RI "enum \fBLoopLevelType\fP { \fBLoopLevelOriginal\fP, \fBLoopLevelTile\fP, \fBLoopLevelUnknown\fP }"
+.br
+.ti -1c
+.RI "enum \fBBarrierType\fP { \fBBarrier\fP, \fBP2P\fP, \fBDOACROSS\fP }"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Core loop transformation functionality\&. 
+
+'level' (starting from 1) means loop level and it corresponds to 'dim' (starting from 0) in transformed iteration space [c_1,l_1,c_2,l_2,\&.\&.\&.\&., c_n,l_n,c_(n+1)], e\&.g\&., l_2 is loop level 2 in generated code, dim 3 in transformed iteration space, and variable 4 in Omega relation\&. All c's are constant numbers only and they will not show up as actual loops\&.
+.PP
+Formula:
+.PP
+.PP
+.nf
+dim = 2*level - 1
+var = dim + 1
+.fi
+.PP
+ 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBBarrierType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIBarrier \fP\fP
+.TP
+\fB\fIP2P \fP\fP
+.TP
+\fB\fIDOACROSS \fP\fP
+.SS "enum \fBLoopLevelType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fILoopLevelOriginal \fP\fP
+.TP
+\fB\fILoopLevelTile \fP\fP
+.TP
+\fB\fILoopLevelUnknown \fP\fP
+.SS "enum \fBTilingMethodType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIStridedTile \fP\fP
+.TP
+\fB\fICountedTile \fP\fP
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,165 @@
+.TH "lib/chill/omega/omega_lib/include/omega/omega_core/oc_i.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/omega_lib/include/omega/omega_core/oc_i.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <basic/util\&.h>\fP
+.br
+\fC#include <omega/omega_core/oc\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmaxWildcards\fP   18"
+.br
+.ti -1c
+.RI "#define \fBnoProblem\fP   ((Problem *) 0)"
+.br
+.ti -1c
+.RI "#define \fBCHECK_FOR_DUPLICATE_VARIABLE_NAMES\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBomega::checkIfSingleVar\fP (\fBeqn\fP *\fBe\fP, int \fBi\fP)"
+.br
+.ti -1c
+.RI "void \fBomega::negateCoefficients\fP (\fBeqn\fP *\fBeqn\fP, int nV)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "int \fBomega::findingImplicitEqualities\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::firstCheckForRedundantEquations\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::use_ugly_names\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::doItAgain\fP"
+.br
+.ti -1c
+.RI "int \fBomega::newVar\fP = \-1"
+.br
+.ti -1c
+.RI "int \fBomega::conservative\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::nextWildcard\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::trace\fP = 1"
+.br
+.ti -1c
+.RI "int \fBomega::depth\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::packing\fP [\fBmaxVars\fP]"
+.br
+.ti -1c
+.RI "int \fBomega::headerLevel\fP"
+.br
+.ti -1c
+.RI "int \fBomega::inApproximateMode\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::inStridesAllowedMode\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::addingOuterEqualities\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::outerColor\fP = 0"
+.br
+.ti -1c
+.RI "\fBconst\fP int \fBomega::keyMult\fP = 31"
+.br
+.ti -1c
+.RI "\fBconst\fP int \fBomega::hashTableSize\fP =5*maxmaxGEQs"
+.br
+.ti -1c
+.RI "\fBconst\fP int \fBomega::maxKeys\fP = 8*maxmaxGEQs"
+.br
+.ti -1c
+.RI "int \fBomega::hashVersion\fP = 0"
+.br
+.ti -1c
+.RI "\fBeqn\fP \fBomega::hashMaster\fP [hashTableSize]"
+.br
+.ti -1c
+.RI "int \fBomega::fastLookup\fP [maxKeys *2]"
+.br
+.ti -1c
+.RI "int \fBomega::nextKey\fP"
+.br
+.ti -1c
+.RI "int \fBomega::reduceWithSubs\fP = 1"
+.br
+.ti -1c
+.RI "int \fBomega::pleaseNoEqualitiesInSimplifiedProblems\fP = 0"
+.br
+.ti -1c
+.RI "Problem * \fBomega::originalProblem\fP = \fBnoProblem\fP"
+.br
+.ti -1c
+.RI "int \fBomega::omegaInitialized\fP = 0"
+.br
+.ti -1c
+.RI "Problem \fBomega::full_answer\fP"
+.br
+.ti -1c
+.RI "Problem \fBomega::context\fP"
+.br
+.ti -1c
+.RI "Problem \fBomega::redProblem\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define CHECK_FOR_DUPLICATE_VARIABLE_NAMES"
+\fBValue:\fP
+.PP
+.nf
+  {                                                                     \
+    std::vector<std::string> name(nVars);                               \
+    for(int i=1; i<=nVars; i++) {                                       \
+      name[i-1] = variable(i);                                          \
+      assert(!name[i-1]\&.empty());                                       \
+      for(int j=1; j<i; j++)                                            \
+        assert(!(name[i-1] == name[j-1]));                              \
+    }                                                                   \
+  }
+.fi
+.SS "#define maxWildcards   18"
+
+.SS "#define noProblem   ((Problem *) 0)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,247 @@
+.TH "chillAST_DeclRefExpr" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_DeclRefExpr
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_DeclRefExpr\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_DeclRefExpr\fP (\fBconst\fP char *variablename)"
+.br
+.ti -1c
+.RI "\fBchillAST_DeclRefExpr\fP (\fBconst\fP char *vartype, \fBconst\fP char *variablename)"
+.br
+.ti -1c
+.RI "\fBchillAST_DeclRefExpr\fP (\fBconst\fP char *vartype, \fBconst\fP char *variablename, \fBchillAST_node\fP *dec)"
+.br
+.ti -1c
+.RI "\fBchillAST_DeclRefExpr\fP (\fBchillAST_node\fP *d)"
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (\fBchillAST_DeclRefExpr\fP &other)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBchillAST_DeclRefExpr\fP &other)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetDecl\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBgetVarDecl\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_FunctionDecl\fP * \fBgetFunctionDecl\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBclone\fP () override"
+.br
+.ti -1c
+.RI "void \fBgatherArrayRefs\fP (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarRefs\fP (std::vector< \fBchillAST_DeclRefExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL variable declarations "
+.ti -1c
+.RI "void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL scalar variable declarations "
+.ti -1c
+.RI "void \fBgatherArrayVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL array variable declarations "
+.ti -1c
+.RI "void \fBgatherVarUsage\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherDeclRefExprs\fP (vector< \fBchillAST_DeclRefExpr\fP * > &refs) override"
+.br
+.RI "gather both scalar and array references "
+.ti -1c
+.RI "void \fBreplaceVarDecls\fP (\fBchillAST_VarDecl\fP *olddecl, \fBchillAST_VarDecl\fP *newdecl) override"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "\fBconst\fP char * \fBgetUnderlyingType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBgetUnderlyingVarDecl\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBmultibase\fP () override"
+.br
+.RI "Find the base declaration that this node refers to\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBmultibase2\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBdeclarationType\fP"
+.br
+.ti -1c
+.RI "char * \fBdeclarationName\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBdecl\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_DeclRefExpr::chillAST_DeclRefExpr ()"
+
+.SS "chillAST_DeclRefExpr::chillAST_DeclRefExpr (\fBconst\fP char * variablename)\fC [explicit]\fP"
+
+.SS "chillAST_DeclRefExpr::chillAST_DeclRefExpr (\fBconst\fP char * vartype, \fBconst\fP char * variablename)"
+
+.SS "chillAST_DeclRefExpr::chillAST_DeclRefExpr (\fBconst\fP char * vartype, \fBconst\fP char * variablename, \fBchillAST_node\fP * dec)"
+
+.SS "chillAST_DeclRefExpr::chillAST_DeclRefExpr (\fBchillAST_node\fP * d)\fC [explicit]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "class \fBchillAST_node\fP * chillAST_DeclRefExpr::clone ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "class \fBchillAST_node\fP * chillAST_DeclRefExpr::constantFold ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_DeclRefExpr::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_DeclRefExpr::gatherArrayRefs (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > & refs, bool writtento)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_DeclRefExpr::gatherArrayVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL array variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_DeclRefExpr::gatherDeclRefExprs (vector< \fBchillAST_DeclRefExpr\fP * > & refs)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather both scalar and array references 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_DeclRefExpr::gatherScalarRefs (std::vector< \fBchillAST_DeclRefExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_DeclRefExpr::gatherScalarVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL scalar variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_DeclRefExpr::gatherVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_DeclRefExpr::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_DeclRefExpr::gatherVarUsage (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP* chillAST_DeclRefExpr::getDecl ()\fC [inline]\fP"
+
+.SS "\fBchillAST_FunctionDecl\fP* chillAST_DeclRefExpr::getFunctionDecl ()\fC [inline]\fP"
+
+.SS "\fBCHILL_ASTNODE_TYPE\fP chillAST_DeclRefExpr::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBconst\fP char* chillAST_DeclRefExpr::getUnderlyingType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP* chillAST_DeclRefExpr::getUnderlyingVarDecl ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP* chillAST_DeclRefExpr::getVarDecl ()\fC [inline]\fP"
+
+.SS "\fBchillAST_VarDecl\fP * chillAST_DeclRefExpr::multibase ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Find the base declaration that this node refers to\&. This will step through:
+.IP "\(bu" 2
+ArraySubscriptExpression
+.IP "\(bu" 2
+MemberExpression 
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP* chillAST_DeclRefExpr::multibase2 ()\fC [inline]\fP"
+
+.SS "bool chillAST_DeclRefExpr::operator!= (\fBchillAST_DeclRefExpr\fP & other)\fC [inline]\fP"
+
+.SS "bool chillAST_DeclRefExpr::operator== (\fBchillAST_DeclRefExpr\fP & other)\fC [inline]\fP"
+
+.SS "void chillAST_DeclRefExpr::replaceVarDecls (\fBchillAST_VarDecl\fP * olddecl, \fBchillAST_VarDecl\fP * newdecl)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBchillAST_node\fP* chillAST_DeclRefExpr::decl"
+
+.SS "char* chillAST_DeclRefExpr::declarationName"
+
+.SS "char* chillAST_DeclRefExpr::declarationType"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

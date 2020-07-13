@@ -1,0 +1,173 @@
+.TH "lib/chill/omega/omega_lib/src/closure.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/omega_lib/src/closure.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <typeinfo>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <omega\&.h>\fP
+.br
+\fC#include <omega/hull\&.h>\fP
+.br
+\fC#include <basic/Iterator\&.h>\fP
+.br
+\fC#include <basic/List\&.h>\fP
+.br
+\fC#include <basic/SimpleList\&.h>\fP
+.br
+\fC#include '\&.\&./\&.\&./\&.\&./chill_io\&.hh'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBprintConjunctClosure\fP   (closure_presburger_debug & 0x1)"
+.br
+.ti -1c
+.RI "#define \fBdetailedClosureDebug\fP   (closure_presburger_debug & 0x2)"
+.br
+.ti -1c
+.RI "#define \fBget_D_plus_form\fP(\fBR\fP)   (get_D_closure(\fBR\fP,1))"
+.br
+.ti -1c
+.RI "#define \fBget_D_star_form\fP(\fBR\fP)   (get_D_closure(\fBR\fP,0))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBomega::InvestigateClosure\fP (Relation r, Relation r_closure, Relation bounds)"
+.br
+.ti -1c
+.RI "void \fBomega::print_given_bounds\fP (\fBconst\fP Relation &R1, \fBNOT_CONST\fP Relation &input_Bounds)"
+.br
+.ti -1c
+.RI "Relation \fBomega::VennDiagramForm\fP (\fBNOT_CONST\fP Relation &Context_In, Tuple< Relation > &Rs, int next, bool anyPositives, int weight)"
+.br
+.ti -1c
+.RI "Relation \fBomega::VennDiagramForm\fP (Tuple< Relation > &Rs, \fBNOT_CONST\fP Relation &Context_In)"
+.br
+.ti -1c
+.RI "Relation \fBomega::VennDiagramForm\fP (\fBNOT_CONST\fP Relation &R_In, \fBNOT_CONST\fP Relation &Context_In=Relation::Null())"
+.br
+.ti -1c
+.RI "Relation \fBomega::ConicClosure\fP (\fBNOT_CONST\fP Relation &\fBR\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::is_lex_forward\fP (Relation \fBR\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::approx_closure\fP (\fBNOT_CONST\fP Relation &input_r, int \fBn\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::get_D_form\fP (Relation &\fBR\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::form_region\fP (\fBconst\fP Relation &\fBR\fP, \fBconst\fP Relation &IterationSpace)"
+.br
+.ti -1c
+.RI "Relation \fBomega::form_region1\fP (\fBconst\fP Relation &\fBR\fP, \fBconst\fP Relation &IterationSpace)"
+.br
+.ti -1c
+.RI "bool \fBomega::isD_OK\fP (Relation &\fBR\fP, Relation &\fBD\fP, Relation &AxA)"
+.br
+.ti -1c
+.RI "bool \fBomega::is_in_D_form\fP (Relation &\fBD\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::get_D_closure\fP (Relation &\fBD\fP, int \fBn\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::can_get_D_star_form\fP (Relation &\fBD\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::does_intersect_with_identity\fP (Relation &\fBR\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::does_include_identity\fP (Relation &\fBR\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::Bill_closure\fP (Relation &\fBR\fP, Relation &IterationSpace, Relation &R_plus, Relation &R_star)"
+.br
+.ti -1c
+.RI "bool \fBomega::ConjunctTransitiveClosure\fP (\fBNOT_CONST\fP Relation &input_R, Relation &IterationSpace, Relation &R_plus, Relation &R_star)"
+.br
+.ti -1c
+.RI "bool \fBomega::TryConjunctTransitiveClosure\fP (\fBNOT_CONST\fP Relation &input_R, Relation &IterationSpace, Relation &R_plus)"
+.br
+.ti -1c
+.RI "bool \fBomega::Equal\fP (\fBconst\fP Relation &\fBr1\fP, \fBconst\fP Relation &\fBr2\fP)"
+.br
+.ti -1c
+.RI "void \fBomega::appendClausesToList\fP (\fBSimple_List\fP< Relation > &L, Relation &\fBR\fP)"
+.br
+.ti -1c
+.RI "void \fBomega::printRelationList\fP (\fBSimple_List\fP< Relation > &L)"
+.br
+.ti -1c
+.RI "Relation \fBomega::TransitiveClosure0\fP (\fBNOT_CONST\fP Relation &input_r, int maxExpansion, \fBNOT_CONST\fP Relation &input_IterationSpace)"
+.br
+.ti -1c
+.RI "Relation \fBomega::TransitiveClosure\fP (\fBNOT_CONST\fP Relation &r, int maxExpansion=1, \fBNOT_CONST\fP Relation &IterationSpace=Relation::Null())"
+.br
+.ti -1c
+.RI "Relation \fBomega::is_DForm_or_Uniform\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.ti -1c
+.RI "Relation \fBomega::getConjunctionNr\fP (\fBNOT_CONST\fP Relation &r, int conjNr)"
+.br
+.ti -1c
+.RI "Relation \fBomega::getCommonRegion\fP (\fBNOT_CONST\fP Relation &r, \fBconst\fP long *relTab, \fBconst\fP long relCount)"
+.br
+.ti -1c
+.RI "Relation \fBomega::getRelationsSet\fP (\fBNOT_CONST\fP Relation &r, \fBconst\fP long *relTab, \fBconst\fP long relCount)"
+.br
+.ti -1c
+.RI "Relation \fBomega::relationsOnCommonRegion\fP (\fBNOT_CONST\fP Relation &r, \fBNOT_CONST\fP Relation &region)"
+.br
+.ti -1c
+.RI "Relation \fBomega::compose_N\fP (\fBNOT_CONST\fP Relation &input_r)"
+.br
+.ti -1c
+.RI "bool \fBomega::checkExactness\fP (\fBNOT_CONST\fP Relation &r, \fBNOT_CONST\fP Relation &rplus)"
+.br
+.ti -1c
+.RI "Relation \fBomega::ApproxClosure\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.ti -1c
+.RI "Relation \fBomega::ClosureOnUnboundedRegion\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.ti -1c
+.RI "Relation \fBomega::SelectRegionForClosure\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.ti -1c
+.RI "Relation \fBomega::calculateTransitiveClosure\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define detailedClosureDebug   (closure_presburger_debug & 0x2)"
+
+.SS "#define get_D_plus_form(\fBR\fP)   (get_D_closure(\fBR\fP,1))"
+
+.SS "#define get_D_star_form(\fBR\fP)   (get_D_closure(\fBR\fP,0))"
+
+.SS "#define printConjunctClosure   (closure_presburger_debug & 0x1)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,144 @@
+.TH "lib/isl/isl_test_int.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_test_int.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <isl_int\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBARRAY_SIZE\fP(array)   (sizeof(array)/sizeof(*array))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBmain\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   void(* \fBfn\fP )(\fBisl_int\fP)"
+.br
+.ti -1c
+.RI "   char * \fBval\fP"
+.br
+.ti -1c
+.RI "} \fBint_single_value_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   void(* \fBfn\fP )(\fBisl_int\fP, \fBisl_int\fP)"
+.br
+.ti -1c
+.RI "   char * \fBexpected\fP"
+.br
+.ti -1c
+.RI "   char * \fBarg\fP"
+.br
+.ti -1c
+.RI "} \fBint_unary_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   void(* \fBfn\fP )(\fBisl_int\fP, \fBisl_int\fP, \fBisl_int\fP)"
+.br
+.ti -1c
+.RI "   char * \fBexpected\fP"
+.br
+.ti -1c
+.RI "   char * \fBlhs\fP"
+.br
+.ti -1c
+.RI "   char * \fBrhs\fP"
+.br
+.ti -1c
+.RI "} \fBint_binary_tests\fP []"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ARRAY_SIZE(array)   (sizeof(array)/sizeof(*array))"
+
+.SH "Function Documentation"
+.PP 
+.SS "int main ()"
+
+.SH "Variable Documentation"
+.PP 
+.SS "char * arg"
+
+.SS "char* expected"
+
+.SS "void(* fn) (\fBisl_int\fP, \fBisl_int\fP, \fBisl_int\fP)"
+
+.SS "struct { \&.\&.\&. }  int_binary_tests[]"
+
+.SS "struct { \&.\&.\&. }  int_single_value_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { &int_test_hash, "0" },
+    { &int_test_hash, "1" },
+    { &int_test_hash, "-1" },
+    { &int_test_hash, "23" },
+    { &int_test_hash, "-23" },
+    { &int_test_hash, "107" },
+    { &int_test_hash, "32768" },
+    { &int_test_hash, "2147483647" },
+    { &int_test_hash, "-2147483647" },
+    { &int_test_hash, "2147483648" },
+    { &int_test_hash, "-2147483648" },
+}
+.fi
+.SS "struct { \&.\&.\&. }  int_unary_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { &int_test_neg, "0", "0" },
+    { &int_test_neg, "-1", "1" },
+    { &int_test_neg, "-2147483647", "2147483647" },
+    { &int_test_neg, "-2147483648", "2147483648" },
+    { &int_test_neg, "-9223372036854775807", "9223372036854775807" },
+    { &int_test_neg, "-9223372036854775808", "9223372036854775808" },
+
+    { &int_test_abs, "0", "0" },
+    { &int_test_abs, "1", "1" },
+    { &int_test_abs, "1", "-1" },
+    { &int_test_abs, "2147483647", "2147483647" },
+    { &int_test_abs, "2147483648", "-2147483648" },
+    { &int_test_abs, "9223372036854775807", "9223372036854775807" },
+    { &int_test_abs, "9223372036854775808", "-9223372036854775808" },
+}
+.fi
+.SS "char * lhs"
+
+.SS "char * rhs"
+
+.SS "char* val"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

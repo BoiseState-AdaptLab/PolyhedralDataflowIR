@@ -1,0 +1,299 @@
+.TH "iegenlib::UFCallTerm" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::UFCallTerm \- Represents a coefficient multiplied by an uninterpreted function call\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <expression\&.h>\fP
+.PP
+Inherits \fBiegenlib::Term\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBUFCallTerm\fP (int coeff, std::string funcName, unsigned int num_args, int tuple_loc=\-1)"
+.br
+.ti -1c
+.RI "\fBUFCallTerm\fP (std::string funcName, unsigned int num_args, int tuple_loc=\-1)"
+.br
+.RI "Convenience constructor, assumes coeff = 1\&. "
+.ti -1c
+.RI "\fBUFCallTerm\fP (\fBconst\fP \fBUFCallTerm\fP &other)"
+.br
+.RI "Copy constructor\&. "
+.ti -1c
+.RI "\fBUFCallTerm\fP & \fBoperator=\fP (\fBconst\fP \fBUFCallTerm\fP &other)"
+.br
+.RI "Copy assignment\&. "
+.ti -1c
+.RI "void \fBreset\fP ()"
+.br
+.RI "Destructor\&. "
+.ti -1c
+.RI "\fB~UFCallTerm\fP ()"
+.br
+.RI "Destructor\&. "
+.ti -1c
+.RI "bool \fBoperator<\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "Comparison operator -- lexicographic order\&. "
+.ti -1c
+.RI "\fBTerm\fP * \fBclone\fP () \fBconst\fP"
+.br
+.RI "Create a copy of this \fBTerm\fP (and of the same subclass) "
+.ti -1c
+.RI "std::string \fBtoString\fP (bool absValue=false) \fBconst\fP"
+.br
+.RI "Creates a compact string to help with debugging\&. "
+.ti -1c
+.RI "std::string \fBprettyPrintString\fP (\fBconst\fP \fBTupleDecl\fP &aTupleDecl, bool absValue=false) \fBconst\fP"
+.br
+.RI "Creates a compact string, pretty Printed\&. "
+.ti -1c
+.RI "std::string \fBtoDotString\fP (bool absValue=false) \fBconst\fP"
+.br
+.RI "Creates a compact string to help with DOT output\&. "
+.ti -1c
+.RI "std::string \fBtype\fP () \fBconst\fP"
+.br
+.RI "Returns string of subclass type\&. "
+.ti -1c
+.RI "bool \fBisUFCall\fP () \fBconst\fP"
+.br
+.RI "Returns true if the \fBTerm\fP is really a \fBUFCallTerm\fP\&. "
+.ti -1c
+.RI "bool \fBisConst\fP () \fBconst\fP"
+.br
+.RI "Returns true if the \fBTerm\fP is a const\&. "
+.ti -1c
+.RI "unsigned int \fBnumArgs\fP () \fBconst\fP"
+.br
+.RI "Returns the number of arguments for the call\&. "
+.ti -1c
+.RI "void \fBsetParamExp\fP (unsigned int \fBi\fP, \fBExp\fP *param_exp)"
+.br
+.RI "\fBSet\fP the ith parameter expression to the given pointer\&. "
+.ti -1c
+.RI "\fBExp\fP * \fBgetParamExp\fP (unsigned int \fBi\fP) \fBconst\fP"
+.br
+.RI "Returns a pointer to the ith parameter expression\&. "
+.ti -1c
+.RI "bool \fBisIndexed\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBUFCallTerm\fP * \fBnonIndexedClone\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBtupleIndex\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBsetTupleIndex\fP (unsigned int idx)"
+.br
+.RI "Enables the tuple index to be set\&. "
+.ti -1c
+.RI "unsigned int \fBsize\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBname\fP () \fBconst\fP"
+.br
+.RI "Returns the function name as a string\&. "
+.ti -1c
+.RI "void \fBsetName\fP (std::string n)"
+.br
+.RI "Enables the function name to be set\&. "
+.ti -1c
+.RI "\fBExp\fP * \fBcollapseNestedInvertibleFunctions\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBfactorMatches\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "Returns true if this term can be combined with the given term\&. "
+.ti -1c
+.RI "void \fBacceptVisitor\fP (\fBVisitor\fP *v)"
+.br
+.RI "\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+Represents a coefficient multiplied by an uninterpreted function call\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::UFCallTerm::UFCallTerm (int coeff, std::string funcName, unsigned int num_args, int tuple_loc = \fC\-1\fP)"
+Constructor
+.PP
+Memory management: this object assumes ownership of the passed-in \fBExp\fP objects\&. The caller must not destroy them, and should not assume they survive destruction of this \fBUFCallTerm\fP\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIcoeff\fP -- coefficient for the call 
+.br
+\fIfuncName\fP -- function to call 
+.br
+\fInum_args\fP -- number of arguments the function call will have 
+.br
+\fIargs\fP -- arguments for the function call (adopted) 
+.br
+\fItuple_loc\fP -- index value if function returns a tuple and is being indexed, so term is still of type integer\&. If value is -1 assuming not in use\&.
+.RE
+.PP
+If a tuple_loc is not specified and the function returns a tuple, then the \fBUFCallTerm\fP type is a tuple\&. \fBsize()\fP will indicate size of tuple being returned\&. 
+.SS "iegenlib::UFCallTerm::UFCallTerm (std::string funcName, unsigned int num_args, int tuple_loc = \fC\-1\fP)"
+
+.PP
+Convenience constructor, assumes coeff = 1\&. 
+.SS "iegenlib::UFCallTerm::UFCallTerm (\fBconst\fP \fBUFCallTerm\fP & other)"
+
+.PP
+Copy constructor\&. 
+.SS "iegenlib::UFCallTerm::~UFCallTerm ()"
+
+.PP
+Destructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void iegenlib::UFCallTerm::acceptVisitor (\fBVisitor\fP * v)\fC [virtual]\fP"
+
+.PP
+\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBTerm\fP * iegenlib::UFCallTerm::clone () const\fC [virtual]\fP"
+
+.PP
+Create a copy of this \fBTerm\fP (and of the same subclass) 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBExp\fP * iegenlib::UFCallTerm::collapseNestedInvertibleFunctions () const\fC [virtual]\fP"
+Return a new \fBExp\fP with all nested functions such as f ( f_inv ( i ) ) changed to i\&.
+.PP
+Return a new \fBExp\fP with all nested functions such as f ( f_inv ( i ) ) changed to i\&. g(g_inv(x)[0], g_inv(x)[1]) changed to x Both outside functions need to NOT return a tuple, so mTupleIndex should be -1 in the \fBUFCallTerm\fP in the returned expression\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "bool iegenlib::UFCallTerm::factorMatches (\fBconst\fP \fBTerm\fP & other) const\fC [virtual]\fP"
+
+.PP
+Returns true if this term can be combined with the given term\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBExp\fP * iegenlib::UFCallTerm::getParamExp (unsigned int i) const"
+
+.PP
+Returns a pointer to the ith parameter expression\&. Returns a pointer to the ith parameter expression\&. This \fBUFCallTerm\fP still owns the pointer\&. 
+.SS "bool iegenlib::UFCallTerm::isConst () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the \fBTerm\fP is a const\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "bool iegenlib::UFCallTerm::isIndexed () const"
+Indicate if the function return value is being indexed\&. 
+.SS "bool iegenlib::UFCallTerm::isUFCall () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the \fBTerm\fP is really a \fBUFCallTerm\fP\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "std::string iegenlib::UFCallTerm::name () const\fC [inline]\fP"
+
+.PP
+Returns the function name as a string\&. 
+.SS "\fBUFCallTerm\fP * iegenlib::UFCallTerm::nonIndexedClone () const"
+Returns a \fBUFCallTerm\fP that is identical except it is not indexed\&. 
+.SS "unsigned int iegenlib::UFCallTerm::numArgs () const"
+
+.PP
+Returns the number of arguments for the call\&. 
+.SS "bool iegenlib::UFCallTerm::operator< (\fBconst\fP \fBTerm\fP & other) const\fC [virtual]\fP"
+
+.PP
+Comparison operator -- lexicographic order\&. Compare two terms in a canonical order, defined as follows:
+.IP "1." 4
+by term type: TupleVar, SymConst, UFCall, ConstVal
+.IP "2." 4
+within each type, in alphabetical or numeric order\&. 
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBUFCallTerm\fP & iegenlib::UFCallTerm::operator= (\fBconst\fP \fBUFCallTerm\fP & other)"
+
+.PP
+Copy assignment\&. 
+.SS "std::string iegenlib::UFCallTerm::prettyPrintString (\fBconst\fP \fBTupleDecl\fP & aTupleDecl, bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Creates a compact string, pretty Printed\&. Replaces any tuple var instances with given tuple var decl\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIaTupleDecl\fP name or constant for each tuple var 
+.br
+\fIabsValue\fP Will use absolute value of coeff if true\&. 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "void iegenlib::UFCallTerm::reset ()"
+
+.PP
+Destructor\&. 
+.SS "void iegenlib::UFCallTerm::setName (std::string n)\fC [inline]\fP"
+
+.PP
+Enables the function name to be set\&. 
+.SS "void iegenlib::UFCallTerm::setParamExp (unsigned int i, \fBExp\fP * param_exp)"
+
+.PP
+\fBSet\fP the ith parameter expression to the given pointer\&. \fBSet\fP the ith parameter expression to the given pointer\&. This \fBUFCallTerm\fP becomes owner of the expression\&. 
+.SS "void iegenlib::UFCallTerm::setTupleIndex (unsigned int idx)"
+
+.PP
+Enables the tuple index to be set\&. 
+.SS "unsigned int iegenlib::UFCallTerm::size () const"
+
+.SS "std::string iegenlib::UFCallTerm::toDotString (bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Creates a compact string to help with DOT output\&. Creates a brief compact string to help with DOT output\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIabsValue\fP Will use absolute value of coeff if true\&. 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "std::string iegenlib::UFCallTerm::toString (bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Creates a compact string to help with debugging\&. Creates a compact string to help with debugging\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIabsValue\fP Will use absolute value of coeff if true\&. 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "int iegenlib::UFCallTerm::tupleIndex () const"
+Returns the index in a tuple that the return value is\&. For functions that return tuples of size 1, this is always 0\&. If the function return is not being indexed this will also be zero\&. Use in coordination with \fBisIndexed()\fP\&.
+.PP
+Returns the location in a tuple that the return value is\&. For functions that return tuples of size 1, this is always 0\&. 
+.SS "std::string iegenlib::UFCallTerm::type () const\fC [virtual]\fP"
+
+.PP
+Returns string of subclass type\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

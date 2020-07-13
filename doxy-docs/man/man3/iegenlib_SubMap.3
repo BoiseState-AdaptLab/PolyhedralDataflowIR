@@ -1,0 +1,82 @@
+.TH "iegenlib::SubMap" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::SubMap
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <SubMap\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSubMap\fP ()"
+.br
+.ti -1c
+.RI "\fB~SubMap\fP ()"
+.br
+.RI "Delete all of the terms and expressions we are storing\&. "
+.ti -1c
+.RI "void \fBinsertPair\fP (\fBTerm\fP *\fBfactor\fP, \fBExp\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "void \fBstartIter\fP ()"
+.br
+.RI "Starts iteration over the substitution map\&. "
+.ti -1c
+.RI "bool \fBhasNext\fP () \fBconst\fP"
+.br
+.RI "Indicates whether the map has another pairing\&. "
+.ti -1c
+.RI "\fBTerm\fP * \fBnext\fP ()"
+.br
+.RI "Returns the next term\&. "
+.ti -1c
+.RI "\fBExp\fP * \fBsubExp\fP (\fBTerm\fP *\fBfactor\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBtoString\fP () \fBconst\fP"
+.br
+.RI "Returns a string representation of the class instance for debugging\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+This class contains a mapping of factors (Terms) to expressions that should replace those factors\&. Needed so that the appropriate cleanup of these terms and expressions occur\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::SubMap::SubMap ()"
+
+.SS "iegenlib::SubMap::~SubMap ()"
+
+.PP
+Delete all of the terms and expressions we are storing\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "bool iegenlib::SubMap::hasNext () const"
+
+.PP
+Indicates whether the map has another pairing\&. 
+.SS "void iegenlib::SubMap::insertPair (\fBTerm\fP * factor, \fBExp\fP * e)"
+Use this to insert a term, expression pairing into the \fBSubMap\fP\&. \fBSubMap\fP takes ownership of term and expression\&. \fBTerm\fP has to be a pointer because need polymorphism\&. Changes term to have a coefficient of 1\&.
+.PP
+Use this to insert a term, expression pairing into the \fBSubMap\fP\&. \fBSubMap\fP takes ownership of expression\&. 
+.SS "\fBTerm\fP * iegenlib::SubMap::next ()"
+
+.PP
+Returns the next term\&. 
+.SS "void iegenlib::SubMap::startIter ()"
+
+.PP
+Starts iteration over the substitution map\&. 
+.SS "\fBExp\fP * iegenlib::SubMap::subExp (\fBTerm\fP * factor) const"
+Returns the expression associated with the given \fBTerm\fP\&. Ignores the Terms coefficient and just checks if factor matches something in the \fBSubMap\fP\&. \fBSubMap\fP still owns expression\&. If substitution map doesn't know about the factor sent in then NULL is returned\&. 
+.SS "std::string iegenlib::SubMap::toString () const"
+
+.PP
+Returns a string representation of the class instance for debugging\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,140 @@
+.TH "omega::DNF" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::DNF \- Disjunctive Normal Form -- list of Conjuncts\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <pres_dnf\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBprint\fP (FILE *out_file)"
+.br
+.ti -1c
+.RI "void \fBprefix_print\fP (FILE *out_file, int debug=1, bool parent_names_setup=false)"
+.br
+.ti -1c
+.RI "bool \fBis_definitely_false\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_definitely_true\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBlength\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBConjunct\fP * \fBsingle_conjunct\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBhas_single_conjunct\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBConjunct\fP * \fBrm_first_conjunct\fP ()"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "int \fBquery_guaranteed_leading_0s\fP (int what_to_return_for_empty_dnf)"
+.br
+.ti -1c
+.RI "int \fBquery_possible_leading_0s\fP (int what_to_return_for_empty_dnf)"
+.br
+.ti -1c
+.RI "int \fBquery_leading_dir\fP ()"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBF_And\fP"
+.br
+.ti -1c
+.RI "class \fBF_Or\fP"
+.br
+.ti -1c
+.RI "class \fBConjunct\fP"
+.br
+.ti -1c
+.RI "class \fBRel_Body\fP"
+.br
+.ti -1c
+.RI "class \fBDNF_Iterator\fP"
+.br
+.ti -1c
+.RI "\fBDNF\fP * \fBnegate_conj\fP (\fBConjunct\fP *)"
+.br
+.ti -1c
+.RI "void \fBremap_DNF_vars\fP (\fBRel_Body\fP *new_rel, \fBRel_Body\fP *old_rel)"
+.br
+.ti -1c
+.RI "\fBDNF\fP * \fBDNF_and_DNF\fP (\fBDNF\fP *, \fBDNF\fP *)"
+.br
+.ti -1c
+.RI "\fBDNF\fP * \fBDNF_and_conj\fP (\fBDNF\fP *, \fBConjunct\fP *)"
+.br
+.ti -1c
+.RI "\fBDNF\fP * \fBconj_and_not_dnf\fP (\fBConjunct\fP *pos_conj, \fBDNF\fP *neg_conjs, bool weak)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Disjunctive Normal Form -- list of Conjuncts\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void omega::DNF::clear ()"
+
+.SS "bool omega::DNF::has_single_conjunct () const"
+
+.SS "bool omega::DNF::is_definitely_false () const"
+
+.SS "bool omega::DNF::is_definitely_true () const"
+
+.SS "int omega::DNF::length () const"
+
+.SS "void omega::DNF::prefix_print (FILE * out_file, int debug = \fC1\fP, bool parent_names_setup = \fCfalse\fP)"
+
+.SS "void omega::DNF::print (FILE * out_file)"
+
+.SS "int omega::DNF::query_guaranteed_leading_0s (int what_to_return_for_empty_dnf)"
+
+.SS "int omega::DNF::query_leading_dir ()"
+
+.SS "int omega::DNF::query_possible_leading_0s (int what_to_return_for_empty_dnf)"
+
+.SS "\fBConjunct\fP * omega::DNF::rm_first_conjunct ()"
+
+.SS "\fBConjunct\fP * omega::DNF::single_conjunct () const"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "\fBDNF\fP* conj_and_not_dnf (\fBConjunct\fP * pos_conj, \fBDNF\fP * neg_conjs, bool weak = \fCfalse\fP)\fC [friend]\fP"
+
+.SS "friend class \fBConjunct\fP\fC [friend]\fP"
+
+.SS "\fBDNF\fP* DNF_and_conj (\fBDNF\fP * dnf, \fBConjunct\fP * conj)\fC [friend]\fP"
+
+.SS "\fBDNF\fP* DNF_and_DNF (\fBDNF\fP * dnf1, \fBDNF\fP * dnf2)\fC [friend]\fP"
+
+.SS "friend class \fBDNF_Iterator\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_And\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Or\fP\fC [friend]\fP"
+
+.SS "\fBDNF\fP* negate_conj (\fBConjunct\fP * conj)\fC [friend]\fP"
+
+.SS "friend class \fBRel_Body\fP\fC [friend]\fP"
+
+.SS "void remap_DNF_vars (\fBRel_Body\fP * new_rel, \fBRel_Body\fP * old_rel)\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

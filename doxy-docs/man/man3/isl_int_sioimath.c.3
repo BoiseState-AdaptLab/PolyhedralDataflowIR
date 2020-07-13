@@ -1,0 +1,359 @@
+.TH "lib/isl/isl_int_sioimath.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_int_sioimath.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <isl_int\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBisl_sioimath_decode\fP (\fBisl_sioimath\fP \fBval\fP, int32_t *small, \fBmp_int\fP *big)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_decode_big\fP (\fBisl_sioimath\fP \fBval\fP, \fBmp_int\fP *big)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_decode_small\fP (\fBisl_sioimath\fP \fBval\fP, int32_t *small)"
+.br
+.ti -1c
+.RI "\fBisl_sioimath\fP \fBisl_sioimath_encode_small\fP (int32_t \fBval\fP)"
+.br
+.ti -1c
+.RI "\fBisl_sioimath\fP \fBisl_sioimath_encode_big\fP (\fBmp_int\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_is_small\fP (\fBisl_sioimath\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_is_big\fP (\fBisl_sioimath\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "int32_t \fBisl_sioimath_get_small\fP (\fBisl_sioimath\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "\fBmp_int\fP \fBisl_sioimath_get_big\fP (\fBisl_sioimath\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_siomath_uint32_to_digits\fP (uint32_t \fBnum\fP, \fBmp_digit\fP *digits, \fBmp_size\fP *used)"
+.br
+.ti -1c
+.RI "void \fBisl_siomath_ulong_to_digits\fP (unsigned long \fBnum\fP, \fBmp_digit\fP *digits, \fBmp_size\fP *used)"
+.br
+.ti -1c
+.RI "void \fBisl_siomath_uint64_to_digits\fP (uint64_t \fBnum\fP, \fBmp_digit\fP *digits, \fBmp_size\fP *used)"
+.br
+.ti -1c
+.RI "\fBmp_int\fP \fBisl_sioimath_bigarg_src\fP (\fBisl_sioimath\fP \fBarg\fP, \fBisl_sioimath_scratchspace_t\fP *scratch)"
+.br
+.ti -1c
+.RI "\fBmp_int\fP \fBisl_sioimath_siarg_src\fP (signed long \fBarg\fP, \fBisl_sioimath_scratchspace_t\fP *scratch)"
+.br
+.ti -1c
+.RI "\fBmp_int\fP \fBisl_sioimath_si64arg_src\fP (int64_t \fBarg\fP, \fBisl_sioimath_scratchspace_t\fP *scratch)"
+.br
+.ti -1c
+.RI "\fBmp_int\fP \fBisl_sioimath_uiarg_src\fP (unsigned long \fBarg\fP, \fBisl_sioimath_scratchspace_t\fP *scratch)"
+.br
+.ti -1c
+.RI "\fBmp_int\fP \fBisl_sioimath_reinit_big\fP (\fBisl_sioimath_ptr\fP ptr)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_set_small\fP (\fBisl_sioimath_ptr\fP ptr, int32_t \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_set_int32\fP (\fBisl_sioimath_ptr\fP ptr, int32_t \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_set_int64\fP (\fBisl_sioimath_ptr\fP ptr, int64_t \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_promote\fP (\fBisl_sioimath_ptr\fP dst)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_try_demote\fP (\fBisl_sioimath_ptr\fP dst)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_init\fP (\fBisl_sioimath_ptr\fP dst)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_clear\fP (\fBisl_sioimath_ptr\fP dst)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_set\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_set_si\fP (\fBisl_sioimath_ptr\fP dst, long \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_set_ui\fP (\fBisl_sioimath_ptr\fP dst, unsigned long \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_fits_slong\fP (\fBisl_sioimath_src\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "long \fBisl_sioimath_get_si\fP (\fBisl_sioimath_src\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_fits_ulong\fP (\fBisl_sioimath_src\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "unsigned long \fBisl_sioimath_get_ui\fP (\fBisl_sioimath_src\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "double \fBisl_sioimath_get_d\fP (\fBisl_sioimath_src\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "char * \fBisl_sioimath_get_str\fP (\fBisl_sioimath_src\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_abs\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBarg\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_neg\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBarg\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_swap\fP (\fBisl_sioimath_ptr\fP \fBlhs\fP, \fBisl_sioimath_ptr\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_add_ui\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP \fBlhs\fP, unsigned long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_sub_ui\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP \fBlhs\fP, unsigned long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_add\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_sub\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_mul\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_mul_2exp\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP \fBlhs\fP, unsigned long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_mul_si\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP \fBlhs\fP, signed long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_mul_ui\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP \fBlhs\fP, unsigned long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_pow_ui\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, unsigned long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_addmul\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_addmul_ui\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, unsigned long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_submul\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_submul_ui\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, unsigned long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_gcd\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_lcm\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_tdiv_q\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_tdiv_q_ui\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, unsigned long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_cdiv_q\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_fdiv_q\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_fdiv_q_ui\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, unsigned long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_fdiv_r\fP (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_read\fP (\fBisl_sioimath_ptr\fP dst, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_sgn\fP (\fBisl_sioimath_src\fP \fBarg\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_cmp\fP (\fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_cmp_si\fP (\fBisl_sioimath_src\fP \fBlhs\fP, signed long \fBrhs\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_abs_cmp\fP (\fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_sioimath_is_divisible_by\fP (\fBisl_sioimath_src\fP \fBlhs\fP, \fBisl_sioimath_src\fP \fBrhs\fP)"
+.br
+.ti -1c
+.RI "uint32_t \fBisl_sioimath_hash\fP (\fBisl_sioimath_src\fP \fBarg\fP, uint32_t hash)"
+.br
+.ti -1c
+.RI "size_t \fBisl_sioimath_sizeinbase\fP (\fBisl_sioimath_src\fP \fBarg\fP, int base)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_print\fP (FILE *out, \fBisl_sioimath_src\fP \fBi\fP, int width)"
+.br
+.ti -1c
+.RI "void \fBisl_sioimath_dump\fP (\fBisl_sioimath_src\fP \fBarg\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "void isl_sioimath_abs (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP arg)\fC [inline]\fP"
+
+.SS "int isl_sioimath_abs_cmp (\fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_add (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_add_ui (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP lhs, unsigned long rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_addmul (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_addmul_ui (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, unsigned long rhs)\fC [inline]\fP"
+
+.SS "\fBmp_int\fP isl_sioimath_bigarg_src (\fBisl_sioimath\fP arg, \fBisl_sioimath_scratchspace_t\fP * scratch)\fC [inline]\fP"
+
+.SS "void isl_sioimath_cdiv_q (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_clear (\fBisl_sioimath_ptr\fP dst)\fC [inline]\fP"
+
+.SS "int isl_sioimath_cmp (\fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "int isl_sioimath_cmp_si (\fBisl_sioimath_src\fP lhs, signed long rhs)\fC [inline]\fP"
+
+.SS "int isl_sioimath_decode (\fBisl_sioimath\fP val, int32_t * small, \fBmp_int\fP * big)"
+
+.SS "int isl_sioimath_decode_big (\fBisl_sioimath\fP val, \fBmp_int\fP * big)\fC [inline]\fP"
+
+.SS "int isl_sioimath_decode_small (\fBisl_sioimath\fP val, int32_t * small)\fC [inline]\fP"
+
+.SS "void isl_sioimath_dump (\fBisl_sioimath_src\fP arg)"
+
+.SS "\fBisl_sioimath\fP isl_sioimath_encode_big (\fBmp_int\fP val)\fC [inline]\fP"
+
+.SS "\fBisl_sioimath\fP isl_sioimath_encode_small (int32_t val)\fC [inline]\fP"
+
+.SS "void isl_sioimath_fdiv_q (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_fdiv_q_ui (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, unsigned long rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_fdiv_r (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "int isl_sioimath_fits_slong (\fBisl_sioimath_src\fP val)\fC [inline]\fP"
+
+.SS "int isl_sioimath_fits_ulong (\fBisl_sioimath_src\fP val)\fC [inline]\fP"
+
+.SS "void isl_sioimath_gcd (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)"
+
+.SS "\fBmp_int\fP isl_sioimath_get_big (\fBisl_sioimath\fP val)\fC [inline]\fP"
+
+.SS "double isl_sioimath_get_d (\fBisl_sioimath_src\fP val)\fC [inline]\fP"
+
+.SS "long isl_sioimath_get_si (\fBisl_sioimath_src\fP val)\fC [inline]\fP"
+
+.SS "int32_t isl_sioimath_get_small (\fBisl_sioimath\fP val)\fC [inline]\fP"
+
+.SS "char* isl_sioimath_get_str (\fBisl_sioimath_src\fP val)\fC [inline]\fP"
+
+.SS "unsigned long isl_sioimath_get_ui (\fBisl_sioimath_src\fP val)\fC [inline]\fP"
+
+.SS "uint32_t isl_sioimath_hash (\fBisl_sioimath_src\fP arg, uint32_t hash)\fC [inline]\fP"
+
+.SS "void isl_sioimath_init (\fBisl_sioimath_ptr\fP dst)\fC [inline]\fP"
+
+.SS "int isl_sioimath_is_big (\fBisl_sioimath\fP val)\fC [inline]\fP"
+
+.SS "int isl_sioimath_is_divisible_by (\fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "int isl_sioimath_is_small (\fBisl_sioimath\fP val)\fC [inline]\fP"
+
+.SS "void isl_sioimath_lcm (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)"
+
+.SS "void isl_sioimath_mul (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_mul_2exp (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP lhs, unsigned long rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_mul_si (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP lhs, signed long rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_mul_ui (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP lhs, unsigned long rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_neg (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP arg)\fC [inline]\fP"
+
+.SS "void isl_sioimath_pow_ui (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, unsigned long rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_print (FILE * out, \fBisl_sioimath_src\fP i, int width)"
+
+.SS "void isl_sioimath_promote (\fBisl_sioimath_ptr\fP dst)\fC [inline]\fP"
+
+.SS "void isl_sioimath_read (\fBisl_sioimath_ptr\fP dst, \fBconst\fP char * str)"
+
+.SS "\fBmp_int\fP isl_sioimath_reinit_big (\fBisl_sioimath_ptr\fP ptr)\fC [inline]\fP"
+
+.SS "void isl_sioimath_set (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP val)\fC [inline]\fP"
+
+.SS "void isl_sioimath_set_int32 (\fBisl_sioimath_ptr\fP ptr, int32_t val)\fC [inline]\fP"
+
+.SS "void isl_sioimath_set_int64 (\fBisl_sioimath_ptr\fP ptr, int64_t val)\fC [inline]\fP"
+
+.SS "void isl_sioimath_set_si (\fBisl_sioimath_ptr\fP dst, long val)\fC [inline]\fP"
+
+.SS "void isl_sioimath_set_small (\fBisl_sioimath_ptr\fP ptr, int32_t val)\fC [inline]\fP"
+
+.SS "void isl_sioimath_set_ui (\fBisl_sioimath_ptr\fP dst, unsigned long val)\fC [inline]\fP"
+
+.SS "int isl_sioimath_sgn (\fBisl_sioimath_src\fP arg)\fC [inline]\fP"
+
+.SS "\fBmp_int\fP isl_sioimath_si64arg_src (int64_t arg, \fBisl_sioimath_scratchspace_t\fP * scratch)\fC [inline]\fP"
+
+.SS "\fBmp_int\fP isl_sioimath_siarg_src (signed long arg, \fBisl_sioimath_scratchspace_t\fP * scratch)\fC [inline]\fP"
+
+.SS "size_t isl_sioimath_sizeinbase (\fBisl_sioimath_src\fP arg, int base)\fC [inline]\fP"
+
+.SS "void isl_sioimath_sub (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_sub_ui (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath\fP lhs, unsigned long rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_submul (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_submul_ui (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, unsigned long rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_swap (\fBisl_sioimath_ptr\fP lhs, \fBisl_sioimath_ptr\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_tdiv_q (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, \fBisl_sioimath_src\fP rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_tdiv_q_ui (\fBisl_sioimath_ptr\fP dst, \fBisl_sioimath_src\fP lhs, unsigned long rhs)\fC [inline]\fP"
+
+.SS "void isl_sioimath_try_demote (\fBisl_sioimath_ptr\fP dst)\fC [inline]\fP"
+
+.SS "\fBmp_int\fP isl_sioimath_uiarg_src (unsigned long arg, \fBisl_sioimath_scratchspace_t\fP * scratch)\fC [inline]\fP"
+
+.SS "void isl_siomath_uint32_to_digits (uint32_t num, \fBmp_digit\fP * digits, \fBmp_size\fP * used)\fC [inline]\fP"
+
+.SS "void isl_siomath_uint64_to_digits (uint64_t num, \fBmp_digit\fP * digits, \fBmp_size\fP * used)\fC [inline]\fP"
+
+.SS "void isl_siomath_ulong_to_digits (unsigned long num, \fBmp_digit\fP * digits, \fBmp_size\fP * used)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

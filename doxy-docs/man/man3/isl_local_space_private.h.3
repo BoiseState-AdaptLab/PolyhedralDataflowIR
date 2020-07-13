@@ -1,0 +1,141 @@
+.TH "lib/isl/isl_local_space_private.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_local_space_private.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/mat\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl/local_space\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_local_space\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_alloc\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, unsigned n_div)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_alloc_div\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, \fB__isl_take\fP \fBisl_mat\fP *div)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_swap_div\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, int \fBa\fP, int \fBb\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_add_div\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, \fB__isl_take\fP \fBisl_vec\fP *div)"
+.br
+.ti -1c
+.RI "int \fBisl_mat_cmp_div\fP (\fB__isl_keep\fP \fBisl_mat\fP *div, int \fBi\fP, int \fBj\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_merge_divs\fP (\fB__isl_keep\fP \fBisl_mat\fP *div1, \fB__isl_keep\fP \fBisl_mat\fP *div2, int *exp1, int *exp2)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_local_space_offset\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_replace_divs\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, \fB__isl_take\fP \fBisl_mat\fP *div)"
+.br
+.ti -1c
+.RI "int \fBisl_local_space_div_is_known\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, int div)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_local_space_divs_known\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_substitute_equalities\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, \fB__isl_take\fP \fBisl_basic_set\fP *\fBeq\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_local_space_is_named_or_nested\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_reset_space\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, \fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_realign\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, \fB__isl_take\fP \fBisl_reordering\fP *r)"
+.br
+.ti -1c
+.RI "int \fBisl_local_space_is_div_constraint\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, \fBisl_int\fP *constraint, unsigned div)"
+.br
+.ti -1c
+.RI "int * \fBisl_local_space_get_active\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, \fBisl_int\fP *l)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_substitute_seq\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBisl_int\fP *subs, int subs_len, int first, int \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_substitute\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_keep\fP \fBisl_aff\fP *subs)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_lift\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_preimage_multi_aff\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_move_dims\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_local_space_cmp\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls1, \fB__isl_keep\fP \fBisl_local_space\fP *ls2)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_add_div (\fB__isl_take\fP \fBisl_local_space\fP * ls, \fB__isl_take\fP \fBisl_vec\fP * div)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_alloc (\fB__isl_take\fP \fBisl_space\fP * dim, unsigned n_div)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_alloc_div (\fB__isl_take\fP \fBisl_space\fP * dim, \fB__isl_take\fP \fBisl_mat\fP * div)"
+
+.SS "int isl_local_space_cmp (\fB__isl_keep\fP \fBisl_local_space\fP * ls1, \fB__isl_keep\fP \fBisl_local_space\fP * ls2)"
+
+.SS "int isl_local_space_div_is_known (\fB__isl_keep\fP \fBisl_local_space\fP * ls, int div)"
+
+.SS "\fBisl_bool\fP isl_local_space_divs_known (\fB__isl_keep\fP \fBisl_local_space\fP * ls)"
+
+.SS "int* isl_local_space_get_active (\fB__isl_keep\fP \fBisl_local_space\fP * ls, \fBisl_int\fP * l)"
+
+.SS "int isl_local_space_is_div_constraint (\fB__isl_keep\fP \fBisl_local_space\fP * ls, \fBisl_int\fP * constraint, unsigned div)"
+
+.SS "int isl_local_space_is_named_or_nested (\fB__isl_keep\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_lift (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_move_dims (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned n)"
+
+.SS "unsigned isl_local_space_offset (\fB__isl_keep\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_preimage_multi_aff (\fB__isl_take\fP \fBisl_local_space\fP * ls, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_realign (\fB__isl_take\fP \fBisl_local_space\fP * ls, \fB__isl_take\fP \fBisl_reordering\fP * r)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_replace_divs (\fB__isl_take\fP \fBisl_local_space\fP * ls, \fB__isl_take\fP \fBisl_mat\fP * div)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_reset_space (\fB__isl_take\fP \fBisl_local_space\fP * ls, \fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_substitute (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_keep\fP \fBisl_aff\fP * subs)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_substitute_equalities (\fB__isl_take\fP \fBisl_local_space\fP * ls, \fB__isl_take\fP \fBisl_basic_set\fP * eq)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_substitute_seq (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos, \fBisl_int\fP * subs, int subs_len, int first, int n)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_swap_div (\fB__isl_take\fP \fBisl_local_space\fP * ls, int a, int b)"
+
+.SS "int isl_mat_cmp_div (\fB__isl_keep\fP \fBisl_mat\fP * div, int i, int j)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_merge_divs (\fB__isl_keep\fP \fBisl_mat\fP * div1, \fB__isl_keep\fP \fBisl_mat\fP * div2, int * exp1, int * exp2)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

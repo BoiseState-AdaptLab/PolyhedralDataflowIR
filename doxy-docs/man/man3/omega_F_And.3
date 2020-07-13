@@ -1,0 +1,104 @@
+.TH "omega::F_And" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::F_And \- Represents the logical conjunction of its children nodes\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <pres_logic\&.h>\fP
+.PP
+Inherits \fBomega::Formula\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBNode_Type\fP \fBnode_type\fP ()"
+.br
+.ti -1c
+.RI "\fBGEQ_Handle\fP \fBadd_GEQ\fP (int preserves_level=0)"
+.br
+.ti -1c
+.RI "\fBEQ_Handle\fP \fBadd_EQ\fP (int preserves_level=0)"
+.br
+.ti -1c
+.RI "\fBStride_Handle\fP \fBadd_stride\fP (int step, int preserves_level=0)"
+.br
+.ti -1c
+.RI "\fBEQ_Handle\fP \fBadd_EQ\fP (\fBconst\fP \fBConstraint_Handle\fP &\fBc\fP, int preserves_level=0)"
+.br
+.ti -1c
+.RI "\fBGEQ_Handle\fP \fBadd_GEQ\fP (\fBconst\fP \fBConstraint_Handle\fP &\fBc\fP, int preserves_level=0)"
+.br
+.ti -1c
+.RI "\fBF_And\fP * \fBand_with\fP ()"
+.br
+.ti -1c
+.RI "void \fBadd_unknown\fP ()"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBFormula\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+Represents the logical conjunction of its children nodes\&. 
+
+It is 'True' if it has no children 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBEQ_Handle\fP omega::F_And::add_EQ (\fBconst\fP \fBConstraint_Handle\fP & c, int preserves_level = \fC0\fP)"
+
+.SS "\fBEQ_Handle\fP omega::F_And::add_EQ (int preserves_level = \fC0\fP)"
+
+.SS "\fBGEQ_Handle\fP omega::F_And::add_GEQ (\fBconst\fP \fBConstraint_Handle\fP & c, int preserves_level = \fC0\fP)"
+
+.SS "\fBGEQ_Handle\fP omega::F_And::add_GEQ (int preserves_level = \fC0\fP)"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIpreserves_level\fP Should be 0 unless we know this will not change the 'level' of the constraints - ie the number of leading corresponding in,out variables known to be equal 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+.RE
+.PP
+
+.SS "\fBStride_Handle\fP omega::F_And::add_stride (int step, int preserves_level = \fC0\fP)"
+This is equivalent to creating and \fBF_Exists\fP node with a new variable alpha as a child and attach an equallity constraint $step \times \alpha + ? = 0$\&.
+.PP
+Coefficient for all other variable is implicitly 0\&. 
+.SS "void omega::F_And::add_unknown ()"
+Adds an unknown constraints as a child, thus making the formula an upper bound\&. 
+.SS "\fBF_And\fP * omega::F_And::and_with ()\fC [virtual]\fP"
+Replacing this node with an \fBF_And\fP node that uses this as one of the child and another \fBF_And\fP node as the other\&.
+.PP
+\fBReturns\fP
+.RS 4
+the other \fBF_And\fP node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "\fBNode_Type\fP omega::F_And::node_type ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBomega::Formula\fP\&.
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBFormula\fP\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

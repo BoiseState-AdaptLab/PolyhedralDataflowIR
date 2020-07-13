@@ -1,0 +1,175 @@
+\hypertarget{exception_8h}{}\doxysection{src/util/exception.h File Reference}
+\label{exception_8h}\index{src/util/exception.h@{src/util/exception.h}}
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$setjmp.\+h$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+Include dependency graph for exception.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{exception_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{exception_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structtrycatch__exception}{trycatch\+\_\+exception}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{exception_8h_a28599e8ac99ea9faff60a2258a914aee}{try}}~\mbox{\hyperlink{taco__csr__err_8txt_ae8653b12fe86e63b0b4d4a9a3fb22649}{if}} (!setjmp($\ast$\mbox{\hyperlink{exception_8h_afd29c45b3a929cc906922fadaa1249de}{exception\+\_\+newbuf}}())) \{
+\item 
+\#define \mbox{\hyperlink{exception_8h_a5bf93ca4efb9ed422f5143d5193dc6b8}{catch}}(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})
+\item 
+\#define \mbox{\hyperlink{exception_8h_adda66e7a762515b96646e5b4f968461e}{end\+\_\+try\+\_\+catch}}~\}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structtrycatch__exception}{trycatch\+\_\+exception}} \mbox{\hyperlink{exception_8h_a3310be492518b327fe123f612ebb0e29}{exception\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{exception_8h_a59a972bc4be418b227ea20d744d8a6a2}{exception\+\_\+init}} ()
+\item 
+jmp\+\_\+buf $\ast$ \mbox{\hyperlink{exception_8h_afd29c45b3a929cc906922fadaa1249de}{exception\+\_\+newbuf}} ()
+\item 
+void \mbox{\hyperlink{exception_8h_a9e8edb5a7d4e1bc8a6afaa0c08ae18e2}{exception\+\_\+endbuf}} ()
+\item 
+void \mbox{\hyperlink{exception_8h_a3fb44e9e3242c11015feaba097bef9a6}{throw}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$msg, int code)
+\item 
+\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{exception_8h_a3310be492518b327fe123f612ebb0e29}{exception\+\_\+t}} \mbox{\hyperlink{exception_8h_af8ce297a2212d7d30783ce3275ef406a}{exception\+\_\+get\+\_\+last}} ()
+\item 
+void \mbox{\hyperlink{exception_8h_a584cc5d5fcfbdaf47cb46692095b5b31}{exception\+\_\+end}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{exception_8h_a5bf93ca4efb9ed422f5143d5193dc6b8}\label{exception_8h_a5bf93ca4efb9ed422f5143d5193dc6b8}} 
+\index{exception.h@{exception.h}!catch@{catch}}
+\index{catch@{catch}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{catch}{catch}}
+{\footnotesize\ttfamily \#define catch(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}} }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \mbox{\hyperlink{exception_8h_a9e8edb5a7d4e1bc8a6afaa0c08ae18e2}{exception\_endbuf}}(); \(\backslash\)}
+\DoxyCodeLine{    \} \(\backslash\)}
+\DoxyCodeLine{    else \{ \(\backslash\)}
+\DoxyCodeLine{        exception\_endbuf(); \(\backslash\)}
+\DoxyCodeLine{        const \mbox{\hyperlink{structtrycatch__exception}{exception\_t}} \mbox{\hyperlink{jacobi_8h_a1b1a273bc7c0756f5076011a306f4f13}{x}} = \mbox{\hyperlink{exception_8h_af8ce297a2212d7d30783ce3275ef406a}{exception\_get\_last}}();}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{exception_8h_adda66e7a762515b96646e5b4f968461e}\label{exception_8h_adda66e7a762515b96646e5b4f968461e}} 
+\index{exception.h@{exception.h}!end\_try\_catch@{end\_try\_catch}}
+\index{end\_try\_catch@{end\_try\_catch}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{end\_try\_catch}{end\_try\_catch}}
+{\footnotesize\ttfamily \#define end\+\_\+try\+\_\+catch~\}}
+
+\mbox{\Hypertarget{exception_8h_a28599e8ac99ea9faff60a2258a914aee}\label{exception_8h_a28599e8ac99ea9faff60a2258a914aee}} 
+\index{exception.h@{exception.h}!try@{try}}
+\index{try@{try}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{try}{try}}
+{\footnotesize\ttfamily \#define try~\mbox{\hyperlink{taco__csr__err_8txt_ae8653b12fe86e63b0b4d4a9a3fb22649}{if}} (!setjmp($\ast$\mbox{\hyperlink{exception_8h_afd29c45b3a929cc906922fadaa1249de}{exception\+\_\+newbuf}}())) \{}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{exception_8h_a3310be492518b327fe123f612ebb0e29}\label{exception_8h_a3310be492518b327fe123f612ebb0e29}} 
+\index{exception.h@{exception.h}!exception\_t@{exception\_t}}
+\index{exception\_t@{exception\_t}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{exception\_t}{exception\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structtrycatch__exception}{trycatch\+\_\+exception}} \mbox{\hyperlink{exception_8h_a3310be492518b327fe123f612ebb0e29}{exception\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{exception_8h_a584cc5d5fcfbdaf47cb46692095b5b31}\label{exception_8h_a584cc5d5fcfbdaf47cb46692095b5b31}} 
+\index{exception.h@{exception.h}!exception\_end@{exception\_end}}
+\index{exception\_end@{exception\_end}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{exception\_end()}{exception\_end()}}
+{\footnotesize\ttfamily void exception\+\_\+end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{exception_8h_a584cc5d5fcfbdaf47cb46692095b5b31_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{exception_8h_a584cc5d5fcfbdaf47cb46692095b5b31_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{exception_8h_a9e8edb5a7d4e1bc8a6afaa0c08ae18e2}\label{exception_8h_a9e8edb5a7d4e1bc8a6afaa0c08ae18e2}} 
+\index{exception.h@{exception.h}!exception\_endbuf@{exception\_endbuf}}
+\index{exception\_endbuf@{exception\_endbuf}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{exception\_endbuf()}{exception\_endbuf()}}
+{\footnotesize\ttfamily void exception\+\_\+endbuf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{exception_8h_af8ce297a2212d7d30783ce3275ef406a}\label{exception_8h_af8ce297a2212d7d30783ce3275ef406a}} 
+\index{exception.h@{exception.h}!exception\_get\_last@{exception\_get\_last}}
+\index{exception\_get\_last@{exception\_get\_last}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{exception\_get\_last()}{exception\_get\_last()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{exception_8h_a3310be492518b327fe123f612ebb0e29}{exception\+\_\+t}} exception\+\_\+get\+\_\+last (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{exception_8h_a59a972bc4be418b227ea20d744d8a6a2}\label{exception_8h_a59a972bc4be418b227ea20d744d8a6a2}} 
+\index{exception.h@{exception.h}!exception\_init@{exception\_init}}
+\index{exception\_init@{exception\_init}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{exception\_init()}{exception\_init()}}
+{\footnotesize\ttfamily void exception\+\_\+init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=252pt]{exception_8h_a59a972bc4be418b227ea20d744d8a6a2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{exception_8h_a59a972bc4be418b227ea20d744d8a6a2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{exception_8h_afd29c45b3a929cc906922fadaa1249de}\label{exception_8h_afd29c45b3a929cc906922fadaa1249de}} 
+\index{exception.h@{exception.h}!exception\_newbuf@{exception\_newbuf}}
+\index{exception\_newbuf@{exception\_newbuf}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{exception\_newbuf()}{exception\_newbuf()}}
+{\footnotesize\ttfamily jmp\+\_\+buf$\ast$ exception\+\_\+newbuf (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{exception_8h_a3fb44e9e3242c11015feaba097bef9a6}\label{exception_8h_a3fb44e9e3242c11015feaba097bef9a6}} 
+\index{exception.h@{exception.h}!throw@{throw}}
+\index{throw@{throw}!exception.h@{exception.h}}
+\doxysubsubsection{\texorpdfstring{throw()}{throw()}}
+{\footnotesize\ttfamily void throw (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{msg,  }\item[{int}]{code }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{exception_8h_a3fb44e9e3242c11015feaba097bef9a6_cgraph}
+\end{center}
+\end{figure}

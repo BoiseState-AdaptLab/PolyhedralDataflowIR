@@ -1,0 +1,183 @@
+\hypertarget{isl__schedule__read_8c}{}\doxysection{lib/isl/isl\+\_\+schedule\+\_\+read.c File Reference}
+\label{isl__schedule__read_8c}\index{lib/isl/isl\_schedule\_read.c@{lib/isl/isl\_schedule\_read.c}}
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$isl/schedule.\+h$>$}\newline
+{\ttfamily \#include $<$isl/stream.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+schedule\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+schedule\+\_\+tree.\+h$>$}\newline
+Include dependency graph for isl\+\_\+schedule\+\_\+read.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule__read_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82e}{isl\+\_\+schedule\+\_\+key}} \{ \newline
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eadde6c537cb3243b8742f9694273add01}{isl\+\_\+schedule\+\_\+key\+\_\+error}} = -\/1, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaf446bcdc33a8dfe37d1289e3631f7765}{isl\+\_\+schedule\+\_\+key\+\_\+child}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea61a86d171b93b9866958f640956ac499}{isl\+\_\+schedule\+\_\+key\+\_\+coincident}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eac84ab4e05ee32cc9429f0fa17a9c4c2a}{isl\+\_\+schedule\+\_\+key\+\_\+context}}, 
+\newline
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eafb6e85665ae2c4ff0fc138f56f2993c7}{isl\+\_\+schedule\+\_\+key\+\_\+contraction}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea1a5d60d7c9707cdf56fe6ce40fbe2555}{isl\+\_\+schedule\+\_\+key\+\_\+domain}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea1544289ed34190b6b025a63e991134af}{isl\+\_\+schedule\+\_\+key\+\_\+expansion}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea927bbcced5338640e8a2b6c5a95286ca}{isl\+\_\+schedule\+\_\+key\+\_\+extension}}, 
+\newline
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea57752fa9352e18b435168b84086a4dff}{isl\+\_\+schedule\+\_\+key\+\_\+filter}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaa31b11f4a328d1ddff8334aceefe4959}{isl\+\_\+schedule\+\_\+key\+\_\+guard}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eac6c5caee3c0400983f1d351474995036}{isl\+\_\+schedule\+\_\+key\+\_\+leaf}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eafc6bbd11519433effd79251aab97ceda}{isl\+\_\+schedule\+\_\+key\+\_\+mark}}, 
+\newline
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaa760a1aee9f4e141c34929aeaa5df174}{isl\+\_\+schedule\+\_\+key\+\_\+options}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaa964ce39551678c69b34c372e3febfaa}{isl\+\_\+schedule\+\_\+key\+\_\+permutable}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaff19d7f5d5329da22eceef465e18d23e}{isl\+\_\+schedule\+\_\+key\+\_\+schedule}}, 
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea335b5ad262e34053fb88d4fd996b54bf}{isl\+\_\+schedule\+\_\+key\+\_\+sequence}}, 
+\newline
+\mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eac43d48b9af9ac1b597258fd7ece6f951}{isl\+\_\+schedule\+\_\+key\+\_\+set}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule__read_8c_a0a792badab1e9aaa96705ee1e409021a}{isl\+\_\+stream\+\_\+read\+\_\+schedule}} (\mbox{\hyperlink{structisl__stream}{isl\+\_\+stream}} $\ast$s)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule__read_8c_ab8aed6c29468b4dc335d56e7cb42c708}{isl\+\_\+schedule\+\_\+read\+\_\+from\+\_\+file}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx, F\+I\+LE $\ast$input)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule__read_8c_ae6be9293f7341868be5bc243d76057eb}{isl\+\_\+schedule\+\_\+read\+\_\+from\+\_\+str}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82e}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82e}} 
+\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key@{isl\_schedule\_key}}
+\index{isl\_schedule\_key@{isl\_schedule\_key}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_key}{isl\_schedule\_key}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82e}{isl\+\_\+schedule\+\_\+key}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_error@{isl\_schedule\_key\_error}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_error@{isl\_schedule\_key\_error}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eadde6c537cb3243b8742f9694273add01}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eadde6c537cb3243b8742f9694273add01}} 
+isl\+\_\+schedule\+\_\+key\+\_\+error&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_child@{isl\_schedule\_key\_child}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_child@{isl\_schedule\_key\_child}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaf446bcdc33a8dfe37d1289e3631f7765}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaf446bcdc33a8dfe37d1289e3631f7765}} 
+isl\+\_\+schedule\+\_\+key\+\_\+child&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_coincident@{isl\_schedule\_key\_coincident}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_coincident@{isl\_schedule\_key\_coincident}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea61a86d171b93b9866958f640956ac499}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea61a86d171b93b9866958f640956ac499}} 
+isl\+\_\+schedule\+\_\+key\+\_\+coincident&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_context@{isl\_schedule\_key\_context}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_context@{isl\_schedule\_key\_context}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eac84ab4e05ee32cc9429f0fa17a9c4c2a}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eac84ab4e05ee32cc9429f0fa17a9c4c2a}} 
+isl\+\_\+schedule\+\_\+key\+\_\+context&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_contraction@{isl\_schedule\_key\_contraction}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_contraction@{isl\_schedule\_key\_contraction}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eafb6e85665ae2c4ff0fc138f56f2993c7}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eafb6e85665ae2c4ff0fc138f56f2993c7}} 
+isl\+\_\+schedule\+\_\+key\+\_\+contraction&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_domain@{isl\_schedule\_key\_domain}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_domain@{isl\_schedule\_key\_domain}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea1a5d60d7c9707cdf56fe6ce40fbe2555}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea1a5d60d7c9707cdf56fe6ce40fbe2555}} 
+isl\+\_\+schedule\+\_\+key\+\_\+domain&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_expansion@{isl\_schedule\_key\_expansion}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_expansion@{isl\_schedule\_key\_expansion}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea1544289ed34190b6b025a63e991134af}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea1544289ed34190b6b025a63e991134af}} 
+isl\+\_\+schedule\+\_\+key\+\_\+expansion&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_extension@{isl\_schedule\_key\_extension}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_extension@{isl\_schedule\_key\_extension}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea927bbcced5338640e8a2b6c5a95286ca}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea927bbcced5338640e8a2b6c5a95286ca}} 
+isl\+\_\+schedule\+\_\+key\+\_\+extension&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_filter@{isl\_schedule\_key\_filter}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_filter@{isl\_schedule\_key\_filter}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea57752fa9352e18b435168b84086a4dff}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea57752fa9352e18b435168b84086a4dff}} 
+isl\+\_\+schedule\+\_\+key\+\_\+filter&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_guard@{isl\_schedule\_key\_guard}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_guard@{isl\_schedule\_key\_guard}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaa31b11f4a328d1ddff8334aceefe4959}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaa31b11f4a328d1ddff8334aceefe4959}} 
+isl\+\_\+schedule\+\_\+key\+\_\+guard&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_leaf@{isl\_schedule\_key\_leaf}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_leaf@{isl\_schedule\_key\_leaf}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eac6c5caee3c0400983f1d351474995036}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eac6c5caee3c0400983f1d351474995036}} 
+isl\+\_\+schedule\+\_\+key\+\_\+leaf&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_mark@{isl\_schedule\_key\_mark}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_mark@{isl\_schedule\_key\_mark}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eafc6bbd11519433effd79251aab97ceda}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eafc6bbd11519433effd79251aab97ceda}} 
+isl\+\_\+schedule\+\_\+key\+\_\+mark&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_options@{isl\_schedule\_key\_options}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_options@{isl\_schedule\_key\_options}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaa760a1aee9f4e141c34929aeaa5df174}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaa760a1aee9f4e141c34929aeaa5df174}} 
+isl\+\_\+schedule\+\_\+key\+\_\+options&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_permutable@{isl\_schedule\_key\_permutable}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_permutable@{isl\_schedule\_key\_permutable}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaa964ce39551678c69b34c372e3febfaa}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaa964ce39551678c69b34c372e3febfaa}} 
+isl\+\_\+schedule\+\_\+key\+\_\+permutable&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_schedule@{isl\_schedule\_key\_schedule}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_schedule@{isl\_schedule\_key\_schedule}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaff19d7f5d5329da22eceef465e18d23e}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eaff19d7f5d5329da22eceef465e18d23e}} 
+isl\+\_\+schedule\+\_\+key\+\_\+schedule&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_sequence@{isl\_schedule\_key\_sequence}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_sequence@{isl\_schedule\_key\_sequence}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea335b5ad262e34053fb88d4fd996b54bf}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82ea335b5ad262e34053fb88d4fd996b54bf}} 
+isl\+\_\+schedule\+\_\+key\+\_\+sequence&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{isl\_schedule\_key\_set@{isl\_schedule\_key\_set}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_key\_set@{isl\_schedule\_key\_set}}}\mbox{\Hypertarget{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eac43d48b9af9ac1b597258fd7ece6f951}\label{isl__schedule__read_8c_acc24efb067d176d25e0839d95d50d82eac43d48b9af9ac1b597258fd7ece6f951}} 
+isl\+\_\+schedule\+\_\+key\+\_\+set&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{isl__schedule__read_8c_ab8aed6c29468b4dc335d56e7cb42c708}\label{isl__schedule__read_8c_ab8aed6c29468b4dc335d56e7cb42c708}} 
+\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_read\_from\_file@{isl\_schedule\_read\_from\_file}}
+\index{isl\_schedule\_read\_from\_file@{isl\_schedule\_read\_from\_file}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_read\_from\_file()}{isl\_schedule\_read\_from\_file()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+read\+\_\+from\+\_\+file (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx,  }\item[{F\+I\+LE $\ast$}]{input }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule__read_8c_ab8aed6c29468b4dc335d56e7cb42c708_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule__read_8c_ae6be9293f7341868be5bc243d76057eb}\label{isl__schedule__read_8c_ae6be9293f7341868be5bc243d76057eb}} 
+\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_schedule\_read\_from\_str@{isl\_schedule\_read\_from\_str}}
+\index{isl\_schedule\_read\_from\_str@{isl\_schedule\_read\_from\_str}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_read\_from\_str()}{isl\_schedule\_read\_from\_str()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+read\+\_\+from\+\_\+str (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{str }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule__read_8c_ae6be9293f7341868be5bc243d76057eb_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule__read_8c_a0a792badab1e9aaa96705ee1e409021a}\label{isl__schedule__read_8c_a0a792badab1e9aaa96705ee1e409021a}} 
+\index{isl\_schedule\_read.c@{isl\_schedule\_read.c}!isl\_stream\_read\_schedule@{isl\_stream\_read\_schedule}}
+\index{isl\_stream\_read\_schedule@{isl\_stream\_read\_schedule}!isl\_schedule\_read.c@{isl\_schedule\_read.c}}
+\doxysubsubsection{\texorpdfstring{isl\_stream\_read\_schedule()}{isl\_stream\_read\_schedule()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+stream\+\_\+read\+\_\+schedule (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__stream}{isl\+\_\+stream}} $\ast$}]{s }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule__read_8c_a0a792badab1e9aaa96705ee1e409021a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule__read_8c_a0a792badab1e9aaa96705ee1e409021a_icgraph}
+\end{center}
+\end{figure}

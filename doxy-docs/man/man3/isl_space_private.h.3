@@ -1,0 +1,126 @@
+.TH "lib/isl/isl_space_private.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_space_private.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/space\&.h>\fP
+.br
+\fC#include <isl/hash\&.h>\fP
+.br
+\fC#include <isl/id\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_space\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_cow\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_underlying\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, unsigned n_div)"
+.br
+.ti -1c
+.RI "uint32_t \fBisl_space_get_hash\fP (\fB__isl_keep\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "uint32_t \fBisl_space_get_domain_hash\fP (\fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_space_is_domain_internal\fP (\fB__isl_keep\fP \fBisl_space\fP *space1, \fB__isl_keep\fP \fBisl_space\fP *space2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_space_is_range_internal\fP (\fB__isl_keep\fP \fBisl_space\fP *space1, \fB__isl_keep\fP \fBisl_space\fP *space2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_as_set_space\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_space_offset\fP (\fB__isl_keep\fP \fBisl_space\fP *\fBdim\fP, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "int \fBisl_space_may_be_set\fP (\fB__isl_keep\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_space_is_named_or_nested\fP (\fB__isl_keep\fP \fBisl_space\fP *\fBdim\fP, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "int \fBisl_space_has_named_params\fP (\fB__isl_keep\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_reset\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_flatten\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_flatten_domain\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_flatten_range\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_replace\fP (\fB__isl_take\fP \fBisl_space\fP *dst, enum \fBisl_dim_type\fP type, \fB__isl_keep\fP \fBisl_space\fP *src)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_lift\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, unsigned n_local)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_space_extend_domain_with_range\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.ti -1c
+.RI "int \fBisl_space_cmp\fP (\fB__isl_keep\fP \fBisl_space\fP *space1, \fB__isl_keep\fP \fBisl_space\fP *space2)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_as_set_space (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "int isl_space_cmp (\fB__isl_keep\fP \fBisl_space\fP * space1, \fB__isl_keep\fP \fBisl_space\fP * space2)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_cow (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_extend_domain_with_range (\fB__isl_take\fP \fBisl_space\fP * domain, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_flatten (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_flatten_domain (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_flatten_range (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "uint32_t isl_space_get_domain_hash (\fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "uint32_t isl_space_get_hash (\fB__isl_keep\fP \fBisl_space\fP * dim)"
+
+.SS "int isl_space_has_named_params (\fB__isl_keep\fP \fBisl_space\fP * dim)"
+
+.SS "\fBisl_bool\fP isl_space_is_domain_internal (\fB__isl_keep\fP \fBisl_space\fP * space1, \fB__isl_keep\fP \fBisl_space\fP * space2)"
+
+.SS "int isl_space_is_named_or_nested (\fB__isl_keep\fP \fBisl_space\fP * dim, enum \fBisl_dim_type\fP type)"
+
+.SS "\fBisl_bool\fP isl_space_is_range_internal (\fB__isl_keep\fP \fBisl_space\fP * space1, \fB__isl_keep\fP \fBisl_space\fP * space2)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_lift (\fB__isl_take\fP \fBisl_space\fP * dim, unsigned n_local)"
+
+.SS "int isl_space_may_be_set (\fB__isl_keep\fP \fBisl_space\fP * dim)"
+
+.SS "unsigned isl_space_offset (\fB__isl_keep\fP \fBisl_space\fP * dim, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_replace (\fB__isl_take\fP \fBisl_space\fP * dst, enum \fBisl_dim_type\fP type, \fB__isl_keep\fP \fBisl_space\fP * src)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_reset (\fB__isl_take\fP \fBisl_space\fP * dim, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_space_underlying (\fB__isl_take\fP \fBisl_space\fP * dim, unsigned n_div)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

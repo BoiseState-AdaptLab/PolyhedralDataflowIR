@@ -1,0 +1,187 @@
+.TH "test::ConjGradTest" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+test::ConjGradTest
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ConjGradTest\&.hpp>\fP
+.PP
+Inherits \fBtest::InspExecTest\fP\&.
+.PP
+Inherited by \fBtest::ConjGradCOOTest\fP, \fBtest::ConjGradCSBTest\fP, \fBtest::ConjGradCSRTest\fP, \fBtest::ConjGradDIATest\fP, \fBtest::ConjGradDSRTest\fP, and \fBtest::ConjGradELLTest\fP\&.
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBConjGradTest\fP (\fBconst\fP string &\fBname\fP='ConjGradTest')"
+.br
+.ti -1c
+.RI "virtual \fB~ConjGradTest\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBSetUp\fP (initializer_list< string > args)"
+.br
+.ti -1c
+.RI "virtual void \fBInspect\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBEvaluate\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBAssert\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBTearDown\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBMatrixEqual\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fB_nnz\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_nrow\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_ncol\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_maxiter\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_niter\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_niter_ref\fP"
+.br
+.ti -1c
+.RI "unsigned * \fB_rows\fP"
+.br
+.ti -1c
+.RI "unsigned * \fB_cols\fP"
+.br
+.ti -1c
+.RI "double \fB_error\fP"
+.br
+.ti -1c
+.RI "double \fB_err_ref\fP"
+.br
+.ti -1c
+.RI "double \fB_tolerance\fP"
+.br
+.ti -1c
+.RI "double * \fB_vals\fP"
+.br
+.ti -1c
+.RI "double * \fB_x\fP"
+.br
+.ti -1c
+.RI "double * \fB_b\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP double * \fB_x_ref\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP double * \fB_b_ref\fP"
+.br
+.ti -1c
+.RI "VectorXd \fB_xVec\fP"
+.br
+.ti -1c
+.RI "VectorXd \fB_bVec\fP"
+.br
+.ti -1c
+.RI "SparseMatrix< double > \fB_Aspm\fP"
+.br
+.ti -1c
+.RI "ConjugateGradient< SparseMatrix< double >, Lower|Upper > \fB_cg\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "test::ConjGradTest::ConjGradTest (\fBconst\fP string & name = \fC'ConjGradTest'\fP)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "virtual test::ConjGradTest::~ConjGradTest ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void test::ConjGradTest::Assert ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtest::BenchmarkTest\fP\&.
+.SS "virtual void test::ConjGradTest::Evaluate ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBtest::BenchmarkTest\fP\&.
+.SS "virtual void test::ConjGradTest::Inspect ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBtest::InspExecTest\fP\&.
+.PP
+Reimplemented in \fBtest::ConjGradCSBTest\fP, \fBtest::ConjGradDIATest\fP, \fBtest::ConjGradELLTest\fP, \fBtest::ConjGradDSRTest\fP, and \fBtest::ConjGradCSRTest\fP\&.
+.SS "virtual void test::ConjGradTest::MatrixEqual ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBtest::ConjGradDIATest\fP, \fBtest::ConjGradCSBTest\fP, \fBtest::ConjGradCSRTest\fP, \fBtest::ConjGradDSRTest\fP, and \fBtest::ConjGradELLTest\fP\&.
+.SS "virtual void test::ConjGradTest::SetUp (initializer_list< string > args)\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtest::BenchmarkTest\fP\&.
+.SS "virtual void test::ConjGradTest::TearDown ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBtesting::Test\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "SparseMatrix<double> test::ConjGradTest::_Aspm\fC [protected]\fP"
+
+.SS "double* test::ConjGradTest::_b\fC [protected]\fP"
+
+.SS "\fBconst\fP double* test::ConjGradTest::_b_ref\fC [protected]\fP"
+
+.SS "VectorXd test::ConjGradTest::_bVec\fC [protected]\fP"
+
+.SS "ConjugateGradient<SparseMatrix<double>, Lower|Upper> test::ConjGradTest::_cg\fC [protected]\fP"
+
+.SS "unsigned* test::ConjGradTest::_cols\fC [protected]\fP"
+
+.SS "double test::ConjGradTest::_err_ref\fC [protected]\fP"
+
+.SS "double test::ConjGradTest::_error\fC [protected]\fP"
+
+.SS "unsigned test::ConjGradTest::_maxiter\fC [protected]\fP"
+
+.SS "unsigned test::ConjGradTest::_ncol\fC [protected]\fP"
+
+.SS "unsigned test::ConjGradTest::_niter\fC [protected]\fP"
+
+.SS "unsigned test::ConjGradTest::_niter_ref\fC [protected]\fP"
+
+.SS "unsigned test::ConjGradTest::_nnz\fC [protected]\fP"
+
+.SS "unsigned test::ConjGradTest::_nrow\fC [protected]\fP"
+
+.SS "unsigned* test::ConjGradTest::_rows\fC [protected]\fP"
+
+.SS "double test::ConjGradTest::_tolerance\fC [protected]\fP"
+
+.SS "double* test::ConjGradTest::_vals\fC [protected]\fP"
+
+.SS "double* test::ConjGradTest::_x\fC [protected]\fP"
+
+.SS "\fBconst\fP double* test::ConjGradTest::_x_ref\fC [protected]\fP"
+
+.SS "VectorXd test::ConjGradTest::_xVec\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

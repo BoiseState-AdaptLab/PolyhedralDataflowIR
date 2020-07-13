@@ -1,0 +1,270 @@
+.TH "iegenlib::parser" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::parser
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBstring_get_next_char\fP ()"
+.br
+.RI "Used by lexer to obtain each character of input string being parsed\&. "
+.ti -1c
+.RI "\fBEnvironment\fP * \fBparse_env\fP (std::string env_string)"
+.br
+.ti -1c
+.RI "\fBEnvironment\fP * \fBget_parse_env_result\fP ()"
+.br
+.ti -1c
+.RI "void \fBset_parse_env_result\fP (\fBEnvironment\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBparse_set\fP (string set_string)"
+.br
+.ti -1c
+.RI "\fBSet\fP \fBget_parse_set_result\fP ()"
+.br
+.ti -1c
+.RI "void \fBset_parse_set_result\fP (\fBSet\fP *s)"
+.br
+.ti -1c
+.RI "\fBRelation\fP * \fBparse_relation\fP (string relation_string)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBget_parse_relation_result\fP ()"
+.br
+.ti -1c
+.RI "void \fBset_parse_relation_result\fP (\fBRelation\fP *s)"
+.br
+.ti -1c
+.RI "void \fBset_parse_error\fP (string \fBerror\fP)"
+.br
+.ti -1c
+.RI "bool \fBget_parse_error\fP ()"
+.br
+.ti -1c
+.RI "void \fBclearAll\fP ()"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBparse_set\fP (std::string set_string)"
+.br
+.ti -1c
+.RI "\fBRelation\fP * \fBparse_relation\fP (std::string relation_string)"
+.br
+.ti -1c
+.RI "void \fBset_parse_error\fP (std::string err)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "string \fBinput_buffer\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBinput_pos\fP"
+.br
+.ti -1c
+.RI "bool \fBparse_error\fP"
+.br
+.ti -1c
+.RI "string \fBerror_message\fP"
+.br
+.RI "error message for when an error occurs in the parser "
+.ti -1c
+.RI "\fBEnvironment\fP * \fBparse_env_result\fP"
+.br
+.ti -1c
+.RI "\fBRelation\fP * \fBparse_relation_result\fP"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBparse_set_result\fP"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "void iegenlib::parser::clearAll ()"
+clearAll frees (if needed) and resets the parse_relation_result and the parse_set_result so no data is left in those variables 
+.SS "\fBEnvironment\fP* iegenlib::parser::get_parse_env_result ()"
+getter for the parse_env_result 
+.PP
+\fBReturns\fP
+.RS 4
+Environment* parse_env_result 
+.RE
+.PP
+
+.SS "bool iegenlib::parser::get_parse_error ()"
+getter for the parse_error flag 
+.PP
+\fBReturns\fP
+.RS 4
+bool parse_error 
+.RE
+.PP
+
+.SS "\fBRelation\fP iegenlib::parser::get_parse_relation_result ()"
+getter for the parse_relation_result the getter can only be called a single time the code that calls it gets a copy of the object and we delete our copy 
+.PP
+\fBReturns\fP
+.RS 4
+\fBRelation\fP parse_relation_result 
+.RE
+.PP
+
+.SS "\fBSet\fP iegenlib::parser::get_parse_set_result ()"
+getter for the parse_set_result 
+.PP
+\fBReturns\fP
+.RS 4
+\fBSet\fP parse_set_result 
+.RE
+.PP
+
+.SS "\fBEnvironment\fP * iegenlib::parser::parse_env (std::string env_string)"
+parser_env passes a string representation of an environment to the parser and an \fBEnvironment\fP gets created\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstring\fP env string that is to be parsed 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Null pointer if error occurs or an environment is returned 
+.PP
+\fBEnvironment\fP pointer when parsing is successful 
+.RE
+.PP
+
+.SS "\fBRelation\fP * iegenlib::parser::parse_relation (std::string relation_string)"
+passes a relation string into the parser and creates the \fBRelation\fP 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstring\fP relation string that is to be parsed 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Null pointer if error occurs or a set is returned 
+.PP
+\fBRelation\fP pointer when parsing is successful 
+.RE
+.PP
+
+.SS "\fBRelation\fP* iegenlib::parser::parse_relation (string relation_string)"
+passes a relation string into the parser and creates the \fBRelation\fP 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstring\fP relation string that is to be parsed 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Null pointer if error occurs or a set is returned 
+.PP
+\fBRelation\fP pointer when parsing is successful 
+.RE
+.PP
+
+.SS "\fBSet\fP * iegenlib::parser::parse_set (std::string set_string)"
+parser_set passes a string representation of a set to the parser and a \fBSet\fP gets created\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstring\fP set string that is to be parsed 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Null pointer if error occurs or a relation is returned 
+.PP
+\fBSet\fP pointer when parsing is successful 
+.RE
+.PP
+
+.SS "\fBSet\fP* iegenlib::parser::parse_set (string set_string)"
+parser_set passes a string representation of a set to the parser and a ParseSet gets created\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstring\fP set string that is to be parsed 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Null pointer if error occurs or a relation is returned 
+.PP
+\fBSet\fP pointer when parsing is successful 
+.RE
+.PP
+
+.SS "void iegenlib::parser::set_parse_env_result (\fBEnvironment\fP * e)"
+setter for the parse_env_result 
+.PP
+\fBParameters\fP
+.RS 4
+\fI\fBEnvironment\fP\fP parse_env_result 
+.RE
+.PP
+
+.SS "void iegenlib::parser::set_parse_error (std::string err)"
+sets the parse_error flag to true 
+.SS "void iegenlib::parser::set_parse_error (string error)"
+sets the parse_error flag to true 
+.SS "void iegenlib::parser::set_parse_relation_result (\fBRelation\fP * s)"
+setter for the parse_relation_result 
+.PP
+\fBParameters\fP
+.RS 4
+\fI\fBRelation\fP\fP parse_relation_result 
+.RE
+.PP
+
+.SS "void iegenlib::parser::set_parse_set_result (\fBSet\fP * s)"
+setter for the parse_set_result 
+.PP
+\fBParameters\fP
+.RS 4
+\fI\fBSet\fP\fP parse_set_result 
+.RE
+.PP
+
+.SS "int iegenlib::parser::string_get_next_char ()"
+
+.PP
+Used by lexer to obtain each character of input string being parsed\&. This is used for the actual parsing of the string we pass in we return each char of the string 
+.PP
+\fBReturns\fP
+.RS 4
+int the value of each char of our string 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "string iegenlib::parser::error_message"
+
+.PP
+error message for when an error occurs in the parser 
+.SS "string iegenlib::parser::input_buffer"
+a string of input buffer 
+.SS "unsigned int iegenlib::parser::input_pos"
+the integer of our input position 
+.SS "\fBEnvironment\fP* iegenlib::parser::parse_env_result"
+\fBEnvironment\fP pointer parse_env_result\&. 
+.SS "bool iegenlib::parser::parse_error"
+boolean flag set when an error occurs in the parser 
+.SS "\fBRelation\fP* iegenlib::parser::parse_relation_result"
+\fBRelation\fP pointer parse_relation_result\&. 
+.SS "\fBSet\fP* iegenlib::parser::parse_set_result"
+\fBSet\fP pointer parse_set_result\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

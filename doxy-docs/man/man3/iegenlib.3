@@ -1,0 +1,546 @@
+.TH "iegenlib" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib
+.SH SYNOPSIS
+.br
+.PP
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBparser\fP"
+.br
+.in -1c
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBassert_exception\fP"
+.br
+.ti -1c
+.RI "class \fBConjunction\fP"
+.br
+.RI "Class containing sets of all the equalities and inequalities\&. "
+.ti -1c
+.RI "class \fBEnvironment\fP"
+.br
+.ti -1c
+.RI "class \fBExp\fP"
+.br
+.RI "An affine expression that allows uninterpreted function call terms\&. "
+.ti -1c
+.RI "class \fBIEGenLib\fP"
+.br
+.ti -1c
+.RI "class \fBIEObject\fP"
+.br
+.ti -1c
+.RI "class \fBIERel\fP"
+.br
+.ti -1c
+.RI "class \fBIESet\fP"
+.br
+.ti -1c
+.RI "class \fBparse_exception\fP"
+.br
+.ti -1c
+.RI "class \fBRelation\fP"
+.br
+.RI "A \fBSparseConstraints\fP class that represents a \fBRelation\fP\&. "
+.ti -1c
+.RI "class \fBSet\fP"
+.br
+.RI "A \fBSparseConstraints\fP class that represents a \fBSet\fP\&. "
+.ti -1c
+.RI "class \fBSparseConstraints\fP"
+.br
+.RI "Base class that contains the conjunctions and a pointer to an environment\&. "
+.ti -1c
+.RI "struct \fBsrParts\fP"
+.br
+.RI "An Structure to store different parts of a \fBSet\fP or \fBRelation\fP string\&. "
+.ti -1c
+.RI "class \fBStringIterator\fP"
+.br
+.RI "An ordered iterator over strings\&. "
+.ti -1c
+.RI "class \fBSubMap\fP"
+.br
+.ti -1c
+.RI "class \fBTerm\fP"
+.br
+.RI "A coefficient multiplied by one\&. Subclasses are multiplied by other entities\&. "
+.ti -1c
+.RI "class \fBTupleDecl\fP"
+.br
+.RI "Info about a vector of sequence elements, each of which is a constant or a variable\&. "
+.ti -1c
+.RI "class \fBTupleExpTerm\fP"
+.br
+.RI "A tuple of expressions\&. "
+.ti -1c
+.RI "class \fBTupleVarTerm\fP"
+.br
+.RI "Represents a coefficient multiplied by a tuple variable\&. "
+.ti -1c
+.RI "class \fBUFCallMap\fP"
+.br
+.ti -1c
+.RI "class \fBUFCallTerm\fP"
+.br
+.RI "Represents a coefficient multiplied by an uninterpreted function call\&. "
+.ti -1c
+.RI "class \fBUninterpFunc\fP"
+.br
+.RI "Contains info about uninterpreted function such as name, domain, range, whether bijective, and if has any monotonicity characteristic\&. "
+.ti -1c
+.RI "class \fBUniQuantRule\fP"
+.br
+.ti -1c
+.RI "class \fBVarTerm\fP"
+.br
+.RI "Represents a coefficient multiplied by a variable or symbolic constant\&. "
+.ti -1c
+.RI "class \fBVisitorBoundDomainRange\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorCalculateComplexity\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorGatherAllParameters\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorGetString\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorIndexUFC\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorIsUFCallParam\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorNumUFCallConstsMustRemove\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorProjectOut\fP"
+.br
+.RI "Vistor Classes used in projection process\&. "
+.ti -1c
+.RI "class \fBVisitorProjectOutCleanUp\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorRemoveUFCallConsts\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorReverseAffineSubstitution\fP"
+.br
+.ti -1c
+.RI "class \fBVisitorSuperAffineSet\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBiegenlib::srParts\fP \fBsrParts\fP"
+.br
+.RI "An Structure to store different parts of a \fBSet\fP or \fBRelation\fP string\&. "
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBUniQuantRuleType\fP { \fBMonotonicity\fP, \fBCoMonotonicity\fP, \fBTriangularity\fP, \fBFuncConsistency\fP, \fBTheOthers\fP }"
+.br
+.ti -1c
+.RI "enum \fBMonotonicType\fP { \fBMonotonic_NONE\fP, \fBMonotonic_Nondecreasing\fP, \fBMonotonic_Increasing\fP, \fBMonotonic_Nonincreasing\fP, \fBMonotonic_Decreasing\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "string \fBcalculateComplexityStr\fP (int *complexities, int arr)"
+.br
+.ti -1c
+.RI "void \fBsetCurrEnv\fP ()"
+.br
+.RI "Resets the current environment to empty\&. "
+.ti -1c
+.RI "void \fBsetCurrEnv\fP (std::string funcName, \fBSet\fP *\fBdomain\fP, \fBSet\fP *range, bool \fBbijective\fP, \fBMonotonicType\fP monoType)"
+.br
+.ti -1c
+.RI "void \fBappendCurrEnv\fP (std::string funcName, \fBSet\fP *\fBdomain\fP, \fBSet\fP *range, bool \fBbijective\fP, \fBMonotonicType\fP monoType)"
+.br
+.ti -1c
+.RI "std::string \fBqueryInverseCurrEnv\fP (\fBconst\fP std::string funcName)"
+.br
+.RI "search this environment for a function inverse "
+.ti -1c
+.RI "\fBSet\fP * \fBqueryDomainCurrEnv\fP (\fBconst\fP std::string funcName)"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBqueryRangeCurrEnv\fP (\fBconst\fP std::string funcName)"
+.br
+.ti -1c
+.RI "\fBMonotonicType\fP \fBqueryMonoTypeEnv\fP (\fBconst\fP std::string funcName)"
+.br
+.RI "search this environment for a function monotonicity type "
+.ti -1c
+.RI "unsigned int \fBqueryRangeArityCurrEnv\fP (\fBconst\fP std::string funcName)"
+.br
+.RI "search this environment for a function range arity "
+.ti -1c
+.RI "void \fBaddUniQuantRule\fP (\fBUniQuantRule\fP *uqRule)"
+.br
+.RI "add an universially quantified Rule to environment "
+.ti -1c
+.RI "int \fBqueryNoUniQuantRules\fP ()"
+.br
+.ti -1c
+.RI "\fBUniQuantRule\fP * \fBqueryUniQuantRuleEnv\fP (int idx)"
+.br
+.RI "The environment still owns returned object (user should not delete it) "
+.ti -1c
+.RI "void \fBsetCurrEnv\fP (std::string funcName, \fBSet\fP *\fBdomain\fP, \fBSet\fP *range, bool \fBbijective\fP)"
+.br
+.ti -1c
+.RI "std::string \fBtrim\fP (std::string s)"
+.br
+.ti -1c
+.RI "std::queue< std::string > \fBtupVarsExtract\fP (std::string tupDecl, int inArity, int outArity)"
+.br
+.ti -1c
+.RI "std::string \fBmissingEqs\fP (std::string origTupDecl, std::string islTupDecl, int inArity, int outArity)"
+.br
+.ti -1c
+.RI "\fBsrParts\fP \fBgetPartsFromStr\fP (std::string \fBstr\fP)"
+.br
+.ti -1c
+.RI "std::string \fBrevertISLTupDeclToOrig\fP (std::string origStr, std::string islStr, int inArity, int outArity)"
+.br
+.ti -1c
+.RI "std::string \fBprojectOutStrCorrection\fP (std::string \fBstr\fP, int poTv, int inArity, int outArity)"
+.br
+.ti -1c
+.RI "\fBisl_set\fP * \fBislStringToSet\fP (std::string relstr, \fBisl_ctx\fP *ctx, bool doCoalesce)"
+.br
+.RI "This function takes a \fBSet\fP string and returns equivalent isl_set*\&. "
+.ti -1c
+.RI "std::string \fBislSetToString\fP (\fBisl_set\fP *iset, \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_map\fP * \fBislStringToMap\fP (std::string relstr, \fBisl_ctx\fP *ctx, bool doCoalesce)"
+.br
+.RI "This function takes a \fBRelation\fP string and returns pointer to equ\&. \fBisl_map\fP\&. "
+.ti -1c
+.RI "std::string \fBislMapToString\fP (\fBisl_map\fP *imap, \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_union_set\fP * \fBislStringToUnionSet\fP (std::string relstr, \fBisl_ctx\fP *ctx, bool doCoalesce)"
+.br
+.RI "This function takes a \fBSet\fP string and returns equivalent isl_union_set*\&. "
+.ti -1c
+.RI "std::string \fBislUnionSetToString\fP (\fBisl_union_set\fP *iset, \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_union_map\fP * \fBislStringToUnionMap\fP (std::string relstr, \fBisl_ctx\fP *ctx, bool doCoalesce)"
+.br
+.RI "This function takes a \fBRelation\fP string and returns pointer to equ\&. \fBisl_union_map\fP\&. "
+.ti -1c
+.RI "std::string \fBislUnionMapToString\fP (\fBisl_union_map\fP *imap, \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "std::string \fBgetFullStrFromParts\fP (\fBsrParts\fP parts)"
+.br
+.ti -1c
+.RI "std::string \fBsetStr2RelationStr\fP (std::string \fBset\fP, int inArity, int outArity)"
+.br
+.ti -1c
+.RI "std::string \fBrelationStr2SetStr\fP (std::string relation, int inArity, int outArity)"
+.br
+.ti -1c
+.RI "string \fBpassSetStrThruISL\fP (string sstr)"
+.br
+.RI "Runs an Affine \fBSet\fP (string) through ISL and returns the resulting set\&. "
+.ti -1c
+.RI "string \fBpassUnionSetStrThruISL\fP (string sstr)"
+.br
+.RI "Runs an Affine Union Set* (string) through ISL\&. "
+.ti -1c
+.RI "string \fBpassRelationStrThruISL\fP (string rstr)"
+.br
+.RI "Runs an Affine \fBRelation\fP through ISL and returns the normalized result\&. "
+.ti -1c
+.RI "string \fBpassUnionRelationStrThruISL\fP (string rstr)"
+.br
+.RI "Runs an Affine Union \fBRelation\fP through ISL and returns the normalized result\&. "
+.ti -1c
+.RI "\fBSet\fP * \fBpassSetThruISL\fP (\fBSet\fP *s)"
+.br
+.RI "Runs an Affine \fBSet\fP through ISL and returns the resulting normalized set\&. "
+.ti -1c
+.RI "\fBRelation\fP * \fBpassRelationThruISL\fP (\fBRelation\fP *r)"
+.br
+.RI "Runs an Affine \fBRelation\fP through ISL and returns the normalized result\&. "
+.ti -1c
+.RI "\fBSet\fP * \fBislSetProjectOut\fP (\fBSet\fP *s, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "bool \fB_compareConjunctions\fP (\fBConjunction\fP *first, \fBConjunction\fP *second)"
+.br
+.ti -1c
+.RI "std::pair< std::string, std::string > \fBinstantiate\fP (\fBUniQuantRule\fP *uqRule, \fBExp\fP x1, \fBExp\fP x2, \fBUFCallMap\fP *ufcmap, \fBTupleDecl\fP origTupleDecl)"
+.br
+.ti -1c
+.RI "string \fBsymsForInstantiationSet\fP (\fBSet\fP *drOrigSet, \fBUFCallMap\fP *ufcmap)"
+.br
+.ti -1c
+.RI "\fBisl_set\fP * \fBinstantiationSet\fP (\fBsrParts\fP supSetParts, \fBstd::set\fP< std::pair< std::string, std::string >> instantiations, string syms, \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBcheckIslSet\fP (\fBisl_set\fP *\fBset\fP, \fBisl_ctx\fP *ctx, \fBUFCallMap\fP *ufcmap, \fBSet\fP *origSet)"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< std::pair< std::string, std::string > > \fBruleInstantiation\fP (\fBstd::set\fP< \fBExp\fP > instExps, bool *useRule, \fBTupleDecl\fP origTupleDecl, \fBUFCallMap\fP *ufcmap)"
+.br
+.ti -1c
+.RI "bool \fBcompareFileContentsToString\fP (string file, string contents)"
+.br
+.ti -1c
+.RI "string \fBcreateUniqueName\fP (string \fBname\fP, \fBset\fP< string > &taken)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBEnvironment\fP \fBcurrentEnv\fP"
+.br
+.ti -1c
+.RI "string \fBASN_OP\fP = ':='"
+.br
+.ti -1c
+.RI "string \fBREL_OP\fP = '\->'"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The parser namespace hides the set and relation lexer and parser functions and associated global variables\&. 
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBiegenlib::srParts\fP \fBiegenlib::srParts\fP"
+
+.PP
+An Structure to store different parts of a \fBSet\fP or \fBRelation\fP string\&. 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBiegenlib::MonotonicType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIMonotonic_NONE \fP\fP
+.TP
+\fB\fIMonotonic_Nondecreasing \fP\fP
+.TP
+\fB\fIMonotonic_Increasing \fP\fP
+.TP
+\fB\fIMonotonic_Nonincreasing \fP\fP
+.TP
+\fB\fIMonotonic_Decreasing \fP\fP
+.SS "enum \fBiegenlib::UniQuantRuleType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIMonotonicity \fP\fP
+.TP
+\fB\fICoMonotonicity \fP\fP
+.TP
+\fB\fITriangularity \fP\fP
+.TP
+\fB\fIFuncConsistency \fP\fP
+.TP
+\fB\fITheOthers \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "bool iegenlib::_compareConjunctions (\fBConjunction\fP * first, \fBConjunction\fP * second)"
+
+.SS "void iegenlib::addUniQuantRule (\fBUniQuantRule\fP * uqRule)"
+
+.PP
+add an universially quantified Rule to environment add an universially quantified Rule to environment The environment is going to own uqRule object (user should not delete it) 
+.SS "void iegenlib::appendCurrEnv (std::string funcName, \fBSet\fP * domain, \fBSet\fP * range, bool bijective, \fBMonotonicType\fP monoType)"
+Append the following uninterpreted function to this environment\&. Will create and add to global environment a funcName_inv if funcName is bijective\&. 
+.SS "string iegenlib::calculateComplexityStr (int * complexities, int arr)"
+Calculates complexity string, e\&.g O(n^2*nnz*4), based on complexity of individual tuple variables given\&. 
+.SS "\fBSet\fP* iegenlib::checkIslSet (\fBisl_set\fP * set, \fBisl_ctx\fP * ctx, \fBUFCallMap\fP * ufcmap, \fBSet\fP * origSet)"
+
+.SS "bool iegenlib::compareFileContentsToString (string file, string contents)"
+Compare the contents of a file to the contents of a string (diff)
+.PP
+\fBParameters\fP
+.RS 4
+\fIfilename\fP and string with contents 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if they match; false otherwise 
+.RE
+.PP
+
+.SS "string iegenlib::createUniqueName (string name, \fBset\fP< string > & taken)"
+A unique name created from the base name and the set of names that are already in use 
+.PP
+\fBParameters\fP
+.RS 4
+\fIname\fP The base name to create the unique name from 
+.br
+\fItaken\fP The set of names that are already in use\&. This set is updated with the name returned\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+the unique name that is created from base name and the taken names 
+.RE
+.PP
+
+.SS "std::string iegenlib::getFullStrFromParts (\fBsrParts\fP parts)"
+This function buils and returns a full string from parts 
+.SS "\fBsrParts\fP iegenlib::getPartsFromStr (std::string str)"
+This function takes in a \fBSet\fP or \fBRelation\fP string and returns different parts of it in a \fBsrParts\fP structure\&. Ex: set = '[n,m] -> { [i,j] : i < n and j > m }'
+.PP
+OUTPUT: parts WHICH IS: parts\&.symVars = '[n,m] -> ' // Symbolic constants parts\&.sC = '{' // Starting character parts\&.tupDecl = ' [i,j] ' // Tuplel declaration parts\&.sepC = ':' // Separating character parts\&.constraints = ' i < n and j > m ' // Constraints parts\&.eC = '}' // Ending character
+.PP
+This function takes in a \fBSet\fP or \fBRelation\fP string and returns different parts of it in a \fBsrParts\fP structure\&. 
+.SS "std::pair< std::string, std::string > iegenlib::instantiate (\fBUniQuantRule\fP * uqRule, \fBExp\fP x1, \fBExp\fP x2, \fBUFCallMap\fP * ufcmap, \fBTupleDecl\fP origTupleDecl)"
+
+.SS "\fBisl_set\fP* iegenlib::instantiationSet (\fBsrParts\fP supSetParts, \fBstd::set\fP< std::pair< std::string, std::string >> instantiations, string syms, \fBisl_ctx\fP * ctx)"
+
+.SS "std::string iegenlib::islMapToString (\fBisl_map\fP * imap, \fBisl_ctx\fP * ctx)"
+This function takes an isl_map* and returns pointer to equ\&. \fBRelation\fP string The function takes ownership of input argument 'imap' 
+.SS "\fBSet\fP* iegenlib::islSetProjectOut (\fBSet\fP * s, unsigned pos)"
+
+.SS "std::string iegenlib::islSetToString (\fBisl_set\fP * iset, \fBisl_ctx\fP * ctx)"
+This function takes an isl_set* and returns equivalent \fBSet\fP string The function takes ownership of input argument 'iset' 
+.SS "\fBisl_map\fP * iegenlib::islStringToMap (std::string relstr, \fBisl_ctx\fP * ctx, bool doCoalesce)"
+
+.PP
+This function takes a \fBRelation\fP string and returns pointer to equ\&. \fBisl_map\fP\&. 
+.SS "\fBisl_set\fP * iegenlib::islStringToSet (std::string relstr, \fBisl_ctx\fP * ctx, bool doCoalesce)"
+
+.PP
+This function takes a \fBSet\fP string and returns equivalent isl_set*\&. 
+.SS "\fBisl_union_map\fP * iegenlib::islStringToUnionMap (std::string relstr, \fBisl_ctx\fP * ctx, bool doCoalesce)"
+
+.PP
+This function takes a \fBRelation\fP string and returns pointer to equ\&. \fBisl_union_map\fP\&. 
+.SS "\fBisl_union_set\fP * iegenlib::islStringToUnionSet (std::string relstr, \fBisl_ctx\fP * ctx, bool doCoalesce)"
+
+.PP
+This function takes a \fBSet\fP string and returns equivalent isl_union_set*\&. 
+.SS "std::string iegenlib::islUnionMapToString (\fBisl_union_map\fP * imap, \fBisl_ctx\fP * ctx)"
+This function takes an isl_union_map* and returns pointer to equ\&. \fBRelation\fP string The function takes ownership of input argument 'imap' 
+.SS "std::string iegenlib::islUnionSetToString (\fBisl_union_set\fP * iset, \fBisl_ctx\fP * ctx)"
+This function takes an isl_union_set* and returns equivalent \fBSet\fP string The function takes ownership of input argument 'iset' 
+.SS "std::string iegenlib::missingEqs (std::string origTupDecl, std::string islTupDecl, int inArity, int outArity)"
+This function constructs equality constraints between Tuple Varialbes that are replaced eachother by ISL\&. To do this, it takes in two Tuple declaration, extracts their Tuple Variables, then creates equalities for those that are replaced: origTupDecl: [i1, i2] -> [1, i4] islTupDecl : [col_tv1_, i2] -> [1, i2] output: i1 = col_tv1_ and i4 = i2
+.PP
+This function constructs equality constraints between Tuple Varialbes that are replaced eachother by ISL\&. To do this, it takes in two Tuple declaration, extracts their Tuple Variables, then creates equalities for those that are replaced: origTupDecl: [i1, i2] -> [1, i4] islTupDecl : [col_tv1_, i2] -> [1, i2] output: i1 = col_tv1_ and i4 = i2 Note: noFirstAnd determines whether we should put 'and' at the beginning of the output string, which depends on original constraints being empty or not\&. 
+.SS "string iegenlib::passRelationStrThruISL (string rstr)"
+
+.PP
+Runs an Affine \fBRelation\fP through ISL and returns the normalized result\&. 
+.SS "\fBRelation\fP * iegenlib::passRelationThruISL (\fBRelation\fP * r)"
+
+.PP
+Runs an Affine \fBRelation\fP through ISL and returns the normalized result\&. 
+.SS "string iegenlib::passSetStrThruISL (string sstr)"
+
+.PP
+Runs an Affine \fBSet\fP (string) through ISL and returns the resulting set\&. 
+.SS "\fBSet\fP * iegenlib::passSetThruISL (\fBSet\fP * s)"
+
+.PP
+Runs an Affine \fBSet\fP through ISL and returns the resulting normalized set\&. 
+.SS "string iegenlib::passUnionRelationStrThruISL (string rstr)"
+
+.PP
+Runs an Affine Union \fBRelation\fP through ISL and returns the normalized result\&. 
+.SS "string iegenlib::passUnionSetStrThruISL (string sstr)"
+
+.PP
+Runs an Affine Union Set* (string) through ISL\&. 
+.SS "std::string iegenlib::projectOutStrCorrection (std::string str, int poTv, int inArity, int outArity)"
+This function takes in a \fBSet\fP or \fBRelation\fP string and removes tuple variable located in poTv position from Tuple Declaration of the string\&. str : [n] -> { [i1,i2,i3] : \&.\&.\&. } poTv : 1 correctedStr: [n] -> { [i1,i3] : \&.\&.\&. } 
+.SS "\fBSet\fP * iegenlib::queryDomainCurrEnv (\fBconst\fP std::string funcName)"
+search this environment for a function domain returned \fBSet\fP is a clone
+.PP
+search this environment for a function domain returned \fBSet\fP escapes 
+.SS "std::string iegenlib::queryInverseCurrEnv (\fBconst\fP std::string funcName)"
+
+.PP
+search this environment for a function inverse 
+.SS "\fBMonotonicType\fP iegenlib::queryMonoTypeEnv (\fBconst\fP std::string funcName)"
+
+.PP
+search this environment for a function monotonicity type Returns the monotonicity type of the given function\&. 
+.SS "int iegenlib::queryNoUniQuantRules ()"
+
+.SS "unsigned int iegenlib::queryRangeArityCurrEnv (\fBconst\fP std::string funcName)"
+
+.PP
+search this environment for a function range arity 
+.SS "\fBSet\fP * iegenlib::queryRangeCurrEnv (\fBconst\fP std::string funcName)"
+search this environment for a function range returned \fBSet\fP is a clone
+.PP
+search this environment for a function range returned \fBSet\fP escapes 
+.SS "\fBUniQuantRule\fP * iegenlib::queryUniQuantRuleEnv (int idx)"
+
+.PP
+The environment still owns returned object (user should not delete it) 
+.SS "std::string iegenlib::relationStr2SetStr (std::string relation, int inArity, int outArity)"
+This function turns an \fBIEGenLib\fP \fBRelation\fP represented in string form into an \fBIEGenLib\fP \fBSet\fP string\&. It reverses setStr2RelationStr effects\&.
+.PP
+This function turns an \fBIEGenLib\fP \fBRelation\fP represented in string form into an \fBIEGenLib\fP \fBSet\fP string 
+.SS "std::string iegenlib::revertISLTupDeclToOrig (std::string origStr, std::string islStr, int inArity, int outArity)"
+The main function that restores changes that ISL library applies to Tuple Declaration because of the equality constraints\&. ISL library replaces tuple variables with their equal expression if one exists in the constraints: input to isl (origStr): '[n] -> { [i] : i = n and i <= 10 }' output from isl (islStr) : '[n] -> { [n] : n <= 10 }' This function replaces Tuple Declaration from ISL string with original one, and creates missing equalities and puts them back into constraints\&. Ex: Inputs: origStr & islStr Output: correctedStr = '[n] -> { [i] : n <= 10 and i = n }' 
+.SS "\fBstd::set\fP< std::pair< std::string, std::string > > iegenlib::ruleInstantiation (\fBstd::set\fP< \fBExp\fP > instExps, bool * useRule, \fBTupleDecl\fP origTupleDecl, \fBUFCallMap\fP * ufcmap)"
+This function takes an expression set, and instantiates quantified rules stored in the environment using them\&. Although, only the rules that have their type set in the useRule argument are instantiated\&. An instantiation is of the form: p1 -> q1, the output includes set of tuples like (p1,q1)\&. 
+.SS "void iegenlib::setCurrEnv ()"
+
+.PP
+Resets the current environment to empty\&. Empties out the current environment\&. 
+.SS "void iegenlib::setCurrEnv (std::string funcName, \fBSet\fP * domain, \fBSet\fP * range, bool bijective)"
+Sets the global environment after creating one with given uninterpreted function declaration\&. Will create and add to global environment a funcName_inv if funcName is bijective\&. 
+.SS "void iegenlib::setCurrEnv (std::string funcName, \fBSet\fP * domain, \fBSet\fP * range, bool bijective, \fBMonotonicType\fP monoType)"
+Resets the current environment to empty and then accepts new \fBUninterpFunc\fP declaration into new environment\&. 
+.SS "std::string iegenlib::setStr2RelationStr (std::string set, int inArity, int outArity)"
+This function turns an \fBIEGenLib\fP \fBSet\fP represented in string form into an \fBIEGenLib\fP \fBRelation\fP string\&. Basically, it just changes the tuple declaration, from [\&.\&.\&.] to [\&.\&.\&.] -> [\&.\&.\&.], based on inArity and outArity\&. set's arity equals to inArity+outArity
+.PP
+This function turns an \fBIEGenLib\fP \fBSet\fP represented in string form into an \fBIEGenLib\fP \fBRelation\fP string 
+.SS "string iegenlib::symsForInstantiationSet (\fBSet\fP * drOrigSet, \fBUFCallMap\fP * ufcmap)"
+
+.SS "std::string iegenlib::trim (std::string s)"
+trim function trims spacing from left and right of a string 
+.SS "std::queue< std::string > iegenlib::tupVarsExtract (std::string tupDecl, int inArity, int outArity)"
+This function extracts tuple variables from a Tuple Declaration string\&. Tuple Declaration can be either of \fBRelation\fP or \fBSet\fP form Input: '[i1,col_tv3_] -> [i3,i4]' or '[i1,col_tv3_,i3,i4]' 
+.br
+ Output: (pointer to) {'i1', 'col_tv3_', 'i3', 'i4'} 
+.SH "Variable Documentation"
+.PP 
+.SS "string iegenlib\&.ASN_OP = ':='"
+
+.SS "\fBEnvironment\fP iegenlib::currentEnv"
+
+.SS "string iegenlib\&.REL_OP = '\->'"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

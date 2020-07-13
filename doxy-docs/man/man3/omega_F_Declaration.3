@@ -1,0 +1,155 @@
+.TH "omega::F_Declaration" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::F_Declaration \- Abstract base class that can contain variable declarations\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <pres_decl\&.h>\fP
+.PP
+Inherits \fBomega::Formula\fP\&.
+.PP
+Inherited by \fBomega::Conjunct\fP, \fBomega::F_Exists\fP, and \fBomega::F_Forall\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fBVariable_ID\fP \fBdeclare\fP (\fBConst_String\fP s)=0"
+.br
+.RI "add a new variable to this declaration node "
+.ti -1c
+.RI "virtual \fBVariable_ID\fP \fBdeclare\fP ()=0"
+.br
+.ti -1c
+.RI "virtual \fBVariable_ID\fP \fBdeclare\fP (\fBVariable_ID\fP)=0"
+.br
+.ti -1c
+.RI "virtual \fBSection\fP< \fBVariable_ID\fP > \fBdeclare_tuple\fP (int \fBsize\fP)"
+.br
+.ti -1c
+.RI "void \fBfinalize\fP ()"
+.br
+.ti -1c
+.RI "\fBVariable_ID_Tuple\fP & \fBlocals\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBF_Declaration\fP (\fBFormula\fP *, \fBRel_Body\fP *)"
+.br
+.ti -1c
+.RI "\fBF_Declaration\fP (\fBFormula\fP *, \fBRel_Body\fP *, \fBVariable_ID_Tuple\fP &)"
+.br
+.ti -1c
+.RI "\fB~F_Declaration\fP ()"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBdo_declare\fP (\fBConst_String\fP s, \fBVar_Kind\fP var_kind)"
+.br
+.ti -1c
+.RI "void \fBprefix_print\fP (FILE *output_file, int debug=1)"
+.br
+.ti -1c
+.RI "void \fBprint\fP (FILE *output_file)"
+.br
+.ti -1c
+.RI "void \fBsetup_names\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetup_anonymous_wildcard_names\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBVariable_ID_Tuple\fP \fBmyLocals\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBF_Forall\fP"
+.br
+.ti -1c
+.RI "class \fBF_Or\fP"
+.br
+.ti -1c
+.RI "void \fBalign\fP (\fBRel_Body\fP *originalr, \fBRel_Body\fP *newr, \fBF_Exists\fP *fe, \fBFormula\fP *f, \fBconst\fP \fBMapping\fP &mapping, bool &newrIsSet, \fBList\fP< int > &seen_exists, \fBVariable_ID_Tuple\fP &seen_exists_ids)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Abstract base class that can contain variable declarations\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::F_Declaration::F_Declaration (\fBFormula\fP * p, \fBRel_Body\fP * r)\fC [protected]\fP"
+
+.SS "omega::F_Declaration::F_Declaration (\fBFormula\fP * p, \fBRel_Body\fP * r, \fBVariable_ID_Tuple\fP & S)\fC [protected]\fP"
+
+.SS "omega::F_Declaration::~F_Declaration ()\fC [protected]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual \fBVariable_ID\fP omega::F_Declaration::declare ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBomega::F_Forall\fP, and \fBomega::F_Exists\fP\&.
+.SS "\fBVariable_ID\fP omega::F_Declaration::declare (\fBConst_String\fP s)\fC [pure virtual]\fP"
+
+.PP
+add a new variable to this declaration node 
+.PP
+Implemented in \fBomega::F_Forall\fP, and \fBomega::F_Exists\fP\&.
+.SS "virtual \fBVariable_ID\fP omega::F_Declaration::declare (\fBVariable_ID\fP)\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBomega::F_Forall\fP, and \fBomega::F_Exists\fP\&.
+.SS "\fBSection\fP< \fBVariable_ID\fP > omega::F_Declaration::declare_tuple (int size)\fC [virtual]\fP"
+
+.SS "\fBVariable_ID\fP omega::F_Declaration::do_declare (\fBConst_String\fP s, \fBVar_Kind\fP var_kind)\fC [protected]\fP"
+
+.SS "void omega::F_Declaration::finalize ()\fC [virtual]\fP"
+Finalize the constraint to make it non-mutable so that certain simplification can take place\&.
+.PP
+Should call it after each subpart is finished to achieve maximum efficiency\&. 
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "\fBVariable_ID_Tuple\fP& omega::F_Declaration::locals ()\fC [inline]\fP"
+
+.SS "void omega::F_Declaration::prefix_print (FILE * output_file, int debug = \fC1\fP)\fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "void omega::F_Declaration::print (FILE * output_file)\fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "void omega::F_Declaration::setup_anonymous_wildcard_names ()\fC [protected]\fP"
+
+.SS "void omega::F_Declaration::setup_names ()\fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "void align (\fBRel_Body\fP * originalr, \fBRel_Body\fP * newr, \fBF_Exists\fP * fe, \fBFormula\fP * f, \fBconst\fP \fBMapping\fP & mapping, bool & newrIsSet, \fBList\fP< int > & seen_exists, \fBVariable_ID_Tuple\fP & seen_exists_ids)\fC [friend]\fP"
+
+.SS "friend class \fBF_Forall\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Or\fP\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBVariable_ID_Tuple\fP omega::F_Declaration::myLocals\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

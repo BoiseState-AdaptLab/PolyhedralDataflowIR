@@ -1,0 +1,70 @@
+.TH "lib/chill/omega/basic/include/basic/Iterator.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/basic/include/basic/Iterator.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <basic/Collection\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBomega::Iterator< T >\fP"
+.br
+.ti -1c
+.RI "class \fBomega::Generator< T >\fP"
+.br
+.ti -1c
+.RI "class \fBomega::Any_Iterator< T >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBforeach\fP(\fBx\fP,  \fBT\fP,  \fBS\fP,  \fBA\fP)   do {for (\fBomega::Any_Iterator\fP<\fBT\fP> __P_##\fBx\fP = (\fBS\fP)\&.any_iterator();__P_##\fBx\fP;__P_##\fBx\fP++) {\fBT\fP & \fBx\fP = *__P_##\fBx\fP; \fBA\fP;}} while (0)"
+.br
+.ti -1c
+.RI "#define \fBforeachSeparated\fP(\fBx\fP,  \fBT\fP,  \fBS\fP,  \fBA\fP,  \fBB\fP)   do {for (\fBomega::Any_Iterator\fP<\fBT\fP> __P_##\fBx\fP = (\fBS\fP)\&.any_iterator();__P_##\fBx\fP;) {\fBT\fP & \fBx\fP = *__P_##\fBx\fP; \fBA\fP; __P_##\fBx\fP++; \fBif\fP (__P_##\fBx\fP) \fBB\fP;}} while (0)"
+.br
+.ti -1c
+.RI "#define \fBinstantiate_Iterator\fP(\fBT\fP)   template class Iterator<\fBT\fP>;"
+.br
+.ti -1c
+.RI "#define \fBinstantiate_Generator\fP(\fBT\fP)   template class Generator<\fBT\fP>;"
+.br
+.ti -1c
+.RI "#define \fBinstantiate_Any_Iterator\fP(\fBT\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define foreach(\fBx\fP, \fBT\fP, \fBS\fP, \fBA\fP)   do {for (\fBomega::Any_Iterator\fP<\fBT\fP> __P_##\fBx\fP = (\fBS\fP)\&.any_iterator();__P_##\fBx\fP;__P_##\fBx\fP++) {\fBT\fP & \fBx\fP = *__P_##\fBx\fP; \fBA\fP;}} while (0)"
+
+.SS "#define foreachSeparated(\fBx\fP, \fBT\fP, \fBS\fP, \fBA\fP, \fBB\fP)   do {for (\fBomega::Any_Iterator\fP<\fBT\fP> __P_##\fBx\fP = (\fBS\fP)\&.any_iterator();__P_##\fBx\fP;) {\fBT\fP & \fBx\fP = *__P_##\fBx\fP; \fBA\fP; __P_##\fBx\fP++; \fBif\fP (__P_##\fBx\fP) \fBB\fP;}} while (0)"
+
+.SS "#define instantiate_Any_Iterator(\fBT\fP)"
+\fBValue:\fP
+.PP
+.nf
+                    template class Any_Iterator<T>; \
+                    instantiate_Iterator(T)
+.fi
+.SS "#define instantiate_Generator(\fBT\fP)   template class Generator<\fBT\fP>;"
+
+.SS "#define instantiate_Iterator(\fBT\fP)   template class Iterator<\fBT\fP>;"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

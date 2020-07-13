@@ -1,0 +1,586 @@
+.TH "jsoncons::basic_json< CharT, Alloc >::json_proxy< ParentT >" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+jsoncons::basic_json< CharT, Alloc >::json_proxy< ParentT >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBobject_range\fP \fBmembers\fP ()"
+.br
+.ti -1c
+.RI "\fBconst_object_range\fP \fBmembers\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBarray_range\fP \fBelements\fP ()"
+.br
+.ti -1c
+.RI "\fBconst_array_range\fP \fBelements\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "size_t \fBsize\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "\fBvalue_types\fP \fBtype\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "size_t \fBcount\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_null\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBempty\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "size_t \fBcapacity\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBreserve\fP (size_t n)"
+.br
+.ti -1c
+.RI "void \fBresize\fP (size_t n)"
+.br
+.ti -1c
+.RI "template<typename T > void \fBresize\fP (size_t n, \fBT\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "template<typename T > bool \fBis\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_string\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_number\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_bool\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_object\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_array\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_any\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_integer\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_uinteger\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_double\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "\fBstring_type\fP \fBas_string\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "\fBstring_type\fP \fBas_string\fP (\fBconst\fP \fBstring_allocator\fP &allocator) \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "\fBstring_type\fP \fBas_string\fP (\fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > &format) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBstring_type\fP \fBas_string\fP (\fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > &format, \fBconst\fP \fBstring_allocator\fP &allocator) \fBconst\fP"
+.br
+.ti -1c
+.RI "template<typename T > \fBT\fP \fBas\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "template<typename T > std::enable_if< std::is_same< \fBstring_type\fP, \fBT\fP >::value >::\fBtype\fP \fBas\fP (\fBconst\fP \fBstring_allocator\fP &allocator) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBany\fP & \fBany_value\fP ()"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBany\fP & \fBany_value\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBas_bool\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "template<class T > std::vector< \fBT\fP > \fBas_vector\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "double \fBas_double\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int64_t \fBas_integer\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned long long \fBas_ulonglong\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "uint64_t \fBas_uinteger\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "template<class T > \fBconst\fP \fBT\fP & \fBany_cast\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "template<class T > \fBT\fP & \fBany_cast\fP ()"
+.br
+.ti -1c
+.RI "\fBoperator basic_json &\fP ()"
+.br
+.ti -1c
+.RI "\fBoperator const basic_json &\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "template<typename T > \fBjson_proxy\fP & \fBoperator=\fP (\fBT\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "\fBjson_proxy\fP & \fBoperator=\fP (\fBconst\fP \fBbasic_json\fP &\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBjson_proxy\fP & \fBoperator=\fP (\fBbasic_json\fP &&\fBval\fP)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBbasic_json\fP &\fBval\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (\fBconst\fP \fBbasic_json\fP &\fBval\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBbasic_json\fP< CharT, Alloc > & \fBoperator[]\fP (size_t \fBi\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBbasic_json\fP< CharT, Alloc > & \fBoperator[]\fP (size_t \fBi\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBjson_proxy\fP< \fBproxy_type\fP > \fBoperator[]\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBjson_proxy\fP< \fBproxy_type\fP > \fBoperator[]\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBbasic_json\fP< CharT, Alloc > & \fBat\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBbasic_json\fP< CharT, Alloc > & \fBat\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBbasic_json\fP< CharT, Alloc > & \fBat\fP (size_t index)"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBbasic_json\fP< CharT, Alloc > & \fBat\fP (size_t index) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBobject_iterator\fP \fBfind\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBconst_object_iterator\fP \fBfind\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBobject_iterator\fP \fBfind\fP (\fBconst\fP \fBchar_type\fP *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBconst_object_iterator\fP \fBfind\fP (\fBconst\fP \fBchar_type\fP *\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBobject_iterator\fP \fBfind\fP (\fBconst\fP \fBchar_type\fP *\fBname\fP, size_t length)"
+.br
+.ti -1c
+.RI "\fBconst_object_iterator\fP \fBfind\fP (\fBconst\fP \fBchar_type\fP *\fBname\fP, size_t length) \fBconst\fP"
+.br
+.ti -1c
+.RI "template<typename T > \fBbasic_json\fP< CharT, Alloc > \fBget\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP, \fBT\fP &&default_val) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBshrink_to_fit\fP ()"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "void \fBerase\fP (\fBobject_iterator\fP first, \fBobject_iterator\fP last)"
+.br
+.ti -1c
+.RI "void \fBerase\fP (\fBarray_iterator\fP first, \fBarray_iterator\fP last)"
+.br
+.ti -1c
+.RI "void \fBerase\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > &value)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBstring_type\fP &&\fBname\fP, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > &value)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP, \fBbasic_json\fP< CharT, Alloc > &&value)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBstring_type\fP &&\fBname\fP, \fBbasic_json\fP< CharT, Alloc > &&value)"
+.br
+.ti -1c
+.RI "\fBobject_iterator\fP \fBset\fP (\fBobject_iterator\fP hint, \fBconst\fP \fBstring_type\fP &\fBname\fP, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > &value)"
+.br
+.ti -1c
+.RI "\fBobject_iterator\fP \fBset\fP (\fBobject_iterator\fP hint, \fBstring_type\fP &&\fBname\fP, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > &value)"
+.br
+.ti -1c
+.RI "\fBobject_iterator\fP \fBset\fP (\fBobject_iterator\fP hint, \fBconst\fP \fBstring_type\fP &\fBname\fP, \fBbasic_json\fP< CharT, Alloc > &&value)"
+.br
+.ti -1c
+.RI "\fBobject_iterator\fP \fBset\fP (\fBobject_iterator\fP hint, \fBstring_type\fP &&\fBname\fP, \fBbasic_json\fP< CharT, Alloc > &&value)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBbasic_json\fP< CharT, Alloc > &&value)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (\fBconst\fP \fBbasic_json\fP< CharT, Alloc > &value)"
+.br
+.ti -1c
+.RI "\fBarray_iterator\fP \fBadd\fP (\fBconst_array_iterator\fP \fBpos\fP, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > &value)"
+.br
+.ti -1c
+.RI "\fBarray_iterator\fP \fBadd\fP (\fBconst_array_iterator\fP \fBpos\fP, \fBbasic_json\fP< CharT, Alloc > &&value)"
+.br
+.ti -1c
+.RI "\fBstring_type\fP \fBto_string\fP (\fBconst\fP \fBstring_allocator\fP &allocator=\fBstring_allocator\fP()) \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "\fBstring_type\fP \fBto_string\fP (\fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > &format, \fBstring_allocator\fP &allocator=\fBstring_allocator\fP()) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBto_stream\fP (std::basic_ostream< \fBchar_type\fP > &os) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBto_stream\fP (std::basic_ostream< \fBchar_type\fP > &os, \fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > &format) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBto_stream\fP (std::basic_ostream< \fBchar_type\fP > &os, \fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > &format, bool indenting) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBswap\fP (\fBbasic_json\fP< CharT, Alloc > &\fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBresize_array\fP (size_t n)"
+.br
+.ti -1c
+.RI "template<typename T > void \fBresize_array\fP (size_t n, \fBT\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "\fBobject_iterator\fP \fBbegin_members\fP ()"
+.br
+.ti -1c
+.RI "\fBconst_object_iterator\fP \fBbegin_members\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBobject_iterator\fP \fBend_members\fP ()"
+.br
+.ti -1c
+.RI "\fBconst_object_iterator\fP \fBend_members\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBarray_iterator\fP \fBbegin_elements\fP ()"
+.br
+.ti -1c
+.RI "\fBconst_array_iterator\fP \fBbegin_elements\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBarray_iterator\fP \fBend_elements\fP ()"
+.br
+.ti -1c
+.RI "\fBconst_array_iterator\fP \fBend_elements\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBbasic_json\fP< CharT, Alloc > & \fBget\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_ulonglong\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_longlong\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "int \fBas_int\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBas_uint\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "long \fBas_long\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBas_ulong\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "long long \fBas_longlong\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBadd\fP (size_t index, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > &value)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (size_t index, \fBbasic_json\fP< CharT, Alloc > &&value)"
+.br
+.ti -1c
+.RI "bool \fBhas_member\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBremove_range\fP (size_t from_index, size_t to_index)"
+.br
+.ti -1c
+.RI "void \fBremove\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBremove_member\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP)"
+.br
+.ti -1c
+.RI "bool \fBis_empty\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_numeric\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBbasic_json< CharT, Alloc >\fP"
+.br
+.ti -1c
+.RI "std::basic_ostream< \fBchar_type\fP > & \fBoperator<<\fP (std::basic_ostream< \fBchar_type\fP > &os, \fBconst\fP \fBjson_proxy\fP &o)"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::add (\fBbasic_json\fP< CharT, Alloc > && value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::add (\fBconst\fP \fBbasic_json\fP< CharT, Alloc > & value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBarray_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::add (\fBconst_array_iterator\fP pos, \fBbasic_json\fP< CharT, Alloc > && value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBarray_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::add (\fBconst_array_iterator\fP pos, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > & value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::add (size_t index, \fBbasic_json\fP< CharT, Alloc > && value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::add (size_t index, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > & value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<class T > \fBT\fP& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::any_cast ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<class T > \fBconst\fP \fBT\fP& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::any_cast () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBany\fP& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::any_value ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst\fP \fBany\fP& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::any_value () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<typename T > \fBT\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<typename T > std::enable_if<std::is_same<\fBstring_type\fP,\fBT\fP>::value>::\fBtype\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as (\fBconst\fP \fBstring_allocator\fP & allocator) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_bool () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > double \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_double () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > int \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_int () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > int64_t \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_integer () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > long \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_long () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > long long \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_longlong () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBstring_type\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_string () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBstring_type\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_string (\fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > & format) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBstring_type\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_string (\fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > & format, \fBconst\fP \fBstring_allocator\fP & allocator) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBstring_type\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_string (\fBconst\fP \fBstring_allocator\fP & allocator) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > unsigned int \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_uint () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > uint64_t \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_uinteger () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > unsigned long \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_ulong () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > unsigned long long \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_ulonglong () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<class T > std::vector<\fBT\fP> \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::as_vector () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBbasic_json\fP<CharT,Alloc>& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::at (\fBconst\fP \fBstring_type\fP & name)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst\fP \fBbasic_json\fP<CharT,Alloc>& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::at (\fBconst\fP \fBstring_type\fP & name) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst\fP \fBbasic_json\fP<CharT,Alloc>& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::at (size_t index)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst\fP \fBbasic_json\fP<CharT,Alloc>& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::at (size_t index) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBarray_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::begin_elements ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst_array_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::begin_elements () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::begin_members ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst_object_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::begin_members () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > size_t \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::capacity () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::clear ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > size_t \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::count (\fBconst\fP \fBstring_type\fP & name) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBarray_range\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::elements ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst_array_range\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::elements () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::empty () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBarray_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::end_elements ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst_array_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::end_elements () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::end_members ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst_object_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::end_members () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::erase (\fBarray_iterator\fP first, \fBarray_iterator\fP last)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::erase (\fBconst\fP \fBstring_type\fP & name)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::erase (\fBobject_iterator\fP first, \fBobject_iterator\fP last)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::find (\fBconst\fP \fBchar_type\fP * name)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst_object_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::find (\fBconst\fP \fBchar_type\fP * name) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::find (\fBconst\fP \fBchar_type\fP * name, size_t length)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst_object_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::find (\fBconst\fP \fBchar_type\fP * name, size_t length) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::find (\fBconst\fP \fBstring_type\fP & name)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst_object_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::find (\fBconst\fP \fBstring_type\fP & name) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst\fP \fBbasic_json\fP<CharT,Alloc>& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::get (\fBconst\fP \fBstring_type\fP & name) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<typename T > \fBbasic_json\fP<CharT,Alloc> \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::get (\fBconst\fP \fBstring_type\fP & name, \fBT\fP && default_val) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::has_member (\fBconst\fP \fBstring_type\fP & name) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<typename T > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_any () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_array () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_bool () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_double () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_empty () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_integer () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_longlong () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_null () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_number () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_numeric () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_object () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_string () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_uinteger () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::is_ulonglong () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_range\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::members ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst_object_range\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::members () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator \fBbasic_json\fP & ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator \fBconst\fP \fBbasic_json\fP & () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator!= (\fBconst\fP \fBbasic_json\fP & val) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBjson_proxy\fP& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator= (\fBbasic_json\fP && val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBjson_proxy\fP& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator= (\fBconst\fP \fBbasic_json\fP & val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<typename T > \fBjson_proxy\fP& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator= (\fBT\fP val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > bool \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator== (\fBconst\fP \fBbasic_json\fP & val) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBjson_proxy\fP<\fBproxy_type\fP> \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator[] (\fBconst\fP \fBstring_type\fP & name)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst\fP \fBjson_proxy\fP<\fBproxy_type\fP> \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator[] (\fBconst\fP \fBstring_type\fP & name) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBbasic_json\fP<CharT,Alloc>& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator[] (size_t i)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBconst\fP \fBbasic_json\fP<CharT,Alloc>& \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::operator[] (size_t i) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::remove (\fBconst\fP \fBstring_type\fP & name)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::remove_member (\fBconst\fP \fBstring_type\fP & name)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::remove_range (size_t from_index, size_t to_index)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::reserve (size_t n)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::resize (size_t n)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<typename T > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::resize (size_t n, \fBT\fP val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::resize_array (size_t n)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > template<typename T > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::resize_array (size_t n, \fBT\fP val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::set (\fBconst\fP \fBstring_type\fP & name, \fBbasic_json\fP< CharT, Alloc > && value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::set (\fBconst\fP \fBstring_type\fP & name, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > & value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::set (\fBobject_iterator\fP hint, \fBconst\fP \fBstring_type\fP & name, \fBbasic_json\fP< CharT, Alloc > && value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::set (\fBobject_iterator\fP hint, \fBconst\fP \fBstring_type\fP & name, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > & value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::set (\fBobject_iterator\fP hint, \fBstring_type\fP && name, \fBbasic_json\fP< CharT, Alloc > && value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBobject_iterator\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::set (\fBobject_iterator\fP hint, \fBstring_type\fP && name, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > & value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::set (\fBstring_type\fP && name, \fBbasic_json\fP< CharT, Alloc > && value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::set (\fBstring_type\fP && name, \fBconst\fP \fBbasic_json\fP< CharT, Alloc > & value)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::shrink_to_fit ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > size_t \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::size () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::swap (\fBbasic_json\fP< CharT, Alloc > & val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::to_stream (std::basic_ostream< \fBchar_type\fP > & os) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::to_stream (std::basic_ostream< \fBchar_type\fP > & os, \fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > & format) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > void \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::to_stream (std::basic_ostream< \fBchar_type\fP > & os, \fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > & format, bool indenting) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBstring_type\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::to_string (\fBconst\fP \fBbasic_output_format\fP< \fBchar_type\fP > & format, \fBstring_allocator\fP & allocator = \fC\fBstring_allocator\fP()\fP) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBstring_type\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::to_string (\fBconst\fP \fBstring_allocator\fP & allocator = \fC\fBstring_allocator\fP()\fP) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > \fBvalue_types\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBjson_proxy\fP< ParentT >::type () const\fC [inline]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > friend class \fBbasic_json\fP< CharT, Alloc >\fC [friend]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class ParentT > std::basic_ostream<\fBchar_type\fP>& operator<< (std::basic_ostream< \fBchar_type\fP > & os, \fBconst\fP \fBjson_proxy\fP< ParentT > & o)\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

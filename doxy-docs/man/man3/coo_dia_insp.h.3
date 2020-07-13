@@ -1,0 +1,121 @@
+.TH "out/coo_dia_insp.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/coo_dia_insp.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <limits\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBval\fP(\fBn\fP)   val[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBdoff\fP(d)   (*doff)[(d)]"
+.br
+.ti -1c
+.RI "#define \fBdval\fP(d,  \fBi\fP)   (*dval)[\fBoffset2\fP((d),(\fBi\fP),\fBN\fP)]"
+.br
+.ti -1c
+.RI "#define \fBdid\fP(d,  \fBi\fP,  \fBj\fP)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBcoo_dia_insp\fP (\fBconst\fP double *\fBval\fP, \fBconst\fP unsigned M, \fBconst\fP unsigned *\fBcol\fP, \fBconst\fP unsigned *\fBrow\fP, unsigned *\fBN\fP, double ***\fBdval\fP, int **\fBdoff\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define did(d, \fBi\fP, \fBj\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+(k)=(j)-(i)+((*N)-1);\
+if(dset[(k)]==UINT_MAX)dset[(k)]=D;\
+(d)=dset[(k)];\
+}
+.fi
+.SS "#define doff(d)   (*doff)[(d)]"
+
+.SS "#define dval(d, \fBi\fP)   (*dval)[\fBoffset2\fP((d),(\fBi\fP),\fBN\fP)]"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define val(\fBn\fP)   val[(\fBn\fP)]"
+
+.SH "Function Documentation"
+.PP 
+.SS "int coo_dia_insp (\fBconst\fP double * val, \fBconst\fP unsigned M, \fBconst\fP unsigned * col, \fBconst\fP unsigned * row, unsigned * N, double *** dval, int ** doff)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

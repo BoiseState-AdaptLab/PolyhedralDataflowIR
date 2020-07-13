@@ -1,0 +1,237 @@
+\hypertarget{rose__main_8cc}{}\doxysection{artifact/src/chill/rose\+\_\+main.cc File Reference}
+\label{rose__main_8cc}\index{artifact/src/chill/rose\_main.cc@{artifact/src/chill/rose\_main.cc}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}smv.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}matrix\+\_\+io.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sparse\+\_\+matrix.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$sys/time.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+Include dependency graph for rose\+\_\+main.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{rose__main_8cc__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structa__list}{a\+\_\+list}}
+\item 
+struct \mbox{\hyperlink{structmk}{mk}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a268c7903e9bb2c070f06a26e61657512}{\+\_\+\+\_\+rose\+\_\+lt}}(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})~((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})$<$(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})?(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})\+:(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_aa4ff34936fde5ba2716034ff836634ed}{\+\_\+\+\_\+rose\+\_\+gt}}(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  \mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})~((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})$>$(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})?(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})\+:(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a9730fac35957cb6a5d24d8e4925702d6}{\+\_\+\+P\+\_\+\+D\+A\+T\+A2\+\_\+}}(\+\_\+t20)~\+\_\+\+P\+\_\+\+D\+A\+T\+A2\mbox{[}\+\_\+t20\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_ac2323c76a387bbb719e975b838d2280f}{\+\_\+\+P\+\_\+\+D\+A\+T\+A2\+\_\+\+\_\+}}(\+\_\+t20)~\+\_\+\+P\+\_\+\+D\+A\+T\+A2\mbox{[}\+\_\+t20 + 1\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_ac36b4c316e5dc6d4ce67bf0a8e25c993}{\+\_\+\+P\+\_\+\+D\+A\+T\+A3\+\_\+}}(\+\_\+t28,  \+\_\+t29)~\+\_\+\+P\+\_\+\+D\+A\+T\+A3\mbox{[}1 $\ast$ \+\_\+t29\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_af9a53dfebd04e2ab6403bf856241ee49}{\+\_\+\+P\+\_\+\+D\+A\+T\+A3\+\_\+\+\_\+\+\_\+}}(\+\_\+t28,  \+\_\+t29)~\+\_\+\+P\+\_\+\+D\+A\+T\+A3\mbox{[}1 $\ast$ \+\_\+t29 + 1\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_ac7bebb758144f715eb9f588f736725bc}{col\+\_\+}}(\+\_\+t24)~\mbox{\hyperlink{coo__ellmap__insp_8h_adf7d60aecf1653a2870199d719497ded}{col}}\mbox{[}1 $\ast$ \+\_\+t24\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_ab909ec8af0b838c6d677225eb8001069}{col\+\_\+\+\_\+\+\_\+}}(\+\_\+t24)~\mbox{\hyperlink{coo__ellmap__insp_8h_adf7d60aecf1653a2870199d719497ded}{col}}\mbox{[}1 $\ast$ \+\_\+t24 + 1\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a7975afd805cf8d8be02083c321c32f17}{index\+\_\+}}(\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})~index\mbox{[}1 $\ast$ \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}}\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_ac99be6ef54964a53d991fbf5fff5d57a}{index\+\_\+\+\_\+}}(\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})~index\mbox{[}1 $\ast$ \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}} + 1\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a5590c1a9d994c517928f5432a6fcbc72}{index\+\_\+\+\_\+\+\_\+}}(\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})~index\mbox{[}1 $\ast$ \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}} + 1\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a2ff0780d27459a233560cba80a0f9256}{index\+\_\+\+\_\+\+\_\+\+\_\+}}(\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}})~index\mbox{[}1 $\ast$ \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}}\mbox{]}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a02aba353117f867e67b23634a26c485d}{N}}~73159
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a23897712ae080fb0664d54472f3b08d4}{N\+\_\+R}}~\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a8929654595d3c4e5b818cc79c9401324}{N\+\_\+C}}~\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}}
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a5c71a5e59a53413cd6c270266d63b031}{R}}~8
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_ac4cf4b2ab929bd23951a8676eeac086b}{C}}~8
+\item 
+\#define \mbox{\hyperlink{rose__main_8cc_a68d169e5b90cf721678bc7ab0f964a99}{ND}}~\mbox{\hyperlink{rose__main_8cc_a8929654595d3c4e5b818cc79c9401324}{N\+\_\+C}}/\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{rose__main_8cc_a025fa590cebf8b5bc6faa5a7904c4e2a}{spmv}} (int \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}, int $\ast$index, float $\ast$\mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, float $\ast$\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}, float $\ast$\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}}, int $\ast$\mbox{\hyperlink{coo__ellmap__insp_8h_adf7d60aecf1653a2870199d719497ded}{col}})
+\item 
+char \mbox{\hyperlink{rose__main_8cc_a9e3f4b92aad6e392339f229cb65336fd}{spmv\+\_\+comp}} (int \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}, float $\ast$\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, float $\ast$b2)
+\item 
+int \mbox{\hyperlink{rose__main_8cc_a2d64a1a75a7bfa722ff8af2148f9bbb7}{\+\_\+main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{rose__main_8cc_aa4ff34936fde5ba2716034ff836634ed}\label{rose__main_8cc_aa4ff34936fde5ba2716034ff836634ed}} 
+\index{rose\_main.cc@{rose\_main.cc}!\_\_rose\_gt@{\_\_rose\_gt}}
+\index{\_\_rose\_gt@{\_\_rose\_gt}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{\_\_rose\_gt}{\_\_rose\_gt}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+rose\+\_\+gt(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}} }\end{DoxyParamCaption})~((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})$>$(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})?(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})\+:(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))}
+
+\mbox{\Hypertarget{rose__main_8cc_a268c7903e9bb2c070f06a26e61657512}\label{rose__main_8cc_a268c7903e9bb2c070f06a26e61657512}} 
+\index{rose\_main.cc@{rose\_main.cc}!\_\_rose\_lt@{\_\_rose\_lt}}
+\index{\_\_rose\_lt@{\_\_rose\_lt}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{\_\_rose\_lt}{\_\_rose\_lt}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+rose\+\_\+lt(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}},  }\item[{}]{\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}} }\end{DoxyParamCaption})~((\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})$<$(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}})?(\mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})\+:(\mbox{\hyperlink{minifluxdiv-notes_8txt_a849157a35770a74581e7289acf4cd4fb}{y}}))}
+
+\mbox{\Hypertarget{rose__main_8cc_a9730fac35957cb6a5d24d8e4925702d6}\label{rose__main_8cc_a9730fac35957cb6a5d24d8e4925702d6}} 
+\index{rose\_main.cc@{rose\_main.cc}!\_P\_DATA2\_@{\_P\_DATA2\_}}
+\index{\_P\_DATA2\_@{\_P\_DATA2\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{\_P\_DATA2\_}{\_P\_DATA2\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+P\+\_\+\+D\+A\+T\+A2\+\_\+(\begin{DoxyParamCaption}\item[{}]{\+\_\+t20 }\end{DoxyParamCaption})~\+\_\+\+P\+\_\+\+D\+A\+T\+A2\mbox{[}\+\_\+t20\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_ac2323c76a387bbb719e975b838d2280f}\label{rose__main_8cc_ac2323c76a387bbb719e975b838d2280f}} 
+\index{rose\_main.cc@{rose\_main.cc}!\_P\_DATA2\_\_@{\_P\_DATA2\_\_}}
+\index{\_P\_DATA2\_\_@{\_P\_DATA2\_\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{\_P\_DATA2\_\_}{\_P\_DATA2\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+P\+\_\+\+D\+A\+T\+A2\+\_\+\+\_\+(\begin{DoxyParamCaption}\item[{}]{\+\_\+t20 }\end{DoxyParamCaption})~\+\_\+\+P\+\_\+\+D\+A\+T\+A2\mbox{[}\+\_\+t20 + 1\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_ac36b4c316e5dc6d4ce67bf0a8e25c993}\label{rose__main_8cc_ac36b4c316e5dc6d4ce67bf0a8e25c993}} 
+\index{rose\_main.cc@{rose\_main.cc}!\_P\_DATA3\_@{\_P\_DATA3\_}}
+\index{\_P\_DATA3\_@{\_P\_DATA3\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{\_P\_DATA3\_}{\_P\_DATA3\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+P\+\_\+\+D\+A\+T\+A3\+\_\+(\begin{DoxyParamCaption}\item[{}]{\+\_\+t28,  }\item[{}]{\+\_\+t29 }\end{DoxyParamCaption})~\+\_\+\+P\+\_\+\+D\+A\+T\+A3\mbox{[}1 $\ast$ \+\_\+t29\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_af9a53dfebd04e2ab6403bf856241ee49}\label{rose__main_8cc_af9a53dfebd04e2ab6403bf856241ee49}} 
+\index{rose\_main.cc@{rose\_main.cc}!\_P\_DATA3\_\_\_@{\_P\_DATA3\_\_\_}}
+\index{\_P\_DATA3\_\_\_@{\_P\_DATA3\_\_\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{\_P\_DATA3\_\_\_}{\_P\_DATA3\_\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+P\+\_\+\+D\+A\+T\+A3\+\_\+\+\_\+\+\_\+(\begin{DoxyParamCaption}\item[{}]{\+\_\+t28,  }\item[{}]{\+\_\+t29 }\end{DoxyParamCaption})~\+\_\+\+P\+\_\+\+D\+A\+T\+A3\mbox{[}1 $\ast$ \+\_\+t29 + 1\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_ac4cf4b2ab929bd23951a8676eeac086b}\label{rose__main_8cc_ac4cf4b2ab929bd23951a8676eeac086b}} 
+\index{rose\_main.cc@{rose\_main.cc}!C@{C}}
+\index{C@{C}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{C}{C}}
+{\footnotesize\ttfamily \#define C~8}
+
+\mbox{\Hypertarget{rose__main_8cc_ac7bebb758144f715eb9f588f736725bc}\label{rose__main_8cc_ac7bebb758144f715eb9f588f736725bc}} 
+\index{rose\_main.cc@{rose\_main.cc}!col\_@{col\_}}
+\index{col\_@{col\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{col\_}{col\_}}
+{\footnotesize\ttfamily \#define col\+\_\+(\begin{DoxyParamCaption}\item[{}]{\+\_\+t24 }\end{DoxyParamCaption})~\mbox{\hyperlink{coo__ellmap__insp_8h_adf7d60aecf1653a2870199d719497ded}{col}}\mbox{[}1 $\ast$ \+\_\+t24\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_ab909ec8af0b838c6d677225eb8001069}\label{rose__main_8cc_ab909ec8af0b838c6d677225eb8001069}} 
+\index{rose\_main.cc@{rose\_main.cc}!col\_\_\_@{col\_\_\_}}
+\index{col\_\_\_@{col\_\_\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{col\_\_\_}{col\_\_\_}}
+{\footnotesize\ttfamily \#define col\+\_\+\+\_\+\+\_\+(\begin{DoxyParamCaption}\item[{}]{\+\_\+t24 }\end{DoxyParamCaption})~\mbox{\hyperlink{coo__ellmap__insp_8h_adf7d60aecf1653a2870199d719497ded}{col}}\mbox{[}1 $\ast$ \+\_\+t24 + 1\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_a7975afd805cf8d8be02083c321c32f17}\label{rose__main_8cc_a7975afd805cf8d8be02083c321c32f17}} 
+\index{rose\_main.cc@{rose\_main.cc}!index\_@{index\_}}
+\index{index\_@{index\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{index\_}{index\_}}
+{\footnotesize\ttfamily \#define index\+\_\+(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}} }\end{DoxyParamCaption})~index\mbox{[}1 $\ast$ \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}}\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_ac99be6ef54964a53d991fbf5fff5d57a}\label{rose__main_8cc_ac99be6ef54964a53d991fbf5fff5d57a}} 
+\index{rose\_main.cc@{rose\_main.cc}!index\_\_@{index\_\_}}
+\index{index\_\_@{index\_\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{index\_\_}{index\_\_}}
+{\footnotesize\ttfamily \#define index\+\_\+\+\_\+(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}} }\end{DoxyParamCaption})~index\mbox{[}1 $\ast$ \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}} + 1\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_a5590c1a9d994c517928f5432a6fcbc72}\label{rose__main_8cc_a5590c1a9d994c517928f5432a6fcbc72}} 
+\index{rose\_main.cc@{rose\_main.cc}!index\_\_\_@{index\_\_\_}}
+\index{index\_\_\_@{index\_\_\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{index\_\_\_}{index\_\_\_}}
+{\footnotesize\ttfamily \#define index\+\_\+\+\_\+\+\_\+(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}} }\end{DoxyParamCaption})~index\mbox{[}1 $\ast$ \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}} + 1\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_a2ff0780d27459a233560cba80a0f9256}\label{rose__main_8cc_a2ff0780d27459a233560cba80a0f9256}} 
+\index{rose\_main.cc@{rose\_main.cc}!index\_\_\_\_@{index\_\_\_\_}}
+\index{index\_\_\_\_@{index\_\_\_\_}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{index\_\_\_\_}{index\_\_\_\_}}
+{\footnotesize\ttfamily \#define index\+\_\+\+\_\+\+\_\+\+\_\+(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}} }\end{DoxyParamCaption})~index\mbox{[}1 $\ast$ \mbox{\hyperlink{notes_8txt_a02a960be9bf275f3b3989715a000b399}{i}}\mbox{]}}
+
+\mbox{\Hypertarget{rose__main_8cc_a02aba353117f867e67b23634a26c485d}\label{rose__main_8cc_a02aba353117f867e67b23634a26c485d}} 
+\index{rose\_main.cc@{rose\_main.cc}!N@{N}}
+\index{N@{N}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{N}{N}}
+{\footnotesize\ttfamily Good N~73159}
+
+\mbox{\Hypertarget{rose__main_8cc_a8929654595d3c4e5b818cc79c9401324}\label{rose__main_8cc_a8929654595d3c4e5b818cc79c9401324}} 
+\index{rose\_main.cc@{rose\_main.cc}!N\_C@{N\_C}}
+\index{N\_C@{N\_C}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{N\_C}{N\_C}}
+{\footnotesize\ttfamily \#define N\+\_\+C~\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}}}
+
+\mbox{\Hypertarget{rose__main_8cc_a23897712ae080fb0664d54472f3b08d4}\label{rose__main_8cc_a23897712ae080fb0664d54472f3b08d4}} 
+\index{rose\_main.cc@{rose\_main.cc}!N\_R@{N\_R}}
+\index{N\_R@{N\_R}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{N\_R}{N\_R}}
+{\footnotesize\ttfamily \#define N\+\_\+R~\mbox{\hyperlink{debug_8txt_a02aba353117f867e67b23634a26c485d}{N}}}
+
+\mbox{\Hypertarget{rose__main_8cc_a68d169e5b90cf721678bc7ab0f964a99}\label{rose__main_8cc_a68d169e5b90cf721678bc7ab0f964a99}} 
+\index{rose\_main.cc@{rose\_main.cc}!ND@{ND}}
+\index{ND@{ND}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{ND}{ND}}
+{\footnotesize\ttfamily \#define ND~\mbox{\hyperlink{rose__main_8cc_a8929654595d3c4e5b818cc79c9401324}{N\+\_\+C}}/\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}}}
+
+\mbox{\Hypertarget{rose__main_8cc_a5c71a5e59a53413cd6c270266d63b031}\label{rose__main_8cc_a5c71a5e59a53413cd6c270266d63b031}} 
+\index{rose\_main.cc@{rose\_main.cc}!R@{R}}
+\index{R@{R}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{R}{R}}
+{\footnotesize\ttfamily \#define R~8}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{rose__main_8cc_a2d64a1a75a7bfa722ff8af2148f9bbb7}\label{rose__main_8cc_a2d64a1a75a7bfa722ff8af2148f9bbb7}} 
+\index{rose\_main.cc@{rose\_main.cc}!\_main@{\_main}}
+\index{\_main@{\_main}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{\_main()}{\_main()}}
+{\footnotesize\ttfamily int \+\_\+main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{rose__main_8cc_a2d64a1a75a7bfa722ff8af2148f9bbb7_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{rose__main_8cc_a025fa590cebf8b5bc6faa5a7904c4e2a}\label{rose__main_8cc_a025fa590cebf8b5bc6faa5a7904c4e2a}} 
+\index{rose\_main.cc@{rose\_main.cc}!spmv@{spmv}}
+\index{spmv@{spmv}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{spmv()}{spmv()}}
+{\footnotesize\ttfamily void spmv (\begin{DoxyParamCaption}\item[{int}]{n,  }\item[{int $\ast$}]{index,  }\item[{float $\ast$}]{a,  }\item[{float $\ast$}]{y,  }\item[{float $\ast$}]{x,  }\item[{int $\ast$}]{col }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{rose__main_8cc_a025fa590cebf8b5bc6faa5a7904c4e2a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=207pt]{rose__main_8cc_a025fa590cebf8b5bc6faa5a7904c4e2a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{rose__main_8cc_a9e3f4b92aad6e392339f229cb65336fd}\label{rose__main_8cc_a9e3f4b92aad6e392339f229cb65336fd}} 
+\index{rose\_main.cc@{rose\_main.cc}!spmv\_comp@{spmv\_comp}}
+\index{spmv\_comp@{spmv\_comp}!rose\_main.cc@{rose\_main.cc}}
+\doxysubsubsection{\texorpdfstring{spmv\_comp()}{spmv\_comp()}}
+{\footnotesize\ttfamily char spmv\+\_\+comp (\begin{DoxyParamCaption}\item[{int}]{n,  }\item[{float $\ast$}]{b,  }\item[{float $\ast$}]{b2 }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=312pt]{rose__main_8cc_a9e3f4b92aad6e392339f229cb65336fd_icgraph}
+\end{center}
+\end{figure}

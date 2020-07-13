@@ -1,0 +1,570 @@
+.TH "lib/isl/include/isl/union_map.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/union_map.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/space\&.h>\fP
+.br
+\fC#include <isl/aff_type\&.h>\fP
+.br
+\fC#include <isl/map_type\&.h>\fP
+.br
+\fC#include <isl/union_map_type\&.h>\fP
+.br
+\fC#include <isl/printer\&.h>\fP
+.br
+\fC#include <isl/val\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBisl_union_map_dim\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_union_map_involves_dims\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_union_map_get_dim_id\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_from_basic_map\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_from_map\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_empty\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_copy\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_union_map\fP * \fBisl_union_map_free\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_union_map_get_ctx\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_union_map_get_space\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_reset_user\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "int \fBisl_union_map_find_dim_by_name\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap, enum \fBisl_dim_type\fP type, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_universe\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_union_map_params\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_map_domain\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_map_range\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_domain_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_map_domain_map_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_range_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_set_wrapped_domain_map\fP (\fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_from_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_from_range\fP (\fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_affine_hull\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_polyhedral_hull\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_remove_redundancies\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_simple_hull\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_coalesce\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_compute_divs\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_lexmin\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_lexmax\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_add_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_union\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_subtract\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_intersect\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_intersect_params\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_product\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_domain_product\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_flat_domain_product\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_range_product\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_flat_range_product\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_domain_factor_domain\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_domain_factor_range\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_range_factor_domain\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_range_factor_range\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_factor_domain\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_factor_range\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_gist\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_map\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_gist_params\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_gist_domain\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_gist_range\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_intersect_domain\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_intersect_range\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_subtract_domain\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_set\fP *dom)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_subtract_range\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_set\fP *dom)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_apply_domain\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_apply_range\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_preimage_domain_multi_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_preimage_range_multi_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_preimage_domain_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_preimage_range_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_preimage_domain_multi_pw_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_preimage_domain_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_preimage_range_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_reverse\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_from_domain_and_range\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_union_set\fP *range)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_detect_equalities\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_map_deltas\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_deltas_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_set_identity\fP (\fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_project_out\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_union_map_is_empty\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_union_map_is_single_valued\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_union_map_plain_is_injective\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_union_map_is_injective\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_union_map_is_bijective\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_union_map_is_subset\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap1, \fB__isl_keep\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_union_map_is_equal\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap1, \fB__isl_keep\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_union_map_is_disjoint\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap1, \fB__isl_keep\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_bool\fP \fBisl_union_map_is_strict_subset\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap1, \fB__isl_keep\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "int \fBisl_union_map_n_map\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fBisl_stat\fP \fBisl_union_map_foreach_map\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP int \fBisl_union_map_contains\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap, \fB__isl_keep\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_union_map_extract_map\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_from_union_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_union_map_sample\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_overload\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_fixed_power_val\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_val\fP *exp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_power\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, int *exact)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_transitive_closure\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, int *exact)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_lex_lt_union_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_lex_le_union_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_lex_gt_union_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_lex_ge_union_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap1, \fB__isl_take\fP \fBisl_union_map\fP *umap2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_eq_at_multi_union_pw_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_lex_lt_at_multi_union_pw_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_lex_gt_at_multi_union_pw_aff\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP char * \fBisl_union_map_to_str\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_map\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "void \fBisl_union_map_dump\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_map_wrap\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_set_unwrap\fP (\fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_zip\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_curry\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_range_curry\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_uncurry\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_align_params\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_set_align_params\fP (\fB__isl_take\fP \fBisl_union_set\fP *uset, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_from_union_map (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_map (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_add_map (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_affine_hull (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_align_params (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_apply_domain (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_apply_range (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_coalesce (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_compute_divs (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP int isl_union_map_contains (\fB__isl_keep\fP \fBisl_union_map\fP * umap, \fB__isl_keep\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_copy (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_curry (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_set\fP* isl_union_map_deltas (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_deltas_map (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_detect_equalities (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "unsigned isl_union_map_dim (\fB__isl_keep\fP \fBisl_union_map\fP * umap, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_set\fP* isl_union_map_domain (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_domain_factor_domain (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_domain_factor_range (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_domain_map (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_map_domain_map_union_pw_multi_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_domain_product (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "void isl_union_map_dump (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_empty (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_eq_at_multi_union_pw_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_union_map_extract_map (\fB__isl_keep\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_factor_domain (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_factor_range (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "int isl_union_map_find_dim_by_name (\fB__isl_keep\fP \fBisl_union_map\fP * umap, enum \fBisl_dim_type\fP type, \fBconst\fP char * name)"
+
+.SS "\fB__isl_overload\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_fixed_power_val (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_val\fP * exp)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_flat_domain_product (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_flat_range_product (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_export\fP \fBisl_stat\fP isl_union_map_foreach_map (\fB__isl_keep\fP \fBisl_union_map\fP * umap, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_null\fP \fBisl_union_map\fP* isl_union_map_free (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_from_basic_map (\fB__isl_take\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_from_domain (\fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_from_domain_and_range (\fB__isl_take\fP \fBisl_union_set\fP * domain, \fB__isl_take\fP \fBisl_union_set\fP * range)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_from_map (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_from_range (\fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fBisl_ctx\fP* isl_union_map_get_ctx (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_union_map_get_dim_id (\fB__isl_keep\fP \fBisl_union_map\fP * umap, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_union_map_get_space (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_gist (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_map\fP * context)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_gist_domain (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_gist_params (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_gist_range (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_intersect (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_intersect_domain (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_intersect_params (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_intersect_range (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fBisl_bool\fP isl_union_map_involves_dims (\fB__isl_keep\fP \fBisl_union_map\fP * umap, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_union_map_is_bijective (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fBisl_bool\fP isl_union_map_is_disjoint (\fB__isl_keep\fP \fBisl_union_map\fP * umap1, \fB__isl_keep\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_union_map_is_empty (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_union_map_is_equal (\fB__isl_keep\fP \fBisl_union_map\fP * umap1, \fB__isl_keep\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_union_map_is_injective (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_union_map_is_single_valued (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_union_map_is_strict_subset (\fB__isl_keep\fP \fBisl_union_map\fP * umap1, \fB__isl_keep\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_export\fP \fBisl_bool\fP isl_union_map_is_subset (\fB__isl_keep\fP \fBisl_union_map\fP * umap1, \fB__isl_keep\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_lex_ge_union_map (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_lex_gt_at_multi_union_pw_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_lex_gt_union_map (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_lex_le_union_map (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_lex_lt_at_multi_union_pw_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_lex_lt_union_map (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_lexmax (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_lexmin (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "int isl_union_map_n_map (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_union_map_params (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fBisl_bool\fP isl_union_map_plain_is_injective (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_polyhedral_hull (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_power (\fB__isl_take\fP \fBisl_union_map\fP * umap, int * exact)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_preimage_domain_multi_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_preimage_domain_multi_pw_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_preimage_domain_pw_multi_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_preimage_domain_union_pw_multi_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_preimage_range_multi_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_preimage_range_pw_multi_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_preimage_range_union_pw_multi_aff (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_product (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_project_out (\fB__isl_take\fP \fBisl_union_map\fP * umap, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_set\fP* isl_union_map_range (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_range_curry (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_range_factor_domain (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_range_factor_range (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_range_map (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_range_product (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_remove_redundancies (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_reset_user (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_reverse (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_union_map_sample (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_simple_hull (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_subtract (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_subtract_domain (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_set\fP * dom)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_subtract_range (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_set\fP * dom)"
+
+.SS "\fB__isl_give\fP char* isl_union_map_to_str (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_transitive_closure (\fB__isl_take\fP \fBisl_union_map\fP * umap, int * exact)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_uncurry (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_union (\fB__isl_take\fP \fBisl_union_map\fP * umap1, \fB__isl_take\fP \fBisl_union_map\fP * umap2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_universe (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_set\fP* isl_union_map_wrap (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_zip (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_union_set_align_params (\fB__isl_take\fP \fBisl_union_set\fP * uset, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_set_identity (\fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_union_set_unwrap (\fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_set_wrapped_domain_map (\fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

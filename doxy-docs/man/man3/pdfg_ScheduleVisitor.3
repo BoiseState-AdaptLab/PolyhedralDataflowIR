@@ -1,0 +1,103 @@
+.TH "pdfg::ScheduleVisitor" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::ScheduleVisitor
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Visitor\&.hpp>\fP
+.PP
+Inherits \fBpdfg::DFGVisitor\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBScheduleVisitor\fP (\fBDigraph\fP *itergraph=nullptr)"
+.br
+.ti -1c
+.RI "void \fBwalk\fP (\fBFlowGraph\fP *graph) override"
+.br
+.ti -1c
+.RI "void \fBenter\fP (\fBCompNode\fP *node) override"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBvisit\fP (\fBDigraph\fP *graph, \fBconst\fP string &node, \fBTuple\fP &tuple, \fBmap\fP< string, \fBTuple\fP > &schedules)"
+.br
+.ti -1c
+.RI "void \fBapplyShift\fP (\fBTuple\fP &tuple, \fBconst\fP string &shift)"
+.br
+.ti -1c
+.RI "void \fBapplyTiling\fP (\fBCompNode\fP *node)"
+.br
+.ti -1c
+.RI "bool \fBisTileIter\fP (\fBconst\fP string &iter)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBDigraph\fP * \fB_itergraph\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_shifts\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_tile_iters\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_rem_iters\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_orig_iters\fP"
+.br
+.ti -1c
+.RI "vector< unsigned > \fB_tile_sizes\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::ScheduleVisitor::ScheduleVisitor (\fBDigraph\fP * itergraph = \fCnullptr\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void pdfg::ScheduleVisitor::applyShift (\fBTuple\fP & tuple, \fBconst\fP string & shift)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::ScheduleVisitor::applyTiling (\fBCompNode\fP * node)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::ScheduleVisitor::enter (\fBCompNode\fP * node)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "bool pdfg::ScheduleVisitor::isTileIter (\fBconst\fP string & iter)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::ScheduleVisitor::visit (\fBDigraph\fP * graph, \fBconst\fP string & node, \fBTuple\fP & tuple, \fBmap\fP< string, \fBTuple\fP > & schedules)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::ScheduleVisitor::walk (\fBFlowGraph\fP * graph)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBDigraph\fP* pdfg::ScheduleVisitor::_itergraph\fC [protected]\fP"
+
+.SS "vector<string> pdfg::ScheduleVisitor::_orig_iters\fC [protected]\fP"
+
+.SS "vector<string> pdfg::ScheduleVisitor::_rem_iters\fC [protected]\fP"
+
+.SS "vector<string> pdfg::ScheduleVisitor::_shifts\fC [protected]\fP"
+
+.SS "vector<string> pdfg::ScheduleVisitor::_tile_iters\fC [protected]\fP"
+
+.SS "vector<unsigned> pdfg::ScheduleVisitor::_tile_sizes\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

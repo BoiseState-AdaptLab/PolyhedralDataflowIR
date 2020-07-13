@@ -1,0 +1,172 @@
+.TH "lib/chill/omega/omega_lib/include/omega/omega_core/oc.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/omega_lib/include/omega/omega_core/oc.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <basic/util\&.h>\fP
+.br
+\fC#include <omega/omega_core/debugging\&.h>\fP
+.br
+\fC#include <basic/Tuple\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBomega::eqn\fP"
+.br
+.ti -1c
+.RI "class \fBomega::Memory\fP"
+.br
+.ti -1c
+.RI "class \fBomega::Problem\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmaxVars\fP   100"
+.br
+.ti -1c
+.RI "#define \fBdoTrace\fP   (trace && \fBTRACE\fP)"
+.br
+.ti -1c
+.RI "#define \fBisRed\fP(\fBe\fP)   (desiredResult == OC_SOLVE_SIMPLIFY && (\fBe\fP)\->color)"
+.br
+.ti -1c
+.RI "#define \fBTRACE\fP   (omega_core_debug)"
+.br
+.ti -1c
+.RI "#define \fBDBUG\fP   (omega_core_debug > 1)"
+.br
+.ti -1c
+.RI "#define \fBDEBUG\fP   (omega_core_debug > 2)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef int \fBomega::EqnKey\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum { \fBomega::EQ_BLACK\fP = 0, \fBomega::EQ_RED\fP = 1 }"
+.br
+.ti -1c
+.RI "enum { \fBomega::OC_SOLVE_UNKNOWN\fP = 2, \fBomega::OC_SOLVE_SIMPLIFY\fP = 3 }"
+.br
+.ti -1c
+.RI "enum \fBomega::redType\fP { \fBomega::notRed\fP =0, \fBomega::redEQ\fP, \fBomega::redGEQ\fP, \fBomega::redLEQ\fP, \fBomega::redStride\fP }"
+.br
+.ti -1c
+.RI "enum \fBomega::redCheck\fP { \fBomega::noRed\fP =0, \fBomega::redFalse\fP, \fBomega::redConstraints\fP }"
+.br
+.ti -1c
+.RI "enum \fBomega::normalizeReturnType\fP { \fBomega::normalize_false\fP, \fBomega::normalize_uncoupled\fP, \fBomega::normalize_coupled\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBomega::eqnncpy\fP (\fBeqn\fP *dest, \fBeqn\fP *src, int nVars)"
+.br
+.ti -1c
+.RI "void \fBomega::eqnnzero\fP (\fBeqn\fP *\fBe\fP, int nVars)"
+.br
+.ti -1c
+.RI "void \fBomega::check_number_EQs\fP (int)"
+.br
+.ti -1c
+.RI "void \fBomega::check_number_GEQs\fP (int)"
+.br
+.ti -1c
+.RI "void \fBomega::initializeOmega\fP (void)"
+.br
+.ti -1c
+.RI "int \fBomega::singleVarGEQ\fP (\fBeqn\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "void \fBomega::setPrintLevel\fP (int level)"
+.br
+.ti -1c
+.RI "void \fBomega::printHeader\fP ()"
+.br
+.ti -1c
+.RI "void \fBomega::setOutputFile\fP (FILE *file)"
+.br
+.ti -1c
+.RI "void \fBomega::checkVars\fP (int nVars)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "int \fBomega::maxGEQs\fP = 200"
+.br
+.ti -1c
+.RI "int \fBomega::maxEQs\fP = 100"
+.br
+.ti -1c
+.RI "\fBconst\fP int \fBomega::maxmaxGEQs\fP = 512"
+.br
+.ti -1c
+.RI "\fBconst\fP int \fBomega::maxmaxEQs\fP = 256"
+.br
+.ti -1c
+.RI "char \fBomega::wildName\fP [200][20]"
+.br
+.ti -1c
+.RI "FILE * \fBomega::outputFile\fP = stderr"
+.br
+.ti -1c
+.RI "int \fBomega::mayBeRed\fP = 0"
+.br
+.ti -1c
+.RI "\fBeqn\fP \fBomega::SUBs\fP []"
+.br
+.ti -1c
+.RI "Memory \fBomega::redMemory\fP []"
+.br
+.ti -1c
+.RI "int \fBomega::print_in_code_gen_style\fP = 0"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define DBUG   (omega_core_debug > 1)"
+
+.SS "#define DEBUG   (omega_core_debug > 2)"
+
+.SS "#define doTrace   (trace && \fBTRACE\fP)"
+
+.SS "#define isRed(\fBe\fP)   (desiredResult == OC_SOLVE_SIMPLIFY && (\fBe\fP)\->color)"
+
+.SS "#define maxVars   100"
+
+.SS "#define TRACE   (omega_core_debug)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

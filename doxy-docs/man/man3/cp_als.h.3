@@ -1,0 +1,319 @@
+.TH "out/cp_als.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/cp_als.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBabsmin\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBabsmax\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBsgn\fP(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBA\fP(\fBi\fP,  r)   A[\fBoffset2\fP((i4),(j4),(J))]"
+.br
+.ti -1c
+.RI "#define \fBB\fP(\fBj\fP,  r)   B[(i5)]"
+.br
+.ti -1c
+.RI "#define \fBC\fP(\fBk\fP,  r)   C[\fBoffset2\fP((i6),(j6),(J))]"
+.br
+.ti -1c
+.RI "#define \fBCsq\fP(q,  r)   Csq[\fBoffset2\fP((i41),(j41),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBBsq\fP(q,  r)   Bsq[\fBoffset2\fP((i40),(j40),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBAhp\fP(q,  r)   Ahp[\fBoffset2\fP((i42),(j42),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBAinv\fP(q,  r)   Ainv[\fBoffset2\fP((i45),(j45),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBX\fP(\fBm\fP)   X[(i35)]"
+.br
+.ti -1c
+.RI "#define \fBAkr\fP(\fBi\fP,  r)   Akr[\fBoffset2\fP((i36),(j36),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBsums\fP(r)   sums[(i48)]"
+.br
+.ti -1c
+.RI "#define \fBAsq\fP(q,  r)   Asq[\fBoffset2\fP((i39),(j39),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBBhp\fP(q,  r)   Bhp[\fBoffset2\fP((i43),(j43),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBBinv\fP(q,  r)   Binv[\fBoffset2\fP((i46),(j46),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBBkr\fP(\fBj\fP,  r)   Bkr[\fBoffset2\fP((i37),(j37),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBChp\fP(q,  r)   Chp[\fBoffset2\fP((i44),(j44),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBCinv\fP(q,  r)   Cinv[\fBoffset2\fP((i47),(j47),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBCkr\fP(\fBk\fP,  r)   Ckr[\fBoffset2\fP((i38),(j38),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBlmbda\fP(r)   lmbda[(i49)]"
+.br
+.ti -1c
+.RI "#define \fBind0\fP(\fBm\fP)   ind0[(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBind1\fP(\fBm\fP)   ind1[(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBind2\fP(\fBm\fP)   ind2[(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBi\fP,  r)   \fBA\fP((\fBi\fP),(r))=\fBurand\fP(1)"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBj\fP,  q)   \fBB\fP((\fBj\fP),r)=\fBurand\fP(1)"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBk\fP,  r)   \fBC\fP((\fBk\fP),(r))=\fBurand\fP(1)"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(q,  r,  \fBk\fP)   \fBCsq\fP((q),(r))+=\fBC\fP((q),(\fBk\fP))*\fBC\fP((\fBk\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(q,  r,  \fBj\fP)   \fBBsq\fP((q),(r))+=\fBB\fP((q),(\fBj\fP))*\fBB\fP((\fBj\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(q,  r)   \fBAhp\fP((q),(r))=\fBCsq\fP((q),(r))*\fBBsq\fP((q),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(q,  r)   \fBAinv\fP((q),(r))=1\&.000000/\fBAhp\fP((q),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBm\fP,  \fBi\fP,  \fBj\fP,  \fBk\fP,  r)   \fBAkr\fP((\fBi\fP),(r))+=\fBX\fP((\fBm\fP))*\fBC\fP((\fBk\fP),(r))*\fBB\fP((\fBj\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBi\fP,  q,  r)   \fBA\fP((\fBi\fP),(q))+=\fBAkr\fP((\fBi\fP),(r))*\fBAinv\fP((q),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBi\fP,  r)   \fBsums\fP((r))+=\fBA\fP((\fBi\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(q,  r,  \fBi\fP)   \fBAsq\fP((q),(r))+=\fBA\fP((q),(\fBi\fP))*\fBA\fP((\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(q,  r)   \fBBhp\fP((q),(r))=\fBCsq\fP((q),(r))*\fBAsq\fP((q),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(q,  r)   \fBBinv\fP((q),(r))=1\&.000000/\fBBhp\fP((q),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBm\fP,  \fBi\fP,  \fBj\fP,  \fBk\fP,  r)   \fBBkr\fP((\fBj\fP),(r))+=\fBX\fP((\fBm\fP))*\fBC\fP((\fBk\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBj\fP,  q,  r)   \fBB\fP((\fBj\fP),(q))+=\fBBkr\fP((\fBj\fP),(r))*\fBBinv\fP((q),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBj\fP,  q)   \fBsums\fP(r)+=\fBB\fP((\fBj\fP),r)*\fBB\fP((\fBj\fP),r)"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(q,  r)   \fBChp\fP((q),(r))=\fBBsq\fP((q),(r))*\fBAsq\fP((q),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(q,  r)   \fBCinv\fP((q),(r))=1\&.000000/\fBChp\fP((q),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBm\fP,  \fBi\fP,  \fBj\fP,  \fBk\fP,  r)   \fBCkr\fP((\fBk\fP),(r))+=\fBX\fP((\fBm\fP))*\fBB\fP((\fBj\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBk\fP,  q,  r)   \fBC\fP((\fBk\fP),(q))+=\fBCkr\fP((\fBk\fP),(r))*\fBCinv\fP((r),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBk\fP,  r)   \fBsums\fP((r))+=\fBC\fP((\fBk\fP),(r))*\fBC\fP((\fBk\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcp_als\fP (\fBconst\fP double *\fBX\fP, \fBconst\fP double *r, \fBconst\fP unsigned I, \fBconst\fP unsigned J, \fBconst\fP unsigned K, \fBconst\fP unsigned M, \fBconst\fP unsigned \fBR\fP, \fBconst\fP unsigned *\fBind0\fP, \fBconst\fP unsigned *\fBind1\fP, \fBconst\fP unsigned *\fBind2\fP, double *\fBlmbda\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define A(\fBi\fP, r)   A[\fBoffset2\fP((i4),(j4),(J))]"
+
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define absmax(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define absmin(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define Ahp(q, r)   Ahp[\fBoffset2\fP((i42),(j42),(\fBR\fP))]"
+
+.SS "#define Ainv(q, r)   Ainv[\fBoffset2\fP((i45),(j45),(\fBR\fP))]"
+
+.SS "#define Akr(\fBi\fP, r)   Akr[\fBoffset2\fP((i36),(j36),(\fBR\fP))]"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define Asq(q, r)   Asq[\fBoffset2\fP((i39),(j39),(\fBR\fP))]"
+
+.SS "#define B(\fBj\fP, r)   B[(i5)]"
+
+.SS "#define Bhp(q, r)   Bhp[\fBoffset2\fP((i43),(j43),(\fBR\fP))]"
+
+.SS "#define Binv(q, r)   Binv[\fBoffset2\fP((i46),(j46),(\fBR\fP))]"
+
+.SS "#define Bkr(\fBj\fP, r)   Bkr[\fBoffset2\fP((i37),(j37),(\fBR\fP))]"
+
+.SS "#define Bsq(q, r)   Bsq[\fBoffset2\fP((i40),(j40),(\fBR\fP))]"
+
+.SS "#define C(\fBk\fP, r)   C[\fBoffset2\fP((i6),(j6),(J))]"
+
+.SS "#define Chp(q, r)   Chp[\fBoffset2\fP((i44),(j44),(\fBR\fP))]"
+
+.SS "#define Cinv(q, r)   Cinv[\fBoffset2\fP((i47),(j47),(\fBR\fP))]"
+
+.SS "#define Ckr(\fBk\fP, r)   Ckr[\fBoffset2\fP((i38),(j38),(\fBR\fP))]"
+
+.SS "#define Csq(q, r)   Csq[\fBoffset2\fP((i41),(j41),(\fBR\fP))]"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define ind0(\fBm\fP)   ind0[(\fBm\fP)]"
+
+.SS "#define ind1(\fBm\fP)   ind1[(\fBm\fP)]"
+
+.SS "#define ind2(\fBm\fP)   ind2[(\fBm\fP)]"
+
+.SS "#define lmbda(r)   lmbda[(i49)]"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define s0(\fBi\fP, q, r)   \fBA\fP((\fBi\fP),(q))+=\fBAkr\fP((\fBi\fP),(r))*\fBAinv\fP((q),(r))"
+
+.SS "#define s0(\fBi\fP, r)   \fBA\fP((\fBi\fP),(r))=\fBurand\fP(1)"
+
+.SS "#define s0(\fBi\fP, r)   \fBsums\fP((r))+=\fBA\fP((\fBi\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+
+.SS "#define s0(\fBj\fP, q)   \fBB\fP((\fBj\fP),r)=\fBurand\fP(1)"
+
+.SS "#define s0(\fBj\fP, q)   \fBsums\fP(r)+=\fBB\fP((\fBj\fP),r)*\fBB\fP((\fBj\fP),r)"
+
+.SS "#define s0(\fBj\fP, q, r)   \fBB\fP((\fBj\fP),(q))+=\fBBkr\fP((\fBj\fP),(r))*\fBBinv\fP((q),(r))"
+
+.SS "#define s0(\fBk\fP, q, r)   \fBC\fP((\fBk\fP),(q))+=\fBCkr\fP((\fBk\fP),(r))*\fBCinv\fP((r),(r))"
+
+.SS "#define s0(\fBk\fP, r)   \fBC\fP((\fBk\fP),(r))=\fBurand\fP(1)"
+
+.SS "#define s0(\fBk\fP, r)   \fBsums\fP((r))+=\fBC\fP((\fBk\fP),(r))*\fBC\fP((\fBk\fP),(r))"
+
+.SS "#define s0(\fBm\fP, \fBi\fP, \fBj\fP, \fBk\fP, r)   \fBAkr\fP((\fBi\fP),(r))+=\fBX\fP((\fBm\fP))*\fBC\fP((\fBk\fP),(r))*\fBB\fP((\fBj\fP),(r))"
+
+.SS "#define s0(\fBm\fP, \fBi\fP, \fBj\fP, \fBk\fP, r)   \fBBkr\fP((\fBj\fP),(r))+=\fBX\fP((\fBm\fP))*\fBC\fP((\fBk\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+
+.SS "#define s0(\fBm\fP, \fBi\fP, \fBj\fP, \fBk\fP, r)   \fBCkr\fP((\fBk\fP),(r))+=\fBX\fP((\fBm\fP))*\fBB\fP((\fBj\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+
+.SS "#define s0(q, r)   \fBAhp\fP((q),(r))=\fBCsq\fP((q),(r))*\fBBsq\fP((q),(r))"
+
+.SS "#define s0(q, r)   \fBAinv\fP((q),(r))=1\&.000000/\fBAhp\fP((q),(r))"
+
+.SS "#define s0(q, r)   \fBBhp\fP((q),(r))=\fBCsq\fP((q),(r))*\fBAsq\fP((q),(r))"
+
+.SS "#define s0(q, r)   \fBBinv\fP((q),(r))=1\&.000000/\fBBhp\fP((q),(r))"
+
+.SS "#define s0(q, r)   \fBChp\fP((q),(r))=\fBBsq\fP((q),(r))*\fBAsq\fP((q),(r))"
+
+.SS "#define s0(q, r)   \fBCinv\fP((q),(r))=1\&.000000/\fBChp\fP((q),(r))"
+
+.SS "#define s0(q, r, \fBi\fP)   \fBAsq\fP((q),(r))+=\fBA\fP((q),(\fBi\fP))*\fBA\fP((\fBi\fP),(r))"
+
+.SS "#define s0(q, r, \fBj\fP)   \fBBsq\fP((q),(r))+=\fBB\fP((q),(\fBj\fP))*\fBB\fP((\fBj\fP),(r))"
+
+.SS "#define s0(q, r, \fBk\fP)   \fBCsq\fP((q),(r))+=\fBC\fP((q),(\fBk\fP))*\fBC\fP((\fBk\fP),(r))"
+
+.SS "#define s0(r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+
+.SS "#define sgn(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+
+.SS "#define sums(r)   sums[(i48)]"
+
+.SS "#define X(\fBm\fP)   X[(i35)]"
+
+.SH "Function Documentation"
+.PP 
+.SS "void cp_als (\fBconst\fP double * X, \fBconst\fP double * r, \fBconst\fP unsigned I, \fBconst\fP unsigned J, \fBconst\fP unsigned K, \fBconst\fP unsigned M, \fBconst\fP unsigned R, \fBconst\fP unsigned * ind0, \fBconst\fP unsigned * ind1, \fBconst\fP unsigned * ind2, double * lmbda)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

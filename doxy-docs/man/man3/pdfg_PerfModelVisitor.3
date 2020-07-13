@@ -1,0 +1,128 @@
+.TH "pdfg::PerfModelVisitor" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::PerfModelVisitor
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Visitor\&.hpp>\fP
+.PP
+Inherits \fBpdfg::DFGVisitor\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBPerfModelVisitor\fP (\fBconst\fP \fBmap\fP< string, \fBConst\fP > &constants={})"
+.br
+.ti -1c
+.RI "void \fBenter\fP (\fBCompNode\fP *node) override"
+.br
+.ti -1c
+.RI "void \fBenter\fP (\fBDataNode\fP *node) override"
+.br
+.ti -1c
+.RI "void \fBfinish\fP (\fBFlowGraph\fP *graph) override"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBmap\fP< string, int > \fB_constants\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, bool > \fB_counted\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalFLOPs\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalIOPs\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalFStreamsIn\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalIStreamsIn\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalFStreamsOut\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalIStreamsOut\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalISizeIn\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalFSizeIn\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalISizeOut\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalFSizeOut\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_totalBytes\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::PerfModelVisitor::PerfModelVisitor (\fBconst\fP \fBmap\fP< string, \fBConst\fP > & constants = \fC{}\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void pdfg::PerfModelVisitor::enter (\fBCompNode\fP * node)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+For each computation node, compute the amount of data read (loaded), written (stored), the number of input and output streams, the number of int ops (IOPs), floating point ops (FLOPs)\&. This leads to an estimate for the amount of memory traffic (Q) and total work (W)\&. Arithmetic intensity can be computed as I = W/Q, the x-axis of the Roofline plot\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInode\fP Computation node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "void pdfg::PerfModelVisitor::enter (\fBDataNode\fP * node)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "void pdfg::PerfModelVisitor::finish (\fBFlowGraph\fP * graph)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBmap\fP<string, int> pdfg::PerfModelVisitor::_constants\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, bool> pdfg::PerfModelVisitor::_counted\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalBytes\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalFLOPs\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalFSizeIn\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalFSizeOut\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalFStreamsIn\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalFStreamsOut\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalIOPs\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalISizeIn\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalISizeOut\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalIStreamsIn\fC [protected]\fP"
+
+.SS "unsigned pdfg::PerfModelVisitor::_totalIStreamsOut\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

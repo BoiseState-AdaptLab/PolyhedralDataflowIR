@@ -1,0 +1,667 @@
+.TH "omega::Relation" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::Relation \- \fBRelation\fP representative\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Relation\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRelation\fP ()"
+.br
+.RI "create a null relation "
+.ti -1c
+.RI "\fBRelation\fP (int n_input, int n_output=0)"
+.br
+.RI "create a new relation with n_input variables and n_output variables "
+.ti -1c
+.RI "\fBRelation\fP (\fBconst\fP \fBRelation\fP &r)"
+.br
+.ti -1c
+.RI "\fBRelation\fP (\fBconst\fP \fBRelation\fP &r, \fBConjunct\fP *\fBc\fP)"
+.br
+.RI "Create a relation by copying a conjunction of constraints c from some other relation r\&. "
+.ti -1c
+.RI "\fBRelation\fP & \fBoperator=\fP (\fBconst\fP \fBRelation\fP &r)"
+.br
+.ti -1c
+.RI "\fBRelation\fP (\fBRel_Body\fP &r, int \fBfoo\fP)"
+.br
+.ti -1c
+.RI "bool \fBis_null\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fB~Relation\fP ()"
+.br
+.ti -1c
+.RI "\fBF_Forall\fP * \fBadd_forall\fP ()"
+.br
+.ti -1c
+.RI "\fBF_Exists\fP * \fBadd_exists\fP ()"
+.br
+.ti -1c
+.RI "\fBF_And\fP * \fBadd_and\fP ()"
+.br
+.ti -1c
+.RI "\fBF_And\fP * \fBand_with\fP ()"
+.br
+.ti -1c
+.RI "\fBF_Or\fP * \fBadd_or\fP ()"
+.br
+.ti -1c
+.RI "\fBF_Not\fP * \fBadd_not\fP ()"
+.br
+.ti -1c
+.RI "void \fBfinalize\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_finalized\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_set\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBn_inp\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBn_out\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBn_set\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBVariable_ID_Tuple\fP * \fBglobal_decls\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBmax_ufs_arity\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBmax_ufs_arity_of_in\fP () \fBconst\fP"
+.br
+.RI "Maximum arity of uninterpreted function over input tuple\&. "
+.ti -1c
+.RI "int \fBmax_ufs_arity_of_set\fP () \fBconst\fP"
+.br
+.RI "Maximum arity of uninterpreted function over set tuple\&. "
+.ti -1c
+.RI "int \fBmax_ufs_arity_of_out\fP () \fBconst\fP"
+.br
+.RI "Maximum arity of uninterpreted function over output tuple\&. "
+.ti -1c
+.RI "int \fBmax_shared_ufs_arity\fP () \fBconst\fP"
+.br
+.RI "Maximum arity of uninterpreted function over input&output tuple\&. "
+.ti -1c
+.RI "\fBVariable_ID\fP \fBinput_var\fP (int nth)"
+.br
+.RI "Return the n-th input variable, illegal for set\&. "
+.ti -1c
+.RI "\fBVariable_ID\fP \fBoutput_var\fP (int nth)"
+.br
+.RI "Return the n-th output variable, illegal for set\&. "
+.ti -1c
+.RI "\fBVariable_ID\fP \fBset_var\fP (int nth)"
+.br
+.RI "Return the n-th set variable, illegal for relation\&. "
+.ti -1c
+.RI "bool \fBhas_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP)"
+.br
+.ti -1c
+.RI "bool \fBhas_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP, \fBArgument_Tuple\fP of)"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBget_local\fP (\fBconst\fP \fBVariable_ID\fP v)"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBget_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP)"
+.br
+.RI "Find or declare global variable\&. "
+.ti -1c
+.RI "\fBVariable_ID\fP \fBget_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP, \fBArgument_Tuple\fP of)"
+.br
+.RI "Find or declare global variable\&. "
+.ti -1c
+.RI "void \fBname_input_var\fP (int nth, \fBConst_String\fP \fBS\fP)"
+.br
+.ti -1c
+.RI "void \fBname_output_var\fP (int nth, \fBConst_String\fP \fBS\fP)"
+.br
+.ti -1c
+.RI "void \fBname_set_var\fP (int nth, \fBConst_String\fP \fBS\fP)"
+.br
+.ti -1c
+.RI "\fBF_And\fP * \fBand_with_and\fP ()"
+.br
+.ti -1c
+.RI "\fBEQ_Handle\fP \fBand_with_EQ\fP ()"
+.br
+.ti -1c
+.RI "\fBEQ_Handle\fP \fBand_with_EQ\fP (\fBconst\fP \fBConstraint_Handle\fP &\fBc\fP)"
+.br
+.ti -1c
+.RI "\fBGEQ_Handle\fP \fBand_with_GEQ\fP ()"
+.br
+.ti -1c
+.RI "\fBGEQ_Handle\fP \fBand_with_GEQ\fP (\fBconst\fP \fBConstraint_Handle\fP &\fBc\fP)"
+.br
+.ti -1c
+.RI "void \fBprint\fP ()"
+.br
+.ti -1c
+.RI "void \fBprint\fP (FILE *output_file)"
+.br
+.ti -1c
+.RI "void \fBprint_with_subs\fP ()"
+.br
+.ti -1c
+.RI "void \fBprint_with_subs\fP (FILE *output_file, bool printSym=false, bool newline=true)"
+.br
+.RI "Print the relation in an easy-to-understand format\&. "
+.ti -1c
+.RI "std::string \fBprint_with_subs_to_string\fP (bool printSym=false, bool newline=true)"
+.br
+.ti -1c
+.RI "std::string \fBprint_outputs_with_subs_to_string\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBprint_outputs_with_subs_to_string\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "void \fBprefix_print\fP ()"
+.br
+.ti -1c
+.RI "void \fBprefix_print\fP (FILE *output_file, int debug=1)"
+.br
+.RI "Debug print the structure in prefix format\&. "
+.ti -1c
+.RI "std::string \fBprint_formula_to_string\fP ()"
+.br
+.RI "Print the formula\&. "
+.ti -1c
+.RI "void \fBdimensions\fP (int &ndim_all, int &ndim_domain)"
+.br
+.ti -1c
+.RI "bool \fBis_lower_bound_satisfiable\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_upper_bound_satisfiable\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_satisfiable\fP ()"
+.br
+.RI "If both bounds are satisfiable or not\&. ABORT if only one is\&. "
+.ti -1c
+.RI "bool \fBis_tautology\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_obvious_tautology\fP ()"
+.br
+.RI "if formula evaluates to a single conjunction with no constraints "
+.ti -1c
+.RI "bool \fBis_definite_tautology\fP ()"
+.br
+.RI "if the relation's formula is a tautology "
+.ti -1c
+.RI "int \fBnumber_of_conjuncts\fP ()"
+.br
+.ti -1c
+.RI "int \fBquery_guaranteed_leading_0s\fP ()"
+.br
+.ti -1c
+.RI "int \fBquery_possible_leading_0s\fP ()"
+.br
+.ti -1c
+.RI "int \fBquery_leading_dir\fP ()"
+.br
+.ti -1c
+.RI "\fBDNF\fP * \fBquery_DNF\fP ()"
+.br
+.RI "Request this to be simplified to \fBDNF\fP\&. "
+.ti -1c
+.RI "\fBDNF\fP * \fBquery_DNF\fP (int rdt_conjs, int rdt_constrs)"
+.br
+.RI "Request this to be simplified to \fBDNF\fP\&. "
+.ti -1c
+.RI "void \fBsimplify\fP (int rdt_conjs=0, int rdt_constrs=0)"
+.br
+.RI "Simplify a given relation\&. "
+.ti -1c
+.RI "bool \fBis_simplified\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_compressed\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBConjunct\fP * \fBrm_first_conjunct\fP ()"
+.br
+.ti -1c
+.RI "\fBConjunct\fP * \fBsingle_conjunct\fP ()"
+.br
+.ti -1c
+.RI "bool \fBhas_single_conjunct\fP ()"
+.br
+.ti -1c
+.RI "void \fBquery_difference\fP (\fBVariable_ID\fP v1, \fBVariable_ID\fP v2, \fBcoef_t\fP &lowerBound, \fBcoef_t\fP &upperBound, bool &guaranteed)"
+.br
+.RI "Determining the bounds of the difference of two variables\&. "
+.ti -1c
+.RI "void \fBquery_variable_bounds\fP (\fBVariable_ID\fP v, \fBcoef_t\fP &lowerBound, \fBcoef_t\fP &upperBound)"
+.br
+.ti -1c
+.RI "\fBcoef_t\fP \fBquery_variable_mod\fP (\fBVariable_ID\fP v, \fBcoef_t\fP \fBfactor\fP)"
+.br
+.ti -1c
+.RI "int \fBquery_variable_mod\fP (\fBVariable_ID\fP v, int \fBfactor\fP)"
+.br
+.ti -1c
+.RI "void \fBmake_level_carried_to\fP (int level)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBextract_dnf_by_carried_level\fP (int level, int direction)"
+.br
+.ti -1c
+.RI "void \fBcompress\fP ()"
+.br
+.ti -1c
+.RI "void \fBuncompress\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_exact\fP () \fBconst\fP"
+.br
+.RI "If it doesn't contains UNKNOWN\&. "
+.ti -1c
+.RI "bool \fBis_inexact\fP () \fBconst\fP"
+.br
+.RI "If it contains UNKNOWN\&. "
+.ti -1c
+.RI "bool \fBis_unknown\fP () \fBconst\fP"
+.br
+.RI "If it is a single UNKNOWN\&. "
+.ti -1c
+.RI "\fBRel_Unknown_Uses\fP \fBunknown_uses\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBsetup_names\fP ()"
+.br
+.ti -1c
+.RI "void \fBcopy_names\fP (\fBconst\fP \fBRelation\fP &r)"
+.br
+.ti -1c
+.RI "void \fBcopy_names\fP (\fBRel_Body\fP &r)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBRelation\fP \fBNull\fP ()"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBEmpty\fP (\fBconst\fP \fBRelation\fP &\fBR\fP)"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBTrue\fP (\fBconst\fP \fBRelation\fP &\fBR\fP)"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBTrue\fP (int setvars)"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBTrue\fP (int in, int out)"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBFalse\fP (\fBconst\fP \fBRelation\fP &\fBR\fP)"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBFalse\fP (int setvars)"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBFalse\fP (int in, int out)"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBUnknown\fP (\fBconst\fP \fBRelation\fP &\fBR\fP)"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBUnknown\fP (int setvars)"
+.br
+.ti -1c
+.RI "static \fBRelation\fP \fBUnknown\fP (int in, int out)"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBRel_Body\fP"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBRelation\fP &, \fBconst\fP \fBRelation\fP &)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBmerge_rels\fP (\fBTuple\fP< \fBRelation\fP > &\fBR\fP, \fBconst\fP \fBTuple\fP< \fBstd::map\fP< \fBVariable_ID\fP, std::pair< \fBVar_Kind\fP, int > > > &mapping, \fBconst\fP \fBTuple\fP< bool > &inverse, \fBCombine_Type\fP ctype, int number_input, int number_output)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBRelation\fP representative\&. 
+
+Body and representative are separated to do reference counting to optimize copy of formulas\&. This owns a \fBRel_Body\fP that contains the actual formula\&. Contains a lot of pipe that calls the corresponding functions in \fBRel_Body\fP\&.
+.PP
+Could be a 'set' or 'relation', 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::Relation::Relation ()"
+
+.PP
+create a null relation 
+.SS "omega::Relation::Relation (int n_input, int n_output = \fC0\fP)"
+
+.PP
+create a new relation with n_input variables and n_output variables Doesn't contain any Presburger formula can't be used just yet\&. A set is a relation without output variables\&. 
+.SS "omega::Relation::Relation (\fBconst\fP \fBRelation\fP & r)"
+
+.SS "omega::Relation::Relation (\fBconst\fP \fBRelation\fP & r, \fBConjunct\fP * c)"
+
+.PP
+Create a relation by copying a conjunction of constraints c from some other relation r\&. Conjuncts are created when a relation is simplified into disjunctive normal form\&. 
+.SS "omega::Relation::Relation (\fBRel_Body\fP & r, int foo)"
+
+.SS "omega::Relation::~Relation ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBF_And\fP* omega::Relation::add_and ()\fC [inline]\fP"
+
+.SS "\fBF_Exists\fP* omega::Relation::add_exists ()\fC [inline]\fP"
+
+.SS "\fBF_Forall\fP* omega::Relation::add_forall ()\fC [inline]\fP"
+
+.SS "\fBF_Not\fP* omega::Relation::add_not ()\fC [inline]\fP"
+
+.SS "\fBF_Or\fP* omega::Relation::add_or ()\fC [inline]\fP"
+
+.SS "\fBF_And\fP* omega::Relation::and_with ()\fC [inline]\fP"
+
+.SS "\fBF_And\fP* omega::Relation::and_with_and ()\fC [inline]\fP"
+
+.SS "\fBEQ_Handle\fP omega::Relation::and_with_EQ ()\fC [inline]\fP"
+Create a top-level EQ constraint that is and-ed with the formula in this relation\&. 
+.SS "\fBEQ_Handle\fP omega::Relation::and_with_EQ (\fBconst\fP \fBConstraint_Handle\fP & c)\fC [inline]\fP"
+\fBSet\fP the new EQ constaint's coefficient to be the same as c\&.
+.PP
+Can be used to convert GEQ to EQ\&. 
+.SS "\fBGEQ_Handle\fP omega::Relation::and_with_GEQ ()\fC [inline]\fP"
+Create a top-level GEQ constraint that is and-ed with the formula in this relation\&. 
+.SS "\fBGEQ_Handle\fP omega::Relation::and_with_GEQ (\fBconst\fP \fBConstraint_Handle\fP & c)\fC [inline]\fP"
+\fBSet\fP the new GEQ constaint's coefficient to be the same as c\&. 
+.SS "void omega::Relation::compress ()\fC [inline]\fP"
+
+.SS "void omega::Relation::copy_names (\fBconst\fP \fBRelation\fP & r)\fC [inline]\fP"
+
+.SS "void omega::Relation::copy_names (\fBRel_Body\fP & r)"
+
+.SS "void omega::Relation::dimensions (int & ndim_all, int & ndim_domain)"
+
+.SS "\fBRelation\fP omega::Relation::Empty (\fBconst\fP \fBRelation\fP & R)\fC [static]\fP"
+
+.SS "\fBRelation\fP omega::Relation::extract_dnf_by_carried_level (int level, int direction)\fC [inline]\fP"
+
+.SS "\fBRelation\fP omega::Relation::False (\fBconst\fP \fBRelation\fP & R)\fC [static]\fP"
+
+.SS "\fBRelation\fP omega::Relation::False (int in, int out)\fC [static]\fP"
+
+.SS "\fBRelation\fP omega::Relation::False (int setvars)\fC [static]\fP"
+
+.SS "void omega::Relation::finalize ()\fC [inline]\fP"
+
+.SS "\fBVariable_ID\fP omega::Relation::get_local (\fBconst\fP \fBGlobal_Var_ID\fP G)\fC [inline]\fP"
+
+.PP
+Find or declare global variable\&. If the VarID does not exist, it is created\&. Otherwise it's returned\&. Note that this version now works only for 0-ary functions\&. 
+.SS "\fBVariable_ID\fP omega::Relation::get_local (\fBconst\fP \fBGlobal_Var_ID\fP G, \fBArgument_Tuple\fP of)\fC [inline]\fP"
+
+.PP
+Find or declare global variable\&. If the VarID does not exist, it is created\&. Otherwise it's returned\&. 
+.SS "\fBVariable_ID\fP omega::Relation::get_local (\fBconst\fP \fBVariable_ID\fP v)\fC [inline]\fP"
+
+.SS "\fBconst\fP \fBVariable_ID_Tuple\fP* omega::Relation::global_decls () const\fC [inline]\fP"
+
+.SS "bool omega::Relation::has_local (\fBconst\fP \fBGlobal_Var_ID\fP G)\fC [inline]\fP"
+
+.SS "bool omega::Relation::has_local (\fBconst\fP \fBGlobal_Var_ID\fP G, \fBArgument_Tuple\fP of)\fC [inline]\fP"
+
+.SS "bool omega::Relation::has_single_conjunct ()\fC [inline]\fP"
+
+.SS "\fBVariable_ID\fP omega::Relation::input_var (int nth)\fC [inline]\fP"
+
+.PP
+Return the n-th input variable, illegal for set\&. 
+.SS "bool omega::Relation::is_compressed () const\fC [inline]\fP"
+
+.SS "bool omega::Relation::is_definite_tautology ()\fC [inline]\fP"
+
+.PP
+if the relation's formula is a tautology 
+.SS "bool omega::Relation::is_exact () const\fC [inline]\fP"
+
+.PP
+If it doesn't contains UNKNOWN\&. 
+.SS "bool omega::Relation::is_finalized () const\fC [inline]\fP"
+
+.SS "bool omega::Relation::is_inexact () const\fC [inline]\fP"
+
+.PP
+If it contains UNKNOWN\&. 
+.SS "bool omega::Relation::is_lower_bound_satisfiable ()\fC [inline]\fP"
+Return True if the relation's lower-bound is satisfiable\&. Treating UNKNOWN constraints as False\&. 
+.SS "bool omega::Relation::is_null () const"
+
+.SS "bool omega::Relation::is_obvious_tautology ()\fC [inline]\fP"
+
+.PP
+if formula evaluates to a single conjunction with no constraints 
+.SS "bool omega::Relation::is_satisfiable ()\fC [inline]\fP"
+
+.PP
+If both bounds are satisfiable or not\&. ABORT if only one is\&. Included for compatibility with older releases\&. 
+.SS "bool omega::Relation::is_set () const\fC [inline]\fP"
+
+.SS "bool omega::Relation::is_simplified ()\fC [inline]\fP"
+
+.SS "bool omega::Relation::is_tautology ()\fC [inline]\fP"
+
+.SS "bool omega::Relation::is_unknown () const\fC [inline]\fP"
+
+.PP
+If it is a single UNKNOWN\&. 
+.SS "bool omega::Relation::is_upper_bound_satisfiable ()\fC [inline]\fP"
+Return True if the relation's upper-bound is satisfiable\&. Treating UNKNOWN constraints as True\&. 
+.SS "void omega::Relation::make_level_carried_to (int level)\fC [inline]\fP"
+
+.SS "int omega::Relation::max_shared_ufs_arity () const\fC [inline]\fP"
+
+.PP
+Maximum arity of uninterpreted function over input&output tuple\&. 
+.SS "int omega::Relation::max_ufs_arity () const\fC [inline]\fP"
+
+.SS "int omega::Relation::max_ufs_arity_of_in () const\fC [inline]\fP"
+
+.PP
+Maximum arity of uninterpreted function over input tuple\&. 
+.SS "int omega::Relation::max_ufs_arity_of_out () const\fC [inline]\fP"
+
+.PP
+Maximum arity of uninterpreted function over output tuple\&. 
+.SS "int omega::Relation::max_ufs_arity_of_set () const\fC [inline]\fP"
+
+.PP
+Maximum arity of uninterpreted function over set tuple\&. 
+.SS "int omega::Relation::n_inp () const\fC [inline]\fP"
+
+.SS "int omega::Relation::n_out () const\fC [inline]\fP"
+
+.SS "int omega::Relation::n_set () const\fC [inline]\fP"
+
+.SS "void omega::Relation::name_input_var (int nth, \fBConst_String\fP S)\fC [inline]\fP"
+
+.SS "void omega::Relation::name_output_var (int nth, \fBConst_String\fP S)\fC [inline]\fP"
+
+.SS "void omega::Relation::name_set_var (int nth, \fBConst_String\fP S)\fC [inline]\fP"
+
+.SS "\fBRelation\fP omega::Relation::Null ()\fC [static]\fP"
+
+.SS "int omega::Relation::number_of_conjuncts ()\fC [inline]\fP"
+
+.PP
+\fBReturns\fP
+.RS 4
+the number of conjuncts 
+.RE
+.PP
+
+.SS "\fBRelation\fP & omega::Relation::operator= (\fBconst\fP \fBRelation\fP & r)"
+
+.SS "\fBVariable_ID\fP omega::Relation::output_var (int nth)\fC [inline]\fP"
+
+.PP
+Return the n-th output variable, illegal for set\&. 
+.SS "void omega::Relation::prefix_print ()\fC [inline]\fP"
+
+.SS "void omega::Relation::prefix_print (FILE * output_file, int debug = \fC1\fP)\fC [inline]\fP"
+
+.PP
+Debug print the structure in prefix format\&. Used primarily to debug programs use this library\&. Designed to make clear the structure of the formula tree and show the details of the variables used\&. 
+.SS "void omega::Relation::print ()\fC [inline]\fP"
+
+.SS "void omega::Relation::print (FILE * output_file)\fC [inline]\fP"
+
+.SS "std::string omega::Relation::print_formula_to_string ()\fC [inline]\fP"
+
+.PP
+Print the formula\&. This allows a printed representation of the relation's formula, without the input and output variables\&. 
+.SS "std::string omega::Relation::print_outputs_with_subs_to_string ()\fC [inline]\fP"
+
+.SS "std::string omega::Relation::print_outputs_with_subs_to_string (int i)\fC [inline]\fP"
+
+.SS "void omega::Relation::print_with_subs ()\fC [inline]\fP"
+
+.SS "void omega::Relation::print_with_subs (FILE * output_file, bool printSym = \fCfalse\fP, bool newline = \fCtrue\fP)\fC [inline]\fP"
+
+.PP
+Print the relation in an easy-to-understand format\&. At each input variable and output variable, it will try to print the variable as an affine function of the variables to the left\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIprintSym\fP Whether the set of symbolic variables used in the relation are printed\&. 
+.RE
+.PP
+
+.SS "std::string omega::Relation::print_with_subs_to_string (bool printSym = \fCfalse\fP, bool newline = \fCtrue\fP)\fC [inline]\fP"
+
+.SS "void omega::Relation::query_difference (\fBVariable_ID\fP v1, \fBVariable_ID\fP v2, \fBcoef_t\fP & lowerBound, \fBcoef_t\fP & upperBound, bool & guaranteed)\fC [inline]\fP"
+
+.PP
+Determining the bounds of the difference of two variables\&. This is used to calculate leading zeros 
+.PP
+\fBParameters\fP
+.RS 4
+\fIlowerBound[out]\fP negInfinity if not bounded below 
+.br
+\fIupperBound[out]\fP posInfinity if not bounded above 
+.br
+\fIguaranteed[out]\fP True if the bounds is guaranteed to be tight 
+.RE
+.PP
+
+.SS "\fBDNF\fP* omega::Relation::query_DNF ()\fC [inline]\fP"
+
+.PP
+Request this to be simplified to \fBDNF\fP\&. 
+.SS "\fBDNF\fP* omega::Relation::query_DNF (int rdt_conjs, int rdt_constrs)\fC [inline]\fP"
+
+.PP
+Request this to be simplified to \fBDNF\fP\&. rdt_conjs and rdt_constrs specifies the level of effort to eliminate redundant informations
+.PP
+value rdt_conjs rdt_constrs  0 Nothing extra Nothing extra  1 Simple check Remove redundant ones by any other two  2 Exact test(if one is subset of any other) Exact test  4 Also perform simplification on the constraints  
+.SS "int omega::Relation::query_guaranteed_leading_0s ()\fC [inline]\fP"
+
+.PP
+\fBReturns\fP
+.RS 4
+x s\&.t\&. forall conjuncts c, c has >= x leading 0s(in=out) for set or there are no conjuncts return -1 
+.RE
+.PP
+
+.SS "int omega::Relation::query_leading_dir ()\fC [inline]\fP"
+
+.PP
+\fBReturns\fP
+.RS 4
++-1 according to sign of leading dir, or 0 if we don't know 
+.RE
+.PP
+
+.SS "int omega::Relation::query_possible_leading_0s ()\fC [inline]\fP"
+
+.PP
+\fBReturns\fP
+.RS 4
+x s\&.t\&. forall conjuncts c, c has <= x leading 0s(in=out) if no conjuncts return min of input and output tuple sizes, or -1 if relation is a set 
+.RE
+.PP
+
+.SS "void omega::Relation::query_variable_bounds (\fBVariable_ID\fP v, \fBcoef_t\fP & lowerBound, \fBcoef_t\fP & upperBound)\fC [inline]\fP"
+
+.SS "\fBcoef_t\fP omega::Relation::query_variable_mod (\fBVariable_ID\fP v, \fBcoef_t\fP factor)\fC [inline]\fP"
+
+.SS "int omega::Relation::query_variable_mod (\fBVariable_ID\fP v, int factor)\fC [inline]\fP"
+
+.SS "\fBConjunct\fP* omega::Relation::rm_first_conjunct ()\fC [inline]\fP"
+
+.SS "\fBVariable_ID\fP omega::Relation::set_var (int nth)\fC [inline]\fP"
+
+.PP
+Return the n-th set variable, illegal for relation\&. 
+.SS "void omega::Relation::setup_names ()\fC [inline]\fP"
+
+.SS "void omega::Relation::simplify (int rdt_conjs = \fC0\fP, int rdt_constrs = \fC0\fP)\fC [inline]\fP"
+
+.PP
+Simplify a given relation\&. Store the resulting \fBDNF\fP in the relation, clean out the formula\&.
+.PP
+Called by query_DNF\&. 
+.SS "\fBConjunct\fP* omega::Relation::single_conjunct ()\fC [inline]\fP"
+
+.SS "\fBRelation\fP omega::Relation::True (\fBconst\fP \fBRelation\fP & R)\fC [static]\fP"
+
+.SS "\fBRelation\fP omega::Relation::True (int in, int out)\fC [static]\fP"
+
+.SS "\fBRelation\fP omega::Relation::True (int setvars)\fC [static]\fP"
+
+.SS "void omega::Relation::uncompress ()\fC [inline]\fP"
+
+.SS "\fBRelation\fP omega::Relation::Unknown (\fBconst\fP \fBRelation\fP & R)\fC [static]\fP"
+
+.SS "\fBRelation\fP omega::Relation::Unknown (int in, int out)\fC [static]\fP"
+
+.SS "\fBRelation\fP omega::Relation::Unknown (int setvars)\fC [static]\fP"
+
+.SS "\fBRel_Unknown_Uses\fP omega::Relation::unknown_uses () const\fC [inline]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "\fBRelation\fP merge_rels (\fBTuple\fP< \fBRelation\fP > & R, \fBconst\fP \fBTuple\fP< \fBstd::map\fP< \fBVariable_ID\fP, std::pair< \fBVar_Kind\fP, int > > > & mapping, \fBconst\fP \fBTuple\fP< bool > & inverse, \fBCombine_Type\fP ctype, int number_input = \fC\-1\fP, int number_output = \fC\-1\fP)\fC [friend]\fP"
+Scramble each relation's variables and merge these relations together\&. Support variable mapping to and from existentials\&. Unspecified variables in mapping are mapped to themselves by default\&. It intends to replace MapRel1 and MapAndCombineRel2 functions (the time saved by grafting formula tree might be negligible when compared to the simplification cost)\&. 
+.SS "bool operator== (\fBconst\fP \fBRelation\fP &, \fBconst\fP \fBRelation\fP &)\fC [friend]\fP"
+
+.SS "friend class \fBRel_Body\fP\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

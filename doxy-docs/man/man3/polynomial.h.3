@@ -1,0 +1,1258 @@
+.TH "lib/isl/include/isl/polynomial.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/polynomial.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/ctx\&.h>\fP
+.br
+\fC#include <isl/constraint\&.h>\fP
+.br
+\fC#include <isl/space\&.h>\fP
+.br
+\fC#include <isl/set_type\&.h>\fP
+.br
+\fC#include <isl/point\&.h>\fP
+.br
+\fC#include <isl/printer\&.h>\fP
+.br
+\fC#include <isl/union_set_type\&.h>\fP
+.br
+\fC#include <isl/aff_type\&.h>\fP
+.br
+\fC#include <isl/polynomial_type\&.h>\fP
+.br
+\fC#include <isl/val\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_qpolynomial_get_ctx\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_qpolynomial_get_domain_space\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_qpolynomial_get_space\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_qpolynomial_dim\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_qpolynomial_involves_dims\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_qpolynomial_get_constant_val\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_set_dim_name\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_zero_on_domain\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_one_on_domain\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_infty_on_domain\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_neginfty_on_domain\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_nan_on_domain\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_val_on_domain\fP (\fB__isl_take\fP \fBisl_space\fP *space, \fB__isl_take\fP \fBisl_val\fP *\fBval\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_var_on_domain\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_copy\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_free\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_qpolynomial_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp1, \fB__isl_keep\fP \fBisl_qpolynomial\fP *qp2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_qpolynomial_is_zero\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_qpolynomial_is_nan\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_qpolynomial_is_infty\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_qpolynomial_is_neginfty\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "int \fBisl_qpolynomial_sgn\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_neg\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_add\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp1, \fB__isl_take\fP \fBisl_qpolynomial\fP *qp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_sub\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp1, \fB__isl_take\fP \fBisl_qpolynomial\fP *qp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_mul\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp1, \fB__isl_take\fP \fBisl_qpolynomial\fP *qp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_pow\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, unsigned power)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_scale_val\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_scale_down_val\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_insert_dims\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_add_dims\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, enum \fBisl_dim_type\fP type, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_move_dims\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_project_domain_on_params\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_drop_dims\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_substitute\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP, \fB__isl_keep\fP \fBisl_qpolynomial\fP **subs)"
+.br
+.ti -1c
+.RI "int \fBisl_qpolynomial_as_polynomial_on_domain\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp, \fB__isl_keep\fP \fBisl_basic_set\fP *bset, int(*\fBfn\fP)(\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_qpolynomial\fP *poly, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_homogenize\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *poly)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_align_params\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_term_get_ctx\fP (\fB__isl_keep\fP \fBisl_term\fP *term)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_term\fP * \fBisl_term_copy\fP (\fB__isl_keep\fP \fBisl_term\fP *term)"
+.br
+.ti -1c
+.RI "void \fBisl_term_free\fP (\fB__isl_take\fP \fBisl_term\fP *term)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_term_dim\fP (\fB__isl_keep\fP \fBisl_term\fP *term, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_term_get_coefficient_val\fP (\fB__isl_keep\fP \fBisl_term\fP *term)"
+.br
+.ti -1c
+.RI "int \fBisl_term_get_exp\fP (\fB__isl_keep\fP \fBisl_term\fP *term, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_term_get_div\fP (\fB__isl_keep\fP \fBisl_term\fP *term, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_qpolynomial_foreach_term\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_term\fP *term, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_qpolynomial_eval\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, \fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_gist_params\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_gist\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_from_constraint\fP (\fB__isl_take\fP \fBisl_constraint\fP *\fBc\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_from_term\fP (\fB__isl_take\fP \fBisl_term\fP *term)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial\fP * \fBisl_qpolynomial_from_aff\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_from_qpolynomial\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_qpolynomial\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "void \fBisl_qpolynomial_print\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp, FILE *out, unsigned output_format)"
+.br
+.ti -1c
+.RI "void \fBisl_qpolynomial_dump\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_pw_qpolynomial_get_ctx\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_pw_qpolynomial_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *pwqp1, \fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *pwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_zero\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_alloc\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_from_qpolynomial\fP (\fB__isl_take\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_copy\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_free\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_pw_qpolynomial_is_zero\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_pw_qpolynomial_get_domain_space\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_pw_qpolynomial_get_space\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_reset_domain_space\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, \fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_pw_qpolynomial_dim\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_pw_qpolynomial_involves_dims\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_pw_qpolynomial_has_equal_space\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *pwqp1, \fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *pwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_set_dim_name\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "int \fBisl_pw_qpolynomial_find_dim_by_name\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP type, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_reset_user\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_qpolynomial_domain\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_intersect_domain\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwpq, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_intersect_params\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwpq, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_subtract_domain\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwpq, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_project_domain_on_params\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_drop_dims\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_split_dims\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_add\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwqp1, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_sub\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwqp1, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_add_disjoint\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwqp1, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_neg\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_mul\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwqp1, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP *pwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_scale_val\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_scale_down_val\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_pow\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, unsigned exponent)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_insert_dims\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_add_dims\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP type, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_move_dims\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_fix_val\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_dim_type\fP type, unsigned \fBn\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_pw_qpolynomial_eval\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, \fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_pw_qpolynomial_max\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_pw_qpolynomial_min\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_pw_qpolynomial_foreach_piece\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial\fP *qp, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_pw_qpolynomial_foreach_lifted_piece\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial\fP *qp, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_from_pw_aff\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_pw_qpolynomial\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_pw_qpolynomial_print\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, FILE *out, unsigned output_format)"
+.br
+.ti -1c
+.RI "void \fBisl_pw_qpolynomial_dump\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_coalesce\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_gist\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_gist_params\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_split_periods\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, int max_periods)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_basic_set_multiplicative_call\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_give\fP \fBisl_pw_qpolynomial\fP *(*\fBfn\fP)(\fB__isl_take\fP \fBisl_basic_set\fP *bset))"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_qpolynomial_fold_get_ctx\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "enum \fBisl_fold\fP \fBisl_qpolynomial_fold_get_type\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_empty\fP (enum \fBisl_fold\fP type, \fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_alloc\fP (enum \fBisl_fold\fP type, \fB__isl_take\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_copy\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "void \fBisl_qpolynomial_fold_free\fP (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "int \fBisl_qpolynomial_fold_is_empty\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_qpolynomial_fold_is_nan\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "int \fBisl_qpolynomial_fold_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold1, \fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_qpolynomial_fold_get_domain_space\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_qpolynomial_fold_get_space\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_fold\fP (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold1, \fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_scale_val\fP (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_scale_down_val\fP (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_move_dims\fP (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_substitute\fP (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP, \fB__isl_keep\fP \fBisl_qpolynomial\fP **subs)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_qpolynomial_fold_eval\fP (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, \fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_gist_params\fP (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP * \fBisl_qpolynomial_fold_gist\fP (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_qpolynomial_fold_foreach_qpolynomial\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "void \fBisl_qpolynomial_fold_print\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold, FILE *out, unsigned output_format)"
+.br
+.ti -1c
+.RI "void \fBisl_qpolynomial_fold_dump\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_pw_qpolynomial_fold_get_ctx\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_pw_qpolynomial_fold_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf1, \fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_from_pw_qpolynomial\fP (enum \fBisl_fold\fP type, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_alloc\fP (enum \fBisl_fold\fP type, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_copy\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_free\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_pw_qpolynomial_fold_is_zero\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_pw_qpolynomial_fold_get_domain_space\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_pw_qpolynomial_fold_get_space\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_reset_space\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_pw_qpolynomial_fold_dim\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "int \fBisl_pw_qpolynomial_fold_has_equal_space\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf1, \fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf2)"
+.br
+.ti -1c
+.RI "size_t \fBisl_pw_qpolynomial_fold_size\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_zero\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, enum \fBisl_fold\fP type)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_set_dim_name\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "int \fBisl_pw_qpolynomial_fold_find_dim_by_name\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf, enum \fBisl_dim_type\fP type, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_reset_user\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_qpolynomial_fold_domain\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_intersect_domain\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_intersect_params\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_subtract_domain\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_add\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf1, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_fold\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf1, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_add_disjoint\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf1, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_scale_val\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_scale_down_val\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_project_domain_on_params\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_drop_dims\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_move_dims\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_pw_qpolynomial_fold_eval\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_pw_qpolynomial_fold_foreach_piece\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_pw_qpolynomial_fold_foreach_lifted_piece\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "void \fBisl_pw_qpolynomial_fold_print\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf, FILE *out, unsigned output_format)"
+.br
+.ti -1c
+.RI "void \fBisl_pw_qpolynomial_fold_dump\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_coalesce\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_gist\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_gist_params\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_pw_qpolynomial_fold_max\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_pw_qpolynomial_fold_min\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_bound\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, enum \fBisl_fold\fP type, int *tight)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_pw_qpolynomial_fold_bound\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, int *tight)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_set_apply_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, int *tight)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_map_apply_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, int *tight)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_pw_qpolynomial_to_polynomial\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, int sign)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_union_pw_qpolynomial_get_ctx\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_union_pw_qpolynomial_dim\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_union_pw_qpolynomial_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp1, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_from_pw_qpolynomial\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_zero\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_add_pw_qpolynomial\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_copy\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_free\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_neg\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_add\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp1, \fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_sub\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp1, \fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_mul\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp1, \fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_scale_val\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_scale_down_val\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_pw_qpolynomial_domain\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_intersect_domain\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwpq, \fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_intersect_params\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwpq, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_subtract_domain\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwpq, \fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_union_pw_qpolynomial_get_space\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_set_dim_name\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "int \fBisl_union_pw_qpolynomial_find_dim_by_name\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp, enum \fBisl_dim_type\fP type, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_drop_dims\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_reset_user\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_union_pw_qpolynomial_eval\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, \fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_coalesce\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_gist\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, \fB__isl_take\fP \fBisl_union_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_gist_params\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_align_params\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.ti -1c
+.RI "int \fBisl_union_pw_qpolynomial_n_pw_qpolynomial\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_union_pw_qpolynomial_foreach_pw_qpolynomial\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_extract_pw_qpolynomial\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp, \fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_pw_qpolynomial\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_union_pw_qpolynomial_fold_get_ctx\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_union_pw_qpolynomial_fold_dim\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_union_pw_qpolynomial_fold_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf1, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_from_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_zero\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP, enum \fBisl_fold\fP type)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_fold_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwqp, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_free\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_copy\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_fold\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf1, \fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_add_union_pw_qpolynomial\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_scale_val\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_scale_down_val\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_pw_qpolynomial_fold_domain\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_intersect_domain\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_intersect_params\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_subtract_domain\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "enum \fBisl_fold\fP \fBisl_union_pw_qpolynomial_fold_get_type\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_union_pw_qpolynomial_fold_get_space\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_set_dim_name\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "int \fBisl_union_pw_qpolynomial_fold_find_dim_by_name\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, enum \fBisl_dim_type\fP type, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_drop_dims\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_reset_user\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_union_pw_qpolynomial_fold_eval\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_point\fP *pnt)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_coalesce\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_gist\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_union_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_gist_params\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_align_params\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.ti -1c
+.RI "int \fBisl_union_pw_qpolynomial_fold_n_pw_qpolynomial_fold\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_union_pw_qpolynomial_fold_foreach_pw_qpolynomial_fold\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_fold_extract_pw_qpolynomial_fold\fP (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, \fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_pw_qpolynomial_bound\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, enum \fBisl_fold\fP type, int *tight)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_set_apply_union_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_union_set\fP *uset, \fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, int *tight)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP * \fBisl_union_map_apply_union_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, \fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf, int *tight)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP * \fBisl_union_pw_qpolynomial_to_polynomial\fP (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP *upwqp, int sign)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_from_qpolynomial (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_basic_set_multiplicative_call (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_give\fP \fBisl_pw_qpolynomial\fP *(*)(\fB__isl_take\fP \fBisl_basic_set\fP *bset) fn)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_map_apply_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_map\fP * map, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, int * tight)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_pw_qpolynomial (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_qpolynomial (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_qpolynomial_fold (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_pw_qpolynomial (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_add (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp1, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_add_dims (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP type, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_add_disjoint (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp1, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_alloc (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_bound (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_fold\fP type, int * tight)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_coalesce (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_copy (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "unsigned isl_pw_qpolynomial_dim (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_qpolynomial_domain (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_drop_dims (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "void isl_pw_qpolynomial_dump (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_pw_qpolynomial_eval (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, \fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "int isl_pw_qpolynomial_find_dim_by_name (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP type, \fBconst\fP char * name)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_fix_val (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP type, unsigned n, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_add (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf1, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_add_disjoint (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf1, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_alloc (enum \fBisl_fold\fP type, \fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_bound (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, int * tight)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_coalesce (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_copy (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "unsigned isl_pw_qpolynomial_fold_dim (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_qpolynomial_fold_domain (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_drop_dims (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "void isl_pw_qpolynomial_fold_dump (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_pw_qpolynomial_fold_eval (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "int isl_pw_qpolynomial_fold_find_dim_by_name (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf, enum \fBisl_dim_type\fP type, \fBconst\fP char * name)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_fold (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf1, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf2)"
+
+.SS "\fBisl_stat\fP isl_pw_qpolynomial_fold_foreach_lifted_piece (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fBisl_stat\fP isl_pw_qpolynomial_fold_foreach_piece (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial_fold\fP *fold, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_null\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_free (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_from_pw_qpolynomial (enum \fBisl_fold\fP type, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fBisl_ctx\fP* isl_pw_qpolynomial_fold_get_ctx (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_pw_qpolynomial_fold_get_domain_space (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_pw_qpolynomial_fold_get_space (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_gist (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_gist_params (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "int isl_pw_qpolynomial_fold_has_equal_space (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf1, \fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_intersect_domain (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_intersect_params (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fBisl_bool\fP isl_pw_qpolynomial_fold_is_zero (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_pw_qpolynomial_fold_max (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_pw_qpolynomial_fold_min (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_move_dims (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned n)"
+
+.SS "\fBisl_bool\fP isl_pw_qpolynomial_fold_plain_is_equal (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf1, \fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf2)"
+
+.SS "void isl_pw_qpolynomial_fold_print (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf, FILE * out, unsigned output_format)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_project_domain_on_params (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_reset_space (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_reset_user (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_scale_down_val (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_scale_val (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_set_dim_name (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "size_t isl_pw_qpolynomial_fold_size (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_subtract_domain (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_pw_qpolynomial_fold_zero (\fB__isl_take\fP \fBisl_space\fP * dim, enum \fBisl_fold\fP type)"
+
+.SS "\fBisl_stat\fP isl_pw_qpolynomial_foreach_lifted_piece (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial\fP *qp, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fBisl_stat\fP isl_pw_qpolynomial_foreach_piece (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_qpolynomial\fP *qp, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_null\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_free (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_from_pw_aff (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_from_qpolynomial (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fBisl_ctx\fP* isl_pw_qpolynomial_get_ctx (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_pw_qpolynomial_get_domain_space (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_pw_qpolynomial_get_space (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_gist (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_gist_params (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "int isl_pw_qpolynomial_has_equal_space (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp1, \fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_insert_dims (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_intersect_domain (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwpq, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_intersect_params (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwpq, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fBisl_bool\fP isl_pw_qpolynomial_involves_dims (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fBisl_bool\fP isl_pw_qpolynomial_is_zero (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_pw_qpolynomial_max (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_pw_qpolynomial_min (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_move_dims (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_mul (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp1, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_neg (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fBisl_bool\fP isl_pw_qpolynomial_plain_is_equal (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp1, \fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_pow (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, unsigned exponent)"
+
+.SS "void isl_pw_qpolynomial_print (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp, FILE * out, unsigned output_format)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_project_domain_on_params (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_reset_domain_space (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, \fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_reset_user (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_scale_down_val (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_scale_val (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_set_dim_name (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_split_dims (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_split_periods (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, int max_periods)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_sub (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp1, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_subtract_domain (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwpq, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_to_polynomial (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp, int sign)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_pw_qpolynomial_zero (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_add (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp1, \fB__isl_take\fP \fBisl_qpolynomial\fP * qp2)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_add_dims (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, enum \fBisl_dim_type\fP type, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_align_params (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "int isl_qpolynomial_as_polynomial_on_domain (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp, \fB__isl_keep\fP \fBisl_basic_set\fP * bset, int(*)(\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_qpolynomial\fP *poly, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_copy (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "unsigned isl_qpolynomial_dim (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_drop_dims (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "void isl_qpolynomial_dump (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_qpolynomial_eval (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, \fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_alloc (enum \fBisl_fold\fP type, \fB__isl_take\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_copy (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "void isl_qpolynomial_fold_dump (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_empty (enum \fBisl_fold\fP type, \fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_qpolynomial_fold_eval (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold, \fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_fold (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold1, \fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold2)"
+
+.SS "\fBisl_stat\fP isl_qpolynomial_fold_foreach_qpolynomial (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_qpolynomial\fP *qp, void *\fBuser\fP) fn, void * user)"
+
+.SS "void isl_qpolynomial_fold_free (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fBisl_ctx\fP* isl_qpolynomial_fold_get_ctx (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_qpolynomial_fold_get_domain_space (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_qpolynomial_fold_get_space (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "enum \fBisl_fold\fP isl_qpolynomial_fold_get_type (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_gist (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_gist_params (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "int isl_qpolynomial_fold_is_empty (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fBisl_bool\fP isl_qpolynomial_fold_is_nan (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_move_dims (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned n)"
+
+.SS "int isl_qpolynomial_fold_plain_is_equal (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold1, \fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold2)"
+
+.SS "void isl_qpolynomial_fold_print (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold, FILE * out, unsigned output_format)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_scale_down_val (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_scale_val (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial_fold\fP* isl_qpolynomial_fold_substitute (\fB__isl_take\fP \fBisl_qpolynomial_fold\fP * fold, enum \fBisl_dim_type\fP type, unsigned first, unsigned n, \fB__isl_keep\fP \fBisl_qpolynomial\fP ** subs)"
+
+.SS "\fBisl_stat\fP isl_qpolynomial_foreach_term (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_term\fP *term, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_null\fP \fBisl_qpolynomial\fP* isl_qpolynomial_free (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_from_aff (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_from_constraint (\fB__isl_take\fP \fBisl_constraint\fP * c, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_from_term (\fB__isl_take\fP \fBisl_term\fP * term)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_qpolynomial_get_constant_val (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fBisl_ctx\fP* isl_qpolynomial_get_ctx (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_qpolynomial_get_domain_space (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_qpolynomial_get_space (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_gist (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_gist_params (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_homogenize (\fB__isl_take\fP \fBisl_qpolynomial\fP * poly)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_infty_on_domain (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_insert_dims (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fBisl_bool\fP isl_qpolynomial_involves_dims (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fBisl_bool\fP isl_qpolynomial_is_infty (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fBisl_bool\fP isl_qpolynomial_is_nan (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fBisl_bool\fP isl_qpolynomial_is_neginfty (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fBisl_bool\fP isl_qpolynomial_is_zero (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_move_dims (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_mul (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp1, \fB__isl_take\fP \fBisl_qpolynomial\fP * qp2)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_nan_on_domain (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_neg (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_neginfty_on_domain (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_one_on_domain (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fBisl_bool\fP isl_qpolynomial_plain_is_equal (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp1, \fB__isl_keep\fP \fBisl_qpolynomial\fP * qp2)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_pow (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, unsigned power)"
+
+.SS "void isl_qpolynomial_print (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp, FILE * out, unsigned output_format)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_project_domain_on_params (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_scale_down_val (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_scale_val (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_set_dim_name (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "int isl_qpolynomial_sgn (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_sub (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp1, \fB__isl_take\fP \fBisl_qpolynomial\fP * qp2)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_substitute (\fB__isl_take\fP \fBisl_qpolynomial\fP * qp, enum \fBisl_dim_type\fP type, unsigned first, unsigned n, \fB__isl_keep\fP \fBisl_qpolynomial\fP ** subs)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_val_on_domain (\fB__isl_take\fP \fBisl_space\fP * space, \fB__isl_take\fP \fBisl_val\fP * val)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_var_on_domain (\fB__isl_take\fP \fBisl_space\fP * dim, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_qpolynomial\fP* isl_qpolynomial_zero_on_domain (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_set_apply_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf, int * tight)"
+
+.SS "\fB__isl_give\fP \fBisl_term\fP* isl_term_copy (\fB__isl_keep\fP \fBisl_term\fP * term)"
+
+.SS "unsigned isl_term_dim (\fB__isl_keep\fP \fBisl_term\fP * term, enum \fBisl_dim_type\fP type)"
+
+.SS "void isl_term_free (\fB__isl_take\fP \fBisl_term\fP * term)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_term_get_coefficient_val (\fB__isl_keep\fP \fBisl_term\fP * term)"
+
+.SS "\fBisl_ctx\fP* isl_term_get_ctx (\fB__isl_keep\fP \fBisl_term\fP * term)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_term_get_div (\fB__isl_keep\fP \fBisl_term\fP * term, unsigned pos)"
+
+.SS "int isl_term_get_exp (\fB__isl_keep\fP \fBisl_term\fP * term, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_map_apply_union_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_union_map\fP * umap, \fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, int * tight)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_add (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp1, \fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_add_pw_qpolynomial (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, \fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_align_params (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_bound (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, enum \fBisl_fold\fP type, int * tight)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_coalesce (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_copy (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "unsigned isl_union_pw_qpolynomial_dim (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_union_pw_qpolynomial_domain (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_drop_dims (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_union_pw_qpolynomial_eval (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, \fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial\fP* isl_union_pw_qpolynomial_extract_pw_qpolynomial (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp, \fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "int isl_union_pw_qpolynomial_find_dim_by_name (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp, enum \fBisl_dim_type\fP type, \fBconst\fP char * name)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_add_union_pw_qpolynomial (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_align_params (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_coalesce (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_copy (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "unsigned isl_union_pw_qpolynomial_fold_dim (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_union_pw_qpolynomial_fold_domain (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_drop_dims (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_union_pw_qpolynomial_fold_eval (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_point\fP * pnt)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_extract_pw_qpolynomial_fold (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "int isl_union_pw_qpolynomial_fold_find_dim_by_name (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, enum \fBisl_dim_type\fP type, \fBconst\fP char * name)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_fold (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf1, \fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_fold_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwqp, \fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwqp)"
+
+.SS "\fBisl_stat\fP isl_union_pw_qpolynomial_fold_foreach_pw_qpolynomial_fold (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP *pwf, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_null\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_free (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_from_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fBisl_ctx\fP* isl_union_pw_qpolynomial_fold_get_ctx (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_union_pw_qpolynomial_fold_get_space (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "enum \fBisl_fold\fP isl_union_pw_qpolynomial_fold_get_type (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_gist (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_union_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_gist_params (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_intersect_domain (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_intersect_params (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "int isl_union_pw_qpolynomial_fold_n_pw_qpolynomial_fold (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "\fBisl_bool\fP isl_union_pw_qpolynomial_fold_plain_is_equal (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf1, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_reset_user (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_scale_down_val (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_scale_val (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_set_dim_name (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_subtract_domain (\fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, \fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_pw_qpolynomial_fold_zero (\fB__isl_take\fP \fBisl_space\fP * dim, enum \fBisl_fold\fP type)"
+
+.SS "\fBisl_stat\fP isl_union_pw_qpolynomial_foreach_pw_qpolynomial (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_null\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_free (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_from_pw_qpolynomial (\fB__isl_take\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fBisl_ctx\fP* isl_union_pw_qpolynomial_get_ctx (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_union_pw_qpolynomial_get_space (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_gist (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, \fB__isl_take\fP \fBisl_union_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_gist_params (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_intersect_domain (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwpq, \fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_intersect_params (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwpq, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_mul (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp1, \fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp2)"
+
+.SS "int isl_union_pw_qpolynomial_n_pw_qpolynomial (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_neg (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fBisl_bool\fP isl_union_pw_qpolynomial_plain_is_equal (\fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp1, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp2)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_reset_user (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_scale_down_val (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_scale_val (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_set_dim_name (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_sub (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp1, \fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_subtract_domain (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwpq, \fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_to_polynomial (\fB__isl_take\fP \fBisl_union_pw_qpolynomial\fP * upwqp, int sign)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial\fP* isl_union_pw_qpolynomial_zero (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_qpolynomial_fold\fP* isl_union_set_apply_union_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_union_set\fP * uset, \fB__isl_take\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf, int * tight)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

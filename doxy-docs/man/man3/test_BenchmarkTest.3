@@ -1,0 +1,208 @@
+.TH "test::BenchmarkTest" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+test::BenchmarkTest
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <BenchmarkTest\&.hpp>\fP
+.PP
+Inherits \fBtesting::Test\fP\&.
+.PP
+Inherited by \fBtest::InspExecTest\fP, and \fBtest::MiniFluxDivTest\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "double \fBEvalTime\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "double \fBRunTime\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned \fBNumRuns\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBNumRuns\fP (unsigned nRuns)"
+.br
+.ti -1c
+.RI "double \fBSpeedup\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual int \fBMaxThreads\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual int \fBNumThreads\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual bool \fBNumThreads\fP (int nThreads)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBenchmarkTest\fP (\fBconst\fP string &\fBname\fP='', unsigned nRuns=1, unsigned nThreads=1)"
+.br
+.ti -1c
+.RI "virtual \fB~BenchmarkTest\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBSetUp\fP (initializer_list< string > args)"
+.br
+.ti -1c
+.RI "void \fBStart\fP () noexcept"
+.br
+.ti -1c
+.RI "void \fBStop\fP () noexcept"
+.br
+.ti -1c
+.RI "double \fBNow\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBExecute\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBRun\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBEvaluate\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBVerify\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBAssert\fP ()"
+.br
+.ti -1c
+.RI "template<typename T  = double> int \fBCompare\fP (\fBconst\fP \fBT\fP *testData, \fBconst\fP \fBT\fP *refData, unsigned \fBsize\fP, \fBT\fP eps=\fBEPSILON\fP)"
+.br
+.in -1c
+.SS "Static Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename T > static void \fBWrite\fP (\fBconst\fP vector< \fBT\fP > &elems, \fBconst\fP char delim=',')"
+.br
+.ti -1c
+.RI "template<typename T > static void \fBWrite\fP (\fBconst\fP string &file, \fBconst\fP vector< \fBT\fP > &elems, \fBconst\fP char delim=',')"
+.br
+.ti -1c
+.RI "template<typename T > static void \fBWrite\fP (ostream &os, \fBconst\fP vector< \fBT\fP > &elems, \fBconst\fP char delim=',')"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "string \fB_name\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_nRuns\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_nThreads\fP"
+.br
+.ti -1c
+.RI "double \fB_startTime\fP"
+.br
+.ti -1c
+.RI "double \fB_stopTime\fP"
+.br
+.ti -1c
+.RI "double \fB_runTime\fP"
+.br
+.ti -1c
+.RI "double \fB_evalTime\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, string > \fB_args\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "test::BenchmarkTest::BenchmarkTest (\fBconst\fP string & name = \fC''\fP, unsigned nRuns = \fC1\fP, unsigned nThreads = \fC1\fP)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "virtual test::BenchmarkTest::~BenchmarkTest ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void test::BenchmarkTest::Assert ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBtest::MiniFluxDivTest\fP, \fBtest::TensorDecompTest\fP, \fBtest::JacobiTest\fP, and \fBtest::ConjGradTest\fP\&.
+.SS "template<typename T  = double> int test::BenchmarkTest::Compare (\fBconst\fP \fBT\fP * testData, \fBconst\fP \fBT\fP * refData, unsigned size, \fBT\fP eps = \fC\fBEPSILON\fP\fP)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "double test::BenchmarkTest::EvalTime () const\fC [inline]\fP"
+
+.SS "virtual void test::BenchmarkTest::Evaluate ()\fC [protected]\fP, \fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBtest::MiniFluxDivTest\fP, \fBtest::TensorDecompTest\fP, \fBtest::JacobiTest\fP, and \fBtest::ConjGradTest\fP\&.
+.SS "virtual void test::BenchmarkTest::Execute ()\fC [protected]\fP, \fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBtest::MiniFluxDivTest\fP, \fBtest::JacobiTest\fP, \fBtest::ConjGradDIATest\fP, \fBtest::ConjGradCSBTest\fP, \fBtest::ConjGradCSRTest\fP, \fBtest::ConjGradDSRTest\fP, \fBtest::ConjGradELLTest\fP, \fBtest::TensorDecompTestHiCOO\fP, \fBtest::TensorDecompTestCSF\fP, \fBtest::ConjGradCOOTest\fP, and \fBtest::TensorDecompTestCOO\fP\&.
+.SS "virtual int test::BenchmarkTest::MaxThreads () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "double test::BenchmarkTest::Now ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "unsigned test::BenchmarkTest::NumRuns () const\fC [inline]\fP"
+
+.SS "void test::BenchmarkTest::NumRuns (unsigned nRuns)\fC [inline]\fP"
+
+.SS "virtual int test::BenchmarkTest::NumThreads () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "virtual bool test::BenchmarkTest::NumThreads (int nThreads)\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "virtual void test::BenchmarkTest::Run ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBtest::InspExecTest\fP\&.
+.SS "double test::BenchmarkTest::RunTime () const\fC [inline]\fP"
+
+.SS "virtual void test::BenchmarkTest::SetUp (initializer_list< string > args)\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBtest::MiniFluxDivTest\fP, \fBtest::ConjGradTest\fP, and \fBtest::JacobiTest\fP\&.
+.SS "double test::BenchmarkTest::Speedup () const\fC [inline]\fP"
+
+.SS "void test::BenchmarkTest::Start ()\fC [inline]\fP, \fC [protected]\fP, \fC [noexcept]\fP"
+
+.SS "void test::BenchmarkTest::Stop ()\fC [inline]\fP, \fC [protected]\fP, \fC [noexcept]\fP"
+
+.SS "virtual void test::BenchmarkTest::Verify ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBtest::InspExecTest\fP\&.
+.SS "template<typename T > static void test::BenchmarkTest::Write (\fBconst\fP string & file, \fBconst\fP vector< \fBT\fP > & elems, \fBconst\fP char delim = \fC','\fP)\fC [inline]\fP, \fC [static]\fP, \fC [protected]\fP"
+
+.SS "template<typename T > static void test::BenchmarkTest::Write (\fBconst\fP vector< \fBT\fP > & elems, \fBconst\fP char delim = \fC','\fP)\fC [inline]\fP, \fC [static]\fP, \fC [protected]\fP"
+
+.SS "template<typename T > static void test::BenchmarkTest::Write (ostream & os, \fBconst\fP vector< \fBT\fP > & elems, \fBconst\fP char delim = \fC','\fP)\fC [inline]\fP, \fC [static]\fP, \fC [protected]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBmap\fP<string, string> test::BenchmarkTest::_args\fC [protected]\fP"
+
+.SS "double test::BenchmarkTest::_evalTime\fC [protected]\fP"
+
+.SS "string test::BenchmarkTest::_name\fC [protected]\fP"
+
+.SS "unsigned test::BenchmarkTest::_nRuns\fC [protected]\fP"
+
+.SS "unsigned test::BenchmarkTest::_nThreads\fC [protected]\fP"
+
+.SS "double test::BenchmarkTest::_runTime\fC [protected]\fP"
+
+.SS "double test::BenchmarkTest::_startTime\fC [protected]\fP"
+
+.SS "double test::BenchmarkTest::_stopTime\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

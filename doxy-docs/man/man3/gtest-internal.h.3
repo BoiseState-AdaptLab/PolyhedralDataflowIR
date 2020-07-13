@@ -1,0 +1,494 @@
+.TH "lib/gtest/include/gtest/internal/gtest-internal.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/gtest/include/gtest/internal/gtest-internal.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <float\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <iomanip>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <set>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/gtest\-message\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-string\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-filepath\&.h'\fP
+.br
+\fC#include 'gtest/internal/gtest\-type\-util\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::internal::ScopedTrace\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::FloatingPoint< RawType >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TypeIdHelper< T >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestFactoryBase\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestFactoryImpl< TestClass >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::CodeLocation\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::ConstCharPtr\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::Random\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::CompileAssertTypesEqual< T1, T2 >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::CompileAssertTypesEqual< T, T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RemoveReference< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RemoveReference< T & >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RemoveConst< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RemoveConst< const T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RemoveConst< const T[N]>\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::AddReference< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::AddReference< T & >\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::ImplicitlyConvertible< From, To >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IsAProtocolMessage< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IsRecursiveContainerImpl< C, bool >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IsRecursiveContainerImpl< C, false >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IsRecursiveContainerImpl< C, true >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::IsRecursiveContainer< C >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::EnableIf< bool >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::EnableIf< true >\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RelationToSourceReference\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::RelationToSourceCopy\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::NativeArray< Element >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBproto2\fP"
+.br
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal::edit_distance\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGTEST_CONCAT_TOKEN_\fP(\fBfoo\fP,  bar)   \fBGTEST_CONCAT_TOKEN_IMPL_\fP(\fBfoo\fP, bar)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_CONCAT_TOKEN_IMPL_\fP(\fBfoo\fP,  bar)   \fBfoo\fP ## bar"
+.br
+.ti -1c
+.RI "#define \fBGTEST_IS_NULL_LITERAL_\fP(\fBx\fP)   (sizeof(::\fBtesting::internal::IsNullLiteralHelper\fP(\fBx\fP)) == 1)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REMOVE_REFERENCE_\fP(\fBT\fP)   typename ::\fBtesting::internal::RemoveReference\fP<\fBT\fP>::type"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REMOVE_CONST_\fP(\fBT\fP)   typename ::\fBtesting::internal::RemoveConst\fP<\fBT\fP>::type"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REMOVE_REFERENCE_AND_CONST_\fP(\fBT\fP)   \fBGTEST_REMOVE_CONST_\fP(\fBGTEST_REMOVE_REFERENCE_\fP(\fBT\fP))"
+.br
+.ti -1c
+.RI "#define \fBGTEST_ADD_REFERENCE_\fP(\fBT\fP)   typename ::\fBtesting::internal::AddReference\fP<\fBT\fP>::type"
+.br
+.ti -1c
+.RI "#define \fBGTEST_REFERENCE_TO_CONST_\fP(\fBT\fP)   \fBGTEST_ADD_REFERENCE_\fP(\fBconst\fP \fBGTEST_REMOVE_REFERENCE_\fP(\fBT\fP))"
+.br
+.ti -1c
+.RI "#define \fBGTEST_MESSAGE_AT_\fP(file,  line,  message,  result_type)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_MESSAGE_\fP(message,  result_type)   \fBGTEST_MESSAGE_AT_\fP(__FILE__, __LINE__, message, result_type)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_FATAL_FAILURE_\fP(message)   return \fBGTEST_MESSAGE_\fP(message, ::\fBtesting::TestPartResult::kFatalFailure\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_NONFATAL_FAILURE_\fP(message)   \fBGTEST_MESSAGE_\fP(message, ::\fBtesting::TestPartResult::kNonFatalFailure\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_SUCCESS_\fP(message)   \fBGTEST_MESSAGE_\fP(message, ::\fBtesting::TestPartResult::kSuccess\fP)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_\fP(statement)   \fBif\fP (::\fBtesting::internal::AlwaysTrue\fP()) { statement; }"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_THROW_\fP(statement,  expected_exception,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_NO_THROW_\fP(statement,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_ANY_THROW_\fP(statement,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_BOOLEAN_\fP(expression,  text,  actual,  \fBexpected\fP,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_NO_FATAL_FAILURE_\fP(statement,  fail)"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_CLASS_NAME_\fP(test_case_name,  test_name)   test_case_name##_##test_name##_Test"
+.br
+.ti -1c
+.RI "#define \fBGTEST_TEST_\fP(test_case_name,  test_name,  parent_class,  parent_id)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef FloatingPoint< float > \fBtesting::internal::Float\fP"
+.br
+.ti -1c
+.RI "typedef FloatingPoint< double > \fBtesting::internal::Double\fP"
+.br
+.ti -1c
+.RI "typedef void(* \fBtesting::internal::SetUpTestCaseFunc\fP) ()"
+.br
+.ti -1c
+.RI "typedef void(* \fBtesting::internal::TearDownTestCaseFunc\fP) ()"
+.br
+.ti -1c
+.RI "typedef int \fBtesting::internal::IsContainer\fP"
+.br
+.ti -1c
+.RI "typedef char \fBtesting::internal::IsNotContainer\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBtesting::internal::edit_distance::EditType\fP { \fBtesting::internal::edit_distance::kMatch\fP, \fBtesting::internal::edit_distance::kAdd\fP, \fBtesting::internal::edit_distance::kRemove\fP, \fBtesting::internal::edit_distance::kReplace\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename T > ::std::string \fBtesting::PrintToString\fP (\fBconst\fP \fBT\fP &value)"
+.br
+.ti -1c
+.RI "char \fBtesting::internal::IsNullLiteralHelper\fP (Secret *\fBp\fP)"
+.br
+.ti -1c
+.RI "char(& \fBtesting::internal::IsNullLiteralHelper\fP (\&.\&.\&.))[2]"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::AppendUserMessage\fP (\fBconst\fP std::string &gtest_msg, \fBconst\fP Message &user_msg)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< EditType > \fBtesting::internal::edit_distance::CalculateOptimalEdits\fP (\fBconst\fP std::vector< size_t > &left, \fBconst\fP std::vector< size_t > &right)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::vector< EditType > \fBtesting::internal::edit_distance::CalculateOptimalEdits\fP (\fBconst\fP std::vector< std::string > &left, \fBconst\fP std::vector< std::string > &right)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::edit_distance::CreateUnifiedDiff\fP (\fBconst\fP std::vector< std::string > &left, \fBconst\fP std::vector< std::string > &right, size_t \fBcontext\fP=2)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::DiffStrings\fP (\fBconst\fP std::string &left, \fBconst\fP std::string &right, size_t *total_line_count)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP AssertionResult \fBtesting::internal::EqFailure\fP (\fBconst\fP char *expected_expression, \fBconst\fP char *actual_expression, \fBconst\fP std::string &expected_value, \fBconst\fP std::string &actual_value, bool ignoring_case)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetBoolAssertionFailureMessage\fP (\fBconst\fP AssertionResult &assertion_result, \fBconst\fP char *expression_text, \fBconst\fP char *actual_predicate_value, \fBconst\fP char *expected_predicate_value)"
+.br
+.ti -1c
+.RI "template<typename T > TypeId \fBtesting::internal::GetTypeId\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TypeId \fBtesting::internal::GetTestTypeId\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TestInfo * \fBtesting::internal::MakeAndRegisterTestInfo\fP (\fBconst\fP char *test_case_name, \fBconst\fP char *\fBname\fP, \fBconst\fP char *type_param, \fBconst\fP char *value_param, CodeLocation code_location, TypeId fixture_class_id, SetUpTestCaseFunc set_up_tc, TearDownTestCaseFunc tear_down_tc, TestFactoryBase *factory)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::SkipPrefix\fP (\fBconst\fP char *prefix, \fBconst\fP char **pstr)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::GetCurrentOsStackTraceExceptTop\fP (UnitTest *unit_test, int skip_count)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::AlwaysTrue\fP ()"
+.br
+.ti -1c
+.RI "bool \fBtesting::internal::AlwaysFalse\fP ()"
+.br
+.ti -1c
+.RI "template<class C > IsContainer \fBtesting::internal::IsContainerTest\fP (int, typename C::iterator *=\fBNULL\fP, typename C::const_iterator *=\fBNULL\fP)"
+.br
+.ti -1c
+.RI "template<class C > IsNotContainer \fBtesting::internal::IsContainerTest\fP (long)"
+.br
+.ti -1c
+.RI "template<typename T , typename U > bool \fBtesting::internal::ArrayEq\fP (\fBconst\fP \fBT\fP *\fBlhs\fP, size_t \fBsize\fP, \fBconst\fP \fBU\fP *\fBrhs\fP)"
+.br
+.ti -1c
+.RI "template<typename T , typename U > bool \fBtesting::internal::ArrayEq\fP (\fBconst\fP \fBT\fP &\fBlhs\fP, \fBconst\fP \fBU\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "template<typename T , typename U , size_t N> bool \fBtesting::internal::ArrayEq\fP (\fBconst\fP \fBT\fP(&\fBlhs\fP)[\fBN\fP], \fBconst\fP \fBU\fP(&\fBrhs\fP)[\fBN\fP])"
+.br
+.ti -1c
+.RI "template<typename Iter , typename Element > Iter \fBtesting::internal::ArrayAwareFind\fP (Iter begin, Iter end, \fBconst\fP Element &elem)"
+.br
+.ti -1c
+.RI "template<typename T , typename U > void \fBtesting::internal::CopyArray\fP (\fBconst\fP \fBT\fP *from, size_t \fBsize\fP, \fBU\fP *to)"
+.br
+.ti -1c
+.RI "template<typename T , typename U > void \fBtesting::internal::CopyArray\fP (\fBconst\fP \fBT\fP &from, \fBU\fP *to)"
+.br
+.ti -1c
+.RI "template<typename T , typename U , size_t N> void \fBtesting::internal::CopyArray\fP (\fBconst\fP \fBT\fP(&from)[\fBN\fP], \fBU\fP(*to)[\fBN\fP])"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP typedef void * \fBtesting::internal::TypeId\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBGTEST_API_\fP char \fBtesting::internal::kStackTraceMarker\fP [] = '\\nStack \fBtrace:\\n\fP'"
+.br
+.ti -1c
+.RI "class \fBGTEST_API_\fP \fBtesting::internal::ScopedTrace\fP \fBtesting::internal::GTEST_ATTRIBUTE_UNUSED_\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GTEST_ADD_REFERENCE_(\fBT\fP)   typename ::\fBtesting::internal::AddReference\fP<\fBT\fP>::type"
+
+.SS "#define GTEST_CONCAT_TOKEN_(\fBfoo\fP, bar)   \fBGTEST_CONCAT_TOKEN_IMPL_\fP(\fBfoo\fP, bar)"
+
+.SS "#define GTEST_CONCAT_TOKEN_IMPL_(\fBfoo\fP, bar)   \fBfoo\fP ## bar"
+
+.SS "#define GTEST_FATAL_FAILURE_(message)   return \fBGTEST_MESSAGE_\fP(message, ::\fBtesting::TestPartResult::kFatalFailure\fP)"
+
+.SS "#define GTEST_IS_NULL_LITERAL_(\fBx\fP)   (sizeof(::\fBtesting::internal::IsNullLiteralHelper\fP(\fBx\fP)) == 1)"
+
+.SS "#define GTEST_MESSAGE_(message, result_type)   \fBGTEST_MESSAGE_AT_\fP(__FILE__, __LINE__, message, result_type)"
+
+.SS "#define GTEST_MESSAGE_AT_(file, line, message, result_type)"
+\fBValue:\fP
+.PP
+.nf
+  ::testing::internal::AssertHelper(result_type, file, line, message) \
+    = ::testing::Message()
+.fi
+.SS "#define GTEST_NONFATAL_FAILURE_(message)   \fBGTEST_MESSAGE_\fP(message, ::\fBtesting::TestPartResult::kNonFatalFailure\fP)"
+
+.SS "#define GTEST_REFERENCE_TO_CONST_(\fBT\fP)   \fBGTEST_ADD_REFERENCE_\fP(\fBconst\fP \fBGTEST_REMOVE_REFERENCE_\fP(\fBT\fP))"
+
+.SS "#define GTEST_REMOVE_CONST_(\fBT\fP)   typename ::\fBtesting::internal::RemoveConst\fP<\fBT\fP>::type"
+
+.SS "#define GTEST_REMOVE_REFERENCE_(\fBT\fP)   typename ::\fBtesting::internal::RemoveReference\fP<\fBT\fP>::type"
+
+.SS "#define GTEST_REMOVE_REFERENCE_AND_CONST_(\fBT\fP)   \fBGTEST_REMOVE_CONST_\fP(\fBGTEST_REMOVE_REFERENCE_\fP(\fBT\fP))"
+
+.SS "#define GTEST_SUCCESS_(message)   \fBGTEST_MESSAGE_\fP(message, ::\fBtesting::TestPartResult::kSuccess\fP)"
+
+.SS "#define GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement)   \fBif\fP (::\fBtesting::internal::AlwaysTrue\fP()) { statement; }"
+
+.SS "#define GTEST_TEST_(test_case_name, test_name, parent_class, parent_id)"
+\fBValue:\fP
+.PP
+.nf
+class GTEST_TEST_CLASS_NAME_(test_case_name, test_name) : public parent_class {\
+ public:\
+  GTEST_TEST_CLASS_NAME_(test_case_name, test_name)() {}\
+ private:\
+  virtual void TestBody();\
+  static ::testing::TestInfo* const test_info_ GTEST_ATTRIBUTE_UNUSED_;\
+  GTEST_DISALLOW_COPY_AND_ASSIGN_(\
+      GTEST_TEST_CLASS_NAME_(test_case_name, test_name));\
+};\
+\
+::testing::TestInfo* const GTEST_TEST_CLASS_NAME_(test_case_name, test_name)\
+  ::test_info_ =\\
+    ::testing::internal::MakeAndRegisterTestInfo(\
+        #test_case_name, #test_name, NULL, NULL, \
+        ::testing::internal::CodeLocation(__FILE__, __LINE__), \
+        (parent_id), \
+        parent_class::SetUpTestCase, \
+        parent_class::TearDownTestCase, \
+        new ::testing::internal::TestFactoryImpl<\
+            GTEST_TEST_CLASS_NAME_(test_case_name, test_name)>);\
+void GTEST_TEST_CLASS_NAME_(test_case_name, test_name)::TestBody()
+.fi
+.SS "#define GTEST_TEST_ANY_THROW_(statement, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_ \\
+  if (::testing::internal::AlwaysTrue()) { \
+    bool gtest_caught_any = false; \
+    try { \
+      GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement); \
+    } \
+    catch (\&.\&.\&.) { \
+      gtest_caught_any = true; \
+    } \
+    if (!gtest_caught_any) { \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testanythrow_, __LINE__); \
+    } \
+  } else \\
+    GTEST_CONCAT_TOKEN_(gtest_label_testanythrow_, __LINE__): \
+      fail("Expected: " #statement " throws an exception\&.\n" \
+           "  Actual: it doesn't\&.")
+.fi
+.SS "#define GTEST_TEST_BOOLEAN_(expression, text, actual, \fBexpected\fP, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_ \\
+  if (const ::testing::AssertionResult gtest_ar_ = \
+      ::testing::AssertionResult(expression)) \
+    ; \
+  else \
+    fail(::testing::internal::GetBoolAssertionFailureMessage(\
+        gtest_ar_, text, #actual, #expected)\&.c_str())
+.fi
+.SS "#define GTEST_TEST_CLASS_NAME_(test_case_name, test_name)   test_case_name##_##test_name##_Test"
+
+.SS "#define GTEST_TEST_NO_FATAL_FAILURE_(statement, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_ \\
+  if (::testing::internal::AlwaysTrue()) { \
+    ::testing::internal::HasNewFatalFailureHelper gtest_fatal_failure_checker; \
+    GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement); \
+    if (gtest_fatal_failure_checker\&.has_new_fatal_failure()) { \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testnofatal_, __LINE__); \
+    } \
+  } else \\
+    GTEST_CONCAT_TOKEN_(gtest_label_testnofatal_, __LINE__): \
+      fail("Expected: " #statement " doesn't generate new fatal " \
+           "failures in the current thread\&.\n" \
+           "  Actual: it does\&.")
+.fi
+.SS "#define GTEST_TEST_NO_THROW_(statement, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_ \\
+  if (::testing::internal::AlwaysTrue()) { \
+    try { \
+      GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement); \
+    } \
+    catch (\&.\&.\&.) { \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testnothrow_, __LINE__); \
+    } \
+  } else \\
+    GTEST_CONCAT_TOKEN_(gtest_label_testnothrow_, __LINE__): \
+      fail("Expected: " #statement " doesn't throw an exception\&.\n" \
+           "  Actual: it throws\&.")
+.fi
+.SS "#define GTEST_TEST_THROW_(statement, expected_exception, fail)"
+\fBValue:\fP
+.PP
+.nf
+  GTEST_AMBIGUOUS_ELSE_BLOCKER_ \\
+  if (::testing::internal::ConstCharPtr gtest_msg = "") { \
+    bool gtest_caught_expected = false; \
+    try { \
+      GTEST_SUPPRESS_UNREACHABLE_CODE_WARNING_BELOW_(statement); \
+    } \
+    catch (expected_exception const&) { \
+      gtest_caught_expected = true; \
+    } \
+    catch (\&.\&.\&.) { \
+      gtest_msg\&.value = \
+          "Expected: " #statement " throws an exception of type " \
+          #expected_exception "\&.\n  Actual: it throws a different type\&."; \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testthrow_, __LINE__); \
+    } \
+    if (!gtest_caught_expected) { \
+      gtest_msg\&.value = \
+          "Expected: " #statement " throws an exception of type " \
+          #expected_exception "\&.\n  Actual: it throws nothing\&."; \
+      goto GTEST_CONCAT_TOKEN_(gtest_label_testthrow_, __LINE__); \
+    } \
+  } else \
+    GTEST_CONCAT_TOKEN_(gtest_label_testthrow_, __LINE__): \
+      fail(gtest_msg\&.value)
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

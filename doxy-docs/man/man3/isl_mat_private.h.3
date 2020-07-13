@@ -1,0 +1,100 @@
+.TH "lib/isl/isl_mat_private.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_mat_private.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/mat\&.h>\fP
+.br
+\fC#include <isl_blk\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_mat\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBISL_MAT_BORROWED\fP   (1 << 0)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_sub_alloc\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat, unsigned first_row, unsigned n_row, unsigned first_col, unsigned n_col)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_sub_alloc6\fP (\fBisl_ctx\fP *ctx, \fBisl_int\fP **\fBrow\fP, unsigned first_row, unsigned n_row, unsigned first_col, unsigned n_col)"
+.br
+.ti -1c
+.RI "void \fBisl_mat_sub_copy\fP (struct \fBisl_ctx\fP *ctx, \fBisl_int\fP **dst, \fBisl_int\fP **src, unsigned n_row, unsigned dst_col, unsigned src_col, unsigned n_col)"
+.br
+.ti -1c
+.RI "void \fBisl_mat_sub_neg\fP (struct \fBisl_ctx\fP *ctx, \fBisl_int\fP **dst, \fBisl_int\fP **src, unsigned n_row, unsigned dst_col, unsigned src_col, unsigned n_col)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_diag\fP (\fBisl_ctx\fP *ctx, unsigned n_row, \fBisl_int\fP d)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_scale_down_row\fP (\fB__isl_take\fP \fBisl_mat\fP *mat, int \fBrow\fP, \fBisl_int\fP \fBm\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_mat_get_row\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat, unsigned \fBrow\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_mat_is_scaled_identity\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "void \fBisl_mat_col_mul\fP (struct \fBisl_mat\fP *mat, int dst_col, \fBisl_int\fP \fBf\fP, int src_col)"
+.br
+.ti -1c
+.RI "void \fBisl_mat_col_submul\fP (struct \fBisl_mat\fP *mat, int dst_col, \fBisl_int\fP \fBf\fP, int src_col)"
+.br
+.ti -1c
+.RI "int \fBisl_mat_get_element\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat, int \fBrow\fP, int \fBcol\fP, \fBisl_int\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_set_element\fP (\fB__isl_take\fP \fBisl_mat\fP *mat, int \fBrow\fP, int \fBcol\fP, \fBisl_int\fP v)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ISL_MAT_BORROWED   (1 << 0)"
+
+.SH "Function Documentation"
+.PP 
+.SS "void isl_mat_col_mul (struct \fBisl_mat\fP * mat, int dst_col, \fBisl_int\fP f, int src_col)"
+
+.SS "void isl_mat_col_submul (struct \fBisl_mat\fP * mat, int dst_col, \fBisl_int\fP f, int src_col)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_diag (\fBisl_ctx\fP * ctx, unsigned n_row, \fBisl_int\fP d)"
+
+.SS "int isl_mat_get_element (\fB__isl_keep\fP \fBisl_mat\fP * mat, int row, int col, \fBisl_int\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_mat_get_row (\fB__isl_keep\fP \fBisl_mat\fP * mat, unsigned row)"
+
+.SS "int isl_mat_is_scaled_identity (\fB__isl_keep\fP \fBisl_mat\fP * mat)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_scale_down_row (\fB__isl_take\fP \fBisl_mat\fP * mat, int row, \fBisl_int\fP m)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_set_element (\fB__isl_take\fP \fBisl_mat\fP * mat, int row, int col, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_sub_alloc (\fB__isl_keep\fP \fBisl_mat\fP * mat, unsigned first_row, unsigned n_row, unsigned first_col, unsigned n_col)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_sub_alloc6 (\fBisl_ctx\fP * ctx, \fBisl_int\fP ** row, unsigned first_row, unsigned n_row, unsigned first_col, unsigned n_col)"
+
+.SS "void isl_mat_sub_copy (struct \fBisl_ctx\fP * ctx, \fBisl_int\fP ** dst, \fBisl_int\fP ** src, unsigned n_row, unsigned dst_col, unsigned src_col, unsigned n_col)"
+
+.SS "void isl_mat_sub_neg (struct \fBisl_ctx\fP * ctx, \fBisl_int\fP ** dst, \fBisl_int\fP ** src, unsigned n_row, unsigned dst_col, unsigned src_col, unsigned n_col)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

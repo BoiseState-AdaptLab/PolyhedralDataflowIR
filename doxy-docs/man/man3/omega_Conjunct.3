@@ -1,0 +1,422 @@
+.TH "omega::Conjunct" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::Conjunct \- \fBConjunct\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <pres_conj\&.h>\fP
+.PP
+Inherits \fBomega::F_Declaration\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBConstraint_Iterator\fP \fBconstraints\fP ()"
+.br
+.ti -1c
+.RI "\fBVariable_ID_Tuple\fP * \fBvariables\fP ()"
+.br
+.ti -1c
+.RI "\fBEQ_Iterator\fP \fBEQs\fP ()"
+.br
+.RI "Return the EQs in this conjunct\&. "
+.ti -1c
+.RI "\fBGEQ_Iterator\fP \fBGEQs\fP ()"
+.br
+.RI "Return the GEQs in this conjunct\&. "
+.ti -1c
+.RI "int \fBn_EQs\fP ()"
+.br
+.ti -1c
+.RI "int \fBn_GEQs\fP ()"
+.br
+.ti -1c
+.RI "void \fBpromise_that_ub_solutions_exist\fP (\fBRelation\fP &\fBR\fP)"
+.br
+.ti -1c
+.RI "\fBNode_Type\fP \fBnode_type\fP ()"
+.br
+.ti -1c
+.RI "int \fBis_true\fP ()"
+.br
+.ti -1c
+.RI "void \fBquery_difference\fP (\fBVariable_ID\fP v1, \fBVariable_ID\fP v2, \fBcoef_t\fP &lowerBound, \fBcoef_t\fP &upperBound, bool &guaranteed)"
+.br
+.RI "Get the 'possible' difference of two variables\&. "
+.ti -1c
+.RI "void \fBquery_variable_bounds\fP (\fBVariable_ID\fP v, \fBcoef_t\fP &lowerBound, \fBcoef_t\fP &upperBound)"
+.br
+.ti -1c
+.RI "\fBcoef_t\fP \fBquery_variable_mod\fP (\fBVariable_ID\fP v, \fBcoef_t\fP \fBfactor\fP)"
+.br
+.ti -1c
+.RI "bool \fBquery_variable_used\fP (\fBVariable_ID\fP v)"
+.br
+.ti -1c
+.RI "int \fBcountNonzeros\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdifficulty\fP (int &numberNZs, \fBcoef_t\fP &maxCoef, \fBcoef_t\fP &SumAbsCoef) \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBquery_guaranteed_leading_0s\fP ()"
+.br
+.RI "The number of input and output variables that are equal\&. "
+.ti -1c
+.RI "int \fBquery_possible_leading_0s\fP ()"
+.br
+.RI "The possible number of input and output variables that are equal\&. "
+.ti -1c
+.RI "int \fBquery_leading_dir\fP ()"
+.br
+.RI "The direction of the difference of the first 'non-zero' in/out var\&. "
+.ti -1c
+.RI "void \fBcalculate_dimensions\fP (\fBRelation\fP &\fBR\fP, int &ndim_all, int &ndim_domain)"
+.br
+.ti -1c
+.RI "int \fBmax_ufs_arity_of_set\fP ()"
+.br
+.ti -1c
+.RI "int \fBmax_ufs_arity_of_in\fP ()"
+.br
+.ti -1c
+.RI "int \fBmax_ufs_arity_of_out\fP ()"
+.br
+.ti -1c
+.RI "int \fBrank\fP ()"
+.br
+.ti -1c
+.RI "\fB~Conjunct\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_unknown\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_exact\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_inexact\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBmake_inexact\fP ()"
+.br
+.ti -1c
+.RI "void \fBassert_leading_info\fP ()"
+.br
+.ti -1c
+.RI "void \fBprint\fP (FILE *output_file)"
+.br
+.ti -1c
+.RI "void \fBprefix_print\fP (FILE *output_file, int debug=1)"
+.br
+.ti -1c
+.RI "std::string \fBprint_to_string\fP (int true_printed)"
+.br
+.ti -1c
+.RI "std::string \fBprint_EQ_to_string\fP (\fBeqn\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "std::string \fBprint_GEQ_to_string\fP (\fBeqn\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "std::string \fBprint_EQ_to_string\fP (int \fBe\fP)"
+.br
+.ti -1c
+.RI "std::string \fBprint_GEQ_to_string\fP (int \fBe\fP)"
+.br
+.ti -1c
+.RI "std::string \fBprint_term_to_string\fP (\fBeqn\fP *\fBe\fP)"
+.br
+.ti -1c
+.RI "std::string \fBprint_EQ_term_to_string\fP (int \fBe\fP)"
+.br
+.ti -1c
+.RI "std::string \fBprint_GEQ_term_to_string\fP (int \fBe\fP)"
+.br
+.ti -1c
+.RI "std::string \fBprint_sub_to_string\fP (int \fBcol\fP)"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBGEQ_Handle\fP"
+.br
+.ti -1c
+.RI "class \fBEQ_Handle\fP"
+.br
+.ti -1c
+.RI "class \fBSub_Handle\fP"
+.br
+.ti -1c
+.RI "class \fBConstraint_Handle\fP"
+.br
+.ti -1c
+.RI "class \fBConstraint_Iterator\fP"
+.br
+.ti -1c
+.RI "class \fBGEQ_Iterator\fP"
+.br
+.ti -1c
+.RI "class \fBEQ_Iterator\fP"
+.br
+.ti -1c
+.RI "class \fBSub_Iterator\fP"
+.br
+.ti -1c
+.RI "class \fBConstr_Vars_Iter\fP"
+.br
+.ti -1c
+.RI "class \fBDNF\fP"
+.br
+.ti -1c
+.RI "class \fBFormula\fP"
+.br
+.ti -1c
+.RI "class \fBF_Not\fP"
+.br
+.ti -1c
+.RI "class \fBF_Or\fP"
+.br
+.ti -1c
+.RI "class \fBRel_Body\fP"
+.br
+.ti -1c
+.RI "class \fBF_And\fP"
+.br
+.ti -1c
+.RI "class \fBF_Exists\fP"
+.br
+.ti -1c
+.RI "class \fBSubstitutions\fP"
+.br
+.ti -1c
+.RI "class \fBComp_Problem\fP"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBapprox_closure\fP (\fBNOT_CONST\fP \fBRelation\fP &r, int n)"
+.br
+.ti -1c
+.RI "\fBconst\fP friend char * \fBget_var_name\fP (unsigned int, void *)"
+.br
+.ti -1c
+.RI "void \fBremap_DNF_vars\fP (\fBRel_Body\fP *new_rel, \fBRel_Body\fP *old_rel)"
+.br
+.ti -1c
+.RI "int \fBnew_WC\fP (\fBConjunct\fP *nc, \fBProblem\fP *np)"
+.br
+.ti -1c
+.RI "void \fBinternal_copy_conjunct\fP (\fBConjunct\fP *to, \fBConjunct\fP *fr)"
+.br
+.ti -1c
+.RI "void \fBcopy_constraint\fP (\fBConstraint_Handle\fP H, \fBconst\fP \fBConstraint_Handle\fP initial)"
+.br
+.ti -1c
+.RI "\fBDNF\fP * \fBconj_and_not_dnf\fP (\fBConjunct\fP *pos_conj, \fBDNF\fP *neg_conjs, bool weak)"
+.br
+.ti -1c
+.RI "int \fBsimplify_conj\fP (\fBConjunct\fP *conj, int ver_sim, int elim_red, int color)"
+.br
+.ti -1c
+.RI "\fBDNF\fP * \fBnegate_conj\fP (\fBConjunct\fP *conj)"
+.br
+.ti -1c
+.RI "\fBConjunct\fP * \fB_merge_conjs\fP (\fBConjunct\fP *conj1, \fBConjunct\fP *conj2, \fBMerge_Action\fP action, \fBRel_Body\fP *body)"
+.br
+.ti -1c
+.RI "void \fBcopy_conj_header\fP (\fBConjunct\fP *to, \fBConjunct\fP *fr)"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+\fBConjunct\fP\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::Conjunct::~Conjunct ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void omega::Conjunct::assert_leading_info ()"
+
+.SS "void omega::Conjunct::calculate_dimensions (\fBRelation\fP & R, int & ndim_all, int & ndim_domain)"
+
+.SS "\fBConstraint_Iterator\fP omega::Conjunct::constraints ()"
+
+.SS "int omega::Conjunct::countNonzeros () const\fC [inline]\fP"
+
+.SS "void omega::Conjunct::difficulty (int & numberNZs, \fBcoef_t\fP & maxCoef, \fBcoef_t\fP & SumAbsCoef) const\fC [inline]\fP"
+
+.SS "\fBEQ_Iterator\fP omega::Conjunct::EQs ()"
+
+.PP
+Return the EQs in this conjunct\&. 
+.SS "\fBGEQ_Iterator\fP omega::Conjunct::GEQs ()"
+
+.PP
+Return the GEQs in this conjunct\&. 
+.SS "bool omega::Conjunct::is_exact () const\fC [inline]\fP"
+
+.SS "bool omega::Conjunct::is_inexact () const\fC [inline]\fP"
+
+.SS "int omega::Conjunct::is_true ()\fC [inline]\fP"
+
+.SS "bool omega::Conjunct::is_unknown () const"
+
+.SS "void omega::Conjunct::make_inexact ()\fC [inline]\fP"
+
+.SS "int omega::Conjunct::max_ufs_arity_of_in ()"
+
+.SS "int omega::Conjunct::max_ufs_arity_of_out ()"
+
+.SS "int omega::Conjunct::max_ufs_arity_of_set ()"
+
+.SS "int omega::Conjunct::n_EQs ()\fC [inline]\fP"
+
+.SS "int omega::Conjunct::n_GEQs ()\fC [inline]\fP"
+
+.SS "\fBNode_Type\fP omega::Conjunct::node_type ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBomega::Formula\fP\&.
+.SS "void omega::Conjunct::prefix_print (FILE * output_file, int debug = \fC1\fP)\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "void omega::Conjunct::print (FILE * output_file)\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "std::string omega::Conjunct::print_EQ_term_to_string (int e)\fC [inline]\fP"
+
+.SS "std::string omega::Conjunct::print_EQ_to_string (\fBeqn\fP * e)\fC [inline]\fP"
+
+.SS "std::string omega::Conjunct::print_EQ_to_string (int e)\fC [inline]\fP"
+
+.SS "std::string omega::Conjunct::print_GEQ_term_to_string (int e)\fC [inline]\fP"
+
+.SS "std::string omega::Conjunct::print_GEQ_to_string (\fBeqn\fP * e)\fC [inline]\fP"
+
+.SS "std::string omega::Conjunct::print_GEQ_to_string (int e)\fC [inline]\fP"
+
+.SS "std::string omega::Conjunct::print_sub_to_string (int col)\fC [inline]\fP"
+
+.SS "std::string omega::Conjunct::print_term_to_string (\fBeqn\fP * e)\fC [inline]\fP"
+
+.SS "std::string omega::Conjunct::print_to_string (int true_printed)"
+
+.SS "void omega::Conjunct::promise_that_ub_solutions_exist (\fBRelation\fP & R)"
+
+.SS "void omega::Conjunct::query_difference (\fBVariable_ID\fP v1, \fBVariable_ID\fP v2, \fBcoef_t\fP & lowerBound, \fBcoef_t\fP & upperBound, bool & guaranteed)"
+
+.PP
+Get the 'possible' difference of two variables\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIlowerBound\fP 
+.br
+\fIupperBound\fP 
+.br
+\fIguaranteed\fP if the difference is guaranteed 
+.RE
+.PP
+
+.SS "int omega::Conjunct::query_guaranteed_leading_0s ()\fC [inline]\fP"
+
+.PP
+The number of input and output variables that are equal\&. 
+.SS "int omega::Conjunct::query_leading_dir ()\fC [inline]\fP"
+
+.PP
+The direction of the difference of the first 'non-zero' in/out var\&. 
+.PP
+\fBReturns\fP
+.RS 4
+0: unknown, 1: positive, -1: negative 
+.RE
+.PP
+
+.SS "int omega::Conjunct::query_possible_leading_0s ()\fC [inline]\fP"
+
+.PP
+The possible number of input and output variables that are equal\&. 
+.SS "void omega::Conjunct::query_variable_bounds (\fBVariable_ID\fP v, \fBcoef_t\fP & lowerBound, \fBcoef_t\fP & upperBound)"
+
+.SS "\fBcoef_t\fP omega::Conjunct::query_variable_mod (\fBVariable_ID\fP v, \fBcoef_t\fP factor)"
+
+.SS "bool omega::Conjunct::query_variable_used (\fBVariable_ID\fP v)"
+
+.SS "int omega::Conjunct::rank ()"
+
+.SS "\fBVariable_ID_Tuple\fP * omega::Conjunct::variables ()"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "\fBConjunct\fP* _merge_conjs (\fBConjunct\fP * conj1, \fBConjunct\fP * conj2, \fBMerge_Action\fP action, \fBRel_Body\fP * body)\fC [friend]\fP"
+
+.SS "\fBRelation\fP approx_closure (\fBNOT_CONST\fP \fBRelation\fP & r, int n)\fC [friend]\fP"
+
+.SS "friend class \fBComp_Problem\fP\fC [friend]\fP"
+
+.SS "\fBDNF\fP* conj_and_not_dnf (\fBConjunct\fP * pos_conj, \fBDNF\fP * neg_conjs, bool weak = \fCfalse\fP)\fC [friend]\fP"
+
+.SS "friend class \fBConstr_Vars_Iter\fP\fC [friend]\fP"
+
+.SS "friend class \fBConstraint_Handle\fP\fC [friend]\fP"
+
+.SS "friend class \fBConstraint_Iterator\fP\fC [friend]\fP"
+
+.SS "void copy_conj_header (\fBConjunct\fP * to, \fBConjunct\fP * fr)\fC [friend]\fP"
+
+.SS "void copy_constraint (\fBConstraint_Handle\fP H, \fBconst\fP \fBConstraint_Handle\fP initial)\fC [friend]\fP"
+
+.SS "friend class \fBDNF\fP\fC [friend]\fP"
+
+.SS "friend class \fBEQ_Handle\fP\fC [friend]\fP"
+
+.SS "friend class \fBEQ_Iterator\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_And\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Exists\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Not\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Or\fP\fC [friend]\fP"
+
+.SS "friend class \fBFormula\fP\fC [friend]\fP"
+
+.SS "friend class \fBGEQ_Handle\fP\fC [friend]\fP"
+
+.SS "friend class \fBGEQ_Iterator\fP\fC [friend]\fP"
+
+.SS "\fBconst\fP friend char* get_var_name (unsigned int col, void * void_conj)\fC [friend]\fP"
+
+.SS "void internal_copy_conjunct (\fBConjunct\fP * to, \fBConjunct\fP * fr)\fC [friend]\fP"
+
+.SS "\fBDNF\fP* negate_conj (\fBConjunct\fP * conj)\fC [friend]\fP"
+
+.SS "int new_WC (\fBConjunct\fP * nc, \fBProblem\fP * np)\fC [friend]\fP"
+
+.SS "friend class \fBRel_Body\fP\fC [friend]\fP"
+
+.SS "void remap_DNF_vars (\fBRel_Body\fP * new_rel, \fBRel_Body\fP * old_rel)\fC [friend]\fP"
+
+.SS "int simplify_conj (\fBConjunct\fP * conj, int ver_sim, int elim_red, int color)\fC [friend]\fP"
+
+.SS "friend class \fBSub_Handle\fP\fC [friend]\fP"
+
+.SS "friend class \fBSub_Iterator\fP\fC [friend]\fP"
+
+.SS "friend class \fBSubstitutions\fP\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

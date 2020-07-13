@@ -1,0 +1,832 @@
+.TH "chillAST_node" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_node \- generic node of the actual chillAST, a multiway tree node\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherited by \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_CallExpr\fP, \fBchillAST_CompoundStmt\fP, \fBchillAST_CStyleAddressOf\fP, \fBchillAST_CStyleCastExpr\fP, \fBchillAST_CudaFree\fP, \fBchillAST_CudaMalloc\fP, \fBchillAST_CudaMemcpy\fP, \fBchillAST_CudaSyncthreads\fP, \fBchillAST_DeclRefExpr\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_ForStmt\fP, \fBchillAST_Free\fP, \fBchillAST_FunctionDecl\fP, \fBchillAST_IfStmt\fP, \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_Malloc\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_NoOp\fP, \fBchillAST_NULL\fP, \fBchillAST_ParenExpr\fP, \fBchillAST_Preprocessing\fP, \fBchillAST_RecordDecl\fP, \fBchillAST_ReturnStmt\fP, \fBchillAST_Sizeof\fP, \fBchillAST_SourceFile\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_TypedefDecl\fP, \fBchillAST_UnaryOperator\fP, \fBchillAST_VarDecl\fP, and \fBchillAST_WhileStmt\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fB~chillAST_node\fP ()=default"
+.br
+.ti -1c
+.RI "bool \fBisSourceFile\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisTypeDefDecl\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisVarDecl\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisFunctionDecl\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisRecordDecl\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisMacroDefinition\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisCompoundStmt\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisLoop\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisForStmt\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisWhileStmt\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisIfStmt\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisTernaryOperator\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisBinaryOperator\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisUnaryOperator\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisArraySubscriptExpr\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisMemberExpr\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisDeclRefExpr\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisIntegerLiteral\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisFloatingLiteral\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisImplicitCastExpr\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisReturnStmt\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisCallExpr\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisParenExpr\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisSizeof\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisMalloc\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisFree\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisPreprocessing\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisNoOp\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisNull\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisCStyleCastExpr\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisCStyleAddressOf\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisCudaMalloc\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisCudaFree\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisCudaMemcpy\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisCudaKERNELCALL\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisCudaSYNCTHREADS\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisDeclStmt\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisConstant\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisAssignmentOp\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisComparisonOp\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisNotLeaf\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisLeaf\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisParmVarDecl\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisPlusOp\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisMinusOp\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisPlusMinusOp\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisMultDivOp\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisRemOp\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisAStruct\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBisAUnion\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBhasSymbolTable\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBhasTypedefTable\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBchillAST_SymbolTable\fP * \fBgetSymbolTable\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBchillAST_VarDecl\fP * \fBfindVariableNamed\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_RecordDecl\fP * \fBfindRecordDeclNamed\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "int \fBgetNumChildren\fP ()"
+.br
+.ti -1c
+.RI "vector< \fBchillAST_node\fP * > & \fBgetChildren\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetChild\fP (int which)"
+.br
+.ti -1c
+.RI "void \fBsetChild\fP (int which, \fBchillAST_node\fP *\fBn\fP)"
+.br
+.ti -1c
+.RI "void \fBsetMetaComment\fP (char *\fBc\fP)"
+.br
+.ti -1c
+.RI "virtual void \fBaddChild\fP (\fBchillAST_node\fP *\fBc\fP)"
+.br
+.ti -1c
+.RI "virtual void \fBaddChildren\fP (\fBchillAST_NodeList\fP nl)"
+.br
+.ti -1c
+.RI "virtual void \fBinsertChild\fP (int \fBi\fP, \fBchillAST_node\fP *node)"
+.br
+.ti -1c
+.RI "void \fBremoveChild\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "virtual void \fBprependStatement\fP (\fBchillAST_node\fP *stmt)"
+.br
+.RI "prepend a statement to the begining of a block, the body of a loop, or the body of a function "
+.ti -1c
+.RI "virtual void \fBappendStatement\fP (\fBchillAST_node\fP *stmt)"
+.br
+.RI "append a statement to the end of a block, the body of a loop, or the body of a function "
+.ti -1c
+.RI "int \fBfindChild\fP (\fBchillAST_node\fP *\fBc\fP)"
+.br
+.ti -1c
+.RI "virtual void \fBreplaceChild\fP (\fBchillAST_node\fP *old, \fBchillAST_node\fP *newchild)"
+.br
+.ti -1c
+.RI "virtual void \fBloseLoopWithLoopVar\fP (char *\fBvar\fP)"
+.br
+.RI "Replace the loop with the loop body, if loop is with this variable\&. "
+.ti -1c
+.RI "virtual int \fBevalAsInt\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBconst\fP char * \fBgetUnderlyingType\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBchillAST_VarDecl\fP * \fBgetUnderlyingVarDecl\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBgatherArrayRefs\fP (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > &refs, bool writtento)"
+.br
+.ti -1c
+.RI "virtual void \fBgatherScalarRefs\fP (std::vector< \fBchillAST_DeclRefExpr\fP * > &refs, bool writtento)"
+.br
+.ti -1c
+.RI "virtual void \fBgatherLoopIndeces\fP (std::vector< \fBchillAST_VarDecl\fP * > &indeces)"
+.br
+.RI "recursively walking parent links, looking for loops and grabbing the declRefExpr in the loop init and cond "
+.ti -1c
+.RI "\fBchillAST_ForStmt\fP * \fBfindContainingLoop\fP ()"
+.br
+.RI "recursively walking parent links, looking for loops "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBfindContainingNonLoop\fP ()"
+.br
+.RI "recursively walking parent links, avoiding loops "
+.ti -1c
+.RI "virtual void \fBgatherDeclRefExprs\fP (vector< \fBchillAST_DeclRefExpr\fP * > &refs)"
+.br
+.RI "gather both scalar and array references "
+.ti -1c
+.RI "virtual void \fBgatherVarUsage\fP (vector< \fBchillAST_VarDecl\fP * > &decls)"
+.br
+.ti -1c
+.RI "virtual void \fBgatherVarLHSUsage\fP (vector< \fBchillAST_VarDecl\fP * > &decls)"
+.br
+.RI "gather all variable that is used as a lefthand side operand "
+.ti -1c
+.RI "virtual void \fBgatherVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls)"
+.br
+.RI "gather ACTUAL variable declarations "
+.ti -1c
+.RI "virtual void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls)"
+.br
+.ti -1c
+.RI "virtual void \fBgatherScalarVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls)"
+.br
+.RI "gather ACTUAL scalar variable declarations "
+.ti -1c
+.RI "virtual void \fBgatherArrayVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls)"
+.br
+.RI "gather ACTUAL array variable declarations "
+.ti -1c
+.RI "virtual \fBchillAST_VarDecl\fP * \fBfindArrayDecl\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "virtual void \fBreplaceVarDecls\fP (\fBchillAST_VarDecl\fP *olddecl, \fBchillAST_VarDecl\fP *newdecl)"
+.br
+.ti -1c
+.RI "virtual bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false)"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "virtual \fBchillAST_node\fP * \fBconstantFold\fP ()"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "virtual \fBchillAST_node\fP * \fBclone\fP ()"
+.br
+.ti -1c
+.RI "void \fBdump\fP (int indent=0, std::ostream &o=std::cerr)"
+.br
+.ti -1c
+.RI "void \fBprint\fP (int indent=0, std::ostream &o=std::cerr)"
+.br
+.ti -1c
+.RI "void \fBdump\fP (int indent, FILE *fp) __attribute_deprecated__"
+.br
+.ti -1c
+.RI "void \fBprint\fP (int indent, FILE *fp) __attribute_deprecated__"
+.br
+.ti -1c
+.RI "virtual std::string \fBstringRep\fP (int indent=0)"
+.br
+.RI "the ast's print version "
+.ti -1c
+.RI "virtual void \fBget_top_level_loops\fP (std::vector< \fBchillAST_ForStmt\fP * > &\fBloops\fP)"
+.br
+.ti -1c
+.RI "virtual void \fBrepairParentChild\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBfind_deepest_loops\fP (std::vector< \fBchillAST_ForStmt\fP * > &\fBloops\fP)"
+.br
+.RI "generic for \fBchillAST_node\fP with children "
+.ti -1c
+.RI "\fBconst\fP char * \fBgetTypeString\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetParent\fP (\fBchillAST_node\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetParent\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_SourceFile\fP * \fBgetSourceFile\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBchillAST_node\fP * \fBfindDatatype\fP (char *\fBt\fP)"
+.br
+.ti -1c
+.RI "virtual \fBchillAST_SymbolTable\fP * \fBaddVariableToSymbolTable\fP (\fBchillAST_VarDecl\fP *vd)"
+.br
+.ti -1c
+.RI "virtual void \fBaddTypedefToTypedefTable\fP (\fBchillAST_TypedefDecl\fP *tdd)"
+.br
+.ti -1c
+.RI "virtual \fBchillAST_node\fP * \fBgetEnclosingStatement\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBchillAST_VarDecl\fP * \fBmultibase\fP ()"
+.br
+.RI "Find the base declaration that this node refers to\&. "
+.ti -1c
+.RI "virtual void \fBgatherStatements\fP (std::vector< \fBchillAST_node\fP * > &statements)"
+.br
+.RI "Get a vector of statements\&. "
+.ti -1c
+.RI "virtual bool \fBisSameAs\fP (\fBchillAST_node\fP *other)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP ()"
+.br
+.RI "Base constructor for all inherited class\&. "
+.ti -1c
+.RI "template<typename ASTDestClass > ASTDestClass * \fBas\fP () \fBconst\fP noexcept"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBparent\fP"
+.br
+.RI "this Node's parent "
+.ti -1c
+.RI "bool \fBisFromSourceFile\fP"
+.br
+.RI "whether it is from a source file, when false it is from included files "
+.ti -1c
+.RI "char * \fBfilename\fP"
+.br
+.RI "the name of file this node from "
+.ti -1c
+.RI "vector< \fBchillAST_node\fP * > \fBchildren\fP"
+.br
+.ti -1c
+.RI "char * \fBmetacomment\fP"
+.br
+.RI "for compiler internals, formerly a comment "
+.ti -1c
+.RI "vector< \fBchillAST_Preprocessing\fP * > \fBpreprocessinginfo\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static int \fBchill_scalar_counter\fP = 0"
+.br
+.RI "for manufactured scalars "
+.ti -1c
+.RI "static int \fBchill_array_counter\fP = 1"
+.br
+.RI "for manufactured arrays "
+.ti -1c
+.RI "static int \fBchill_pointer_counter\fP"
+.br
+.RI "for manufactured arrays "
+.in -1c
+.SH "Detailed Description"
+.PP 
+generic node of the actual chillAST, a multiway tree node\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "virtual chillAST_node::~chillAST_node ()\fC [virtual]\fP, \fC [default]\fP"
+
+.SS "chillAST_node::chillAST_node ()\fC [inline]\fP"
+
+.PP
+Base constructor for all inherited class\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void chillAST_node::addChild (\fBchillAST_node\fP * c)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_MacroDefinition\fP, \fBchillAST_FunctionDecl\fP, and \fBchillAST_SourceFile\fP\&.
+.SS "virtual void chillAST_node::addChildren (\fBchillAST_NodeList\fP nl)\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "virtual void chillAST_node::addTypedefToTypedefTable (\fBchillAST_TypedefDecl\fP * tdd)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_SourceFile\fP, \fBchillAST_FunctionDecl\fP, and \fBchillAST_CompoundStmt\fP\&.
+.SS "virtual \fBchillAST_SymbolTable\fP* chillAST_node::addVariableToSymbolTable (\fBchillAST_VarDecl\fP * vd)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_ForStmt\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_SourceFile\fP, \fBchillAST_FunctionDecl\fP, \fBchillAST_RecordDecl\fP, and \fBchillAST_CompoundStmt\fP\&.
+.SS "virtual void chillAST_node::appendStatement (\fBchillAST_node\fP * stmt)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+append a statement to the end of a block, the body of a loop, or the body of a function 
+.PP
+Reimplemented in \fBchillAST_WhileStmt\fP, \fBchillAST_ForStmt\fP, and \fBchillAST_FunctionDecl\fP\&.
+.SS "template<typename ASTDestClass > ASTDestClass* chillAST_node::as () const\fC [inline]\fP, \fC [noexcept]\fP"
+
+.SS "virtual \fBchillAST_node\fP* chillAST_node::clone ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_IfStmt\fP, \fBchillAST_NoOp\fP, \fBchillAST_Sizeof\fP, \fBchillAST_ParenExpr\fP, \fBchillAST_CallExpr\fP, \fBchillAST_ReturnStmt\fP, \fBchillAST_CudaMemcpy\fP, \fBchillAST_Malloc\fP, \fBchillAST_CudaFree\fP, \fBchillAST_CudaMalloc\fP, \fBchillAST_CStyleAddressOf\fP, \fBchillAST_CStyleCastExpr\fP, \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_UnaryOperator\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_WhileStmt\fP, \fBchillAST_ForStmt\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_CompoundStmt\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "virtual \fBchillAST_node\fP* chillAST_node::constantFold ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBchillAST_IfStmt\fP, \fBchillAST_NoOp\fP, \fBchillAST_Sizeof\fP, \fBchillAST_ParenExpr\fP, \fBchillAST_CallExpr\fP, \fBchillAST_ReturnStmt\fP, \fBchillAST_CudaMemcpy\fP, \fBchillAST_Malloc\fP, \fBchillAST_CudaFree\fP, \fBchillAST_CudaMalloc\fP, \fBchillAST_CStyleAddressOf\fP, \fBchillAST_CStyleCastExpr\fP, \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_UnaryOperator\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_WhileStmt\fP, \fBchillAST_ForStmt\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_FunctionDecl\fP, \fBchillAST_CompoundStmt\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "void chillAST_node::dump (int indent, FILE * fp)\fC [inline]\fP"
+
+.SS "void chillAST_node::dump (int indent = \fC0\fP, std::ostream & o = \fCstd::cerr\fP)"
+
+.SS "virtual int chillAST_node::evalAsInt ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_UnaryOperator\fP, \fBchillAST_IntegerLiteral\fP, and \fBchillAST_BinaryOperator\fP\&.
+.SS "virtual void chillAST_node::find_deepest_loops (std::vector< \fBchillAST_ForStmt\fP * > & loops)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+generic for \fBchillAST_node\fP with children 
+.PP
+Reimplemented in \fBchillAST_ForStmt\fP\&.
+.SS "virtual \fBchillAST_VarDecl\fP* chillAST_node::findArrayDecl (\fBconst\fP char * name)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_MacroDefinition\fP, and \fBchillAST_FunctionDecl\fP\&.
+.SS "int chillAST_node::findChild (\fBchillAST_node\fP * c)\fC [inline]\fP"
+
+.SS "\fBchillAST_ForStmt\fP* chillAST_node::findContainingLoop ()\fC [inline]\fP"
+
+.PP
+recursively walking parent links, looking for loops 
+.SS "\fBchillAST_node\fP* chillAST_node::findContainingNonLoop ()\fC [inline]\fP"
+
+.PP
+recursively walking parent links, avoiding loops 
+.SS "virtual \fBchillAST_node\fP* chillAST_node::findDatatype (char * t)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_SourceFile\fP, \fBchillAST_FunctionDecl\fP, and \fBchillAST_CompoundStmt\fP\&.
+.SS "virtual bool chillAST_node::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented in \fBchillAST_IfStmt\fP, \fBchillAST_NoOp\fP, \fBchillAST_Sizeof\fP, \fBchillAST_ParenExpr\fP, \fBchillAST_CallExpr\fP, \fBchillAST_ReturnStmt\fP, \fBchillAST_CudaMemcpy\fP, \fBchillAST_Malloc\fP, \fBchillAST_CudaFree\fP, \fBchillAST_CudaMalloc\fP, \fBchillAST_CStyleAddressOf\fP, \fBchillAST_CStyleCastExpr\fP, \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_UnaryOperator\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_WhileStmt\fP, \fBchillAST_ForStmt\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_FunctionDecl\fP, \fBchillAST_CompoundStmt\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "\fBchillAST_RecordDecl\fP * chillAST_node::findRecordDeclNamed (\fBconst\fP char * name)"
+
+.SS "\fBchillAST_VarDecl\fP * chillAST_node::findVariableNamed (\fBconst\fP char * name)\fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_SourceFile\fP\&.
+.SS "virtual void chillAST_node::gatherArrayRefs (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > & refs, bool writtento)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_IfStmt\fP, \fBchillAST_NoOp\fP, \fBchillAST_Sizeof\fP, \fBchillAST_ParenExpr\fP, \fBchillAST_CallExpr\fP, \fBchillAST_CudaMemcpy\fP, \fBchillAST_Malloc\fP, \fBchillAST_CudaFree\fP, \fBchillAST_CudaMalloc\fP, \fBchillAST_CStyleAddressOf\fP, \fBchillAST_CStyleCastExpr\fP, \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_UnaryOperator\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_WhileStmt\fP, \fBchillAST_ForStmt\fP, \fBchillAST_CompoundStmt\fP, \fBchillAST_DeclRefExpr\fP, \fBchillAST_FloatingLiteral\fP, and \fBchillAST_IntegerLiteral\fP\&.
+.SS "virtual void chillAST_node::gatherArrayVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL array variable declarations 
+.PP
+Reimplemented in \fBchillAST_CallExpr\fP, \fBchillAST_CudaSyncthreads\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_FunctionDecl\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "virtual void chillAST_node::gatherDeclRefExprs (vector< \fBchillAST_DeclRefExpr\fP * > & refs)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+gather both scalar and array references 
+.PP
+Reimplemented in \fBchillAST_CallExpr\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "virtual void chillAST_node::gatherLoopIndeces (std::vector< \fBchillAST_VarDecl\fP * > & indeces)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+recursively walking parent links, looking for loops and grabbing the declRefExpr in the loop init and cond 
+.PP
+Reimplemented in \fBchillAST_ForStmt\fP\&.
+.SS "virtual void chillAST_node::gatherScalarRefs (std::vector< \fBchillAST_DeclRefExpr\fP * > & refs, bool writtento)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_IfStmt\fP, \fBchillAST_NoOp\fP, \fBchillAST_Sizeof\fP, \fBchillAST_ParenExpr\fP, \fBchillAST_CallExpr\fP, \fBchillAST_CudaMemcpy\fP, \fBchillAST_Malloc\fP, \fBchillAST_CudaFree\fP, \fBchillAST_CudaMalloc\fP, \fBchillAST_CStyleAddressOf\fP, \fBchillAST_CStyleCastExpr\fP, \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_WhileStmt\fP, \fBchillAST_ForStmt\fP, \fBchillAST_CompoundStmt\fP, and \fBchillAST_DeclRefExpr\fP\&.
+.SS "virtual void chillAST_node::gatherScalarVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL scalar variable declarations 
+.PP
+Reimplemented in \fBchillAST_CudaSyncthreads\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_FunctionDecl\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "virtual void chillAST_node::gatherStatements (std::vector< \fBchillAST_node\fP * > & statements)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Get a vector of statements\&. 
+.PP
+Reimplemented in \fBchillAST_IfStmt\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_ForStmt\fP, and \fBchillAST_CompoundStmt\fP\&.
+.SS "virtual void chillAST_node::gatherVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL variable declarations 
+.PP
+Reimplemented in \fBchillAST_CallExpr\fP, \fBchillAST_CudaSyncthreads\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_FunctionDecl\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "virtual void chillAST_node::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_IfStmt\fP, \fBchillAST_NoOp\fP, \fBchillAST_Sizeof\fP, \fBchillAST_ParenExpr\fP, \fBchillAST_CallExpr\fP, \fBchillAST_ReturnStmt\fP, \fBchillAST_CudaSyncthreads\fP, \fBchillAST_CudaMemcpy\fP, \fBchillAST_Malloc\fP, \fBchillAST_CudaFree\fP, \fBchillAST_CudaMalloc\fP, \fBchillAST_CStyleAddressOf\fP, \fBchillAST_CStyleCastExpr\fP, \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_UnaryOperator\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_ForStmt\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_FunctionDecl\fP, \fBchillAST_CompoundStmt\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "virtual void chillAST_node::gatherVarLHSUsage (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+gather all variable that is used as a lefthand side operand 
+.PP
+Reimplemented in \fBchillAST_UnaryOperator\fP, \fBchillAST_BinaryOperator\fP, and \fBchillAST_TernaryOperator\fP\&.
+.SS "virtual void chillAST_node::gatherVarUsage (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_CallExpr\fP, \fBchillAST_CudaSyncthreads\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "virtual void chillAST_node::get_top_level_loops (std::vector< \fBchillAST_ForStmt\fP * > & loops)\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "\fBchillAST_node\fP* chillAST_node::getChild (int which)\fC [inline]\fP"
+
+.SS "vector<\fBchillAST_node\fP*>& chillAST_node::getChildren ()\fC [inline]\fP"
+
+.SS "\fBchillAST_node\fP * chillAST_node::getEnclosingStatement ()\fC [virtual]\fP"
+
+.SS "int chillAST_node::getNumChildren ()\fC [inline]\fP"
+
+.SS "\fBchillAST_node\fP* chillAST_node::getParent ()\fC [inline]\fP"
+
+.SS "\fBchillAST_SourceFile\fP* chillAST_node::getSourceFile ()\fC [inline]\fP"
+
+.SS "virtual \fBchillAST_SymbolTable\fP* chillAST_node::getSymbolTable ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_MacroDefinition\fP, \fBchillAST_FunctionDecl\fP, and \fBchillAST_CompoundStmt\fP\&.
+.SS "virtual \fBCHILL_ASTNODE_TYPE\fP chillAST_node::getType ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_IfStmt\fP, \fBchillAST_NoOp\fP, \fBchillAST_Sizeof\fP, \fBchillAST_ParenExpr\fP, \fBchillAST_CallExpr\fP, \fBchillAST_ReturnStmt\fP, \fBchillAST_CudaSyncthreads\fP, \fBchillAST_CudaMemcpy\fP, \fBchillAST_Free\fP, \fBchillAST_Malloc\fP, \fBchillAST_CudaFree\fP, \fBchillAST_CudaMalloc\fP, \fBchillAST_CStyleAddressOf\fP, \fBchillAST_CStyleCastExpr\fP, \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_UnaryOperator\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_WhileStmt\fP, \fBchillAST_ForStmt\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_SourceFile\fP, \fBchillAST_CompoundStmt\fP, \fBchillAST_DeclRefExpr\fP, \fBchillAST_VarDecl\fP, \fBchillAST_Preprocessing\fP, and \fBchillAST_NULL\fP\&.
+.SS "\fBconst\fP char* chillAST_node::getTypeString ()\fC [inline]\fP"
+
+.SS "virtual \fBconst\fP char* chillAST_node::getUnderlyingType ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_DeclRefExpr\fP, \fBchillAST_VarDecl\fP, and \fBchillAST_TypedefDecl\fP\&.
+.SS "virtual \fBchillAST_VarDecl\fP* chillAST_node::getUnderlyingVarDecl ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "virtual bool chillAST_node::hasSymbolTable ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_ForStmt\fP, \fBchillAST_MacroDefinition\fP, \fBchillAST_SourceFile\fP, \fBchillAST_FunctionDecl\fP, and \fBchillAST_CompoundStmt\fP\&.
+.SS "virtual bool chillAST_node::hasTypedefTable ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "virtual void chillAST_node::insertChild (int i, \fBchillAST_node\fP * node)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_MacroDefinition\fP, and \fBchillAST_FunctionDecl\fP\&.
+.SS "bool chillAST_node::isArraySubscriptExpr ()\fC [inline]\fP"
+
+.SS "virtual bool chillAST_node::isAssignmentOp ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_UnaryOperator\fP, and \fBchillAST_BinaryOperator\fP\&.
+.SS "virtual bool chillAST_node::isAStruct ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_RecordDecl\fP, \fBchillAST_VarDecl\fP, and \fBchillAST_TypedefDecl\fP\&.
+.SS "virtual bool chillAST_node::isAUnion ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_RecordDecl\fP, and \fBchillAST_TypedefDecl\fP\&.
+.SS "bool chillAST_node::isBinaryOperator ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isCallExpr ()\fC [inline]\fP"
+
+.SS "virtual bool chillAST_node::isComparisonOp ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_BinaryOperator\fP\&.
+.SS "bool chillAST_node::isCompoundStmt ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isConstant ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isCStyleAddressOf ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isCStyleCastExpr ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isCudaFree ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isCudaKERNELCALL ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isCudaMalloc ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isCudaMemcpy ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isCudaSYNCTHREADS ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isDeclRefExpr ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isDeclStmt ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isFloatingLiteral ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isForStmt ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isFree ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isFunctionDecl ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isIfStmt ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isImplicitCastExpr ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isIntegerLiteral ()\fC [inline]\fP"
+
+.SS "virtual bool chillAST_node::isLeaf ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, and \fBchillAST_ForStmt\fP\&.
+.SS "bool chillAST_node::isLoop ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isMacroDefinition ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isMalloc ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isMemberExpr ()\fC [inline]\fP"
+
+.SS "virtual bool chillAST_node::isMinusOp ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_BinaryOperator\fP\&.
+.SS "virtual bool chillAST_node::isMultDivOp ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_BinaryOperator\fP\&.
+.SS "bool chillAST_node::isNoOp ()\fC [inline]\fP"
+
+.SS "virtual bool chillAST_node::isNotLeaf ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, and \fBchillAST_ForStmt\fP\&.
+.SS "bool chillAST_node::isNull ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isParenExpr ()\fC [inline]\fP"
+
+.SS "virtual bool chillAST_node::isParmVarDecl ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_VarDecl\fP\&.
+.SS "virtual bool chillAST_node::isPlusMinusOp ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_BinaryOperator\fP\&.
+.SS "virtual bool chillAST_node::isPlusOp ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_BinaryOperator\fP\&.
+.SS "bool chillAST_node::isPreprocessing ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isRecordDecl ()\fC [inline]\fP"
+
+.SS "virtual bool chillAST_node::isRemOp ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_BinaryOperator\fP\&.
+.SS "bool chillAST_node::isReturnStmt ()\fC [inline]\fP"
+
+.SS "virtual bool chillAST_node::isSameAs (\fBchillAST_node\fP * other)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_UnaryOperator\fP, \fBchillAST_FloatingLiteral\fP, and \fBchillAST_BinaryOperator\fP\&.
+.SS "bool chillAST_node::isSizeof ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isSourceFile ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isTernaryOperator ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isTypeDefDecl ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isUnaryOperator ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isVarDecl ()\fC [inline]\fP"
+
+.SS "bool chillAST_node::isWhileStmt ()\fC [inline]\fP"
+
+.SS "virtual void chillAST_node::loseLoopWithLoopVar (char * var)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Replace the loop with the loop body, if loop is with this variable\&. The loop will be spread across a bunch of cores that will each calculate their own loop variable\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIvar\fP 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBchillAST_IfStmt\fP, \fBchillAST_CudaSyncthreads\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_WhileStmt\fP, \fBchillAST_ForStmt\fP, \fBchillAST_CompoundStmt\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "virtual \fBchillAST_VarDecl\fP* chillAST_node::multibase ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Find the base declaration that this node refers to\&. This will step through:
+.IP "\(bu" 2
+ArraySubscriptExpression
+.IP "\(bu" 2
+MemberExpression 
+.PP
+
+.PP
+Reimplemented in \fBchillAST_ImplicitCastExpr\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, and \fBchillAST_DeclRefExpr\fP\&.
+.SS "virtual void chillAST_node::prependStatement (\fBchillAST_node\fP * stmt)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+prepend a statement to the begining of a block, the body of a loop, or the body of a function 
+.PP
+Reimplemented in \fBchillAST_WhileStmt\fP, \fBchillAST_ForStmt\fP, and \fBchillAST_FunctionDecl\fP\&.
+.SS "void chillAST_node::print (int indent, FILE * fp)\fC [inline]\fP"
+
+.SS "void chillAST_node::print (int indent = \fC0\fP, std::ostream & o = \fCstd::cerr\fP)"
+
+.SS "void chillAST_node::removeChild (int i)\fC [inline]\fP"
+
+.SS "virtual void chillAST_node::repairParentChild ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "virtual void chillAST_node::replaceChild (\fBchillAST_node\fP * old, \fBchillAST_node\fP * newchild)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_ForStmt\fP, \fBchillAST_FunctionDecl\fP, and \fBchillAST_CompoundStmt\fP\&.
+.SS "virtual void chillAST_node::replaceVarDecls (\fBchillAST_VarDecl\fP * olddecl, \fBchillAST_VarDecl\fP * newdecl)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBchillAST_NoOp\fP, \fBchillAST_Sizeof\fP, \fBchillAST_ParenExpr\fP, \fBchillAST_CallExpr\fP, \fBchillAST_CStyleCastExpr\fP, \fBchillAST_UnaryOperator\fP, \fBchillAST_FloatingLiteral\fP, \fBchillAST_IntegerLiteral\fP, \fBchillAST_MemberExpr\fP, \fBchillAST_ArraySubscriptExpr\fP, \fBchillAST_BinaryOperator\fP, \fBchillAST_TernaryOperator\fP, \fBchillAST_ForStmt\fP, \fBchillAST_CompoundStmt\fP, \fBchillAST_DeclRefExpr\fP, and \fBchillAST_VarDecl\fP\&.
+.SS "void chillAST_node::setChild (int which, \fBchillAST_node\fP * n)\fC [inline]\fP"
+
+.SS "void chillAST_node::setMetaComment (char * c)\fC [inline]\fP"
+
+.SS "void chillAST_node::setParent (\fBchillAST_node\fP * p)\fC [inline]\fP"
+
+.SS "std::string chillAST_node::stringRep (int indent = \fC0\fP)\fC [virtual]\fP"
+
+.PP
+the ast's print version 
+.SH "Member Data Documentation"
+.PP 
+.SS "vector<\fBchillAST_node\fP*> chillAST_node::children"
+
+.SS "int chillAST_node::chill_array_counter = 1\fC [static]\fP"
+
+.PP
+for manufactured arrays 
+.SS "int chillAST_node::chill_pointer_counter\fC [static]\fP"
+
+.PP
+for manufactured arrays 
+.SS "int chillAST_node::chill_scalar_counter = 0\fC [static]\fP"
+
+.PP
+for manufactured scalars 
+.SS "char* chillAST_node::filename"
+
+.PP
+the name of file this node from 
+.SS "bool chillAST_node::isFromSourceFile"
+
+.PP
+whether it is from a source file, when false it is from included files 
+.SS "char* chillAST_node::metacomment"
+
+.PP
+for compiler internals, formerly a comment 
+.SS "\fBchillAST_node\fP* chillAST_node::parent"
+
+.PP
+this Node's parent 
+.SS "vector<\fBchillAST_Preprocessing\fP*> chillAST_node::preprocessinginfo"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

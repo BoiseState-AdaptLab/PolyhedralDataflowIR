@@ -1,0 +1,184 @@
+.TH "test/MiniFluxDivTest.cpp" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+test/MiniFluxDivTest.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cstring>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <gtest/gtest\&.h>\fP
+.br
+\fC#include <BenchmarkTest\&.hpp>\fP
+.br
+\fC#include <util/Lists\&.hpp>\fP
+.br
+\fC#include 'mfd_3d\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtest::MiniFluxDivTest\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtest\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBdx\fP   0\&.5"
+.br
+.ti -1c
+.RI "#define \fBfactor1\fP   (1\&.0/12\&.0)"
+.br
+.ti -1c
+.RI "#define \fBfactor2\fP   2\&.0"
+.br
+.ti -1c
+.RI "#define \fBNBOXES\fP   32"
+.br
+.ti -1c
+.RI "#define \fBNCELLS\fP   128"
+.br
+.ti -1c
+.RI "#define \fBNTHREADS\fP   1"
+.br
+.ti -1c
+.RI "#define \fBNDIMS\fP   3"
+.br
+.ti -1c
+.RI "#define \fBNCOMP\fP   5"
+.br
+.ti -1c
+.RI "#define \fBNGHOST\fP   2"
+.br
+.ti -1c
+.RI "#define \fBGET_VAL_PTR\fP(\fBb\fP,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBPHI_IN\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBPHI_OUT\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBPHI_PTR\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   (\fBGET_VAL_PTR\fP(new_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBPHI_REF\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBp_data\fP(box,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),0,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBe_data\fP(box,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),1,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBu_data\fP(box,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),2,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBv_data\fP(box,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),3,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBw_data\fP(box,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),4,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBGET_VAL_PTR\fP(\fBb\fP,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBGET_FACE_VAL_PTR\fP(d,  \fBb\fP,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef double \fBReal\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtest::TEST_F\fP (MiniFluxDivTest, MFD)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define dx   0\&.5"
+
+.SS "#define e_data(box, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),1,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define factor1   (1\&.0/12\&.0)"
+
+.SS "#define factor2   2\&.0"
+
+.SS "#define GET_FACE_VAL_PTR(d, \fBb\fP, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+                                     (b)+\
+                                     (c)*(numCell+((d)==2))*(numCell+((d)==1))*(numCell+((d)==0)) +\
+                                     (z)*(numCell+((d)==1))*(numCell+((d)==0))+\
+                                     (y)*(numCell+((d)==0))+(x)
+.fi
+.SS "#define GET_VAL_PTR(\fBb\fP, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+                               (b)+(c)*_fullNumCell3+((z)+NGHOST)*_fullNumCell2+\
+                               ((y)+NGHOST)*_fullNumCell+((x)+NGHOST)
+.fi
+.SS "#define GET_VAL_PTR(\fBb\fP, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+                    (b)+ (c)*full_numCell3 + ((z)+nGhost) * full_numCell2 +\
+                    ((y)+nGhost)*full_numCell+((x)+nGhost)
+.fi
+.SS "#define NBOXES   32"
+
+.SS "#define NCELLS   128"
+
+.SS "#define NCOMP   5"
+
+.SS "#define NDIMS   3"
+
+.SS "#define NGHOST   2"
+
+.SS "#define NTHREADS   1"
+
+.SS "#define p_data(box, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),0,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define PHI_IN(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define PHI_OUT(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define PHI_PTR(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   (\fBGET_VAL_PTR\fP(new_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define PHI_REF(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define u_data(box, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),2,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define v_data(box, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),3,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define w_data(box, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP((box),4,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef double \fBReal\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,396 @@
+\hypertarget{chill__ast_8cc}{}\doxysection{lib/chill/chill\+\_\+ast.cc File Reference}
+\label{chill__ast_8cc}\index{lib/chill/chill\_ast.cc@{lib/chill/chill\_ast.cc}}
+{\ttfamily \#include \char`\"{}chill\+\_\+ast.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}printer/dump.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}printer/cfamily.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include \char`\"{}chill\+\_\+ast.\+def\char`\"{}}\newline
+Include dependency graph for chill\+\_\+ast.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \mbox{\hyperlink{chill__ast_8cc_aa8c1655f9c0e6a6a9a22cb87a07073f3}{parse\+Underlying\+Type}} (char $\ast$sometype)
+\begin{DoxyCompactList}\small\item\em Parse to the most basic type. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{chill__ast_8cc_a3677b869f33ccacec4ffd1eaea2c8610}{print\+Symbol\+Table}} (\mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}} $\ast$st)
+\item 
+void \mbox{\hyperlink{chill__ast_8cc_aee86afc9b7cae7bc2e47682a289b252b}{print\+Symbol\+Table\+More\+Info}} (\mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}} $\ast$st)
+\item 
+\mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$ \mbox{\hyperlink{chill__ast_8cc_ab168421584f7d3bd8c1bc570dc4b0809}{symbol\+Table\+Find\+Variable\+Named}} (\mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}} $\ast$\mbox{\hyperlink{gen-fib_8c_ace5d34439b3fc68f9ab80aa669f3b0f4}{table}}, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{isl__test_8c_a8f8f80d37794cde9472343e4487ba3eb}{name}})
+\item 
+char $\ast$ \mbox{\hyperlink{chill__ast_8cc_a8bd71757a5e7ea9e1d693e3d5198b4af}{ulhack}} (char $\ast$brackets)
+\begin{DoxyCompactList}\small\item\em remove UL from numbers, M\+O\+D\+I\+F\+I\+ES the argument! \end{DoxyCompactList}\item 
+char $\ast$ \mbox{\hyperlink{chill__ast_8cc_a04eeae8f87063541f69304776f966970}{restricthack}} (char $\ast$typeinfo)
+\begin{DoxyCompactList}\small\item\em remove {\bfseries{restrict}} , M\+O\+D\+I\+F\+I\+ES the argument! \end{DoxyCompactList}\item 
+char $\ast$ \mbox{\hyperlink{chill__ast_8cc_abd05777fa456dfcd7f859316d04c1ea4}{parse\+Array\+Parts}} (char $\ast$sometype)
+\item 
+char $\ast$ \mbox{\hyperlink{chill__ast_8cc_a0155458eb0a306e50770afed317a447c}{split\+Type\+Info}} (char $\ast$underlyingtype)
+\begin{DoxyCompactList}\small\item\em return the bracketed part of a type \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{chill__ast_8cc_af9fb45097c0b870304507be84c2cac83}{is\+Restrict}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$sometype)
+\item 
+bool \mbox{\hyperlink{chill__ast_8cc_a8afddeecfbcad7d4d422cfcb4c001746}{streq}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}})
+\item 
+void \mbox{\hyperlink{chill__ast_8cc_a1e6a8b340e8444549ac9c793415629ed}{chillindent}} (int howfar, F\+I\+LE $\ast$fp)
+\item 
+void \mbox{\hyperlink{chill__ast_8cc_a40fa00750fc51dac29f9353b7da0929d}{insert\+New\+Decl\+At\+Location\+Of\+Old\+If\+Needed}} (\mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$newdecl, \mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$olddecl)
+\item 
+void \mbox{\hyperlink{chill__ast_8cc_a66459a7bed373c79708ebaf87be662db}{gather\+Var\+Decls}} (vector$<$ \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$ $>$ \&code, vector$<$ \mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$ $>$ \&decls)
+\item 
+void \mbox{\hyperlink{chill__ast_8cc_a7050f7974e3c9112fff1abdaed29060c}{gather\+Var\+Usage}} (vector$<$ \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$ $>$ \&code, vector$<$ \mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$ $>$ \&decls)
+\item 
+\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$ \mbox{\hyperlink{chill__ast_8cc_ad4f3ac5e19728a60dcccb80007db48a1}{minmax\+Ternary}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{isl__test_8c_a9e598d5376c3b5a6ddb549a7afd1053c}{op}}, \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$left, \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$right)
+\item 
+void \mbox{\hyperlink{chill__ast_8cc_ac57b65bb1c7f77ef8f3ba29725ea9cde}{find\+Function\+Decl\+Recursive}} (\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$node, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$procname, vector$<$ \mbox{\hyperlink{classchill_a_s_t___function_decl}{chill\+A\+S\+T\+\_\+\+Function\+Decl}} $\ast$ $>$ \&funcs)
+\item 
+\mbox{\hyperlink{classchill_a_s_t___function_decl}{chill\+A\+S\+T\+\_\+\+Function\+Decl}} $\ast$ \mbox{\hyperlink{chill__ast_8cc_aec846b117df603f9e9c4b1d14d2ba570}{find\+Function\+Decl}} (\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$node, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$procname)
+\item 
+\mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}} $\ast$ \mbox{\hyperlink{chill__ast_8cc_adb9d3825896b95a5ad2f0311452cd7fb}{add\+Symbol\+To\+Table}} (\mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}} $\ast$st, \mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$vd)
+\item 
+\mbox{\hyperlink{chill__ast_8hh_ac4ba8b9800122a6d3f303cf708a129c0}{chill\+A\+S\+T\+\_\+\+Typedef\+Table}} $\ast$ \mbox{\hyperlink{chill__ast_8cc_a61b115b9ee9c3a1bfb38afaa9316d8ad}{add\+Typedef\+To\+Table}} (\mbox{\hyperlink{chill__ast_8hh_ac4ba8b9800122a6d3f303cf708a129c0}{chill\+A\+S\+T\+\_\+\+Typedef\+Table}} $\ast$tdt, \mbox{\hyperlink{classchill_a_s_t___typedef_decl}{chill\+A\+S\+T\+\_\+\+Typedef\+Decl}} $\ast$td)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$ \mbox{\hyperlink{chill__ast_8cc_ae4065e96835ccece9f9090519822735e}{Chill\+\_\+\+A\+S\+T\+\_\+\+Node\+\_\+\+Names}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{chill__ast_8cc_adb9d3825896b95a5ad2f0311452cd7fb}\label{chill__ast_8cc_adb9d3825896b95a5ad2f0311452cd7fb}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!addSymbolToTable@{addSymbolToTable}}
+\index{addSymbolToTable@{addSymbolToTable}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{addSymbolToTable()}{addSymbolToTable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}}$\ast$ add\+Symbol\+To\+Table (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}} $\ast$}]{st,  }\item[{\mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$}]{vd }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_adb9d3825896b95a5ad2f0311452cd7fb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a61b115b9ee9c3a1bfb38afaa9316d8ad}\label{chill__ast_8cc_a61b115b9ee9c3a1bfb38afaa9316d8ad}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!addTypedefToTable@{addTypedefToTable}}
+\index{addTypedefToTable@{addTypedefToTable}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{addTypedefToTable()}{addTypedefToTable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{chill__ast_8hh_ac4ba8b9800122a6d3f303cf708a129c0}{chill\+A\+S\+T\+\_\+\+Typedef\+Table}}$\ast$ add\+Typedef\+To\+Table (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{chill__ast_8hh_ac4ba8b9800122a6d3f303cf708a129c0}{chill\+A\+S\+T\+\_\+\+Typedef\+Table}} $\ast$}]{tdt,  }\item[{\mbox{\hyperlink{classchill_a_s_t___typedef_decl}{chill\+A\+S\+T\+\_\+\+Typedef\+Decl}} $\ast$}]{td }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_a61b115b9ee9c3a1bfb38afaa9316d8ad_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a1e6a8b340e8444549ac9c793415629ed}\label{chill__ast_8cc_a1e6a8b340e8444549ac9c793415629ed}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!chillindent@{chillindent}}
+\index{chillindent@{chillindent}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{chillindent()}{chillindent()}}
+{\footnotesize\ttfamily void chillindent (\begin{DoxyParamCaption}\item[{int}]{howfar,  }\item[{F\+I\+LE $\ast$}]{fp }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=347pt]{chill__ast_8cc_a1e6a8b340e8444549ac9c793415629ed_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_aec846b117df603f9e9c4b1d14d2ba570}\label{chill__ast_8cc_aec846b117df603f9e9c4b1d14d2ba570}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!findFunctionDecl@{findFunctionDecl}}
+\index{findFunctionDecl@{findFunctionDecl}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{findFunctionDecl()}{findFunctionDecl()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classchill_a_s_t___function_decl}{chill\+A\+S\+T\+\_\+\+Function\+Decl}}$\ast$ find\+Function\+Decl (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{node,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{procname }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_aec846b117df603f9e9c4b1d14d2ba570_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_aec846b117df603f9e9c4b1d14d2ba570_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_ac57b65bb1c7f77ef8f3ba29725ea9cde}\label{chill__ast_8cc_ac57b65bb1c7f77ef8f3ba29725ea9cde}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!findFunctionDeclRecursive@{findFunctionDeclRecursive}}
+\index{findFunctionDeclRecursive@{findFunctionDeclRecursive}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{findFunctionDeclRecursive()}{findFunctionDeclRecursive()}}
+{\footnotesize\ttfamily void find\+Function\+Decl\+Recursive (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{node,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{procname,  }\item[{vector$<$ \mbox{\hyperlink{classchill_a_s_t___function_decl}{chill\+A\+S\+T\+\_\+\+Function\+Decl}} $\ast$ $>$ \&}]{funcs }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_ac57b65bb1c7f77ef8f3ba29725ea9cde_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_ac57b65bb1c7f77ef8f3ba29725ea9cde_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a66459a7bed373c79708ebaf87be662db}\label{chill__ast_8cc_a66459a7bed373c79708ebaf87be662db}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!gatherVarDecls@{gatherVarDecls}}
+\index{gatherVarDecls@{gatherVarDecls}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{gatherVarDecls()}{gatherVarDecls()}}
+{\footnotesize\ttfamily void gather\+Var\+Decls (\begin{DoxyParamCaption}\item[{vector$<$ \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$ $>$ \&}]{code,  }\item[{vector$<$ \mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$ $>$ \&}]{decls }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=347pt]{chill__ast_8cc_a66459a7bed373c79708ebaf87be662db_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a7050f7974e3c9112fff1abdaed29060c}\label{chill__ast_8cc_a7050f7974e3c9112fff1abdaed29060c}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!gatherVarUsage@{gatherVarUsage}}
+\index{gatherVarUsage@{gatherVarUsage}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{gatherVarUsage()}{gatherVarUsage()}}
+{\footnotesize\ttfamily void gather\+Var\+Usage (\begin{DoxyParamCaption}\item[{vector$<$ \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$ $>$ \&}]{code,  }\item[{vector$<$ \mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$ $>$ \&}]{decls }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_a7050f7974e3c9112fff1abdaed29060c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_a7050f7974e3c9112fff1abdaed29060c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a40fa00750fc51dac29f9353b7da0929d}\label{chill__ast_8cc_a40fa00750fc51dac29f9353b7da0929d}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!insertNewDeclAtLocationOfOldIfNeeded@{insertNewDeclAtLocationOfOldIfNeeded}}
+\index{insertNewDeclAtLocationOfOldIfNeeded@{insertNewDeclAtLocationOfOldIfNeeded}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{insertNewDeclAtLocationOfOldIfNeeded()}{insertNewDeclAtLocationOfOldIfNeeded()}}
+{\footnotesize\ttfamily void insert\+New\+Decl\+At\+Location\+Of\+Old\+If\+Needed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$}]{newdecl,  }\item[{\mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$}]{olddecl }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_a40fa00750fc51dac29f9353b7da0929d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_af9fb45097c0b870304507be84c2cac83}\label{chill__ast_8cc_af9fb45097c0b870304507be84c2cac83}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!isRestrict@{isRestrict}}
+\index{isRestrict@{isRestrict}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{isRestrict()}{isRestrict()}}
+{\footnotesize\ttfamily bool is\+Restrict (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{sometype }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{chill__ast_8cc_ad4f3ac5e19728a60dcccb80007db48a1}\label{chill__ast_8cc_ad4f3ac5e19728a60dcccb80007db48a1}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!minmaxTernary@{minmaxTernary}}
+\index{minmaxTernary@{minmaxTernary}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{minmaxTernary()}{minmaxTernary()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}}$\ast$ minmax\+Ternary (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{op,  }\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{left,  }\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{right }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_ad4f3ac5e19728a60dcccb80007db48a1_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_abd05777fa456dfcd7f859316d04c1ea4}\label{chill__ast_8cc_abd05777fa456dfcd7f859316d04c1ea4}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!parseArrayParts@{parseArrayParts}}
+\index{parseArrayParts@{parseArrayParts}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{parseArrayParts()}{parseArrayParts()}}
+{\footnotesize\ttfamily char$\ast$ parse\+Array\+Parts (\begin{DoxyParamCaption}\item[{char $\ast$}]{sometype }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{chill__ast_8cc_abd05777fa456dfcd7f859316d04c1ea4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=289pt]{chill__ast_8cc_abd05777fa456dfcd7f859316d04c1ea4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_aa8c1655f9c0e6a6a9a22cb87a07073f3}\label{chill__ast_8cc_aa8c1655f9c0e6a6a9a22cb87a07073f3}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!parseUnderlyingType@{parseUnderlyingType}}
+\index{parseUnderlyingType@{parseUnderlyingType}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{parseUnderlyingType()}{parseUnderlyingType()}}
+{\footnotesize\ttfamily char$\ast$ parse\+Underlying\+Type (\begin{DoxyParamCaption}\item[{char $\ast$}]{sometype }\end{DoxyParamCaption})}
+
+
+
+Parse to the most basic type. 
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_aa8c1655f9c0e6a6a9a22cb87a07073f3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a3677b869f33ccacec4ffd1eaea2c8610}\label{chill__ast_8cc_a3677b869f33ccacec4ffd1eaea2c8610}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!printSymbolTable@{printSymbolTable}}
+\index{printSymbolTable@{printSymbolTable}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{printSymbolTable()}{printSymbolTable()}}
+{\footnotesize\ttfamily void print\+Symbol\+Table (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}} $\ast$}]{st }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_a3677b869f33ccacec4ffd1eaea2c8610_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_aee86afc9b7cae7bc2e47682a289b252b}\label{chill__ast_8cc_aee86afc9b7cae7bc2e47682a289b252b}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!printSymbolTableMoreInfo@{printSymbolTableMoreInfo}}
+\index{printSymbolTableMoreInfo@{printSymbolTableMoreInfo}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{printSymbolTableMoreInfo()}{printSymbolTableMoreInfo()}}
+{\footnotesize\ttfamily void print\+Symbol\+Table\+More\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}} $\ast$}]{st }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_aee86afc9b7cae7bc2e47682a289b252b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a04eeae8f87063541f69304776f966970}\label{chill__ast_8cc_a04eeae8f87063541f69304776f966970}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!restricthack@{restricthack}}
+\index{restricthack@{restricthack}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{restricthack()}{restricthack()}}
+{\footnotesize\ttfamily char$\ast$ restricthack (\begin{DoxyParamCaption}\item[{char $\ast$}]{typeinfo }\end{DoxyParamCaption})}
+
+
+
+remove {\bfseries{restrict}} , M\+O\+D\+I\+F\+I\+ES the argument! 
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_a04eeae8f87063541f69304776f966970_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a0155458eb0a306e50770afed317a447c}\label{chill__ast_8cc_a0155458eb0a306e50770afed317a447c}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!splitTypeInfo@{splitTypeInfo}}
+\index{splitTypeInfo@{splitTypeInfo}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{splitTypeInfo()}{splitTypeInfo()}}
+{\footnotesize\ttfamily char$\ast$ split\+Type\+Info (\begin{DoxyParamCaption}\item[{char $\ast$}]{underlyingtype }\end{DoxyParamCaption})}
+
+
+
+return the bracketed part of a type 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_a0155458eb0a306e50770afed317a447c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a8afddeecfbcad7d4d422cfcb4c001746}\label{chill__ast_8cc_a8afddeecfbcad7d4d422cfcb4c001746}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!streq@{streq}}
+\index{streq@{streq}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{streq()}{streq()}}
+{\footnotesize\ttfamily bool streq (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{a,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{b }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_a8afddeecfbcad7d4d422cfcb4c001746_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_ab168421584f7d3bd8c1bc570dc4b0809}\label{chill__ast_8cc_ab168421584f7d3bd8c1bc570dc4b0809}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!symbolTableFindVariableNamed@{symbolTableFindVariableNamed}}
+\index{symbolTableFindVariableNamed@{symbolTableFindVariableNamed}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{symbolTableFindVariableNamed()}{symbolTableFindVariableNamed()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}}$\ast$ symbol\+Table\+Find\+Variable\+Named (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{chill__ast_8hh_a065c74d5985bfdd36e8f4a8f313ee7a6}{chill\+A\+S\+T\+\_\+\+Symbol\+Table}} $\ast$}]{table,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{name }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_ab168421584f7d3bd8c1bc570dc4b0809_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_ab168421584f7d3bd8c1bc570dc4b0809_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{chill__ast_8cc_a8bd71757a5e7ea9e1d693e3d5198b4af}\label{chill__ast_8cc_a8bd71757a5e7ea9e1d693e3d5198b4af}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!ulhack@{ulhack}}
+\index{ulhack@{ulhack}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{ulhack()}{ulhack()}}
+{\footnotesize\ttfamily char$\ast$ ulhack (\begin{DoxyParamCaption}\item[{char $\ast$}]{brackets }\end{DoxyParamCaption})}
+
+
+
+remove UL from numbers, M\+O\+D\+I\+F\+I\+ES the argument! 
+
+change \char`\"{}1024\+U\+L\char`\"{} to \char`\"{}1024\char`\"{} Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{chill__ast_8cc_a8bd71757a5e7ea9e1d693e3d5198b4af_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{chill__ast_8cc_ae4065e96835ccece9f9090519822735e}\label{chill__ast_8cc_ae4065e96835ccece9f9090519822735e}} 
+\index{chill\_ast.cc@{chill\_ast.cc}!Chill\_AST\_Node\_Names@{Chill\_AST\_Node\_Names}}
+\index{Chill\_AST\_Node\_Names@{Chill\_AST\_Node\_Names}!chill\_ast.cc@{chill\_ast.cc}}
+\doxysubsubsection{\texorpdfstring{Chill\_AST\_Node\_Names}{Chill\_AST\_Node\_Names}}
+{\footnotesize\ttfamily \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char$\ast$ Chill\+\_\+\+A\+S\+T\+\_\+\+Node\+\_\+\+Names\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{ }
+\DoxyCodeLine{  \textcolor{stringliteral}{"Unknown AST node type"},}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

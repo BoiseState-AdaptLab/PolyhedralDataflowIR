@@ -1,0 +1,272 @@
+.TH "out/cp_als_nd_csf.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/cp_als_nd_csf.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <float\&.h>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+\fC#include <linalg\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBurand\fP(\fBm\fP)   (rand()/nextafter(RAND_MAX,DBL_MAX)+(\fBm\fP))"
+.br
+.ti -1c
+.RI "#define \fBpinv\fP(\fBA\fP,  \fBAinv\fP)   (\fBmp_pinv\fP((\fBA\fP),(\fBAinv\fP),\fBR\fP))"
+.br
+.ti -1c
+.RI "#define \fBA\fP(\fBi\fP,  r)   A[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBmtx\fP(\fBn\fP,  \fBi\fP,  r)   mtx[(\fBn\fP)][\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBata\fP(\fBn\fP,  r,  q)   ata[\fBoffset3\fP((\fBn\fP),(r),(q),(\fBR\fP),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBX\fP(\fBm\fP)   X[(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBV\fP(r,  q)   V[\fBoffset2\fP((r),(q),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBVinv\fP(q,  r)   Vinv[\fBoffset2\fP((q),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBws\fP(\fBi\fP,  r)   ws[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBsums\fP(s)   sums[(s)]"
+.br
+.ti -1c
+.RI "#define \fBlmbda\fP(s)   lmbda[(s)]"
+.br
+.ti -1c
+.RI "#define \fBcrd\fP(\fBt\fP,  \fBn\fP,  \fBm\fP,  r,  \fBp\fP)   crd[(\fBp\fP)]"
+.br
+.ti -1c
+.RI "#define \fBcrd1\fP(\fBt\fP,  \fBn\fP,  \fBm\fP,  r)   \fBcrd\fP[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBdim\fP(\fBn\fP)   dim[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBdim1\fP(\fBt\fP,  \fBn\fP)   \fBdim\fP[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBfndx\fP(\fBn\fP,  \fBp\fP)   fndx[(\fBn\fP)][(\fBp\fP)]"
+.br
+.ti -1c
+.RI "#define \fBfptr\fP(\fBn\fP,  \fBp\fP)   fptr[(\fBn\fP)][(\fBp\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBn\fP)   \fBD\fP=\fBmax\fP(\fBD\fP,\fBdim\fP((\fBn\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs1\fP(\fBn\fP,  \fBi\fP,  r)   \fBmtx\fP((\fBn\fP),(\fBi\fP),(r))=\fBurand\fP(0)"
+.br
+.ti -1c
+.RI "#define \fBs2\fP(\fBn\fP,  r,  q,  \fBi\fP)   \fBata\fP((\fBn\fP),(r),(q))+=\fBmtx\fP((\fBn\fP),(r),(\fBi\fP))*\fBmtx\fP((\fBn\fP),(\fBi\fP),(q))"
+.br
+.ti -1c
+.RI "#define \fBs3\fP(\fBt\fP,  \fBn\fP,  \fBm\fP,  \fBp\fP,  \fBi\fP)   \fBcrd\fP[(\fBp\fP)]=(\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBs4\fP(\fBt\fP,  \fBn\fP,  \fBm\fP,  r)   prod=1\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs5\fP(\fBt\fP,  \fBn\fP,  \fBm\fP,  r,  \fBp\fP,  \fBi\fP)   prod*=\fBmtx\fP((\fBp\fP),(\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs6\fP(\fBt\fP,  \fBn\fP,  \fBm\fP,  r,  \fBi\fP)   \fBmtx\fP((\fBn\fP),(\fBi\fP),(r))+=\fBX\fP((\fBm\fP))*prod"
+.br
+.ti -1c
+.RI "#define \fBs7\fP(\fBt\fP,  \fBn\fP,  r,  q)   \fBV\fP((r),(q))=1\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs8\fP(\fBt\fP,  \fBn\fP,  r,  q,  \fBp\fP)   \fBV\fP((r),(q))*=\fBata\fP((\fBp\fP),(r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs9\fP(\fBt\fP,  \fBn\fP)   \fBVinv\fP=\fBpinv\fP(\fBV\fP,\fBVinv\fP)"
+.br
+.ti -1c
+.RI "#define \fBs10\fP(\fBt\fP,  \fBn\fP,  \fBi\fP,  r,  q)   \fBws\fP((\fBi\fP),(r))+=\fBmtx\fP((\fBn\fP),(\fBi\fP),(q))*\fBVinv\fP((q),(r))"
+.br
+.ti -1c
+.RI "#define \fBs11\fP(\fBt\fP,  \fBn\fP,  \fBi\fP,  r)   \fBmtx\fP((\fBn\fP),(\fBi\fP),(r))=\fBws\fP((\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs12\fP(\fBt\fP,  \fBn\fP,  \fBi\fP,  r)   \fBws\fP((\fBi\fP),(r))=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs13\fP(\fBt\fP,  \fBn\fP,  \fBi\fP,  r)   \fBsums\fP((r))+=\fBmtx\fP((\fBn\fP),(\fBi\fP),(r))*\fBmtx\fP((\fBn\fP),(\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs14\fP(\fBt\fP,  \fBn\fP,  r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+.br
+.ti -1c
+.RI "#define \fBs15\fP(\fBt\fP,  \fBn\fP,  r,  \fBi\fP)   \fBmtx\fP((\fBn\fP),(\fBi\fP),(r))/=\fBlmbda\fP((r))"
+.br
+.ti -1c
+.RI "#define \fBs16\fP(\fBt\fP,  \fBn\fP,  r,  q)   \fBata\fP((\fBn\fP),(r),(q))=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs17\fP(\fBt\fP,  \fBn\fP,  r,  q,  \fBi\fP)   \fBata\fP((\fBn\fP),(r),(q))+=\fBmtx\fP((\fBn\fP),(r),(\fBi\fP))*\fBmtx\fP((\fBn\fP),(\fBi\fP),(q))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcp_als_nd_csf\fP (\fBconst\fP float *\fBX\fP, \fBconst\fP unsigned M, \fBconst\fP unsigned \fBN\fP, \fBconst\fP unsigned \fBR\fP, \fBconst\fP unsigned \fBT\fP, \fBconst\fP unsigned *\fBdim\fP, unsigned **\fBfptr\fP, unsigned **\fBfndx\fP, float **\fBmtx\fP, float *\fBlmbda\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define A(\fBi\fP, r)   A[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define ata(\fBn\fP, r, q)   ata[\fBoffset3\fP((\fBn\fP),(r),(q),(\fBR\fP),(\fBR\fP))]"
+
+.SS "#define crd(\fBt\fP, \fBn\fP, \fBm\fP, r, \fBp\fP)   crd[(\fBp\fP)]"
+
+.SS "#define crd1(\fBt\fP, \fBn\fP, \fBm\fP, r)   \fBcrd\fP[(\fBn\fP)]"
+
+.SS "#define dim(\fBn\fP)   dim[(\fBn\fP)]"
+
+.SS "#define dim1(\fBt\fP, \fBn\fP)   \fBdim\fP[(\fBn\fP)]"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define fndx(\fBn\fP, \fBp\fP)   fndx[(\fBn\fP)][(\fBp\fP)]"
+
+.SS "#define fptr(\fBn\fP, \fBp\fP)   fptr[(\fBn\fP)][(\fBp\fP)]"
+
+.SS "#define lmbda(s)   lmbda[(s)]"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define mtx(\fBn\fP, \fBi\fP, r)   mtx[(\fBn\fP)][\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define pinv(\fBA\fP, \fBAinv\fP)   (\fBmp_pinv\fP((\fBA\fP),(\fBAinv\fP),\fBR\fP))"
+
+.SS "#define s0(\fBn\fP)   \fBD\fP=\fBmax\fP(\fBD\fP,\fBdim\fP((\fBn\fP)))"
+
+.SS "#define s1(\fBn\fP, \fBi\fP, r)   \fBmtx\fP((\fBn\fP),(\fBi\fP),(r))=\fBurand\fP(0)"
+
+.SS "#define s10(\fBt\fP, \fBn\fP, \fBi\fP, r, q)   \fBws\fP((\fBi\fP),(r))+=\fBmtx\fP((\fBn\fP),(\fBi\fP),(q))*\fBVinv\fP((q),(r))"
+
+.SS "#define s11(\fBt\fP, \fBn\fP, \fBi\fP, r)   \fBmtx\fP((\fBn\fP),(\fBi\fP),(r))=\fBws\fP((\fBi\fP),(r))"
+
+.SS "#define s12(\fBt\fP, \fBn\fP, \fBi\fP, r)   \fBws\fP((\fBi\fP),(r))=0\&.000000"
+
+.SS "#define s13(\fBt\fP, \fBn\fP, \fBi\fP, r)   \fBsums\fP((r))+=\fBmtx\fP((\fBn\fP),(\fBi\fP),(r))*\fBmtx\fP((\fBn\fP),(\fBi\fP),(r))"
+
+.SS "#define s14(\fBt\fP, \fBn\fP, r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+
+.SS "#define s15(\fBt\fP, \fBn\fP, r, \fBi\fP)   \fBmtx\fP((\fBn\fP),(\fBi\fP),(r))/=\fBlmbda\fP((r))"
+
+.SS "#define s16(\fBt\fP, \fBn\fP, r, q)   \fBata\fP((\fBn\fP),(r),(q))=0\&.000000"
+
+.SS "#define s17(\fBt\fP, \fBn\fP, r, q, \fBi\fP)   \fBata\fP((\fBn\fP),(r),(q))+=\fBmtx\fP((\fBn\fP),(r),(\fBi\fP))*\fBmtx\fP((\fBn\fP),(\fBi\fP),(q))"
+
+.SS "#define s2(\fBn\fP, r, q, \fBi\fP)   \fBata\fP((\fBn\fP),(r),(q))+=\fBmtx\fP((\fBn\fP),(r),(\fBi\fP))*\fBmtx\fP((\fBn\fP),(\fBi\fP),(q))"
+
+.SS "#define s3(\fBt\fP, \fBn\fP, \fBm\fP, \fBp\fP, \fBi\fP)   \fBcrd\fP[(\fBp\fP)]=(\fBi\fP)"
+
+.SS "#define s4(\fBt\fP, \fBn\fP, \fBm\fP, r)   prod=1\&.000000"
+
+.SS "#define s5(\fBt\fP, \fBn\fP, \fBm\fP, r, \fBp\fP, \fBi\fP)   prod*=\fBmtx\fP((\fBp\fP),(\fBi\fP),(r))"
+
+.SS "#define s6(\fBt\fP, \fBn\fP, \fBm\fP, r, \fBi\fP)   \fBmtx\fP((\fBn\fP),(\fBi\fP),(r))+=\fBX\fP((\fBm\fP))*prod"
+
+.SS "#define s7(\fBt\fP, \fBn\fP, r, q)   \fBV\fP((r),(q))=1\&.000000"
+
+.SS "#define s8(\fBt\fP, \fBn\fP, r, q, \fBp\fP)   \fBV\fP((r),(q))*=\fBata\fP((\fBp\fP),(r),(q))"
+
+.SS "#define s9(\fBt\fP, \fBn\fP)   \fBVinv\fP=\fBpinv\fP(\fBV\fP,\fBVinv\fP)"
+
+.SS "#define sums(s)   sums[(s)]"
+
+.SS "#define urand(\fBm\fP)   (rand()/nextafter(RAND_MAX,DBL_MAX)+(\fBm\fP))"
+
+.SS "#define V(r, q)   V[\fBoffset2\fP((r),(q),(\fBR\fP))]"
+
+.SS "#define Vinv(q, r)   Vinv[\fBoffset2\fP((q),(r),(\fBR\fP))]"
+
+.SS "#define ws(\fBi\fP, r)   ws[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+
+.SS "#define X(\fBm\fP)   X[(\fBm\fP)]"
+
+.SH "Function Documentation"
+.PP 
+.SS "void cp_als_nd_csf (\fBconst\fP float * X, \fBconst\fP unsigned M, \fBconst\fP unsigned N, \fBconst\fP unsigned R, \fBconst\fP unsigned T, \fBconst\fP unsigned * dim, unsigned ** fptr, unsigned ** fndx, float ** mtx, float * lmbda)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

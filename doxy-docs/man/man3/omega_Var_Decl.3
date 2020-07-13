@@ -1,0 +1,217 @@
+.TH "omega::Var_Decl" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::Var_Decl
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <pres_var\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBVar_Kind\fP \fBkind\fP ()"
+.br
+.ti -1c
+.RI "int \fBget_position\fP ()"
+.br
+.ti -1c
+.RI "\fBGlobal_Var_ID\fP \fBget_global_var\fP ()"
+.br
+.ti -1c
+.RI "\fBArgument_Tuple\fP \fBfunction_of\fP ()"
+.br
+.ti -1c
+.RI "void \fBname_variable\fP (char *newname)"
+.br
+.ti -1c
+.RI "std::string \fBname\fP ()"
+.br
+.RI "Return the variable name in c++ string\&. "
+.ti -1c
+.RI "\fBconst\fP char * \fBchar_name\fP ()"
+.br
+.RI "Return the variable name in c string\&. "
+.ti -1c
+.RI "void \fBset_kind\fP (\fBVar_Kind\fP v)"
+.br
+.ti -1c
+.RI "void \fBUF_union\fP (\fBVariable_ID\fP v)"
+.br
+.RI "Union operation for Union-Find\&. "
+.ti -1c
+.RI "\fBVariable_ID\fP \fBUF_owner\fP ()"
+.br
+.RI "Query the union-find owner/flag for this variable\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBConst_String\fP \fBbase_name\fP"
+.br
+.RI "The name of the variable without primes\&. "
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBF_Declaration\fP"
+.br
+.ti -1c
+.RI "class \fBGlobal_Var_Decl\fP"
+.br
+.ti -1c
+.RI "class \fBGlobal_Input_Output_Tuple\fP"
+.br
+.ti -1c
+.RI "class \fBRel_Body\fP"
+.br
+.ti -1c
+.RI "class \fBDNF\fP"
+.br
+.ti -1c
+.RI "class \fBConjunct\fP"
+.br
+.ti -1c
+.RI "void \fBcopy_var_decls\fP (\fBVariable_ID_Tuple\fP &new_vl, \fBVariable_ID_Tuple\fP &vl)"
+.br
+.RI "Copy variable declarations except global var-s due to uniqueness\&. "
+.ti -1c
+.RI "void \fBprint_var_addrs\fP (std::string &s, \fBVariable_ID\fP v)"
+.br
+.RI "Prints remap to the debugging output(string) "
+.ti -1c
+.RI "void \fBreset_remap_field\fP (\fBVariable_ID\fP v)"
+.br
+.ti -1c
+.RI "void \fBreset_remap_field\fP (\fBSequence\fP< \fBVariable_ID\fP > &\fBS\fP)"
+.br
+.ti -1c
+.RI "void \fBreset_remap_field\fP (\fBSequence\fP< \fBVariable_ID\fP > &\fBS\fP, int var_no)"
+.br
+.ti -1c
+.RI "void \fBreset_remap_field\fP (\fBVariable_ID_Tuple\fP &\fBS\fP)"
+.br
+.ti -1c
+.RI "void \fBreset_remap_field\fP (\fBVariable_ID_Tuple\fP &\fBS\fP, int var_no)"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBconst\fP char * omega::Var_Decl::char_name ()"
+
+.PP
+Return the variable name in c string\&. 
+.PP
+\fBSee also\fP
+.RS 4
+\fBname\fP 
+.RE
+.PP
+
+.SS "\fBArgument_Tuple\fP omega::Var_Decl::function_of ()"
+Valid iff \fBkind()\fP == Global_Var 
+.PP
+\fBReturns\fP
+.RS 4
+the function to which this uninterpreted function is applied 
+.RE
+.PP
+
+.SS "\fBGlobal_Var_ID\fP omega::Var_Decl::get_global_var ()"
+
+.SS "int omega::Var_Decl::get_position ()"
+If this variable is an input, output, or set variable, returns its position in the tuple\&. 
+.SS "\fBVar_Kind\fP omega::Var_Decl::kind ()\fC [inline]\fP"
+
+.SS "std::string omega::Var_Decl::name ()"
+
+.PP
+Return the variable name in c++ string\&. Should be used with care, as they are only valid after setup_names has been used on the relation containing this variable\&.
+.PP
+\fBReturns\fP
+.RS 4
+name 
+.RE
+.PP
+
+.SS "void omega::Var_Decl::name_variable (char * newname)"
+
+.SS "void omega::Var_Decl::set_kind (\fBVar_Kind\fP v)\fC [inline]\fP"
+
+.SS "\fBVariable_ID\fP omega::Var_Decl::UF_owner ()"
+
+.PP
+Query the union-find owner/flag for this variable\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The owner 
+.RE
+.PP
+
+.SS "void omega::Var_Decl::UF_union (\fBVariable_ID\fP v)"
+
+.PP
+Union operation for Union-Find\&. This uses the remap field for union-find operations on the variable\&. Be sure to reset the remap fields afterward 
+.PP
+\fBParameters\fP
+.RS 4
+\fIv\fP variable to be unioned with this variable 
+.RE
+.PP
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBConjunct\fP\fC [friend]\fP"
+
+.SS "void copy_var_decls (\fBVariable_ID_Tuple\fP & new_vl, \fBVariable_ID_Tuple\fP & vl)\fC [friend]\fP"
+
+.PP
+Copy variable declarations except global var-s due to uniqueness\&. 
+.SS "friend class \fBDNF\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Declaration\fP\fC [friend]\fP"
+
+.SS "friend class \fBGlobal_Input_Output_Tuple\fP\fC [friend]\fP"
+
+.SS "friend class \fBGlobal_Var_Decl\fP\fC [friend]\fP"
+
+.SS "void print_var_addrs (std::string & s, \fBVariable_ID\fP v)\fC [friend]\fP"
+
+.PP
+Prints remap to the debugging output(string) 
+.PP
+\fBParameters\fP
+.RS 4
+\fIs\fP The string to put the output 
+.br
+\fIv\fP The variable to output 
+.RE
+.PP
+
+.SS "friend class \fBRel_Body\fP\fC [friend]\fP"
+
+.SS "void reset_remap_field (\fBSequence\fP< \fBVariable_ID\fP > & S)\fC [friend]\fP"
+
+.SS "void reset_remap_field (\fBSequence\fP< \fBVariable_ID\fP > & S, int var_no)\fC [friend]\fP"
+
+.SS "void reset_remap_field (\fBVariable_ID\fP v)\fC [friend]\fP"
+
+.SS "void reset_remap_field (\fBVariable_ID_Tuple\fP & S)\fC [friend]\fP"
+
+.SS "void reset_remap_field (\fBVariable_ID_Tuple\fP & S, int var_no)\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBConst_String\fP omega::Var_Decl::base_name"
+
+.PP
+The name of the variable without primes\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

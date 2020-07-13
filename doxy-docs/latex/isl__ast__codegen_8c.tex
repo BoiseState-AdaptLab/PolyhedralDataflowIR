@@ -1,0 +1,115 @@
+\hypertarget{isl__ast__codegen_8c}{}\doxysection{lib/isl/isl\+\_\+ast\+\_\+codegen.c File Reference}
+\label{isl__ast__codegen_8c}\index{lib/isl/isl\_ast\_codegen.c@{lib/isl/isl\_ast\_codegen.c}}
+{\ttfamily \#include $<$limits.\+h$>$}\newline
+{\ttfamily \#include $<$isl/aff.\+h$>$}\newline
+{\ttfamily \#include $<$isl/constraint.\+h$>$}\newline
+{\ttfamily \#include $<$isl/set.\+h$>$}\newline
+{\ttfamily \#include $<$isl/ilp.\+h$>$}\newline
+{\ttfamily \#include $<$isl/union\+\_\+set.\+h$>$}\newline
+{\ttfamily \#include $<$isl/union\+\_\+map.\+h$>$}\newline
+{\ttfamily \#include $<$isl/schedule\+\_\+node.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+sort.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+tarjan.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+ast\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+ast\+\_\+build\+\_\+expr.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+ast\+\_\+build\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+ast\+\_\+graft\+\_\+private.\+h$>$}\newline
+Include dependency graph for isl\+\_\+ast\+\_\+codegen.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__ast__codegen_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structisl__generate__domain__data}{isl\+\_\+generate\+\_\+domain\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__ast__count__constraints__data}{isl\+\_\+ast\+\_\+count\+\_\+constraints\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__check__scaled__data}{isl\+\_\+check\+\_\+scaled\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__add__nodes__data}{isl\+\_\+add\+\_\+nodes\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__ast__generate__parallel__domains__data}{isl\+\_\+ast\+\_\+generate\+\_\+parallel\+\_\+domains\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__separate__domain__data}{isl\+\_\+separate\+\_\+domain\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__find__unroll__data}{isl\+\_\+find\+\_\+unroll\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__codegen__domains}{isl\+\_\+codegen\+\_\+domains}}
+\item 
+struct \mbox{\hyperlink{structisl__ast__unroll__data}{isl\+\_\+ast\+\_\+unroll\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__ast__unroll__tree__data}{isl\+\_\+ast\+\_\+unroll\+\_\+tree\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__set__map__pair}{isl\+\_\+set\+\_\+map\+\_\+pair}}
+\item 
+struct \mbox{\hyperlink{structisl__any__scheduled__after__data}{isl\+\_\+any\+\_\+scheduled\+\_\+after\+\_\+data}}
+\item 
+struct \mbox{\hyperlink{structisl__generate__code__data}{isl\+\_\+generate\+\_\+code\+\_\+data}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__ast__node}{isl\+\_\+ast\+\_\+node}} $\ast$ \mbox{\hyperlink{isl__ast__codegen_8c_a1ed3b0686d6d23676a0c4eb8dea1cf5d}{isl\+\_\+ast\+\_\+build\+\_\+node\+\_\+from\+\_\+schedule\+\_\+map}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__ast__build}{isl\+\_\+ast\+\_\+build}} $\ast$build, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__ast__node}{isl\+\_\+ast\+\_\+node}} $\ast$ \mbox{\hyperlink{isl__ast__codegen_8c_ae473b757fb94a54b10484d5a2d20fe5e}{isl\+\_\+ast\+\_\+build\+\_\+ast\+\_\+from\+\_\+schedule}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__ast__build}{isl\+\_\+ast\+\_\+build}} $\ast$build, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__ast__node}{isl\+\_\+ast\+\_\+node}} $\ast$ \mbox{\hyperlink{isl__ast__codegen_8c_aadde9165362e554916f94e82dbd84389}{isl\+\_\+ast\+\_\+build\+\_\+node\+\_\+from\+\_\+schedule}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__ast__build}{isl\+\_\+ast\+\_\+build}} $\ast$build, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{isl__ast__codegen_8c_ae473b757fb94a54b10484d5a2d20fe5e}\label{isl__ast__codegen_8c_ae473b757fb94a54b10484d5a2d20fe5e}} 
+\index{isl\_ast\_codegen.c@{isl\_ast\_codegen.c}!isl\_ast\_build\_ast\_from\_schedule@{isl\_ast\_build\_ast\_from\_schedule}}
+\index{isl\_ast\_build\_ast\_from\_schedule@{isl\_ast\_build\_ast\_from\_schedule}!isl\_ast\_codegen.c@{isl\_ast\_codegen.c}}
+\doxysubsubsection{\texorpdfstring{isl\_ast\_build\_ast\_from\_schedule()}{isl\_ast\_build\_ast\_from\_schedule()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__ast__node}{isl\+\_\+ast\+\_\+node}}$\ast$ isl\+\_\+ast\+\_\+build\+\_\+ast\+\_\+from\+\_\+schedule (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__ast__build}{isl\+\_\+ast\+\_\+build}} $\ast$}]{build,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__ast__codegen_8c_ae473b757fb94a54b10484d5a2d20fe5e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__ast__codegen_8c_aadde9165362e554916f94e82dbd84389}\label{isl__ast__codegen_8c_aadde9165362e554916f94e82dbd84389}} 
+\index{isl\_ast\_codegen.c@{isl\_ast\_codegen.c}!isl\_ast\_build\_node\_from\_schedule@{isl\_ast\_build\_node\_from\_schedule}}
+\index{isl\_ast\_build\_node\_from\_schedule@{isl\_ast\_build\_node\_from\_schedule}!isl\_ast\_codegen.c@{isl\_ast\_codegen.c}}
+\doxysubsubsection{\texorpdfstring{isl\_ast\_build\_node\_from\_schedule()}{isl\_ast\_build\_node\_from\_schedule()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__ast__node}{isl\+\_\+ast\+\_\+node}}$\ast$ isl\+\_\+ast\+\_\+build\+\_\+node\+\_\+from\+\_\+schedule (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__ast__build}{isl\+\_\+ast\+\_\+build}} $\ast$}]{build,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__ast__codegen_8c_aadde9165362e554916f94e82dbd84389_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__ast__codegen_8c_a1ed3b0686d6d23676a0c4eb8dea1cf5d}\label{isl__ast__codegen_8c_a1ed3b0686d6d23676a0c4eb8dea1cf5d}} 
+\index{isl\_ast\_codegen.c@{isl\_ast\_codegen.c}!isl\_ast\_build\_node\_from\_schedule\_map@{isl\_ast\_build\_node\_from\_schedule\_map}}
+\index{isl\_ast\_build\_node\_from\_schedule\_map@{isl\_ast\_build\_node\_from\_schedule\_map}!isl\_ast\_codegen.c@{isl\_ast\_codegen.c}}
+\doxysubsubsection{\texorpdfstring{isl\_ast\_build\_node\_from\_schedule\_map()}{isl\_ast\_build\_node\_from\_schedule\_map()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__ast__node}{isl\+\_\+ast\+\_\+node}}$\ast$ isl\+\_\+ast\+\_\+build\+\_\+node\+\_\+from\+\_\+schedule\+\_\+map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__ast__build}{isl\+\_\+ast\+\_\+build}} $\ast$}]{build,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__ast__codegen_8c_a1ed3b0686d6d23676a0c4eb8dea1cf5d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__ast__codegen_8c_a1ed3b0686d6d23676a0c4eb8dea1cf5d_icgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,99 @@
+.TH "src/util/linalg.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/util/linalg.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <gsl/gsl_blas\&.h>\fP
+.br
+\fC#include <gsl/gsl_linalg\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBsgn\fP(\fBa\fP,  \fBb\fP)   ((\fBb\fP) >= 0\&.0 ? fabs(\fBa\fP) : \-fabs(\fBa\fP))"
+.br
+.ti -1c
+.RI "#define \fBlin\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBi\fP)*(M)+(\fBj\fP))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "gsl_matrix * \fBmoore_penrose_pinv\fP (gsl_matrix *\fBA\fP, \fBconst\fP double rcond)"
+.br
+.ti -1c
+.RI "float * \fBmp_pinv\fP (\fBconst\fP float *\fBa\fP, float *a_inv, int \fBN\fP)"
+.br
+.ti -1c
+.RI "float * \fBmp_pinv_div\fP (\fBconst\fP float *\fBa\fP, float *a_inv, int \fBN\fP)"
+.br
+.ti -1c
+.RI "void \fBsvdcomp\fP (float *\fBa\fP, int \fBm\fP, int \fBn\fP, float *w, float *v, float *rv1)"
+.br
+.ti -1c
+.RI "float * \fBmp_pinv_bad\fP (float *\fBA\fP, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "float * \fBmp_pinv_bad\fP (float *\fBA\fP, float *A_pinv, unsigned \fBn\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define lin(\fBi\fP, \fBj\fP, M)   ((\fBi\fP)*(M)+(\fBj\fP))"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define sgn(\fBa\fP, \fBb\fP)   ((\fBb\fP) >= 0\&.0 ? fabs(\fBa\fP) : \-fabs(\fBa\fP))"
+
+.SH "Function Documentation"
+.PP 
+.SS "gsl_matrix * moore_penrose_pinv (gsl_matrix * A, \fBconst\fP double rcond)\fC [inline]\fP"
+Compute the (Moore-Penrose) pseudo-inverse of a matrix\&.
+.PP
+If the singular value decomposition (SVD) of A = UΣVᵀ then the pseudoinverse A⁻¹ = VΣ⁻¹Uᵀ, where ᵀ indicates transpose and Σ⁻¹ is obtained by taking the reciprocal of each nonzero element on the diagonal, leaving zeros in place\&. Elements on the diagonal smaller than \fCrcond\fP times the largest singular value are considered zero\&.
+.PP
+@parameter A Input matrix\&. \fBWARNING\fP: the input matrix \fCA\fP is destroyed\&. However, it is still the responsibility of the caller to free it\&. @parameter rcond A real number specifying the singular value threshold for inclusion\&. NumPy default for \fCrcond\fP is 1E-15\&.
+.PP
+\fBReturns\fP
+.RS 4
+A_pinv Matrix containing the result\&. \fCA_pinv\fP is allocated in this function and it is the responsibility of the caller to free it\&. 
+.RE
+.PP
+
+.SS "float * mp_pinv (\fBconst\fP float * a, float * a_inv, int N)\fC [inline]\fP"
+
+.SS "float* mp_pinv_bad (float * A, float * A_pinv, unsigned n)\fC [inline]\fP"
+
+.SS "float* mp_pinv_bad (float * A, unsigned n)"
+Compute the (Moore-Penrose) pseudo-inverse of a matrix\&.
+.PP
+If the singular value decomposition (SVD) of A = UΣVᵀ then the pseudoinverse A⁻¹ = VΣ⁻¹Uᵀ, where ᵀ indicates transpose and Σ⁻¹ is obtained by taking the reciprocal of each nonzero element on the diagonal, leaving zeros in place\&. Elements on the diagonal smaller than \fCrcond\fP times the largest singular value are considered zero\&.
+.PP
+@parameter A Input matrix\&. \fBWARNING\fP: the input matrix \fCA\fP is destroyed\&. However, it is still the responsibility of the caller to free it\&. @parameter rcond A real number specifying the singular value threshold for inclusion\&. NumPy default for \fCrcond\fP is 1E-15\&.
+.PP
+\fBReturns\fP
+.RS 4
+A_pinv Matrix containing the result\&. 
+.RE
+.PP
+
+.SS "float * mp_pinv_div (\fBconst\fP float * a, float * a_inv, int N)\fC [inline]\fP"
+
+.SS "void svdcomp (float * a, int m, int n, float * w, float * v, float * rv1)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

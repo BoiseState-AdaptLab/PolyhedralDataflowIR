@@ -1,0 +1,164 @@
+.TH "omega::CG_split" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::CG_split \- \fBStatement\fP sequence\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <CG\&.h>\fP
+.PP
+Inherits \fBomega::CG_result\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCG_split\fP (\fBCodeGen\fP *\fBcodegen\fP, \fBconst\fP \fBBoolSet\fP<> &active, \fBconst\fP std::vector< \fBRelation\fP > &restrictions, \fBconst\fP std::vector< \fBCG_result\fP * > &clauses)"
+.br
+.ti -1c
+.RI "\fB~CG_split\fP ()"
+.br
+.ti -1c
+.RI "\fBCG_result\fP * \fBrecompute\fP (\fBconst\fP \fBBoolSet\fP<> &parent_active, \fBconst\fP \fBRelation\fP &known, \fBconst\fP \fBRelation\fP &restriction)"
+.br
+.RI "break down the complete iteration space condition to levels of bound/guard condtions "
+.ti -1c
+.RI "int \fBpopulateDepth\fP ()"
+.br
+.RI "calculate each loop's nesting depth Used in liftOverhead - depth start with 0 at leaf "
+.ti -1c
+.RI "std::pair< \fBCG_result\fP *, \fBRelation\fP > \fBliftOverhead\fP (int \fBdepth\fP, bool propagate_up)"
+.br
+.RI "redistribute guard condition locations by additional splittings "
+.ti -1c
+.RI "\fBRelation\fP \fBhoistGuard\fP ()"
+.br
+.RI "Hoist guard conditions for non-loop levels Enables proper if-condition simplication when outputting actual code\&. "
+.ti -1c
+.RI "void \fBremoveGuard\fP (\fBconst\fP \fBRelation\fP &guard)"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBprintRepr\fP (int indent, \fBCG_outputBuilder\fP *ocg, \fBconst\fP std::vector< \fBCG_outputRepr\fP * > &stmts, \fBconst\fP std::vector< std::pair< \fBCG_outputRepr\fP *, int > > &assigned_on_the_fly, std::vector< \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > > unin, bool \fBprintString\fP=false) \fBconst\fP"
+.br
+.RI "Signature for printRepr of actual node types\&. "
+.ti -1c
+.RI "\fBCG_result\fP * \fBclone\fP () \fBconst\fP"
+.br
+.RI "A deep clone of the tree\&. "
+.ti -1c
+.RI "void \fBdump\fP (int indent) \fBconst\fP"
+.br
+.RI "Dump content for debug information\&. "
+.ti -1c
+.RI "void \fBaddPragma\fP (int stmt, int loop_level, std::string \fBname\fP)"
+.br
+.RI "Add pragma info prior to code generation\&. "
+.ti -1c
+.RI "void \fBaddOmpPragma\fP (int stnt, int loop_level, \fBconst\fP std::vector< std::string > &, \fBconst\fP std::vector< std::string > &)"
+.br
+.RI "Add omp pragma info prior to code generation\&. "
+.ti -1c
+.RI "virtual void \fBcollectIterationVariableNames\fP (\fBstd::set\fP< std::string > &) noexcept"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< \fBRelation\fP > \fBrestrictions_\fP"
+.br
+.RI "Restriction on each of the splits\&. "
+.ti -1c
+.RI "std::vector< \fBCG_result\fP * > \fBclauses_\fP"
+.br
+.RI "\fBSequence\fP of splits on this level\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBStatement\fP sequence\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::CG_split::CG_split (\fBCodeGen\fP * codegen, \fBconst\fP \fBBoolSet\fP<> & active, \fBconst\fP std::vector< \fBRelation\fP > & restrictions, \fBconst\fP std::vector< \fBCG_result\fP * > & clauses)\fC [inline]\fP"
+
+.SS "omega::CG_split::~CG_split ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void omega::CG_split::addOmpPragma (int stmt, int loop_level, \fBconst\fP std::vector< std::string > &, \fBconst\fP std::vector< std::string > &)\fC [virtual]\fP"
+
+.PP
+Add omp pragma info prior to code generation\&. 
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SS "void omega::CG_split::addPragma (int stmt, int loop_level, std::string name)\fC [virtual]\fP"
+
+.PP
+Add pragma info prior to code generation\&. 
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SS "\fBCG_result\fP * omega::CG_split::clone () const\fC [virtual]\fP"
+
+.PP
+A deep clone of the tree\&. 
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SS "void omega::CG_split::collectIterationVariableNames (\fBstd::set\fP< std::string > & dest)\fC [virtual]\fP, \fC [noexcept]\fP"
+
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SS "void omega::CG_split::dump (int indent) const\fC [virtual]\fP"
+
+.PP
+Dump content for debug information\&. 
+.PP
+Reimplemented from \fBomega::CG_result\fP\&.
+.SS "\fBRelation\fP omega::CG_split::hoistGuard ()\fC [virtual]\fP"
+
+.PP
+Hoist guard conditions for non-loop levels Enables proper if-condition simplication when outputting actual code\&. 
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SS "std::pair< \fBCG_result\fP *, \fBRelation\fP > omega::CG_split::liftOverhead (int depth, bool propagate_up)\fC [virtual]\fP"
+
+.PP
+redistribute guard condition locations by additional splittings 
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SS "int omega::CG_split::populateDepth ()\fC [virtual]\fP"
+
+.PP
+calculate each loop's nesting depth Used in liftOverhead - depth start with 0 at leaf 
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SS "\fBCG_outputRepr\fP * omega::CG_split::printRepr (int indent, \fBCG_outputBuilder\fP * ocg, \fBconst\fP std::vector< \fBCG_outputRepr\fP * > & stmts, \fBconst\fP std::vector< std::pair< \fBCG_outputRepr\fP *, int > > & assigned_on_the_fly, std::vector< \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > > unin, bool printString = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Signature for printRepr of actual node types\&. 
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SS "\fBCG_result\fP * omega::CG_split::recompute (\fBconst\fP \fBBoolSet\fP<> & parent_active, \fBconst\fP \fBRelation\fP & known, \fBconst\fP \fBRelation\fP & restriction)\fC [virtual]\fP"
+
+.PP
+break down the complete iteration space condition to levels of bound/guard condtions 
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SS "void omega::CG_split::removeGuard (\fBconst\fP \fBRelation\fP & guard)\fC [virtual]\fP"
+
+.PP
+Implements \fBomega::CG_result\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBCG_result\fP *> omega::CG_split::clauses_"
+
+.PP
+\fBSequence\fP of splits on this level\&. 
+.SS "std::vector<\fBRelation\fP> omega::CG_split::restrictions_"
+
+.PP
+Restriction on each of the splits\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

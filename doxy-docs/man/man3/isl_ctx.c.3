@@ -1,0 +1,150 @@
+.TH "lib/isl/isl_ctx.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_ctx.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl/vec\&.h>\fP
+.br
+\fC#include <isl_options_private\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__isl_calloc\fP(type,  \fBsize\fP)   ((type *)calloc(1, \fBsize\fP))"
+.br
+.ti -1c
+.RI "#define \fB__isl_calloc_type\fP(type)   \fB__isl_calloc\fP(type,sizeof(type))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBisl_ctx_next_operation\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void * \fBisl_malloc_or_die\fP (\fBisl_ctx\fP *ctx, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void * \fBisl_calloc_or_die\fP (\fBisl_ctx\fP *ctx, size_t nmemb, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void * \fBisl_realloc_or_die\fP (\fBisl_ctx\fP *ctx, void *ptr, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_handle_error\fP (\fBisl_ctx\fP *ctx, enum \fBisl_error\fP \fBerror\fP, \fBconst\fP char *msg, \fBconst\fP char *file, int line)"
+.br
+.ti -1c
+.RI "void * \fBisl_ctx_peek_options\fP (\fBisl_ctx\fP *ctx, struct \fBisl_args\fP *args)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_ctx_alloc_with_options\fP (struct \fBisl_args\fP *args, void *user_opt)"
+.br
+.ti -1c
+.RI "struct \fBisl_ctx\fP * \fBisl_ctx_alloc\fP ()"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_ref\fP (struct \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_deref\fP (struct \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_free\fP (struct \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "struct \fBisl_options\fP * \fBisl_ctx_options\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "enum \fBisl_error\fP \fBisl_ctx_last_error\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_reset_error\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_set_error\fP (\fBisl_ctx\fP *ctx, enum \fBisl_error\fP \fBerror\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_abort\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_resume\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBisl_ctx_aborted\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBisl_ctx_parse_options\fP (\fBisl_ctx\fP *ctx, int argc, char **argv, unsigned flags)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_set_max_operations\fP (\fBisl_ctx\fP *ctx, unsigned long max_operations)"
+.br
+.ti -1c
+.RI "unsigned long \fBisl_ctx_get_max_operations\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_reset_operations\fP (\fBisl_ctx\fP *ctx)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define __isl_calloc(type, \fBsize\fP)   ((type *)calloc(1, \fBsize\fP))"
+
+.SS "#define __isl_calloc_type(type)   \fB__isl_calloc\fP(type,sizeof(type))"
+
+.SH "Function Documentation"
+.PP 
+.SS "void* isl_calloc_or_die (\fBisl_ctx\fP * ctx, size_t nmemb, size_t size)"
+
+.SS "void isl_ctx_abort (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_ctx_aborted (\fBisl_ctx\fP * ctx)"
+
+.SS "struct \fBisl_ctx\fP* isl_ctx_alloc ()"
+
+.SS "\fBisl_ctx\fP* isl_ctx_alloc_with_options (struct \fBisl_args\fP * args, void * user_opt)"
+
+.SS "void isl_ctx_deref (struct \fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_free (struct \fBisl_ctx\fP * ctx)"
+
+.SS "unsigned long isl_ctx_get_max_operations (\fBisl_ctx\fP * ctx)"
+
+.SS "enum \fBisl_error\fP isl_ctx_last_error (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_ctx_next_operation (\fBisl_ctx\fP * ctx)"
+
+.SS "struct \fBisl_options\fP* isl_ctx_options (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_ctx_parse_options (\fBisl_ctx\fP * ctx, int argc, char ** argv, unsigned flags)"
+
+.SS "void* isl_ctx_peek_options (\fBisl_ctx\fP * ctx, struct \fBisl_args\fP * args)"
+
+.SS "void isl_ctx_ref (struct \fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_reset_error (\fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_reset_operations (\fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_resume (\fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_set_error (\fBisl_ctx\fP * ctx, enum \fBisl_error\fP error)"
+
+.SS "void isl_ctx_set_max_operations (\fBisl_ctx\fP * ctx, unsigned long max_operations)"
+
+.SS "void isl_handle_error (\fBisl_ctx\fP * ctx, enum \fBisl_error\fP error, \fBconst\fP char * msg, \fBconst\fP char * file, int line)"
+
+.SS "void* isl_malloc_or_die (\fBisl_ctx\fP * ctx, size_t size)"
+
+.SS "void* isl_realloc_or_die (\fBisl_ctx\fP * ctx, void * ptr, size_t size)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

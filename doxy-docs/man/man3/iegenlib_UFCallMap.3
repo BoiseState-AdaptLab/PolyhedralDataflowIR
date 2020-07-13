@@ -1,0 +1,108 @@
+.TH "iegenlib::UFCallMap" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::UFCallMap
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <UFCallMap\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBUFCallMap\fP ()"
+.br
+.ti -1c
+.RI "\fB~UFCallMap\fP ()"
+.br
+.ti -1c
+.RI "\fBUFCallMap\fP (\fBconst\fP \fBUFCallMap\fP &other)"
+.br
+.RI "Copy constructor\&. "
+.ti -1c
+.RI "\fBUFCallMap\fP & \fBoperator=\fP (\fBconst\fP \fBUFCallMap\fP &other)"
+.br
+.RI "Assignment operator\&. "
+.ti -1c
+.RI "\fBVarTerm\fP \fBinsert\fP (\fBUFCallTerm\fP *ufc)"
+.br
+.ti -1c
+.RI "\fBVarTerm\fP * \fBfind\fP (\fBUFCallTerm\fP *ufc)"
+.br
+.ti -1c
+.RI "\fBUFCallTerm\fP * \fBfind\fP (\fBVarTerm\fP *symbol)"
+.br
+.ti -1c
+.RI "std::string \fBtoString\fP ()"
+.br
+.RI "prints the content of the map into a string, and returns it "
+.ti -1c
+.RI "std::string \fBvarTermStrList\fP ()"
+.br
+.RI "Outputs list of variable terms created for UFCs,\&. "
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static string \fBsymUFC\fP (std::string ufcName)"
+.br
+.RI "returns a string representing ufcterm as a symbolic constant "
+.in -1c
+.SH "Detailed Description"
+.PP 
+This class can store UFcalls and their equ\&. \fBVarTerm\fP\&. We need this in functionality of creating affine sets out of non-affine sets, where UFcalls get replaced with symbolic constants\&. UFCallTerms and VarTerms are stored with coefficient = 1, however there is no need to set coefficient when inserting a \fBUFCallTerm\fP or searching for \fBUFCallTerm\fP or \fBVarTerm\fP in the map using find functions\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::UFCallMap::UFCallMap ()\fC [inline]\fP"
+
+.SS "iegenlib::UFCallMap::~UFCallMap ()\fC [inline]\fP"
+
+.SS "iegenlib::UFCallMap::UFCallMap (\fBconst\fP \fBUFCallMap\fP & other)\fC [inline]\fP"
+
+.PP
+Copy constructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBVarTerm\fP * iegenlib::UFCallMap::find (\fBUFCallTerm\fP * ufc)"
+Searches for ufcterm in the map\&. If ufcterm exists, it returns a pointer to equ\&. \fBVarTerm\fP, otherwise returns NULL\&. The class does not own the object pointed by ufcterm, and it is left unchanged\&.
+.PP
+NOTE: The function ignores coefficient of the \fBUFCallTerm\fP\&. So, -2*row(i) is considered as just \fBrow(i)\fP
+.PP
+Searches for ufcterm in the map\&. If ufcterm exists, it returns a pointer to equ\&. \fBVarTerm\fP, otherwise it adds the ufcterm to the map, then returns the equ\&. \fBVarTerm\fP\&. The class does not own the object pointed by ufcterm, and it is left unchanged\&.
+.PP
+NOTE: The function ignores coefficient of the \fBUFCallTerm\fP\&. So, -2*row(i) is considered as just \fBrow(i)\fP 
+.SS "\fBUFCallTerm\fP * iegenlib::UFCallMap::find (\fBVarTerm\fP * vt)"
+Searches for a \fBVarTerm\fP in the map\&. If \fBVarTerm\fP exists in the map, it returns the pointer to equ\&. UFC, otherwise returns NULL\&. The class does not own the object pointed by symbol, and it is left unchanged\&.
+.PP
+NOTE: The function ignores coefficient of the \fBVarTerm\fP\&. So, -2*row_i_ is considered as just row_i_ 
+.SS "\fBVarTerm\fP iegenlib::UFCallMap::insert (\fBUFCallTerm\fP * ufc)"
+Use this to insert a \fBUFCallTerm\fP to map\&. The function creates an \fBVarTerm\fP representing the UFC then, adds (ufc,vt) to mUFC2VarParam & adds (vt,str) to mVarParam2UFC The class does not own the object pointed by ufcterm, and it is left unchanged\&.
+.PP
+NOTE: The function ignores coefficient of the \fBUFCallTerm\fP\&. So, -2*row(i) is considered as just \fBrow(i)\fP
+.PP
+Use this to insert a \fBUFCallTerm\fP to map\&. The function creates an \fBVarTerm\fP representing the UFC then, adds (ufc,vt) to mUFC2VarParam & adds (vt,str) to mVarParam2UFC The class does not own the object pointed by ufc, and it is left unchanged\&.
+.PP
+NOTE: The function ignores coefficient of the \fBUFCallTerm\fP\&. So, -2*row(i) is considered as just \fBrow(i)\fP 
+.SS "\fBUFCallMap\fP & iegenlib::UFCallMap::operator= (\fBconst\fP \fBUFCallMap\fP & other)"
+
+.PP
+Assignment operator\&. 
+.SS "string iegenlib::UFCallMap::symUFC (std::string ufcName)\fC [static]\fP"
+
+.PP
+returns a string representing ufcterm as a symbolic constant Returns a string representing ufcterm as a symbolic constant\&. 
+.SS "std::string iegenlib::UFCallMap::toString ()"
+
+.PP
+prints the content of the map into a string, and returns it 
+.SS "std::string iegenlib::UFCallMap::varTermStrList ()"
+
+.PP
+Outputs list of variable terms created for UFCs,\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

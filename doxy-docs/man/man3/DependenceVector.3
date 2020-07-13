@@ -1,0 +1,202 @@
+.TH "DependenceVector" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DependenceVector
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <dep\&.hh>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBDependenceVector\fP ()"
+.br
+.ti -1c
+.RI "\fBDependenceVector\fP (\fBconst\fP \fBDependenceVector\fP &that)"
+.br
+.ti -1c
+.RI "\fB~DependenceVector\fP ()"
+.br
+.ti -1c
+.RI "\fBDependenceVector\fP & \fBoperator=\fP (\fBconst\fP \fBDependenceVector\fP &that)"
+.br
+.ti -1c
+.RI "bool \fBis_data_dependence\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_control_dependence\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBhas_negative_been_carried_at\fP (int \fBdim\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBhas_been_carried_at\fP (int \fBdim\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBhas_been_carried_before\fP (int \fBdim\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisZero\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisPositive\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisNegative\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisAllPositive\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisAllNegative\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisZero\fP (int \fBdim\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBhasPositive\fP (int \fBdim\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBhasNegative\fP (int \fBdim\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisCarried\fP (int \fBdim\fP, \fBomega::coef_t\fP distance=\fBposInfinity\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBcanPermute\fP (\fBconst\fP std::vector< int > &pi) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBDependenceVector\fP > \fBnormalize\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBDependenceVector\fP > \fBpermute\fP (\fBconst\fP std::vector< int > &pi) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBDependenceVector\fP \fBreverse\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBDependenceType\fP \fBgetType\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBDependenceType\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "\fBIR_Symbol\fP * \fBsym\fP"
+.br
+.ti -1c
+.RI "bool \fBfrom_same_stmt\fP"
+.br
+.ti -1c
+.RI "bool \fBis_reduction_cand\fP"
+.br
+.ti -1c
+.RI "bool \fBis_reduction\fP"
+.br
+.RI "used to identify a class of flow dependence that can be broken "
+.ti -1c
+.RI "std::vector< \fBomega::coef_t\fP > \fBlbounds\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::coef_t\fP > \fBubounds\fP"
+.br
+.ti -1c
+.RI "bool \fBquasi\fP"
+.br
+.ti -1c
+.RI "bool \fBis_scalar_dependence\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &os, \fBconst\fP \fBDependenceVector\fP &d)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "DependenceVector::DependenceVector ()\fC [inline]\fP"
+
+.SS "DependenceVector::DependenceVector (\fBconst\fP \fBDependenceVector\fP & that)"
+
+.SS "DependenceVector::~DependenceVector ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool DependenceVector::canPermute (\fBconst\fP std::vector< int > & pi) const"
+
+.SS "\fBDependenceType\fP DependenceVector::getType () const"
+
+.SS "bool DependenceVector::has_been_carried_at (int dim) const"
+
+.SS "bool DependenceVector::has_been_carried_before (int dim) const"
+
+.SS "bool DependenceVector::has_negative_been_carried_at (int dim) const"
+
+.SS "bool DependenceVector::hasNegative (int dim) const"
+
+.SS "bool DependenceVector::hasPositive (int dim) const"
+
+.SS "bool DependenceVector::is_control_dependence () const"
+
+.SS "bool DependenceVector::is_data_dependence () const"
+
+.SS "bool DependenceVector::isAllNegative () const"
+
+.SS "bool DependenceVector::isAllPositive () const"
+
+.SS "bool DependenceVector::isCarried (int dim, \fBomega::coef_t\fP distance = \fC\fBposInfinity\fP\fP) const"
+
+.SS "bool DependenceVector::isNegative () const"
+
+.SS "bool DependenceVector::isPositive () const"
+
+.SS "bool DependenceVector::isZero () const"
+
+.SS "bool DependenceVector::isZero (int dim) const"
+
+.SS "std::vector< \fBDependenceVector\fP > DependenceVector::normalize () const"
+
+.SS "\fBDependenceVector\fP & DependenceVector::operator= (\fBconst\fP \fBDependenceVector\fP & that)"
+
+.SS "std::vector< \fBDependenceVector\fP > DependenceVector::permute (\fBconst\fP std::vector< int > & pi) const"
+
+.SS "\fBDependenceVector\fP DependenceVector::reverse () const"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "std::ostream& operator<< (std::ostream & os, \fBconst\fP \fBDependenceVector\fP & d)\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "bool DependenceVector::from_same_stmt"
+
+.SS "bool DependenceVector::is_reduction"
+
+.PP
+used to identify a class of flow dependence that can be broken 
+.SS "bool DependenceVector::is_reduction_cand"
+
+.SS "bool DependenceVector::is_scalar_dependence"
+
+.SS "std::vector<\fBomega::coef_t\fP> DependenceVector::lbounds"
+
+.SS "bool DependenceVector::quasi"
+
+.SS "\fBIR_Symbol\fP* DependenceVector::sym"
+
+.SS "\fBDependenceType\fP DependenceVector::type"
+
+.SS "std::vector<\fBomega::coef_t\fP> DependenceVector::ubounds"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

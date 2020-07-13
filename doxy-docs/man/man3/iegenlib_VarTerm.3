@@ -1,0 +1,168 @@
+.TH "iegenlib::VarTerm" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::VarTerm \- Represents a coefficient multiplied by a variable or symbolic constant\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <expression\&.h>\fP
+.PP
+Inherits \fBiegenlib::Term\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBVarTerm\fP (int coeff, std::string \fBsymbol\fP)"
+.br
+.RI "Constructor\&. "
+.ti -1c
+.RI "\fBVarTerm\fP (std::string \fBsymbol\fP)"
+.br
+.RI "Convenience constructor, assumes coeff = 1\&. "
+.ti -1c
+.RI "\fBVarTerm\fP (\fBconst\fP \fBVarTerm\fP &other)"
+.br
+.RI "Copy constructor\&. "
+.ti -1c
+.RI "\fBVarTerm\fP & \fBoperator=\fP (\fBconst\fP \fBVarTerm\fP &other)"
+.br
+.RI "Copy assignment\&. "
+.ti -1c
+.RI "bool \fBoperator<\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "Comparison operator -- lexicographic order\&. "
+.ti -1c
+.RI "\fBTerm\fP * \fBclone\fP () \fBconst\fP"
+.br
+.RI "Create a copy of this \fBTerm\fP (and of the same subclass) "
+.ti -1c
+.RI "std::string \fBtoString\fP (bool absValue=false) \fBconst\fP"
+.br
+.RI "Creates a compact string to help with debugging\&. "
+.ti -1c
+.RI "std::string \fBprettyPrintString\fP (\fBconst\fP \fBTupleDecl\fP &aTupleDecl, bool absValue=false) \fBconst\fP"
+.br
+.RI "Creates a compact string, pretty printed\&. "
+.ti -1c
+.RI "std::string \fBsymbol\fP () \fBconst\fP"
+.br
+.RI "Return the variable string\&. "
+.ti -1c
+.RI "std::string \fBtype\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisConst\fP () \fBconst\fP"
+.br
+.RI "Returns true if the \fBTerm\fP is a const\&. "
+.ti -1c
+.RI "bool \fBfactorMatches\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "Returns true if this term can be combined with the given term\&. "
+.ti -1c
+.RI "void \fBacceptVisitor\fP (\fBVisitor\fP *v)"
+.br
+.RI "\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+Represents a coefficient multiplied by a variable or symbolic constant\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::VarTerm::VarTerm (int coeff, std::string symbol)\fC [inline]\fP"
+
+.PP
+Constructor\&. 
+.SS "iegenlib::VarTerm::VarTerm (std::string symbol)\fC [inline]\fP"
+
+.PP
+Convenience constructor, assumes coeff = 1\&. 
+.SS "iegenlib::VarTerm::VarTerm (\fBconst\fP \fBVarTerm\fP & other)"
+
+.PP
+Copy constructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void iegenlib::VarTerm::acceptVisitor (\fBVisitor\fP * v)\fC [virtual]\fP"
+
+.PP
+\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBTerm\fP * iegenlib::VarTerm::clone () const\fC [virtual]\fP"
+
+.PP
+Create a copy of this \fBTerm\fP (and of the same subclass) 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "bool iegenlib::VarTerm::factorMatches (\fBconst\fP \fBTerm\fP & other) const\fC [virtual]\fP"
+
+.PP
+Returns true if this term can be combined with the given term\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "bool iegenlib::VarTerm::isConst () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the \fBTerm\fP is a const\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "bool iegenlib::VarTerm::operator< (\fBconst\fP \fBTerm\fP & other) const\fC [virtual]\fP"
+
+.PP
+Comparison operator -- lexicographic order\&. Compare two terms in a canonical order, defined as follows:
+.IP "1." 4
+by term type: TupleVar, SymConst, UFCall, ConstVal
+.IP "2." 4
+within each type, in alphabetical or numeric order\&. 
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBVarTerm\fP & iegenlib::VarTerm::operator= (\fBconst\fP \fBVarTerm\fP & other)"
+
+.PP
+Copy assignment\&. 
+.SS "std::string iegenlib::VarTerm::prettyPrintString (\fBconst\fP \fBTupleDecl\fP & aTupleDecl, bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Creates a compact string, pretty printed\&. Creates a compact string, pretty printed\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIaTupleDecl\fP name or constant for each tuple var 
+.br
+\fIabsValue\fP Will use absolute value of coeff if true\&. 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "std::string iegenlib::VarTerm::symbol () const\fC [inline]\fP"
+
+.PP
+Return the variable string\&. 
+.SS "std::string iegenlib::VarTerm::toString (bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Creates a compact string to help with debugging\&. Creates a compact string to help with debugging\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIabsValue\fP Will use absolute value of coeff if true\&. 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "std::string iegenlib::VarTerm::type () const\fC [virtual]\fP"
+Returns string of subclass type\&. Used by \fBtoDotString()\fP only\&. Might want to refactor\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

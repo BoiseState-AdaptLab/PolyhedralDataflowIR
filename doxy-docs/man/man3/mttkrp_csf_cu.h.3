@@ -1,0 +1,203 @@
+.TH "out/mttkrp_csf_cu.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/mttkrp_csf_cu.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <cuda_funcs\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBabsmin\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBabsmax\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBsgn\fP(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBxmin\fP   (\fBblockIdx\&.x\fP*\fBblockDim\&.x\fP+\fBthreadIdx\&.x\fP)"
+.br
+.ti -1c
+.RI "#define \fBymin\fP   (\fBblockIdx\&.y\fP*\fBblockDim\&.y\fP+\fBthreadIdx\&.y\fP)"
+.br
+.ti -1c
+.RI "#define \fBzmin\fP   (\fBblockIdx\&.z\fP*\fBblockDim\&.z\fP+\fBthreadIdx\&.z\fP)"
+.br
+.ti -1c
+.RI "#define \fBxinc\fP   (\fBblockDim\&.x\fP*\fBgridDim\&.x\fP)"
+.br
+.ti -1c
+.RI "#define \fByinc\fP   (\fBblockDim\&.y\fP*\fBgridDim\&.y\fP)"
+.br
+.ti -1c
+.RI "#define \fBzinc\fP   (\fBblockDim\&.z\fP*\fBgridDim\&.z\fP)"
+.br
+.ti -1c
+.RI "#define \fBA\fP(\fBi\fP,  r)   A[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBB\fP(\fBj\fP,  r)   B[\fBoffset2\fP((\fBj\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBC\fP(\fBk\fP,  r)   C[\fBoffset2\fP((\fBk\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBX\fP(\fBn\fP)   X[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBind0\fP(\fBp\fP)   ind0[(\fBp\fP)]"
+.br
+.ti -1c
+.RI "#define \fBind1\fP(\fBp\fP,  \fBi\fP,  q)   ind1[(q)]"
+.br
+.ti -1c
+.RI "#define \fBind2\fP(\fBp\fP,  \fBi\fP,  q,  \fBj\fP,  \fBn\fP)   ind2[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBpos0\fP(\fBp\fP)   pos0[(\fBp\fP)]"
+.br
+.ti -1c
+.RI "#define \fBpos0_1\fP(\fBp\fP)   \fBpos0\fP[(\fBp\fP+1)]"
+.br
+.ti -1c
+.RI "#define \fBpos1\fP(\fBp\fP,  \fBi\fP,  q)   pos1[(q)]"
+.br
+.ti -1c
+.RI "#define \fBpos1_1\fP(\fBp\fP,  \fBi\fP,  q)   \fBpos1\fP[(q+1)]"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBp\fP,  \fBi\fP,  q,  \fBj\fP,  \fBn\fP,  \fBk\fP,  r)   \fBA\fP((\fBi\fP),(r))+=\fBX\fP((\fBn\fP))*\fBC\fP((\fBk\fP),(r))*\fBB\fP((\fBj\fP),(r))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "__global__ void \fBmttkrp_csf_\fP (\fBconst\fP float *\fBB\fP, \fBconst\fP float *\fBC\fP, \fBconst\fP float *\fBX\fP, \fBconst\fP unsigned F, \fBconst\fP unsigned \fBR\fP, \fBconst\fP unsigned *\fBind0\fP, \fBconst\fP unsigned *\fBind1\fP, \fBconst\fP unsigned *\fBind2\fP, \fBconst\fP unsigned *\fBpos0\fP, \fBconst\fP unsigned *\fBpos1\fP, float *\fBA\fP)"
+.br
+.ti -1c
+.RI "void \fBmttkrp_csf\fP (\fBconst\fP float *\fBB\fP, \fBconst\fP float *\fBC\fP, \fBconst\fP float *\fBX\fP, \fBconst\fP unsigned F, \fBconst\fP unsigned \fBR\fP, \fBconst\fP unsigned *\fBind0\fP, \fBconst\fP unsigned *\fBind1\fP, \fBconst\fP unsigned *\fBind2\fP, \fBconst\fP unsigned *\fBpos0\fP, \fBconst\fP unsigned *\fBpos1\fP, float *\fBA\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define A(\fBi\fP, r)   A[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define absmax(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define absmin(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define B(\fBj\fP, r)   B[\fBoffset2\fP((\fBj\fP),(r),(\fBR\fP))]"
+
+.SS "#define C(\fBk\fP, r)   C[\fBoffset2\fP((\fBk\fP),(r),(\fBR\fP))]"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define ind0(\fBp\fP)   ind0[(\fBp\fP)]"
+
+.SS "#define ind1(\fBp\fP, \fBi\fP, q)   ind1[(q)]"
+
+.SS "#define ind2(\fBp\fP, \fBi\fP, q, \fBj\fP, \fBn\fP)   ind2[(\fBn\fP)]"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define pos0(\fBp\fP)   pos0[(\fBp\fP)]"
+
+.SS "#define pos0_1(\fBp\fP)   \fBpos0\fP[(\fBp\fP+1)]"
+
+.SS "#define pos1(\fBp\fP, \fBi\fP, q)   pos1[(q)]"
+
+.SS "#define pos1_1(\fBp\fP, \fBi\fP, q)   \fBpos1\fP[(q+1)]"
+
+.SS "#define s0(\fBp\fP, \fBi\fP, q, \fBj\fP, \fBn\fP, \fBk\fP, r)   \fBA\fP((\fBi\fP),(r))+=\fBX\fP((\fBn\fP))*\fBC\fP((\fBk\fP),(r))*\fBB\fP((\fBj\fP),(r))"
+
+.SS "#define sgn(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+
+.SS "#define X(\fBn\fP)   X[(\fBn\fP)]"
+
+.SS "#define xinc   (\fBblockDim\&.x\fP*\fBgridDim\&.x\fP)"
+
+.SS "#define xmin   (\fBblockIdx\&.x\fP*\fBblockDim\&.x\fP+\fBthreadIdx\&.x\fP)"
+
+.SS "#define yinc   (\fBblockDim\&.y\fP*\fBgridDim\&.y\fP)"
+
+.SS "#define ymin   (\fBblockIdx\&.y\fP*\fBblockDim\&.y\fP+\fBthreadIdx\&.y\fP)"
+
+.SS "#define zinc   (\fBblockDim\&.z\fP*\fBgridDim\&.z\fP)"
+
+.SS "#define zmin   (\fBblockIdx\&.z\fP*\fBblockDim\&.z\fP+\fBthreadIdx\&.z\fP)"
+
+.SH "Function Documentation"
+.PP 
+.SS "void mttkrp_csf (\fBconst\fP float * B, \fBconst\fP float * C, \fBconst\fP float * X, \fBconst\fP unsigned F, \fBconst\fP unsigned R, \fBconst\fP unsigned * ind0, \fBconst\fP unsigned * ind1, \fBconst\fP unsigned * ind2, \fBconst\fP unsigned * pos0, \fBconst\fP unsigned * pos1, float * A)"
+
+.SS "__global__ void mttkrp_csf_ (\fBconst\fP float * B, \fBconst\fP float * C, \fBconst\fP float * X, \fBconst\fP unsigned F, \fBconst\fP unsigned R, \fBconst\fP unsigned * ind0, \fBconst\fP unsigned * ind1, \fBconst\fP unsigned * ind2, \fBconst\fP unsigned * pos0, \fBconst\fP unsigned * pos1, float * A)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

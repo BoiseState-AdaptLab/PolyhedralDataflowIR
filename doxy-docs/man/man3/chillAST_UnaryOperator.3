@@ -1,0 +1,144 @@
+.TH "chillAST_UnaryOperator" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_UnaryOperator
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_UnaryOperator\fP (\fBconst\fP char *oper, bool pre, \fBchillAST_node\fP *\fBsub\fP)"
+.br
+.ti -1c
+.RI "bool \fBisAssignmentOp\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBclone\fP () override"
+.br
+.ti -1c
+.RI "void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherArrayRefs\fP (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherVarLHSUsage\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather all variable that is used as a lefthand side operand "
+.ti -1c
+.RI "void \fBreplaceVarDecls\fP (\fBchillAST_VarDecl\fP *olddecl, \fBchillAST_VarDecl\fP *newdecl) override"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "int \fBevalAsInt\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisSameAs\fP (\fBchillAST_node\fP *other) override"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBop\fP"
+.br
+.ti -1c
+.RI "bool \fBprefix\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBsubexpr\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_UnaryOperator::chillAST_UnaryOperator (\fBconst\fP char * oper, bool pre, \fBchillAST_node\fP * sub)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "class \fBchillAST_node\fP * chillAST_UnaryOperator::clone ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP * chillAST_UnaryOperator::constantFold ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "int chillAST_UnaryOperator::evalAsInt ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_UnaryOperator::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_UnaryOperator::gatherArrayRefs (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_UnaryOperator::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_UnaryOperator::gatherVarLHSUsage (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather all variable that is used as a lefthand side operand 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBCHILL_ASTNODE_TYPE\fP chillAST_UnaryOperator::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_UnaryOperator::isAssignmentOp ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_UnaryOperator::isSameAs (\fBchillAST_node\fP * other)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_UnaryOperator::replaceVarDecls (\fBchillAST_VarDecl\fP * olddecl, \fBchillAST_VarDecl\fP * newdecl)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "char* chillAST_UnaryOperator::op"
+
+.SS "bool chillAST_UnaryOperator::prefix"
+
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_UnaryOperator::subexpr"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,377 @@
+.TH "omega::Rel_Body" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::Rel_Body \- \fBRelation\fP body\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RelBody\&.h>\fP
+.PP
+Inherits \fBomega::Formula\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBis_null\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBNode_Type\fP \fBnode_type\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_set\fP () \fBconst\fP"
+.br
+.RI "Check if it is a set(have no output) "
+.ti -1c
+.RI "int \fBn_inp\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBn_out\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBn_set\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBVariable_ID_Tuple\fP * \fBglobal_decls\fP ()"
+.br
+.ti -1c
+.RI "int \fBmax_ufs_arity\fP ()"
+.br
+.ti -1c
+.RI "int \fBmax_shared_ufs_arity\fP ()"
+.br
+.ti -1c
+.RI "int \fBmax_ufs_arity_of_set\fP ()"
+.br
+.ti -1c
+.RI "int \fBmax_ufs_arity_of_in\fP ()"
+.br
+.ti -1c
+.RI "int \fBmax_ufs_arity_of_out\fP ()"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBinput_var\fP (int nth)"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBoutput_var\fP (int nth)"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBset_var\fP (int nth)"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBget_local\fP (\fBconst\fP \fBVariable_ID\fP v)"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBget_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP)"
+.br
+.ti -1c
+.RI "\fBVariable_ID\fP \fBget_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP, \fBArgument_Tuple\fP of)"
+.br
+.ti -1c
+.RI "bool \fBhas_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP)"
+.br
+.ti -1c
+.RI "bool \fBhas_local\fP (\fBconst\fP \fBGlobal_Var_ID\fP \fBG\fP, \fBArgument_Tuple\fP of)"
+.br
+.ti -1c
+.RI "void \fBname_input_var\fP (int, \fBConst_String\fP)"
+.br
+.ti -1c
+.RI "void \fBname_output_var\fP (int, \fBConst_String\fP)"
+.br
+.ti -1c
+.RI "void \fBname_set_var\fP (int, \fBConst_String\fP)"
+.br
+.ti -1c
+.RI "\fBF_And\fP * \fBand_with_and\fP ()"
+.br
+.ti -1c
+.RI "\fBEQ_Handle\fP \fBand_with_EQ\fP ()"
+.br
+.ti -1c
+.RI "\fBEQ_Handle\fP \fBand_with_EQ\fP (\fBconst\fP \fBConstraint_Handle\fP &\fBc\fP)"
+.br
+.ti -1c
+.RI "\fBGEQ_Handle\fP \fBand_with_GEQ\fP ()"
+.br
+.ti -1c
+.RI "\fBGEQ_Handle\fP \fBand_with_GEQ\fP (\fBconst\fP \fBConstraint_Handle\fP &\fBc\fP)"
+.br
+.ti -1c
+.RI "void \fBprint\fP ()"
+.br
+.ti -1c
+.RI "void \fBprint\fP (FILE *output_file)"
+.br
+.ti -1c
+.RI "void \fBprint\fP (FILE *output_file, bool printSym)"
+.br
+.ti -1c
+.RI "std::string \fBprint_variables_to_string\fP (bool printSym)"
+.br
+.ti -1c
+.RI "void \fBprint_with_subs\fP (FILE *output_file, bool printSym, bool newline)"
+.br
+.ti -1c
+.RI "void \fBprint_with_subs\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBprint_with_subs_to_string\fP (bool printSym, bool newline)"
+.br
+.ti -1c
+.RI "std::string \fBprint_outputs_with_subs_to_string\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBprint_outputs_with_subs_to_string\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "std::string \fBprint_formula_to_string\fP ()"
+.br
+.ti -1c
+.RI "void \fBprefix_print\fP ()"
+.br
+.ti -1c
+.RI "void \fBprefix_print\fP (FILE *output_file, int debug=1)"
+.br
+.ti -1c
+.RI "bool \fBis_satisfiable\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_lower_bound_satisfiable\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_upper_bound_satisfiable\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_obvious_tautology\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_definite_tautology\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_unknown\fP ()"
+.br
+.ti -1c
+.RI "\fBDNF\fP * \fBquery_DNF\fP ()"
+.br
+.ti -1c
+.RI "\fBDNF\fP * \fBquery_DNF\fP (int rdt_conjs, int rdt_constrs)"
+.br
+.ti -1c
+.RI "void \fBsimplify\fP (int rdt_conjs=0, int rdt_constrs=0)"
+.br
+.ti -1c
+.RI "void \fBfinalize\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_finalized\fP ()"
+.br
+.ti -1c
+.RI "bool \fBis_shared\fP ()"
+.br
+.ti -1c
+.RI "void \fBquery_difference\fP (\fBVariable_ID\fP v1, \fBVariable_ID\fP v2, \fBcoef_t\fP &lowerBound, \fBcoef_t\fP &upperBound, bool &quaranteed)"
+.br
+.ti -1c
+.RI "void \fBquery_variable_bounds\fP (\fBVariable_ID\fP, \fBcoef_t\fP &lowerBound, \fBcoef_t\fP &upperBound)"
+.br
+.ti -1c
+.RI "\fBcoef_t\fP \fBquery_variable_mod\fP (\fBVariable_ID\fP v, \fBcoef_t\fP \fBfactor\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBextract_dnf_by_carried_level\fP (int level, int direction)"
+.br
+.ti -1c
+.RI "void \fBmake_level_carried_to\fP (int level)"
+.br
+.ti -1c
+.RI "\fBRel_Body\fP ()"
+.br
+.ti -1c
+.RI "\fB~Rel_Body\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetup_names\fP ()"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBRelation\fP"
+.br
+.ti -1c
+.RI "class \fBEQ_Handle\fP"
+.br
+.ti -1c
+.RI "class \fBGEQ_Handle\fP"
+.br
+.ti -1c
+.RI "class \fBConstraint_Handle\fP"
+.br
+.ti -1c
+.RI "void \fBremap_DNF_vars\fP (\fBRel_Body\fP *new_rel, \fBRel_Body\fP *old_rel)"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+\fBRelation\fP body\&. 
+
+Body and representative are separated to do reference counting\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::Rel_Body::Rel_Body ()"
+
+.SS "omega::Rel_Body::~Rel_Body ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBF_And\fP * omega::Rel_Body::and_with_and ()"
+
+.SS "\fBEQ_Handle\fP omega::Rel_Body::and_with_EQ ()"
+
+.SS "\fBEQ_Handle\fP omega::Rel_Body::and_with_EQ (\fBconst\fP \fBConstraint_Handle\fP & c)"
+
+.SS "\fBGEQ_Handle\fP omega::Rel_Body::and_with_GEQ ()"
+
+.SS "\fBGEQ_Handle\fP omega::Rel_Body::and_with_GEQ (\fBconst\fP \fBConstraint_Handle\fP & c)"
+
+.SS "\fBRelation\fP omega::Rel_Body::extract_dnf_by_carried_level (int level, int direction)"
+
+.SS "void omega::Rel_Body::finalize ()\fC [virtual]\fP"
+Finalize the constraint to make it non-mutable so that certain simplification can take place\&.
+.PP
+Should call it after each subpart is finished to achieve maximum efficiency\&. 
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "\fBVariable_ID\fP omega::Rel_Body::get_local (\fBconst\fP \fBGlobal_Var_ID\fP G)"
+
+.SS "\fBVariable_ID\fP omega::Rel_Body::get_local (\fBconst\fP \fBGlobal_Var_ID\fP G, \fBArgument_Tuple\fP of)"
+
+.SS "\fBVariable_ID\fP omega::Rel_Body::get_local (\fBconst\fP \fBVariable_ID\fP v)"
+
+.SS "\fBVariable_ID_Tuple\fP* omega::Rel_Body::global_decls ()\fC [inline]\fP"
+
+.SS "bool omega::Rel_Body::has_local (\fBconst\fP \fBGlobal_Var_ID\fP G)"
+
+.SS "bool omega::Rel_Body::has_local (\fBconst\fP \fBGlobal_Var_ID\fP G, \fBArgument_Tuple\fP of)"
+
+.SS "\fBVariable_ID\fP omega::Rel_Body::input_var (int nth)"
+
+.SS "bool omega::Rel_Body::is_definite_tautology ()"
+
+.SS "bool omega::Rel_Body::is_finalized ()\fC [inline]\fP"
+
+.SS "bool omega::Rel_Body::is_lower_bound_satisfiable ()"
+
+.SS "bool omega::Rel_Body::is_null () const"
+
+.SS "bool omega::Rel_Body::is_obvious_tautology ()"
+
+.SS "bool omega::Rel_Body::is_satisfiable ()"
+
+.SS "bool omega::Rel_Body::is_set () const\fC [inline]\fP"
+
+.PP
+Check if it is a set(have no output) 
+.SS "bool omega::Rel_Body::is_shared ()\fC [inline]\fP"
+
+.SS "bool omega::Rel_Body::is_unknown ()"
+
+.SS "bool omega::Rel_Body::is_upper_bound_satisfiable ()"
+
+.SS "void omega::Rel_Body::make_level_carried_to (int level)"
+
+.SS "int omega::Rel_Body::max_shared_ufs_arity ()"
+
+.SS "int omega::Rel_Body::max_ufs_arity ()"
+
+.SS "int omega::Rel_Body::max_ufs_arity_of_in ()"
+
+.SS "int omega::Rel_Body::max_ufs_arity_of_out ()"
+
+.SS "int omega::Rel_Body::max_ufs_arity_of_set ()"
+
+.SS "int omega::Rel_Body::n_inp () const"
+
+.SS "int omega::Rel_Body::n_out () const"
+
+.SS "int omega::Rel_Body::n_set () const"
+
+.SS "void omega::Rel_Body::name_input_var (int nth, \fBConst_String\fP S)"
+
+.SS "void omega::Rel_Body::name_output_var (int nth, \fBConst_String\fP S)"
+
+.SS "void omega::Rel_Body::name_set_var (int nth, \fBConst_String\fP S)"
+
+.SS "\fBNode_Type\fP omega::Rel_Body::node_type ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Implements \fBomega::Formula\fP\&.
+.SS "\fBVariable_ID\fP omega::Rel_Body::output_var (int nth)"
+
+.SS "void omega::Rel_Body::prefix_print ()"
+
+.SS "void omega::Rel_Body::prefix_print (FILE * output_file, int debug = \fC1\fP)\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "void omega::Rel_Body::print ()"
+
+.SS "void omega::Rel_Body::print (FILE * output_file)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "void omega::Rel_Body::print (FILE * output_file, bool printSym)"
+
+.SS "std::string omega::Rel_Body::print_formula_to_string ()"
+
+.SS "std::string omega::Rel_Body::print_outputs_with_subs_to_string ()"
+
+.SS "std::string omega::Rel_Body::print_outputs_with_subs_to_string (int i)"
+
+.SS "std::string omega::Rel_Body::print_variables_to_string (bool printSym)"
+
+.SS "void omega::Rel_Body::print_with_subs ()"
+
+.SS "void omega::Rel_Body::print_with_subs (FILE * output_file, bool printSym, bool newline)"
+
+.SS "std::string omega::Rel_Body::print_with_subs_to_string (bool printSym, bool newline)"
+
+.SS "void omega::Rel_Body::query_difference (\fBVariable_ID\fP v1, \fBVariable_ID\fP v2, \fBcoef_t\fP & lowerBound, \fBcoef_t\fP & upperBound, bool & quaranteed)"
+
+.SS "\fBDNF\fP * omega::Rel_Body::query_DNF ()"
+
+.SS "\fBDNF\fP * omega::Rel_Body::query_DNF (int rdt_conjs, int rdt_constrs)"
+
+.SS "void omega::Rel_Body::query_variable_bounds (\fBVariable_ID\fP v, \fBcoef_t\fP & lowerBound, \fBcoef_t\fP & upperBound)"
+
+.SS "\fBcoef_t\fP omega::Rel_Body::query_variable_mod (\fBVariable_ID\fP v, \fBcoef_t\fP factor)"
+
+.SS "\fBVariable_ID\fP omega::Rel_Body::set_var (int nth)"
+
+.SS "void omega::Rel_Body::setup_names ()\fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBomega::Formula\fP\&.
+.SS "void omega::Rel_Body::simplify (int rdt_conjs = \fC0\fP, int rdt_constrs = \fC0\fP)"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBConstraint_Handle\fP\fC [friend]\fP"
+
+.SS "friend class \fBEQ_Handle\fP\fC [friend]\fP"
+
+.SS "friend class \fBGEQ_Handle\fP\fC [friend]\fP"
+
+.SS "friend class \fBRelation\fP\fC [friend]\fP"
+
+.SS "void remap_DNF_vars (\fBRel_Body\fP * new_rel, \fBRel_Body\fP * old_rel)\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

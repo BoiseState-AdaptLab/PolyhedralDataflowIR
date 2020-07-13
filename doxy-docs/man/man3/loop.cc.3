@@ -1,0 +1,131 @@
+.TH "lib/chill/loop.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/loop.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <limits\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <omega/code_gen/include/codegen\&.h>\fP
+.br
+\fC#include <code_gen/CG_utils\&.h>\fP
+.br
+\fC#include <code_gen/CG_chillBuilder\&.h>\fP
+.br
+\fC#include <code_gen/CG_stringRepr\&.h>\fP
+.br
+\fC#include <code_gen/CG_chillRepr\&.h>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include 'loop\&.hh'\fP
+.br
+\fC#include 'omegatools\&.hh'\fP
+.br
+\fC#include 'irtools\&.hh'\fP
+.br
+\fC#include 'chill_error\&.hh'\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <list>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB_DEBUG_\fP   true"
+.br
+.ti -1c
+.RI "#define \fB_DEBUG_\fP   true"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBechocontroltype\fP (\fBconst\fP \fBIR_Control\fP *control)"
+.br
+.ti -1c
+.RI "void \fBupdate_successors\fP (int \fBn\fP, int node_num[], int cant_fuse_with[], Graph< \fBstd::set\fP< int >, bool > &g, std::list< int > &work_list, std::list< bool > &type_list, std::vector< bool > types)"
+.br
+.ti -1c
+.RI "std::pair< \fBRelation\fP, \fBRelation\fP > \fBcreateCSRstyleISandXFORM\fP (\fBCG_outputBuilder\fP *ocg, std::vector< \fBRelation\fP > &outer_loop_bounds, std::string index_name, \fBstd::map\fP< int, \fBRelation\fP > &zero_loop_bounds, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols_string, \fBLoop\fP *this_loop)"
+.br
+.ti -1c
+.RI "std::pair< \fBRelation\fP, \fBRelation\fP > \fBconstruct_reduced_IS_And_XFORM\fP (\fBIR_Code\fP *ir, \fBconst\fP \fBRelation\fP &is, \fBconst\fP \fBRelation\fP &xform, \fBconst\fP std::vector< int > \fBloops\fP, std::vector< int > &lex_order, \fBRelation\fP &known, \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > &uninterpreted_symbols)"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< std::string > \fBinspect_repr_for_scalars\fP (\fBIR_Code\fP *ir, \fBCG_outputRepr\fP *repr, \fBstd::set\fP< std::string > ignore)"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< std::string > \fBinspect_loop_bounds\fP (\fBIR_Code\fP *ir, \fBconst\fP \fBRelation\fP &\fBR\fP, int \fBpos\fP, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols)"
+.br
+.ti -1c
+.RI "\fBCG_outputRepr\fP * \fBcreate_counting_loop_body\fP (\fBIR_Code\fP *ir, \fBconst\fP \fBRelation\fP &\fBR\fP, int \fBpos\fP, \fBCG_outputRepr\fP *\fBcount\fP, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols)"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< std::string, std::vector< std::string > > \fBrecurse_on_exp_for_arrays\fP (\fBIR_Code\fP *ir, \fBCG_outputRepr\fP *exp)"
+.br
+.ti -1c
+.RI "std::vector< \fBCG_outputRepr\fP * > \fBfind_guards\fP (\fBIR_Code\fP *ir, \fBIR_Control\fP *code)"
+.br
+.ti -1c
+.RI "bool \fBsort_helper\fP (std::pair< std::string, std::vector< std::string > > \fBi\fP, std::pair< std::string, std::vector< std::string > > \fBj\fP)"
+.br
+.ti -1c
+.RI "bool \fBsort_helper_2\fP (std::pair< int, int > \fBi\fP, std::pair< int, int > \fBj\fP)"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBconstruct_iteration_order\fP (\fBstd::map\fP< std::string, std::vector< std::string > > &input)"
+.br
+.ti -1c
+.RI "void \fBstencil\fP (\fBchillAST_node\fP *topstatement)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _DEBUG_   true"
+
+.SS "#define _DEBUG_   true"
+
+.SH "Function Documentation"
+.PP 
+.SS "std::vector<std::string> construct_iteration_order (\fBstd::map\fP< std::string, std::vector< std::string > > & input)"
+
+.SS "std::pair<\fBRelation\fP, \fBRelation\fP> construct_reduced_IS_And_XFORM (\fBIR_Code\fP * ir, \fBconst\fP \fBRelation\fP & is, \fBconst\fP \fBRelation\fP & xform, \fBconst\fP std::vector< int > loops, std::vector< int > & lex_order, \fBRelation\fP & known, \fBstd::map\fP< std::string, std::vector< \fBCG_outputRepr\fP * > > & uninterpreted_symbols)"
+
+.SS "\fBCG_outputRepr\fP* create_counting_loop_body (\fBIR_Code\fP * ir, \fBconst\fP \fBRelation\fP & R, int pos, \fBCG_outputRepr\fP * count, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols)"
+
+.SS "std::pair<\fBRelation\fP, \fBRelation\fP> createCSRstyleISandXFORM (\fBCG_outputBuilder\fP * ocg, std::vector< \fBRelation\fP > & outer_loop_bounds, std::string index_name, \fBstd::map\fP< int, \fBRelation\fP > & zero_loop_bounds, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols_string, \fBLoop\fP * this_loop)"
+
+.SS "void echocontroltype (\fBconst\fP \fBIR_Control\fP * control)"
+
+.SS "std::vector<\fBCG_outputRepr\fP *> find_guards (\fBIR_Code\fP * ir, \fBIR_Control\fP * code)"
+
+.SS "\fBstd::set\fP<std::string> inspect_loop_bounds (\fBIR_Code\fP * ir, \fBconst\fP \fBRelation\fP & R, int pos, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols)"
+
+.SS "\fBstd::set\fP<std::string> inspect_repr_for_scalars (\fBIR_Code\fP * ir, \fBCG_outputRepr\fP * repr, \fBstd::set\fP< std::string > ignore)"
+
+.SS "\fBstd::map\fP<std::string, std::vector<std::string> > recurse_on_exp_for_arrays (\fBIR_Code\fP * ir, \fBCG_outputRepr\fP * exp)"
+
+.SS "bool sort_helper (std::pair< std::string, std::vector< std::string > > i, std::pair< std::string, std::vector< std::string > > j)"
+
+.SS "bool sort_helper_2 (std::pair< int, int > i, std::pair< int, int > j)"
+
+.SS "void stencil (\fBchillAST_node\fP * topstatement)"
+
+.SS "void update_successors (int n, int node_num[], int cant_fuse_with[], Graph< \fBstd::set\fP< int >, bool > & g, std::list< int > & work_list, std::list< bool > & type_list, std::vector< bool > types)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

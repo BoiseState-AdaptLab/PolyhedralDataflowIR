@@ -1,0 +1,1020 @@
+.TH "lib/iegenlib/src/parser/gen_scanner.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/iegenlib/src/parser/gen_scanner.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <errno\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <parser/parser\&.h>\fP
+.br
+\fC#include 'gen_parser\&.hh'\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fByy_buffer_state\fP"
+.br
+.ti -1c
+.RI "struct \fByy_trans_info\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBYY_INT_ALIGNED\fP   short int"
+.br
+.ti -1c
+.RI "#define \fByy_create_buffer\fP   zz_create_buffer"
+.br
+.ti -1c
+.RI "#define \fByy_delete_buffer\fP   zz_delete_buffer"
+.br
+.ti -1c
+.RI "#define \fByy_scan_buffer\fP   zz_scan_buffer"
+.br
+.ti -1c
+.RI "#define \fByy_scan_string\fP   zz_scan_string"
+.br
+.ti -1c
+.RI "#define \fByy_scan_bytes\fP   zz_scan_bytes"
+.br
+.ti -1c
+.RI "#define \fByy_init_buffer\fP   zz_init_buffer"
+.br
+.ti -1c
+.RI "#define \fByy_flush_buffer\fP   zz_flush_buffer"
+.br
+.ti -1c
+.RI "#define \fByy_load_buffer_state\fP   zz_load_buffer_state"
+.br
+.ti -1c
+.RI "#define \fByy_switch_to_buffer\fP   zz_switch_to_buffer"
+.br
+.ti -1c
+.RI "#define \fByypush_buffer_state\fP   zzpush_buffer_state"
+.br
+.ti -1c
+.RI "#define \fByypop_buffer_state\fP   zzpop_buffer_state"
+.br
+.ti -1c
+.RI "#define \fByyensure_buffer_stack\fP   zzensure_buffer_stack"
+.br
+.ti -1c
+.RI "#define \fByy_flex_debug\fP   zz_flex_debug"
+.br
+.ti -1c
+.RI "#define \fByyin\fP   zzin"
+.br
+.ti -1c
+.RI "#define \fByyleng\fP   zzleng"
+.br
+.ti -1c
+.RI "#define \fByylex\fP   zzlex"
+.br
+.ti -1c
+.RI "#define \fByylineno\fP   \fBzzlineno\fP"
+.br
+.ti -1c
+.RI "#define \fByyout\fP   zzout"
+.br
+.ti -1c
+.RI "#define \fByyrestart\fP   zzrestart"
+.br
+.ti -1c
+.RI "#define \fByytext\fP   \fBzztext\fP"
+.br
+.ti -1c
+.RI "#define \fByywrap\fP   zzwrap"
+.br
+.ti -1c
+.RI "#define \fByyalloc\fP   zzalloc"
+.br
+.ti -1c
+.RI "#define \fByyrealloc\fP   zzrealloc"
+.br
+.ti -1c
+.RI "#define \fByyfree\fP   zzfree"
+.br
+.ti -1c
+.RI "#define \fBFLEX_SCANNER\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_FLEX_MAJOR_VERSION\fP   2"
+.br
+.ti -1c
+.RI "#define \fBYY_FLEX_MINOR_VERSION\fP   6"
+.br
+.ti -1c
+.RI "#define \fBYY_FLEX_SUBMINOR_VERSION\fP   4"
+.br
+.ti -1c
+.RI "#define \fBFLEX_BETA\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_create_buffer_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_delete_buffer_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_scan_buffer_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_scan_string_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_scan_bytes_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_init_buffer_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_flush_buffer_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_load_buffer_state_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_switch_to_buffer_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzpush_buffer_state_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzpop_buffer_state_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzensure_buffer_stack_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzlex_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzrestart_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fByylex_init\fP   zzlex_init"
+.br
+.ti -1c
+.RI "#define \fByylex_init_extra\fP   zzlex_init_extra"
+.br
+.ti -1c
+.RI "#define \fByylex_destroy\fP   zzlex_destroy"
+.br
+.ti -1c
+.RI "#define \fByyget_debug\fP   zzget_debug"
+.br
+.ti -1c
+.RI "#define \fByyset_debug\fP   zzset_debug"
+.br
+.ti -1c
+.RI "#define \fByyget_extra\fP   zzget_extra"
+.br
+.ti -1c
+.RI "#define \fByyset_extra\fP   zzset_extra"
+.br
+.ti -1c
+.RI "#define \fByyget_in\fP   zzget_in"
+.br
+.ti -1c
+.RI "#define \fByyset_in\fP   zzset_in"
+.br
+.ti -1c
+.RI "#define \fByyget_out\fP   zzget_out"
+.br
+.ti -1c
+.RI "#define \fByyset_out\fP   zzset_out"
+.br
+.ti -1c
+.RI "#define \fByyget_leng\fP   zzget_leng"
+.br
+.ti -1c
+.RI "#define \fByyget_text\fP   zzget_text"
+.br
+.ti -1c
+.RI "#define \fByyget_lineno\fP   zzget_lineno"
+.br
+.ti -1c
+.RI "#define \fByyset_lineno\fP   zzset_lineno"
+.br
+.ti -1c
+.RI "#define \fBzzwrap_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzalloc_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzrealloc_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzfree_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzztext_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzleng_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzin_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzout_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzz_flex_debug_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBzzlineno_ALREADY_DEFINED\fP"
+.br
+.ti -1c
+.RI "#define \fBFLEXINT_H\fP"
+.br
+.ti -1c
+.RI "#define \fBINT8_MIN\fP   (\-128)"
+.br
+.ti -1c
+.RI "#define \fBINT16_MIN\fP   (\-32767\-1)"
+.br
+.ti -1c
+.RI "#define \fBINT32_MIN\fP   (\-2147483647\-1)"
+.br
+.ti -1c
+.RI "#define \fBINT8_MAX\fP   (127)"
+.br
+.ti -1c
+.RI "#define \fBINT16_MAX\fP   (32767)"
+.br
+.ti -1c
+.RI "#define \fBINT32_MAX\fP   (2147483647)"
+.br
+.ti -1c
+.RI "#define \fBUINT8_MAX\fP   (255\fBU\fP)"
+.br
+.ti -1c
+.RI "#define \fBUINT16_MAX\fP   (65535\fBU\fP)"
+.br
+.ti -1c
+.RI "#define \fBUINT32_MAX\fP   (4294967295\fBU\fP)"
+.br
+.ti -1c
+.RI "#define \fBSIZE_MAX\fP   (~(size_t)0)"
+.br
+.ti -1c
+.RI "#define \fByyconst\fP   \fBconst\fP"
+.br
+.ti -1c
+.RI "#define \fByynoreturn\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_NULL\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYY_SC_TO_UI\fP(\fBc\fP)   ((\fBYY_CHAR\fP) (\fBc\fP))"
+.br
+.ti -1c
+.RI "#define \fBBEGIN\fP   (yy_start) = 1 + 2 *"
+.br
+.ti -1c
+.RI "#define \fBYY_START\fP   (((yy_start) \- 1) / 2)"
+.br
+.ti -1c
+.RI "#define \fBYYSTATE\fP   \fBYY_START\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_STATE_EOF\fP(state)   (\fBYY_END_OF_BUFFER\fP + state + 1)"
+.br
+.ti -1c
+.RI "#define \fBYY_NEW_FILE\fP   \fByyrestart\fP( \fByyin\fP  )"
+.br
+.ti -1c
+.RI "#define \fBYY_END_OF_BUFFER_CHAR\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYY_BUF_SIZE\fP   16384"
+.br
+.ti -1c
+.RI "#define \fBYY_STATE_BUF_SIZE\fP   ((\fBYY_BUF_SIZE\fP + 2) * sizeof(\fByy_state_type\fP))"
+.br
+.ti -1c
+.RI "#define \fBYY_TYPEDEF_YY_BUFFER_STATE\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_TYPEDEF_YY_SIZE_T\fP"
+.br
+.ti -1c
+.RI "#define \fBEOB_ACT_CONTINUE_SCAN\fP   0"
+.br
+.ti -1c
+.RI "#define \fBEOB_ACT_END_OF_FILE\fP   1"
+.br
+.ti -1c
+.RI "#define \fBEOB_ACT_LAST_MATCH\fP   2"
+.br
+.ti -1c
+.RI "#define \fBYY_LESS_LINENO\fP(\fBn\fP)"
+.br
+.ti -1c
+.RI "#define \fBYY_LINENO_REWIND_TO\fP(ptr)"
+.br
+.ti -1c
+.RI "#define \fByyless\fP(\fBn\fP)"
+.br
+.ti -1c
+.RI "#define \fBunput\fP(\fBc\fP)   yyunput( \fBc\fP, (\fByytext_ptr\fP)  )"
+.br
+.ti -1c
+.RI "#define \fBYY_STRUCT_YY_BUFFER_STATE\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_BUFFER_NEW\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYY_BUFFER_NORMAL\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYY_BUFFER_EOF_PENDING\fP   2"
+.br
+.ti -1c
+.RI "#define \fBYY_CURRENT_BUFFER\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_CURRENT_BUFFER_LVALUE\fP   (yy_buffer_stack)[(yy_buffer_stack_top)]"
+.br
+.ti -1c
+.RI "#define \fBYY_FLUSH_BUFFER\fP   \fByy_flush_buffer\fP( \fBYY_CURRENT_BUFFER\fP )"
+.br
+.ti -1c
+.RI "#define \fByy_new_buffer\fP   \fByy_create_buffer\fP"
+.br
+.ti -1c
+.RI "#define \fByy_set_interactive\fP(\fBis_interactive\fP)"
+.br
+.ti -1c
+.RI "#define \fByy_set_bol\fP(at_bol)"
+.br
+.ti -1c
+.RI "#define \fBYY_AT_BOL\fP()   (\fBYY_CURRENT_BUFFER_LVALUE\fP\->yy_at_bol)"
+.br
+.ti -1c
+.RI "#define \fByytext_ptr\fP   \fByytext\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_DO_BEFORE_ACTION\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_NUM_RULES\fP   32"
+.br
+.ti -1c
+.RI "#define \fBYY_END_OF_BUFFER\fP   33"
+.br
+.ti -1c
+.RI "#define \fBREJECT\fP   reject_used_but_not_detected"
+.br
+.ti -1c
+.RI "#define \fByymore\fP()   yymore_used_but_not_detected"
+.br
+.ti -1c
+.RI "#define \fBYY_MORE_ADJ\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYY_RESTORE_YY_MORE_OFFSET\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_NO_INPUT\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYY_INPUT\fP(buf,  result,  max_size)"
+.br
+.ti -1c
+.RI "#define \fByylval\fP   \fBzzlval\fP"
+.br
+.ti -1c
+.RI "#define \fBINITIAL\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYY_EXTRA_TYPE\fP   void *"
+.br
+.ti -1c
+.RI "#define \fBYY_READ_BUF_SIZE\fP   8192"
+.br
+.ti -1c
+.RI "#define \fBECHO\fP   do { \fBif\fP (fwrite( \fByytext\fP, (size_t) \fByyleng\fP, 1, \fByyout\fP )) {} } while (0)"
+.br
+.ti -1c
+.RI "#define \fByyterminate\fP()   return \fBYY_NULL\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_START_STACK_INCR\fP   25"
+.br
+.ti -1c
+.RI "#define \fBYY_FATAL_ERROR\fP(msg)   yy_fatal_error( msg )"
+.br
+.ti -1c
+.RI "#define \fBYY_DECL_IS_OURS\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYY_DECL\fP   int \fByylex\fP (void)"
+.br
+.ti -1c
+.RI "#define \fBYY_USER_ACTION\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_BREAK\fP   /*LINTED*/break;"
+.br
+.ti -1c
+.RI "#define \fBYY_RULE_SETUP\fP   \fBYY_USER_ACTION\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_EXIT_FAILURE\fP   2"
+.br
+.ti -1c
+.RI "#define \fByyless\fP(\fBn\fP)"
+.br
+.ti -1c
+.RI "#define \fBYYTABLES_NAME\fP   'yytables'"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef signed char \fBflex_int8_t\fP"
+.br
+.ti -1c
+.RI "typedef short int \fBflex_int16_t\fP"
+.br
+.ti -1c
+.RI "typedef int \fBflex_int32_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned char \fBflex_uint8_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned short int \fBflex_uint16_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBflex_uint32_t\fP"
+.br
+.ti -1c
+.RI "typedef struct \fByy_buffer_state\fP * \fBYY_BUFFER_STATE\fP"
+.br
+.ti -1c
+.RI "typedef size_t \fByy_size_t\fP"
+.br
+.ti -1c
+.RI "typedef \fBflex_uint8_t\fP \fBYY_CHAR\fP"
+.br
+.ti -1c
+.RI "typedef int \fByy_state_type\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fByyrestart\fP (FILE *input_file)"
+.br
+.ti -1c
+.RI "void \fByy_switch_to_buffer\fP (\fBYY_BUFFER_STATE\fP new_buffer)"
+.br
+.ti -1c
+.RI "\fBYY_BUFFER_STATE\fP \fByy_create_buffer\fP (FILE *file, int \fBsize\fP)"
+.br
+.ti -1c
+.RI "void \fByy_delete_buffer\fP (\fBYY_BUFFER_STATE\fP \fBb\fP)"
+.br
+.ti -1c
+.RI "void \fByy_flush_buffer\fP (\fBYY_BUFFER_STATE\fP \fBb\fP)"
+.br
+.ti -1c
+.RI "void \fByypush_buffer_state\fP (\fBYY_BUFFER_STATE\fP new_buffer)"
+.br
+.ti -1c
+.RI "\fBYY_BUFFER_STATE\fP \fByy_scan_buffer\fP (char *base, \fByy_size_t\fP \fBsize\fP)"
+.br
+.ti -1c
+.RI "\fBYY_BUFFER_STATE\fP \fByy_scan_string\fP (\fBconst\fP char *yy_str)"
+.br
+.ti -1c
+.RI "\fBYY_BUFFER_STATE\fP \fByy_scan_bytes\fP (\fBconst\fP char *bytes, int len)"
+.br
+.ti -1c
+.RI "void * \fByyalloc\fP (\fByy_size_t\fP)"
+.br
+.ti -1c
+.RI "void * \fByyrealloc\fP (void *, \fByy_size_t\fP)"
+.br
+.ti -1c
+.RI "void \fByyfree\fP (void *)"
+.br
+.ti -1c
+.RI "void \fByyset_debug\fP (int debug_flag)"
+.br
+.ti -1c
+.RI "void \fByyset_extra\fP (\fBYY_EXTRA_TYPE\fP user_defined)"
+.br
+.ti -1c
+.RI "void \fByyset_in\fP (FILE *_in_str)"
+.br
+.ti -1c
+.RI "void \fByyset_out\fP (FILE *_out_str)"
+.br
+.ti -1c
+.RI "void \fByyset_lineno\fP (int _line_number)"
+.br
+.ti -1c
+.RI "\fBif\fP (!(yy_init))"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "int \fByyleng\fP"
+.br
+.ti -1c
+.RI "FILE * \fByyin\fP = \fBNULL\fP"
+.br
+.ti -1c
+.RI "FILE * \fByyout\fP = \fBNULL\fP"
+.br
+.ti -1c
+.RI "int \fByylineno\fP = 1"
+.br
+.ti -1c
+.RI "char * \fByytext\fP"
+.br
+.ti -1c
+.RI "int \fByy_flex_debug\fP = 0"
+.br
+.ti -1c
+.RI "\fBYY_DECL\fP"
+.br
+.ti -1c
+.RI "char * \fByy_cp\fP"
+.br
+.ti -1c
+.RI "char * \fByy_bp\fP"
+.br
+.ti -1c
+.RI "int \fByy_act\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BEGIN   (yy_start) = 1 + 2 *"
+
+.SS "#define ECHO   do { \fBif\fP (fwrite( \fByytext\fP, (size_t) \fByyleng\fP, 1, \fByyout\fP )) {} } while (0)"
+
+.SS "#define EOB_ACT_CONTINUE_SCAN   0"
+
+.SS "#define EOB_ACT_END_OF_FILE   1"
+
+.SS "#define EOB_ACT_LAST_MATCH   2"
+
+.SS "#define FLEX_BETA"
+
+.SS "#define FLEX_SCANNER"
+
+.SS "#define FLEXINT_H"
+
+.SS "#define INITIAL   0"
+
+.SS "#define INT16_MAX   (32767)"
+
+.SS "#define INT16_MIN   (\-32767\-1)"
+
+.SS "#define INT32_MAX   (2147483647)"
+
+.SS "#define INT32_MIN   (\-2147483647\-1)"
+
+.SS "#define INT8_MAX   (127)"
+
+.SS "#define INT8_MIN   (\-128)"
+
+.SS "#define REJECT   reject_used_but_not_detected"
+
+.SS "#define SIZE_MAX   (~(size_t)0)"
+
+.SS "#define UINT16_MAX   (65535\fBU\fP)"
+
+.SS "#define UINT32_MAX   (4294967295\fBU\fP)"
+
+.SS "#define UINT8_MAX   (255\fBU\fP)"
+
+.SS "#define unput(\fBc\fP)   yyunput( \fBc\fP, (\fByytext_ptr\fP)  )"
+
+.SS "#define YY_AT_BOL()   (\fBYY_CURRENT_BUFFER_LVALUE\fP\->yy_at_bol)"
+
+.SS "#define YY_BREAK   /*LINTED*/break;"
+
+.SS "#define YY_BUF_SIZE   16384"
+
+.SS "#define YY_BUFFER_EOF_PENDING   2"
+
+.SS "#define YY_BUFFER_NEW   0"
+
+.SS "#define YY_BUFFER_NORMAL   1"
+
+.SS "#define yy_create_buffer   zz_create_buffer"
+
+.SS "#define YY_CURRENT_BUFFER"
+\fBValue:\fP
+.PP
+.nf
+                          ( (yy_buffer_stack) \
+                          ? (yy_buffer_stack)[(yy_buffer_stack_top)] \
+                          : NULL)
+.fi
+.SS "#define YY_CURRENT_BUFFER_LVALUE   (yy_buffer_stack)[(yy_buffer_stack_top)]"
+
+.SS "#define YY_DECL   int \fByylex\fP (void)"
+
+.SS "#define YY_DECL_IS_OURS   1"
+
+.SS "#define yy_delete_buffer   zz_delete_buffer"
+
+.SS "#define YY_DO_BEFORE_ACTION"
+\fBValue:\fP
+.PP
+.nf
+  (yytext_ptr) = yy_bp; \
+    yyleng = (int) (yy_cp - yy_bp); \
+    (yy_hold_char) = *yy_cp; \
+    *yy_cp = '\0'; \
+    (yy_c_buf_p) = yy_cp;
+.fi
+.SS "#define YY_END_OF_BUFFER   33"
+
+.SS "#define YY_END_OF_BUFFER_CHAR   0"
+
+.SS "#define YY_EXIT_FAILURE   2"
+
+.SS "#define YY_EXTRA_TYPE   void *"
+
+.SS "#define YY_FATAL_ERROR(msg)   yy_fatal_error( msg )"
+
+.SS "int yy_flex_debug   zz_flex_debug"
+
+.SS "#define YY_FLEX_MAJOR_VERSION   2"
+
+.SS "#define YY_FLEX_MINOR_VERSION   6"
+
+.SS "#define YY_FLEX_SUBMINOR_VERSION   4"
+
+.SS "#define yy_flush_buffer   zz_flush_buffer"
+
+.SS "#define YY_FLUSH_BUFFER   \fByy_flush_buffer\fP( \fBYY_CURRENT_BUFFER\fP )"
+
+.SS "#define yy_init_buffer   zz_init_buffer"
+
+.SS "#define YY_INPUT(buf, result, max_size)"
+\fBValue:\fP
+.PP
+.nf
+    { \
+        int c = iegenlib::parser::string_get_next_char(); \
+        result = (c == EOF) ? YY_NULL : (buf[0] = c, 1); \
+    }
+.fi
+.SS "#define YY_INT_ALIGNED   short int"
+
+.SS "#define YY_LESS_LINENO(\fBn\fP)"
+
+.SS "#define YY_LINENO_REWIND_TO(ptr)"
+
+.SS "static void yy_load_buffer_state   zz_load_buffer_state"
+
+.SS "#define YY_MORE_ADJ   0"
+
+.SS "#define yy_new_buffer   \fByy_create_buffer\fP"
+
+.SS "#define YY_NEW_FILE   \fByyrestart\fP( \fByyin\fP  )"
+
+.SS "#define YY_NO_INPUT   1"
+
+.SS "#define YY_NULL   0"
+
+.SS "#define YY_NUM_RULES   32"
+
+.SS "#define YY_READ_BUF_SIZE   8192"
+
+.SS "#define YY_RESTORE_YY_MORE_OFFSET"
+
+.SS "#define YY_RULE_SETUP   \fBYY_USER_ACTION\fP"
+
+.SS "#define YY_SC_TO_UI(\fBc\fP)   ((\fBYY_CHAR\fP) (\fBc\fP))"
+
+.SS "#define yy_scan_buffer   zz_scan_buffer"
+
+.SS "#define yy_scan_bytes   zz_scan_bytes"
+
+.SS "#define yy_scan_string   zz_scan_string"
+
+.SS "#define yy_set_bol(at_bol)"
+\fBValue:\fP
+.PP
+.nf
+   { \
+    if ( ! YY_CURRENT_BUFFER ){\
+        yyensure_buffer_stack (); \
+        YY_CURRENT_BUFFER_LVALUE =    \
+            yy_create_buffer( yyin, YY_BUF_SIZE ); \
+    } \
+    YY_CURRENT_BUFFER_LVALUE->yy_at_bol = at_bol; \
+    }
+.fi
+.SS "#define yy_set_interactive(\fBis_interactive\fP)"
+\fBValue:\fP
+.PP
+.nf
+  { \
+    if ( ! YY_CURRENT_BUFFER ){ \
+        yyensure_buffer_stack (); \
+        YY_CURRENT_BUFFER_LVALUE =    \
+            yy_create_buffer( yyin, YY_BUF_SIZE ); \
+    } \
+    YY_CURRENT_BUFFER_LVALUE->yy_is_interactive = is_interactive; \
+    }
+.fi
+.SS "#define YY_START   (((yy_start) \- 1) / 2)"
+
+.SS "#define YY_START_STACK_INCR   25"
+
+.SS "#define YY_STATE_BUF_SIZE   ((\fBYY_BUF_SIZE\fP + 2) * sizeof(\fByy_state_type\fP))"
+
+.SS "#define YY_STATE_EOF(state)   (\fBYY_END_OF_BUFFER\fP + state + 1)"
+
+.SS "#define YY_STRUCT_YY_BUFFER_STATE"
+
+.SS "#define yy_switch_to_buffer   zz_switch_to_buffer"
+
+.SS "#define YY_TYPEDEF_YY_BUFFER_STATE"
+
+.SS "#define YY_TYPEDEF_YY_SIZE_T"
+
+.SS "#define YY_USER_ACTION"
+
+.SS "#define \fByyalloc\fP   zzalloc"
+
+.SS "#define yyconst   \fBconst\fP"
+
+.SS "static void yyensure_buffer_stack   zzensure_buffer_stack"
+
+.SS "#define yyfree   zzfree"
+
+.SS "int yyget_debug   zzget_debug"
+
+.SS "\fBYY_EXTRA_TYPE\fP yyget_extra   zzget_extra"
+
+.SS "FILE * yyget_in   zzget_in"
+
+.SS "int yyget_leng   zzget_leng"
+
+.SS "int yyget_lineno   zzget_lineno"
+
+.SS "FILE * yyget_out   zzget_out"
+
+.SS "char * yyget_text   zzget_text"
+
+.SS "FILE * yyin   zzin"
+
+.SS "int yyleng   zzleng"
+
+.SS "#define yyless(\fBn\fP)"
+\fBValue:\fP
+.PP
+.nf
+ do \
+        { \
+        /* Undo effects of setting up yytext\&. */ \
+        int yyless_macro_arg = (n); \
+        YY_LESS_LINENO(yyless_macro_arg);\
+        *yy_cp = (yy_hold_char); \
+        YY_RESTORE_YY_MORE_OFFSET \
+        (yy_c_buf_p) = yy_cp = yy_bp + yyless_macro_arg - YY_MORE_ADJ; \
+        YY_DO_BEFORE_ACTION; /* set up yytext again */ \
+        } \
+    while ( 0 )
+.fi
+.SS "#define yyless(\fBn\fP)"
+\fBValue:\fP
+.PP
+.nf
+   do \
+        { \
+        /* Undo effects of setting up yytext\&. */ \
+        int yyless_macro_arg = (n); \
+        YY_LESS_LINENO(yyless_macro_arg);\
+        yytext[yyleng] = (yy_hold_char); \
+        (yy_c_buf_p) = yytext + yyless_macro_arg; \
+        (yy_hold_char) = *(yy_c_buf_p); \
+        *(yy_c_buf_p) = '\0'; \
+        yyleng = yyless_macro_arg; \
+        } \
+    while ( 0 )
+.fi
+.SS "#define yylex   zzlex"
+
+.SS "int yylex_destroy   zzlex_destroy"
+
+.SS "#define yylex_init   zzlex_init"
+
+.SS "#define yylex_init_extra   zzlex_init_extra"
+
+.SS "#define yylineno   \fBzzlineno\fP"
+
+.SS "#define yylval   \fBzzlval\fP"
+
+.SS "#define yymore()   yymore_used_but_not_detected"
+
+.SS "#define yynoreturn"
+
+.SS "FILE * yyout   zzout"
+
+.SS "void yypop_buffer_state   zzpop_buffer_state"
+
+.SS "#define yypush_buffer_state   zzpush_buffer_state"
+
+.SS "#define yyrealloc   zzrealloc"
+
+.SS "#define yyrestart   zzrestart"
+
+.SS "#define yyset_debug   zzset_debug"
+
+.SS "#define yyset_extra   zzset_extra"
+
+.SS "#define yyset_in   zzset_in"
+
+.SS "#define yyset_lineno   zzset_lineno"
+
+.SS "#define yyset_out   zzset_out"
+
+.SS "#define YYSTATE   \fBYY_START\fP"
+
+.SS "#define YYTABLES_NAME   'yytables'"
+
+.SS "#define yyterminate()   return \fBYY_NULL\fP"
+
+.SS "#define yytext   \fBzztext\fP"
+
+.SS "#define yytext_ptr   \fByytext\fP"
+
+.SS "int yywrap   zzwrap"
+
+.SS "#define zz_create_buffer_ALREADY_DEFINED"
+
+.SS "#define zz_delete_buffer_ALREADY_DEFINED"
+
+.SS "#define zz_flex_debug_ALREADY_DEFINED"
+
+.SS "#define zz_flush_buffer_ALREADY_DEFINED"
+
+.SS "#define zz_init_buffer_ALREADY_DEFINED"
+
+.SS "#define zz_load_buffer_state_ALREADY_DEFINED"
+
+.SS "#define zz_scan_buffer_ALREADY_DEFINED"
+
+.SS "#define zz_scan_bytes_ALREADY_DEFINED"
+
+.SS "#define zz_scan_string_ALREADY_DEFINED"
+
+.SS "#define zz_switch_to_buffer_ALREADY_DEFINED"
+
+.SS "#define zzalloc_ALREADY_DEFINED"
+
+.SS "#define zzensure_buffer_stack_ALREADY_DEFINED"
+
+.SS "#define zzfree_ALREADY_DEFINED"
+
+.SS "#define zzin_ALREADY_DEFINED"
+
+.SS "#define zzleng_ALREADY_DEFINED"
+
+.SS "#define zzlex_ALREADY_DEFINED"
+
+.SS "#define zzlineno_ALREADY_DEFINED"
+
+.SS "#define zzout_ALREADY_DEFINED"
+
+.SS "#define zzpop_buffer_state_ALREADY_DEFINED"
+
+.SS "#define zzpush_buffer_state_ALREADY_DEFINED"
+
+.SS "#define zzrealloc_ALREADY_DEFINED"
+
+.SS "#define zzrestart_ALREADY_DEFINED"
+
+.SS "#define zztext_ALREADY_DEFINED"
+
+.SS "#define zzwrap_ALREADY_DEFINED"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef short int \fBflex_int16_t\fP"
+
+.SS "typedef int \fBflex_int32_t\fP"
+
+.SS "typedef signed char \fBflex_int8_t\fP"
+
+.SS "typedef unsigned short int \fBflex_uint16_t\fP"
+
+.SS "typedef unsigned int \fBflex_uint32_t\fP"
+
+.SS "typedef unsigned char \fBflex_uint8_t\fP"
+
+.SS "typedef struct \fByy_buffer_state\fP* \fBYY_BUFFER_STATE\fP"
+
+.SS "typedef \fBflex_uint8_t\fP \fBYY_CHAR\fP"
+
+.SS "typedef size_t \fByy_size_t\fP"
+
+.SS "typedef int \fByy_state_type\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "if (!yy_init)"
+
+.SS "\fBYY_BUFFER_STATE\fP yy_create_buffer (FILE * file, int size)"
+
+.SS "void yy_delete_buffer (\fBYY_BUFFER_STATE\fP b)"
+
+.SS "void yy_flush_buffer (\fBYY_BUFFER_STATE\fP b)"
+
+.SS "\fBYY_BUFFER_STATE\fP yy_scan_buffer (char * base, \fByy_size_t\fP size)"
+
+.SS "\fBYY_BUFFER_STATE\fP yy_scan_bytes (\fBconst\fP char * bytes, int len)"
+
+.SS "\fBYY_BUFFER_STATE\fP yy_scan_string (\fBconst\fP char * yy_str)"
+
+.SS "void yy_switch_to_buffer (\fBYY_BUFFER_STATE\fP new_buffer)"
+
+.SS "void* \fByyalloc\fP (\fByy_size_t\fP)"
+
+.SS "void yyfree (void *)"
+
+.SS "void yypush_buffer_state (\fBYY_BUFFER_STATE\fP new_buffer)"
+
+.SS "void* yyrealloc (void *, \fByy_size_t\fP)"
+
+.SS "void yyrestart (FILE * input_file)"
+
+.SS "void yyset_debug (int debug_flag)"
+
+.SS "void yyset_extra (\fBYY_EXTRA_TYPE\fP user_defined)"
+
+.SS "void yyset_in (FILE * _in_str)"
+
+.SS "void yyset_lineno (int _line_number)"
+
+.SS "void yyset_out (FILE * _out_str)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "int yy_act"
+
+.SS "char * yy_bp"
+
+.SS "char* yy_cp"
+
+.SS "YY_DECL"
+\fBInitial value:\fP
+.PP
+.nf
+{
+    yy_state_type yy_current_state
+.fi
+The main scanner function which does all the work\&. 
+.SS "int yy_flex_debug = 0"
+
+.SS "FILE* yyin = \fBNULL\fP"
+
+.SS "int yyleng"
+
+.SS "int yylineno = 1"
+
+.SS "FILE * yyout = \fBNULL\fP"
+
+.SS "char* yytext"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

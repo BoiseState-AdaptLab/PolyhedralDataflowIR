@@ -1,0 +1,185 @@
+.TH "iegenlib::TupleDecl" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::TupleDecl \- Info about a vector of sequence elements, each of which is a constant or a variable\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <TupleDecl\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTupleDecl\fP ()"
+.br
+.ti -1c
+.RI "\fBTupleDecl\fP (int \fBsize\fP)"
+.br
+.ti -1c
+.RI "\fB~TupleDecl\fP ()"
+.br
+.ti -1c
+.RI "unsigned int \fBsize\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBTupleDecl\fP (\fBconst\fP \fBTupleDecl\fP &other)"
+.br
+.RI "Copy constructor\&. "
+.ti -1c
+.RI "\fBTupleDecl\fP & \fBoperator=\fP (\fBconst\fP \fBTupleDecl\fP &other)"
+.br
+.RI "Assignment operator\&. "
+.ti -1c
+.RI "bool \fBoperator<\fP (\fBconst\fP \fBTupleDecl\fP &other) \fBconst\fP"
+.br
+.RI "Less than operator\&. "
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBTupleDecl\fP &other) \fBconst\fP"
+.br
+.RI "Equality operator\&. "
+.ti -1c
+.RI "\fBTupleDecl\fP & \fBconcat\fP (\fBconst\fP \fBTupleDecl\fP &other)"
+.br
+.ti -1c
+.RI "\fBTupleDecl\fP * \fBclone\fP () \fBconst\fP"
+.br
+.RI "returns a clone of 'this' "
+.ti -1c
+.RI "std::string \fBtoString\fP (bool withBrackets=false, unsigned int aritySplit=0) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBsetTupleElem\fP (unsigned int elem_loc, int const_val)"
+.br
+.ti -1c
+.RI "void \fBsetTupleElem\fP (unsigned int elem_loc, std::string var_string)"
+.br
+.ti -1c
+.RI "void \fBcopyTupleElem\fP (\fBconst\fP \fBTupleDecl\fP &other, unsigned int elem_loc_from, unsigned int elem_loc_to)"
+.br
+.ti -1c
+.RI "std::string \fBelemToString\fP (unsigned int elem_loc) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBelemIsConst\fP (unsigned int elem_loc) \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBelemConstVal\fP (unsigned int elem_loc) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBelemVarString\fP (unsigned int elem_loc) \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBgetSize\fP ()"
+.br
+.ti -1c
+.RI "\fBTerm\fP * \fBelemCreateTerm\fP (unsigned int view_elem_loc, unsigned int use_elem_loc) \fBconst\fP"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::string \fBsDefaultTupleVarName\fP (unsigned int \fBloc\fP)"
+.br
+.ti -1c
+.RI "static \fBTupleDecl\fP \fBsDefaultTupleDecl\fP (unsigned int arity)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Info about a vector of sequence elements, each of which is a constant or a variable\&. 
+
+This class should ONLY be used internally by \fBSet\fP, \fBRelation\fP, \fBConjunction\fP\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::TupleDecl::TupleDecl ()\fC [inline]\fP"
+
+.SS "iegenlib::TupleDecl::TupleDecl (int size)"
+
+.SS "iegenlib::TupleDecl::~TupleDecl ()\fC [inline]\fP"
+
+.SS "iegenlib::TupleDecl::TupleDecl (\fBconst\fP \fBTupleDecl\fP & other)"
+
+.PP
+Copy constructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBTupleDecl\fP * iegenlib::TupleDecl::clone () const"
+
+.PP
+returns a clone of 'this' 
+.SS "\fBTupleDecl\fP & iegenlib::TupleDecl::concat (\fBconst\fP \fBTupleDecl\fP & other)"
+Concatenate the other tuple declarations to this set of tuple declarations and return reference to self\&.
+.PP
+Concatenate the input tuple declarations and return the result\&. Unless the second tuple has the default tuple variable names the tuple variable names will be copied verbatim so conflicts are possible\&. If append [a,b] with [a] then get [a,b,a]\&. __tv0=__tv2\&. Make sure you know what you are doing\&. 
+.SS "void iegenlib::TupleDecl::copyTupleElem (\fBconst\fP \fBTupleDecl\fP & other, unsigned int elem_loc_from, unsigned int elem_loc_to)"
+Copy the tuple element declaration elem_loc_from from other to this elem_loc_to location\&. 
+.SS "int iegenlib::TupleDecl::elemConstVal (unsigned int elem_loc) const"
+
+.SS "\fBTerm\fP * iegenlib::TupleDecl::elemCreateTerm (unsigned int view_elem_loc, unsigned int use_elem_loc) const"
+Returns an appropriate term for this tuple element\&. If the view location is a constant then will use that constant\&. Otherwise makes a tuple variable for the use_elem_loc\&. Caller is responsible for deleting the resulting \fBTerm\fP\&. 
+.SS "bool iegenlib::TupleDecl::elemIsConst (unsigned int elem_loc) const"
+
+.SS "std::string iegenlib::TupleDecl::elemToString (unsigned int elem_loc) const"
+
+.SS "std::string iegenlib::TupleDecl::elemVarString (unsigned int elem_loc) const"
+
+.SS "unsigned int iegenlib::TupleDecl::getSize ()\fC [inline]\fP"
+
+.SS "bool iegenlib::TupleDecl::operator< (\fBconst\fP \fBTupleDecl\fP & other) const"
+
+.PP
+Less than operator\&. Less than operator\&. Compare two \fBTupleDecl\fP in the following order:
+.IP "1." 4
+by size: the number of elements
+.IP "2." 4
+by constant values
+.IP "  \(bu" 4
+When comparing constants to variables, let variables have a value of -inf\&. This operator assumes that the vector of constants/variables (mConstVal) is sorted\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.PP
+
+.PP
+
+.SS "\fBTupleDecl\fP & iegenlib::TupleDecl::operator= (\fBconst\fP \fBTupleDecl\fP & other)"
+
+.PP
+Assignment operator\&. 
+.SS "bool iegenlib::TupleDecl::operator== (\fBconst\fP \fBTupleDecl\fP & other) const"
+
+.PP
+Equality operator\&. Equality operator\&. Compare two \fBTupleDecl\fP for equality\&. This operator assumes operator<(TupleDecl) is well defined\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.SS "\fBTupleDecl\fP iegenlib::TupleDecl::sDefaultTupleDecl (unsigned int arity)\fC [static]\fP"
+If a tuple declaration has not been provided then this is the default tuple declaration\&. 
+.SS "std::string iegenlib::TupleDecl::sDefaultTupleVarName (unsigned int loc)\fC [static]\fP"
+Returns the default name for a tuple variable at a particular location\&. 
+.SS "void iegenlib::TupleDecl::setTupleElem (unsigned int elem_loc, int const_val)"
+
+.SS "void iegenlib::TupleDecl::setTupleElem (unsigned int elem_loc, std::string var_string)"
+
+.SS "unsigned int iegenlib::TupleDecl::size () const"
+
+.SS "std::string iegenlib::TupleDecl::toString (bool withBrackets = \fCfalse\fP, unsigned int aritySplit = \fC0\fP) const"
+Creates comma separated list of tuple declaration\&. WithBrackets indicates whether to include brackets or not\&. Arity split is to indicate when we have a relation and what the input arity is for that relation\&. Use zero arity for a set\&. 
+.br
+ 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

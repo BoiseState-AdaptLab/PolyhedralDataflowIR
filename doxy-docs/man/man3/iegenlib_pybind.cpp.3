@@ -1,0 +1,190 @@
+.TH "scripts/iegenlib/iegenlib_pybind.cpp" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+scripts/iegenlib/iegenlib_pybind.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <iostream>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <iegenlib\&.h>\fP
+.br
+\fC#include <pybind11/pybind11\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBSET_RELATION_DOT_FILE_NAME\fP   'set_relation\&.dot'"
+.br
+.ti -1c
+.RI "#define \fBAST_DOT_FILE_NAME\fP   'ast\&.dot'"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBlowercase\fP (\fBconst\fP std::string &\fBstr\fP)"
+.br
+.ti -1c
+.RI "bool \fBcontains\fP (std::string s, std::string substring, bool caseSensitive=false)"
+.br
+.ti -1c
+.RI "bool \fBisRelation\fP (std::string input)"
+.br
+.ti -1c
+.RI "\fBRelation\fP * \fBnewRelationOrNull\fP (std::string input)"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBnewSetOrNull\fP (std::string input)"
+.br
+.ti -1c
+.RI "std::string \fBhandleSet\fP (std::string \fBset_str\fP)"
+.br
+.ti -1c
+.RI "std::string \fBhandleRelation\fP (std::string relation_str)"
+.br
+.ti -1c
+.RI "std::string \fBhandleInverse\fP (std::string set_relation_str)"
+.br
+.ti -1c
+.RI "std::string \fBhandleCompose\fP (std::string set_relation_str)"
+.br
+.ti -1c
+.RI "std::string \fBhandleApply\fP (std::string set_relation_str)"
+.br
+.ti -1c
+.RI "std::string \fBhandleUnion\fP (std::string set_relation_str)"
+.br
+.ti -1c
+.RI "\fBPYBIND11_MODULE\fP (iegenlib, mod)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define AST_DOT_FILE_NAME   'ast\&.dot'"
+
+.SS "#define SET_RELATION_DOT_FILE_NAME   'set_relation\&.dot'"
+
+.SH "Function Documentation"
+.PP 
+.SS "bool contains (std::string s, std::string substring, bool caseSensitive = \fCfalse\fP)"
+contains
+.PP
+This is a small helper that reports whether one string contains a substring of interest\&. It is preferred over directly using the s\&.find() != string::npos idiom because (1) it is shorter, and (2) it more clearly expresses the intent to the human reader\&. Also, this method can now act in a case-insensitive manner, which find doesn't naturally do\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIs\fP -- string to search 
+.br
+\fIsubstring\fP -- substring to search for 
+.br
+\fIcaseSensitive\fP -- if true, do a case-sensitive search (defaults to false) 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if s contains substring, false otherwise 
+.RE
+.PP
+
+.SS "std::string handleApply (std::string set_relation_str)"
+handleApply
+.PP
+Handle the case of an Apply input\&. 
+.SS "std::string handleCompose (std::string set_relation_str)"
+handleCompose
+.PP
+Handle the case of a Compose input\&. 
+.SS "std::string handleInverse (std::string set_relation_str)"
+handleInverse
+.PP
+Handle the case of an Inverse input\&. 
+.SS "std::string handleRelation (std::string relation_str)"
+handleRelation
+.PP
+Handle the case of a relation input\&. 
+.SS "std::string handleSet (std::string set_str)"
+handleSet
+.PP
+Handle the case of a set input\&. 
+.SS "std::string handleUnion (std::string set_relation_str)"
+handleUnion
+.PP
+Handle the case of a Union input\&. 
+.SS "bool isRelation (std::string input)"
+isRelation
+.PP
+Determine whether the given input is a relation, by searching for the arrow token ('->'), which appears only in a relation (and never in a set)\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIinput\fP -- string to examine 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true iff input appears to be a relation 
+.RE
+.PP
+
+.SS "std::string lowercase (\fBconst\fP std::string & str)"
+lowercase
+.PP
+Converts the given string to lowercase\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIstr\fP -- string to convert 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+lowercase version of str 
+.RE
+.PP
+
+.SS "\fBRelation\fP* newRelationOrNull (std::string input)"
+newRelationOrNull
+.PP
+This factory function returns a new Relation object, if the input string appears to describe a relation; otherwise it returns NULL\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIinput\fP -- string to examine 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+new Relation constructed with input, or NULL 
+.RE
+.PP
+
+.SS "\fBSet\fP* newSetOrNull (std::string input)"
+newSetOrNull
+.PP
+This factory function returns a new Set object, if the input string appears to describe a Set; otherwise it returns NULL\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIinput\fP -- string to examine 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+new Set constructed with input, or NULL 
+.RE
+.PP
+
+.SS "PYBIND11_MODULE (iegenlib, mod)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

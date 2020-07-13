@@ -1,0 +1,112 @@
+.TH "lib/chill/omega/code_gen/include/code_gen/output_repr.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/code_gen/include/code_gen/output_repr.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <omega\&.h>\fP
+.br
+\fC#include <code_gen/CG_outputBuilder\&.h>\fP
+.br
+\fC#include <code_gen/CG_outputRepr\&.h>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <set>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "CG_outputRepr * \fBomega::outputIdent\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &\fBR\fP, Variable_ID v, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "std::pair< CG_outputRepr *, bool > \fBomega::outputAssignment\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &R_, Variable_ID v, Relation &enforced, CG_outputRepr *&if_repr, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "std::pair< CG_outputRepr *, bool > \fBomega::outputBounds\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &bounds, Variable_ID v, int indent, Relation &enforced, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "Tuple< CG_outputRepr * > \fBomega::outputSubstitution\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &\fBR\fP, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "CG_outputRepr * \fBomega::outputStatement\fP (CG_outputBuilder *ocg, CG_outputRepr *stmt, int indent, \fBconst\fP Relation &mapping, \fBconst\fP Relation &known, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "CG_outputRepr * \fBomega::outputGuard\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &guards_in, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_as_guard\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &guards_in, Constraint_Handle \fBe\fP, bool is_equality, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_EQ_strides\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &guards_in, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_GEQ_strides\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &guards_in, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "CG_outputRepr * \fBomega::outputLBasRepr\fP (CG_outputBuilder *ocg, \fBconst\fP GEQ_Handle &g, Relation &bounds, Variable_ID v, coef_t stride, \fBconst\fP EQ_Handle &strideEQ, Relation known, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "CG_outputRepr * \fBomega::outputUBasRepr\fP (CG_outputBuilder *ocg, \fBconst\fP GEQ_Handle &g, Relation &bounds, Variable_ID v, coef_t, \fBconst\fP EQ_Handle &, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly=std::vector< CG_outputRepr * >(last_level, static_cast< CG_outputRepr * >(\fBNULL\fP)))"
+.br
+.ti -1c
+.RI "CG_outputRepr * \fBomega::outputEasyBoundAsRepr\fP (CG_outputBuilder *ocg, Relation &bounds, \fBconst\fP Constraint_Handle &g, Variable_ID v, bool ignoreWC, int ceiling, \fBconst\fP std::vector< CG_outputRepr * > &assigned_on_the_fly)"
+.br
+.ti -1c
+.RI "bool \fBomega::boundHitsStride\fP (\fBconst\fP GEQ_Handle &g, Variable_ID v, \fBconst\fP EQ_Handle &strideEQ, coef_t, Relation known)"
+.br
+.ti -1c
+.RI "Relation \fBomega::greatest_common_step\fP (\fBconst\fP Tuple< Relation > &I, \fBconst\fP Tuple< int > &active, int level, \fBconst\fP Relation &known=Relation::Null())"
+.br
+.ti -1c
+.RI "bool \fBomega::findFloorInequality\fP (Relation &r, Variable_ID v, GEQ_Handle &h, Variable_ID excluded)"
+.br
+.ti -1c
+.RI "Relation \fBomega::project_onto_levels\fP (Relation \fBR\fP, int last_level, bool wildcards)"
+.br
+.ti -1c
+.RI "bool \fBomega::isSimpleStride\fP (\fBconst\fP EQ_Handle &g, Variable_ID v)"
+.br
+.ti -1c
+.RI "int \fBomega::countStrides\fP (Conjunct *\fBc\fP, Variable_ID v, EQ_Handle &strideEQ, bool &simple)"
+.br
+.ti -1c
+.RI "bool \fBomega::hasBound\fP (Relation r, int level, int UB)"
+.br
+.ti -1c
+.RI "bool \fBomega::find_any_constraint\fP (int s, int level, Relation &kr, int direction, Relation &\fBS\fP, bool approx)"
+.br
+.ti -1c
+.RI "bool \fBomega::has_nonstride_EQ\fP (Relation r, int level)"
+.br
+.ti -1c
+.RI "Relation \fBomega::pickOverhead\fP (Relation r, int liftTo)"
+.br
+.ti -1c
+.RI "Relation \fBomega::minMaxOverhead\fP (Relation r, int level)"
+.br
+.ti -1c
+.RI "int \fBomega::max_fs_arity\fP (\fBconst\fP Constraint_Handle &\fBc\fP)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "int \fBomega::last_level\fP"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

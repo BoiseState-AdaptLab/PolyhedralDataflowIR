@@ -1,0 +1,124 @@
+\hypertarget{basis__reduction__tab_8c}{}\doxysection{lib/isl/basis\+\_\+reduction\+\_\+tab.c File Reference}
+\label{basis__reduction__tab_8c}\index{lib/isl/basis\_reduction\_tab.c@{lib/isl/basis\_reduction\_tab.c}}
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+map\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+seq.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}isl\+\_\+tab.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$isl\+\_\+int.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+config.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}basis\+\_\+reduction\+\_\+templ.\+c\char`\"{}}\newline
+Include dependency graph for basis\+\_\+reduction\+\_\+tab.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{basis__reduction__tab_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structtab__lp}{tab\+\_\+lp}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_a64e4408c40e05fc243bceafb52fa636d}{G\+B\+R\+\_\+\+LP}}~struct \mbox{\hyperlink{structtab__lp}{tab\+\_\+lp}}
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_a570595ec96c4a4b590c0f3dc9e41959a}{G\+B\+R\+\_\+lp\+\_\+init}}(\mbox{\hyperlink{debug_8txt_a8656be798f8741aa9225c014def8ddf3}{P}})~init\+\_\+lp(\mbox{\hyperlink{debug_8txt_a8656be798f8741aa9225c014def8ddf3}{P}})
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_ace469632ec633aa0d6db62ae6d3d973e}{G\+B\+R\+\_\+lp\+\_\+set\+\_\+obj}}(lp,  obj,  \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})~set\+\_\+lp\+\_\+obj(lp, obj, \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_a2de957bd9d75568f84b452bd241ac3fa}{G\+B\+R\+\_\+lp\+\_\+solve}}(lp)~solve\+\_\+lp(lp)
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_a53b64c4f628f3eb0c9a50295cb8f4c0c}{G\+B\+R\+\_\+lp\+\_\+get\+\_\+obj\+\_\+val}}(lp,  F)~get\+\_\+obj\+\_\+val(lp, F)
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_ada80c7f87ab9323426d7df44028a4f33}{G\+B\+R\+\_\+lp\+\_\+delete}}(lp)~delete\+\_\+lp(lp)
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_ac212732d6f426c32c425d05dc9ebab6a}{G\+B\+R\+\_\+lp\+\_\+next\+\_\+row}}(lp)~lp-\/$>$\mbox{\hyperlink{_a_s_t_8hh_a6b2c7f50d10e7077f357f7026c8f1e12a7d013510664732bfa8d268d663656919}{neq}}
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_aacb8800f1f9a73e96784564dfb46e561}{G\+B\+R\+\_\+lp\+\_\+add\+\_\+row}}(lp,  \mbox{\hyperlink{notes_8txt_a4c9ea3f792b55922f9be50d64e7d04fe}{row}},  \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})~add\+\_\+lp\+\_\+row(lp, \mbox{\hyperlink{notes_8txt_a4c9ea3f792b55922f9be50d64e7d04fe}{row}}, \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_a6f2b8ff9d057ff31bcc389d39ac94ada}{G\+B\+R\+\_\+lp\+\_\+get\+\_\+alpha}}(lp,  \mbox{\hyperlink{notes_8txt_a4c9ea3f792b55922f9be50d64e7d04fe}{row}},  alpha)~get\+\_\+alpha(lp, \mbox{\hyperlink{notes_8txt_a4c9ea3f792b55922f9be50d64e7d04fe}{row}}, alpha)
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_a704f87a6a396d06103fec66af27a5664}{G\+B\+R\+\_\+lp\+\_\+del\+\_\+row}}(lp)~del\+\_\+lp\+\_\+row(lp)
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_a25704d05c3ecfe70b6fe4266fd16cfe9}{G\+B\+R\+\_\+lp\+\_\+is\+\_\+fixed}}(lp)~(lp)-\/$>$is\+\_\+fixed
+\item 
+\#define \mbox{\hyperlink{basis__reduction__tab_8c_a06b54352a03693fecf37a457e9e06770}{G\+B\+R\+\_\+lp\+\_\+cut}}(lp,  obj)~cut\+\_\+lp\+\_\+to\+\_\+hyperplane(lp, obj)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{basis__reduction__tab_8c_a64e4408c40e05fc243bceafb52fa636d}\label{basis__reduction__tab_8c_a64e4408c40e05fc243bceafb52fa636d}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_LP@{GBR\_LP}}
+\index{GBR\_LP@{GBR\_LP}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_LP}{GBR\_LP}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+\+LP~struct \mbox{\hyperlink{structtab__lp}{tab\+\_\+lp}}}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_aacb8800f1f9a73e96784564dfb46e561}\label{basis__reduction__tab_8c_aacb8800f1f9a73e96784564dfb46e561}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_add\_row@{GBR\_lp\_add\_row}}
+\index{GBR\_lp\_add\_row@{GBR\_lp\_add\_row}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_add\_row}{GBR\_lp\_add\_row}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+add\+\_\+row(\begin{DoxyParamCaption}\item[{}]{lp,  }\item[{}]{\mbox{\hyperlink{notes_8txt_a4c9ea3f792b55922f9be50d64e7d04fe}{row}},  }\item[{}]{\mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}} }\end{DoxyParamCaption})~add\+\_\+lp\+\_\+row(lp, \mbox{\hyperlink{notes_8txt_a4c9ea3f792b55922f9be50d64e7d04fe}{row}}, \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_a06b54352a03693fecf37a457e9e06770}\label{basis__reduction__tab_8c_a06b54352a03693fecf37a457e9e06770}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_cut@{GBR\_lp\_cut}}
+\index{GBR\_lp\_cut@{GBR\_lp\_cut}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_cut}{GBR\_lp\_cut}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+cut(\begin{DoxyParamCaption}\item[{}]{lp,  }\item[{}]{obj }\end{DoxyParamCaption})~cut\+\_\+lp\+\_\+to\+\_\+hyperplane(lp, obj)}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_a704f87a6a396d06103fec66af27a5664}\label{basis__reduction__tab_8c_a704f87a6a396d06103fec66af27a5664}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_del\_row@{GBR\_lp\_del\_row}}
+\index{GBR\_lp\_del\_row@{GBR\_lp\_del\_row}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_del\_row}{GBR\_lp\_del\_row}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+del\+\_\+row(\begin{DoxyParamCaption}\item[{}]{lp }\end{DoxyParamCaption})~del\+\_\+lp\+\_\+row(lp)}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_ada80c7f87ab9323426d7df44028a4f33}\label{basis__reduction__tab_8c_ada80c7f87ab9323426d7df44028a4f33}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_delete@{GBR\_lp\_delete}}
+\index{GBR\_lp\_delete@{GBR\_lp\_delete}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_delete}{GBR\_lp\_delete}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+delete(\begin{DoxyParamCaption}\item[{}]{lp }\end{DoxyParamCaption})~delete\+\_\+lp(lp)}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_a6f2b8ff9d057ff31bcc389d39ac94ada}\label{basis__reduction__tab_8c_a6f2b8ff9d057ff31bcc389d39ac94ada}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_get\_alpha@{GBR\_lp\_get\_alpha}}
+\index{GBR\_lp\_get\_alpha@{GBR\_lp\_get\_alpha}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_get\_alpha}{GBR\_lp\_get\_alpha}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+get\+\_\+alpha(\begin{DoxyParamCaption}\item[{}]{lp,  }\item[{}]{\mbox{\hyperlink{notes_8txt_a4c9ea3f792b55922f9be50d64e7d04fe}{row}},  }\item[{}]{alpha }\end{DoxyParamCaption})~get\+\_\+alpha(lp, \mbox{\hyperlink{notes_8txt_a4c9ea3f792b55922f9be50d64e7d04fe}{row}}, alpha)}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_a53b64c4f628f3eb0c9a50295cb8f4c0c}\label{basis__reduction__tab_8c_a53b64c4f628f3eb0c9a50295cb8f4c0c}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_get\_obj\_val@{GBR\_lp\_get\_obj\_val}}
+\index{GBR\_lp\_get\_obj\_val@{GBR\_lp\_get\_obj\_val}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_get\_obj\_val}{GBR\_lp\_get\_obj\_val}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+get\+\_\+obj\+\_\+val(\begin{DoxyParamCaption}\item[{}]{lp,  }\item[{}]{F }\end{DoxyParamCaption})~get\+\_\+obj\+\_\+val(lp, F)}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_a570595ec96c4a4b590c0f3dc9e41959a}\label{basis__reduction__tab_8c_a570595ec96c4a4b590c0f3dc9e41959a}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_init@{GBR\_lp\_init}}
+\index{GBR\_lp\_init@{GBR\_lp\_init}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_init}{GBR\_lp\_init}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+init(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{debug_8txt_a8656be798f8741aa9225c014def8ddf3}{P}} }\end{DoxyParamCaption})~init\+\_\+lp(\mbox{\hyperlink{debug_8txt_a8656be798f8741aa9225c014def8ddf3}{P}})}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_a25704d05c3ecfe70b6fe4266fd16cfe9}\label{basis__reduction__tab_8c_a25704d05c3ecfe70b6fe4266fd16cfe9}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_is\_fixed@{GBR\_lp\_is\_fixed}}
+\index{GBR\_lp\_is\_fixed@{GBR\_lp\_is\_fixed}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_is\_fixed}{GBR\_lp\_is\_fixed}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+is\+\_\+fixed(\begin{DoxyParamCaption}\item[{}]{lp }\end{DoxyParamCaption})~(lp)-\/$>$is\+\_\+fixed}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_ac212732d6f426c32c425d05dc9ebab6a}\label{basis__reduction__tab_8c_ac212732d6f426c32c425d05dc9ebab6a}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_next\_row@{GBR\_lp\_next\_row}}
+\index{GBR\_lp\_next\_row@{GBR\_lp\_next\_row}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_next\_row}{GBR\_lp\_next\_row}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+next\+\_\+row(\begin{DoxyParamCaption}\item[{}]{lp }\end{DoxyParamCaption})~lp-\/$>$\mbox{\hyperlink{_a_s_t_8hh_a6b2c7f50d10e7077f357f7026c8f1e12a7d013510664732bfa8d268d663656919}{neq}}}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_ace469632ec633aa0d6db62ae6d3d973e}\label{basis__reduction__tab_8c_ace469632ec633aa0d6db62ae6d3d973e}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_set\_obj@{GBR\_lp\_set\_obj}}
+\index{GBR\_lp\_set\_obj@{GBR\_lp\_set\_obj}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_set\_obj}{GBR\_lp\_set\_obj}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+set\+\_\+obj(\begin{DoxyParamCaption}\item[{}]{lp,  }\item[{}]{obj,  }\item[{}]{\mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}} }\end{DoxyParamCaption})~set\+\_\+lp\+\_\+obj(lp, obj, \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})}
+
+\mbox{\Hypertarget{basis__reduction__tab_8c_a2de957bd9d75568f84b452bd241ac3fa}\label{basis__reduction__tab_8c_a2de957bd9d75568f84b452bd241ac3fa}} 
+\index{basis\_reduction\_tab.c@{basis\_reduction\_tab.c}!GBR\_lp\_solve@{GBR\_lp\_solve}}
+\index{GBR\_lp\_solve@{GBR\_lp\_solve}!basis\_reduction\_tab.c@{basis\_reduction\_tab.c}}
+\doxysubsubsection{\texorpdfstring{GBR\_lp\_solve}{GBR\_lp\_solve}}
+{\footnotesize\ttfamily \#define G\+B\+R\+\_\+lp\+\_\+solve(\begin{DoxyParamCaption}\item[{}]{lp }\end{DoxyParamCaption})~solve\+\_\+lp(lp)}
+

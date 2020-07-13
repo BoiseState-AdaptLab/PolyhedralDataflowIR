@@ -1,0 +1,274 @@
+.TH "test/eDSLTest.cpp" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+test/eDSLTest.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cmath>\fP
+.br
+\fC#include <gtest/gtest\&.h>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <pdfg/Codegen\&.hpp>\fP
+.br
+\fC#include <pdfg/Digraph\&.hpp>\fP
+.br
+\fC#include <pdfg/GraphIL\&.hpp>\fP
+.br
+\fC#include <poly/PolyLib\&.hpp>\fP
+.br
+\fC#include <ConjGradTest\&.hpp>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  K)   ((\fBj\fP)+(\fBi\fP)*(K))"
+.br
+.ti -1c
+.RI "#define \fBA\fP(\fBi\fP,  \fBj\fP)   A[\fBoffset2\fP((\fBi\fP),(\fBj\fP),(\fBN\fP))]"
+.br
+.ti -1c
+.RI "#define \fBA_T\fP(\fBi\fP,  \fBj\fP)   \fBA\fP[\fBoffset2\fP((\fBj\fP),(\fBi\fP),(\fBN\fP))]"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, Dense)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, COO)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CSR)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, DSR)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, ELL)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, Lset)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CSC)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, TCOO)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, HiCOO)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CSF)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, DSR_SpMV)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, COO_MTTKRP)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CSF_MTTKRP)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, COO_CSR_Insp)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, COO_CSR_Insp_Opt)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, Jacobi2D)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, GaussSeidel)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, COO_CSR_Insp_Fuse)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, COO_ELL_Insp)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, COO_CSB_Insp)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, COO_DSR_Insp)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, COO_DIA_Insp)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CSR_ELL_Insp)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CSR_BSR_Insp)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, MFD_2D)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, MFD_3D)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, Blur)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, ConjGrad)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, ConjGradCOO)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, ConjGradCSR)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, ConjGradDSR)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, ConjGradCSB)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, ConjGradELL)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, ConjGradDIA)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, JacobiMethod)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CP_ALS)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CP_ALS_COO)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CP_ALS_ND)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, Transpose)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, SGeMM)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, SDDMM)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, Backprop)"
+.br
+.ti -1c
+.RI "\fBTEST\fP (eDSLTest, CSR_COO_Insp)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define A(\fBi\fP, \fBj\fP)   A[\fBoffset2\fP((\fBi\fP),(\fBj\fP),(\fBN\fP))]"
+
+.SS "#define A_T(\fBi\fP, \fBj\fP)   \fBA\fP[\fBoffset2\fP((\fBj\fP),(\fBi\fP),(\fBN\fP))]"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, K)   ((\fBj\fP)+(\fBi\fP)*(K))"
+
+.SH "Function Documentation"
+.PP 
+.SS "TEST (eDSLTest, Backprop)"
+
+.SS "TEST (eDSLTest, Blur)"
+
+.SS "TEST (eDSLTest, ConjGrad)"
+
+.SS "TEST (eDSLTest, ConjGradCOO)"
+
+.SS "TEST (eDSLTest, ConjGradCSB)"
+
+.SS "TEST (eDSLTest, ConjGradCSR)"
+
+.SS "TEST (eDSLTest, ConjGradDIA)"
+
+.SS "TEST (eDSLTest, ConjGradDSR)"
+
+.SS "TEST (eDSLTest, ConjGradELL)"
+
+.SS "TEST (eDSLTest, COO)"
+
+.SS "TEST (eDSLTest, COO_CSB_Insp)"
+
+.SS "TEST (eDSLTest, COO_CSR_Insp)"
+
+.SS "TEST (eDSLTest, COO_CSR_Insp_Fuse)"
+
+.SS "TEST (eDSLTest, COO_CSR_Insp_Opt)"
+
+.SS "TEST (eDSLTest, COO_DIA_Insp)"
+
+.SS "TEST (eDSLTest, COO_DSR_Insp)"
+
+.SS "TEST (eDSLTest, COO_ELL_Insp)"
+
+.SS "TEST (eDSLTest, COO_MTTKRP)"
+
+.SS "TEST (eDSLTest, CP_ALS)"
+
+.SS "TEST (eDSLTest, CP_ALS_COO)"
+
+.SS "TEST (eDSLTest, CP_ALS_ND)"
+
+.SS "TEST (eDSLTest, CSC)"
+
+.SS "TEST (eDSLTest, CSF)"
+
+.SS "TEST (eDSLTest, CSF_MTTKRP)"
+
+.SS "TEST (eDSLTest, CSR)"
+
+.SS "TEST (eDSLTest, CSR_BSR_Insp)"
+
+.SS "TEST (eDSLTest, CSR_COO_Insp)"
+
+.SS "TEST (eDSLTest, CSR_ELL_Insp)"
+
+.SS "TEST (eDSLTest, Dense)"
+
+.SS "TEST (eDSLTest, DSR)"
+
+.SS "TEST (eDSLTest, DSR_SpMV)"
+
+.SS "TEST (eDSLTest, ELL)"
+
+.SS "TEST (eDSLTest, GaussSeidel)"
+
+.SS "TEST (eDSLTest, HiCOO)"
+
+.SS "TEST (eDSLTest, Jacobi2D)"
+
+.SS "TEST (eDSLTest, JacobiMethod)"
+
+.SS "TEST (eDSLTest, Lset)"
+
+.SS "TEST (eDSLTest, MFD_2D)"
+
+.SS "TEST (eDSLTest, MFD_3D)"
+
+.SS "TEST (eDSLTest, SDDMM)"
+
+.SS "TEST (eDSLTest, SGeMM)"
+
+.SS "TEST (eDSLTest, TCOO)"
+
+.SS "TEST (eDSLTest, Transpose)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

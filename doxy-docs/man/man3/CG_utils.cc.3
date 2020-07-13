@@ -1,0 +1,103 @@
+.TH "lib/chill/omega/code_gen/src/CG_utils.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/code_gen/src/CG_utils.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <typeinfo>\fP
+.br
+\fC#include <omega\&.h>\fP
+.br
+\fC#include <code_gen/CG\&.h>\fP
+.br
+\fC#include <code_gen/CG_utils\&.h>\fP
+.br
+\fC#include <code_gen/codegen_error\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <stack>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBomega::bound_must_hit_stride\fP (\fBconst\fP GEQ_Handle &inequality, Variable_ID v, \fBconst\fP EQ_Handle &stride_eq, Variable_ID wc, \fBconst\fP Relation &bounds, \fBconst\fP Relation &known)"
+.br
+.RI "If the stride equality is guaranteed to hit bound in inequality\&. "
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_ident\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &\fBR\fP, Variable_ID v, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly, \fBconst\fP \fBstd::map\fP< std::string, std::vector< CG_outputRepr * > > &unin)"
+.br
+.RI "output the reference to variable v Return the variable by its name, however if this variable need to be substituted, as in assigned_on_the_fly, return the substitution\&. "
+.ti -1c
+.RI "std::pair< CG_outputRepr *, std::pair< CG_outputRepr *, int > > \fBomega::output_assignment\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &\fBR\fP, int level, \fBconst\fP Relation &known, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly, \fBconst\fP \fBstd::map\fP< std::string, std::vector< CG_outputRepr * > > &unin)"
+.br
+.RI "output the assignment for loop variable at level It will print if condition when the assignment constains mod constraint\&. such that coefficient is not 1\&. "
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_substitution_repr\fP (CG_outputBuilder *ocg, \fBconst\fP EQ_Handle &equality, Variable_ID v, bool apply_v_coef, \fBconst\fP Relation &\fBR\fP, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly, \fBconst\fP \fBstd::map\fP< std::string, std::vector< CG_outputRepr * > > &unin)"
+.br
+.RI "Create substituting value from equality constraint\&. "
+.ti -1c
+.RI "std::vector< CG_outputRepr * > \fBomega::output_substitutions\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &\fBR\fP, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly, \fBconst\fP \fBstd::map\fP< std::string, std::vector< CG_outputRepr * > > &unin)"
+.br
+.RI "Find all substitutions based on current mapping Find substitution for each output variable in R, this can handle integer division\&. "
+.ti -1c
+.RI "std::pair< EQ_Handle, int > \fBomega::find_simplest_assignment\fP (\fBconst\fP Relation &\fBR\fP, Variable_ID v, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly=std::vector< std::pair< CG_outputRepr *, int > >(), bool *has_global_inspector=\fBNULL\fP)"
+.br
+.RI "Find the simplest(cheapest by cost function) assignment of variable v This handles floor definition wildcards in equality, the second in returned pair is the cost\&. "
+.ti -1c
+.RI "std::pair< bool, GEQ_Handle > \fBomega::find_floor_definition\fP (\fBconst\fP Relation &\fBR\fP, Variable_ID v, \fBstd::set\fP< Variable_ID > excluded_floor_vars=\fBstd::set\fP< Variable_ID >())"
+.br
+.ti -1c
+.RI "std::pair< EQ_Handle, Variable_ID > \fBomega::find_simplest_stride\fP (\fBconst\fP Relation &\fBR\fP, Variable_ID v)"
+.br
+.RI "find the stride involving the specified variable e\&.g\&. v = 2alpha + c The stride equality can have other wildcards as long as they are defined as floor variables\&. "
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_guard\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &\fBR\fP, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly, \fBconst\fP \fBstd::map\fP< std::string, std::vector< CG_outputRepr * > > &unin)"
+.br
+.RI "Output the guard condition Output the guard conditions as captured in R\&. "
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_inequality_repr\fP (CG_outputBuilder *ocg, \fBconst\fP GEQ_Handle &inequality, Variable_ID v, \fBconst\fP Relation &\fBR\fP, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly, \fBconst\fP \fBstd::map\fP< std::string, std::vector< CG_outputRepr * > > &unin, \fBstd::set\fP< Variable_ID > excluded_floor_vars=\fBstd::set\fP< Variable_ID >())"
+.br
+.RI "Output the inequality constraints containing v The return is only one side of the inequality without v\&. "
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_upper_bound_repr\fP (CG_outputBuilder *ocg, \fBconst\fP GEQ_Handle &inequality, Variable_ID v, \fBconst\fP Relation &\fBR\fP, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly, \fBconst\fP \fBstd::map\fP< std::string, std::vector< CG_outputRepr * > > &unin)"
+.br
+.RI "Wrapper to output_inequality_repr When returning NULL, it will replace it with literal 0 in output\&. "
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_lower_bound_repr\fP (CG_outputBuilder *ocg, \fBconst\fP GEQ_Handle &inequality, Variable_ID v, \fBconst\fP EQ_Handle &stride_eq, Variable_ID wc, \fBconst\fP Relation &\fBR\fP, \fBconst\fP Relation &known, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly, \fBconst\fP \fBstd::map\fP< std::string, std::vector< CG_outputRepr * > > &unin)"
+.br
+.RI "output lower bound with respect to lattice(starting iteration) "
+.ti -1c
+.RI "CG_outputRepr * \fBomega::output_loop\fP (CG_outputBuilder *ocg, \fBconst\fP Relation &\fBR\fP, int level, \fBconst\fP Relation &known, \fBconst\fP std::vector< std::pair< CG_outputRepr *, int > > &assigned_on_the_fly, \fBconst\fP \fBstd::map\fP< std::string, std::vector< CG_outputRepr * > > &unin)"
+.br
+.RI "output the loop control structure at level Finding stride using find_simplest_stride and calculating bound using GEQs\&. Multiple same sided bound will generate min/max operation\&. "
+.ti -1c
+.RI "Variable_ID \fBomega::replicate_floor_definition\fP (\fBconst\fP Relation &\fBR\fP, \fBconst\fP Variable_ID floor_var, Relation &r, F_Exists *f_exists, F_And *f_root, \fBstd::map\fP< Variable_ID, Variable_ID > &exists_mapping)"
+.br
+.RI "replicate the floor definition(possibly cascaded to new relation) parameter f_root is inside f_exists, not the other way around\&. return replicated variable in new relation, with all cascaded floor definitions using wildcards defined in the same way as in the original relation\&. "
+.ti -1c
+.RI "Relation \fBomega::pick_one_guard\fP (\fBconst\fP Relation &\fBR\fP, int level=0)"
+.br
+.RI "pick one guard condition from relation\&. It can involve multiple constraints when involving wildcards, as long as its complement is a single conjunct\&. "
+.ti -1c
+.RI "std::string \fBomega::print_to_iegen_string\fP (Relation &\fBR\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::checkAndRestoreIfProjectedByGlobal\fP (\fBconst\fP Relation &R1, \fBconst\fP Relation &R2, Variable_ID v)"
+.br
+.RI "Check if a set/input var is projected out of a inequality by a global variable with arity > 0\&. "
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

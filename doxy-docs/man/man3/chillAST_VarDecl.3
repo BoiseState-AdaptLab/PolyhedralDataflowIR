@@ -1,0 +1,396 @@
+.TH "chillAST_VarDecl" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_VarDecl
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_RecordDecl\fP * \fBgetStructDef\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetByReference\fP (bool tf)"
+.br
+.ti -1c
+.RI "bool \fBisArray\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisAStruct\fP () override"
+.br
+.ti -1c
+.RI "void \fBsetStruct\fP (bool \fBb\fP)"
+.br
+.ti -1c
+.RI "bool \fBisPointer\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetInit\fP (\fBchillAST_node\fP *\fBi\fP)"
+.br
+.ti -1c
+.RI "bool \fBhasInit\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetInit\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetArrayDimensions\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetArraySize\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "int \fBgetArraySizeAsInt\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "void \fBsetArraySize\fP (int \fBi\fP, \fBchillAST_node\fP *s)"
+.br
+.ti -1c
+.RI "void \fBconvertArrayToPointer\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP (\fBconst\fP char *\fBt\fP, \fBconst\fP char *ap, \fBconst\fP char *\fBn\fP, \fBchillAST_NodeList\fP arraypart=\fBchillAST_NodeList\fP(), void *ptr=nullptr)"
+.br
+.RI "Base constructor for VarDecl\&. "
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP (\fBchillAST_TypedefDecl\fP *tdd, \fBconst\fP char *ap, \fBconst\fP char *\fBn\fP, \fBchillAST_NodeList\fP arraypart=\fBchillAST_NodeList\fP())"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP (\fBchillAST_RecordDecl\fP *astruct, \fBconst\fP char *ap, \fBconst\fP char *\fBn\fP, \fBchillAST_NodeList\fP arraypart=\fBchillAST_NodeList\fP())"
+.br
+.ti -1c
+.RI "bool \fBisParmVarDecl\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisBuiltin\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetLocation\fP (void *ptr)"
+.br
+.ti -1c
+.RI "void \fBgatherVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL variable declarations "
+.ti -1c
+.RI "void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL scalar variable declarations "
+.ti -1c
+.RI "void \fBgatherArrayVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL array variable declarations "
+.ti -1c
+.RI "void \fBgatherVarUsage\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherDeclRefExprs\fP (vector< \fBchillAST_DeclRefExpr\fP * > &refs) override"
+.br
+.RI "gather both scalar and array references "
+.ti -1c
+.RI "void \fBreplaceVarDecls\fP (\fBchillAST_VarDecl\fP *olddecl, \fBchillAST_VarDecl\fP *newdecl) override"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "\fBconst\fP char * \fBgetUnderlyingType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBgetUnderlyingVarDecl\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBclone\fP () override"
+.br
+.ti -1c
+.RI "void \fBloseLoopWithLoopVar\fP (char *\fBvar\fP) override"
+.br
+.RI "Replace the loop with the loop body, if loop is with this variable\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBvartype\fP"
+.br
+.RI "interchangabe with underlying type "
+.ti -1c
+.RI "\fBchillAST_RecordDecl\fP * \fBvardef\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_TypedefDecl\fP * \fBtypedefinition\fP"
+.br
+.ti -1c
+.RI "char * \fBunderlyingtype\fP"
+.br
+.RI "the base type of the variable "
+.ti -1c
+.RI "char * \fBvarname\fP"
+.br
+.RI "Variable name\&. "
+.ti -1c
+.RI "char * \fBarraypointerpart\fP"
+.br
+.RI "Pointer part of the array such as '***'\&. "
+.ti -1c
+.RI "char * \fBarraysetpart\fP"
+.br
+.ti -1c
+.RI "int \fBnumdimensions\fP"
+.br
+.RI "The total number of dimensions, some might be unbounded as specified in '**'\&. "
+.ti -1c
+.RI "int \fBcudamallocsize\fP"
+.br
+.ti -1c
+.RI "bool \fBisRestrict\fP"
+.br
+.ti -1c
+.RI "bool \fBisShared\fP"
+.br
+.ti -1c
+.RI "bool \fBisDevice\fP"
+.br
+.ti -1c
+.RI "bool \fBisStruct\fP"
+.br
+.ti -1c
+.RI "int \fBisAParameter\fP"
+.br
+.ti -1c
+.RI "bool \fBbyreference\fP"
+.br
+.ti -1c
+.RI "bool \fBisABuiltin\fP"
+.br
+.ti -1c
+.RI "void * \fBuniquePtr\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBinit\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_VarDecl::chillAST_VarDecl ()"
+
+.SS "chillAST_VarDecl::chillAST_VarDecl (\fBconst\fP char * t, \fBconst\fP char * ap, \fBconst\fP char * n, \fBchillAST_NodeList\fP arraypart = \fC\fBchillAST_NodeList\fP()\fP, void * ptr = \fCnullptr\fP)"
+
+.PP
+Base constructor for VarDecl\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIt\fP the base type, such as 'int' 
+.br
+\fIap\fP the array pointer part, such as '**' 
+.br
+\fIn\fP the variable name 
+.br
+\fIarraypart\fP the explicit array sizes as a vector 
+.br
+\fIptr\fP Unique pointer 
+.RE
+.PP
+
+.SS "chillAST_VarDecl::chillAST_VarDecl (\fBchillAST_TypedefDecl\fP * tdd, \fBconst\fP char * ap, \fBconst\fP char * n, \fBchillAST_NodeList\fP arraypart = \fC\fBchillAST_NodeList\fP()\fP)"
+
+.SS "chillAST_VarDecl::chillAST_VarDecl (\fBchillAST_RecordDecl\fP * astruct, \fBconst\fP char * ap, \fBconst\fP char * n, \fBchillAST_NodeList\fP arraypart = \fC\fBchillAST_NodeList\fP()\fP)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBchillAST_node\fP * chillAST_VarDecl::clone ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP * chillAST_VarDecl::constantFold ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_VarDecl::convertArrayToPointer ()"
+
+.SS "bool chillAST_VarDecl::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_VarDecl::gatherArrayVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL array variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_VarDecl::gatherDeclRefExprs (vector< \fBchillAST_DeclRefExpr\fP * > & refs)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather both scalar and array references 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_VarDecl::gatherScalarVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL scalar variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_VarDecl::gatherVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_VarDecl::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_VarDecl::gatherVarUsage (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "int chillAST_VarDecl::getArrayDimensions ()\fC [inline]\fP"
+
+.SS "\fBchillAST_node\fP* chillAST_VarDecl::getArraySize (int i)\fC [inline]\fP"
+
+.SS "int chillAST_VarDecl::getArraySizeAsInt (int i)\fC [inline]\fP"
+
+.SS "\fBchillAST_node\fP* chillAST_VarDecl::getInit ()\fC [inline]\fP"
+
+.SS "\fBchillAST_RecordDecl\fP * chillAST_VarDecl::getStructDef ()"
+
+.SS "\fBCHILL_ASTNODE_TYPE\fP chillAST_VarDecl::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBconst\fP char* chillAST_VarDecl::getUnderlyingType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP* chillAST_VarDecl::getUnderlyingVarDecl ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_VarDecl::hasInit ()\fC [inline]\fP"
+
+.SS "bool chillAST_VarDecl::isArray ()\fC [inline]\fP"
+
+.SS "bool chillAST_VarDecl::isAStruct ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_VarDecl::isBuiltin ()\fC [inline]\fP"
+
+.SS "bool chillAST_VarDecl::isParmVarDecl ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_VarDecl::isPointer ()\fC [inline]\fP"
+
+.SS "void chillAST_VarDecl::loseLoopWithLoopVar (char * var)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Replace the loop with the loop body, if loop is with this variable\&. The loop will be spread across a bunch of cores that will each calculate their own loop variable\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIvar\fP 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_VarDecl::replaceVarDecls (\fBchillAST_VarDecl\fP * olddecl, \fBchillAST_VarDecl\fP * newdecl)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_VarDecl::setArraySize (int i, \fBchillAST_node\fP * s)\fC [inline]\fP"
+
+.SS "void chillAST_VarDecl::setByReference (bool tf)\fC [inline]\fP"
+
+.SS "void chillAST_VarDecl::setInit (\fBchillAST_node\fP * i)\fC [inline]\fP"
+
+.SS "void chillAST_VarDecl::setLocation (void * ptr)\fC [inline]\fP"
+
+.SS "void chillAST_VarDecl::setStruct (bool b)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "char* chillAST_VarDecl::arraypointerpart"
+
+.PP
+Pointer part of the array such as '***'\&. 
+.SS "char* chillAST_VarDecl::arraysetpart"
+
+.SS "bool chillAST_VarDecl::byreference"
+
+.SS "int chillAST_VarDecl::cudamallocsize"
+
+.SS "\fBchillAST_node\fP* chillAST_VarDecl::init"
+
+.SS "bool chillAST_VarDecl::isABuiltin"
+
+.SS "int chillAST_VarDecl::isAParameter"
+
+.SS "bool chillAST_VarDecl::isDevice"
+
+.SS "bool chillAST_VarDecl::isRestrict"
+
+.SS "bool chillAST_VarDecl::isShared"
+
+.SS "bool chillAST_VarDecl::isStruct"
+
+.SS "int chillAST_VarDecl::numdimensions"
+
+.PP
+The total number of dimensions, some might be unbounded as specified in '**'\&. 
+.SS "\fBchillAST_TypedefDecl\fP* chillAST_VarDecl::typedefinition"
+
+.SS "char* chillAST_VarDecl::underlyingtype"
+
+.PP
+the base type of the variable 
+.SS "void* chillAST_VarDecl::uniquePtr"
+
+.SS "\fBchillAST_RecordDecl\fP* chillAST_VarDecl::vardef"
+
+.SS "char* chillAST_VarDecl::varname"
+
+.PP
+Variable name\&. 
+.SS "char* chillAST_VarDecl::vartype"
+
+.PP
+interchangabe with underlying type 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

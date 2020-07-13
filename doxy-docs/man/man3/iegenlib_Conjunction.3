@@ -1,0 +1,411 @@
+.TH "iegenlib::Conjunction" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::Conjunction \- Class containing sets of all the equalities and inequalities\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <set_relation\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBConjunction\fP (int \fBarity\fP)"
+.br
+.ti -1c
+.RI "\fBConjunction\fP (\fBTupleDecl\fP tdecl)"
+.br
+.ti -1c
+.RI "\fBConjunction\fP (int \fBarity\fP, int \fBinarity\fP)"
+.br
+.ti -1c
+.RI "\fBConjunction\fP (\fBconst\fP \fBConjunction\fP &other)"
+.br
+.ti -1c
+.RI "\fBConjunction\fP & \fBoperator=\fP (\fBconst\fP \fBConjunction\fP &other)"
+.br
+.ti -1c
+.RI "void \fBreset\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~Conjunction\fP ()"
+.br
+.ti -1c
+.RI "\fBConjunction\fP * \fBclone\fP () \fBconst\fP"
+.br
+.RI "Create a copy of this Conjuntion (of the same subclass) "
+.ti -1c
+.RI "bool \fBoperator<\fP (\fBconst\fP \fBConjunction\fP &other) \fBconst\fP"
+.br
+.RI "Comparison operator -- lexicographic order\&. "
+.ti -1c
+.RI "void \fBsetInArity\fP (int \fBinarity\fP)"
+.br
+.ti -1c
+.RI "void \fBsetTupleDecl\fP (\fBTupleDecl\fP tuple_decl)"
+.br
+.ti -1c
+.RI "\fBTupleDecl\fP \fBgetTupleDecl\fP () \fBconst\fP"
+.br
+.RI "Returns a copy of its tuple declaration\&. "
+.ti -1c
+.RI "void \fBsetTupleDecl\fP (\fBTupleDecl\fP tuple_decl_in, \fBTupleDecl\fP tuple_decl_out)"
+.br
+.ti -1c
+.RI "void \fBaddEquality\fP (\fBExp\fP *equality)"
+.br
+.ti -1c
+.RI "void \fBaddInequality\fP (\fBExp\fP *inequality)"
+.br
+.ti -1c
+.RI "\fBconst\fP std::list< \fBExp\fP * > & \fBequalities\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP std::list< \fBExp\fP * > & \fBinequalities\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBsubstituteTupleDecl\fP ()"
+.br
+.ti -1c
+.RI "void \fBcopyConstraintsFrom\fP (\fBconst\fP \fBConjunction\fP *source)"
+.br
+.ti -1c
+.RI "void \fBsubstituteInConstraints\fP (\fBSubMap\fP &searchTermToSubExp)"
+.br
+.ti -1c
+.RI "virtual std::string \fBtoString\fP () \fBconst\fP"
+.br
+.RI "Convert to a human-readable string\&. "
+.ti -1c
+.RI "virtual std::string \fBprettyPrintString\fP () \fBconst\fP"
+.br
+.RI "Convert to a human-readable string, pretty printed\&. "
+.ti -1c
+.RI "virtual std::string \fBtoDotString\fP (int &next_id) \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual std::string \fBtoDotString\fP (int parent_id, int &next_id) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBStringIterator\fP * \fBgetSymbolIterator\fP () \fBconst\fP"
+.br
+.RI "Get an iterator over the symbolic constants, or non-tuple vars\&. "
+.ti -1c
+.RI "\fBStringIterator\fP * \fBgetTupleIterator\fP () \fBconst\fP"
+.br
+.RI "Get an iterator over the tuple variables, in order\&. "
+.ti -1c
+.RI "int \fBarity\fP () \fBconst\fP"
+.br
+.RI "Get our arity\&. "
+.ti -1c
+.RI "int \fBinarity\fP () \fBconst\fP"
+.br
+.RI "Get/Set inarity, for use with relations\&. "
+.ti -1c
+.RI "bool \fBhasConstraints\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBExp\fP * \fBfindFunction\fP (int tupleLocToFind, int startTupleRange, int endTupleRange) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBExp\fP * \fBfindAndRemoveFunction\fP (int tupleLocToFind, int startTupleRange, int endTupleRange)"
+.br
+.ti -1c
+.RI "\fBConjunction\fP * \fBCompose\fP (\fBconst\fP \fBConjunction\fP *\fBrhs\fP, int innerArity) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBConjunction\fP * \fBApply\fP (\fBconst\fP \fBConjunction\fP *\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBConjunction\fP * \fBInverse\fP () \fBconst\fP"
+.br
+.RI "Compute Inverse of this conjunction\&. Interpreted as a \fBRelation\fP\&. "
+.ti -1c
+.RI "\fBConjunction\fP * \fBIntersect\fP (\fBconst\fP \fBConjunction\fP *\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBConjunction\fP * \fBboundTupleExp\fP (\fBconst\fP \fBTupleExpTerm\fP &tuple_exp) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBsatisfiable\fP () \fBconst\fP"
+.br
+.RI "Return true if the constraints in the conjunction are satisfiable\&. "
+.ti -1c
+.RI "void \fBpushConstToConstraints\fP ()"
+.br
+.ti -1c
+.RI "void \fBpushConstConstraintsToTupleDecl\fP ()"
+.br
+.ti -1c
+.RI "void \fBremapTupleVars\fP (\fBconst\fP std::vector< int > &oldToNewLocs)"
+.br
+.ti -1c
+.RI "void \fBcleanUp\fP ()"
+.br
+.ti -1c
+.RI "void \fBgroupIndexedUFCalls\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisFunction\fP (int inArity) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisFunctionInverse\fP (int inArity) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBacceptVisitor\fP (\fBVisitor\fP *v)"
+.br
+.RI "\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. "
+.ti -1c
+.RI "int \fBtermCount\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetUnsat\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisUnsat\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class containing sets of all the equalities and inequalities\&. 
+
+This class holds two sets: one for the equalities and one for the inequalities\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::Conjunction::Conjunction (int arity)"
+
+.SS "iegenlib::Conjunction::Conjunction (\fBTupleDecl\fP tdecl)"
+
+.SS "iegenlib::Conjunction::Conjunction (int arity, int inarity)"
+
+.SS "iegenlib::Conjunction::Conjunction (\fBconst\fP \fBConjunction\fP & other)"
+
+.SS "iegenlib::Conjunction::~Conjunction ()\fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void iegenlib::Conjunction::acceptVisitor (\fBVisitor\fP * v)"
+
+.PP
+\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. 
+.SS "void iegenlib::Conjunction::addEquality (\fBExp\fP * equality)"
+addEquality -- add the given expression, interpreted as an equality (\fBExp\fP = 0), to our set of equalities\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIequality\fP (adopted)
+.RE
+.PP
+addEquality -- add the given expression, interpreted as an equality (\fBExp\fP = 0), to our list of equalities\&. Maintains a sorted order on the constraints\&.
+.PP
+FIXME: the check for duplicate equalities is done in O(n) time here, but with a different strategy could be reduced to O(log n) time\&. 
+.SS "void iegenlib::Conjunction::addInequality (\fBExp\fP * inequality)"
+addInequality -- add the given expression, interpreted as an inequality (\fBExp\fP >= 0), to our set of inequalities\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIinequality\fP (adopted)
+.RE
+.PP
+addInequality -- add the given expression, interpreted as an inequality (\fBExp\fP >= 0), to our list of inequalities\&.
+.PP
+FIXME: the check for duplicate inequalities is done in O(n) time here, but with a different strategy could be reduced to O(log n) time\&. 
+.SS "\fBConjunction\fP * iegenlib::Conjunction::Apply (\fBconst\fP \fBConjunction\fP * rhs) const"
+Apply this (interpreted as a \fBRelation\fP) to rhs, which is interpreted as a set\&. r = { x -> y : x = \fBG(y)\fP && C } s = { z : D } r(s) = { y : D[z/G(y)] && C[x/G(y)] } 
+.PP
+\fBParameters\fP
+.RS 4
+\fIrhs\fP (not adopted)
+.RE
+.PP
+Apply this (interpreted as a \fBRelation\fP) to rhs, which is interpreted as a set\&. 
+.SS "int iegenlib::Conjunction::arity () const\fC [inline]\fP"
+
+.PP
+Get our arity\&. 
+.SS "\fBConjunction\fP * iegenlib::Conjunction::boundTupleExp (\fBconst\fP \fBTupleExpTerm\fP & tuple_exp) const"
+Treating this \fBConjunction\fP like a domain or range\&. Creates a new set where passed in tuple expression is bound assuming this domain, or range\&. User must deallocate returned \fBConjunction\fP\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fItuple_exp\fP Expression tuple to bound\&. Could just have one elem\&.
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+\fBConjunction\fP will contain all bounds on expressions in tuple expression\&. Will have no tuple variables\&. 
+.RE
+.PP
+
+.SS "void iegenlib::Conjunction::cleanUp ()"
+Cleans up constraints in the conjunction\&.
+.IP "\(bu" 2
+Removes equality and inequality constraints that are equal to zero from list of Expressions\&.
+.IP "\(bu" 2
+Also removes duplicate constraints\&. 
+.br
+
+.PP
+.PP
+(FIXME: with normalize will either of these be necessary?)
+.PP
+Removes equality and inequality Exps that are equal to zero from list of Expressions\&. 
+.SS "\fBConjunction\fP * iegenlib::Conjunction::clone () const"
+
+.PP
+Create a copy of this Conjuntion (of the same subclass) 
+.SS "\fBConjunction\fP * iegenlib::Conjunction::Compose (\fBconst\fP \fBConjunction\fP * rhs, int innerArity) const"
+Compose with another conjunction, given innerArity (which is this's in arity and rhs's out arity)\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIrhs\fP (not adopted) 
+.br
+\fIinnerArity\fP 
+.RE
+.PP
+Compose with another conjunction, given innerArity (which is this's in arity and rhs's out arity)\&. 
+.SS "void iegenlib::Conjunction::copyConstraintsFrom (\fBconst\fP \fBConjunction\fP * source)"
+copyConstraintsFrom -- copy all the equalities and inequalities from source, and add them to our own constraints\&. 
+.SS "\fBconst\fP std::list<\fBExp\fP*>& iegenlib::Conjunction::equalities () const\fC [inline]\fP"
+
+.SS "\fBExp\fP * iegenlib::Conjunction::findAndRemoveFunction (int tupleLocToFind, int startTupleRange, int endTupleRange)"
+Same as findFunction except that the equality the function is derived from is removed\&.
+.PP
+Search among our equality constraints for one that defines tupleLocToFind as a function of only tuple variables in the location range [startTupleRange, endTupleRange]\&. Return a new copy of that expression\&. Additionally remove the equality constraint that the function was derived from\&. 
+.SS "\fBExp\fP * iegenlib::Conjunction::findFunction (int tupleLocToFind, int startTupleRange, int endTupleRange) const"
+Search among our equality constraints for one that defines tupleLocToFind as a function of only tuple variables in the location range [startTupleRange, endTupleRange]\&. Return a new copy of that expression\&. 
+.SS "\fBStringIterator\fP * iegenlib::Conjunction::getSymbolIterator () const"
+
+.PP
+Get an iterator over the symbolic constants, or non-tuple vars\&. The generated SymboIterator escapes this method and needs to be deleted by the caller\&.
+.PP
+FIXME: this is an example where having a visitor design pattern would be helpful\&. Having to create this getSymbolIterator at \fBConjunction\fP and \fBExp\fP level\&. 
+.SS "\fBTupleDecl\fP iegenlib::Conjunction::getTupleDecl () const"
+
+.PP
+Returns a copy of its tuple declaration\&. Creates a copy of its tuple declaration and returns it\&. 
+.SS "\fBStringIterator\fP * iegenlib::Conjunction::getTupleIterator () const"
+
+.PP
+Get an iterator over the tuple variables, in order\&. 
+.SS "void iegenlib::Conjunction::groupIndexedUFCalls ()"
+Group together all equality expressions that are parts of the same \fBUFCallTerm\fP, IOW i=f(k)[0] and j=f(k)[1] should become (i,j) = f(k)\&. 
+.SS "bool iegenlib::Conjunction::hasConstraints () const"
+Returns true if the conjunction has at least one equality or inequality constraints\&. If it contains none then this \fBConjunction\fP is just representing TRUE\&. 
+.SS "int iegenlib::Conjunction::inarity () const\fC [inline]\fP"
+
+.PP
+Get/Set inarity, for use with relations\&. 
+.SS "\fBconst\fP std::list<\fBExp\fP*>& iegenlib::Conjunction::inequalities () const\fC [inline]\fP"
+
+.SS "\fBConjunction\fP * iegenlib::Conjunction::Intersect (\fBconst\fP \fBConjunction\fP * rhs) const"
+Intersect this conjunction with the given other one (i\&.e\&., this conjunction rhs)\&. Returns a new \fBConjunction\fP, which the caller is responsible for deallocating\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIrhs\fP (not adopted) 
+.RE
+.PP
+
+.SS "\fBConjunction\fP * iegenlib::Conjunction::Inverse () const"
+
+.PP
+Compute Inverse of this conjunction\&. Interpreted as a \fBRelation\fP\&. Create the inverse of this conjunction\&. Returns a new \fBConjunction\fP, which the caller is responsible for deallocating\&. 
+.SS "bool iegenlib::Conjunction::isFunction (int inArity) const"
+
+.SS "bool iegenlib::Conjunction::isFunctionInverse (int inArity) const"
+
+.SS "bool iegenlib::Conjunction::isUnsat ()\fC [inline]\fP"
+
+.SS "bool iegenlib::Conjunction::operator< (\fBconst\fP \fBConjunction\fP & other) const"
+
+.PP
+Comparison operator -- lexicographic order\&. Less than operator\&. Compare two \fBConjunction\fP in the following order:
+.IP "1." 4
+by tuple declaration: using TupleDecl::operator<(TupleDecl)
+.IP "2." 4
+by number of equalities: number of terms in mEqualities
+.IP "3." 4
+by number of inequalities: number of terms in mInequalities
+.IP "4." 4
+by sorted equalities list values: using Exp::operator<(Exp)
+.IP "5." 4
+by sorted inequalities list values: using Exp::operator<(Exp) This operator assumes that the list of equalities (mEqualities) and inequalities (mInequalities) is sorted for both \fBConjunction\fP being compared\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.PP
+
+.SS "\fBConjunction\fP & iegenlib::Conjunction::operator= (\fBconst\fP \fBConjunction\fP & other)"
+
+.SS "std::string iegenlib::Conjunction::prettyPrintString () const\fC [virtual]\fP"
+
+.PP
+Convert to a human-readable string, pretty printed\&. Convert to a human-readable string (sub in for tuple vars)\&. 
+.SS "void iegenlib::Conjunction::pushConstConstraintsToTupleDecl ()"
+Pushes constants in constraints into the tuple declaration\&. 
+.SS "void iegenlib::Conjunction::pushConstToConstraints ()"
+Pushes the constants in the tuple declaration into equality constraints instead\&. 
+.SS "void iegenlib::Conjunction::remapTupleVars (\fBconst\fP std::vector< int > & oldToNewLocs)"
+Find any TupleVarTerms in this \fBConjunction\fP (and subexpressions) and remap the locations according to the oldToNewLocs vector, where oldToNewLocs[i] = j means that old location i becomes new location j (i\&.e\&. __tvi -> __tvj)\&. Throws an exception if an old location is out of range for the given oldToNewLocs\&.
+.PP
+Find any TupleVarTerms in this expression (and subexpressions) and remap the locations according to the oldToNewLocs vector, where oldToNewLocs[i] = j means that old location i becomes new location j (i\&.e\&. __tvi -> __tvj)\&. As a special case, a value of -1 means that old location goes away entirely\&. 
+.SS "void iegenlib::Conjunction::reset ()"
+
+.SS "bool iegenlib::Conjunction::satisfiable () const"
+
+.PP
+Return true if the constraints in the conjunction are satisfiable\&. 
+.SS "void iegenlib::Conjunction::setInArity (int inarity)"
+Given inarity parameter is adopted\&. If inarity parameter is outside of feasible range for the existing existing \fBTupleDecl\fP then throws exception\&. 
+.SS "void iegenlib::Conjunction::setTupleDecl (\fBTupleDecl\fP tuple_decl)"
+Given tuple declaration parameter is adopted\&. If there are some constants that don't agree then throws exception\&. If replacing a constant with a variable ignores the substitution in that conjunction\&.
+.PP
+If there are some constants that don't agree then throws exception\&. If replacing a constant with a variable ignores the substitution for that tuple variable in that conjunction to keep constant\&. 
+.SS "void iegenlib::Conjunction::setTupleDecl (\fBTupleDecl\fP tuple_decl_in, \fBTupleDecl\fP tuple_decl_out)"
+Below concatenates the two tuple declarations into one\&. If there are some constants that don't agree then throws exception\&. If replacing a constant with a variable ignores the substitution in that conjunction\&.
+.PP
+Concatenates the two tuple declarations into one\&. Consumes the passed in tuple_decl\&. 
+.SS "void iegenlib::Conjunction::setUnsat ()\fC [inline]\fP"
+
+.SS "void iegenlib::Conjunction::substituteInConstraints (\fBSubMap\fP & searchTermToSubExp)"
+Substitute each factor (i\&.e\&. the non-coefficient part of a term) with the expression mapped to that factor in all our equalities and inequalities\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIsearchTermToSubExp\fP (none of the Term* or Exp* are adopted)
+.RE
+.PP
+Substitute each factor (i\&.e\&. the non-coefficient part of a term) with the expression mapped to that factor in all our equalities and inequalities\&. Calls cleanup at end to resort constraints\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIsearchTermToSubExp\fP (none of the Term* or Exp* are adopted) 
+.RE
+.PP
+
+.SS "void iegenlib::Conjunction::substituteTupleDecl ()"
+substituteTupleDecl -- substitute TupleVarTerms in for any VarTerms in the expressions whose names match the corresponding tuple element declaration\&. 
+.SS "int iegenlib::Conjunction::termCount ()"
+
+.SS "std::string iegenlib::Conjunction::toDotString (int & next_id) const\fC [virtual]\fP"
+Convert to a DOT string\&. Pass in the parent node id and the next node id\&. The next node id will be set upon exit from this routine\&. If no parent id is given then will not draw edge from parent to self\&. 
+.SS "std::string iegenlib::Conjunction::toDotString (int parent_id, int & next_id) const\fC [virtual]\fP"
+
+.SS "std::string iegenlib::Conjunction::toString () const\fC [virtual]\fP"
+
+.PP
+Convert to a human-readable string\&. Convert to a human-readable string\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

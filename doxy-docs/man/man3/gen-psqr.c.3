@@ -1,0 +1,205 @@
+.TH "lib/gmp/gen-psqr.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/gmp/gen-psqr.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include 'bootstrap\&.c'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBrawfactor_t\fP"
+.br
+.ti -1c
+.RI "struct \fBfactor_t\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBconst\fP"
+.br
+.ti -1c
+.RI "#define \fBCOLLAPSE_ELEMENT\fP(array,  idx,  narray)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBf_cmp_divisor\fP (\fBconst\fP void *parg, \fBconst\fP void *qarg)"
+.br
+.ti -1c
+.RI "int \fBf_cmp_fraction\fP (\fBconst\fP void *parg, \fBconst\fP void *qarg)"
+.br
+.ti -1c
+.RI "int \fBmul_2exp_mod\fP (int \fBn\fP, int \fBp\fP, int \fBm\fP)"
+.br
+.ti -1c
+.RI "int \fBneg_mod\fP (int \fBn\fP, int \fBm\fP)"
+.br
+.ti -1c
+.RI "void \fBsquare_mask\fP (\fBmpz_t\fP mask, int \fBm\fP)"
+.br
+.ti -1c
+.RI "void \fBgenerate_sq_res_0x100\fP (int \fBlimb_bits\fP)"
+.br
+.ti -1c
+.RI "void \fBgenerate_mod\fP (int \fBlimb_bits\fP, int nail_bits)"
+.br
+.ti -1c
+.RI "void \fBprint\fP (int \fBlimb_bits\fP, int nail_bits)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char *argv[])"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBmpz_t\fP * \fBsq_res_0x100\fP"
+.br
+.ti -1c
+.RI "int \fBnsq_res_0x100\fP"
+.br
+.ti -1c
+.RI "int \fBsq_res_0x100_num\fP"
+.br
+.ti -1c
+.RI "double \fBsq_res_0x100_fraction\fP"
+.br
+.ti -1c
+.RI "int \fBmod34_bits\fP"
+.br
+.ti -1c
+.RI "int \fBmod_bits\fP"
+.br
+.ti -1c
+.RI "int \fBmax_divisor\fP"
+.br
+.ti -1c
+.RI "int \fBmax_divisor_bits\fP"
+.br
+.ti -1c
+.RI "double \fBtotal_fraction\fP"
+.br
+.ti -1c
+.RI "\fBmpz_t\fP \fBpp\fP"
+.br
+.ti -1c
+.RI "\fBmpz_t\fP \fBpp_norm\fP"
+.br
+.ti -1c
+.RI "\fBmpz_t\fP \fBpp_inverted\fP"
+.br
+.ti -1c
+.RI "\fBmpz_t\fP \fBmod_mask\fP"
+.br
+.ti -1c
+.RI "char \fBmod34_excuse\fP [128]"
+.br
+.ti -1c
+.RI "struct \fBrawfactor_t\fP * \fBrawfactor\fP"
+.br
+.ti -1c
+.RI "int \fBnrawfactor\fP"
+.br
+.ti -1c
+.RI "struct \fBfactor_t\fP * \fBfactor\fP"
+.br
+.ti -1c
+.RI "int \fBnfactor\fP"
+.br
+.ti -1c
+.RI "int \fBfactor_alloc\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define COLLAPSE_ELEMENT(array, idx, narray)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                                          \
+    memmove (&(array)[idx],                 \
+         &(array)[idx+1],                   \
+         ((narray)-((idx)+1)) * sizeof (array[0]));     \
+    (narray)--;                                                 \
+  } while (0)
+.fi
+.SS "#define const"
+
+.SH "Function Documentation"
+.PP 
+.SS "int f_cmp_divisor (\fBconst\fP void * parg, \fBconst\fP void * qarg)"
+
+.SS "int f_cmp_fraction (\fBconst\fP void * parg, \fBconst\fP void * qarg)"
+
+.SS "void generate_mod (int limb_bits, int nail_bits)"
+
+.SS "void generate_sq_res_0x100 (int limb_bits)"
+
+.SS "int main (int argc, char * argv[])"
+
+.SS "int mul_2exp_mod (int n, int p, int m)"
+
+.SS "int neg_mod (int n, int m)"
+
+.SS "void print (int limb_bits, int nail_bits)"
+
+.SS "void square_mask (\fBmpz_t\fP mask, int m)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "struct \fBfactor_t\fP* factor"
+
+.SS "int factor_alloc"
+
+.SS "int max_divisor"
+
+.SS "int max_divisor_bits"
+
+.SS "int mod34_bits"
+
+.SS "char mod34_excuse[128]"
+
+.SS "int mod_bits"
+
+.SS "\fBmpz_t\fP mod_mask"
+
+.SS "int nfactor"
+
+.SS "int nrawfactor"
+
+.SS "int nsq_res_0x100"
+
+.SS "\fBmpz_t\fP pp"
+
+.SS "\fBmpz_t\fP pp_inverted"
+
+.SS "\fBmpz_t\fP pp_norm"
+
+.SS "struct \fBrawfactor_t\fP* rawfactor"
+
+.SS "\fBmpz_t\fP* sq_res_0x100"
+
+.SS "double sq_res_0x100_fraction"
+
+.SS "int sq_res_0x100_num"
+
+.SS "double total_fraction"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

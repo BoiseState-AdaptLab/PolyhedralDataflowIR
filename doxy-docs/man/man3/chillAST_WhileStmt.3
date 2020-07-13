@@ -1,0 +1,143 @@
+.TH "chillAST_WhileStmt" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_WhileStmt
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_WhileStmt\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_WhileStmt\fP (\fBchillAST_node\fP *\fBcond\fP, \fBchillAST_node\fP *\fBbody\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBclone\fP () override"
+.br
+.ti -1c
+.RI "void \fBgatherArrayRefs\fP (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarRefs\fP (std::vector< \fBchillAST_DeclRefExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "void \fBloseLoopWithLoopVar\fP (char *\fBvar\fP) override"
+.br
+.RI "Replace the loop with the loop body, if loop is with this variable\&. "
+.ti -1c
+.RI "void \fBprependStatement\fP (\fBchillAST_node\fP *stmt) override"
+.br
+.RI "prepend a statement to the begining of a block, the body of a loop, or the body of a function "
+.ti -1c
+.RI "void \fBappendStatement\fP (\fBchillAST_node\fP *stmt) override"
+.br
+.RI "append a statement to the end of a block, the body of a loop, or the body of a function "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBcond\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBbody\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_WhileStmt::chillAST_WhileStmt ()\fC [inline]\fP"
+
+.SS "chillAST_WhileStmt::chillAST_WhileStmt (\fBchillAST_node\fP * cond, \fBchillAST_node\fP * body)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void chillAST_WhileStmt::appendStatement (\fBchillAST_node\fP * stmt)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+append a statement to the end of a block, the body of a loop, or the body of a function 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP * chillAST_WhileStmt::clone ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP* chillAST_WhileStmt::constantFold ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_WhileStmt::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_WhileStmt::gatherArrayRefs (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_WhileStmt::gatherScalarRefs (std::vector< \fBchillAST_DeclRefExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBCHILL_ASTNODE_TYPE\fP chillAST_WhileStmt::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_WhileStmt::loseLoopWithLoopVar (char * var)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Replace the loop with the loop body, if loop is with this variable\&. The loop will be spread across a bunch of cores that will each calculate their own loop variable\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIvar\fP 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_WhileStmt::prependStatement (\fBchillAST_node\fP * stmt)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+prepend a statement to the begining of a block, the body of a loop, or the body of a function 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_WhileStmt::body"
+
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_WhileStmt::cond"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

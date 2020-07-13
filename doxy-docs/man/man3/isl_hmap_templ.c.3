@@ -1,0 +1,180 @@
+.TH "lib/isl/isl_hmap_templ.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_hmap_templ.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/ctx\&.h>\fP
+.br
+\fC#include <isl/hash\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBHMAP\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBxCAT\fP(\fBA\fP,  \fBB\fP)   \fBA\fP ## \fBB\fP"
+.br
+.ti -1c
+.RI "#define \fBCAT\fP(\fBA\fP,  \fBB\fP)   \fBxCAT\fP(\fBA\fP,\fBB\fP)"
+.br
+.ti -1c
+.RI "#define \fBKEY\fP   \fBCAT\fP(isl_,\fBKEY_BASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBVAL\fP   \fBCAT\fP(isl_,\fBVAL_BASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBxFN\fP(\fBTYPE\fP,  NAME)   \fBTYPE\fP ## _ ## NAME"
+.br
+.ti -1c
+.RI "#define \fBFN\fP(\fBTYPE\fP,  NAME)   \fBxFN\fP(\fBTYPE\fP,NAME)"
+.br
+.ti -1c
+.RI "#define \fBxHMAP\fP(\fBKEY\fP,  \fBVAL_BASE\fP)   \fBKEY\fP ## _to_ ## \fBVAL_BASE\fP"
+.br
+.ti -1c
+.RI "#define \fByHMAP\fP(\fBKEY\fP,  \fBVAL_BASE\fP)   \fBxHMAP\fP(\fBKEY\fP,\fBVAL_BASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBHMAP\fP   \fByHMAP\fP(\fBKEY\fP,\fBVAL_BASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBHMAP_BASE\fP   \fByHMAP\fP(\fBKEY_BASE\fP,\fBVAL_BASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBxS\fP(TYPE1,  TYPE2,  NAME)   struct isl_ ## TYPE1 ## _ ## TYPE2 ## _ ## NAME"
+.br
+.ti -1c
+.RI "#define \fByS\fP(TYPE1,  TYPE2,  NAME)   \fBxS\fP(TYPE1,TYPE2,NAME)"
+.br
+.ti -1c
+.RI "#define \fBS\fP(NAME)   \fByS\fP(\fBKEY_BASE\fP,\fBVAL_BASE\fP,NAME)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBS\fP (pair)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBHMAP\fP * \fBFN\fP (\fBHMAP\fP, alloc)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBHMAP\fP * \fBFN\fP (\fBHMAP\fP, \fBfree\fP)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBFN\fP (\fBHMAP\fP, get_ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBHMAP\fP * \fBFN\fP (\fBHMAP\fP, \fBdup\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBHMAP\fP * \fBFN\fP (\fBHMAP\fP, cow)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBHMAP\fP * \fBFN\fP (\fBHMAP\fP, \fBcopy\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBFN\fP (\fBHMAP\fP, has)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBVAL\fP * \fBFN\fP (\fBHMAP\fP, get)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBHMAP\fP * \fBFN\fP (\fBHMAP\fP, drop)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBHMAP\fP * \fBFN\fP (\fBHMAP\fP, \fBset\fP)"
+.br
+.ti -1c
+.RI "\fBS\fP (foreach_data)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBFN\fP (\fBHMAP\fP, \fBforeach\fP)"
+.br
+.ti -1c
+.RI "\fBS\fP (print_data)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBFN\fP (isl_printer_print, \fBHMAP_BASE\fP)"
+.br
+.ti -1c
+.RI "void \fBFN\fP (\fBHMAP\fP, dump)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define CAT(\fBA\fP, \fBB\fP)   \fBxCAT\fP(\fBA\fP,\fBB\fP)"
+
+.SS "#define FN(\fBTYPE\fP, NAME)   \fBxFN\fP(\fBTYPE\fP,NAME)"
+
+.SS "#define \fBHMAP\fP   \fByHMAP\fP(\fBKEY\fP,\fBVAL_BASE\fP)"
+
+.SS "#define HMAP_BASE   \fByHMAP\fP(\fBKEY_BASE\fP,\fBVAL_BASE\fP)"
+
+.SS "#define KEY   \fBCAT\fP(isl_,\fBKEY_BASE\fP)"
+
+.SS "#define S(NAME)   \fByS\fP(\fBKEY_BASE\fP,\fBVAL_BASE\fP,NAME)"
+
+.SS "#define VAL   \fBCAT\fP(isl_,\fBVAL_BASE\fP)"
+
+.SS "#define xCAT(\fBA\fP, \fBB\fP)   \fBA\fP ## \fBB\fP"
+
+.SS "#define xFN(\fBTYPE\fP, NAME)   \fBTYPE\fP ## _ ## NAME"
+
+.SS "#define xHMAP(\fBKEY\fP, \fBVAL_BASE\fP)   \fBKEY\fP ## _to_ ## \fBVAL_BASE\fP"
+
+.SS "#define xS(TYPE1, TYPE2, NAME)   struct isl_ ## TYPE1 ## _ ## TYPE2 ## _ ## NAME"
+
+.SS "#define yHMAP(\fBKEY\fP, \fBVAL_BASE\fP)   \fBxHMAP\fP(\fBKEY\fP,\fBVAL_BASE\fP)"
+
+.SS "#define yS(TYPE1, TYPE2, NAME)   \fBxS\fP(TYPE1,TYPE2,NAME)"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBHMAP\fP* FN (\fBHMAP\fP, alloc)"
+
+.SS "\fB__isl_give\fP \fBHMAP\fP* FN (\fBHMAP\fP, \fBcopy\fP)"
+
+.SS "\fB__isl_give\fP \fBHMAP\fP* FN (\fBHMAP\fP, cow)"
+
+.SS "\fB__isl_give\fP \fBHMAP\fP* FN (\fBHMAP\fP, drop)"
+
+.SS "void FN (\fBHMAP\fP, dump)"
+
+.SS "\fB__isl_give\fP \fBHMAP\fP* FN (\fBHMAP\fP, \fBdup\fP)"
+
+.SS "\fBisl_stat\fP FN (\fBHMAP\fP, \fBforeach\fP)"
+
+.SS "\fB__isl_null\fP \fBHMAP\fP* FN (\fBHMAP\fP, \fBfree\fP)"
+
+.SS "\fB__isl_give\fP \fBVAL\fP* FN (\fBHMAP\fP, get)"
+
+.SS "\fBisl_ctx\fP* FN (\fBHMAP\fP, get_ctx)"
+
+.SS "\fBisl_bool\fP FN (\fBHMAP\fP, has)"
+
+.SS "\fB__isl_give\fP \fBHMAP\fP* FN (\fBHMAP\fP, \fBset\fP)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* FN (isl_printer_print, \fBHMAP_BASE\fP)"
+
+.SS "S (foreach_data)"
+
+.SS "S (pair)"
+
+.SS "S (print_data)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

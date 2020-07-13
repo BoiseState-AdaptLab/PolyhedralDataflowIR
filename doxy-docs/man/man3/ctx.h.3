@@ -1,0 +1,505 @@
+.TH "lib/isl/include/isl/ctx.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/ctx.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <isl/arg\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_stats\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__isl_give\fP"
+.br
+.ti -1c
+.RI "#define \fB__isl_take\fP"
+.br
+.ti -1c
+.RI "#define \fB__isl_keep\fP"
+.br
+.ti -1c
+.RI "#define \fB__isl_null\fP"
+.br
+.ti -1c
+.RI "#define \fB__isl_export\fP"
+.br
+.ti -1c
+.RI "#define \fB__isl_overload\fP"
+.br
+.ti -1c
+.RI "#define \fB__isl_constructor\fP"
+.br
+.ti -1c
+.RI "#define \fB__isl_subclass\fP(super)"
+.br
+.ti -1c
+.RI "#define \fBISL_DEPRECATED\fP"
+.br
+.ti -1c
+.RI "#define \fBISL_FL_INIT\fP(l,  \fBf\fP)   (l) = (\fBf\fP)               /* Specific flags location\&. */"
+.br
+.ti -1c
+.RI "#define \fBISL_FL_SET\fP(l,  \fBf\fP)   ((l) |= (\fBf\fP))"
+.br
+.ti -1c
+.RI "#define \fBISL_FL_CLR\fP(l,  \fBf\fP)   ((l) &= ~(\fBf\fP))"
+.br
+.ti -1c
+.RI "#define \fBISL_FL_ISSET\fP(l,  \fBf\fP)   (!!((l) & (\fBf\fP)))"
+.br
+.ti -1c
+.RI "#define \fBISL_F_INIT\fP(\fBp\fP,  \fBf\fP)   \fBISL_FL_INIT\fP((\fBp\fP)\->flags, \fBf\fP)  /* Structure element flags\&. */"
+.br
+.ti -1c
+.RI "#define \fBISL_F_SET\fP(\fBp\fP,  \fBf\fP)   \fBISL_FL_SET\fP((\fBp\fP)\->flags, \fBf\fP)"
+.br
+.ti -1c
+.RI "#define \fBISL_F_CLR\fP(\fBp\fP,  \fBf\fP)   \fBISL_FL_CLR\fP((\fBp\fP)\->flags, \fBf\fP)"
+.br
+.ti -1c
+.RI "#define \fBISL_F_ISSET\fP(\fBp\fP,  \fBf\fP)   \fBISL_FL_ISSET\fP((\fBp\fP)\->flags, \fBf\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_alloc\fP(ctx,  type,  \fBsize\fP)   ((type *)\fBisl_malloc_or_die\fP(ctx, \fBsize\fP))"
+.br
+.ti -1c
+.RI "#define \fBisl_calloc\fP(ctx,  type,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_realloc\fP(ctx,  ptr,  type,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_alloc_type\fP(ctx,  type)   \fBisl_alloc\fP(ctx,type,sizeof(type))"
+.br
+.ti -1c
+.RI "#define \fBisl_calloc_type\fP(ctx,  type)   \fBisl_calloc\fP(ctx,type,sizeof(type))"
+.br
+.ti -1c
+.RI "#define \fBisl_realloc_type\fP(ctx,  ptr,  type)   \fBisl_realloc\fP(ctx,ptr,type,sizeof(type))"
+.br
+.ti -1c
+.RI "#define \fBisl_alloc_array\fP(ctx,  type,  \fBn\fP)   \fBisl_alloc\fP(ctx,type,(\fBn\fP)*sizeof(type))"
+.br
+.ti -1c
+.RI "#define \fBisl_calloc_array\fP(ctx,  type,  \fBn\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_realloc_array\fP(ctx,  ptr,  type,  \fBn\fP)   \fBisl_realloc\fP(ctx,ptr,type,(\fBn\fP)*sizeof(type))"
+.br
+.ti -1c
+.RI "#define \fBisl_die\fP(ctx,  errno,  msg,  code)"
+.br
+.ti -1c
+.RI "#define \fBisl_assert4\fP(ctx,  test,  code,  errno)"
+.br
+.ti -1c
+.RI "#define \fBisl_assert\fP(ctx,  test,  code)   \fBisl_assert4\fP(ctx,test,code,\fBisl_error_unknown\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_min\fP(\fBa\fP,  \fBb\fP)   ((\fBa\fP < \fBb\fP) ? (\fBa\fP) : (\fBb\fP))"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_CTX_DECL\fP(prefix,  st,  args)   st *isl_ctx_peek_ ## prefix(\fBisl_ctx\fP *ctx);"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_CTX_DEF\fP(prefix,  st,  args)"
+.br
+.ti -1c
+.RI "#define \fBISL_CTX_GET_INT_DEF\fP(prefix,  st,  args,  field)"
+.br
+.ti -1c
+.RI "#define \fBISL_CTX_SET_INT_DEF\fP(prefix,  st,  args,  field)"
+.br
+.ti -1c
+.RI "#define \fBISL_CTX_GET_STR_DEF\fP(prefix,  st,  args,  field)"
+.br
+.ti -1c
+.RI "#define \fBISL_CTX_SET_STR_DEF\fP(prefix,  st,  args,  field)"
+.br
+.ti -1c
+.RI "#define \fBISL_CTX_GET_BOOL_DEF\fP(prefix,  st,  args,  field)   \fBISL_CTX_GET_INT_DEF\fP(prefix,st,args,field)"
+.br
+.ti -1c
+.RI "#define \fBISL_CTX_SET_BOOL_DEF\fP(prefix,  st,  args,  field)   \fBISL_CTX_SET_INT_DEF\fP(prefix,st,args,field)"
+.br
+.ti -1c
+.RI "#define \fBISL_CTX_GET_CHOICE_DEF\fP(prefix,  st,  args,  field)   \fBISL_CTX_GET_INT_DEF\fP(prefix,st,args,field)"
+.br
+.ti -1c
+.RI "#define \fBISL_CTX_SET_CHOICE_DEF\fP(prefix,  st,  args,  field)   \fBISL_CTX_SET_INT_DEF\fP(prefix,st,args,field)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBisl_ctx\fP \fBisl_ctx\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBisl_error\fP { \fBisl_error_none\fP = 0, \fBisl_error_abort\fP, \fBisl_error_alloc\fP, \fBisl_error_unknown\fP, \fBisl_error_internal\fP, \fBisl_error_invalid\fP, \fBisl_error_quota\fP, \fBisl_error_unsupported\fP }"
+.br
+.ti -1c
+.RI "enum \fBisl_stat\fP { \fBisl_stat_error\fP = -1, \fBisl_stat_ok\fP = 0 }"
+.br
+.ti -1c
+.RI "enum \fBisl_bool\fP { \fBisl_bool_error\fP = -1, \fBisl_bool_false\fP = 0, \fBisl_bool_true\fP = 1 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void * \fBisl_malloc_or_die\fP (\fBisl_ctx\fP *ctx, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void * \fBisl_calloc_or_die\fP (\fBisl_ctx\fP *ctx, size_t nmemb, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void * \fBisl_realloc_or_die\fP (\fBisl_ctx\fP *ctx, void *ptr, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_handle_error\fP (\fBisl_ctx\fP *ctx, enum \fBisl_error\fP \fBerror\fP, \fBconst\fP char *msg, \fBconst\fP char *file, int line)"
+.br
+.ti -1c
+.RI "struct \fBisl_options\fP * \fBisl_ctx_options\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_ctx_alloc_with_options\fP (struct \fBisl_args\fP *args, \fB__isl_take\fP void *opt)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_ctx_alloc\fP (void)"
+.br
+.ti -1c
+.RI "void * \fBisl_ctx_peek_options\fP (\fBisl_ctx\fP *ctx, struct \fBisl_args\fP *args)"
+.br
+.ti -1c
+.RI "int \fBisl_ctx_parse_options\fP (\fBisl_ctx\fP *ctx, int argc, char **argv, unsigned flags)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_ref\fP (struct \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_deref\fP (struct \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_free\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_abort\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_resume\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBisl_ctx_aborted\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_set_max_operations\fP (\fBisl_ctx\fP *ctx, unsigned long max_operations)"
+.br
+.ti -1c
+.RI "unsigned long \fBisl_ctx_get_max_operations\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_reset_operations\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "enum \fBisl_error\fP \fBisl_ctx_last_error\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_reset_error\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBisl_ctx_set_error\fP (\fBisl_ctx\fP *ctx, enum \fBisl_error\fP \fBerror\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define __isl_constructor"
+
+.SS "#define __isl_export"
+
+.SS "#define __isl_give"
+
+.SS "#define __isl_keep"
+
+.SS "#define __isl_null"
+
+.SS "#define __isl_overload"
+
+.SS "#define __isl_subclass(super)"
+
+.SS "#define __isl_take"
+
+.SS "#define isl_alloc(ctx, type, \fBsize\fP)   ((type *)\fBisl_malloc_or_die\fP(ctx, \fBsize\fP))"
+
+.SS "#define isl_alloc_array(ctx, type, \fBn\fP)   \fBisl_alloc\fP(ctx,type,(\fBn\fP)*sizeof(type))"
+
+.SS "#define isl_alloc_type(ctx, type)   \fBisl_alloc\fP(ctx,type,sizeof(type))"
+
+.SS "#define ISL_ARG_CTX_DECL(prefix, st, args)   st *isl_ctx_peek_ ## prefix(\fBisl_ctx\fP *ctx);"
+
+.SS "#define ISL_ARG_CTX_DEF(prefix, st, args)"
+\fBValue:\fP
+.PP
+.nf
+st *isl_ctx_peek_ ## prefix(isl_ctx *ctx)               \
+{                                   \
+    return (st *)isl_ctx_peek_options(ctx, &(args));        \
+}
+.fi
+.SS "#define isl_assert(ctx, test, code)   \fBisl_assert4\fP(ctx,test,code,\fBisl_error_unknown\fP)"
+
+.SS "#define isl_assert4(ctx, test, code, errno)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                \
+        if (test)                       \
+            break;                      \
+        isl_die(ctx, errno, "Assertion \"" #test "\" failed", code);    \
+    } while (0)
+.fi
+.SS "#define isl_calloc(ctx, type, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+                                 ((type *)isl_calloc_or_die(ctx,\
+                                    1, size))
+.fi
+.SS "#define isl_calloc_array(ctx, type, \fBn\fP)"
+\fBValue:\fP
+.PP
+.nf
+                              ((type *)isl_calloc_or_die(ctx,\
+                                n, sizeof(type)))
+.fi
+.SS "#define isl_calloc_type(ctx, type)   \fBisl_calloc\fP(ctx,type,sizeof(type))"
+
+.SS "#define ISL_CTX_GET_BOOL_DEF(prefix, st, args, field)   \fBISL_CTX_GET_INT_DEF\fP(prefix,st,args,field)"
+
+.SS "#define ISL_CTX_GET_CHOICE_DEF(prefix, st, args, field)   \fBISL_CTX_GET_INT_DEF\fP(prefix,st,args,field)"
+
+.SS "#define ISL_CTX_GET_INT_DEF(prefix, st, args, field)"
+\fBValue:\fP
+.PP
+.nf
+int prefix ## _get_ ## field(isl_ctx *ctx)             \
+{                                   \
+    st *options;                            \
+    options = isl_ctx_peek_ ## prefix(ctx);             \
+    if (!options)                           \
+        isl_die(ctx, isl_error_invalid,             \
+            "isl_ctx does not reference " #prefix,      \
+            return -1);                 \
+    return options->field;                      \
+}
+.fi
+.SS "#define ISL_CTX_GET_STR_DEF(prefix, st, args, field)"
+\fBValue:\fP
+.PP
+.nf
+const char *prefix ## _get_ ## field(isl_ctx *ctx)          \
+{                                   \
+    st *options;                            \
+    options = isl_ctx_peek_ ## prefix(ctx);             \
+    if (!options)                           \
+        isl_die(ctx, isl_error_invalid,             \
+            "isl_ctx does not reference " #prefix,      \
+            return NULL);                   \
+    return options->field;                      \
+}
+.fi
+.SS "#define ISL_CTX_SET_BOOL_DEF(prefix, st, args, field)   \fBISL_CTX_SET_INT_DEF\fP(prefix,st,args,field)"
+
+.SS "#define ISL_CTX_SET_CHOICE_DEF(prefix, st, args, field)   \fBISL_CTX_SET_INT_DEF\fP(prefix,st,args,field)"
+
+.SS "#define ISL_CTX_SET_INT_DEF(prefix, st, args, field)"
+\fBValue:\fP
+.PP
+.nf
+isl_stat prefix ## _set_ ## field(isl_ctx *ctx, int val)      \
+{                                   \
+    st *options;                            \
+    options = isl_ctx_peek_ ## prefix(ctx);             \
+    if (!options)                           \
+        isl_die(ctx, isl_error_invalid,             \
+            "isl_ctx does not reference " #prefix,      \
+            return isl_stat_error);             \
+    options->field = val;                       \
+    return isl_stat_ok;                     \
+}
+.fi
+.SS "#define ISL_CTX_SET_STR_DEF(prefix, st, args, field)"
+\fBValue:\fP
+.PP
+.nf
+isl_stat prefix ## _set_ ## field(isl_ctx *ctx, const char *val)    \
+{                                   \
+    st *options;                            \
+    options = isl_ctx_peek_ ## prefix(ctx);             \
+    if (!options)                           \
+        isl_die(ctx, isl_error_invalid,             \
+            "isl_ctx does not reference " #prefix,      \
+            return isl_stat_error);             \
+    if (!val)                           \
+        return isl_stat_error;                  \
+    free(options->field);                       \
+    options->field = strdup(val);                   \
+    if (!options->field)                        \
+        return isl_stat_error;                  \
+    return isl_stat_ok;                     \
+}
+.fi
+.SS "#define ISL_DEPRECATED"
+
+.SS "#define isl_die(ctx, errno, msg, code)"
+\fBValue:\fP
+.PP
+.nf
+    do {                                \
+        isl_handle_error(ctx, errno, msg, __FILE__, __LINE__);  \
+        code;                           \
+    } while (0)
+.fi
+.SS "#define ISL_F_CLR(\fBp\fP, \fBf\fP)   \fBISL_FL_CLR\fP((\fBp\fP)\->flags, \fBf\fP)"
+
+.SS "#define ISL_F_INIT(\fBp\fP, \fBf\fP)   \fBISL_FL_INIT\fP((\fBp\fP)\->flags, \fBf\fP)  /* Structure element flags\&. */"
+
+.SS "#define ISL_F_ISSET(\fBp\fP, \fBf\fP)   \fBISL_FL_ISSET\fP((\fBp\fP)\->flags, \fBf\fP)"
+
+.SS "#define ISL_F_SET(\fBp\fP, \fBf\fP)   \fBISL_FL_SET\fP((\fBp\fP)\->flags, \fBf\fP)"
+
+.SS "#define ISL_FL_CLR(l, \fBf\fP)   ((l) &= ~(\fBf\fP))"
+
+.SS "#define ISL_FL_INIT(l, \fBf\fP)   (l) = (\fBf\fP)               /* Specific flags location\&. */"
+
+.SS "#define ISL_FL_ISSET(l, \fBf\fP)   (!!((l) & (\fBf\fP)))"
+
+.SS "#define ISL_FL_SET(l, \fBf\fP)   ((l) |= (\fBf\fP))"
+
+.SS "#define isl_min(\fBa\fP, \fBb\fP)   ((\fBa\fP < \fBb\fP) ? (\fBa\fP) : (\fBb\fP))"
+
+.SS "#define isl_realloc(ctx, ptr, type, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+                                    ((type *)isl_realloc_or_die(ctx,\
+                                    ptr, size))
+.fi
+.SS "#define isl_realloc_array(ctx, ptr, type, \fBn\fP)   \fBisl_realloc\fP(ctx,ptr,type,(\fBn\fP)*sizeof(type))"
+
+.SS "#define isl_realloc_type(ctx, ptr, type)   \fBisl_realloc\fP(ctx,ptr,type,sizeof(type))"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBisl_ctx\fP \fBisl_ctx\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBisl_bool\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIisl_bool_error \fP\fP
+.TP
+\fB\fIisl_bool_false \fP\fP
+.TP
+\fB\fIisl_bool_true \fP\fP
+.SS "enum \fBisl_error\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIisl_error_none \fP\fP
+.TP
+\fB\fIisl_error_abort \fP\fP
+.TP
+\fB\fIisl_error_alloc \fP\fP
+.TP
+\fB\fIisl_error_unknown \fP\fP
+.TP
+\fB\fIisl_error_internal \fP\fP
+.TP
+\fB\fIisl_error_invalid \fP\fP
+.TP
+\fB\fIisl_error_quota \fP\fP
+.TP
+\fB\fIisl_error_unsupported \fP\fP
+.SS "enum \fBisl_stat\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIisl_stat_error \fP\fP
+.TP
+\fB\fIisl_stat_ok \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "void* isl_calloc_or_die (\fBisl_ctx\fP * ctx, size_t nmemb, size_t size)"
+
+.SS "void isl_ctx_abort (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_ctx_aborted (\fBisl_ctx\fP * ctx)"
+
+.SS "\fBisl_ctx\fP* isl_ctx_alloc (void)"
+
+.SS "\fBisl_ctx\fP* isl_ctx_alloc_with_options (struct \fBisl_args\fP * args, \fB__isl_take\fP void * opt)"
+
+.SS "void isl_ctx_deref (struct \fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_free (\fBisl_ctx\fP * ctx)"
+
+.SS "unsigned long isl_ctx_get_max_operations (\fBisl_ctx\fP * ctx)"
+
+.SS "enum \fBisl_error\fP isl_ctx_last_error (\fBisl_ctx\fP * ctx)"
+
+.SS "struct \fBisl_options\fP* isl_ctx_options (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_ctx_parse_options (\fBisl_ctx\fP * ctx, int argc, char ** argv, unsigned flags)"
+
+.SS "void* isl_ctx_peek_options (\fBisl_ctx\fP * ctx, struct \fBisl_args\fP * args)"
+
+.SS "void isl_ctx_ref (struct \fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_reset_error (\fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_reset_operations (\fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_resume (\fBisl_ctx\fP * ctx)"
+
+.SS "void isl_ctx_set_error (\fBisl_ctx\fP * ctx, enum \fBisl_error\fP error)"
+
+.SS "void isl_ctx_set_max_operations (\fBisl_ctx\fP * ctx, unsigned long max_operations)"
+
+.SS "void isl_handle_error (\fBisl_ctx\fP * ctx, enum \fBisl_error\fP error, \fBconst\fP char * msg, \fBconst\fP char * file, int line)"
+
+.SS "void* isl_malloc_or_die (\fBisl_ctx\fP * ctx, size_t size)"
+
+.SS "void* isl_realloc_or_die (\fBisl_ctx\fP * ctx, void * ptr, size_t size)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

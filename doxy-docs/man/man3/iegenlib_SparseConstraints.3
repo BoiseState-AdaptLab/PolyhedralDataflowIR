@@ -1,0 +1,308 @@
+.TH "iegenlib::SparseConstraints" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::SparseConstraints \- Base class that contains the conjunctions and a pointer to an environment\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <set_relation\&.h>\fP
+.PP
+Inherited by \fBiegenlib::Relation\fP, and \fBiegenlib::Set\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSparseConstraints\fP ()"
+.br
+.ti -1c
+.RI "\fBSparseConstraints\fP (\fBconst\fP \fBSparseConstraints\fP &other)"
+.br
+.ti -1c
+.RI "virtual \fBSparseConstraints\fP & \fBoperator=\fP (\fBconst\fP \fBSparseConstraints\fP &other)"
+.br
+.ti -1c
+.RI "void \fBreset\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~SparseConstraints\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBoperator<\fP (\fBconst\fP \fBSparseConstraints\fP &other) \fBconst\fP"
+.br
+.RI "Less than operator\&. "
+.ti -1c
+.RI "virtual void \fBsetTupleDecl\fP (\fBTupleDecl\fP tuple_decl)"
+.br
+.ti -1c
+.RI "\fBTupleDecl\fP \fBgetTupleDecl\fP () \fBconst\fP"
+.br
+.RI "Returns a copy of the first conjunction's tuple declaration\&. "
+.ti -1c
+.RI "void \fBsetTupleDecl\fP (\fBTupleDecl\fP tuple_decl_in, \fBTupleDecl\fP tuple_decl_out)"
+.br
+.ti -1c
+.RI "virtual void \fBaddConjunction\fP (\fBConjunction\fP *adoptedConjunction)"
+.br
+.ti -1c
+.RI "std::list< \fBConjunction\fP * >::const_iterator \fBconjunctionBegin\fP () \fBconst\fP"
+.br
+.RI "Get an iterator to the first conjunction we contain\&. "
+.ti -1c
+.RI "std::list< \fBConjunction\fP * >::const_iterator \fBconjunctionEnd\fP () \fBconst\fP"
+.br
+.RI "Get an iterator pointing past the last conjunction we contain\&. "
+.ti -1c
+.RI "virtual int \fBarity\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBStringIterator\fP * \fBgetTupleIterator\fP () \fBconst\fP"
+.br
+.RI "Get an iterator over the tuple variables, in order\&. "
+.ti -1c
+.RI "virtual std::string \fBtoString\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBtoString\fP (int aritySplit) \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual std::string \fBprettyPrintString\fP () \fBconst\fP"
+.br
+.RI "Convert to human-readable format (substitute in tuple vars)\&. "
+.ti -1c
+.RI "std::string \fBprettyPrintString\fP (int aritySplit) \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual std::string \fBtoISLString\fP () \fBconst\fP"
+.br
+.RI "Convert to ISL format (substitute in tuple vars and declare symbolics)\&. "
+.ti -1c
+.RI "std::string \fBtoISLString\fP (int aritySplit) \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual std::string \fBtoDotString\fP () \fBconst\fP"
+.br
+.RI "Create a graph for visualization with graphviz\&. "
+.ti -1c
+.RI "void \fBsubstituteInConstraints\fP (\fBSubMap\fP &searchTermToSubExp)"
+.br
+.ti -1c
+.RI "void \fBcleanUp\fP ()"
+.br
+.RI "Remove duplicate constraints and trivial constraints\&. "
+.ti -1c
+.RI "void \fBremapTupleVars\fP (\fBconst\fP std::vector< int > &oldToNewLocs)"
+.br
+.ti -1c
+.RI "void \fBacceptVisitor\fP (\fBVisitor\fP *v)"
+.br
+.RI "\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. "
+.ti -1c
+.RI "bool \fBisUFCallParam\fP (int tupleID)"
+.br
+.RI "Is tuple variable tupleID argument to an UFS? "
+.ti -1c
+.RI "int \fBnumUFCallConstsMustRemove\fP (int \fBi\fP, \fBstd::set\fP< \fBExp\fP > &domainRangeConsts)"
+.br
+.ti -1c
+.RI "void \fBremoveUFCallConsts\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "void \fBremoveExpensiveConstraints\fP (\fBstd::set\fP< int > parallelTvs, int mNumConstsToRemove, \fBstd::set\fP< \fBExp\fP > ignore)"
+.br
+.RI "This function is implementation of a heuristic algorithm to remove\&. "
+.ti -1c
+.RI "void \fBindexUFCs\fP ()"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< \fBExp\fP > \fBconstraintsDifference\fP (\fBSparseConstraints\fP *\fBA\fP)"
+.br
+.RI "This function returns a set of constraints that are in caller but not in A\&. "
+.ti -1c
+.RI "bool \fBisUnsat\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetNumConjuncts\fP ()"
+.br
+.RI "Return the number of conjunction\&. "
+.ti -1c
+.RI "std::string \fBcomplexityForPartialParallel\fP (\fBstd::set\fP< int > parallelTvs)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::list< \fBConjunction\fP * > \fBmConjunctions\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Base class that contains the conjunctions and a pointer to an environment\&. 
+
+The purpose of this class, at the moment, is mostly as a base class and to be extended by set and relation, both of which will have their own special behaviors dealing with the arity\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::SparseConstraints::SparseConstraints ()"
+
+.SS "iegenlib::SparseConstraints::SparseConstraints (\fBconst\fP \fBSparseConstraints\fP & other)"
+
+.SS "iegenlib::SparseConstraints::~SparseConstraints ()\fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void iegenlib::SparseConstraints::acceptVisitor (\fBVisitor\fP * v)"
+
+.PP
+\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. 
+.SS "void iegenlib::SparseConstraints::addConjunction (\fBConjunction\fP * adoptedConjunction)\fC [virtual]\fP"
+addConjunction 
+.PP
+\fBParameters\fP
+.RS 4
+\fIadoptedconjuction\fP (adopted) 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBiegenlib::Relation\fP\&.
+.SS "virtual int iegenlib::SparseConstraints::arity () const\fC [inline]\fP, \fC [virtual]\fP"
+Get our total arity, IOW number of tuple elements\&. Should be overridden in subclasses\&. 
+.PP
+Reimplemented in \fBiegenlib::Relation\fP, and \fBiegenlib::Set\fP\&.
+.SS "void iegenlib::SparseConstraints::cleanUp ()"
+
+.PP
+Remove duplicate constraints and trivial constraints\&. 
+.SS "std::string iegenlib::SparseConstraints::complexityForPartialParallel (\fBstd::set\fP< int > parallelTvs)"
+! This function calculates the algorithmic complexity of a Set/Relation that is representing a data dependence\&. Also, it takes into account the fact that the set is meant for dependency analysis for partial parallelism\&. Basically, it calculates the complexity of efficient inspector that we need to generate for the dependence\&. 
+.br
+ Therefore, it considers two things: 1) It ignores any tuple variable that we can project out, other than those that we want to parallelize\&. 2) It takes into account the useful equalities (e\&.g i = \fBcol(jp)\fP, where we can get values of i from \fBcol(jp)\fP)\&. Nonetheless, note that it does not consider any sort of approximations that we might be able to do to further optimize the inspector\&.
+.PP
+! This function calculates the algorithmic complexity of a Set/Relation that is representing a data dependence\&. Also, it takes into account the fact that the set is meant for dependency analysis for partial parallelism\&. Basically, it calculates the complexity of efficient inspector that we need to generate for the dependence\&. 
+.br
+ Therefore, it considers two things: 1) It ignores any tuple variable that we can project out, other than those that we want to parallelize\&. 2) It takes into account the useful equalities (e\&.g i = \fBcol(jp)\fP, where we can get values of i from \fBcol(jp)\fP)\&. Nonetheless, note that it does not consider any sort of approximations that we might be able to do to further optimize the inspector\&.
+.PP
+The way it works is that we are trying to find the range of iterators that are going to be in the final inspector, and multiply together\&.
+.PP
+The out is a string of the form O(n^2*nnz^4) 
+.SS "std::list<\fBConjunction\fP*>::const_iterator iegenlib::SparseConstraints::conjunctionBegin () const\fC [inline]\fP"
+
+.PP
+Get an iterator to the first conjunction we contain\&. 
+.SS "std::list<\fBConjunction\fP*>::const_iterator iegenlib::SparseConstraints::conjunctionEnd () const\fC [inline]\fP"
+
+.PP
+Get an iterator pointing past the last conjunction we contain\&. 
+.SS "\fBstd::set\fP< \fBExp\fP > iegenlib::SparseConstraints::constraintsDifference (\fBSparseConstraints\fP * A)"
+
+.PP
+This function returns a set of constraints that are in caller but not in A\&. 
+.SS "int iegenlib::SparseConstraints::getNumConjuncts ()\fC [inline]\fP"
+
+.PP
+Return the number of conjunction\&. 
+.SS "\fBTupleDecl\fP iegenlib::SparseConstraints::getTupleDecl () const"
+
+.PP
+Returns a copy of the first conjunction's tuple declaration\&. 
+.SS "\fBStringIterator\fP * iegenlib::SparseConstraints::getTupleIterator () const"
+
+.PP
+Get an iterator over the tuple variables, in order\&. Get an iterator over the tuple variables, in order\&. Caller in charge of deleting returned \fBStringIterator\fP\&. 
+.SS "void iegenlib::SparseConstraints::indexUFCs ()"
+Sometimes to provide arguments of an UFC like sigma(a1, a2, \&.\&.\&.) we use another UFC that is not indexed like left(f)\&. Here, the expanded form would look like this: sigma(left(f)[0], left(f)[1], \&.\&.\&.) \fBindexUFCs()\fP would create the expanded format for normalization purposes\&. 
+.SS "bool iegenlib::SparseConstraints::isUFCallParam (int tupleID)"
+
+.PP
+Is tuple variable tupleID argument to an UFS? 
+.SS "bool iegenlib::SparseConstraints::isUnsat ()\fC [inline]\fP"
+
+.SS "int iegenlib::SparseConstraints::numUFCallConstsMustRemove (int i, \fBstd::set\fP< \fBExp\fP > & ignore)"
+This function considers tuple variable i; and counts the number of constraints in the set where this tuple variable is argument to an UFC\&. However, it excludes constraints that are in the domainRangeConsts set\&. Since, these constraints are related to domain/range of UFCs in the set\&.
+.PP
+This function considers tuple variable i; and counts the number of constraints in the set where this tuple variable is argument to an UFC\&. However, it excludes constraints that are in the ignore set\&. Since, these constraints are related to domain/range of UFCs in the set\&. 
+.SS "bool iegenlib::SparseConstraints::operator< (\fBconst\fP \fBSparseConstraints\fP & other) const\fC [virtual]\fP"
+
+.PP
+Less than operator\&. Less than operator\&. Compare two \fBSparseConstraints\fP in the following order:
+.IP "1." 4
+by number of conjunctions: number of Conjunctions in mConjunctions
+.IP "2." 4
+by sorted conjunctions list values: using Conjunction::operator<(Exp) This operator assumes that the list of conjunctions (mConjunctions) and is sorted for both \fBSparseConstraints\fP being compared\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.PP
+
+.SS "\fBSparseConstraints\fP & iegenlib::SparseConstraints::operator= (\fBconst\fP \fBSparseConstraints\fP & other)\fC [virtual]\fP"
+
+.SS "virtual std::string iegenlib::SparseConstraints::prettyPrintString () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Convert to human-readable format (substitute in tuple vars)\&. 
+.PP
+Reimplemented in \fBiegenlib::Relation\fP\&.
+.SS "std::string iegenlib::SparseConstraints::prettyPrintString (int aritySplit) const"
+
+.SS "void iegenlib::SparseConstraints::remapTupleVars (\fBconst\fP std::vector< int > & oldToNewLocs)"
+Find any TupleVarTerms in this expression (and subexpressions) and remap the locations according to the oldToNewLocs vector, where oldToNewLocs[i] = j means that old location i becomes new location j (i\&.e\&. __tvi -> __tvj)\&. Throws an exception if an old location is out of the domain for the given oldToNewLocs\&. The new location will be -1 for old locations that are not being remapped\&. For example some might be constants in the \fBTupleDecl\fP\&.
+.PP
+Find any TupleVarTerms in this expression (and subexpressions) and remap the locations according to the oldToNewLocs vector, where oldToNewLocs[i] = j means that old location i becomes new location j (i\&.e\&. __tvi -> __tvj)\&. Throws an exception if an old location is out of range for the given oldToNewLocs\&. The new location will be -1 for old locations that are not being remapped\&. For example some might be constants in the \fBTupleDecl\fP\&. 
+.SS "void iegenlib::SparseConstraints::removeExpensiveConstraints (\fBstd::set\fP< int > parallelTvs, int mNumConstsToRemove, \fBstd::set\fP< \fBExp\fP > ignore)"
+
+.PP
+This function is implementation of a heuristic algorithm to remove\&. 
+.SS "void iegenlib::SparseConstraints::removeUFCallConsts (int i)"
+This function removes any constraints where this tuple variable i is argument to an UFC\&. It also removes such constraints from domainRangeConsts set\&.
+.PP
+This function removes any constraints where tuple variable i is argument to an UFC\&. The function is inplace\&. 
+.SS "void iegenlib::SparseConstraints::reset ()"
+
+.SS "void iegenlib::SparseConstraints::setTupleDecl (\fBTupleDecl\fP tuple_decl)\fC [virtual]\fP"
+For all conjunctions, sets them to the given tuple declaration\&. If there are some constants that don't agree then throws exception\&. If replacing a constant with a variable ignores the substitution in that conjunction\&. 
+.PP
+Reimplemented in \fBiegenlib::Relation\fP, and \fBiegenlib::Set\fP\&.
+.SS "void iegenlib::SparseConstraints::setTupleDecl (\fBTupleDecl\fP tuple_decl_in, \fBTupleDecl\fP tuple_decl_out)"
+For all conjunctions, sets them to the given tuple declarations\&. If there are some constants that don't agree then throws exception\&. If replacing a constant with a variable ignores the substitution in that conjunction\&. 
+.SS "void iegenlib::SparseConstraints::substituteInConstraints (\fBSubMap\fP & searchTermToSubExp)"
+Substitute each factor (i\&.e\&. the non-coefficient part of a term) with the expression mapped to that factor in all our equalities and inequalities\&. None of the \fBTerm\fP's in the map can be constant or an exception will be thrown\&. After this substitution the \fBSet\fP or \fBRelation\fP may not be normalized, but it is cleaned up\&. What does that mean? 
+.PP
+\fBParameters\fP
+.RS 4
+\fIsearchTermToSubExp\fP (none of the Term* or Exp* are adopted) 
+.RE
+.PP
+
+.SS "std::string iegenlib::SparseConstraints::toDotString () const\fC [virtual]\fP"
+
+.PP
+Create a graph for visualization with graphviz\&. 
+.PP
+Reimplemented in \fBiegenlib::Relation\fP, and \fBiegenlib::Set\fP\&.
+.SS "virtual std::string iegenlib::SparseConstraints::toISLString () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Convert to ISL format (substitute in tuple vars and declare symbolics)\&. 
+.SS "std::string iegenlib::SparseConstraints::toISLString (int aritySplit) const"
+
+.SS "virtual std::string iegenlib::SparseConstraints::toString () const\fC [inline]\fP, \fC [virtual]\fP"
+Convert to a human-readable string\&. Still need arity split here because works for Sets and Relations\&. 
+.PP
+Reimplemented in \fBiegenlib::Relation\fP\&.
+.SS "std::string iegenlib::SparseConstraints::toString (int aritySplit) const"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::list<\fBConjunction\fP*> iegenlib::SparseConstraints::mConjunctions"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,136 @@
+.TH "out/coo_dsr_insp.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/coo_dsr_insp.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBcrow\fP(\fBm\fP)   (*crow)[(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBcrp\fP(\fBi\fP)   (*crp)[(\fBi\fP)]"
+.br
+.ti -1c
+.RI "#define \fBrow\fP(\fBn\fP)   row[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs0\fP()   \fBcrow\fP(0)=\fBrow\fP(0)"
+.br
+.ti -1c
+.RI "#define \fBs1\fP()   \fBR\fP=\fBcrp\fP(0)=\fBcrp\fP(1)=0"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBn\fP,  \fBi\fP)   \fBif\fP ((\fBi\fP) != \fBrow\fP((\fBn\fP)\-1)) \fBR\fP+=1"
+.br
+.ti -1c
+.RI "#define \fBs1\fP(\fBn\fP,  \fBi\fP)   \fBcrow\fP(\fBR\fP)=(\fBi\fP)"
+.br
+.ti -1c
+.RI "#define \fBs2\fP(\fBn\fP,  \fBi\fP)   \fBif\fP ((\fBn\fP) >= \fBcrp\fP(\fBR\fP+1)) \fBcrp\fP(\fBR\fP+1)=(\fBn\fP)+1"
+.br
+.ti -1c
+.RI "#define \fBs3\fP()   \fBR\fP+=1"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBcoo_dsr_insp\fP (\fBconst\fP unsigned *\fBrow\fP, \fBconst\fP unsigned M, unsigned **\fBcrow\fP, unsigned **\fBcrp\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define crow(\fBm\fP)   (*crow)[(\fBm\fP)]"
+
+.SS "#define crp(\fBi\fP)   (*crp)[(\fBi\fP)]"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define row(\fBn\fP)   row[(\fBn\fP)]"
+
+.SS "#define s0()   \fBcrow\fP(0)=\fBrow\fP(0)"
+
+.SS "#define s0(\fBn\fP, \fBi\fP)   \fBif\fP ((\fBi\fP) != \fBrow\fP((\fBn\fP)\-1)) \fBR\fP+=1"
+
+.SS "#define s1()   \fBR\fP=\fBcrp\fP(0)=\fBcrp\fP(1)=0"
+
+.SS "#define s1(\fBn\fP, \fBi\fP)   \fBcrow\fP(\fBR\fP)=(\fBi\fP)"
+
+.SS "#define s2(\fBn\fP, \fBi\fP)   \fBif\fP ((\fBn\fP) >= \fBcrp\fP(\fBR\fP+1)) \fBcrp\fP(\fBR\fP+1)=(\fBn\fP)+1"
+
+.SS "#define s3()   \fBR\fP+=1"
+
+.SH "Function Documentation"
+.PP 
+.SS "unsigned coo_dsr_insp (\fBconst\fP unsigned * row, \fBconst\fP unsigned M, unsigned ** crow, unsigned ** crp)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

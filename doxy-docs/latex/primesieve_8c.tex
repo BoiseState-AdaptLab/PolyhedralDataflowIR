@@ -1,0 +1,126 @@
+\hypertarget{primesieve_8c}{}\doxysection{lib/gmp/primesieve.c File Reference}
+\label{primesieve_8c}\index{lib/gmp/primesieve.c@{lib/gmp/primesieve.c}}
+{\ttfamily \#include \char`\"{}gmp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}gmp-\/impl.\+h\char`\"{}}\newline
+Include dependency graph for primesieve.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{primesieve_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{primesieve_8c_a44a21076f5414906736d7fbefd59f9a9}{L\+O\+O\+P\+\_\+\+O\+N\+\_\+\+S\+I\+E\+V\+E\+\_\+\+C\+O\+N\+T\+I\+N\+UE}}(prime,  end,  sieve)
+\item 
+\#define \mbox{\hyperlink{primesieve_8c_ad4b6f2238d3e8de2f4b82a994589b282}{L\+O\+O\+P\+\_\+\+O\+N\+\_\+\+S\+I\+E\+V\+E\+\_\+\+B\+E\+G\+IN}}(prime,  \mbox{\hyperlink{hull__legacy_8cc_a9bd54201821a6416eb1b9b30fd3b44c6}{start}},  end,  off,  sieve)
+\item 
+\#define \mbox{\hyperlink{primesieve_8c_a561921cabb6e25cdf4851d4d43f6573e}{L\+O\+O\+P\+\_\+\+O\+N\+\_\+\+S\+I\+E\+V\+E\+\_\+\+S\+T\+OP}}
+\item 
+\#define \mbox{\hyperlink{primesieve_8c_a135967575d0cdaa03ff6865e15482333}{L\+O\+O\+P\+\_\+\+O\+N\+\_\+\+S\+I\+E\+V\+E\+\_\+\+E\+ND}}
+\item 
+\#define \mbox{\hyperlink{primesieve_8c_a1b1a953bb5646d95d391809455b10997}{S\+I\+E\+V\+E\+\_\+\+S\+E\+ED}}~\mbox{\hyperlink{gmp-impl_8h_ac420cccf68aee6c4228651f26a0ba092}{C\+N\+S\+T\+\_\+\+L\+I\+MB}}(0x3294\+C9\+E069128480)
+\item 
+\#define \mbox{\hyperlink{primesieve_8c_a02fc660cc75e9e3d58251f55d603e1d9}{S\+E\+E\+D\+\_\+\+L\+I\+M\+IT}}~202
+\item 
+\#define \mbox{\hyperlink{primesieve_8c_ad51ded0bbd705f02f73fc60c0b721ced}{B\+L\+O\+C\+K\+\_\+\+S\+I\+ZE}}~2048
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{gmp_8h_abd22b3df3fe18cf817bffe429e68e362}{mp\+\_\+limb\+\_\+t}} \mbox{\hyperlink{primesieve_8c_a6c53a63f6f8a9674aa905f144797077f}{gmp\+\_\+primesieve}} (\mbox{\hyperlink{gmp_8h_a0e1a5ea354e7a20f0c664d9a2cc30ed4}{mp\+\_\+ptr}} bit\+\_\+array, \mbox{\hyperlink{gmp_8h_abd22b3df3fe18cf817bffe429e68e362}{mp\+\_\+limb\+\_\+t}} \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{primesieve_8c_ad51ded0bbd705f02f73fc60c0b721ced}\label{primesieve_8c_ad51ded0bbd705f02f73fc60c0b721ced}} 
+\index{primesieve.c@{primesieve.c}!BLOCK\_SIZE@{BLOCK\_SIZE}}
+\index{BLOCK\_SIZE@{BLOCK\_SIZE}!primesieve.c@{primesieve.c}}
+\doxysubsubsection{\texorpdfstring{BLOCK\_SIZE}{BLOCK\_SIZE}}
+{\footnotesize\ttfamily \#define B\+L\+O\+C\+K\+\_\+\+S\+I\+ZE~2048}
+
+\mbox{\Hypertarget{primesieve_8c_ad4b6f2238d3e8de2f4b82a994589b282}\label{primesieve_8c_ad4b6f2238d3e8de2f4b82a994589b282}} 
+\index{primesieve.c@{primesieve.c}!LOOP\_ON\_SIEVE\_BEGIN@{LOOP\_ON\_SIEVE\_BEGIN}}
+\index{LOOP\_ON\_SIEVE\_BEGIN@{LOOP\_ON\_SIEVE\_BEGIN}!primesieve.c@{primesieve.c}}
+\doxysubsubsection{\texorpdfstring{LOOP\_ON\_SIEVE\_BEGIN}{LOOP\_ON\_SIEVE\_BEGIN}}
+{\footnotesize\ttfamily \#define L\+O\+O\+P\+\_\+\+O\+N\+\_\+\+S\+I\+E\+V\+E\+\_\+\+B\+E\+G\+IN(\begin{DoxyParamCaption}\item[{}]{prime,  }\item[{}]{\mbox{\hyperlink{hull__legacy_8cc_a9bd54201821a6416eb1b9b30fd3b44c6}{start}},  }\item[{}]{end,  }\item[{}]{off,  }\item[{}]{sieve }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{  \textcolor{keywordflow}{do} \{                              \(\backslash\)}
+\DoxyCodeLine{    mp\_limb\_t \_\_mask, \_\_index, \_\_max\_i, \_\_i;            \(\backslash\)}
+\DoxyCodeLine{                                \(\backslash\)}
+\DoxyCodeLine{    \_\_i = (\mbox{\hyperlink{hull_8cc_a9bd54201821a6416eb1b9b30fd3b44c6}{start}})-\/(off);                   \(\backslash\)}
+\DoxyCodeLine{    \_\_index = \_\_i / \mbox{\hyperlink{gmp-impl_8h_a83e164777bdfecd57c16be15e3881201}{GMP\_LIMB\_BITS}};             \(\backslash\)}
+\DoxyCodeLine{    \_\_mask = \mbox{\hyperlink{gmp-impl_8h_ac420cccf68aee6c4228651f26a0ba092}{CNST\_LIMB}}(1) << (\_\_i \% \mbox{\hyperlink{gmp-impl_8h_a83e164777bdfecd57c16be15e3881201}{GMP\_LIMB\_BITS}});       \(\backslash\)}
+\DoxyCodeLine{    \_\_i += (off);                       \mbox{\hyperlink{primesieve_8c_a44a21076f5414906736d7fbefd59f9a9}{\(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{primesieve_8c_a44a21076f5414906736d7fbefd59f9a9}{                                \(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{primesieve_8c_a44a21076f5414906736d7fbefd59f9a9}{    LOOP\_ON\_SIEVE\_CONTINUE}}(prime,end,sieve)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{primesieve_8c_a44a21076f5414906736d7fbefd59f9a9}\label{primesieve_8c_a44a21076f5414906736d7fbefd59f9a9}} 
+\index{primesieve.c@{primesieve.c}!LOOP\_ON\_SIEVE\_CONTINUE@{LOOP\_ON\_SIEVE\_CONTINUE}}
+\index{LOOP\_ON\_SIEVE\_CONTINUE@{LOOP\_ON\_SIEVE\_CONTINUE}!primesieve.c@{primesieve.c}}
+\doxysubsubsection{\texorpdfstring{LOOP\_ON\_SIEVE\_CONTINUE}{LOOP\_ON\_SIEVE\_CONTINUE}}
+{\footnotesize\ttfamily \#define L\+O\+O\+P\+\_\+\+O\+N\+\_\+\+S\+I\+E\+V\+E\+\_\+\+C\+O\+N\+T\+I\+N\+UE(\begin{DoxyParamCaption}\item[{}]{prime,  }\item[{}]{end,  }\item[{}]{sieve }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \_\_max\_i = (end);                        \(\backslash\)}
+\DoxyCodeLine{                                \(\backslash\)}
+\DoxyCodeLine{    do \{                            \(\backslash\)}
+\DoxyCodeLine{      ++\_\_i;                            \(\backslash\)}
+\DoxyCodeLine{      if (((sieve)[\_\_index] \& \_\_mask) == 0)         \(\backslash\)}
+\DoxyCodeLine{    \{                           \(\backslash\)}
+\DoxyCodeLine{      (prime) = id\_to\_n(\_\_i)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{primesieve_8c_a135967575d0cdaa03ff6865e15482333}\label{primesieve_8c_a135967575d0cdaa03ff6865e15482333}} 
+\index{primesieve.c@{primesieve.c}!LOOP\_ON\_SIEVE\_END@{LOOP\_ON\_SIEVE\_END}}
+\index{LOOP\_ON\_SIEVE\_END@{LOOP\_ON\_SIEVE\_END}!primesieve.c@{primesieve.c}}
+\doxysubsubsection{\texorpdfstring{LOOP\_ON\_SIEVE\_END}{LOOP\_ON\_SIEVE\_END}}
+{\footnotesize\ttfamily \#define L\+O\+O\+P\+\_\+\+O\+N\+\_\+\+S\+I\+E\+V\+E\+\_\+\+E\+ND}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \mbox{\hyperlink{primesieve_8c_a561921cabb6e25cdf4851d4d43f6573e}{LOOP\_ON\_SIEVE\_STOP}};                       \(\backslash\)}
+\DoxyCodeLine{  \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{primesieve_8c_a561921cabb6e25cdf4851d4d43f6573e}\label{primesieve_8c_a561921cabb6e25cdf4851d4d43f6573e}} 
+\index{primesieve.c@{primesieve.c}!LOOP\_ON\_SIEVE\_STOP@{LOOP\_ON\_SIEVE\_STOP}}
+\index{LOOP\_ON\_SIEVE\_STOP@{LOOP\_ON\_SIEVE\_STOP}!primesieve.c@{primesieve.c}}
+\doxysubsubsection{\texorpdfstring{LOOP\_ON\_SIEVE\_STOP}{LOOP\_ON\_SIEVE\_STOP}}
+{\footnotesize\ttfamily \#define L\+O\+O\+P\+\_\+\+O\+N\+\_\+\+S\+I\+E\+V\+E\+\_\+\+S\+T\+OP}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \}                           \(\backslash\)}
+\DoxyCodeLine{      \_\_mask = \_\_mask << 1 | \_\_mask >> (\mbox{\hyperlink{gmp-impl_8h_a83e164777bdfecd57c16be15e3881201}{GMP\_LIMB\_BITS}}-\/1);  \(\backslash\)}
+\DoxyCodeLine{      \_\_index += \_\_mask \& 1;                    \(\backslash\)}
+\DoxyCodeLine{    \}  \textcolor{keywordflow}{while} (\_\_i <= \_\_max\_i)                   \(\backslash\)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{primesieve_8c_a02fc660cc75e9e3d58251f55d603e1d9}\label{primesieve_8c_a02fc660cc75e9e3d58251f55d603e1d9}} 
+\index{primesieve.c@{primesieve.c}!SEED\_LIMIT@{SEED\_LIMIT}}
+\index{SEED\_LIMIT@{SEED\_LIMIT}!primesieve.c@{primesieve.c}}
+\doxysubsubsection{\texorpdfstring{SEED\_LIMIT}{SEED\_LIMIT}}
+{\footnotesize\ttfamily \#define S\+E\+E\+D\+\_\+\+L\+I\+M\+IT~202}
+
+\mbox{\Hypertarget{primesieve_8c_a1b1a953bb5646d95d391809455b10997}\label{primesieve_8c_a1b1a953bb5646d95d391809455b10997}} 
+\index{primesieve.c@{primesieve.c}!SIEVE\_SEED@{SIEVE\_SEED}}
+\index{SIEVE\_SEED@{SIEVE\_SEED}!primesieve.c@{primesieve.c}}
+\doxysubsubsection{\texorpdfstring{SIEVE\_SEED}{SIEVE\_SEED}}
+{\footnotesize\ttfamily \#define S\+I\+E\+V\+E\+\_\+\+S\+E\+ED~\mbox{\hyperlink{gmp-impl_8h_ac420cccf68aee6c4228651f26a0ba092}{C\+N\+S\+T\+\_\+\+L\+I\+MB}}(0x3294\+C9\+E069128480)}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{primesieve_8c_a6c53a63f6f8a9674aa905f144797077f}\label{primesieve_8c_a6c53a63f6f8a9674aa905f144797077f}} 
+\index{primesieve.c@{primesieve.c}!gmp\_primesieve@{gmp\_primesieve}}
+\index{gmp\_primesieve@{gmp\_primesieve}!primesieve.c@{primesieve.c}}
+\doxysubsubsection{\texorpdfstring{gmp\_primesieve()}{gmp\_primesieve()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{gmp_8h_abd22b3df3fe18cf817bffe429e68e362}{mp\+\_\+limb\+\_\+t}} gmp\+\_\+primesieve (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gmp_8h_a0e1a5ea354e7a20f0c664d9a2cc30ed4}{mp\+\_\+ptr}}}]{bit\+\_\+array,  }\item[{\mbox{\hyperlink{gmp_8h_abd22b3df3fe18cf817bffe429e68e362}{mp\+\_\+limb\+\_\+t}}}]{n }\end{DoxyParamCaption})}
+

@@ -1,0 +1,155 @@
+.TH "lib/isl/isl_affine_hull.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_affine_hull.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl/lp\&.h>\fP
+.br
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include 'isl_equalities\&.h'\fP
+.br
+\fC#include 'isl_sample\&.h'\fP
+.br
+\fC#include 'isl_tab\&.h'\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_implicit_equalities\fP (struct \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_implicit_equalities\fP (struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "struct \fBisl_map\fP * \fBisl_map_implicit_equalities\fP (struct \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_recession_cone\fP (struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_recession_cone\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_drop_constraints_involving\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_drop_constraints_not_involving_dims\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_drop_constraints_not_involving_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_drop_constraints_involving_dims\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_drop_constraints_involving_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_drop_constraints_involving_dims\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_drop_constraints_involving_dims\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_tab\fP * \fBisl_tab_detect_equalities\fP (struct \fBisl_tab\fP *tab, struct \fBisl_tab\fP *tab_cone)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_detect_equalities\fP (struct \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_detect_equalities\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_detect_equalities\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_detect_equalities\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_plain_affine_hull\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_plain_affine_hull\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_affine_hull\fP (struct \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_affine_hull\fP (struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_map_affine_hull\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_set_affine_hull\fP (struct \fBisl_set\fP *\fBset\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_affine_hull (struct \fBisl_basic_map\fP * bmap)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_detect_equalities (struct \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_drop_constraints_involving_dims (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_drop_constraints_not_involving_dims (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_implicit_equalities (struct \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_plain_affine_hull (\fB__isl_take\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_affine_hull (struct \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_detect_equalities (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_drop_constraints_involving (\fB__isl_take\fP \fBisl_basic_set\fP * bset, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_drop_constraints_involving_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_drop_constraints_not_involving_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_implicit_equalities (struct \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_plain_affine_hull (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_recession_cone (struct \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_map_affine_hull (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_detect_equalities (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_drop_constraints_involving_dims (\fB__isl_take\fP \fBisl_map\fP * map, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_map\fP* isl_map_implicit_equalities (struct \fBisl_map\fP * map)"
+
+.SS "struct \fBisl_basic_set\fP* isl_set_affine_hull (struct \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_detect_equalities (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_drop_constraints_involving_dims (\fB__isl_take\fP \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_recession_cone (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "struct \fBisl_tab\fP* isl_tab_detect_equalities (struct \fBisl_tab\fP * tab, struct \fBisl_tab\fP * tab_cone)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,202 @@
+.TH "chillAST_ArraySubscriptExpr" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_ArraySubscriptExpr
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_ArraySubscriptExpr\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_ArraySubscriptExpr\fP (\fBchillAST_node\fP *bas, \fBchillAST_node\fP *indx, void *unique)"
+.br
+.ti -1c
+.RI "\fBchillAST_ArraySubscriptExpr\fP (\fBchillAST_node\fP *bas, \fBchillAST_node\fP *indx, bool writtento, void *unique)"
+.br
+.ti -1c
+.RI "\fBchillAST_ArraySubscriptExpr\fP (\fBchillAST_VarDecl\fP *v, std::vector< \fBchillAST_node\fP * > indeces, \fBchillAST_node\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (\fBconst\fP \fBchillAST_ArraySubscriptExpr\fP &)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBchillAST_ArraySubscriptExpr\fP &)"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBmultibase\fP () override"
+.br
+.RI "Find the base declaration that this node refers to\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetIndex\fP (int \fBdim\fP)"
+.br
+.ti -1c
+.RI "void \fBgatherIndeces\fP (std::vector< \fBchillAST_node\fP * > &\fBind\fP)"
+.br
+.ti -1c
+.RI "void \fBreplaceChild\fP (\fBchillAST_node\fP *old, \fBchillAST_node\fP *newchild) override"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBclone\fP () override"
+.br
+.ti -1c
+.RI "void \fBgatherArrayRefs\fP (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarRefs\fP (std::vector< \fBchillAST_DeclRefExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBreplaceVarDecls\fP (\fBchillAST_VarDecl\fP *olddecl, \fBchillAST_VarDecl\fP *newdecl) override"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "\fBconst\fP char * \fBgetUnderlyingType\fP () override"
+.br
+.ti -1c
+.RI "virtual \fBchillAST_VarDecl\fP * \fBgetUnderlyingVarDecl\fP () override"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBbase\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBindex\fP"
+.br
+.ti -1c
+.RI "bool \fBimwrittento\fP"
+.br
+.ti -1c
+.RI "bool \fBimreadfrom\fP"
+.br
+.ti -1c
+.RI "void * \fBuniquePtr\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_ArraySubscriptExpr::chillAST_ArraySubscriptExpr ()"
+
+.SS "chillAST_ArraySubscriptExpr::chillAST_ArraySubscriptExpr (\fBchillAST_node\fP * bas, \fBchillAST_node\fP * indx, void * unique)"
+basedecl = \fBmultibase()\fP;//debug_fprintf(stderr, '%p  ASE 1 basedecl = %p\\n',this,basedecl);
+.SS "chillAST_ArraySubscriptExpr::chillAST_ArraySubscriptExpr (\fBchillAST_node\fP * bas, \fBchillAST_node\fP * indx, bool writtento, void * unique)"
+basedecl = \fBmultibase()\fP;
+.SS "chillAST_ArraySubscriptExpr::chillAST_ArraySubscriptExpr (\fBchillAST_VarDecl\fP * v, std::vector< \fBchillAST_node\fP * > indeces, \fBchillAST_node\fP * p)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "class \fBchillAST_node\fP * chillAST_ArraySubscriptExpr::clone ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "class \fBchillAST_node\fP * chillAST_ArraySubscriptExpr::constantFold ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_ArraySubscriptExpr::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ArraySubscriptExpr::gatherArrayRefs (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ArraySubscriptExpr::gatherIndeces (std::vector< \fBchillAST_node\fP * > & ind)"
+
+.SS "void chillAST_ArraySubscriptExpr::gatherScalarRefs (std::vector< \fBchillAST_DeclRefExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ArraySubscriptExpr::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP * chillAST_ArraySubscriptExpr::getIndex (int dim)"
+
+.SS "\fBCHILL_ASTNODE_TYPE\fP chillAST_ArraySubscriptExpr::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBconst\fP char* chillAST_ArraySubscriptExpr::getUnderlyingType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "virtual \fBchillAST_VarDecl\fP* chillAST_ArraySubscriptExpr::getUnderlyingVarDecl ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP * chillAST_ArraySubscriptExpr::multibase ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Find the base declaration that this node refers to\&. This will step through:
+.IP "\(bu" 2
+ArraySubscriptExpression
+.IP "\(bu" 2
+MemberExpression 
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_ArraySubscriptExpr::operator!= (\fBconst\fP \fBchillAST_ArraySubscriptExpr\fP & other)"
+
+.SS "bool chillAST_ArraySubscriptExpr::operator== (\fBconst\fP \fBchillAST_ArraySubscriptExpr\fP & other)"
+
+.SS "void chillAST_ArraySubscriptExpr::replaceChild (\fBchillAST_node\fP * old, \fBchillAST_node\fP * newchild)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ArraySubscriptExpr::replaceVarDecls (\fBchillAST_VarDecl\fP * olddecl, \fBchillAST_VarDecl\fP * newdecl)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_ArraySubscriptExpr::base"
+
+.SS "bool chillAST_ArraySubscriptExpr::imreadfrom"
+
+.SS "bool chillAST_ArraySubscriptExpr::imwrittento"
+
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_ArraySubscriptExpr::index"
+
+.SS "void* chillAST_ArraySubscriptExpr::uniquePtr"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,123 @@
+.TH "omega::CodeGen" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::CodeGen
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <codegen\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCodeGen\fP (\fBconst\fP std::vector< \fBRelation\fP > &xforms, \fBconst\fP std::vector< \fBRelation\fP > &IS, \fBconst\fP \fBRelation\fP &known=\fBRelation::Null\fP(), std::vector< std::vector< int > > smtNonSplitLevels_=std::vector< std::vector< int > >(), std::vector< std::vector< std::string > > loopIdxNames_=std::vector< std::vector< std::string > >(), std::vector< std::pair< int, std::string > > syncs_=std::vector< std::pair< int, std::string > >())"
+.br
+.ti -1c
+.RI "\fB~CodeGen\fP ()"
+.br
+.ti -1c
+.RI "\fBCG_result\fP * \fBbuildAST\fP (int effort=1)"
+.br
+.RI "Build the tree-like loop nest/split relations\&. "
+.ti -1c
+.RI "int \fBnum_level\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBconst\fP std::string \fBloop_var_name_prefix\fP = 't'"
+.br
+.ti -1c
+.RI "static \fBconst\fP int \fBvar_substitution_threshold\fP = 10"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< std::vector< \fBRelation\fP > > \fBprojected_IS_\fP"
+.br
+.RI "projected_IS_[level-1][new stmt#] "
+.ti -1c
+.RI "std::vector< \fBRelation\fP > \fBxforms_\fP"
+.br
+.RI "transformations[original stmt#] "
+.ti -1c
+.RI "\fBRelation\fP \fBknown_\fP"
+.br
+.RI "no need to generate code for constraints satisfied in known "
+.ti -1c
+.RI "std::vector< int > \fBremap_\fP"
+.br
+.RI "map new stmt# to original stmt# "
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBCG_result\fP"
+.br
+.ti -1c
+.RI "class \fBCG_split\fP"
+.br
+.ti -1c
+.RI "class \fBCG_loop\fP"
+.br
+.ti -1c
+.RI "class \fBCG_leaf\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::CodeGen::CodeGen (\fBconst\fP std::vector< \fBRelation\fP > & xforms, \fBconst\fP std::vector< \fBRelation\fP > & IS, \fBconst\fP \fBRelation\fP & known = \fC\fBRelation::Null\fP()\fP, std::vector< std::vector< int > > smtNonSplitLevels_ = \fCstd::vector< std::vector<int > >()\fP, std::vector< std::vector< std::string > > loopIdxNames_ = \fCstd::vector< std::vector<std::string> >()\fP, std::vector< std::pair< int, std::string > > syncs_ = \fCstd::vector< std::pair<int, std::string> >()\fP)"
+
+.SS "omega::CodeGen::~CodeGen ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBCG_result\fP * omega::CodeGen::buildAST (int effort = \fC1\fP)"
+
+.PP
+Build the tree-like loop nest/split relations\&. 
+.SS "int omega::CodeGen::num_level () const\fC [inline]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBCG_leaf\fP\fC [friend]\fP"
+
+.SS "friend class \fBCG_loop\fP\fC [friend]\fP"
+
+.SS "friend class \fBCG_result\fP\fC [friend]\fP"
+
+.SS "friend class \fBCG_split\fP\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBRelation\fP omega::CodeGen::known_\fC [protected]\fP"
+
+.PP
+no need to generate code for constraints satisfied in known 
+.SS "\fBconst\fP std::string omega::CodeGen::loop_var_name_prefix = 't'\fC [static]\fP"
+
+.SS "std::vector<std::vector<\fBRelation\fP> > omega::CodeGen::projected_IS_\fC [protected]\fP"
+
+.PP
+projected_IS_[level-1][new stmt#] 
+.SS "std::vector<int> omega::CodeGen::remap_\fC [protected]\fP"
+
+.PP
+map new stmt# to original stmt# 
+.SS "\fBconst\fP int omega::CodeGen::var_substitution_threshold = 10\fC [static]\fP"
+
+.SS "std::vector<\fBRelation\fP> omega::CodeGen::xforms_\fC [protected]\fP"
+
+.PP
+transformations[original stmt#] 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

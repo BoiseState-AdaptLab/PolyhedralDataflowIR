@@ -1,0 +1,390 @@
+.TH "jsoncons::basic_json< CharT, Alloc >::variant" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+jsoncons::basic_json< CharT, Alloc >::variant
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBstring_data\fP"
+.br
+.ti -1c
+.RI "struct \fBstring_dataA\fP"
+.br
+.in -1c
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef std::aligned_storage< sizeof(\fBstring_dataA\fP), \fBJSONCONS_ALIGNOF\fP(\fBstring_dataA\fP)>::\fBtype\fP \fBstorage_type\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBstring_data\fP * \fBcreate_string_data\fP (\fBconst\fP \fBchar_type\fP *s, size_t length, \fBconst\fP \fBstring_allocator\fP &allocator)"
+.br
+.ti -1c
+.RI "void \fBdestroy_string_data\fP (\fBconst\fP \fBstring_allocator\fP &allocator, \fBstring_data\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP ()"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (std::initializer_list< \fBvalue_type\fP > \fBinit\fP, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBvariant\fP &&\fBvar\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBvariant\fP &&\fBvar\fP, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBvariant\fP &\fBvar\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBvariant\fP &\fBvar\fP, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBobject\fP &\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBobject\fP &\fBval\fP, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBobject\fP &&\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBobject\fP &&\fBval\fP, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBarray\fP &\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBarray\fP &\fBval\fP, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBarray\fP &&\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBarray\fP &&\fBval\fP, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBany\fP &\fBval\fP, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBnull_type\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (bool \fBval\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (double \fBval\fP, uint8_t precision)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (int64_t \fBval\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (uint64_t \fBval\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBstring_type\fP &s, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBchar_type\fP *s, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP (\fBconst\fP \fBchar_type\fP *s, size_t length, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "template<class InputIterator > \fBvariant\fP (InputIterator first, InputIterator last, \fBconst\fP Alloc &\fBa\fP)"
+.br
+.ti -1c
+.RI "void \fBinit_variant\fP (\fBconst\fP \fBvariant\fP &\fBvar\fP)"
+.br
+.ti -1c
+.RI "\fB~variant\fP ()"
+.br
+.ti -1c
+.RI "void \fBdestroy_variant\fP ()"
+.br
+.ti -1c
+.RI "\fBvariant\fP & \fBoperator=\fP (\fBconst\fP \fBvariant\fP &\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBvariant\fP & \fBoperator=\fP (\fBvariant\fP &&\fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (\fBconst\fP \fBobject\fP &\fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (\fBobject\fP &&\fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (\fBconst\fP \fBarray\fP &\fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (\fBarray\fP &&\fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (\fBconst\fP \fBstring_type\fP &s)"
+.br
+.ti -1c
+.RI "void \fBassign_string\fP (\fBconst\fP \fBchar_type\fP *s, size_t length, \fBconst\fP Alloc &allocator=Alloc())"
+.br
+.ti -1c
+.RI "void \fBassign\fP (int64_t \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (uint64_t \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (double \fBval\fP, uint8_t precision=0)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (bool \fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (\fBnull_type\fP)"
+.br
+.ti -1c
+.RI "void \fBassign\fP (\fBconst\fP \fBany\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (\fBconst\fP \fBvariant\fP &\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBvariant\fP &\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_null\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_bool\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBempty\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_string\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "bool \fBis_number\fP () \fBconst\fP \fBJSONCONS_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "void \fBswap\fP (\fBvariant\fP &\fBrhs\fP)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static size_t \fBaligned_size\fP (size_t n)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBvalue_types\fP \fBtype_\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBlength_or_precision_\fP"
+.br
+.ti -1c
+.RI "union {"
+.br
+.ti -1c
+.RI "   double \fBdouble_val_\fP"
+.br
+.ti -1c
+.RI "   int64_t \fBinteger_val_\fP"
+.br
+.ti -1c
+.RI "   uint64_t \fBuinteger_val_\fP"
+.br
+.ti -1c
+.RI "   bool \fBbool_val_\fP"
+.br
+.ti -1c
+.RI "   \fBobject\fP * \fBobject_val_\fP"
+.br
+.ti -1c
+.RI "   \fBarray\fP * \fBarray_val_\fP"
+.br
+.ti -1c
+.RI "   \fBany\fP * \fBany_val_\fP"
+.br
+.ti -1c
+.RI "   \fBstring_data\fP * \fBstring_val_\fP"
+.br
+.ti -1c
+.RI "   \fBchar_type\fP \fBsmall_string_val_\fP [sizeof(int64_t)/sizeof(\fBchar_type\fP)]"
+.br
+.ti -1c
+.RI "} \fBvalue_\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBconst\fP size_t \fBsmall_string_capacity\fP = (sizeof(int64_t)/sizeof(\fBchar_type\fP)) \- 1"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> typedef std::aligned_storage<sizeof(\fBstring_dataA\fP), \fBJSONCONS_ALIGNOF\fP(\fBstring_dataA\fP)>::\fBtype\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::\fBvariant::storage_type\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP Alloc & a)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (std::initializer_list< \fBvalue_type\fP > init, \fBconst\fP Alloc & a)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBvariant\fP && var)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBvariant\fP && var, \fBconst\fP Alloc & a)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBvariant\fP & var)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBvariant\fP & var, \fBconst\fP Alloc & a)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBobject\fP & val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBobject\fP & val, \fBconst\fP Alloc & a)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBobject\fP && val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBobject\fP && val, \fBconst\fP Alloc & a)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBarray\fP & val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBarray\fP & val, \fBconst\fP Alloc & a)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBarray\fP && val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBarray\fP && val, \fBconst\fP Alloc & a)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBany\fP & val, \fBconst\fP Alloc & a)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBnull_type\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (bool val)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (double val, uint8_t precision)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (int64_t val)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (uint64_t val)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBstring_type\fP & s, \fBconst\fP Alloc & a)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBchar_type\fP * s, \fBconst\fP Alloc & a)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (\fBconst\fP \fBchar_type\fP * s, size_t length, \fBconst\fP Alloc & a)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> template<class InputIterator > \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::variant (InputIterator first, InputIterator last, \fBconst\fP Alloc & a)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::~variant ()\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> static size_t \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::aligned_size (size_t n)\fC [inline]\fP, \fC [static]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (\fBarray\fP && val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (bool val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (\fBconst\fP \fBany\fP & rhs)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (\fBconst\fP \fBarray\fP & val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (\fBconst\fP \fBobject\fP & val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (\fBconst\fP \fBstring_type\fP & s)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (double val, uint8_t precision = \fC0\fP)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (int64_t val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (\fBnull_type\fP)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (\fBobject\fP && val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign (uint64_t val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::assign_string (\fBconst\fP \fBchar_type\fP * s, size_t length, \fBconst\fP Alloc & allocator = \fCAlloc()\fP)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBstring_data\fP* \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::create_string_data (\fBconst\fP \fBchar_type\fP * s, size_t length, \fBconst\fP \fBstring_allocator\fP & allocator)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::destroy_string_data (\fBconst\fP \fBstring_allocator\fP & allocator, \fBstring_data\fP * p)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::destroy_variant ()\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> bool \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::empty () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::init_variant (\fBconst\fP \fBvariant\fP & var)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> bool \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::is_bool () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> bool \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::is_null () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> bool \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::is_number () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> bool \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::is_string () const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> bool \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::operator!= (\fBconst\fP \fBvariant\fP & rhs) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBvariant\fP& \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::operator= (\fBconst\fP \fBvariant\fP & val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBvariant\fP& \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::operator= (\fBvariant\fP && val)\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> bool \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::operator== (\fBconst\fP \fBvariant\fP & rhs) const\fC [inline]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> void \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::swap (\fBvariant\fP & rhs)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBany\fP* \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::any_val_"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBarray\fP* \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::array_val_"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> bool \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::bool_val_"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> double \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::double_val_"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> int64_t \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::integer_val_"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> uint8_t \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::length_or_precision_"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBobject\fP* \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::object_val_"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBconst\fP size_t \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::small_string_capacity = (sizeof(int64_t)/sizeof(\fBchar_type\fP)) \- 1\fC [static]\fP"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBchar_type\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::small_string_val_[sizeof(int64_t)/sizeof(\fBchar_type\fP)]"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBstring_data\fP* \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::string_val_"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> \fBvalue_types\fP \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::type_"
+
+.SS "template<typename CharT , typename Alloc  = std::allocator<CharT>> uint64_t \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::uinteger_val_"
+
+.SS "union { \&.\&.\&. }  \fBjsoncons::basic_json\fP< CharT, Alloc >::variant::value_"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

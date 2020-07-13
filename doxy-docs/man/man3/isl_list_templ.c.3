@@ -1,0 +1,118 @@
+.TH "lib/isl/isl_list_templ.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_list_templ.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_sort\&.h>\fP
+.br
+\fC#include <isl_tarjan\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBxCAT\fP(\fBA\fP,  \fBB\fP)   \fBA\fP ## \fBB\fP"
+.br
+.ti -1c
+.RI "#define \fBCAT\fP(\fBA\fP,  \fBB\fP)   \fBxCAT\fP(\fBA\fP,\fBB\fP)"
+.br
+.ti -1c
+.RI "#define \fBEL\fP   \fBCAT\fP(isl_,\fBBASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBxFN\fP(\fBTYPE\fP,  NAME)   \fBTYPE\fP ## _ ## NAME"
+.br
+.ti -1c
+.RI "#define \fBFN\fP(\fBTYPE\fP,  NAME)   \fBxFN\fP(\fBTYPE\fP,NAME)"
+.br
+.ti -1c
+.RI "#define \fBxLIST\fP(\fBEL\fP)   \fBEL\fP ## _list"
+.br
+.ti -1c
+.RI "#define \fBLIST\fP(\fBEL\fP)   \fBxLIST\fP(\fBEL\fP)"
+.br
+.ti -1c
+.RI "#define \fBxS\fP(\fBTYPE\fP,  NAME)   struct \fBTYPE\fP ## _ ## NAME"
+.br
+.ti -1c
+.RI "#define \fBS\fP(\fBTYPE\fP,  NAME)   \fBxS\fP(\fBTYPE\fP,NAME)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBFN\fP (\fBLIST\fP(\fBEL\fP), get_ctx)"
+.br
+.ti -1c
+.RI "int \fBFN\fP (FN(\fBLIST\fP(\fBEL\fP), \fBn\fP), \fBBASE\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBEL\fP * \fBFN\fP (FN(\fBLIST\fP(\fBEL\fP), get), \fBBASE\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBFN\fP (\fBLIST\fP(\fBEL\fP), \fBforeach\fP)"
+.br
+.ti -1c
+.RI "\fBS\fP (\fBLIST\fP(\fBEL\fP), sort_data)"
+.br
+.ti -1c
+.RI "\fBS\fP (\fBLIST\fP(\fBEL\fP), foreach_scc_data)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBFN\fP (\fBLIST\fP(\fBEL\fP), foreach_scc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBCAT\fP (isl_printer_print_, \fBLIST\fP(\fBBASE\fP))"
+.br
+.ti -1c
+.RI "void \fBFN\fP (\fBLIST\fP(\fBEL\fP), dump)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define CAT(\fBA\fP, \fBB\fP)   \fBxCAT\fP(\fBA\fP,\fBB\fP)"
+
+.SS "#define EL   \fBCAT\fP(isl_,\fBBASE\fP)"
+
+.SS "#define FN(\fBTYPE\fP, NAME)   \fBxFN\fP(\fBTYPE\fP,NAME)"
+
+.SS "\fB__isl_give\fP LIST(\fBEL\fP)   \fBxLIST\fP(\fBEL\fP)"
+
+.SS "#define S(\fBTYPE\fP, NAME)   \fBxS\fP(\fBTYPE\fP,NAME)"
+
+.SS "#define xCAT(\fBA\fP, \fBB\fP)   \fBA\fP ## \fBB\fP"
+
+.SS "#define xFN(\fBTYPE\fP, NAME)   \fBTYPE\fP ## _ ## NAME"
+
+.SS "#define xLIST(\fBEL\fP)   \fBEL\fP ## _list"
+
+.SS "#define xS(\fBTYPE\fP, NAME)   struct \fBTYPE\fP ## _ ## NAME"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_printer\fP* CAT (isl_printer_print_, \fBLIST\fP(\fBBASE\fP))"
+
+.SS "\fB__isl_give\fP \fBEL\fP* FN (FN(\fBLIST\fP(\fBEL\fP), get), \fBBASE\fP)"
+
+.SS "int FN (FN(\fBLIST\fP(\fBEL\fP), \fBn\fP), \fBBASE\fP)"
+
+.SS "void FN (\fBLIST\fP(\fBEL\fP), dump)"
+
+.SS "\fBisl_stat\fP FN (\fBLIST\fP(\fBEL\fP), \fBforeach\fP)"
+
+.SS "\fBisl_stat\fP FN (\fBLIST\fP(\fBEL\fP), foreach_scc)"
+
+.SS "\fBisl_ctx\fP* FN (\fBLIST\fP(\fBEL\fP), get_ctx)"
+
+.SS "S (\fBLIST\fP(\fBEL\fP), foreach_scc_data)"
+
+.SS "S (\fBLIST\fP(\fBEL\fP), sort_data)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

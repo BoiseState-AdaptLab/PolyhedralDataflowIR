@@ -1,0 +1,576 @@
+\hypertarget{omegatools_8cc}{}\doxysection{lib/chill/omegatools.cc File Reference}
+\label{omegatools_8cc}\index{lib/chill/omegatools.cc@{lib/chill/omegatools.cc}}
+{\ttfamily \#include $<$codegen.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}omegatools.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ir\+\_\+code.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}chill\+\_\+error.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}chill\+\_\+ast.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}code\+\_\+gen/\+C\+G\+\_\+string\+Repr.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}code\+\_\+gen/\+C\+G\+\_\+chill\+Repr.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G\+\_\+utils.\+h$>$}\newline
+Include dependency graph for omegatools.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{omegatools_8cc_ad769c030ace6592d5fe9b61081cf8d07}{tmp\+\_\+e}} ()
+\item 
+void \mbox{\hyperlink{omegatools_8cc_ad921d51b4e1dd6b50ce2c58eaa38ba2b}{exp2formula}} (\mbox{\hyperlink{class_loop}{Loop}} $\ast$loop, \mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$ir, \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, \mbox{\hyperlink{classomega_1_1_f___and}{F\+\_\+\+And}} $\ast$f\+\_\+root, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_free___var___decl}{Free\+\_\+\+Var\+\_\+\+Decl}} $\ast$ $>$ \&freevars, \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$repr, \mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}} \mbox{\hyperlink{isl__test__int_8c_a3d913ca44aa52f60eb4d620a987d86a4}{lhs}}, char side, \mbox{\hyperlink{ir__enums_8hh_ad5f0453b98e1e51419a153f8ccb89268}{I\+R\+\_\+\+C\+O\+N\+D\+I\+T\+I\+O\+N\+\_\+\+T\+Y\+PE}} rel, bool destroy, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&uninterpreted\+\_\+symbols, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&uninterpreted\+\_\+symbols\+\_\+stringrepr, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ $>$ \&index\+\_\+variables)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_a70ebac3d3477b3c856d0e62358862b9d}{arrays2relation}} (\mbox{\hyperlink{class_loop}{Loop}} $\ast$loop, \mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$ir, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_free___var___decl}{Free\+\_\+\+Var\+\_\+\+Decl}} $\ast$ $>$ \&freevars, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$ref\+\_\+src, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&I\+S\+\_\+w, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$ref\+\_\+dst, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&I\+S\+\_\+r, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&uninterpreted\+\_\+symbols, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&uninterpreted\+\_\+symbols\+\_\+stringrepr, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ $>$ \&unin\+\_\+rel)
+\item 
+std\+::pair$<$ std\+::vector$<$ \mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}} $>$, std\+::vector$<$ \mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}} $>$ $>$ \mbox{\hyperlink{omegatools_8cc_a13eb30fde57d3c23981cfa95b31b1c6c}{relation2dependences}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$ref\+\_\+src, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$ref\+\_\+dst, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r)
+\item 
+void \mbox{\hyperlink{omegatools_8cc_ac1410efcb5e74c67f7fd9934903c6397}{exp2constraint}} (\mbox{\hyperlink{class_loop}{Loop}} $\ast$loop, \mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$ir, \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, \mbox{\hyperlink{classomega_1_1_f___and}{F\+\_\+\+And}} $\ast$f\+\_\+root, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_free___var___decl}{Free\+\_\+\+Var\+\_\+\+Decl}} $\ast$ $>$ \&freevars, \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$repr, bool destroy, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&uninterpreted\+\_\+symbols, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&uninterpreted\+\_\+symbols\+\_\+stringrepr, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ $>$ \&index\+\_\+variables)
+\item 
+bool \mbox{\hyperlink{omegatools_8cc_a8115d6cc1ad491d5e7c5604c62d72246}{is\+\_\+single\+\_\+loop\+\_\+iteration}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, int level, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&known)
+\item 
+bool \mbox{\hyperlink{omegatools_8cc_a7fce7eb68f53693c42058e05b01ed371}{is\+\_\+single\+\_\+iteration}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, int \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+void \mbox{\hyperlink{omegatools_8cc_a7781d81ec6d345a177be096b5dd248c5}{assign\+\_\+const}} (\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, int \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}}, int \mbox{\hyperlink{isl__test__int_8c_a1d80a43cb41e5b550d4563dd10d302bc}{val}})
+\item 
+int \mbox{\hyperlink{omegatools_8cc_aa7e07dde2bcdeb63741e784808f7957f}{get\+\_\+const}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, int \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}}, \mbox{\hyperlink{namespaceomega_ac7ab7017276f7049991d3f73fbbdc1e9}{Var\+\_\+\+Kind}} type)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_a82c3b01e968ecb50ce3dcb79c2e98b04}{get\+\_\+loop\+\_\+bound}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, int \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_a7fc1de86627c59cd631cc0745d0e3d63}{get\+\_\+loop\+\_\+bound}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, int level, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&known)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_aa007c88254d91279d38e3cfd1ebc4082}{get\+\_\+max\+\_\+loop\+\_\+bound}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{Relation}} $>$ \&r, int \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_a353875b149526524896318aefc687f27}{get\+\_\+min\+\_\+loop\+\_\+bound}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{Relation}} $>$ \&r, int \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+void \mbox{\hyperlink{omegatools_8cc_a49270e4bd50d340b499a04578148e709}{add\+\_\+loop\+\_\+stride}} (\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&bound\+\_\+, int \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}}, int stride)
+\item 
+bool \mbox{\hyperlink{omegatools_8cc_aecf02edc61e8e5ffd99db4228df7608a}{is\+\_\+inner\+\_\+loop\+\_\+depend\+\_\+on\+\_\+level}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, int level, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&known)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_a4054df74a66e52e6c1cf298ecc3cf053}{adjust\+\_\+loop\+\_\+bound}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, int level, int adjustment)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_ac85e905d42857c5deab6ba56275344a9}{permute\+\_\+relation}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ int $>$ \&pi)
+\item 
+\mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}} \mbox{\hyperlink{omegatools_8cc_a16d01cd6940d180c6af06af39c4b1b0c}{find\+\_\+index}} (\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&r, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::string \&s, char side)
+\item 
+bool \mbox{\hyperlink{omegatools_8cc_aef8500e9d1d0531b52325e494403fd40}{lower\+Bound\+Is\+Zero}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&bound, int \mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_ae046e6354989df7fb2b75308a98032b3}{replicate\+\_\+\+I\+S\+\_\+and\+\_\+add\+\_\+bound}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&\mbox{\hyperlink{oski__main_8c_a5c71a5e59a53413cd6c270266d63b031}{R}}, int level, \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&bound)
+\item 
+\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ std\+::string $>$ \mbox{\hyperlink{omegatools_8cc_a817a862420dbec58767bb4930e49162b}{get\+\_\+global\+\_\+vars}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&r)
+\begin{DoxyCompactList}\small\item\em Return names of global vars with arity 0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_a89a0bc1daf966a1960bc15cb8689e210}{replace\+\_\+set\+\_\+vars}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&new\+\_\+relation, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&old\+\_\+relation, int counter)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_a7823302a3258252463dd36033d0829cb}{replace\+\_\+set\+\_\+var\+\_\+as\+\_\+another\+\_\+set\+\_\+var}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&new\+\_\+relation, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&old\+\_\+relation, int new\+\_\+pos, int old\+\_\+pos)
+\begin{DoxyCompactList}\small\item\em Replicates old\+\_\+relation\textquotesingle{}s bounds for set var at old\+\_\+pos into new\+\_\+relation at new\+\_\+pos. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_a4613b0a37ccd413880ab337b26001437}{replace\+\_\+set\+\_\+var\+\_\+as\+\_\+another\+\_\+set\+\_\+var}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&new\+\_\+relation, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&old\+\_\+relation, int new\+\_\+pos, int old\+\_\+pos, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ int, int $>$ \&pos\+\_\+mapping)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_ad308e85e64fa3b8c20bcc1b46fa06ce0}{replicate\+\_\+\+I\+S\+\_\+and\+\_\+add\+\_\+at\+\_\+pos}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&\mbox{\hyperlink{oski__main_8c_a5c71a5e59a53413cd6c270266d63b031}{R}}, int level, \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&bound)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \mbox{\hyperlink{omegatools_8cc_a7177709c603ff3b2db20a75dd72a43b4}{replace\+\_\+set\+\_\+var\+\_\+as\+\_\+\+Global}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&\mbox{\hyperlink{oski__main_8c_a5c71a5e59a53413cd6c270266d63b031}{R}}, int \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ \&bound)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{classomega_1_1_relation}{Relation}}, bool $>$ \mbox{\hyperlink{omegatools_8cc_a240b32de73c078b19b68d3af9a057d89}{replace\+\_\+set\+\_\+var\+\_\+as\+\_\+existential}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&\mbox{\hyperlink{oski__main_8c_a5c71a5e59a53413cd6c270266d63b031}{R}}, int \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ \&bound)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{omegatools_8cc_a38dd292098b3eed3c71535b04ccd3db6}{and\+\_\+with\+\_\+relation\+\_\+and\+\_\+replace\+\_\+var}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&\mbox{\hyperlink{oski__main_8c_a5c71a5e59a53413cd6c270266d63b031}{R}}, \mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}} v1, \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&g)
+\item 
+\mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \mbox{\hyperlink{omegatools_8cc_a6eb7e264fdab8faf9479e6d3ba2bd1bc}{extract\+\_\+upper\+\_\+bound}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&\mbox{\hyperlink{oski__main_8c_a5c71a5e59a53413cd6c270266d63b031}{R}}, \mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}} v1)
+\item 
+\mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ \mbox{\hyperlink{omegatools_8cc_a43d34db431d9a5ef920a1d8f19348d6f}{construct\+\_\+int\+\_\+floor}} (\mbox{\hyperlink{classomega_1_1_c_g__output_builder}{C\+G\+\_\+output\+Builder}} $\ast$ocg, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&\mbox{\hyperlink{oski__main_8c_a5c71a5e59a53413cd6c270266d63b031}{R}}, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_g_e_q___handle}{G\+E\+Q\+\_\+\+Handle}} \&h, \mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}} v, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$, int $>$ $>$ \&assigned\+\_\+on\+\_\+the\+\_\+fly, \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ unin)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{omegatools_8cc_a49270e4bd50d340b499a04578148e709}\label{omegatools_8cc_a49270e4bd50d340b499a04578148e709}} 
+\index{omegatools.cc@{omegatools.cc}!add\_loop\_stride@{add\_loop\_stride}}
+\index{add\_loop\_stride@{add\_loop\_stride}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{add\_loop\_stride()}{add\_loop\_stride()}}
+{\footnotesize\ttfamily void add\+\_\+loop\+\_\+stride (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{bound\+\_\+,  }\item[{int}]{dim,  }\item[{int}]{stride }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a49270e4bd50d340b499a04578148e709_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a4054df74a66e52e6c1cf298ecc3cf053}\label{omegatools_8cc_a4054df74a66e52e6c1cf298ecc3cf053}} 
+\index{omegatools.cc@{omegatools.cc}!adjust\_loop\_bound@{adjust\_loop\_bound}}
+\index{adjust\_loop\_bound@{adjust\_loop\_bound}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{adjust\_loop\_bound()}{adjust\_loop\_bound()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} adjust\+\_\+loop\+\_\+bound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{int}]{level,  }\item[{int}]{adjustment }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a4054df74a66e52e6c1cf298ecc3cf053_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a38dd292098b3eed3c71535b04ccd3db6}\label{omegatools_8cc_a38dd292098b3eed3c71535b04ccd3db6}} 
+\index{omegatools.cc@{omegatools.cc}!and\_with\_relation\_and\_replace\_var@{and\_with\_relation\_and\_replace\_var}}
+\index{and\_with\_relation\_and\_replace\_var@{and\_with\_relation\_and\_replace\_var}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{and\_with\_relation\_and\_replace\_var()}{and\_with\_relation\_and\_replace\_var()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} and\+\_\+with\+\_\+relation\+\_\+and\+\_\+replace\+\_\+var (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{R,  }\item[{\mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}}}]{v1,  }\item[{\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{g }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a38dd292098b3eed3c71535b04ccd3db6_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a70ebac3d3477b3c856d0e62358862b9d}\label{omegatools_8cc_a70ebac3d3477b3c856d0e62358862b9d}} 
+\index{omegatools.cc@{omegatools.cc}!arrays2relation@{arrays2relation}}
+\index{arrays2relation@{arrays2relation}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{arrays2relation()}{arrays2relation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} arrays2relation (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_loop}{Loop}} $\ast$}]{loop,  }\item[{\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$}]{ir,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_free___var___decl}{Free\+\_\+\+Var\+\_\+\+Decl}} $\ast$ $>$ \&}]{freevars,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$}]{ref\+\_\+src,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{I\+S\+\_\+w,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$}]{ref\+\_\+dst,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{I\+S\+\_\+r,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&}]{uninterpreted\+\_\+symbols,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&}]{uninterpreted\+\_\+symbols\+\_\+stringrepr,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ $>$ \&}]{unin\+\_\+rel }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{omegatools_8cc_a70ebac3d3477b3c856d0e62358862b9d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a70ebac3d3477b3c856d0e62358862b9d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a7781d81ec6d345a177be096b5dd248c5}\label{omegatools_8cc_a7781d81ec6d345a177be096b5dd248c5}} 
+\index{omegatools.cc@{omegatools.cc}!assign\_const@{assign\_const}}
+\index{assign\_const@{assign\_const}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{assign\_const()}{assign\_const()}}
+{\footnotesize\ttfamily void assign\+\_\+const (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{int}]{dim,  }\item[{int}]{val }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a7781d81ec6d345a177be096b5dd248c5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a7781d81ec6d345a177be096b5dd248c5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a43d34db431d9a5ef920a1d8f19348d6f}\label{omegatools_8cc_a43d34db431d9a5ef920a1d8f19348d6f}} 
+\index{omegatools.cc@{omegatools.cc}!construct\_int\_floor@{construct\_int\_floor}}
+\index{construct\_int\_floor@{construct\_int\_floor}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{construct\_int\_floor()}{construct\_int\_floor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}}$\ast$ construct\+\_\+int\+\_\+floor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classomega_1_1_c_g__output_builder}{C\+G\+\_\+output\+Builder}} $\ast$}]{ocg,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{R,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_g_e_q___handle}{G\+E\+Q\+\_\+\+Handle}} \&}]{h,  }\item[{\mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}}}]{v,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$, int $>$ $>$ \&}]{assigned\+\_\+on\+\_\+the\+\_\+fly,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$}]{unin }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a43d34db431d9a5ef920a1d8f19348d6f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_ac1410efcb5e74c67f7fd9934903c6397}\label{omegatools_8cc_ac1410efcb5e74c67f7fd9934903c6397}} 
+\index{omegatools.cc@{omegatools.cc}!exp2constraint@{exp2constraint}}
+\index{exp2constraint@{exp2constraint}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{exp2constraint()}{exp2constraint()}}
+{\footnotesize\ttfamily void exp2constraint (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_loop}{Loop}} $\ast$}]{loop,  }\item[{\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$}]{ir,  }\item[{\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{\mbox{\hyperlink{classomega_1_1_f___and}{F\+\_\+\+And}} $\ast$}]{f\+\_\+root,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_free___var___decl}{Free\+\_\+\+Var\+\_\+\+Decl}} $\ast$ $>$ \&}]{freevars,  }\item[{\mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$}]{repr,  }\item[{bool}]{destroy,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&}]{uninterpreted\+\_\+symbols,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&}]{uninterpreted\+\_\+symbols\+\_\+stringrepr,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ $>$ \&}]{index\+\_\+variables }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{omegatools_8cc_ac1410efcb5e74c67f7fd9934903c6397_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=293pt]{omegatools_8cc_ac1410efcb5e74c67f7fd9934903c6397_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_ad921d51b4e1dd6b50ce2c58eaa38ba2b}\label{omegatools_8cc_ad921d51b4e1dd6b50ce2c58eaa38ba2b}} 
+\index{omegatools.cc@{omegatools.cc}!exp2formula@{exp2formula}}
+\index{exp2formula@{exp2formula}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{exp2formula()}{exp2formula()}}
+{\footnotesize\ttfamily void exp2formula (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_loop}{Loop}} $\ast$}]{loop,  }\item[{\mbox{\hyperlink{class_i_r___code}{I\+R\+\_\+\+Code}} $\ast$}]{ir,  }\item[{\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{\mbox{\hyperlink{classomega_1_1_f___and}{F\+\_\+\+And}} $\ast$}]{f\+\_\+root,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_free___var___decl}{Free\+\_\+\+Var\+\_\+\+Decl}} $\ast$ $>$ \&}]{freevars,  }\item[{\mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$}]{repr,  }\item[{\mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}}}]{lhs,  }\item[{char}]{side,  }\item[{\mbox{\hyperlink{ir__enums_8hh_ad5f0453b98e1e51419a153f8ccb89268}{I\+R\+\_\+\+C\+O\+N\+D\+I\+T\+I\+O\+N\+\_\+\+T\+Y\+PE}}}]{rel,  }\item[{bool}]{destroy,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&}]{uninterpreted\+\_\+symbols,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{omega\+::\+C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ \&}]{uninterpreted\+\_\+symbols\+\_\+stringrepr,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ $>$ \&}]{index\+\_\+variables }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_ad921d51b4e1dd6b50ce2c58eaa38ba2b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a6eb7e264fdab8faf9479e6d3ba2bd1bc}\label{omegatools_8cc_a6eb7e264fdab8faf9479e6d3ba2bd1bc}} 
+\index{omegatools.cc@{omegatools.cc}!extract\_upper\_bound@{extract\_upper\_bound}}
+\index{extract\_upper\_bound@{extract\_upper\_bound}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{extract\_upper\_bound()}{extract\_upper\_bound()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} extract\+\_\+upper\+\_\+bound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{R,  }\item[{\mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}}}]{v1 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a6eb7e264fdab8faf9479e6d3ba2bd1bc_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a16d01cd6940d180c6af06af39c4b1b0c}\label{omegatools_8cc_a16d01cd6940d180c6af06af39c4b1b0c}} 
+\index{omegatools.cc@{omegatools.cc}!find\_index@{find\_index}}
+\index{find\_index@{find\_index}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{find\_index()}{find\_index()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceomega_a3d38f72333aae2d1dd9b772059c2ee3e}{Variable\+\_\+\+ID}} find\+\_\+index (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::string \&}]{s,  }\item[{char}]{side }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a16d01cd6940d180c6af06af39c4b1b0c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a16d01cd6940d180c6af06af39c4b1b0c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_aa7e07dde2bcdeb63741e784808f7957f}\label{omegatools_8cc_aa7e07dde2bcdeb63741e784808f7957f}} 
+\index{omegatools.cc@{omegatools.cc}!get\_const@{get\_const}}
+\index{get\_const@{get\_const}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{get\_const()}{get\_const()}}
+{\footnotesize\ttfamily int get\+\_\+const (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{int}]{dim,  }\item[{\mbox{\hyperlink{namespaceomega_ac7ab7017276f7049991d3f73fbbdc1e9}{Var\+\_\+\+Kind}}}]{type }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_aa7e07dde2bcdeb63741e784808f7957f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_aa7e07dde2bcdeb63741e784808f7957f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a817a862420dbec58767bb4930e49162b}\label{omegatools_8cc_a817a862420dbec58767bb4930e49162b}} 
+\index{omegatools.cc@{omegatools.cc}!get\_global\_vars@{get\_global\_vars}}
+\index{get\_global\_vars@{get\_global\_vars}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{get\_global\_vars()}{get\_global\_vars()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$std\+::string$>$ get\+\_\+global\+\_\+vars (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{r }\end{DoxyParamCaption})}
+
+
+
+Return names of global vars with arity 0. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{omegatools_8cc_a817a862420dbec58767bb4930e49162b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a817a862420dbec58767bb4930e49162b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a82c3b01e968ecb50ce3dcb79c2e98b04}\label{omegatools_8cc_a82c3b01e968ecb50ce3dcb79c2e98b04}} 
+\index{omegatools.cc@{omegatools.cc}!get\_loop\_bound@{get\_loop\_bound}}
+\index{get\_loop\_bound@{get\_loop\_bound}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{get\_loop\_bound()}{get\_loop\_bound()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} get\+\_\+loop\+\_\+bound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{int}]{dim }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a82c3b01e968ecb50ce3dcb79c2e98b04_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=331pt]{omegatools_8cc_a82c3b01e968ecb50ce3dcb79c2e98b04_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a7fc1de86627c59cd631cc0745d0e3d63}\label{omegatools_8cc_a7fc1de86627c59cd631cc0745d0e3d63}} 
+\index{omegatools.cc@{omegatools.cc}!get\_loop\_bound@{get\_loop\_bound}}
+\index{get\_loop\_bound@{get\_loop\_bound}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{get\_loop\_bound()}{get\_loop\_bound()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} get\+\_\+loop\+\_\+bound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{int}]{level,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{known }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a7fc1de86627c59cd631cc0745d0e3d63_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_aa007c88254d91279d38e3cfd1ebc4082}\label{omegatools_8cc_aa007c88254d91279d38e3cfd1ebc4082}} 
+\index{omegatools.cc@{omegatools.cc}!get\_max\_loop\_bound@{get\_max\_loop\_bound}}
+\index{get\_max\_loop\_bound@{get\_max\_loop\_bound}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{get\_max\_loop\_bound()}{get\_max\_loop\_bound()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} get\+\_\+max\+\_\+loop\+\_\+bound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{Relation}} $>$ \&}]{r,  }\item[{int}]{dim }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_aa007c88254d91279d38e3cfd1ebc4082_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a353875b149526524896318aefc687f27}\label{omegatools_8cc_a353875b149526524896318aefc687f27}} 
+\index{omegatools.cc@{omegatools.cc}!get\_min\_loop\_bound@{get\_min\_loop\_bound}}
+\index{get\_min\_loop\_bound@{get\_min\_loop\_bound}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{get\_min\_loop\_bound()}{get\_min\_loop\_bound()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} get\+\_\+min\+\_\+loop\+\_\+bound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{Relation}} $>$ \&}]{r,  }\item[{int}]{dim }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a353875b149526524896318aefc687f27_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_aecf02edc61e8e5ffd99db4228df7608a}\label{omegatools_8cc_aecf02edc61e8e5ffd99db4228df7608a}} 
+\index{omegatools.cc@{omegatools.cc}!is\_inner\_loop\_depend\_on\_level@{is\_inner\_loop\_depend\_on\_level}}
+\index{is\_inner\_loop\_depend\_on\_level@{is\_inner\_loop\_depend\_on\_level}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{is\_inner\_loop\_depend\_on\_level()}{is\_inner\_loop\_depend\_on\_level()}}
+{\footnotesize\ttfamily bool is\+\_\+inner\+\_\+loop\+\_\+depend\+\_\+on\+\_\+level (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{int}]{level,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{known }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_aecf02edc61e8e5ffd99db4228df7608a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a7fce7eb68f53693c42058e05b01ed371}\label{omegatools_8cc_a7fce7eb68f53693c42058e05b01ed371}} 
+\index{omegatools.cc@{omegatools.cc}!is\_single\_iteration@{is\_single\_iteration}}
+\index{is\_single\_iteration@{is\_single\_iteration}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{is\_single\_iteration()}{is\_single\_iteration()}}
+{\footnotesize\ttfamily bool is\+\_\+single\+\_\+iteration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{int}]{dim }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a7fce7eb68f53693c42058e05b01ed371_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a7fce7eb68f53693c42058e05b01ed371_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a8115d6cc1ad491d5e7c5604c62d72246}\label{omegatools_8cc_a8115d6cc1ad491d5e7c5604c62d72246}} 
+\index{omegatools.cc@{omegatools.cc}!is\_single\_loop\_iteration@{is\_single\_loop\_iteration}}
+\index{is\_single\_loop\_iteration@{is\_single\_loop\_iteration}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{is\_single\_loop\_iteration()}{is\_single\_loop\_iteration()}}
+{\footnotesize\ttfamily bool is\+\_\+single\+\_\+loop\+\_\+iteration (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r,  }\item[{int}]{level,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{known }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a8115d6cc1ad491d5e7c5604c62d72246_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=322pt]{omegatools_8cc_a8115d6cc1ad491d5e7c5604c62d72246_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_aef8500e9d1d0531b52325e494403fd40}\label{omegatools_8cc_aef8500e9d1d0531b52325e494403fd40}} 
+\index{omegatools.cc@{omegatools.cc}!lowerBoundIsZero@{lowerBoundIsZero}}
+\index{lowerBoundIsZero@{lowerBoundIsZero}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{lowerBoundIsZero()}{lowerBoundIsZero()}}
+{\footnotesize\ttfamily bool lower\+Bound\+Is\+Zero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{bound,  }\item[{int}]{dim }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{omegatools_8cc_ac85e905d42857c5deab6ba56275344a9}\label{omegatools_8cc_ac85e905d42857c5deab6ba56275344a9}} 
+\index{omegatools.cc@{omegatools.cc}!permute\_relation@{permute\_relation}}
+\index{permute\_relation@{permute\_relation}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{permute\_relation()}{permute\_relation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} permute\+\_\+relation (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ int $>$ \&}]{pi }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_ac85e905d42857c5deab6ba56275344a9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a13eb30fde57d3c23981cfa95b31b1c6c}\label{omegatools_8cc_a13eb30fde57d3c23981cfa95b31b1c6c}} 
+\index{omegatools.cc@{omegatools.cc}!relation2dependences@{relation2dependences}}
+\index{relation2dependences@{relation2dependences}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{relation2dependences()}{relation2dependences()}}
+{\footnotesize\ttfamily std\+::pair$<$std\+::vector$<$\mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}}$>$, std\+::vector$<$\mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}}$>$ $>$ relation2dependences (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$}]{ref\+\_\+src,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{struct_i_r___array_ref}{I\+R\+\_\+\+Array\+Ref}} $\ast$}]{ref\+\_\+dst,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{r }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a13eb30fde57d3c23981cfa95b31b1c6c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a13eb30fde57d3c23981cfa95b31b1c6c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a7823302a3258252463dd36033d0829cb}\label{omegatools_8cc_a7823302a3258252463dd36033d0829cb}} 
+\index{omegatools.cc@{omegatools.cc}!replace\_set\_var\_as\_another\_set\_var@{replace\_set\_var\_as\_another\_set\_var}}
+\index{replace\_set\_var\_as\_another\_set\_var@{replace\_set\_var\_as\_another\_set\_var}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{replace\_set\_var\_as\_another\_set\_var()}{replace\_set\_var\_as\_another\_set\_var()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} replace\+\_\+set\+\_\+var\+\_\+as\+\_\+another\+\_\+set\+\_\+var (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{old\+\_\+relation,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{new\+\_\+relation,  }\item[{int}]{old\+\_\+pos,  }\item[{int}]{new\+\_\+pos }\end{DoxyParamCaption})}
+
+
+
+Replicates old\+\_\+relation\textquotesingle{}s bounds for set var at old\+\_\+pos into new\+\_\+relation at new\+\_\+pos. 
+
+position\textquotesingle{}s bounds must involve constants, only supports G\+E\+Qs Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a7823302a3258252463dd36033d0829cb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a7823302a3258252463dd36033d0829cb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a4613b0a37ccd413880ab337b26001437}\label{omegatools_8cc_a4613b0a37ccd413880ab337b26001437}} 
+\index{omegatools.cc@{omegatools.cc}!replace\_set\_var\_as\_another\_set\_var@{replace\_set\_var\_as\_another\_set\_var}}
+\index{replace\_set\_var\_as\_another\_set\_var@{replace\_set\_var\_as\_another\_set\_var}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{replace\_set\_var\_as\_another\_set\_var()}{replace\_set\_var\_as\_another\_set\_var()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} replace\+\_\+set\+\_\+var\+\_\+as\+\_\+another\+\_\+set\+\_\+var (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{new\+\_\+relation,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{old\+\_\+relation,  }\item[{int}]{new\+\_\+pos,  }\item[{int}]{old\+\_\+pos,  }\item[{\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ int, int $>$ \&}]{pos\+\_\+mapping }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a4613b0a37ccd413880ab337b26001437_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_a240b32de73c078b19b68d3af9a057d89}\label{omegatools_8cc_a240b32de73c078b19b68d3af9a057d89}} 
+\index{omegatools.cc@{omegatools.cc}!replace\_set\_var\_as\_existential@{replace\_set\_var\_as\_existential}}
+\index{replace\_set\_var\_as\_existential@{replace\_set\_var\_as\_existential}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{replace\_set\_var\_as\_existential()}{replace\_set\_var\_as\_existential()}}
+{\footnotesize\ttfamily std\+::pair$<$\mbox{\hyperlink{classomega_1_1_relation}{Relation}}, bool$>$ replace\+\_\+set\+\_\+var\+\_\+as\+\_\+existential (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{R,  }\item[{int}]{pos,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ \&}]{bound }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{omegatools_8cc_a7177709c603ff3b2db20a75dd72a43b4}\label{omegatools_8cc_a7177709c603ff3b2db20a75dd72a43b4}} 
+\index{omegatools.cc@{omegatools.cc}!replace\_set\_var\_as\_Global@{replace\_set\_var\_as\_Global}}
+\index{replace\_set\_var\_as\_Global@{replace\_set\_var\_as\_Global}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{replace\_set\_var\_as\_Global()}{replace\_set\_var\_as\_Global()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} replace\+\_\+set\+\_\+var\+\_\+as\+\_\+\+Global (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{R,  }\item[{int}]{pos,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} $>$ \&}]{bound }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{omegatools_8cc_a89a0bc1daf966a1960bc15cb8689e210}\label{omegatools_8cc_a89a0bc1daf966a1960bc15cb8689e210}} 
+\index{omegatools.cc@{omegatools.cc}!replace\_set\_vars@{replace\_set\_vars}}
+\index{replace\_set\_vars@{replace\_set\_vars}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{replace\_set\_vars()}{replace\_set\_vars()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} replace\+\_\+set\+\_\+vars (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{new\+\_\+relation,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{old\+\_\+relation,  }\item[{int}]{counter }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a89a0bc1daf966a1960bc15cb8689e210_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_a89a0bc1daf966a1960bc15cb8689e210_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{omegatools_8cc_ad308e85e64fa3b8c20bcc1b46fa06ce0}\label{omegatools_8cc_ad308e85e64fa3b8c20bcc1b46fa06ce0}} 
+\index{omegatools.cc@{omegatools.cc}!replicate\_IS\_and\_add\_at\_pos@{replicate\_IS\_and\_add\_at\_pos}}
+\index{replicate\_IS\_and\_add\_at\_pos@{replicate\_IS\_and\_add\_at\_pos}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{replicate\_IS\_and\_add\_at\_pos()}{replicate\_IS\_and\_add\_at\_pos()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} replicate\+\_\+\+I\+S\+\_\+and\+\_\+add\+\_\+at\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{R,  }\item[{int}]{level,  }\item[{\mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{bound }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{omegatools_8cc_ae046e6354989df7fb2b75308a98032b3}\label{omegatools_8cc_ae046e6354989df7fb2b75308a98032b3}} 
+\index{omegatools.cc@{omegatools.cc}!replicate\_IS\_and\_add\_bound@{replicate\_IS\_and\_add\_bound}}
+\index{replicate\_IS\_and\_add\_bound@{replicate\_IS\_and\_add\_bound}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{replicate\_IS\_and\_add\_bound()}{replicate\_IS\_and\_add\_bound()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_relation}{Relation}} replicate\+\_\+\+I\+S\+\_\+and\+\_\+add\+\_\+bound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{R,  }\item[{int}]{level,  }\item[{\mbox{\hyperlink{classomega_1_1_relation}{omega\+::\+Relation}} \&}]{bound }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{omegatools_8cc_ad769c030ace6592d5fe9b61081cf8d07}\label{omegatools_8cc_ad769c030ace6592d5fe9b61081cf8d07}} 
+\index{omegatools.cc@{omegatools.cc}!tmp\_e@{tmp\_e}}
+\index{tmp\_e@{tmp\_e}!omegatools.cc@{omegatools.cc}}
+\doxysubsubsection{\texorpdfstring{tmp\_e()}{tmp\_e()}}
+{\footnotesize\ttfamily std\+::string tmp\+\_\+e (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=262pt]{omegatools_8cc_ad769c030ace6592d5fe9b61081cf8d07_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{omegatools_8cc_ad769c030ace6592d5fe9b61081cf8d07_icgraph}
+\end{center}
+\end{figure}

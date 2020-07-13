@@ -1,0 +1,85 @@
+.TH "lib/chill/chill_error.hh" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/chill_error.hh \- CHiLL runtime exceptions\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdexcept>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBloop_error\fP"
+.br
+.RI "for loop transformation problem "
+.ti -1c
+.RI "struct \fBir_error\fP"
+.br
+.RI "for generic compiler intermediate code handling problem "
+.ti -1c
+.RI "struct \fBir_exp_error\fP"
+.br
+.RI "specific for expression to presburger math translation problem "
+.ti -1c
+.RI "struct \fBomega_error\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__stringify\fP(id)   #id"
+.br
+.ti -1c
+.RI "#define \fB__tostring\fP(id)   \fB__stringify\fP(id)"
+.br
+.ti -1c
+.RI "#define \fB__throw\fP(\fBt\fP,  msg)   \fBthrow\fP \fBt\fP(std::string(__FILE__ ', ' \fB__tostring\fP(__LINE__) ', ') + __func__ + ': ' + msg)"
+.br
+.ti -1c
+.RI "#define \fB__throw_loop_error\fP(msg)   \fB__throw\fP(\fBloop_error\fP, msg)"
+.br
+.ti -1c
+.RI "#define \fB__throw_ir_errort\fP(msg)   \fB__throw\fP(\fBir_error\fP, msg)"
+.br
+.ti -1c
+.RI "#define \fB__throw_ir_exp_error\fP(msg)   \fB__throw\fP(\fBir_exp_error\fP, msg)"
+.br
+.ti -1c
+.RI "#define \fB__throw_omega_error\fP(msg)   \fB__throw\fP(\fBomega_error\fP, msg)"
+.br
+.ti -1c
+.RI "#define \fB__throw_runtime_error\fP(msg)   \fB__throw\fP(std::runtime_error, msg)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+CHiLL runtime exceptions\&. 
+
+
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define __stringify(id)   #id"
+
+.SS "#define __throw(\fBt\fP, msg)   \fBthrow\fP \fBt\fP(std::string(__FILE__ ', ' \fB__tostring\fP(__LINE__) ', ') + __func__ + ': ' + msg)"
+
+.SS "#define __throw_ir_errort(msg)   \fB__throw\fP(\fBir_error\fP, msg)"
+
+.SS "#define __throw_ir_exp_error(msg)   \fB__throw\fP(\fBir_exp_error\fP, msg)"
+
+.SS "#define __throw_loop_error(msg)   \fB__throw\fP(\fBloop_error\fP, msg)"
+
+.SS "#define __throw_omega_error(msg)   \fB__throw\fP(\fBomega_error\fP, msg)"
+
+.SS "#define __throw_runtime_error(msg)   \fB__throw\fP(std::runtime_error, msg)"
+
+.SS "#define __tostring(id)   \fB__stringify\fP(id)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,176 @@
+.TH "lib/isl/isl_printer.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_printer.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string\&.h>\fP
+.br
+\fC#include <isl_int\&.h>\fP
+.br
+\fC#include <isl_printer_private\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_printer_ops\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_to_file\fP (\fBisl_ctx\fP *ctx, FILE *file)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_to_str\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_printer\fP * \fBisl_printer_free\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_printer_get_ctx\fP (\fB__isl_keep\fP \fBisl_printer\fP *printer)"
+.br
+.ti -1c
+.RI "FILE * \fBisl_printer_get_file\fP (\fB__isl_keep\fP \fBisl_printer\fP *printer)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_set_isl_int_width\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, int width)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_set_indent\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, int indent)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_indent\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, int indent)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_set_indent_prefix\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fBconst\fP char *prefix)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_set_prefix\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fBconst\fP char *prefix)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_set_suffix\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fBconst\fP char *suffix)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_set_output_format\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, int output_format)"
+.br
+.ti -1c
+.RI "int \fBisl_printer_get_output_format\fP (\fB__isl_keep\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_set_dump\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, int dump)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_set_yaml_style\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, int yaml_style)"
+.br
+.ti -1c
+.RI "int \fBisl_printer_get_yaml_style\fP (\fB__isl_keep\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_str\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_double\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, double d)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_int\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, int \fBi\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_isl_int\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fBisl_int\fP \fBi\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_start_line\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_end_line\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "char * \fBisl_printer_get_str\fP (\fB__isl_keep\fP \fBisl_printer\fP *printer)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_flush\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_yaml_start_mapping\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_yaml_end_mapping\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_yaml_start_sequence\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_yaml_end_sequence\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_yaml_next\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_end_line (\fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_flush (\fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_null\fP \fBisl_printer\fP* isl_printer_free (\fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fBisl_ctx\fP* isl_printer_get_ctx (\fB__isl_keep\fP \fBisl_printer\fP * printer)"
+
+.SS "FILE* isl_printer_get_file (\fB__isl_keep\fP \fBisl_printer\fP * printer)"
+
+.SS "int isl_printer_get_output_format (\fB__isl_keep\fP \fBisl_printer\fP * p)"
+
+.SS "char* isl_printer_get_str (\fB__isl_keep\fP \fBisl_printer\fP * printer)"
+
+.SS "int isl_printer_get_yaml_style (\fB__isl_keep\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_indent (\fB__isl_take\fP \fBisl_printer\fP * p, int indent)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_double (\fB__isl_take\fP \fBisl_printer\fP * p, double d)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_int (\fB__isl_take\fP \fBisl_printer\fP * p, int i)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_isl_int (\fB__isl_take\fP \fBisl_printer\fP * p, \fBisl_int\fP i)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_str (\fB__isl_take\fP \fBisl_printer\fP * p, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_set_dump (\fB__isl_take\fP \fBisl_printer\fP * p, int dump)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_set_indent (\fB__isl_take\fP \fBisl_printer\fP * p, int indent)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_set_indent_prefix (\fB__isl_take\fP \fBisl_printer\fP * p, \fBconst\fP char * prefix)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_set_isl_int_width (\fB__isl_take\fP \fBisl_printer\fP * p, int width)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_set_output_format (\fB__isl_take\fP \fBisl_printer\fP * p, int output_format)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_set_prefix (\fB__isl_take\fP \fBisl_printer\fP * p, \fBconst\fP char * prefix)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_set_suffix (\fB__isl_take\fP \fBisl_printer\fP * p, \fBconst\fP char * suffix)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_set_yaml_style (\fB__isl_take\fP \fBisl_printer\fP * p, int yaml_style)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_start_line (\fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_to_file (\fBisl_ctx\fP * ctx, FILE * file)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_to_str (\fBisl_ctx\fP * ctx)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_yaml_end_mapping (\fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_yaml_end_sequence (\fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_yaml_next (\fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_yaml_start_mapping (\fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_yaml_start_sequence (\fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

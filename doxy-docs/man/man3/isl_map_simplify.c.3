@@ -1,0 +1,328 @@
+.TH "lib/isl/isl_map_simplify.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_map_simplify.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include 'isl_equalities\&.h'\fP
+.br
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include 'isl_tab\&.h'\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_constraint_index\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_drop_dims\fP (struct \fBisl_basic_set\fP *bset, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_drop_dims\fP (struct \fBisl_set\fP *\fBset\fP, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_drop\fP (struct \fBisl_basic_map\fP *\fBbmap\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_drop\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_drop_inputs\fP (struct \fBisl_basic_map\fP *\fBbmap\fP, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_map\fP * \fBisl_map_drop\fP (struct \fBisl_map\fP *\fBmap\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_drop\fP (struct \fBisl_set\fP *\fBset\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_map\fP * \fBisl_map_drop_inputs\fP (struct \fBisl_map\fP *\fBmap\fP, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_normalize_constraints\fP (struct \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_normalize_constraints\fP (struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_gauss\fP (struct \fBisl_basic_map\fP *\fBbmap\fP, int *progress)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_gauss\fP (struct \fBisl_basic_set\fP *bset, int *progress)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_remove_duplicate_constraints\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, int *progress, int detect_divs)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_detect_inequality_pairs\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, int *progress)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_simplify\fP (struct \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_simplify\fP (struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_map_is_div_constraint\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP, \fBisl_int\fP *constraint, unsigned div)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_is_div_constraint\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, \fBisl_int\fP *constraint, unsigned div)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_mark_final\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_finalize\fP (struct \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_finalize\fP (struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_finalize\fP (struct \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_map\fP * \fBisl_map_finalize\fP (struct \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_eliminate_vars\fP (struct \fBisl_basic_map\fP *\fBbmap\fP, unsigned \fBpos\fP, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_eliminate_vars\fP (struct \fBisl_basic_set\fP *bset, unsigned \fBpos\fP, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_eliminate\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_eliminate\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_drop_constraint_involving_unknown_divs\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_drop_constraint_involving_unknown_divs\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_gist\fP (struct \fBisl_basic_map\fP *\fBbmap\fP, struct \fBisl_basic_map\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_gist_basic_map\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_take\fP \fBisl_basic_map\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_plain_gist\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, \fB__isl_take\fP \fBisl_basic_map\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_plain_gist_basic_map\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_take\fP \fBisl_basic_map\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_gist\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_take\fP \fBisl_map\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_gist\fP (struct \fBisl_basic_set\fP *bset, struct \fBisl_basic_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_gist_basic_set\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_basic_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_gist_params_basic_set\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_basic_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_gist\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_gist_domain\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, \fB__isl_take\fP \fBisl_basic_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_gist_domain\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_gist_range\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_gist_params\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_gist_params\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_basic_map_plain_is_disjoint\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *bmap1, \fB__isl_keep\fP \fBisl_basic_map\fP *bmap2)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_plain_is_disjoint\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset1, \fB__isl_keep\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_map_plain_is_disjoint\fP (\fB__isl_keep\fP \fBisl_map\fP *\fBmap1\fP, \fB__isl_keep\fP \fBisl_map\fP *\fBmap2\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_map_is_disjoint\fP (\fB__isl_keep\fP \fBisl_map\fP *\fBmap1\fP, \fB__isl_keep\fP \fBisl_map\fP *\fBmap2\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_basic_map_is_disjoint\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *bmap1, \fB__isl_keep\fP \fBisl_basic_map\fP *bmap2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_basic_set_is_disjoint\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset1, \fB__isl_keep\fP \fBisl_basic_set\fP *bset2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_plain_is_disjoint\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_set_is_disjoint\fP (\fB__isl_keep\fP \fBisl_set\fP *\fBset1\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset2\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_drop_redundant_divs\fP (struct \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_drop_redundant_divs\fP (struct \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "struct \fBisl_map\fP * \fBisl_map_drop_redundant_divs\fP (struct \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_drop_redundant_divs\fP (struct \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_reduce_coefficients\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_shift_div\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, int div, int \fBpos\fP, \fBisl_int\fP shift)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_detect_inequality_pairs (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, int * progress)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_drop (struct \fBisl_basic_map\fP * bmap, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_drop_constraint_involving_unknown_divs (\fB__isl_take\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_drop_inputs (struct \fBisl_basic_map\fP * bmap, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_drop_redundant_divs (struct \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_eliminate (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_eliminate_vars (struct \fBisl_basic_map\fP * bmap, unsigned pos, unsigned n)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_finalize (struct \fBisl_basic_map\fP * bmap)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_gauss (struct \fBisl_basic_map\fP * bmap, int * progress)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_gist (struct \fBisl_basic_map\fP * bmap, struct \fBisl_basic_map\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_gist_domain (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, \fB__isl_take\fP \fBisl_basic_set\fP * context)"
+
+.SS "\fBisl_bool\fP isl_basic_map_is_disjoint (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap1, \fB__isl_keep\fP \fBisl_basic_map\fP * bmap2)"
+
+.SS "int isl_basic_map_is_div_constraint (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap, \fBisl_int\fP * constraint, unsigned div)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_mark_final (\fB__isl_take\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_normalize_constraints (struct \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_plain_gist (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, \fB__isl_take\fP \fBisl_basic_map\fP * context)"
+
+.SS "\fBisl_bool\fP isl_basic_map_plain_is_disjoint (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap1, \fB__isl_keep\fP \fBisl_basic_map\fP * bmap2)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_reduce_coefficients (\fB__isl_take\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_remove_duplicate_constraints (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, int * progress, int detect_divs)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_shift_div (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, int div, int pos, \fBisl_int\fP shift)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_simplify (struct \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_drop (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_drop_dims (struct \fBisl_basic_set\fP * bset, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_drop_redundant_divs (struct \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_eliminate (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_eliminate_vars (struct \fBisl_basic_set\fP * bset, unsigned pos, unsigned n)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_finalize (struct \fBisl_basic_set\fP * bset)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_gauss (struct \fBisl_basic_set\fP * bset, int * progress)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_gist (struct \fBisl_basic_set\fP * bset, struct \fBisl_basic_set\fP * context)"
+
+.SS "\fBisl_bool\fP isl_basic_set_is_disjoint (\fB__isl_keep\fP \fBisl_basic_set\fP * bset1, \fB__isl_keep\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "int isl_basic_set_is_div_constraint (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, \fBisl_int\fP * constraint, unsigned div)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_normalize_constraints (struct \fBisl_basic_set\fP * bset)"
+
+.SS "int isl_basic_set_plain_is_disjoint (\fB__isl_keep\fP \fBisl_basic_set\fP * bset1, \fB__isl_keep\fP \fBisl_basic_set\fP * bset2)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_simplify (struct \fBisl_basic_set\fP * bset)"
+
+.SS "struct \fBisl_map\fP* isl_map_drop (struct \fBisl_map\fP * map, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_drop_constraint_involving_unknown_divs (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "struct \fBisl_map\fP* isl_map_drop_inputs (struct \fBisl_map\fP * map, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_map\fP* isl_map_drop_redundant_divs (struct \fBisl_map\fP * map)"
+
+.SS "struct \fBisl_map\fP* isl_map_finalize (struct \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_gist (\fB__isl_take\fP \fBisl_map\fP * map, \fB__isl_take\fP \fBisl_map\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_gist_basic_map (\fB__isl_take\fP \fBisl_map\fP * map, \fB__isl_take\fP \fBisl_basic_map\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_gist_domain (\fB__isl_take\fP \fBisl_map\fP * map, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_gist_params (\fB__isl_take\fP \fBisl_map\fP * map, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_gist_range (\fB__isl_take\fP \fBisl_map\fP * map, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fBisl_bool\fP isl_map_is_disjoint (\fB__isl_keep\fP \fBisl_map\fP * map1, \fB__isl_keep\fP \fBisl_map\fP * map2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_plain_gist_basic_map (\fB__isl_take\fP \fBisl_map\fP * map, \fB__isl_take\fP \fBisl_basic_map\fP * context)"
+
+.SS "\fBisl_bool\fP isl_map_plain_is_disjoint (\fB__isl_keep\fP \fBisl_map\fP * map1, \fB__isl_keep\fP \fBisl_map\fP * map2)"
+
+.SS "struct \fBisl_set\fP* isl_set_drop (struct \fBisl_set\fP * set, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_set\fP* isl_set_drop_dims (struct \fBisl_set\fP * set, unsigned first, unsigned n)"
+
+.SS "struct \fBisl_set\fP* isl_set_drop_redundant_divs (struct \fBisl_set\fP * set)"
+
+.SS "struct \fBisl_set\fP* isl_set_finalize (struct \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_gist (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_gist_basic_set (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_basic_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_gist_params (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_gist_params_basic_set (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_basic_set\fP * context)"
+
+.SS "\fBisl_bool\fP isl_set_is_disjoint (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SS "\fBisl_bool\fP isl_set_plain_is_disjoint (\fB__isl_keep\fP \fBisl_set\fP * set1, \fB__isl_keep\fP \fBisl_set\fP * set2)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

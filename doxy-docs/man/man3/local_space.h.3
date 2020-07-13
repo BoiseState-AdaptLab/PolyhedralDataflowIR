@@ -1,0 +1,192 @@
+.TH "lib/isl/include/isl/local_space.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/local_space.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/aff_type\&.h>\fP
+.br
+\fC#include <isl/space\&.h>\fP
+.br
+\fC#include <isl/printer\&.h>\fP
+.br
+\fC#include <isl/map_type\&.h>\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBisl_local_space\fP \fBisl_local_space\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_local_space_get_ctx\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_from_space\fP (\fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_copy\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_local_space\fP * \fBisl_local_space_free\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_local_space_is_params\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_local_space_is_set\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_set_tuple_id\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, \fB__isl_take\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "int \fBisl_local_space_dim\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_local_space_has_dim_name\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBisl_local_space_get_dim_name\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_set_dim_name\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_local_space_has_dim_id\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_local_space_get_dim_id\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_set_dim_id\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_take\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_local_space_get_space\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_local_space_get_div\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_local_space_find_dim_by_name\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_range\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_from_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_add_dims\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_drop_dims\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_insert_dims\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_intersect\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls1, \fB__isl_take\fP \fBisl_local_space\fP *ls2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_wrap\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_local_space_is_equal\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls1, \fB__isl_keep\fP \fBisl_local_space\fP *ls2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_local_space_lifting\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_flatten_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_local_space_flatten_range\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_local_space\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "void \fBisl_local_space_dump\fP (\fB__isl_keep\fP \fBisl_local_space\fP *ls)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBisl_local_space\fP \fBisl_local_space\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_add_dims (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_copy (\fB__isl_keep\fP \fBisl_local_space\fP * ls)"
+
+.SS "int isl_local_space_dim (\fB__isl_keep\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_drop_dims (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "void isl_local_space_dump (\fB__isl_keep\fP \fBisl_local_space\fP * ls)"
+
+.SS "int isl_local_space_find_dim_by_name (\fB__isl_keep\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, \fBconst\fP char * name)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_flatten_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_flatten_range (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_null\fP \fBisl_local_space\fP* isl_local_space_free (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_from_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_from_space (\fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fBisl_ctx\fP* isl_local_space_get_ctx (\fB__isl_keep\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_local_space_get_dim_id (\fB__isl_keep\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBconst\fP char* isl_local_space_get_dim_name (\fB__isl_keep\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_local_space_get_div (\fB__isl_keep\fP \fBisl_local_space\fP * ls, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_local_space_get_space (\fB__isl_keep\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fBisl_bool\fP isl_local_space_has_dim_id (\fB__isl_keep\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBisl_bool\fP isl_local_space_has_dim_name (\fB__isl_keep\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_insert_dims (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_intersect (\fB__isl_take\fP \fBisl_local_space\fP * ls1, \fB__isl_take\fP \fBisl_local_space\fP * ls2)"
+
+.SS "\fBisl_bool\fP isl_local_space_is_equal (\fB__isl_keep\fP \fBisl_local_space\fP * ls1, \fB__isl_keep\fP \fBisl_local_space\fP * ls2)"
+
+.SS "\fBisl_bool\fP isl_local_space_is_params (\fB__isl_keep\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fBisl_bool\fP isl_local_space_is_set (\fB__isl_keep\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_local_space_lifting (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_range (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_set_dim_id (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_take\fP \fBisl_id\fP * id)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_set_dim_name (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_set_tuple_id (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, \fB__isl_take\fP \fBisl_id\fP * id)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_local_space_wrap (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_local_space (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_local_space\fP * ls)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,1584 @@
+.TH "lib/isl/isl_aff.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_aff.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl_union_map_private\&.h>\fP
+.br
+\fC#include <isl_aff_private\&.h>\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl_local_space_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl/constraint\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl_val_private\&.h>\fP
+.br
+\fC#include <isl/deprecated/aff_int\&.h>\fP
+.br
+\fC#include <isl_config\&.h>\fP
+.br
+\fC#include <isl_list_templ\&.c>\fP
+.br
+\fC#include <isl_pw_templ\&.c>\fP
+.br
+\fC#include <isl_union_single\&.c>\fP
+.br
+\fC#include <isl_union_neg\&.c>\fP
+.br
+\fC#include <isl_multi_templ\&.c>\fP
+.br
+\fC#include <isl_multi_apply_set\&.c>\fP
+.br
+\fC#include <isl_multi_floor\&.c>\fP
+.br
+\fC#include <isl_multi_gist\&.c>\fP
+.br
+\fC#include <isl_union_multi\&.c>\fP
+.br
+\fC#include <isl_multi_coalesce\&.c>\fP
+.br
+\fC#include <isl_multi_intersect\&.c>\fP
+.br
+\fC#include <isl_multi_apply_union_set\&.c>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_union_pw_multi_aff_bin_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_pw_multi_aff_multi_val_on_domain_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_pw_aff_reset_params_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_pw_aff_aff_on_domain_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_pw_multi_aff_get_union_pw_aff_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_pw_aff_val_on_domain_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_pw_aff_pullback_upma_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_pw_multi_aff_reset_range_space_data\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBISL_DIM_H\fP"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   aff"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   pw_aff"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   union_pw_aff"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   union_pw_multi_aff"
+.br
+.ti -1c
+.RI "#define \fBPW\fP   \fBisl_pw_aff\fP"
+.br
+.ti -1c
+.RI "#define \fBEL\fP   \fBisl_aff\fP"
+.br
+.ti -1c
+.RI "#define \fBEL_IS_ZERO\fP   is_empty"
+.br
+.ti -1c
+.RI "#define \fBZERO\fP   empty"
+.br
+.ti -1c
+.RI "#define \fBIS_ZERO\fP   is_empty"
+.br
+.ti -1c
+.RI "#define \fBFIELD\fP   aff"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_IS_ZERO\fP   0"
+.br
+.ti -1c
+.RI "#define \fBNO_EVAL\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_OPT\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_LIFT\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_MORPH\fP"
+.br
+.ti -1c
+.RI "#define \fBUNION\fP   \fBisl_union_pw_aff\fP"
+.br
+.ti -1c
+.RI "#define \fBPART\fP   \fBisl_pw_aff\fP"
+.br
+.ti -1c
+.RI "#define \fBPARTS\fP   pw_aff"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   aff"
+.br
+.ti -1c
+.RI "#define \fBDOMBASE\fP   \fBset\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_DOMAIN\fP"
+.br
+.ti -1c
+.RI "#define \fBPW\fP   \fBisl_pw_multi_aff\fP"
+.br
+.ti -1c
+.RI "#define \fBEL\fP   \fBisl_multi_aff\fP"
+.br
+.ti -1c
+.RI "#define \fBEL_IS_ZERO\fP   is_empty"
+.br
+.ti -1c
+.RI "#define \fBZERO\fP   empty"
+.br
+.ti -1c
+.RI "#define \fBIS_ZERO\fP   is_empty"
+.br
+.ti -1c
+.RI "#define \fBFIELD\fP   maff"
+.br
+.ti -1c
+.RI "#define \fBDEFAULT_IS_ZERO\fP   0"
+.br
+.ti -1c
+.RI "#define \fBNO_SUB\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_EVAL\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_OPT\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_INVOLVES_DIMS\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_INSERT_DIMS\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_LIFT\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_MORPH\fP"
+.br
+.ti -1c
+.RI "#define \fBUNION\fP   \fBisl_union_pw_multi_aff\fP"
+.br
+.ti -1c
+.RI "#define \fBPART\fP   \fBisl_pw_multi_aff\fP"
+.br
+.ti -1c
+.RI "#define \fBPARTS\fP   pw_multi_aff"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   pw_aff"
+.br
+.ti -1c
+.RI "#define \fBDOMBASE\fP   \fBset\fP"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   union_pw_aff"
+.br
+.ti -1c
+.RI "#define \fBDOMBASE\fP   union_set"
+.br
+.ti -1c
+.RI "#define \fBNO_MOVE_DIMS\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_DIMS\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_DOMAIN\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_PRODUCT\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_SPLICE\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_ZERO\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_IDENTITY\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_GIST\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_alloc_vec\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, \fB__isl_take\fP \fBisl_vec\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_alloc\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_zero_on_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_zero_on_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_nan_on_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_nan_on_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_val_on_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, \fB__isl_take\fP \fBisl_val\fP *\fBval\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_var_on_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_var_on_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_copy\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_dup\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_cow\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_aff\fP * \fBisl_aff_free\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_aff_get_ctx\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_dim\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_find_dim_by_name\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_aff_get_domain_space\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_aff_get_space\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_aff_get_domain_local_space\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_aff_get_local_space\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBisl_aff_get_dim_name\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_reset_domain_space\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_space\fP *\fBdim\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_reset_space_and_domain\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_space\fP *space, \fB__isl_take\fP \fBisl_space\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_realign_domain\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_reordering\fP *r)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_align_params\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_aff_plain_is_zero\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_aff_is_nan\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_pw_aff_involves_nan\fP (\fB__isl_keep\fP \fBisl_pw_aff\fP *pa)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_aff_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff1, \fB__isl_keep\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_get_denominator\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, \fBisl_int\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_aff_get_denominator_val\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_get_constant\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, \fBisl_int\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_aff_get_constant_val\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_get_coefficient\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fBisl_int\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_aff_get_coefficient_val\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_coefficient_sgn\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_denominator\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_constant\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_constant_val\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_constant\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_constant_val\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_constant_si\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_constant_num\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_constant_num_si\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_constant_si\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_coefficient\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_coefficient_si\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, int \fBpos\fP, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_coefficient_val\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_coefficient\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_coefficient_val\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_coefficient_si\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, int \fBpos\fP, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_get_div\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_neg\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_remove_unused_divs\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_substitute\fP (\fBisl_int\fP *\fBp\fP, int \fBpos\fP, \fBisl_int\fP *subs, int p_len, int subs_len, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_normalize\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_floor\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_mod\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fBisl_int\fP \fBm\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_mod_val\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_val\fP *\fBm\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_mod\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff, \fBisl_int\fP \fBm\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_mod_val\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa, \fB__isl_take\fP \fBisl_val\fP *\fBm\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_ceil\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_expand_divs\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_mat\fP *div, int *exp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add\fP (\fB__isl_take\fP \fBisl_aff\fP *aff1, \fB__isl_take\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_sub\fP (\fB__isl_take\fP \fBisl_aff\fP *aff1, \fB__isl_take\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_scale\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fBisl_int\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_scale_val\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_scale_down\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fBisl_int\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_scale_down_val\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_scale_down_ui\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, unsigned \fBf\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_dim_name\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_dim_id\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_take\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_set_tuple_id\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, \fB__isl_take\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_substitute_equalities\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_basic_set\fP *\fBeq\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_gist\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_gist_params\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_aff_nonneg_basic_set\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_aff_neg_basic_set\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_aff_zero_basic_set\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_aff_ge_basic_set\fP (\fB__isl_take\fP \fBisl_aff\fP *aff1, \fB__isl_take\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_aff_le_basic_set\fP (\fB__isl_take\fP \fBisl_aff\fP *aff1, \fB__isl_take\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_on_domain\fP (\fB__isl_keep\fP \fBisl_set\fP *dom, \fB__isl_take\fP \fBisl_aff\fP *aff1, \fB__isl_take\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_is_empty\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_aff_involves_dims\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_drop_dims\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_project_domain_on_params\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_insert_dims\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_add_dims\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_add_dims\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff, enum \fBisl_dim_type\fP type, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_move_dims\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_from_aff\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_union_max\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_union_min\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_union_opt\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2, int \fBmax\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_from_pw_aff\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_from_pw_aff\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_pos_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_nonneg_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_zero_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_non_zero_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_eq_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_ge_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_gt_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_le_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_lt_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_pw_aff_eq_map\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa1, \fB__isl_take\fP \fBisl_pw_aff\fP *pa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_pw_aff_lt_map\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa1, \fB__isl_take\fP \fBisl_pw_aff\fP *pa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_pw_aff_gt_map\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa1, \fB__isl_take\fP \fBisl_pw_aff\fP *pa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_list_eq_set\fP (\fB__isl_take\fP isl_pw_aff_list *list1, \fB__isl_take\fP isl_pw_aff_list *list2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_list_ne_set\fP (\fB__isl_take\fP isl_pw_aff_list *list1, \fB__isl_take\fP isl_pw_aff_list *list2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_list_le_set\fP (\fB__isl_take\fP isl_pw_aff_list *list1, \fB__isl_take\fP isl_pw_aff_list *list2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_list_lt_set\fP (\fB__isl_take\fP isl_pw_aff_list *list1, \fB__isl_take\fP isl_pw_aff_list *list2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_list_ge_set\fP (\fB__isl_take\fP isl_pw_aff_list *list1, \fB__isl_take\fP isl_pw_aff_list *list2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_list_gt_set\fP (\fB__isl_take\fP isl_pw_aff_list *list1, \fB__isl_take\fP isl_pw_aff_list *list2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_pw_aff_ne_set\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_scale_down\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_floor\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_ceil\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_cond\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *cond, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff_true, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff_false)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_aff_is_cst\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_pw_aff_is_cst\fP (\fB__isl_keep\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_mul\fP (\fB__isl_take\fP \fBisl_aff\fP *aff1, \fB__isl_take\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_div\fP (\fB__isl_take\fP \fBisl_aff\fP *aff1, \fB__isl_take\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_add\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_union_add\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_mul\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_div\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa1, \fB__isl_take\fP \fBisl_pw_aff\fP *pa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_tdiv_q\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa1, \fB__isl_take\fP \fBisl_pw_aff\fP *pa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_tdiv_r\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa1, \fB__isl_take\fP \fBisl_pw_aff\fP *pa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_min\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_max\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP *pwaff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_list_min\fP (\fB__isl_take\fP isl_pw_aff_list *list)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_list_max\fP (\fB__isl_take\fP isl_pw_aff_list *list)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_set_rational\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_pw_aff_list * \fBisl_pw_aff_list_set_rational\fP (\fB__isl_take\fP isl_pw_aff_list *list)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_matching_params\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, \fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_check_match_domain_space\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff, \fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_flatten_domain\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_domain_map\fP (\fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_range_map\fP (\fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_range_map\fP (\fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_project_out_map\fP (\fB__isl_take\fP \fBisl_space\fP *space, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_project_out_map\fP (\fB__isl_take\fP \fBisl_space\fP *space, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_from_multi_aff\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_identity\fP (\fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_scale\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *maff, \fBisl_int\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_add_on_domain\fP (\fB__isl_keep\fP \fBisl_set\fP *dom, \fB__isl_take\fP \fBisl_multi_aff\fP *maff1, \fB__isl_take\fP \fBisl_multi_aff\fP *maff2)"
+.br
+.ti -1c
+.RI "int \fBisl_multi_aff_is_empty\fP (\fB__isl_keep\fP \fBisl_multi_aff\fP *maff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_multi_aff_lex_le_set\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *\fBma1\fP, \fB__isl_take\fP \fBisl_multi_aff\fP *ma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_multi_aff_lex_ge_set\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *\fBma1\fP, \fB__isl_take\fP \fBisl_multi_aff\fP *ma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_union_lexmax\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_union_lexmin\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_add\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_sub\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_union_add\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_union_pw_aff_union_add\fP (\fB__isl_take\fP \fBisl_union_pw_aff\fP *upa1, \fB__isl_take\fP \fBisl_union_pw_aff\fP *upa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_union_add\fP (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma1, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_product\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_from_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_from_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_from_basic_set_equalities\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_from_map\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_from_set\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_from_aff\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_from_union_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_from_union_set\fP (\fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_set_indicator_function\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_substitute\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_keep\fP \fBisl_aff\fP *subs)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_substitute\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *maff, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_keep\fP \fBisl_aff\fP *subs)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_substitute\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fB__isl_keep\fP \fBisl_pw_aff\fP *subs)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_preimage\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, \fB__isl_keep\fP \fBisl_multi_aff\fP *\fBma\fP, int n_before, int n_after, int n_div_ma, int n_div_bmap, \fBisl_int\fP \fBf\fP, \fBisl_int\fP c1, \fBisl_int\fP c2, \fBisl_int\fP g, int has_denom)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_pullback_multi_aff\fP (\fB__isl_take\fP \fBisl_aff\fP *aff, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_pullback_aff\fP (\fB__isl_take\fP \fBisl_aff\fP *aff1, \fB__isl_take\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_pullback_multi_aff\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *\fBma1\fP, \fB__isl_take\fP \fBisl_multi_aff\fP *ma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_align_divs\fP (\fB__isl_take\fP \fBisl_aff\fP *dst, \fB__isl_keep\fP \fBisl_aff\fP *src)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_align_divs\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *maff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_aff_lift\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_lift\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *maff, \fB__isl_give\fP \fBisl_local_space\fP **ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_multi_aff_get_pw_aff\fP (\fB__isl_keep\fP \fBisl_pw_multi_aff\fP *pma, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_from_domain\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_from_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_from_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_range_product\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_flat_range_product\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_flat_range_product\fP (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma1, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_set_pw_aff\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma, unsigned \fBpos\fP, \fB__isl_take\fP \fBisl_pw_aff\fP *pa)"
+.br
+.ti -1c
+.RI "int \fBisl_pw_aff_matching_params\fP (\fB__isl_keep\fP \fBisl_pw_aff\fP *pa, \fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "int \fBisl_pw_aff_check_match_domain_space\fP (\fB__isl_keep\fP \fBisl_pw_aff\fP *pa, \fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_scale_multi_val\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma, \fB__isl_take\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_scale_multi_val\fP (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma, \fB__isl_take\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_zero\fP (\fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_from_pw_aff\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_from_multi_pw_aff\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_from_multi_pw_aff\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_from_multi_pw_aff\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_pw_aff\fP * \fBisl_multi_pw_aff_from_multi_aff\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_pw_aff\fP * \fBisl_multi_pw_aff_from_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "int \fBisl_pw_aff_is_equal\fP (\fB__isl_keep\fP \fBisl_pw_aff\fP *pa1, \fB__isl_keep\fP \fBisl_pw_aff\fP *pa2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_multi_pw_aff_is_equal\fP (\fB__isl_keep\fP \fBisl_multi_pw_aff\fP *mpa1, \fB__isl_keep\fP \fBisl_multi_pw_aff\fP *mpa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_pw_aff\fP * \fBisl_multi_pw_aff_pullback_multi_aff\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_pw_aff\fP * \fBisl_multi_pw_aff_pullback_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_multi_pw_aff_apply_aff\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa, \fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_multi_pw_aff_apply_pw_aff\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa, \fB__isl_take\fP \fBisl_pw_aff\fP *pa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_pullback_multi_pw_aff\fP (\fB__isl_take\fP \fBisl_pw_aff\fP *pa, \fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_pw_aff\fP * \fBisl_multi_pw_aff_pullback_multi_pw_aff\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_multi_pw_aff_eq_map\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_multi_pw_aff_lex_lt_map_on_space\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa2, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_multi_pw_aff_lex_lt_map\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_multi_pw_aff_lex_gt_map_on_space\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa2, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_multi_pw_aff_lex_gt_map\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa2)"
+.br
+.ti -1c
+.RI "int \fBisl_aff_plain_cmp\fP (\fB__isl_keep\fP \fBisl_aff\fP *aff1, \fB__isl_keep\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "int \fBisl_pw_aff_plain_cmp\fP (\fB__isl_keep\fP \fBisl_pw_aff\fP *pa1, \fB__isl_keep\fP \fBisl_pw_aff\fP *pa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_pw_aff_val_on_domain\fP (\fB__isl_take\fP \fBisl_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_multi_aff_multi_val_on_space\fP (\fB__isl_take\fP \fBisl_space\fP *space, \fB__isl_take\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_pw_multi_aff_multi_val_on_domain\fP (\fB__isl_take\fP \fBisl_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_multi_val_on_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_pullback_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma1, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_union_pw_aff_floor\fP (\fB__isl_take\fP \fBisl_union_pw_aff\fP *upa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_union_pw_aff_mod_val\fP (\fB__isl_take\fP \fBisl_union_pw_aff\fP *upa, \fB__isl_take\fP \fBisl_val\fP *\fBm\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_union_pw_multi_aff_get_union_pw_aff\fP (\fB__isl_keep\fP \fBisl_union_pw_multi_aff\fP *upma, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_union_pw_aff_aff_on_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_union_pw_aff_val_on_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_from_union_pw_aff\fP (\fB__isl_take\fP \fBisl_union_pw_aff\fP *upa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_union_pw_aff_zero_union_set\fP (\fB__isl_take\fP \fBisl_union_pw_aff\fP *upa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_from_union_pw_aff\fP (\fB__isl_take\fP \fBisl_union_pw_aff\fP *upa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_union_pw_aff_pullback_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_union_pw_aff\fP *upa, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_zero\fP (\fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_union_add\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa1, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_from_multi_aff\fP (\fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_from_multi_pw_aff\fP (\fB__isl_take\fP \fBisl_multi_pw_aff\fP *mpa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_from_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_from_union_map\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_multi_val_on_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_multi_aff_on_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_multi_union_pw_aff_zero_union_set\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_from_multi_union_pw_aff\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_union_pw_multi_aff_from_multi_union_pw_aff\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_intersect_range\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa, \fB__isl_take\fP \fBisl_set\fP *range)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_multi_union_pw_aff_domain\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_multi_union_pw_aff_apply_aff\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa, \fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_apply_multi_aff\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_aff\fP * \fBisl_multi_union_pw_aff_apply_pw_aff\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa, \fB__isl_take\fP \fBisl_pw_aff\fP *pa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_apply_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_multi_union_pw_aff_pullback_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *mupa, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_pw_aff\fP * \fBisl_multi_union_pw_aff_extract_multi_pw_aff\fP (\fB__isl_keep\fP \fBisl_multi_union_pw_aff\fP *mupa, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BASE   aff"
+
+.SS "#define BASE   pw_aff"
+
+.SS "#define BASE   union_pw_aff"
+
+.SS "#define BASE   union_pw_multi_aff"
+
+.SS "#define BASE   aff"
+
+.SS "#define BASE   pw_aff"
+
+.SS "#define BASE   union_pw_aff"
+
+.SS "#define DEFAULT_IS_ZERO   0"
+
+.SS "#define DEFAULT_IS_ZERO   0"
+
+.SS "#define DOMBASE   \fBset\fP"
+
+.SS "#define DOMBASE   \fBset\fP"
+
+.SS "#define DOMBASE   union_set"
+
+.SS "#define EL   \fBisl_aff\fP"
+
+.SS "#define EL   \fBisl_multi_aff\fP"
+
+.SS "#define EL_IS_ZERO   is_empty"
+
+.SS "#define EL_IS_ZERO   is_empty"
+
+.SS "#define FIELD   aff"
+
+.SS "#define FIELD   maff"
+
+.SS "#define IS_ZERO   is_empty"
+
+.SS "#define IS_ZERO   is_empty"
+
+.SS "#define ISL_DIM_H"
+
+.SS "#define NO_DIMS"
+
+.SS "#define NO_DOMAIN"
+
+.SS "#define NO_DOMAIN"
+
+.SS "#define NO_EVAL"
+
+.SS "#define NO_EVAL"
+
+.SS "#define NO_GIST"
+
+.SS "#define NO_IDENTITY"
+
+.SS "#define NO_INSERT_DIMS"
+
+.SS "#define NO_INVOLVES_DIMS"
+
+.SS "#define NO_LIFT"
+
+.SS "#define NO_LIFT"
+
+.SS "#define NO_MORPH"
+
+.SS "#define NO_MORPH"
+
+.SS "#define NO_MOVE_DIMS"
+
+.SS "#define NO_OPT"
+
+.SS "#define NO_OPT"
+
+.SS "#define NO_PRODUCT"
+
+.SS "#define NO_SPLICE"
+
+.SS "#define NO_SUB"
+
+.SS "#define NO_ZERO"
+
+.SS "#define PART   \fBisl_pw_aff\fP"
+
+.SS "#define PART   \fBisl_pw_multi_aff\fP"
+
+.SS "#define PARTS   pw_aff"
+
+.SS "#define PARTS   pw_multi_aff"
+
+.SS "#define PW   \fBisl_pw_aff\fP"
+
+.SS "#define PW   \fBisl_pw_multi_aff\fP"
+
+.SS "#define \fBUNION\fP   \fBisl_union_pw_aff\fP"
+
+.SS "#define \fBUNION\fP   \fBisl_union_pw_multi_aff\fP"
+
+.SS "#define ZERO   empty"
+
+.SS "#define ZERO   empty"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add (\fB__isl_take\fP \fBisl_aff\fP * aff1, \fB__isl_take\fP \fBisl_aff\fP * aff2)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_coefficient (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, int pos, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_coefficient_si (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, int pos, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_coefficient_val (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, int pos, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_constant (\fB__isl_take\fP \fBisl_aff\fP * aff, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_constant_num (\fB__isl_take\fP \fBisl_aff\fP * aff, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_constant_num_si (\fB__isl_take\fP \fBisl_aff\fP * aff, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_constant_si (\fB__isl_take\fP \fBisl_aff\fP * aff, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_constant_val (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_dims (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_add_on_domain (\fB__isl_keep\fP \fBisl_set\fP * dom, \fB__isl_take\fP \fBisl_aff\fP * aff1, \fB__isl_take\fP \fBisl_aff\fP * aff2)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_align_divs (\fB__isl_take\fP \fBisl_aff\fP * dst, \fB__isl_keep\fP \fBisl_aff\fP * src)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_align_params (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_alloc (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_alloc_vec (\fB__isl_take\fP \fBisl_local_space\fP * ls, \fB__isl_take\fP \fBisl_vec\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_ceil (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "int isl_aff_check_match_domain_space (\fB__isl_keep\fP \fBisl_aff\fP * aff, \fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "int isl_aff_coefficient_sgn (\fB__isl_keep\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_copy (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_cow (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "int isl_aff_dim (\fB__isl_keep\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_div (\fB__isl_take\fP \fBisl_aff\fP * aff1, \fB__isl_take\fP \fBisl_aff\fP * aff2)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_drop_dims (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_dup (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_expand_divs (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_mat\fP * div, int * exp)"
+
+.SS "int isl_aff_find_dim_by_name (\fB__isl_keep\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, \fBconst\fP char * name)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_floor (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_null\fP \fBisl_aff\fP* isl_aff_free (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_aff_ge_basic_set (\fB__isl_take\fP \fBisl_aff\fP * aff1, \fB__isl_take\fP \fBisl_aff\fP * aff2)"
+
+.SS "int isl_aff_get_coefficient (\fB__isl_keep\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, int pos, \fBisl_int\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_aff_get_coefficient_val (\fB__isl_keep\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, int pos)"
+
+.SS "int isl_aff_get_constant (\fB__isl_keep\fP \fBisl_aff\fP * aff, \fBisl_int\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_aff_get_constant_val (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fBisl_ctx\fP* isl_aff_get_ctx (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "int isl_aff_get_denominator (\fB__isl_keep\fP \fBisl_aff\fP * aff, \fBisl_int\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_aff_get_denominator_val (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fBconst\fP char* isl_aff_get_dim_name (\fB__isl_keep\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_get_div (\fB__isl_keep\fP \fBisl_aff\fP * aff, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_aff_get_domain_local_space (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_aff_get_domain_space (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_aff_get_local_space (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_aff_get_space (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_gist (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_gist_params (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_insert_dims (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fBisl_bool\fP isl_aff_involves_dims (\fB__isl_keep\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fBisl_bool\fP isl_aff_is_cst (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "int isl_aff_is_empty (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fBisl_bool\fP isl_aff_is_nan (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_aff_le_basic_set (\fB__isl_take\fP \fBisl_aff\fP * aff1, \fB__isl_take\fP \fBisl_aff\fP * aff2)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_lift (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "int isl_aff_matching_params (\fB__isl_keep\fP \fBisl_aff\fP * aff, \fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_mod (\fB__isl_take\fP \fBisl_aff\fP * aff, \fBisl_int\fP m)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_mod_val (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_val\fP * m)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_move_dims (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP dst_type, unsigned dst_pos, enum \fBisl_dim_type\fP src_type, unsigned src_pos, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_mul (\fB__isl_take\fP \fBisl_aff\fP * aff1, \fB__isl_take\fP \fBisl_aff\fP * aff2)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_nan_on_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_neg (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_aff_neg_basic_set (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_aff_nonneg_basic_set (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_normalize (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "int isl_aff_plain_cmp (\fB__isl_keep\fP \fBisl_aff\fP * aff1, \fB__isl_keep\fP \fBisl_aff\fP * aff2)"
+
+.SS "\fBisl_bool\fP isl_aff_plain_is_equal (\fB__isl_keep\fP \fBisl_aff\fP * aff1, \fB__isl_keep\fP \fBisl_aff\fP * aff2)"
+
+.SS "\fBisl_bool\fP isl_aff_plain_is_zero (\fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_project_domain_on_params (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_pullback_aff (\fB__isl_take\fP \fBisl_aff\fP * aff1, \fB__isl_take\fP \fBisl_aff\fP * aff2)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_pullback_multi_aff (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_realign_domain (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_reordering\fP * r)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_remove_unused_divs (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_reset_domain_space (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_space\fP * dim)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_reset_space_and_domain (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_space\fP * space, \fB__isl_take\fP \fBisl_space\fP * domain)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_scale (\fB__isl_take\fP \fBisl_aff\fP * aff, \fBisl_int\fP f)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_scale_down (\fB__isl_take\fP \fBisl_aff\fP * aff, \fBisl_int\fP f)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_scale_down_ui (\fB__isl_take\fP \fBisl_aff\fP * aff, unsigned f)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_scale_down_val (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_scale_val (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_coefficient (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, int pos, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_coefficient_si (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, int pos, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_coefficient_val (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, int pos, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_constant (\fB__isl_take\fP \fBisl_aff\fP * aff, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_constant_si (\fB__isl_take\fP \fBisl_aff\fP * aff, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_constant_val (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_denominator (\fB__isl_take\fP \fBisl_aff\fP * aff, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_dim_id (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_take\fP \fBisl_id\fP * id)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_dim_name (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_set_tuple_id (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, \fB__isl_take\fP \fBisl_id\fP * id)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_sub (\fB__isl_take\fP \fBisl_aff\fP * aff1, \fB__isl_take\fP \fBisl_aff\fP * aff2)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_substitute (\fB__isl_take\fP \fBisl_aff\fP * aff, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_keep\fP \fBisl_aff\fP * subs)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_substitute_equalities (\fB__isl_take\fP \fBisl_aff\fP * aff, \fB__isl_take\fP \fBisl_basic_set\fP * eq)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_val_on_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls, \fB__isl_take\fP \fBisl_val\fP * val)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_var_on_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_aff_zero_basic_set (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_aff_zero_on_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_from_multi_pw_aff (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_from_pw_aff (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_from_pw_multi_aff (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_add_on_domain (\fB__isl_keep\fP \fBisl_set\fP * dom, \fB__isl_take\fP \fBisl_multi_aff\fP * maff1, \fB__isl_take\fP \fBisl_multi_aff\fP * maff2)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_align_divs (\fB__isl_take\fP \fBisl_multi_aff\fP * maff)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_domain_map (\fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_flatten_domain (\fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_from_basic_set_equalities (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "int isl_multi_aff_is_empty (\fB__isl_keep\fP \fBisl_multi_aff\fP * maff)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_multi_aff_lex_ge_set (\fB__isl_take\fP \fBisl_multi_aff\fP * ma1, \fB__isl_take\fP \fBisl_multi_aff\fP * ma2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_multi_aff_lex_le_set (\fB__isl_take\fP \fBisl_multi_aff\fP * ma1, \fB__isl_take\fP \fBisl_multi_aff\fP * ma2)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_lift (\fB__isl_take\fP \fBisl_multi_aff\fP * maff, \fB__isl_give\fP \fBisl_local_space\fP ** ls)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_multi_val_on_space (\fB__isl_take\fP \fBisl_space\fP * space, \fB__isl_take\fP \fBisl_multi_val\fP * mv)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_project_out_map (\fB__isl_take\fP \fBisl_space\fP * space, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_pullback_multi_aff (\fB__isl_take\fP \fBisl_multi_aff\fP * ma1, \fB__isl_take\fP \fBisl_multi_aff\fP * ma2)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_range_map (\fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_scale (\fB__isl_take\fP \fBisl_multi_aff\fP * maff, \fBisl_int\fP f)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_multi_aff_substitute (\fB__isl_take\fP \fBisl_multi_aff\fP * maff, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_keep\fP \fBisl_aff\fP * subs)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_multi_pw_aff_apply_aff (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa, \fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_multi_pw_aff_apply_pw_aff (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa, \fB__isl_take\fP \fBisl_pw_aff\fP * pa)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_multi_pw_aff_eq_map (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa2)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_pw_aff\fP* isl_multi_pw_aff_from_multi_aff (\fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_pw_aff\fP* isl_multi_pw_aff_from_pw_multi_aff (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "\fBisl_bool\fP isl_multi_pw_aff_is_equal (\fB__isl_keep\fP \fBisl_multi_pw_aff\fP * mpa1, \fB__isl_keep\fP \fBisl_multi_pw_aff\fP * mpa2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_multi_pw_aff_lex_gt_map (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_multi_pw_aff_lex_gt_map_on_space (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa2, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_multi_pw_aff_lex_lt_map (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_multi_pw_aff_lex_lt_map_on_space (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa2, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_pw_aff\fP* isl_multi_pw_aff_pullback_multi_aff (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_pw_aff\fP* isl_multi_pw_aff_pullback_multi_pw_aff (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa1, \fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa2)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_pw_aff\fP* isl_multi_pw_aff_pullback_pw_multi_aff (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_multi_union_pw_aff_apply_aff (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa, \fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_apply_multi_aff (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_multi_union_pw_aff_apply_pw_aff (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa, \fB__isl_take\fP \fBisl_pw_aff\fP * pa)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_apply_pw_multi_aff (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_multi_union_pw_aff_domain (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_pw_aff\fP* isl_multi_union_pw_aff_extract_multi_pw_aff (\fB__isl_keep\fP \fBisl_multi_union_pw_aff\fP * mupa, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_from_multi_aff (\fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_from_multi_pw_aff (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_from_union_map (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_from_union_pw_multi_aff (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_intersect_range (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa, \fB__isl_take\fP \fBisl_set\fP * range)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_multi_aff_on_domain (\fB__isl_take\fP \fBisl_union_set\fP * domain, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_multi_val_on_domain (\fB__isl_take\fP \fBisl_union_set\fP * domain, \fB__isl_take\fP \fBisl_multi_val\fP * mv)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_pullback_union_pw_multi_aff (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_union_add (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa1, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa2)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_multi_union_pw_aff_zero (\fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_multi_union_pw_aff_zero_union_set (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_add (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_add_dims (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff, enum \fBisl_dim_type\fP type, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_ceil (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "int isl_pw_aff_check_match_domain_space (\fB__isl_keep\fP \fBisl_pw_aff\fP * pa, \fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_cond (\fB__isl_take\fP \fBisl_pw_aff\fP * cond, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff_true, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff_false)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_div (\fB__isl_take\fP \fBisl_pw_aff\fP * pa1, \fB__isl_take\fP \fBisl_pw_aff\fP * pa2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_pw_aff_eq_map (\fB__isl_take\fP \fBisl_pw_aff\fP * pa1, \fB__isl_take\fP \fBisl_pw_aff\fP * pa2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_eq_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_floor (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_from_aff (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_ge_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_pw_aff_gt_map (\fB__isl_take\fP \fBisl_pw_aff\fP * pa1, \fB__isl_take\fP \fBisl_pw_aff\fP * pa2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_gt_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fBisl_bool\fP isl_pw_aff_involves_nan (\fB__isl_keep\fP \fBisl_pw_aff\fP * pa)"
+
+.SS "\fBisl_bool\fP isl_pw_aff_is_cst (\fB__isl_keep\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "int isl_pw_aff_is_equal (\fB__isl_keep\fP \fBisl_pw_aff\fP * pa1, \fB__isl_keep\fP \fBisl_pw_aff\fP * pa2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_le_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_list_eq_set (\fB__isl_take\fP isl_pw_aff_list * list1, \fB__isl_take\fP isl_pw_aff_list * list2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_list_ge_set (\fB__isl_take\fP isl_pw_aff_list * list1, \fB__isl_take\fP isl_pw_aff_list * list2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_list_gt_set (\fB__isl_take\fP isl_pw_aff_list * list1, \fB__isl_take\fP isl_pw_aff_list * list2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_list_le_set (\fB__isl_take\fP isl_pw_aff_list * list1, \fB__isl_take\fP isl_pw_aff_list * list2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_list_lt_set (\fB__isl_take\fP isl_pw_aff_list * list1, \fB__isl_take\fP isl_pw_aff_list * list2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_list_max (\fB__isl_take\fP isl_pw_aff_list * list)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_list_min (\fB__isl_take\fP isl_pw_aff_list * list)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_list_ne_set (\fB__isl_take\fP isl_pw_aff_list * list1, \fB__isl_take\fP isl_pw_aff_list * list2)"
+
+.SS "\fB__isl_give\fP isl_pw_aff_list* isl_pw_aff_list_set_rational (\fB__isl_take\fP isl_pw_aff_list * list)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_pw_aff_lt_map (\fB__isl_take\fP \fBisl_pw_aff\fP * pa1, \fB__isl_take\fP \fBisl_pw_aff\fP * pa2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_lt_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "int isl_pw_aff_matching_params (\fB__isl_keep\fP \fBisl_pw_aff\fP * pa, \fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_max (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_min (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_mod (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff, \fBisl_int\fP m)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_mod_val (\fB__isl_take\fP \fBisl_pw_aff\fP * pa, \fB__isl_take\fP \fBisl_val\fP * m)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_mul (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_nan_on_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_ne_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_non_zero_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_nonneg_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "int isl_pw_aff_plain_cmp (\fB__isl_keep\fP \fBisl_pw_aff\fP * pa1, \fB__isl_keep\fP \fBisl_pw_aff\fP * pa2)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_pos_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pa)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_pullback_multi_pw_aff (\fB__isl_take\fP \fBisl_pw_aff\fP * pa, \fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_scale_down (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_set_rational (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_tdiv_q (\fB__isl_take\fP \fBisl_pw_aff\fP * pa1, \fB__isl_take\fP \fBisl_pw_aff\fP * pa2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_tdiv_r (\fB__isl_take\fP \fBisl_pw_aff\fP * pa1, \fB__isl_take\fP \fBisl_pw_aff\fP * pa2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_union_add (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_union_max (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_union_min (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_union_opt (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff1, \fB__isl_take\fP \fBisl_pw_aff\fP * pwaff2, int max)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_val_on_domain (\fB__isl_take\fP \fBisl_set\fP * domain, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_var_on_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_aff_zero_on_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_pw_aff_zero_set (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_add (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_flat_range_product (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_from_domain (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_from_map (\fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_from_multi_aff (\fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_from_multi_pw_aff (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_from_pw_aff (\fB__isl_take\fP \fBisl_pw_aff\fP * pa)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_from_set (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_pw_multi_aff_get_pw_aff (\fB__isl_keep\fP \fBisl_pw_multi_aff\fP * pma, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_identity (\fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_multi_val_on_domain (\fB__isl_take\fP \fBisl_set\fP * domain, \fB__isl_take\fP \fBisl_multi_val\fP * mv)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_product (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_project_out_map (\fB__isl_take\fP \fBisl_space\fP * space, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_range_map (\fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_range_product (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_scale_multi_val (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma, \fB__isl_take\fP \fBisl_multi_val\fP * mv)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_set_pw_aff (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma, unsigned pos, \fB__isl_take\fP \fBisl_pw_aff\fP * pa)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_sub (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_substitute (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma, enum \fBisl_dim_type\fP type, unsigned pos, \fB__isl_keep\fP \fBisl_pw_aff\fP * subs)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_union_add (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_union_lexmax (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_union_lexmin (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma1, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma2)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_pw_multi_aff_zero (\fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "void isl_seq_preimage (\fBisl_int\fP * dst, \fBisl_int\fP * src, \fB__isl_keep\fP \fBisl_multi_aff\fP * ma, int n_before, int n_after, int n_div_ma, int n_div_bmap, \fBisl_int\fP f, \fBisl_int\fP c1, \fBisl_int\fP c2, \fBisl_int\fP g, int has_denom)"
+
+.SS "void isl_seq_substitute (\fBisl_int\fP * p, int pos, \fBisl_int\fP * subs, int p_len, int subs_len, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_from_multi_pw_aff (\fB__isl_take\fP \fBisl_multi_pw_aff\fP * mpa)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_from_pw_aff (\fB__isl_take\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_from_pw_multi_aff (\fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_set_indicator_function (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_from_multi_union_pw_aff (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_from_union_pw_aff (\fB__isl_take\fP \fBisl_union_pw_aff\fP * upa)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_from_union_pw_multi_aff (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_union_pw_aff_aff_on_domain (\fB__isl_take\fP \fBisl_union_set\fP * domain, \fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_union_pw_aff_floor (\fB__isl_take\fP \fBisl_union_pw_aff\fP * upa)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_union_pw_aff_mod_val (\fB__isl_take\fP \fBisl_union_pw_aff\fP * upa, \fB__isl_take\fP \fBisl_val\fP * m)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_union_pw_aff_pullback_union_pw_multi_aff (\fB__isl_take\fP \fBisl_union_pw_aff\fP * upa, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_union_pw_aff_union_add (\fB__isl_take\fP \fBisl_union_pw_aff\fP * upa1, \fB__isl_take\fP \fBisl_union_pw_aff\fP * upa2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_union_pw_aff_val_on_domain (\fB__isl_take\fP \fBisl_union_set\fP * domain, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_union_pw_aff_zero_union_set (\fB__isl_take\fP \fBisl_union_pw_aff\fP * upa)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_flat_range_product (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma1, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_from_aff (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_from_domain (\fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_from_multi_union_pw_aff (\fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * mupa)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_from_union_map (\fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_from_union_pw_aff (\fB__isl_take\fP \fBisl_union_pw_aff\fP * upa)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_from_union_set (\fB__isl_take\fP \fBisl_union_set\fP * uset)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_aff\fP* isl_union_pw_multi_aff_get_union_pw_aff (\fB__isl_keep\fP \fBisl_union_pw_multi_aff\fP * upma, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_multi_val_on_domain (\fB__isl_take\fP \fBisl_union_set\fP * domain, \fB__isl_take\fP \fBisl_multi_val\fP * mv)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_pullback_union_pw_multi_aff (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma1, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_scale_multi_val (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma, \fB__isl_take\fP \fBisl_multi_val\fP * mv)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_union_pw_multi_aff_union_add (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma1, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma2)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

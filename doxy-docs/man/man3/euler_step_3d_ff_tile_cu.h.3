@@ -1,0 +1,580 @@
+.TH "out/euler_step_3d_ff_tile_cu.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/euler_step_3d_ff_tile_cu.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <cuda_funcs\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBeuler_step_params\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBabsmin\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBabsmax\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBsgn\fP(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBxmin\fP   (\fBblockIdx\&.x\fP*\fBblockDim\&.x\fP+\fBthreadIdx\&.x\fP)"
+.br
+.ti -1c
+.RI "#define \fBymin\fP   (\fBblockIdx\&.y\fP*\fBblockDim\&.y\fP+\fBthreadIdx\&.y\fP)"
+.br
+.ti -1c
+.RI "#define \fBzmin\fP   (\fBblockIdx\&.z\fP*\fBblockDim\&.z\fP+\fBthreadIdx\&.z\fP)"
+.br
+.ti -1c
+.RI "#define \fBxinc\fP   (\fBblockDim\&.x\fP*\fBgridDim\&.x\fP)"
+.br
+.ti -1c
+.RI "#define \fByinc\fP   (\fBblockDim\&.y\fP*\fBgridDim\&.y\fP)"
+.br
+.ti -1c
+.RI "#define \fBzinc\fP   (\fBblockDim\&.z\fP*\fBgridDim\&.z\fP)"
+.br
+.ti -1c
+.RI "#define \fBC\fP   5"
+.br
+.ti -1c
+.RI "#define \fBD\fP   3"
+.br
+.ti -1c
+.RI "#define \fBG\fP   4"
+.br
+.ti -1c
+.RI "#define \fBN\fP   64"
+.br
+.ti -1c
+.RI "#define \fBT\fP   8"
+.br
+.ti -1c
+.RI "#define \fBU\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   U[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+4,(\fBy\fP)+4,(\fBx\fP)+4,(\fBN\fP+3+4+1),(\fBN\fP+3+4+1),(\fBN\fP+3+4+1))]"
+.br
+.ti -1c
+.RI "#define \fBrhs\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   rhs[\fBoffset4\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP),(\fBN\fP\-1+1),(\fBN\fP\-1+1),(\fBN\fP\-1+1))]"
+.br
+.ti -1c
+.RI "#define \fBW_bar\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array0[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+4,(\fBy\fP)+4,(\fBx\fP)+4,(\fBN\fP+3+4+1),(\fBN\fP+3+4+1),(\fBN\fP+3+4+1))]"
+.br
+.ti -1c
+.RI "#define \fBu\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array1[(\fBc\fP)]"
+.br
+.ti -1c
+.RI "#define \fBW\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array2[(\fBc\fP)]"
+.br
+.ti -1c
+.RI "#define \fBW_ave\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array3[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP)+3,(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1))]"
+.br
+.ti -1c
+.RI "#define \fBW_aveL_d1\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array4[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+1+1))]"
+.br
+.ti -1c
+.RI "#define \fBW_aveH_d1\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array5[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP)+1,(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+1+1))]"
+.br
+.ti -1c
+.RI "#define \fBW_ave_f_d1\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array6[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+1))]"
+.br
+.ti -1c
+.RI "#define \fBF_bar_f_d1\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array7[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+1))]"
+.br
+.ti -1c
+.RI "#define \fBW_f_d1\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array8[(\fBc\fP)]"
+.br
+.ti -1c
+.RI "#define \fBF_ave_f_d1\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array9[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+2,(\fBy\fP)+2,(\fBx\fP),(\fBN\fP+1+2+1),(\fBN\fP+1+2+1),(\fBN\fP+1))]"
+.br
+.ti -1c
+.RI "#define \fBW_aveL_d2\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array10[(\fBc\fP)]"
+.br
+.ti -1c
+.RI "#define \fBW_aveH_d2\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array11[(\fBc\fP)]"
+.br
+.ti -1c
+.RI "#define \fBW_ave_f_d2\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array12[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP),(\fBx\fP)+3,(\fBN\fP+2+3+1),(\fBN\fP+1),(\fBN\fP+2+3+1))]"
+.br
+.ti -1c
+.RI "#define \fBF_bar_f_d2\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array13[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP),(\fBx\fP)+3,(\fBN\fP+2+3+1),(\fBN\fP+1),(\fBN\fP+2+3+1))]"
+.br
+.ti -1c
+.RI "#define \fBW_f_d2\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array14[(\fBc\fP)]"
+.br
+.ti -1c
+.RI "#define \fBF_ave_f_d2\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array15[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+2,(\fBy\fP),(\fBx\fP)+2,(\fBN\fP+1+2+1),(\fBN\fP+1),(\fBN\fP+1+2+1))]"
+.br
+.ti -1c
+.RI "#define \fBW_aveL_d3\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array16[(\fBc\fP)]"
+.br
+.ti -1c
+.RI "#define \fBW_aveH_d3\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array17[(\fBc\fP)]"
+.br
+.ti -1c
+.RI "#define \fBW_ave_f_d3\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array18[\fBoffset4\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+3,(\fBx\fP)+3,(\fBN\fP+1),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1))]"
+.br
+.ti -1c
+.RI "#define \fBF_bar_f_d3\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array19[\fBoffset4\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+3,(\fBx\fP)+3,(\fBN\fP+1),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1))]"
+.br
+.ti -1c
+.RI "#define \fBW_f_d3\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array20[(\fBc\fP)]"
+.br
+.ti -1c
+.RI "#define \fBF_ave_f_d3\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   array21[\fBoffset4\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+2,(\fBx\fP)+2,(\fBN\fP+1),(\fBN\fP+1+2+1),(\fBN\fP+1+2+1))]"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs1\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBu\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(1\&.250000*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs2\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs3\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(((\-0\&.250000)*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP))))+\fBW\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBs4\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_aveL_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-3))+((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-2))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))"
+.br
+.ti -1c
+.RI "#define \fBs5\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_aveH_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-2))+(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+2))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs6\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs7\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs8\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(1\&.166667*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs9\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs10\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))*=0\&.041667"
+.br
+.ti -1c
+.RI "#define \fBs11\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBF_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-0\&.166667)*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs12\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBrhs\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-1\&.000000)*\fBF_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(1\&.000000*\fBF_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))"
+.br
+.ti -1c
+.RI "#define \fBs13\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_aveL_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-3,(\fBx\fP)))+((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-2,(\fBx\fP)))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs14\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_aveH_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-2,(\fBx\fP)))+(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+2,(\fBx\fP)))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs15\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs16\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs17\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(1\&.166667*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+((\-0\&.041667)*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+((\-0\&.041667)*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs18\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs19\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))*=0\&.041667"
+.br
+.ti -1c
+.RI "#define \fBs20\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBF_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-0\&.166667)*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+(0\&.041667*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+(0\&.041667*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs21\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBrhs\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-1\&.000000)*\fBF_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(1\&.000000*\fBF_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs22\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_aveL_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-3,(\fBy\fP),(\fBx\fP)))+((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-2,(\fBy\fP),(\fBx\fP)))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs23\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_aveH_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-2,(\fBy\fP),(\fBx\fP)))+(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP)+2,(\fBy\fP),(\fBx\fP)))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs24\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs25\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs26\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBW_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(1\&.166667*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+((\-0\&.041667)*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+((\-0\&.041667)*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs27\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBs28\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))*=0\&.041667"
+.br
+.ti -1c
+.RI "#define \fBs29\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBF_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-0\&.166667)*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+(0\&.041667*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+(0\&.041667*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs30\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBrhs\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-1\&.000000)*\fBF_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(1\&.000000*\fBF_ave_f_d3\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBs31\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   \fBrhs\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))*=\-1\&.000000"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "__global__ void \fBeuler_step_\fP (\fBconst\fP double *\fBU\fP, double *\fBrhs\fP, \fBeuler_step_params\fP *params)"
+.br
+.ti -1c
+.RI "double \fBeuler_step\fP (\fBconst\fP double *\fBU\fP, double *\fBrhs\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define absmax(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define absmin(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define C   5"
+
+.SS "#define D   3"
+
+.SS "#define F_ave_f_d1(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array9[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+2,(\fBy\fP)+2,(\fBx\fP),(\fBN\fP+1+2+1),(\fBN\fP+1+2+1),(\fBN\fP+1))]"
+
+.SS "#define F_ave_f_d2(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array15[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+2,(\fBy\fP),(\fBx\fP)+2,(\fBN\fP+1+2+1),(\fBN\fP+1),(\fBN\fP+1+2+1))]"
+
+.SS "#define F_ave_f_d3(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array21[\fBoffset4\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+2,(\fBx\fP)+2,(\fBN\fP+1),(\fBN\fP+1+2+1),(\fBN\fP+1+2+1))]"
+
+.SS "#define F_bar_f_d1(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array7[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+1))]"
+
+.SS "#define F_bar_f_d2(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array13[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP),(\fBx\fP)+3,(\fBN\fP+2+3+1),(\fBN\fP+1),(\fBN\fP+2+3+1))]"
+
+.SS "#define F_bar_f_d3(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array19[\fBoffset4\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+3,(\fBx\fP)+3,(\fBN\fP+1),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1))]"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define G   4"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define N   64"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define rhs(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   rhs[\fBoffset4\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP),(\fBN\fP\-1+1),(\fBN\fP\-1+1),(\fBN\fP\-1+1))]"
+
+.SS "#define s0(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+W_bar(0,(z),(y),(x)) = U(0,(z),(y),(x));\
+W_bar(1,(z),(y),(x)) = U(1,(z),(y),(x))/U(0,(z),(y),(x));\
+W_bar(2,(z),(y),(x)) = U(2,(z),(y),(x))/U(0,(z),(y),(x));\
+W_bar(3,(z),(y),(x)) = U(3,(z),(y),(x))/U(0,(z),(y),(x));\
+W_bar(4,(z),(y),(x)) = (U(4,(z),(y),(x))-0\&.500000*U(0,(z),(y),(x))*(((U(1,(z),(y),(x))/U(0,(z),(y),(x)))*(U(1,(z),(y),(x))/U(0,(z),(y),(x))))+((U(2,(z),(y),(x))/U(0,(z),(y),(x)))*(U(2,(z),(y),(x))/U(0,(z),(y),(x))))+((U(3,(z),(y),(x))/U(0,(z),(y),(x)))*(U(3,(z),(y),(x))/U(0,(z),(y),(x))))))*(1\&.400000-1\&.000000);\
+}
+.fi
+.SS "#define s1(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBu\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(1\&.250000*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBU\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s10(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))*=0\&.041667"
+
+.SS "#define s11(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBF_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-0\&.166667)*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d1\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s12(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBrhs\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-1\&.000000)*\fBF_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(1\&.000000*\fBF_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))"
+
+.SS "#define s13(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_aveL_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-3,(\fBx\fP)))+((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-2,(\fBx\fP)))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))"
+
+.SS "#define s14(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_aveH_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-2,(\fBx\fP)))+(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+2,(\fBx\fP)))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s15(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+W_ave_f_d2(0,(z),(y),(x))=(0\&.000000 < ((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000+((W_aveL_d2(4,(z),(y),(x))-W_aveH_d2(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d2(0,(z),(y),(x))) : (W_aveH_d2(0,(z),(y),(x)));\
+W_ave_f_d2(1,(z),(y),(x))=(0\&.000000 < ((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000+((W_aveL_d2(4,(z),(y),(x))-W_aveH_d2(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d2(1,(z),(y),(x))) : (W_aveH_d2(1,(z),(y),(x)));\
+W_ave_f_d2(2,(z),(y),(x))=(0\&.000000 < ((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000+((W_aveL_d2(4,(z),(y),(x))-W_aveH_d2(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d2(2,(z),(y),(x))) : (W_aveH_d2(2,(z),(y),(x)));\
+W_ave_f_d2(3,(z),(y),(x))=(0\&.000000 < ((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000+((W_aveL_d2(4,(z),(y),(x))-W_aveH_d2(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d2(3,(z),(y),(x))) : (W_aveH_d2(3,(z),(y),(x)));\
+W_ave_f_d2(4,(z),(y),(x))=(0\&.000000 < ((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000+((W_aveL_d2(4,(z),(y),(x))-W_aveH_d2(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d2(4,(z),(y),(x))) : (W_aveH_d2(4,(z),(y),(x)));\
+W_ave_f_d2(0,(z),(y),(x))+=(0\&.000000 < sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))+(-sgn(((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000+((W_aveL_d2(4,(z),(y),(x))-W_aveH_d2(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))))*((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000) ? (((((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000+((((((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))*(W_aveL_d2(1+1,(z),(y),(x))-W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000-W_ave_f_d2(4,(z),(y),(x))))/((sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000)))*sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000)))) : (0\&.000000);\
+W_ave_f_d2(1+1,(z),(y),(x))=(0\&.000000 < sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))+(-sgn(((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000+((W_aveL_d2(4,(z),(y),(x))-W_aveH_d2(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))))*((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000) ? (((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000+((W_aveL_d2(4,(z),(y),(x))-W_aveH_d2(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))) : (W_ave_f_d2(1+1,(z),(y),(x)));\
+W_ave_f_d2(4,(z),(y),(x))=(0\&.000000 < sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))+(-sgn(((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000+((W_aveL_d2(4,(z),(y),(x))-W_aveH_d2(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))))*((W_aveL_d2(1+1,(z),(y),(x))+W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000) ? (((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000+((((((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d2(4,(z),(y),(x))+W_aveH_d2(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d2(0,(z),(y),(x))+W_aveH_d2(0,(z),(y),(x))))*0\&.500000))))*(W_aveL_d2(1+1,(z),(y),(x))-W_aveH_d2(1+1,(z),(y),(x))))*0\&.500000) : (W_ave_f_d2(4,(z),(y),(x)));\
+}
+.fi
+.SS "#define s16(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+F_bar_f_d2(0,(z),(y),(x))=(W_ave_f_d2(1+1,(z),(y),(x)))*W_ave_f_d2(0,(z),(y),(x));\
+F_bar_f_d2(1,(z),(y),(x))=W_ave_f_d2(1,(z),(y),(x))*F_bar_f_d2(0,(z),(y),(x));\
+F_bar_f_d2(2,(z),(y),(x))=W_ave_f_d2(2,(z),(y),(x))*F_bar_f_d2(0,(z),(y),(x));\
+F_bar_f_d2(3,(z),(y),(x))=W_ave_f_d2(3,(z),(y),(x))*F_bar_f_d2(0,(z),(y),(x));\
+F_bar_f_d2(1+1,(z),(y),(x))+=W_ave_f_d2(4,(z),(y),(x));\
+F_bar_f_d2(4,(z),(y),(x))=((1\&.400000/(1\&.400000-1))*W_ave_f_d2(1+1,(z),(y),(x)))*W_ave_f_d2(4,(z),(y),(x))+0\&.500000*F_bar_f_d2(0,(z),(y),(x))*((W_ave_f_d2(1,(z),(y),(x))*W_ave_f_d2(1,(z),(y),(x)))+(W_ave_f_d2(2,(z),(y),(x))*W_ave_f_d2(2,(z),(y),(x)))+(W_ave_f_d2(3,(z),(y),(x))*W_ave_f_d2(3,(z),(y),(x))));\
+}
+.fi
+.SS "#define s17(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(1\&.166667*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+((\-0\&.041667)*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+((\-0\&.041667)*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d2\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s18(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+F_ave_f_d2(0,(z),(y),(x))=(W_f_d2(1+1,(z),(y),(x)))*W_f_d2(0,(z),(y),(x));\
+F_ave_f_d2(1,(z),(y),(x))=W_f_d2(1,(z),(y),(x))*F_ave_f_d2(0,(z),(y),(x));\
+F_ave_f_d2(2,(z),(y),(x))=W_f_d2(2,(z),(y),(x))*F_ave_f_d2(0,(z),(y),(x));\
+F_ave_f_d2(3,(z),(y),(x))=W_f_d2(3,(z),(y),(x))*F_ave_f_d2(0,(z),(y),(x));\
+F_ave_f_d2(1+1,(z),(y),(x))+=W_f_d2(4,(z),(y),(x));\
+F_ave_f_d2(4,(z),(y),(x))=((1\&.400000/(1\&.400000-1))*W_f_d2(1+1,(z),(y),(x)))*W_f_d2(4,(z),(y),(x))+0\&.500000*F_ave_f_d2(0,(z),(y),(x))*((W_f_d2(1,(z),(y),(x))*W_f_d2(1,(z),(y),(x)))+(W_f_d2(2,(z),(y),(x))*W_f_d2(2,(z),(y),(x)))+(W_f_d2(3,(z),(y),(x))*W_f_d2(3,(z),(y),(x))));\
+}
+.fi
+.SS "#define s19(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))*=0\&.041667"
+
+.SS "#define s2(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+W(0,(z),(y),(x)) = u(0,(z),(y),(x));\
+W(1,(z),(y),(x)) = u(1,(z),(y),(x))/u(0,(z),(y),(x));\
+W(2,(z),(y),(x)) = u(2,(z),(y),(x))/u(0,(z),(y),(x));\
+W(3,(z),(y),(x)) = u(3,(z),(y),(x))/u(0,(z),(y),(x));\
+W(4,(z),(y),(x)) = (u(4,(z),(y),(x))-0\&.500000*u(0,(z),(y),(x))*(((u(1,(z),(y),(x))/u(0,(z),(y),(x)))*(u(1,(z),(y),(x))/u(0,(z),(y),(x))))+((u(2,(z),(y),(x))/u(0,(z),(y),(x)))*(u(2,(z),(y),(x))/u(0,(z),(y),(x))))+((u(3,(z),(y),(x))/u(0,(z),(y),(x)))*(u(3,(z),(y),(x))/u(0,(z),(y),(x))))))*(1\&.400000-1\&.000000);\
+}
+.fi
+.SS "#define s20(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBF_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-0\&.166667)*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+(0\&.041667*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+(0\&.041667*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d2\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s21(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBrhs\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-1\&.000000)*\fBF_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(1\&.000000*\fBF_ave_f_d2\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))"
+
+.SS "#define s22(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_aveL_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-3,(\fBy\fP),(\fBx\fP)))+((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-2,(\fBy\fP),(\fBx\fP)))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s23(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_aveH_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-2,(\fBy\fP),(\fBx\fP)))+(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP)+2,(\fBy\fP),(\fBx\fP)))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s24(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+W_ave_f_d3(0,(z),(y),(x))=(0\&.000000 < ((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000+((W_aveL_d3(4,(z),(y),(x))-W_aveH_d3(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d3(0,(z),(y),(x))) : (W_aveH_d3(0,(z),(y),(x)));\
+W_ave_f_d3(1,(z),(y),(x))=(0\&.000000 < ((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000+((W_aveL_d3(4,(z),(y),(x))-W_aveH_d3(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d3(1,(z),(y),(x))) : (W_aveH_d3(1,(z),(y),(x)));\
+W_ave_f_d3(2,(z),(y),(x))=(0\&.000000 < ((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000+((W_aveL_d3(4,(z),(y),(x))-W_aveH_d3(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d3(2,(z),(y),(x))) : (W_aveH_d3(2,(z),(y),(x)));\
+W_ave_f_d3(3,(z),(y),(x))=(0\&.000000 < ((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000+((W_aveL_d3(4,(z),(y),(x))-W_aveH_d3(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d3(3,(z),(y),(x))) : (W_aveH_d3(3,(z),(y),(x)));\
+W_ave_f_d3(4,(z),(y),(x))=(0\&.000000 < ((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000+((W_aveL_d3(4,(z),(y),(x))-W_aveH_d3(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d3(4,(z),(y),(x))) : (W_aveH_d3(4,(z),(y),(x)));\
+W_ave_f_d3(0,(z),(y),(x))+=(0\&.000000 < sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))+(-sgn(((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000+((W_aveL_d3(4,(z),(y),(x))-W_aveH_d3(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))))*((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000) ? (((((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000+((((((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))*(W_aveL_d3(2+1,(z),(y),(x))-W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000-W_ave_f_d3(4,(z),(y),(x))))/((sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000)))*sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000)))) : (0\&.000000);\
+W_ave_f_d3(2+1,(z),(y),(x))=(0\&.000000 < sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))+(-sgn(((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000+((W_aveL_d3(4,(z),(y),(x))-W_aveH_d3(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))))*((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000) ? (((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000+((W_aveL_d3(4,(z),(y),(x))-W_aveH_d3(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))) : (W_ave_f_d3(2+1,(z),(y),(x)));\
+W_ave_f_d3(4,(z),(y),(x))=(0\&.000000 < sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))+(-sgn(((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000+((W_aveL_d3(4,(z),(y),(x))-W_aveH_d3(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))))*((W_aveL_d3(2+1,(z),(y),(x))+W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000) ? (((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000+((((((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d3(4,(z),(y),(x))+W_aveH_d3(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d3(0,(z),(y),(x))+W_aveH_d3(0,(z),(y),(x))))*0\&.500000))))*(W_aveL_d3(2+1,(z),(y),(x))-W_aveH_d3(2+1,(z),(y),(x))))*0\&.500000) : (W_ave_f_d3(4,(z),(y),(x)));\
+}
+.fi
+.SS "#define s25(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+F_bar_f_d3(0,(z),(y),(x))=(W_ave_f_d3(2+1,(z),(y),(x)))*W_ave_f_d3(0,(z),(y),(x));\
+F_bar_f_d3(1,(z),(y),(x))=W_ave_f_d3(1,(z),(y),(x))*F_bar_f_d3(0,(z),(y),(x));\
+F_bar_f_d3(2,(z),(y),(x))=W_ave_f_d3(2,(z),(y),(x))*F_bar_f_d3(0,(z),(y),(x));\
+F_bar_f_d3(3,(z),(y),(x))=W_ave_f_d3(3,(z),(y),(x))*F_bar_f_d3(0,(z),(y),(x));\
+F_bar_f_d3(2+1,(z),(y),(x))+=W_ave_f_d3(4,(z),(y),(x));\
+F_bar_f_d3(4,(z),(y),(x))=((1\&.400000/(1\&.400000-1))*W_ave_f_d3(2+1,(z),(y),(x)))*W_ave_f_d3(4,(z),(y),(x))+0\&.500000*F_bar_f_d3(0,(z),(y),(x))*((W_ave_f_d3(1,(z),(y),(x))*W_ave_f_d3(1,(z),(y),(x)))+(W_ave_f_d3(2,(z),(y),(x))*W_ave_f_d3(2,(z),(y),(x)))+(W_ave_f_d3(3,(z),(y),(x))*W_ave_f_d3(3,(z),(y),(x))));\
+}
+.fi
+.SS "#define s26(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(1\&.166667*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+((\-0\&.041667)*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+((\-0\&.041667)*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))"
+
+.SS "#define s27(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+F_ave_f_d3(0,(z),(y),(x))=(W_f_d3(2+1,(z),(y),(x)))*W_f_d3(0,(z),(y),(x));\
+F_ave_f_d3(1,(z),(y),(x))=W_f_d3(1,(z),(y),(x))*F_ave_f_d3(0,(z),(y),(x));\
+F_ave_f_d3(2,(z),(y),(x))=W_f_d3(2,(z),(y),(x))*F_ave_f_d3(0,(z),(y),(x));\
+F_ave_f_d3(3,(z),(y),(x))=W_f_d3(3,(z),(y),(x))*F_ave_f_d3(0,(z),(y),(x));\
+F_ave_f_d3(2+1,(z),(y),(x))+=W_f_d3(4,(z),(y),(x));\
+F_ave_f_d3(4,(z),(y),(x))=((1\&.400000/(1\&.400000-1))*W_f_d3(2+1,(z),(y),(x)))*W_f_d3(4,(z),(y),(x))+0\&.500000*F_ave_f_d3(0,(z),(y),(x))*((W_f_d3(1,(z),(y),(x))*W_f_d3(1,(z),(y),(x)))+(W_f_d3(2,(z),(y),(x))*W_f_d3(2,(z),(y),(x)))+(W_f_d3(3,(z),(y),(x))*W_f_d3(3,(z),(y),(x))));\
+}
+.fi
+.SS "#define s28(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))*=0\&.041667"
+
+.SS "#define s29(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBF_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-0\&.166667)*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+(0\&.041667*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+(0\&.041667*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+(0\&.041667*\fBF_bar_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))"
+
+.SS "#define s3(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(((\-0\&.250000)*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+(0\&.041667*\fBW_bar\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP))))+\fBW\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))"
+
+.SS "#define s30(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBrhs\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))+=((\-1\&.000000)*\fBF_ave_f_d3\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(1\&.000000*\fBF_ave_f_d3\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s31(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBrhs\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))*=\-1\&.000000"
+
+.SS "#define s4(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_aveL_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-3))+((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-2))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))"
+
+.SS "#define s5(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_aveH_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=((\-0\&.050000)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-2))+(0\&.033333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+2))+(0\&.450000*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)\-1))+((\-0\&.216667)*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)+1))+(0\&.783333*\fBW_ave\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s6(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+W_ave_f_d1(0,(z),(y),(x))=(0\&.000000 < ((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000+((W_aveL_d1(4,(z),(y),(x))-W_aveH_d1(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d1(0,(z),(y),(x))) : (W_aveH_d1(0,(z),(y),(x)));\
+W_ave_f_d1(1,(z),(y),(x))=(0\&.000000 < ((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000+((W_aveL_d1(4,(z),(y),(x))-W_aveH_d1(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d1(1,(z),(y),(x))) : (W_aveH_d1(1,(z),(y),(x)));\
+W_ave_f_d1(2,(z),(y),(x))=(0\&.000000 < ((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000+((W_aveL_d1(4,(z),(y),(x))-W_aveH_d1(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d1(2,(z),(y),(x))) : (W_aveH_d1(2,(z),(y),(x)));\
+W_ave_f_d1(3,(z),(y),(x))=(0\&.000000 < ((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000+((W_aveL_d1(4,(z),(y),(x))-W_aveH_d1(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d1(3,(z),(y),(x))) : (W_aveH_d1(3,(z),(y),(x)));\
+W_ave_f_d1(4,(z),(y),(x))=(0\&.000000 < ((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000+((W_aveL_d1(4,(z),(y),(x))-W_aveH_d1(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))) ? (W_aveL_d1(4,(z),(y),(x))) : (W_aveH_d1(4,(z),(y),(x)));\
+W_ave_f_d1(0,(z),(y),(x))+=(0\&.000000 < sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))+(-sgn(((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000+((W_aveL_d1(4,(z),(y),(x))-W_aveH_d1(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))))*((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000) ? (((((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000+((((((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))*(W_aveL_d1(0+1,(z),(y),(x))-W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000-W_ave_f_d1(4,(z),(y),(x))))/((sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000)))*sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000)))) : (0\&.000000);\
+W_ave_f_d1(0+1,(z),(y),(x))=(0\&.000000 < sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))+(-sgn(((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000+((W_aveL_d1(4,(z),(y),(x))-W_aveH_d1(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))))*((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000) ? (((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000+((W_aveL_d1(4,(z),(y),(x))-W_aveH_d1(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))) : (W_ave_f_d1(0+1,(z),(y),(x)));\
+W_ave_f_d1(4,(z),(y),(x))=(0\&.000000 < sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))+(-sgn(((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000+((W_aveL_d1(4,(z),(y),(x))-W_aveH_d1(4,(z),(y),(x))))/((2\&.000000*(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))))*((W_aveL_d1(0+1,(z),(y),(x))+W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000) ? (((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000+((((((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))*(sqrt((1\&.400000*(((W_aveL_d1(4,(z),(y),(x))+W_aveH_d1(4,(z),(y),(x))))*0\&.500000))/(((W_aveL_d1(0,(z),(y),(x))+W_aveH_d1(0,(z),(y),(x))))*0\&.500000))))*(W_aveL_d1(0+1,(z),(y),(x))-W_aveH_d1(0+1,(z),(y),(x))))*0\&.500000) : (W_ave_f_d1(4,(z),(y),(x)));\
+}
+.fi
+.SS "#define s7(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+F_bar_f_d1(0,(z),(y),(x))=(W_ave_f_d1(0+1,(z),(y),(x)))*W_ave_f_d1(0,(z),(y),(x));\
+F_bar_f_d1(1,(z),(y),(x))=W_ave_f_d1(1,(z),(y),(x))*F_bar_f_d1(0,(z),(y),(x));\
+F_bar_f_d1(2,(z),(y),(x))=W_ave_f_d1(2,(z),(y),(x))*F_bar_f_d1(0,(z),(y),(x));\
+F_bar_f_d1(3,(z),(y),(x))=W_ave_f_d1(3,(z),(y),(x))*F_bar_f_d1(0,(z),(y),(x));\
+F_bar_f_d1(0+1,(z),(y),(x))+=W_ave_f_d1(4,(z),(y),(x));\
+F_bar_f_d1(4,(z),(y),(x))=((1\&.400000/(1\&.400000-1))*W_ave_f_d1(0+1,(z),(y),(x)))*W_ave_f_d1(4,(z),(y),(x))+0\&.500000*F_bar_f_d1(0,(z),(y),(x))*((W_ave_f_d1(1,(z),(y),(x))*W_ave_f_d1(1,(z),(y),(x)))+(W_ave_f_d1(2,(z),(y),(x))*W_ave_f_d1(2,(z),(y),(x)))+(W_ave_f_d1(3,(z),(y),(x))*W_ave_f_d1(3,(z),(y),(x))));\
+}
+.fi
+.SS "#define s8(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   \fBW_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP))=(1\&.166667*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+1,(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)\-1,(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP)+1,(\fBy\fP),(\fBx\fP)))+((\-0\&.041667)*\fBW_ave_f_d1\fP((\fBc\fP),(\fBz\fP)\-1,(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define s9(\fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+F_ave_f_d1(0,(z),(y),(x))=(W_f_d1(0+1,(z),(y),(x)))*W_f_d1(0,(z),(y),(x));\
+F_ave_f_d1(1,(z),(y),(x))=W_f_d1(1,(z),(y),(x))*F_ave_f_d1(0,(z),(y),(x));\
+F_ave_f_d1(2,(z),(y),(x))=W_f_d1(2,(z),(y),(x))*F_ave_f_d1(0,(z),(y),(x));\
+F_ave_f_d1(3,(z),(y),(x))=W_f_d1(3,(z),(y),(x))*F_ave_f_d1(0,(z),(y),(x));\
+F_ave_f_d1(0+1,(z),(y),(x))+=W_f_d1(4,(z),(y),(x));\
+F_ave_f_d1(4,(z),(y),(x))=((1\&.400000/(1\&.400000-1))*W_f_d1(0+1,(z),(y),(x)))*W_f_d1(4,(z),(y),(x))+0\&.500000*F_ave_f_d1(0,(z),(y),(x))*((W_f_d1(1,(z),(y),(x))*W_f_d1(1,(z),(y),(x)))+(W_f_d1(2,(z),(y),(x))*W_f_d1(2,(z),(y),(x)))+(W_f_d1(3,(z),(y),(x))*W_f_d1(3,(z),(y),(x))));\
+}
+.fi
+.SS "#define sgn(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+
+.SS "#define T   8"
+
+.SS "#define U(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   U[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+4,(\fBy\fP)+4,(\fBx\fP)+4,(\fBN\fP+3+4+1),(\fBN\fP+3+4+1),(\fBN\fP+3+4+1))]"
+
+.SS "#define u(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array1[(\fBc\fP)]"
+
+.SS "#define W(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array2[(\fBc\fP)]"
+
+.SS "#define W_ave(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array3[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP)+3,(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1))]"
+
+.SS "#define W_ave_f_d1(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array6[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+1))]"
+
+.SS "#define W_ave_f_d2(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array12[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP),(\fBx\fP)+3,(\fBN\fP+2+3+1),(\fBN\fP+1),(\fBN\fP+2+3+1))]"
+
+.SS "#define W_ave_f_d3(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array18[\fBoffset4\fP((\fBc\fP),(\fBz\fP),(\fBy\fP)+3,(\fBx\fP)+3,(\fBN\fP+1),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1))]"
+
+.SS "#define W_aveH_d1(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array5[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP)+1,(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+1+1))]"
+
+.SS "#define W_aveH_d2(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array11[(\fBc\fP)]"
+
+.SS "#define W_aveH_d3(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array17[(\fBc\fP)]"
+
+.SS "#define W_aveL_d1(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array4[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+3,(\fBy\fP)+3,(\fBx\fP),(\fBN\fP+2+3+1),(\fBN\fP+2+3+1),(\fBN\fP+1+1))]"
+
+.SS "#define W_aveL_d2(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array10[(\fBc\fP)]"
+
+.SS "#define W_aveL_d3(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array16[(\fBc\fP)]"
+
+.SS "#define W_bar(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array0[\fBoffset4\fP((\fBc\fP),(\fBz\fP)+4,(\fBy\fP)+4,(\fBx\fP)+4,(\fBN\fP+3+4+1),(\fBN\fP+3+4+1),(\fBN\fP+3+4+1))]"
+
+.SS "#define W_f_d1(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array8[(\fBc\fP)]"
+
+.SS "#define W_f_d2(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array14[(\fBc\fP)]"
+
+.SS "#define W_f_d3(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   array20[(\fBc\fP)]"
+
+.SS "#define xinc   (\fBblockDim\&.x\fP*\fBgridDim\&.x\fP)"
+
+.SS "#define xmin   (\fBblockIdx\&.x\fP*\fBblockDim\&.x\fP+\fBthreadIdx\&.x\fP)"
+
+.SS "#define yinc   (\fBblockDim\&.y\fP*\fBgridDim\&.y\fP)"
+
+.SS "#define ymin   (\fBblockIdx\&.y\fP*\fBblockDim\&.y\fP+\fBthreadIdx\&.y\fP)"
+
+.SS "#define zinc   (\fBblockDim\&.z\fP*\fBgridDim\&.z\fP)"
+
+.SS "#define zmin   (\fBblockIdx\&.z\fP*\fBblockDim\&.z\fP+\fBthreadIdx\&.z\fP)"
+
+.SH "Function Documentation"
+.PP 
+.SS "double euler_step (\fBconst\fP double * U, double * rhs)\fC [inline]\fP"
+
+.SS "__global__ void euler_step_ (\fBconst\fP double * U, double * rhs, \fBeuler_step_params\fP * params)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

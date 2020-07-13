@@ -1,0 +1,170 @@
+.TH "src/util/cuda_funcs.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/util/cuda_funcs.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <cuda_runtime\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBcuda_t\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCUDA_MAX_BLOCKS\fP   32768"
+.br
+.ti -1c
+.RI "#define \fBCUDA_MAX_THREADS\fP   1024"
+.br
+.ti -1c
+.RI "#define \fBgpuAssert\fP(ans)   { \fB_gpuAssert\fP((ans), __FILE__, __LINE__); }"
+.br
+.ti -1c
+.RI "#define \fBgpuCheck\fP(msg)   { \fB_gpuCheck\fP((msg), __FILE__, __LINE__); }"
+.br
+.ti -1c
+.RI "#define \fBcuda_check\fP(msg)   \fBgpuCheck\fP((msg))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fB_gpuAssert\fP (cudaError_t code, \fBconst\fP char *file, int line)"
+.br
+.ti -1c
+.RI "void \fB_gpuCheck\fP (\fBconst\fP char *msg, \fBconst\fP char *file, int line)"
+.br
+.ti -1c
+.RI "\fBcuda_t\fP * \fBcuda_new\fP ()"
+.br
+.ti -1c
+.RI "void \fBcuda_del\fP (\fBcuda_t\fP *cuda)"
+.br
+.ti -1c
+.RI "int \fBcuda_device_count\fP (\fBcuda_t\fP *cuda)"
+.br
+.ti -1c
+.RI "int \fBcuda_device_id\fP (\fBcuda_t\fP *cuda)"
+.br
+.ti -1c
+.RI "cudaDeviceProp \fBcuda_device_props\fP (\fBcuda_t\fP *cuda)"
+.br
+.ti -1c
+.RI "void \fBcuda_print\fP (\fBcuda_t\fP *cuda, FILE *file)"
+.br
+.ti -1c
+.RI "int \fBcuda_set_device\fP (\fBcuda_t\fP *cuda)"
+.br
+.ti -1c
+.RI "int \fBcuda_sync\fP ()"
+.br
+.ti -1c
+.RI "float \fBcuda_profile_start\fP (\fBcuda_t\fP *cuda)"
+.br
+.ti -1c
+.RI "float \fBcuda_profile_stop\fP (\fBcuda_t\fP *cuda)"
+.br
+.ti -1c
+.RI "void * \fBcuda_malloc\fP (size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void * \fBcuda_calloc\fP (size_t \fBnum\fP, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void * \fBcuda_alloc\fP (\fBcuda_t\fP *cuda, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void * \fBcuda_alloc_man\fP (\fBcuda_t\fP *cuda, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void \fBcuda_free\fP (void *ptr)"
+.br
+.ti -1c
+.RI "void \fBcuda_copy_host\fP (\fBconst\fP void *src, void *dest, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "void \fBcuda_copy_device\fP (\fBconst\fP void *src, void *dest, size_t \fBsize\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define cuda_check(msg)   \fBgpuCheck\fP((msg))"
+
+.SS "#define CUDA_MAX_BLOCKS   32768"
+
+.SS "#define CUDA_MAX_THREADS   1024"
+
+.SS "#define gpuAssert(ans)   { \fB_gpuAssert\fP((ans), __FILE__, __LINE__); }"
+gpuAssert
+.PP
+CUDA error handler\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIcode\fP cudaError_t error code struct\&. 
+.br
+\fIfile\fP Name of file in which error occurred\&. 
+.br
+\fIline\fP Line number on which error occurred\&. 
+.RE
+.PP
+
+.SS "#define gpuCheck(msg)   { \fB_gpuCheck\fP((msg), __FILE__, __LINE__); }"
+
+.SH "Function Documentation"
+.PP 
+.SS "void _gpuAssert (cudaError_t code, \fBconst\fP char * file, int line)\fC [inline]\fP"
+
+.SS "void _gpuCheck (\fBconst\fP char * msg, \fBconst\fP char * file, int line)\fC [inline]\fP"
+
+.SS "void* cuda_alloc (\fBcuda_t\fP * cuda, size_t size)"
+
+.SS "void* cuda_alloc_man (\fBcuda_t\fP * cuda, size_t size)"
+
+.SS "void* cuda_calloc (size_t num, size_t size)"
+
+.SS "void cuda_copy_device (\fBconst\fP void * src, void * dest, size_t size)"
+
+.SS "void cuda_copy_host (\fBconst\fP void * src, void * dest, size_t size)"
+
+.SS "void cuda_del (\fBcuda_t\fP * cuda)"
+
+.SS "int cuda_device_count (\fBcuda_t\fP * cuda)"
+
+.SS "int cuda_device_id (\fBcuda_t\fP * cuda)"
+
+.SS "cudaDeviceProp cuda_device_props (\fBcuda_t\fP * cuda)"
+
+.SS "void cuda_free (void * ptr)"
+
+.SS "void* cuda_malloc (size_t size)"
+
+.SS "\fBcuda_t\fP* cuda_new ()"
+
+.SS "void cuda_print (\fBcuda_t\fP * cuda, FILE * file)"
+
+.SS "float cuda_profile_start (\fBcuda_t\fP * cuda)"
+
+.SS "float cuda_profile_stop (\fBcuda_t\fP * cuda)"
+
+.SS "int cuda_set_device (\fBcuda_t\fP * cuda)"
+
+.SS "int cuda_sync ()"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

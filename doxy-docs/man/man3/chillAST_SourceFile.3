@@ -1,0 +1,165 @@
+.TH "chillAST_SourceFile" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_SourceFile
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_SourceFile\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_SourceFile\fP (\fBconst\fP char *\fBfilename\fP)"
+.br
+.ti -1c
+.RI "\fB~chillAST_SourceFile\fP () override"
+.br
+.ti -1c
+.RI "void \fBprintToFile\fP (char *\fBfilename\fP=nullptr)"
+.br
+.ti -1c
+.RI "void \fBsetFileToWrite\fP (char *\fBf\fP)"
+.br
+.ti -1c
+.RI "void \fBsetFrontend\fP (\fBconst\fP char *compiler)"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBfindVariableNamed\fP (\fBconst\fP char *\fBname\fP) override"
+.br
+.ti -1c
+.RI "bool \fBhasSymbolTable\fP () override"
+.br
+.ti -1c
+.RI "bool \fBhasTypeDefTable\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBaddVariableToSymbolTable\fP (\fBchillAST_VarDecl\fP *vd) override"
+.br
+.ti -1c
+.RI "void \fBaddTypedefToTypedefTable\fP (\fBchillAST_TypedefDecl\fP *tdd) override"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBfindDatatype\fP (char *type_name) override"
+.br
+.ti -1c
+.RI "\fBchillAST_MacroDefinition\fP * \fBfindMacro\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_FunctionDecl\fP * \fBfindFunction\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBfindCall\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBaddChild\fP (\fBchillAST_node\fP *\fBn\fP) override"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBSourceFileName\fP"
+.br
+.ti -1c
+.RI "char * \fBFileToWrite\fP"
+.br
+.ti -1c
+.RI "char * \fBfrontend\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBglobal_symbol_table\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_TypedefTable\fP * \fBglobal_typedef_table\fP"
+.br
+.ti -1c
+.RI "vector< \fBchillAST_FunctionDecl\fP * > \fBfunctions\fP"
+.br
+.ti -1c
+.RI "vector< \fBchillAST_MacroDefinition\fP * > \fBmacrodefinitions\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_SourceFile::chillAST_SourceFile ()"
+
+.SS "chillAST_SourceFile::chillAST_SourceFile (\fBconst\fP char * filename)\fC [explicit]\fP"
+
+.SS "chillAST_SourceFile::~chillAST_SourceFile ()\fC [override]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void chillAST_SourceFile::addChild (\fBchillAST_node\fP * n)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_SourceFile::addTypedefToTypedefTable (\fBchillAST_TypedefDecl\fP * tdd)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_SymbolTable\fP* chillAST_SourceFile::addVariableToSymbolTable (\fBchillAST_VarDecl\fP * vd)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP * chillAST_SourceFile::findCall (\fBconst\fP char * name)"
+
+.SS "\fBchillAST_node\fP* chillAST_SourceFile::findDatatype (char * type_name)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_FunctionDecl\fP * chillAST_SourceFile::findFunction (\fBconst\fP char * name)"
+
+.SS "\fBchillAST_MacroDefinition\fP * chillAST_SourceFile::findMacro (\fBconst\fP char * name)"
+
+.SS "\fBchillAST_VarDecl\fP * chillAST_SourceFile::findVariableNamed (\fBconst\fP char * name)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "virtual \fBCHILL_ASTNODE_TYPE\fP chillAST_SourceFile::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_SourceFile::hasSymbolTable ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_SourceFile::hasTypeDefTable ()\fC [inline]\fP"
+
+.SS "void chillAST_SourceFile::printToFile (char * filename = \fCnullptr\fP)"
+
+.SS "void chillAST_SourceFile::setFileToWrite (char * f)\fC [inline]\fP"
+
+.SS "void chillAST_SourceFile::setFrontend (\fBconst\fP char * compiler)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "char* chillAST_SourceFile::FileToWrite"
+
+.SS "char* chillAST_SourceFile::frontend"
+
+.SS "vector< \fBchillAST_FunctionDecl\fP *> chillAST_SourceFile::functions"
+
+.SS "\fBchillAST_SymbolTable\fP* chillAST_SourceFile::global_symbol_table"
+
+.SS "\fBchillAST_TypedefTable\fP* chillAST_SourceFile::global_typedef_table"
+
+.SS "vector< \fBchillAST_MacroDefinition\fP *> chillAST_SourceFile::macrodefinitions"
+
+.SS "char* chillAST_SourceFile::SourceFileName"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

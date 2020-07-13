@@ -1,0 +1,148 @@
+.TH "lib/iegenlib/src/parser/jsoncons/json.hpp" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/iegenlib/src/parser/jsoncons/json.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <limits>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <exception>\fP
+.br
+\fC#include <cstdlib>\fP
+.br
+\fC#include <cstring>\fP
+.br
+\fC#include <ostream>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <typeinfo>\fP
+.br
+\fC#include 'json_structures\&.hpp'\fP
+.br
+\fC#include 'jsoncons\&.hpp'\fP
+.br
+\fC#include 'json_output_handler\&.hpp'\fP
+.br
+\fC#include 'output_format\&.hpp'\fP
+.br
+\fC#include 'json_serializer\&.hpp'\fP
+.br
+\fC#include 'json_deserializer\&.hpp'\fP
+.br
+\fC#include 'json_reader\&.hpp'\fP
+.br
+\fC#include 'json_type_traits\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBjsoncons::serializable_any< CharT, Alloc >\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::serializable_any< CharT, Alloc >::any_handle\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::serializable_any< CharT, Alloc >::any_handle_impl< T >\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::basic_parse_error_handler< CharT >\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::basic_json< CharT, Alloc >\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::basic_json< CharT, Alloc >::range< IteratorT >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::basic_json< CharT, Alloc >::variant\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::basic_json< CharT, Alloc >::variant::string_data\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::basic_json< CharT, Alloc >::variant::string_dataA\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::basic_json< CharT, Alloc >::json_proxy< ParentT >\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::json_printable< JsonT >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBjsoncons\fP"
+.br
+.RI "Copyright 2013 Daniel Parker\&. "
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef basic_json< char, std::allocator< char > > \fBjsoncons::json\fP"
+.br
+.ti -1c
+.RI "typedef basic_json< wchar_t, std::allocator< wchar_t > > \fBjsoncons::wjson\fP"
+.br
+.ti -1c
+.RI "typedef basic_json_deserializer< json > \fBjsoncons::json_deserializer\fP"
+.br
+.ti -1c
+.RI "typedef basic_json_deserializer< wjson > \fBjsoncons::wjson_deserializer\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBjsoncons::value_types\fP : uint8_t { \fBjsoncons::value_types::empty_object_t\fP, \fBjsoncons::value_types::small_string_t\fP, \fBjsoncons::value_types::double_t\fP, \fBjsoncons::value_types::integer_t\fP, \fBjsoncons::value_types::uinteger_t\fP, \fBjsoncons::value_types::bool_t\fP, \fBjsoncons::value_types::null_t\fP, \fBjsoncons::value_types::string_t\fP, \fBjsoncons::value_types::object_t\fP, \fBjsoncons::value_types::array_t\fP, \fBjsoncons::value_types::any_t\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class T , class Alloc , typename\&.\&.\&. Args> \fBT\fP * \fBjsoncons::create_impl\fP (\fBconst\fP Alloc &allocator, Args &&\&.\&.\&. args)"
+.br
+.ti -1c
+.RI "template<class T , class Alloc > void \fBjsoncons::destroy_impl\fP (\fBconst\fP Alloc &allocator, \fBT\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "template<typename CharT , class T > void \fBjsoncons::serialize\fP (basic_json_output_handler< CharT > &os, \fBconst\fP \fBT\fP &)"
+.br
+.ti -1c
+.RI "bool \fBjsoncons::is_simple\fP (value_types type)"
+.br
+.ti -1c
+.RI "template<class JsonT > void \fBjsoncons::swap\fP (typename JsonT::member_type &\fBa\fP, typename JsonT::member_type &\fBb\fP)"
+.br
+.ti -1c
+.RI "template<typename JsonT > std::basic_istream< typename JsonT::char_type > & \fBjsoncons::operator>>\fP (std::basic_istream< typename JsonT::char_type > &is, JsonT &o)"
+.br
+.ti -1c
+.RI "template<typename JsonT > json_printable< JsonT > \fBjsoncons::print\fP (\fBconst\fP JsonT &\fBval\fP)"
+.br
+.ti -1c
+.RI "template<class JsonT > json_printable< JsonT > \fBjsoncons::print\fP (\fBconst\fP JsonT &\fBval\fP, \fBconst\fP basic_output_format< typename JsonT::char_type > &format)"
+.br
+.ti -1c
+.RI "template<class JsonT > json_printable< JsonT > \fBjsoncons::pretty_print\fP (\fBconst\fP JsonT &\fBval\fP)"
+.br
+.ti -1c
+.RI "template<typename JsonT > json_printable< JsonT > \fBjsoncons::pretty_print\fP (\fBconst\fP JsonT &\fBval\fP, \fBconst\fP basic_output_format< typename JsonT::char_type > &format)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

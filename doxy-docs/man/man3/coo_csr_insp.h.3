@@ -1,0 +1,121 @@
+.TH "out/coo_csr_insp.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/coo_csr_insp.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBB\fP   8"
+.br
+.ti -1c
+.RI "#define \fBrow\fP(\fBn\fP)   row[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBrp\fP(\fBi\fP)   rp[(\fBi\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs0\fP()   \fBN\fP=\fBrow\fP(\fBNNZ\fP\-1)+1"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBn\fP,  \fBi\fP)   \fBif\fP ((\fBn\fP) >= \fBrp\fP((\fBi\fP)+1)) \fBrp\fP((\fBi\fP)+1)=(\fBn\fP)+1"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(\fBi\fP)   \fBif\fP (\fBrp\fP((\fBi\fP)) > \fBrp\fP((\fBi\fP)+1)) \fBrp\fP((\fBi\fP)+1)=\fBrp\fP((\fBi\fP))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBcoo_csr_insp\fP (\fBconst\fP unsigned \fBNNZ\fP, \fBconst\fP unsigned *\fBrow\fP, unsigned *\fBrp\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define B   8"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define row(\fBn\fP)   row[(\fBn\fP)]"
+
+.SS "#define rp(\fBi\fP)   rp[(\fBi\fP)]"
+
+.SS "#define s0()   \fBN\fP=\fBrow\fP(\fBNNZ\fP\-1)+1"
+
+.SS "#define s0(\fBi\fP)   \fBif\fP (\fBrp\fP((\fBi\fP)) > \fBrp\fP((\fBi\fP)+1)) \fBrp\fP((\fBi\fP)+1)=\fBrp\fP((\fBi\fP))"
+
+.SS "#define s0(\fBn\fP, \fBi\fP)   \fBif\fP ((\fBn\fP) >= \fBrp\fP((\fBi\fP)+1)) \fBrp\fP((\fBi\fP)+1)=(\fBn\fP)+1"
+
+.SH "Function Documentation"
+.PP 
+.SS "unsigned coo_csr_insp (\fBconst\fP unsigned NNZ, \fBconst\fP unsigned * row, unsigned * rp)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

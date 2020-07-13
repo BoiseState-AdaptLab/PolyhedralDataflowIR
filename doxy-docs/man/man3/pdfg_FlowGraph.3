@@ -1,0 +1,422 @@
+.TH "pdfg::FlowGraph" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::FlowGraph
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FlowGraph\&.hpp>\fP
+.PP
+Inherits \fBpdfg::GraphItem\fP\&.
+.PP
+Inherited by \fBpdfg\&.pdfgs\&.BSRSpMV\fP, \fBpdfg\&.pdfgs\&.CSRSpMV\fP, \fBpdfg\&.pdfgs\&.CSRToBSR\fP, \fBpdfg\&.pdfgs\&.CSRToBSRInsp\fP, \fBpdfg\&.pdfgs\&.Jacobi1D\fP, \fBpdfg\&.pdfgs\&.Jacobi2D\fP, and \fBpdfg\&.pdfgs\&.MiniFluxDix\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFlowGraph\fP (\fBconst\fP string &\fBname\fP='', \fBconst\fP string &retType='void', const string &retName='', \fBconst\fP string &defVal='', unsigned \fBtileSize\fP=0, bool \fBignoreCycles\fP=true)"
+.br
+.ti -1c
+.RI "virtual \fB~FlowGraph\fP ()"
+.br
+.ti -1c
+.RI "\fBFlowGraph\fP (\fBconst\fP \fBFlowGraph\fP &other)"
+.br
+.ti -1c
+.RI "\fBFlowGraph\fP & \fBoperator=\fP (\fBconst\fP \fBFlowGraph\fP &other)"
+.br
+.ti -1c
+.RI "bool \fBcontains\fP (\fBconst\fP string &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBcontains\fP (\fBNode\fP *source, \fBNode\fP *dest, \fBconst\fP string &\fBlabel\fP='')"
+.br
+.ti -1c
+.RI "\fBNode\fP * \fBget\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBCompNode\fP * \fBget\fP (\fBconst\fP \fBComp\fP &comp)"
+.br
+.ti -1c
+.RI "\fBNode\fP * \fBadd\fP (\fBNode\fP *node, \fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "\fBEdge\fP * \fBadd\fP (\fBNode\fP *source, \fBNode\fP *dest, \fBconst\fP string &\fBlabel\fP='')"
+.br
+.ti -1c
+.RI "void \fBremove\fP (\fBNode\fP *node, \fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBremove\fP (\fBEdge\fP *edge)"
+.br
+.ti -1c
+.RI "void \fBremove\fP (\fBNode\fP *source, \fBNode\fP *dest, \fBconst\fP string &\fBlabel\fP='')"
+.br
+.ti -1c
+.RI "bool \fBalignIters\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBalignIters\fP (bool align)"
+.br
+.ti -1c
+.RI "\fBconst\fP string & \fBname\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBname\fP (\fBconst\fP string &name)"
+.br
+.ti -1c
+.RI "\fBconst\fP string & \fBindexType\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBindexType\fP (\fBconst\fP string &indexType)"
+.br
+.ti -1c
+.RI "\fBconst\fP string & \fBreturnName\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBreturnName\fP (\fBconst\fP string &returnName)"
+.br
+.ti -1c
+.RI "\fBconst\fP string & \fBreturnType\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBreturnType\fP (\fBconst\fP string &returnType)"
+.br
+.ti -1c
+.RI "\fBconst\fP string & \fBdefaultValue\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdefaultValue\fP (\fBconst\fP string &defVal)"
+.br
+.ti -1c
+.RI "int \fBoutput\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "vector< string > \fBoutputs\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBoutputs\fP (\fBconst\fP vector< string > &outputs)"
+.br
+.ti -1c
+.RI "\fBconst\fP vector< \fBNode\fP * > & \fBnodes\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP vector< \fBEdge\fP * > & \fBedges\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBEdge\fP * > \fBin_edges\fP (\fBconst\fP \fBNode\fP *node) \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBEdge\fP * > \fBout_edges\fP (\fBconst\fP \fBNode\fP *node) \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBCompNode\fP * > \fBcomp_nodes\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBCompNode\fP * > \fBdata_nodes\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisReturn\fP (\fBNode\fP *node) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisSource\fP (\fBNode\fP *node) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisSink\fP (\fBNode\fP *node) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisTemp\fP (\fBDataNode\fP *node)"
+.br
+.ti -1c
+.RI "vector< \fBNode\fP * > \fBinNodes\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< \fBNode\fP * > \fBoutNodes\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBfuse\fP ()"
+.br
+.ti -1c
+.RI "void \fBfuse\fP (initializer_list< string > names)"
+.br
+.ti -1c
+.RI "void \fBfuse\fP (vector< vector< string > > names)"
+.br
+.ti -1c
+.RI "void \fBfuse\fP (vector< string > names)"
+.br
+.ti -1c
+.RI "void \fBfuse\fP (\fBComp\fP &\fBlhs\fP, \fBComp\fP &\fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBtile\fP (initializer_list< string > iters, initializer_list< unsigned > sizes)"
+.br
+.ti -1c
+.RI "void \fBtile\fP (vector< string > iters, vector< unsigned > sizes)"
+.br
+.ti -1c
+.RI "bool \fBignoreCycles\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBignoreCycles\fP (bool status)"
+.br
+.ti -1c
+.RI "unsigned \fBtileSize\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBtileSize\fP (unsigned \fBsize\fP)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBupdateIterGraph\fP (\fBCompNode\fP *prev, \fBCompNode\fP *curr)"
+.br
+.ti -1c
+.RI "string \fBformatName\fP (\fBconst\fP string &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "unordered_map< string, \fBCompNode\fP * > \fBgetProducers\fP (\fBCompNode\fP *prev, \fBCompNode\fP *curr)"
+.br
+.ti -1c
+.RI "bool \fBalignIterators\fP (vector< \fBTuple\fP > &tuples, \fBIter\fP &iter)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBnodeOffsets\fP (\fBCompNode\fP *prev, \fBCompNode\fP *curr, \fBconst\fP \fBTuple\fP &sched)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBnodeSpan\fP (\fBCompNode\fP *node, \fBconst\fP \fBTuple\fP &schedule)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBnodeMins\fP (\fBCompNode\fP *node, \fBconst\fP \fBTuple\fP &schedule)"
+.br
+.ti -1c
+.RI "\fBIntTuple\fP \fBnodeMaxes\fP (\fBCompNode\fP *node, \fBconst\fP \fBTuple\fP &schedule)"
+.br
+.ti -1c
+.RI "void \fBnodeBounds\fP (\fBCompNode\fP *node, \fBconst\fP \fBTuple\fP &schedule, \fBIntTuple\fP &min_offsets, \fBIntTuple\fP &max_offsets)"
+.br
+.ti -1c
+.RI "void \fBgetOffsets\fP (\fBconst\fP \fBTuple\fP &schedule, \fBconst\fP \fBmap\fP< string, \fBAccess\fP * > accmap, \fBIntTuple\fP &offsets, int comp=1)"
+.br
+.ti -1c
+.RI "void \fBcopy\fP (\fBconst\fP \fBFlowGraph\fP &other)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fB_alignIters\fP"
+.br
+.ti -1c
+.RI "bool \fB_ignoreCycles\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_tileSize\fP"
+.br
+.ti -1c
+.RI "string \fB_indexType\fP"
+.br
+.ti -1c
+.RI "string \fB_returnName\fP"
+.br
+.ti -1c
+.RI "string \fB_returnType\fP"
+.br
+.ti -1c
+.RI "string \fB_defaultVal\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBNode\fP * > \fB_symtable\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< pair< \fBNode\fP *, \fBNode\fP * >, \fBEdge\fP * > \fB_edgemap\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, unsigned > \fB_outputs\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBNode\fP * > \fB_child_prods\fP"
+.br
+.ti -1c
+.RI "vector< \fBNode\fP * > \fB_nodes\fP"
+.br
+.ti -1c
+.RI "vector< \fBEdge\fP * > \fB_edges\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "ostream & \fBoperator<<\fP (ostream &os, \fBFlowGraph\fP &graph)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::FlowGraph::FlowGraph (\fBconst\fP string & name = \fC''\fP, \fBconst\fP string & retType = \fC'void'\fP, \fBconst\fP string & retName = \fC''\fP, \fBconst\fP string & defVal = \fC''\fP, unsigned tileSize = \fC0\fP, bool ignoreCycles = \fCtrue\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "virtual pdfg::FlowGraph::~FlowGraph ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "pdfg::FlowGraph::FlowGraph (\fBconst\fP \fBFlowGraph\fP & other)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBNode\fP* pdfg::FlowGraph::add (\fBNode\fP * node, \fBconst\fP string & name = \fC''\fP)\fC [inline]\fP"
+
+.SS "\fBEdge\fP* pdfg::FlowGraph::add (\fBNode\fP * source, \fBNode\fP * dest, \fBconst\fP string & label = \fC''\fP)\fC [inline]\fP"
+
+.SS "bool pdfg::FlowGraph::alignIterators (vector< \fBTuple\fP > & tuples, \fBIter\fP & iter)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "bool pdfg::FlowGraph::alignIters () const\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::alignIters (bool align)\fC [inline]\fP"
+
+.SS "vector<\fBCompNode\fP*> pdfg::FlowGraph::comp_nodes () const\fC [inline]\fP"
+
+.SS "bool pdfg::FlowGraph::contains (\fBconst\fP string & name) const\fC [inline]\fP"
+
+.SS "bool pdfg::FlowGraph::contains (\fBNode\fP * source, \fBNode\fP * dest, \fBconst\fP string & label = \fC''\fP)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::copy (\fBconst\fP \fBFlowGraph\fP & other)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "vector<\fBCompNode\fP*> pdfg::FlowGraph::data_nodes () const\fC [inline]\fP"
+
+.SS "\fBconst\fP string& pdfg::FlowGraph::defaultValue () const\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::defaultValue (\fBconst\fP string & defVal)\fC [inline]\fP"
+
+.SS "\fBconst\fP vector<\fBEdge\fP*>& pdfg::FlowGraph::edges () const\fC [inline]\fP"
+
+.SS "string pdfg::FlowGraph::formatName (\fBconst\fP string & name) const\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::FlowGraph::fuse ()\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::fuse (\fBComp\fP & lhs, \fBComp\fP & rhs)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::fuse (initializer_list< string > names)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::fuse (vector< string > names)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::fuse (vector< vector< string > > names)\fC [inline]\fP"
+
+.SS "\fBCompNode\fP* pdfg::FlowGraph::get (\fBconst\fP \fBComp\fP & comp)\fC [inline]\fP"
+
+.SS "\fBNode\fP* pdfg::FlowGraph::get (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::getOffsets (\fBconst\fP \fBTuple\fP & schedule, \fBconst\fP \fBmap\fP< string, \fBAccess\fP * > accmap, \fBIntTuple\fP & offsets, int comp = \fC1\fP)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "unordered_map<string, \fBCompNode\fP*> pdfg::FlowGraph::getProducers (\fBCompNode\fP * prev, \fBCompNode\fP * curr)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "bool pdfg::FlowGraph::ignoreCycles () const\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::ignoreCycles (bool status)\fC [inline]\fP"
+
+.SS "vector<\fBEdge\fP*> pdfg::FlowGraph::in_edges (\fBconst\fP \fBNode\fP * node) const\fC [inline]\fP"
+
+.SS "\fBconst\fP string& pdfg::FlowGraph::indexType () const\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::indexType (\fBconst\fP string & indexType)\fC [inline]\fP"
+
+.SS "vector<\fBNode\fP*> pdfg::FlowGraph::inNodes () const\fC [inline]\fP"
+
+.SS "bool pdfg::FlowGraph::isReturn (\fBNode\fP * node) const\fC [inline]\fP"
+
+.SS "bool pdfg::FlowGraph::isSink (\fBNode\fP * node) const\fC [inline]\fP"
+
+.SS "bool pdfg::FlowGraph::isSource (\fBNode\fP * node) const\fC [inline]\fP"
+
+.SS "bool pdfg::FlowGraph::isTemp (\fBDataNode\fP * node)\fC [inline]\fP"
+
+.SS "\fBconst\fP string& pdfg::FlowGraph::name () const\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::name (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::nodeBounds (\fBCompNode\fP * node, \fBconst\fP \fBTuple\fP & schedule, \fBIntTuple\fP & min_offsets, \fBIntTuple\fP & max_offsets)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBIntTuple\fP pdfg::FlowGraph::nodeMaxes (\fBCompNode\fP * node, \fBconst\fP \fBTuple\fP & schedule)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBIntTuple\fP pdfg::FlowGraph::nodeMins (\fBCompNode\fP * node, \fBconst\fP \fBTuple\fP & schedule)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBIntTuple\fP pdfg::FlowGraph::nodeOffsets (\fBCompNode\fP * prev, \fBCompNode\fP * curr, \fBconst\fP \fBTuple\fP & sched)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBconst\fP vector<\fBNode\fP*>& pdfg::FlowGraph::nodes () const\fC [inline]\fP"
+
+.SS "\fBIntTuple\fP pdfg::FlowGraph::nodeSpan (\fBCompNode\fP * node, \fBconst\fP \fBTuple\fP & schedule)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBFlowGraph\fP& pdfg::FlowGraph::operator= (\fBconst\fP \fBFlowGraph\fP & other)\fC [inline]\fP"
+
+.SS "vector<\fBEdge\fP*> pdfg::FlowGraph::out_edges (\fBconst\fP \fBNode\fP * node) const\fC [inline]\fP"
+
+.SS "vector<\fBNode\fP*> pdfg::FlowGraph::outNodes () const\fC [inline]\fP"
+
+.SS "int pdfg::FlowGraph::output (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "vector<string> pdfg::FlowGraph::outputs () const\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::outputs (\fBconst\fP vector< string > & outputs)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::remove (\fBEdge\fP * edge)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::remove (\fBNode\fP * node, \fBconst\fP string & name = \fC''\fP)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::remove (\fBNode\fP * source, \fBNode\fP * dest, \fBconst\fP string & label = \fC''\fP)\fC [inline]\fP"
+
+.SS "\fBconst\fP string& pdfg::FlowGraph::returnName () const\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::returnName (\fBconst\fP string & returnName)\fC [inline]\fP"
+
+.SS "\fBconst\fP string& pdfg::FlowGraph::returnType () const\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::returnType (\fBconst\fP string & returnType)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::tile (initializer_list< string > iters, initializer_list< unsigned > sizes)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::tile (vector< string > iters, vector< unsigned > sizes)\fC [inline]\fP"
+
+.SS "unsigned pdfg::FlowGraph::tileSize () const\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::tileSize (unsigned size)\fC [inline]\fP"
+
+.SS "void pdfg::FlowGraph::updateIterGraph (\fBCompNode\fP * prev, \fBCompNode\fP * curr)\fC [inline]\fP, \fC [protected]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "ostream& operator<< (ostream & os, \fBFlowGraph\fP & graph)\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "bool pdfg::FlowGraph::_alignIters\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBNode\fP*> pdfg::FlowGraph::_child_prods\fC [protected]\fP"
+
+.SS "string pdfg::FlowGraph::_defaultVal\fC [protected]\fP"
+
+.SS "\fBmap\fP<pair<\fBNode\fP*, \fBNode\fP*>, \fBEdge\fP*> pdfg::FlowGraph::_edgemap\fC [protected]\fP"
+
+.SS "vector<\fBEdge\fP*> pdfg::FlowGraph::_edges\fC [protected]\fP"
+
+.SS "bool pdfg::FlowGraph::_ignoreCycles\fC [protected]\fP"
+
+.SS "string pdfg::FlowGraph::_indexType\fC [protected]\fP"
+
+.SS "vector<\fBNode\fP*> pdfg::FlowGraph::_nodes\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, unsigned> pdfg::FlowGraph::_outputs\fC [protected]\fP"
+
+.SS "string pdfg::FlowGraph::_returnName\fC [protected]\fP"
+
+.SS "string pdfg::FlowGraph::_returnType\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBNode\fP*> pdfg::FlowGraph::_symtable\fC [protected]\fP"
+
+.SS "unsigned pdfg::FlowGraph::_tileSize\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

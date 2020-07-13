@@ -1,0 +1,673 @@
+.TH "jsoncons" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+jsoncons \- Copyright 2013 Daniel Parker\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBjson_parser_errc\fP"
+.br
+.in -1c
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBbasic_begin_end_json_filter\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_default_parse_error_handler\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_empty_json_input_handler\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json_deserializer\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json_filter\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json_input_handler\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json_input_output_adapter\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json_output_handler\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json_output_input_adapter\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json_parser\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json_reader\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_json_serializer\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_output_format\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_ovectorbuf\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_ovectorstream\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_parse_error_handler\fP"
+.br
+.ti -1c
+.RI "class \fBbasic_parsing_context\fP"
+.br
+.ti -1c
+.RI "class \fBbuffered_ostream\fP"
+.br
+.ti -1c
+.RI "class \fBfloat_printer\fP"
+.br
+.ti -1c
+.RI "class \fBfloat_reader\fP"
+.br
+.ti -1c
+.RI "class \fBjson_array\fP"
+.br
+.ti -1c
+.RI "struct \fBjson_char_traits\fP"
+.br
+.ti -1c
+.RI "struct \fBjson_char_traits< char, 1 >\fP"
+.br
+.ti -1c
+.RI "struct \fBjson_char_traits< wchar_t, 2 >\fP"
+.br
+.ti -1c
+.RI "struct \fBjson_char_traits< wchar_t, 4 >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_error_category_impl\fP"
+.br
+.ti -1c
+.RI "class \fBjson_exception\fP"
+.br
+.ti -1c
+.RI "class \fBjson_exception_0\fP"
+.br
+.ti -1c
+.RI "class \fBjson_exception_1\fP"
+.br
+.ti -1c
+.RI "struct \fBjson_literals\fP"
+.br
+.ti -1c
+.RI "struct \fBjson_literals< char >\fP"
+.br
+.ti -1c
+.RI "struct \fBjson_literals< wchar_t >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_object\fP"
+.br
+.ti -1c
+.RI "class \fBjson_object_iterator\fP"
+.br
+.ti -1c
+.RI "class \fBjson_printable\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, bool >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, char >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, double >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, float >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, int >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, jsoncons::null_type >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, long >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, long long >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, short >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, signed char >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, std::vector< T > >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, typename JsonT::any >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, typename JsonT::array >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, typename JsonT::object >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, typename JsonT::string_type >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, typename type_wrapper< typename JsonT::char_type >::const_pointer_type >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, typename type_wrapper< typename JsonT::char_type >::pointer_type >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, unsigned char >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, unsigned int >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, unsigned long >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, unsigned long long >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, unsigned short >\fP"
+.br
+.ti -1c
+.RI "class \fBjson_type_traits< JsonT, wchar_t >\fP"
+.br
+.ti -1c
+.RI "class \fBmember_lt_member\fP"
+.br
+.ti -1c
+.RI "class \fBmember_lt_string\fP"
+.br
+.ti -1c
+.RI "class \fBname_value_pair\fP"
+.br
+.ti -1c
+.RI "class \fBnull_json_output_handler_impl\fP"
+.br
+.ti -1c
+.RI "struct \fBnull_type\fP"
+.br
+.ti -1c
+.RI "class \fBparse_exception\fP"
+.br
+.ti -1c
+.RI "class \fBserializable_any\fP"
+.br
+.ti -1c
+.RI "struct \fBtype_wrapper\fP"
+.br
+.ti -1c
+.RI "struct \fBtype_wrapper< const T & >\fP"
+.br
+.ti -1c
+.RI "struct \fBtype_wrapper< const T >\fP"
+.br
+.ti -1c
+.RI "struct \fBtype_wrapper< T & >\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBbasic_json\fP< char, std::allocator< char > > \fBjson\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json\fP< wchar_t, std::allocator< wchar_t > > \fBwjson\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_deserializer\fP< \fBjson\fP > \fBjson_deserializer\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_deserializer\fP< \fBwjson\fP > \fBwjson_deserializer\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_filter\fP< char > \fBjson_filter\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_filter\fP< wchar_t > \fBwjson_filter\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_input_handler\fP< char > \fBjson_input_handler\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_input_handler\fP< wchar_t > \fBwjson_input_handler\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_empty_json_input_handler\fP< char > \fBempty_json_input_handler\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_empty_json_input_handler\fP< wchar_t > \fBwempty_json_input_handler\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_output_handler\fP< char > \fBjson_output_handler\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_output_handler\fP< wchar_t > \fBwjson_output_handler\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_parser\fP< char > \fBjson_parser\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_parser\fP< wchar_t > \fBwjson_parser\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_reader\fP< char > \fBjson_reader\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_reader\fP< wchar_t > \fBwjson_reader\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_serializer\fP< char > \fBjson_serializer\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_json_serializer\fP< wchar_t > \fBwjson_serializer\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_output_format\fP< char > \fBoutput_format\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_output_format\fP< wchar_t > \fBwoutput_format\fP"
+.br
+.ti -1c
+.RI "typedef \fBparse_exception\fP \fBjson_parse_exception\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_parsing_context\fP< char > \fBparsing_context\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_parsing_context\fP< wchar_t > \fBwparsing_context\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_parse_error_handler\fP< char > \fBparse_error_handler\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_parse_error_handler\fP< wchar_t > \fBwparse_error_handler\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_default_parse_error_handler\fP< char > \fBdefault_parse_error_handler\fP"
+.br
+.ti -1c
+.RI "typedef \fBbasic_default_parse_error_handler\fP< wchar_t > \fBwdefault_parse_error_handler\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBvalue_types\fP : uint8_t { \fBvalue_types::empty_object_t\fP, \fBvalue_types::small_string_t\fP, \fBvalue_types::double_t\fP, \fBvalue_types::integer_t\fP, \fBvalue_types::uinteger_t\fP, \fBvalue_types::bool_t\fP, \fBvalue_types::null_t\fP, \fBvalue_types::string_t\fP, \fBvalue_types::object_t\fP, \fBvalue_types::array_t\fP, \fBvalue_types::any_t\fP }"
+.br
+.ti -1c
+.RI "enum \fBstates\fP { \fBstates::root\fP, \fBstates::start\fP, \fBstates::slash\fP, \fBstates::slash_slash\fP, \fBstates::slash_star\fP, \fBstates::slash_star_star\fP, \fBstates::expect_comma_or_end\fP, \fBstates::object\fP, \fBstates::expect_member_name_or_end\fP, \fBstates::expect_member_name\fP, \fBstates::expect_colon\fP, \fBstates::expect_value_or_end\fP, \fBstates::expect_value\fP, \fBstates::array\fP, \fBstates::string\fP, \fBstates::member_name\fP, \fBstates::escape\fP, \fBstates::u1\fP, \fBstates::u2\fP, \fBstates::u3\fP, \fBstates::u4\fP, \fBstates::expect_surrogate_pair1\fP, \fBstates::expect_surrogate_pair2\fP, \fBstates::u6\fP, \fBstates::u7\fP, \fBstates::u8\fP, \fBstates::u9\fP, \fBstates::minus\fP, \fBstates::zero\fP, \fBstates::integer\fP, \fBstates::fraction\fP, \fBstates::exp1\fP, \fBstates::exp2\fP, \fBstates::exp3\fP, \fBstates::n\fP, \fBstates::t\fP, \fBstates::f\fP, \fBstates::cr\fP, \fBstates::lf\fP, \fBstates::done\fP }"
+.br
+.ti -1c
+.RI "enum \fBblock_options\fP { \fBblock_options::next_line\fP, \fBblock_options::same_line\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class T , class Alloc , typename\&.\&.\&. Args> \fBT\fP * \fBcreate_impl\fP (\fBconst\fP Alloc &allocator, Args &&\&.\&.\&. args)"
+.br
+.ti -1c
+.RI "template<class T , class Alloc > void \fBdestroy_impl\fP (\fBconst\fP Alloc &allocator, \fBT\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "template<typename CharT , class T > void \fBserialize\fP (\fBbasic_json_output_handler\fP< CharT > &os, \fBconst\fP \fBT\fP &)"
+.br
+.ti -1c
+.RI "bool \fBis_simple\fP (\fBvalue_types\fP type)"
+.br
+.ti -1c
+.RI "template<class JsonT > void \fBswap\fP (typename JsonT::member_type &\fBa\fP, typename JsonT::member_type &\fBb\fP)"
+.br
+.ti -1c
+.RI "template<typename JsonT > std::basic_istream< typename JsonT::char_type > & \fBoperator>>\fP (std::basic_istream< typename JsonT::char_type > &is, JsonT &o)"
+.br
+.ti -1c
+.RI "template<typename JsonT > \fBjson_printable\fP< JsonT > \fBprint\fP (\fBconst\fP JsonT &\fBval\fP)"
+.br
+.ti -1c
+.RI "template<class JsonT > \fBjson_printable\fP< JsonT > \fBprint\fP (\fBconst\fP JsonT &\fBval\fP, \fBconst\fP \fBbasic_output_format\fP< typename JsonT::char_type > &format)"
+.br
+.ti -1c
+.RI "template<class JsonT > \fBjson_printable\fP< JsonT > \fBpretty_print\fP (\fBconst\fP JsonT &\fBval\fP)"
+.br
+.ti -1c
+.RI "template<typename JsonT > \fBjson_printable\fP< JsonT > \fBpretty_print\fP (\fBconst\fP JsonT &\fBval\fP, \fBconst\fP \fBbasic_output_format\fP< typename JsonT::char_type > &format)"
+.br
+.ti -1c
+.RI "\fBconst\fP std::error_category & \fBjson_error_category\fP ()"
+.br
+.ti -1c
+.RI "template<typename CharT > uint64_t \fBstring_to_uinteger\fP (\fBconst\fP CharT *s, size_t length)  throw (std::overflow_error)"
+.br
+.ti -1c
+.RI "template<typename CharT > int64_t \fBstring_to_integer\fP (bool has_neg, \fBconst\fP CharT *s, size_t length)  throw (std::overflow_error)"
+.br
+.ti -1c
+.RI "template<typename CharT > void \fBprint_integer\fP (int64_t value, \fBbuffered_ostream\fP< CharT > &os)"
+.br
+.ti -1c
+.RI "template<typename CharT > void \fBprint_uinteger\fP (uint64_t value, \fBbuffered_ostream\fP< CharT > &os)"
+.br
+.ti -1c
+.RI "template<typename CharT > \fBbasic_json_output_handler\fP< CharT > & \fBnull_json_output_handler\fP ()"
+.br
+.ti -1c
+.RI "template<class StringT , typename CharT > bool \fBname_le_string\fP (\fBconst\fP StringT &\fBa\fP, \fBconst\fP CharT *\fBb\fP, size_t length)"
+.br
+.ti -1c
+.RI "template<class StringT , typename CharT > bool \fBname_eq_string\fP (\fBconst\fP StringT &\fBa\fP, \fBconst\fP CharT *\fBb\fP, size_t length)"
+.br
+.ti -1c
+.RI "bool \fBis_control_character\fP (uint32_t \fBc\fP)"
+.br
+.ti -1c
+.RI "char \fBto_hex_character\fP (unsigned char \fBc\fP)"
+.br
+.ti -1c
+.RI "bool \fBis_non_ascii_character\fP (uint32_t \fBc\fP)"
+.br
+.ti -1c
+.RI "bool \fBis_nan\fP (double \fBx\fP)"
+.br
+.ti -1c
+.RI "bool \fBis_pos_inf\fP (double \fBx\fP)"
+.br
+.ti -1c
+.RI "bool \fBis_neg_inf\fP (double \fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename CharT > void \fBescape_string\fP (\fBconst\fP CharT *s, size_t length, \fBconst\fP \fBbasic_output_format\fP< CharT > &format, \fBbuffered_ostream\fP< CharT > &os)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP uint16_t \fBmin_lead_surrogate\fP = 0xD800"
+.br
+.ti -1c
+.RI "\fBconst\fP uint16_t \fBmax_lead_surrogate\fP = 0xDBFF"
+.br
+.ti -1c
+.RI "\fBconst\fP uint16_t \fBmin_trail_surrogate\fP = 0xDC00"
+.br
+.ti -1c
+.RI "\fBconst\fP uint16_t \fBmax_trail_surrogate\fP = 0xDFFF"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Copyright 2013 Daniel Parker\&. 
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBbasic_default_parse_error_handler\fP<char> \fBjsoncons::default_parse_error_handler\fP"
+
+.SS "typedef \fBbasic_empty_json_input_handler\fP<char> \fBjsoncons::empty_json_input_handler\fP"
+
+.SS "typedef \fBbasic_json\fP<char,std::allocator<char> > \fBjsoncons::json\fP"
+
+.SS "typedef \fBbasic_json_deserializer\fP<\fBjson\fP> \fBjsoncons::json_deserializer\fP"
+
+.SS "typedef \fBbasic_json_filter\fP<char> \fBjsoncons::json_filter\fP"
+
+.SS "typedef \fBbasic_json_input_handler\fP<char> \fBjsoncons::json_input_handler\fP"
+
+.SS "typedef \fBbasic_json_output_handler\fP<char> \fBjsoncons::json_output_handler\fP"
+
+.SS "typedef \fBparse_exception\fP \fBjsoncons::json_parse_exception\fP"
+
+.SS "typedef \fBbasic_json_parser\fP<char> \fBjsoncons::json_parser\fP"
+
+.SS "typedef \fBbasic_json_reader\fP<char> \fBjsoncons::json_reader\fP"
+
+.SS "typedef \fBbasic_json_serializer\fP<char> \fBjsoncons::json_serializer\fP"
+
+.SS "typedef \fBbasic_output_format\fP<char> \fBjsoncons::output_format\fP"
+
+.SS "typedef \fBbasic_parse_error_handler\fP<char> \fBjsoncons::parse_error_handler\fP"
+
+.SS "typedef \fBbasic_parsing_context\fP< char > \fBjsoncons::parsing_context\fP"
+
+.SS "typedef \fBbasic_default_parse_error_handler\fP<wchar_t> \fBjsoncons::wdefault_parse_error_handler\fP"
+
+.SS "typedef \fBbasic_empty_json_input_handler\fP<wchar_t> \fBjsoncons::wempty_json_input_handler\fP"
+
+.SS "typedef \fBbasic_json\fP<wchar_t,std::allocator<wchar_t> > \fBjsoncons::wjson\fP"
+
+.SS "typedef \fBbasic_json_deserializer\fP<\fBwjson\fP> \fBjsoncons::wjson_deserializer\fP"
+
+.SS "typedef \fBbasic_json_filter\fP<wchar_t> \fBjsoncons::wjson_filter\fP"
+
+.SS "typedef \fBbasic_json_input_handler\fP<wchar_t> \fBjsoncons::wjson_input_handler\fP"
+
+.SS "typedef \fBbasic_json_output_handler\fP<wchar_t> \fBjsoncons::wjson_output_handler\fP"
+
+.SS "typedef \fBbasic_json_parser\fP<wchar_t> \fBjsoncons::wjson_parser\fP"
+
+.SS "typedef \fBbasic_json_reader\fP<wchar_t> \fBjsoncons::wjson_reader\fP"
+
+.SS "typedef \fBbasic_json_serializer\fP<wchar_t> \fBjsoncons::wjson_serializer\fP"
+
+.SS "typedef \fBbasic_output_format\fP<wchar_t> \fBjsoncons::woutput_format\fP"
+
+.SS "typedef \fBbasic_parse_error_handler\fP<wchar_t> \fBjsoncons::wparse_error_handler\fP"
+
+.SS "typedef \fBbasic_parsing_context\fP< wchar_t > \fBjsoncons::wparsing_context\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBjsoncons::block_options\fP\fC [strong]\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fInext_line \fP\fP
+.TP
+\fB\fIsame_line \fP\fP
+.SS "enum \fBjsoncons::states\fP\fC [strong]\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIroot \fP\fP
+.TP
+\fB\fIstart \fP\fP
+.TP
+\fB\fIslash \fP\fP
+.TP
+\fB\fIslash_slash \fP\fP
+.TP
+\fB\fIslash_star \fP\fP
+.TP
+\fB\fIslash_star_star \fP\fP
+.TP
+\fB\fIexpect_comma_or_end \fP\fP
+.TP
+\fB\fIobject \fP\fP
+.TP
+\fB\fIexpect_member_name_or_end \fP\fP
+.TP
+\fB\fIexpect_member_name \fP\fP
+.TP
+\fB\fIexpect_colon \fP\fP
+.TP
+\fB\fIexpect_value_or_end \fP\fP
+.TP
+\fB\fIexpect_value \fP\fP
+.TP
+\fB\fIarray \fP\fP
+.TP
+\fB\fIstring \fP\fP
+.TP
+\fB\fImember_name \fP\fP
+.TP
+\fB\fIescape \fP\fP
+.TP
+\fB\fIu1 \fP\fP
+.TP
+\fB\fIu2 \fP\fP
+.TP
+\fB\fIu3 \fP\fP
+.TP
+\fB\fIu4 \fP\fP
+.TP
+\fB\fIexpect_surrogate_pair1 \fP\fP
+.TP
+\fB\fIexpect_surrogate_pair2 \fP\fP
+.TP
+\fB\fIu6 \fP\fP
+.TP
+\fB\fIu7 \fP\fP
+.TP
+\fB\fIu8 \fP\fP
+.TP
+\fB\fIu9 \fP\fP
+.TP
+\fB\fIminus \fP\fP
+.TP
+\fB\fIzero \fP\fP
+.TP
+\fB\fIinteger \fP\fP
+.TP
+\fB\fIfraction \fP\fP
+.TP
+\fB\fIexp1 \fP\fP
+.TP
+\fB\fIexp2 \fP\fP
+.TP
+\fB\fIexp3 \fP\fP
+.TP
+\fB\fIn \fP\fP
+.TP
+\fB\fIt \fP\fP
+.TP
+\fB\fIf \fP\fP
+.TP
+\fB\fIcr \fP\fP
+.TP
+\fB\fIlf \fP\fP
+.TP
+\fB\fIdone \fP\fP
+.SS "enum \fBjsoncons::value_types\fP : uint8_t\fC [strong]\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIempty_object_t \fP\fP
+.TP
+\fB\fIsmall_string_t \fP\fP
+.TP
+\fB\fIdouble_t \fP\fP
+.TP
+\fB\fIinteger_t \fP\fP
+.TP
+\fB\fIuinteger_t \fP\fP
+.TP
+\fB\fIbool_t \fP\fP
+.TP
+\fB\fInull_t \fP\fP
+.TP
+\fB\fIstring_t \fP\fP
+.TP
+\fB\fIobject_t \fP\fP
+.TP
+\fB\fIarray_t \fP\fP
+.TP
+\fB\fIany_t \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "template<class T , class Alloc , typename\&.\&.\&. Args> \fBT\fP* jsoncons::create_impl (\fBconst\fP Alloc & allocator, Args &&\&.\&.\&. args)"
+
+.SS "template<class T , class Alloc > void jsoncons::destroy_impl (\fBconst\fP Alloc & allocator, \fBT\fP * p)"
+
+.SS "template<typename CharT > void jsoncons::escape_string (\fBconst\fP CharT * s, size_t length, \fBconst\fP \fBbasic_output_format\fP< CharT > & format, \fBbuffered_ostream\fP< CharT > & os)"
+
+.SS "bool jsoncons::is_control_character (uint32_t c)\fC [inline]\fP"
+
+.SS "bool jsoncons::is_nan (double x)\fC [inline]\fP"
+
+.SS "bool jsoncons::is_neg_inf (double x)\fC [inline]\fP"
+
+.SS "bool jsoncons::is_non_ascii_character (uint32_t c)\fC [inline]\fP"
+
+.SS "bool jsoncons::is_pos_inf (double x)\fC [inline]\fP"
+
+.SS "bool jsoncons::is_simple (\fBvalue_types\fP type)\fC [inline]\fP"
+
+.SS "\fBconst\fP std::error_category& jsoncons::json_error_category ()\fC [inline]\fP"
+
+.SS "template<class StringT , typename CharT > bool jsoncons::name_eq_string (\fBconst\fP StringT & a, \fBconst\fP CharT * b, size_t length)"
+
+.SS "template<class StringT , typename CharT > bool jsoncons::name_le_string (\fBconst\fP StringT & a, \fBconst\fP CharT * b, size_t length)"
+
+.SS "template<typename CharT > \fBbasic_json_output_handler\fP<CharT>& jsoncons::null_json_output_handler ()"
+
+.SS "template<typename JsonT > std::basic_istream<typename JsonT::char_type>& jsoncons::operator>> (std::basic_istream< typename JsonT::char_type > & is, JsonT & o)"
+
+.SS "template<class JsonT > \fBjson_printable\fP<JsonT> jsoncons::pretty_print (\fBconst\fP JsonT & val)"
+
+.SS "template<typename JsonT > \fBjson_printable\fP<JsonT> jsoncons::pretty_print (\fBconst\fP JsonT & val, \fBconst\fP \fBbasic_output_format\fP< typename JsonT::char_type > & format)"
+
+.SS "template<typename JsonT > \fBjson_printable\fP<JsonT> jsoncons::print (\fBconst\fP JsonT & val)"
+
+.SS "template<class JsonT > \fBjson_printable\fP<JsonT> jsoncons::print (\fBconst\fP JsonT & val, \fBconst\fP \fBbasic_output_format\fP< typename JsonT::char_type > & format)"
+
+.SS "template<typename CharT > void jsoncons::print_integer (int64_t value, \fBbuffered_ostream\fP< CharT > & os)"
+
+.SS "template<typename CharT > void jsoncons::print_uinteger (uint64_t value, \fBbuffered_ostream\fP< CharT > & os)"
+
+.SS "template<typename CharT , class T > void jsoncons::serialize (\fBbasic_json_output_handler\fP< CharT > & os, \fBconst\fP \fBT\fP &)\fC [inline]\fP"
+
+.SS "template<typename CharT > int64_t jsoncons::string_to_integer (bool has_neg, \fBconst\fP CharT * s, size_t length)std::overflow_error"
+
+.SS "template<typename CharT > uint64_t jsoncons::string_to_uinteger (\fBconst\fP CharT * s, size_t length)std::overflow_error"
+
+.SS "template<class JsonT > void jsoncons::swap (typename JsonT::member_type & a, typename JsonT::member_type & b)"
+
+.SS "char jsoncons::to_hex_character (unsigned char c)\fC [inline]\fP"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBconst\fP uint16_t jsoncons::max_lead_surrogate = 0xDBFF"
+
+.SS "\fBconst\fP uint16_t jsoncons::max_trail_surrogate = 0xDFFF"
+
+.SS "\fBconst\fP uint16_t jsoncons::min_lead_surrogate = 0xD800"
+
+.SS "\fBconst\fP uint16_t jsoncons::min_trail_surrogate = 0xDC00"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

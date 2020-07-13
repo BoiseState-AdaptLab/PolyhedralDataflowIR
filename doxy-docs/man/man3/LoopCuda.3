@@ -1,0 +1,568 @@
+.TH "LoopCuda" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+LoopCuda
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <loop_cuda_chill\&.hh>\fP
+.PP
+Inherits \fBLoop\fP\&.
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBCodeGenFlags\fP { \fBGenInit\fP = 0x00, \fBGenCudaizeV2\fP = 0x02 }"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBprintsyms\fP ()"
+.br
+.ti -1c
+.RI "int \fBnonDummyLevel\fP (int \fBstmt\fP, int level)"
+.br
+.ti -1c
+.RI "bool \fBsymbolExists\fP (std::string s)"
+.br
+.ti -1c
+.RI "void \fBaddSync\fP (int \fBstmt\fP, std::string idx)"
+.br
+.ti -1c
+.RI "void \fBprintSyncs\fP ()"
+.br
+.ti -1c
+.RI "void \fBrenameIndex\fP (int \fBstmt\fP, std::string idx, std::string newName)"
+.br
+.ti -1c
+.RI "bool \fBvalidIndexes\fP (int \fBstmt\fP, \fBconst\fP std::vector< std::string > &idxs)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBextractCudaUB\fP (int stmt_num, int level, int &outUpperBound, int &outLowerBound)"
+.br
+.ti -1c
+.RI "void \fBprintCode\fP (int stmt_num, int effort=3, bool actuallyPrint=true) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintRuntimeInfo\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintIndexes\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetCode\fP (int effort=3) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetCode\fP (int effort, \fBstd::set\fP< int > stmts) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintIS\fP ()"
+.br
+.ti -1c
+.RI "void \fBpermute_cuda\fP (int \fBstmt\fP, \fBconst\fP std::vector< std::string > &curOrder)"
+.br
+.ti -1c
+.RI "bool \fBpermute\fP (int stmt_num, \fBconst\fP std::vector< int > &pi)"
+.br
+.ti -1c
+.RI "void \fBtile_cuda\fP (int \fBstmt\fP, int level, int outer_level, \fBTilingMethodType\fP method=\fBCountedTile\fP)"
+.br
+.ti -1c
+.RI "void \fBtile_cuda\fP (int level, int tile_size, int outer_level, std::string idxName, std::string ctrlName, \fBTilingMethodType\fP method=\fBStridedTile\fP)"
+.br
+.ti -1c
+.RI "void \fBtile_cuda\fP (int \fBstmt\fP, int level, int tile_size, int outer_level, std::string idxName, std::string ctrlName, \fBTilingMethodType\fP method=\fBStridedTile\fP)"
+.br
+.ti -1c
+.RI "bool \fBdatacopy_privatized_cuda\fP (int stmt_num, int level, \fBconst\fP std::string &array_name, \fBconst\fP std::vector< int > &privatized_levels, bool allow_extra_read=false, int fastest_changing_dimension=\-1, int padding_stride=1, int padding_alignment=1, bool cuda_shared=false)"
+.br
+.ti -1c
+.RI "bool \fBdatacopy_cuda\fP (int stmt_num, int level, \fBconst\fP std::string &array_name, std::vector< std::string > new_idxs, bool allow_extra_read=false, int fastest_changing_dimension=\-1, int padding_stride=1, int padding_alignment=4, bool cuda_shared=false)"
+.br
+.ti -1c
+.RI "bool \fBunroll_cuda\fP (int stmt_num, int level, int unroll_amount)"
+.br
+.ti -1c
+.RI "void \fBflatten_cuda\fP (int stmt_num, std::string idxs, std::vector< int > &loop_levels, std::string inspector_name)"
+.br
+.ti -1c
+.RI "void \fBELLify_cuda\fP (int stmt_num, std::vector< std::string > arrays_to_pad, int pad_to, bool dense_pad, std::string pos_array_name)"
+.br
+.ti -1c
+.RI "void \fBdistribute_cuda\fP (std::vector< int > &stmt_nums, int loop_level)"
+.br
+.ti -1c
+.RI "void \fBfuse_cuda\fP (std::vector< int > &stmt_nums, int loop_level)"
+.br
+.ti -1c
+.RI "void \fBpeel_cuda\fP (int stmt_num, int level, int amount)"
+.br
+.ti -1c
+.RI "void \fBshift_to_cuda\fP (int stmt_num, int level, int absolute_position)"
+.br
+.ti -1c
+.RI "void \fBscalar_expand_cuda\fP (int stmt_num, std::vector< int > level, std::string arrName, int memory_type=0, int padding=0, int assign_then_accumulate=1)"
+.br
+.ti -1c
+.RI "void \fBsplit_with_alignment_cuda\fP (int stmt_num, int level, int alignment, int direction=0)"
+.br
+.ti -1c
+.RI "void \fBcompact_cuda\fP (int stmt_num, int level, std::string new_array, int zero, std::string data_array)"
+.br
+.ti -1c
+.RI "void \fBmake_dense_cuda\fP (int stmt_num, int loop_level, std::string new_loop_index)"
+.br
+.ti -1c
+.RI "void \fBaddKnown_cuda\fP (std::string \fBvar\fP, int value)"
+.br
+.ti -1c
+.RI "void \fBskew_cuda\fP (std::vector< int > stmt_num, int level, std::vector< int > coefs)"
+.br
+.ti -1c
+.RI "void \fBreduce_cuda\fP (int stmt_num, std::vector< int > level, int param, std::string func_name, std::vector< int > seq_level, int bound_level=\-1)"
+.br
+.ti -1c
+.RI "void \fBcopy_to_texture\fP (\fBconst\fP char *array_name)"
+.br
+.ti -1c
+.RI "void \fBcopy_to_constant\fP (\fBconst\fP char *array_name)"
+.br
+.ti -1c
+.RI "int \fBfindCurLevel\fP (int \fBstmt\fP, std::string idx)"
+.br
+.ti -1c
+.RI "bool \fBcudaize_v2\fP (std::string kernel_name, \fBstd::map\fP< std::string, int > \fBarray_dims\fP, std::vector< std::string > blockIdxs, std::vector< std::string > threadIdxs)"
+.br
+.ti -1c
+.RI "bool \fBcudaize_v3\fP (int stmt_num, std::string kernel_name, \fBstd::map\fP< std::string, int > \fBarray_dims\fP, std::vector< std::string > blockIdxs, std::vector< std::string > threadIdxs, std::vector< std::string > kernel_params)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBcudaize_codegen_v2\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBcodegen\fP ()"
+.br
+.ti -1c
+.RI "\fBLoopCuda\fP ()"
+.br
+.ti -1c
+.RI "\fBLoopCuda\fP (\fBIR_Control\fP *ir_c, int loop_num)"
+.br
+.ti -1c
+.RI "\fB~LoopCuda\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< std::vector< std::string > > \fBidxNames\fP"
+.br
+.ti -1c
+.RI "std::vector< std::pair< int, std::string > > \fBsyncs\fP"
+.br
+.ti -1c
+.RI "bool \fBuseIdxNames\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBindex\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBstd::set\fP< int > > \fBcudaized\fP"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< std::string > \fBkernel_parameters\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBCPUparamSymtab\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBCPUbodySymtab\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< int > > \fBstmt_nonSplitLevels\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< std::string, int > \fBarray_sizes\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBstd::map\fP< std::string, int > > \fBVarray_dims\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBsetup_code\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBteardown_code\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBcode_gen_flags\fP"
+.br
+.ti -1c
+.RI "int \fBcu_bx\fP"
+.br
+.ti -1c
+.RI "int \fBcu_by\fP"
+.br
+.ti -1c
+.RI "int \fBcu_n\fP"
+.br
+.ti -1c
+.RI "int \fBcu_num_reduce\fP"
+.br
+.ti -1c
+.RI "int \fBcu_tx\fP"
+.br
+.ti -1c
+.RI "int \fBcu_ty\fP"
+.br
+.ti -1c
+.RI "int \fBcu_tz\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_chillRepr\fP * \fBcu_bx_repr\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_chillRepr\fP * \fBcu_by_repr\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_chillRepr\fP * \fBcu_tx_repr\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_chillRepr\fP * \fBcu_ty_repr\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_chillRepr\fP * \fBcu_tz_repr\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBVcu_bx\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBVcu_by\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBVcu_tx\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBVcu_ty\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBVcu_tz\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::CG_outputRepr\fP * > \fBVcu_bx_repr\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::CG_outputRepr\fP * > \fBVcu_by_repr\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::CG_outputRepr\fP * > \fBVcu_tx_repr\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::CG_outputRepr\fP * > \fBVcu_ty_repr\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::CG_outputRepr\fP * > \fBVcu_tz_repr\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBchillAST_node\fP * > \fBVbxAst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBchillAST_node\fP * > \fBVbyAst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBchillAST_node\fP * > \fBVtxAst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBchillAST_node\fP * > \fBVtyAst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBchillAST_node\fP * > \fBVtzAst\fP"
+.br
+.ti -1c
+.RI "int \fBcu_block_stmt\fP"
+.br
+.ti -1c
+.RI "int \fBcu_block_level\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< int, std::vector< int > > \fBblock_and_thread_levels\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< int > > \fBcu_thread_loop\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBcu_thread_sync\fP"
+.br
+.ti -1c
+.RI "\fBMemoryMode\fP \fBcu_mode\fP"
+.br
+.ti -1c
+.RI "std::string \fBcu_nx_name\fP"
+.br
+.ti -1c
+.RI "std::string \fBcu_ny_name\fP"
+.br
+.ti -1c
+.RI "std::string \fBcu_kernel_name\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBVcu_kernel_name\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_FunctionDecl\fP * \fBfunction_that_contains_this_loop\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBLoopCuda::CodeGenFlags\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIGenInit \fP\fP
+.TP
+\fB\fIGenCudaizeV2 \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "LoopCuda::LoopCuda ()"
+
+.SS "LoopCuda::LoopCuda (\fBIR_Control\fP * ir_c, int loop_num)"
+
+.SS "LoopCuda::~LoopCuda ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void LoopCuda::addKnown_cuda (std::string var, int value)"
+
+.SS "void LoopCuda::addSync (int stmt, std::string idx)"
+
+.SS "\fBchillAST_node\fP * LoopCuda::codegen ()"
+
+.SS "void LoopCuda::compact_cuda (int stmt_num, int level, std::string new_array, int zero, std::string data_array)"
+
+.SS "void LoopCuda::copy_to_constant (\fBconst\fP char * array_name)"
+
+.SS "void LoopCuda::copy_to_texture (\fBconst\fP char * array_name)"
+
+.SS "\fBchillAST_node\fP * LoopCuda::cudaize_codegen_v2 ()"
+Generates kernel functions intended to run on the GPU for a \fBCPU\fP function 
+.SS "bool LoopCuda::cudaize_v2 (std::string kernel_name, \fBstd::map\fP< std::string, int > array_dims, std::vector< std::string > blockIdxs, std::vector< std::string > threadIdxs)"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIkernel_name\fP Name of the GPU generated kernel 
+.br
+\fInx\fP Iteration space over the x dimention 
+.br
+\fIny\fP Iteration space over the y dimention 
+.br
+\fItx\fP Tile dimention over x dimention 
+.br
+\fIty\fP Tile dimention over the y dimention 
+.br
+\fInum_reduce\fP The number of dimentions to reduce by mapping to the GPU implicit blocks/threads 
+.RE
+.PP
+
+.SS "bool LoopCuda::cudaize_v3 (int stmt_num, std::string kernel_name, \fBstd::map\fP< std::string, int > array_dims, std::vector< std::string > blockIdxs, std::vector< std::string > threadIdxs, std::vector< std::string > kernel_params)"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIstmt_num\fP The statement to cudaize 
+.br
+\fIkernel_name\fP Name of the generated kernel function 
+.br
+\fIarray_dims\fP 
+.br
+\fIblockIdxs\fP Block index names 
+.br
+\fIthreadIdxs\fP Thread index names 
+.br
+\fIkernel_params\fP 
+.RE
+.PP
+
+.SS "bool LoopCuda::datacopy_cuda (int stmt_num, int level, \fBconst\fP std::string & array_name, std::vector< std::string > new_idxs, bool allow_extra_read = \fCfalse\fP, int fastest_changing_dimension = \fC\-1\fP, int padding_stride = \fC1\fP, int padding_alignment = \fC4\fP, bool cuda_shared = \fCfalse\fP)"
+
+.SS "bool LoopCuda::datacopy_privatized_cuda (int stmt_num, int level, \fBconst\fP std::string & array_name, \fBconst\fP std::vector< int > & privatized_levels, bool allow_extra_read = \fCfalse\fP, int fastest_changing_dimension = \fC\-1\fP, int padding_stride = \fC1\fP, int padding_alignment = \fC1\fP, bool cuda_shared = \fCfalse\fP)"
+
+.SS "void LoopCuda::distribute_cuda (std::vector< int > & stmt_nums, int loop_level)"
+
+.SS "void LoopCuda::ELLify_cuda (int stmt_num, std::vector< std::string > arrays_to_pad, int pad_to, bool dense_pad, std::string pos_array_name)"
+
+.SS "\fBCG_outputRepr\fP * LoopCuda::extractCudaUB (int stmt_num, int level, int & outUpperBound, int & outLowerBound)"
+
+.SS "int LoopCuda::findCurLevel (int stmt, std::string idx)"
+
+.SS "void LoopCuda::flatten_cuda (int stmt_num, std::string idxs, std::vector< int > & loop_levels, std::string inspector_name)"
+
+.SS "void LoopCuda::fuse_cuda (std::vector< int > & stmt_nums, int loop_level)"
+
+.SS "\fBchillAST_node\fP * LoopCuda::getCode (int effort, \fBstd::set\fP< int > stmts) const"
+
+.SS "\fBchillAST_node\fP * LoopCuda::getCode (int effort = \fC3\fP) const"
+
+.SS "void LoopCuda::make_dense_cuda (int stmt_num, int loop_level, std::string new_loop_index)"
+
+.SS "int LoopCuda::nonDummyLevel (int stmt, int level)"
+
+.SS "void LoopCuda::peel_cuda (int stmt_num, int level, int amount)"
+
+.SS "bool LoopCuda::permute (int stmt_num, \fBconst\fP std::vector< int > & pi)"
+
+.SS "void LoopCuda::permute_cuda (int stmt, \fBconst\fP std::vector< std::string > & curOrder)"
+
+.SS "void LoopCuda::printCode (int stmt_num, int effort = \fC3\fP, bool actuallyPrint = \fCtrue\fP) const"
+
+.SS "void LoopCuda::printIndexes () const"
+
+.SS "void LoopCuda::printIS ()"
+
+.SS "void LoopCuda::printRuntimeInfo () const"
+
+.SS "void LoopCuda::printsyms ()\fC [inline]\fP"
+
+.SS "void LoopCuda::printSyncs ()"
+
+.SS "void LoopCuda::reduce_cuda (int stmt_num, std::vector< int > level, int param, std::string func_name, std::vector< int > seq_level, int bound_level = \fC\-1\fP)"
+
+.SS "void LoopCuda::renameIndex (int stmt, std::string idx, std::string newName)"
+
+.SS "void LoopCuda::scalar_expand_cuda (int stmt_num, std::vector< int > level, std::string arrName, int memory_type = \fC0\fP, int padding = \fC0\fP, int assign_then_accumulate = \fC1\fP)"
+
+.SS "void LoopCuda::shift_to_cuda (int stmt_num, int level, int absolute_position)"
+
+.SS "void LoopCuda::skew_cuda (std::vector< int > stmt_num, int level, std::vector< int > coefs)"
+
+.SS "void LoopCuda::split_with_alignment_cuda (int stmt_num, int level, int alignment, int direction = \fC0\fP)"
+
+.SS "bool LoopCuda::symbolExists (std::string s)"
+
+.SS "void LoopCuda::tile_cuda (int level, int tile_size, int outer_level, std::string idxName, std::string ctrlName, \fBTilingMethodType\fP method = \fC\fBStridedTile\fP\fP)"
+
+.SS "void LoopCuda::tile_cuda (int stmt, int level, int outer_level, \fBTilingMethodType\fP method = \fC\fBCountedTile\fP\fP)"
+
+.SS "void LoopCuda::tile_cuda (int stmt, int level, int tile_size, int outer_level, std::string idxName, std::string ctrlName, \fBTilingMethodType\fP method = \fC\fBStridedTile\fP\fP)"
+
+.SS "bool LoopCuda::unroll_cuda (int stmt_num, int level, int unroll_amount)"
+
+.SS "bool LoopCuda::validIndexes (int stmt, \fBconst\fP std::vector< std::string > & idxs)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBstd::map\fP<std::string, int> LoopCuda::array_sizes"
+
+.SS "\fBstd::map\fP<int, std::vector<int> > LoopCuda::block_and_thread_levels"
+
+.SS "unsigned int LoopCuda::code_gen_flags"
+
+.SS "\fBchillAST_SymbolTable\fP* LoopCuda::CPUbodySymtab"
+
+.SS "\fBchillAST_SymbolTable\fP* LoopCuda::CPUparamSymtab"
+
+.SS "int LoopCuda::cu_block_level"
+
+.SS "int LoopCuda::cu_block_stmt"
+
+.SS "int LoopCuda::cu_bx"
+
+.SS "\fBomega::CG_chillRepr\fP* LoopCuda::cu_bx_repr"
+
+.SS "int LoopCuda::cu_by"
+
+.SS "\fBomega::CG_chillRepr\fP * LoopCuda::cu_by_repr"
+
+.SS "std::string LoopCuda::cu_kernel_name"
+
+.SS "\fBMemoryMode\fP LoopCuda::cu_mode"
+
+.SS "int LoopCuda::cu_n"
+
+.SS "int LoopCuda::cu_num_reduce"
+
+.SS "std::string LoopCuda::cu_nx_name"
+
+.SS "std::string LoopCuda::cu_ny_name"
+
+.SS "std::vector< std::vector<int> > LoopCuda::cu_thread_loop"
+
+.SS "std::vector<int> LoopCuda::cu_thread_sync"
+
+.SS "int LoopCuda::cu_tx"
+
+.SS "\fBomega::CG_chillRepr\fP * LoopCuda::cu_tx_repr"
+
+.SS "int LoopCuda::cu_ty"
+
+.SS "\fBomega::CG_chillRepr\fP * LoopCuda::cu_ty_repr"
+
+.SS "int LoopCuda::cu_tz"
+
+.SS "\fBomega::CG_chillRepr\fP * LoopCuda::cu_tz_repr"
+
+.SS "std::vector<\fBstd::set\fP< int> > LoopCuda::cudaized"
+
+.SS "\fBchillAST_FunctionDecl\fP* LoopCuda::function_that_contains_this_loop"
+
+.SS "std::vector< std::vector<std::string> > LoopCuda::idxNames"
+
+.SS "std::vector<std::string> LoopCuda::index"
+
+.SS "\fBstd::set\fP<std::string> LoopCuda::kernel_parameters"
+
+.SS "\fBomega::CG_outputRepr\fP* LoopCuda::setup_code"
+
+.SS "std::vector<std::vector<int> > LoopCuda::stmt_nonSplitLevels"
+
+.SS "std::vector< std::pair<int, std::string> > LoopCuda::syncs"
+
+.SS "\fBomega::CG_outputRepr\fP* LoopCuda::teardown_code"
+
+.SS "bool LoopCuda::useIdxNames"
+
+.SS "std::vector<\fBstd::map\fP<std::string, int> > LoopCuda::Varray_dims"
+
+.SS "std::vector<\fBchillAST_node\fP *> LoopCuda::VbxAst"
+
+.SS "std::vector<\fBchillAST_node\fP *> LoopCuda::VbyAst"
+
+.SS "std::vector<int> LoopCuda::Vcu_bx"
+
+.SS "std::vector<\fBomega::CG_outputRepr\fP *> LoopCuda::Vcu_bx_repr"
+
+.SS "std::vector<int> LoopCuda::Vcu_by"
+
+.SS "std::vector<\fBomega::CG_outputRepr\fP *> LoopCuda::Vcu_by_repr"
+
+.SS "std::vector<std::string> LoopCuda::Vcu_kernel_name"
+
+.SS "std::vector<int> LoopCuda::Vcu_tx"
+
+.SS "std::vector<\fBomega::CG_outputRepr\fP *> LoopCuda::Vcu_tx_repr"
+
+.SS "std::vector<int> LoopCuda::Vcu_ty"
+
+.SS "std::vector<\fBomega::CG_outputRepr\fP *> LoopCuda::Vcu_ty_repr"
+
+.SS "std::vector<int> LoopCuda::Vcu_tz"
+
+.SS "std::vector<\fBomega::CG_outputRepr\fP *> LoopCuda::Vcu_tz_repr"
+
+.SS "std::vector<\fBchillAST_node\fP *> LoopCuda::VtxAst"
+
+.SS "std::vector<\fBchillAST_node\fP *> LoopCuda::VtyAst"
+
+.SS "std::vector<\fBchillAST_node\fP *> LoopCuda::VtzAst"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

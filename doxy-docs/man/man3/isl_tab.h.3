@@ -1,0 +1,460 @@
+.TH "lib/isl/isl_tab.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_tab.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/lp\&.h>\fP
+.br
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include <isl/mat\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl_config\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_tab_var\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_tab_callback\fP"
+.br
+.ti -1c
+.RI "union \fBisl_tab_undo_val\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_tab_undo\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_tab\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_region\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBISL_TAB_SAVE_DUAL\fP   (1 << 0)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBisl_tab_undo_type\fP { \fBisl_tab_undo_bottom\fP, \fBisl_tab_undo_rational\fP, \fBisl_tab_undo_empty\fP, \fBisl_tab_undo_nonneg\fP, \fBisl_tab_undo_redundant\fP, \fBisl_tab_undo_freeze\fP, \fBisl_tab_undo_zero\fP, \fBisl_tab_undo_allocate\fP, \fBisl_tab_undo_relax\fP, \fBisl_tab_undo_unrestrict\fP, \fBisl_tab_undo_bmap_ineq\fP, \fBisl_tab_undo_bmap_eq\fP, \fBisl_tab_undo_bmap_div\fP, \fBisl_tab_undo_saved_basis\fP, \fBisl_tab_undo_drop_sample\fP, \fBisl_tab_undo_saved_samples\fP, \fBisl_tab_undo_callback\fP }"
+.br
+.ti -1c
+.RI "enum \fBisl_tab_row_sign\fP { \fBisl_tab_row_unknown\fP = 0, \fBisl_tab_row_pos\fP, \fBisl_tab_row_neg\fP, \fBisl_tab_row_any\fP }"
+.br
+.ti -1c
+.RI "enum \fBisl_ineq_type\fP { \fBisl_ineq_error\fP = -1, \fBisl_ineq_redundant\fP, \fBisl_ineq_separate\fP, \fBisl_ineq_cut\fP, \fBisl_ineq_adj_eq\fP, \fBisl_ineq_adj_ineq\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_tab\fP * \fBisl_tab_alloc\fP (struct \fBisl_ctx\fP *ctx, unsigned n_row, unsigned n_var, unsigned M)"
+.br
+.ti -1c
+.RI "void \fBisl_tab_free\fP (struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_tab_get_ctx\fP (struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP struct \fBisl_tab\fP * \fBisl_tab_from_basic_map\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP, int track)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP struct \fBisl_tab\fP * \fBisl_tab_from_basic_set\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, int track)"
+.br
+.ti -1c
+.RI "struct \fBisl_tab\fP * \fBisl_tab_from_recession_cone\fP (struct \fBisl_basic_set\fP *bset, int parametric)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_cone_is_bounded\fP (struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_map\fP * \fBisl_basic_map_update_from_tab\fP (struct \fBisl_basic_map\fP *\fBbmap\fP, struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_update_from_tab\fP (struct \fBisl_basic_set\fP *bset, struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_detect_implicit_equalities\fP (struct \fBisl_tab\fP *tab) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_tab_make_equalities_explicit\fP (struct \fBisl_tab\fP *tab, \fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_detect_redundant\fP (struct \fBisl_tab\fP *tab) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "enum \fBisl_lp_result\fP \fBisl_tab_min\fP (struct \fBisl_tab\fP *tab, \fBisl_int\fP *\fBf\fP, \fBisl_int\fP denom, \fBisl_int\fP *opt, \fBisl_int\fP *opt_denom, unsigned flags) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_add_ineq\fP (struct \fBisl_tab\fP *tab, \fBisl_int\fP *ineq) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_add_eq\fP (struct \fBisl_tab\fP *tab, \fBisl_int\fP *\fBeq\fP) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_add_valid_eq\fP (struct \fBisl_tab\fP *tab, \fBisl_int\fP *\fBeq\fP) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_freeze_constraint\fP (struct \fBisl_tab\fP *tab, int con) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_track_bmap\fP (struct \fBisl_tab\fP *tab, \fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_track_bset\fP (struct \fBisl_tab\fP *tab, \fB__isl_take\fP \fBisl_basic_set\fP *bset) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "\fB__isl_keep\fP \fBisl_basic_set\fP * \fBisl_tab_peek_bset\fP (struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_is_equality\fP (struct \fBisl_tab\fP *tab, int con)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_is_redundant\fP (struct \fBisl_tab\fP *tab, int con)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_sample_is_integer\fP (struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBisl_tab_get_sample_value\fP (struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "enum \fBisl_ineq_type\fP \fBisl_tab_ineq_type\fP (struct \fBisl_tab\fP *tab, \fBisl_int\fP *ineq)"
+.br
+.ti -1c
+.RI "struct \fBisl_tab_undo\fP * \fBisl_tab_snap\fP (struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_rollback\fP (struct \fBisl_tab\fP *tab, struct \fBisl_tab_undo\fP *snap) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_relax\fP (struct \fBisl_tab\fP *tab, int con) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_select_facet\fP (struct \fBisl_tab\fP *tab, int con) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_unrestrict\fP (struct \fBisl_tab\fP *tab, int con) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "void \fBisl_tab_dump\fP (\fB__isl_keep\fP struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "struct \fBisl_map\fP * \fBisl_tab_basic_map_partial_lexopt\fP (struct \fBisl_basic_map\fP *\fBbmap\fP, struct \fBisl_basic_set\fP *dom, struct \fBisl_set\fP **empty, int \fBmax\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_basic_map_partial_lexopt_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, \fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_give\fP \fBisl_set\fP **empty, int \fBmax\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_tab_basic_set_non_trivial_lexmin\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, int n_op, int n_region, struct \fBisl_region\fP *region, int(*conflict)(int con, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_tab_basic_set_non_neg_lexmin\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "struct \fBisl_tab_var\fP * \fBisl_tab_var_from_row\fP (struct \fBisl_tab\fP *tab, int \fBi\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_mark_redundant\fP (struct \fBisl_tab\fP *tab, int \fBrow\fP) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_mark_rational\fP (struct \fBisl_tab\fP *tab) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_mark_empty\fP (struct \fBisl_tab\fP *tab) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_tab\fP * \fBisl_tab_dup\fP (struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "struct \fBisl_tab\fP * \fBisl_tab_product\fP (struct \fBisl_tab\fP *tab1, struct \fBisl_tab\fP *tab2)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_extend_cons\fP (struct \fBisl_tab\fP *tab, unsigned n_new) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_allocate_con\fP (struct \fBisl_tab\fP *tab) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_extend_vars\fP (struct \fBisl_tab\fP *tab, unsigned n_new) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_allocate_var\fP (struct \fBisl_tab\fP *tab) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_insert_var\fP (struct \fBisl_tab\fP *tab, int \fBpos\fP) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_pivot\fP (struct \fBisl_tab\fP *tab, int \fBrow\fP, int \fBcol\fP) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_add_row\fP (struct \fBisl_tab\fP *tab, \fBisl_int\fP *line) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_row_is_redundant\fP (struct \fBisl_tab\fP *tab, int \fBrow\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_min_at_most_neg_one\fP (struct \fBisl_tab\fP *tab, struct \fBisl_tab_var\fP *\fBvar\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_sign_of_max\fP (struct \fBisl_tab\fP *tab, int con)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_kill_col\fP (struct \fBisl_tab\fP *tab, int \fBcol\fP) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_push\fP (struct \fBisl_tab\fP *tab, enum \fBisl_tab_undo_type\fP type) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_push_var\fP (struct \fBisl_tab\fP *tab, enum \fBisl_tab_undo_type\fP type, struct \fBisl_tab_var\fP *\fBvar\fP) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_push_basis\fP (struct \fBisl_tab\fP *tab) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_tab\fP * \fBisl_tab_init_samples\fP (struct \fBisl_tab\fP *tab) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_add_sample\fP (struct \fBisl_tab\fP *tab, \fB__isl_take\fP \fBisl_vec\fP *sample) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_tab\fP * \fBisl_tab_drop_sample\fP (struct \fBisl_tab\fP *tab, int s)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_save_samples\fP (struct \fBisl_tab\fP *tab) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_tab\fP * \fBisl_tab_detect_equalities\fP (struct \fBisl_tab\fP *tab, struct \fBisl_tab\fP *tab_cone) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_push_callback\fP (struct \fBisl_tab\fP *tab, struct \fBisl_tab_callback\fP *callback) \fBWARN_UNUSED\fP"
+.br
+.ti -1c
+.RI "int \fBisl_tab_add_div\fP (struct \fBisl_tab\fP *tab, \fB__isl_keep\fP \fBisl_vec\fP *div, int(*add_ineq)(void *\fBuser\fP, \fBisl_int\fP *), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_tab_shift_var\fP (struct \fBisl_tab\fP *tab, int \fBpos\fP, \fBisl_int\fP shift) \fBWARN_UNUSED\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ISL_TAB_SAVE_DUAL   (1 << 0)"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBisl_ineq_type\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIisl_ineq_error \fP\fP
+.TP
+\fB\fIisl_ineq_redundant \fP\fP
+.TP
+\fB\fIisl_ineq_separate \fP\fP
+.TP
+\fB\fIisl_ineq_cut \fP\fP
+.TP
+\fB\fIisl_ineq_adj_eq \fP\fP
+.TP
+\fB\fIisl_ineq_adj_ineq \fP\fP
+.SS "enum \fBisl_tab_row_sign\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIisl_tab_row_unknown \fP\fP
+.TP
+\fB\fIisl_tab_row_pos \fP\fP
+.TP
+\fB\fIisl_tab_row_neg \fP\fP
+.TP
+\fB\fIisl_tab_row_any \fP\fP
+.SS "enum \fBisl_tab_undo_type\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIisl_tab_undo_bottom \fP\fP
+.TP
+\fB\fIisl_tab_undo_rational \fP\fP
+.TP
+\fB\fIisl_tab_undo_empty \fP\fP
+.TP
+\fB\fIisl_tab_undo_nonneg \fP\fP
+.TP
+\fB\fIisl_tab_undo_redundant \fP\fP
+.TP
+\fB\fIisl_tab_undo_freeze \fP\fP
+.TP
+\fB\fIisl_tab_undo_zero \fP\fP
+.TP
+\fB\fIisl_tab_undo_allocate \fP\fP
+.TP
+\fB\fIisl_tab_undo_relax \fP\fP
+.TP
+\fB\fIisl_tab_undo_unrestrict \fP\fP
+.TP
+\fB\fIisl_tab_undo_bmap_ineq \fP\fP
+.TP
+\fB\fIisl_tab_undo_bmap_eq \fP\fP
+.TP
+\fB\fIisl_tab_undo_bmap_div \fP\fP
+.TP
+\fB\fIisl_tab_undo_saved_basis \fP\fP
+.TP
+\fB\fIisl_tab_undo_drop_sample \fP\fP
+.TP
+\fB\fIisl_tab_undo_saved_samples \fP\fP
+.TP
+\fB\fIisl_tab_undo_callback \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_basic_map_partial_lexopt_pw_multi_aff (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, \fB__isl_take\fP \fBisl_basic_set\fP * dom, \fB__isl_give\fP \fBisl_set\fP ** empty, int max)"
+
+.SS "struct \fBisl_basic_map\fP* isl_basic_map_update_from_tab (struct \fBisl_basic_map\fP * bmap, struct \fBisl_tab\fP * tab)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_update_from_tab (struct \fBisl_basic_set\fP * bset, struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_add_div (struct \fBisl_tab\fP * tab, \fB__isl_keep\fP \fBisl_vec\fP * div, int(*)(void *\fBuser\fP, \fBisl_int\fP *) add_ineq, void * user)"
+
+.SS "int isl_tab_add_eq (struct \fBisl_tab\fP * tab, \fBisl_int\fP * eq)"
+
+.SS "int isl_tab_add_ineq (struct \fBisl_tab\fP * tab, \fBisl_int\fP * ineq)"
+
+.SS "int isl_tab_add_row (struct \fBisl_tab\fP * tab, \fBisl_int\fP * line)"
+
+.SS "int isl_tab_add_sample (struct \fBisl_tab\fP * tab, \fB__isl_take\fP \fBisl_vec\fP * sample)"
+
+.SS "int isl_tab_add_valid_eq (struct \fBisl_tab\fP * tab, \fBisl_int\fP * eq)"
+
+.SS "struct \fBisl_tab\fP* isl_tab_alloc (struct \fBisl_ctx\fP * ctx, unsigned n_row, unsigned n_var, unsigned M)"
+
+.SS "int isl_tab_allocate_con (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_allocate_var (struct \fBisl_tab\fP * tab)"
+
+.SS "struct \fBisl_map\fP* isl_tab_basic_map_partial_lexopt (struct \fBisl_basic_map\fP * bmap, struct \fBisl_basic_set\fP * dom, struct \fBisl_set\fP ** empty, int max)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_tab_basic_set_non_neg_lexmin (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_tab_basic_set_non_trivial_lexmin (\fB__isl_take\fP \fBisl_basic_set\fP * bset, int n_op, int n_region, struct \fBisl_region\fP * region, int(*)(int con, void *\fBuser\fP) conflict, void * user)"
+
+.SS "int isl_tab_cone_is_bounded (struct \fBisl_tab\fP * tab)"
+
+.SS "struct \fBisl_tab\fP* isl_tab_detect_equalities (struct \fBisl_tab\fP * tab, struct \fBisl_tab\fP * tab_cone)"
+
+.SS "int isl_tab_detect_implicit_equalities (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_detect_redundant (struct \fBisl_tab\fP * tab)"
+
+.SS "struct \fBisl_tab\fP* isl_tab_drop_sample (struct \fBisl_tab\fP * tab, int s)"
+
+.SS "void isl_tab_dump (\fB__isl_keep\fP struct \fBisl_tab\fP * tab)"
+
+.SS "struct \fBisl_tab\fP* isl_tab_dup (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_extend_cons (struct \fBisl_tab\fP * tab, unsigned n_new)"
+
+.SS "int isl_tab_extend_vars (struct \fBisl_tab\fP * tab, unsigned n_new)"
+
+.SS "void isl_tab_free (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_freeze_constraint (struct \fBisl_tab\fP * tab, int con)"
+
+.SS "\fB__isl_give\fP struct \fBisl_tab\fP* isl_tab_from_basic_map (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap, int track)"
+
+.SS "\fB__isl_give\fP struct \fBisl_tab\fP* isl_tab_from_basic_set (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, int track)"
+
+.SS "struct \fBisl_tab\fP* isl_tab_from_recession_cone (struct \fBisl_basic_set\fP * bset, int parametric)"
+
+.SS "\fBisl_ctx\fP* isl_tab_get_ctx (struct \fBisl_tab\fP * tab)"
+
+.SS "struct \fBisl_vec\fP* isl_tab_get_sample_value (struct \fBisl_tab\fP * tab)"
+
+.SS "enum \fBisl_ineq_type\fP isl_tab_ineq_type (struct \fBisl_tab\fP * tab, \fBisl_int\fP * ineq)"
+
+.SS "struct \fBisl_tab\fP* isl_tab_init_samples (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_insert_var (struct \fBisl_tab\fP * tab, int pos)"
+
+.SS "int isl_tab_is_equality (struct \fBisl_tab\fP * tab, int con)"
+
+.SS "int isl_tab_is_redundant (struct \fBisl_tab\fP * tab, int con)"
+
+.SS "int isl_tab_kill_col (struct \fBisl_tab\fP * tab, int col)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_tab_make_equalities_explicit (struct \fBisl_tab\fP * tab, \fB__isl_take\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "int isl_tab_mark_empty (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_mark_rational (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_mark_redundant (struct \fBisl_tab\fP * tab, int row)"
+
+.SS "enum \fBisl_lp_result\fP isl_tab_min (struct \fBisl_tab\fP * tab, \fBisl_int\fP * f, \fBisl_int\fP denom, \fBisl_int\fP * opt, \fBisl_int\fP * opt_denom, unsigned flags)"
+
+.SS "int isl_tab_min_at_most_neg_one (struct \fBisl_tab\fP * tab, struct \fBisl_tab_var\fP * var)"
+
+.SS "\fB__isl_keep\fP \fBisl_basic_set\fP* isl_tab_peek_bset (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_pivot (struct \fBisl_tab\fP * tab, int row, int col)"
+
+.SS "struct \fBisl_tab\fP* isl_tab_product (struct \fBisl_tab\fP * tab1, struct \fBisl_tab\fP * tab2)"
+
+.SS "int isl_tab_push (struct \fBisl_tab\fP * tab, enum \fBisl_tab_undo_type\fP type)"
+
+.SS "int isl_tab_push_basis (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_push_callback (struct \fBisl_tab\fP * tab, struct \fBisl_tab_callback\fP * callback)"
+
+.SS "int isl_tab_push_var (struct \fBisl_tab\fP * tab, enum \fBisl_tab_undo_type\fP type, struct \fBisl_tab_var\fP * var)"
+
+.SS "int isl_tab_relax (struct \fBisl_tab\fP * tab, int con)"
+
+.SS "int isl_tab_rollback (struct \fBisl_tab\fP * tab, struct \fBisl_tab_undo\fP * snap)"
+
+.SS "int isl_tab_row_is_redundant (struct \fBisl_tab\fP * tab, int row)"
+
+.SS "int isl_tab_sample_is_integer (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_save_samples (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_select_facet (struct \fBisl_tab\fP * tab, int con)"
+
+.SS "int isl_tab_shift_var (struct \fBisl_tab\fP * tab, int pos, \fBisl_int\fP shift)"
+
+.SS "int isl_tab_sign_of_max (struct \fBisl_tab\fP * tab, int con)"
+
+.SS "struct \fBisl_tab_undo\fP* isl_tab_snap (struct \fBisl_tab\fP * tab)"
+
+.SS "int isl_tab_track_bmap (struct \fBisl_tab\fP * tab, \fB__isl_take\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "int isl_tab_track_bset (struct \fBisl_tab\fP * tab, \fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "int isl_tab_unrestrict (struct \fBisl_tab\fP * tab, int con)"
+
+.SS "struct \fBisl_tab_var\fP* isl_tab_var_from_row (struct \fBisl_tab\fP * tab, int i)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

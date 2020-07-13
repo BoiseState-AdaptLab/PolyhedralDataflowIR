@@ -1,0 +1,149 @@
+.TH "lib/iegenlib/src/parser/jsoncons/jsoncons.hpp" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/iegenlib/src/parser/jsoncons/jsoncons.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <locale>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <cstdlib>\fP
+.br
+\fC#include <cwchar>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <cassert>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include 'jsoncons_config\&.hpp'\fP
+.br
+\fC#include 'jsoncons_io\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBjsoncons::null_type\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::json_exception\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::json_exception_0< Base >\fP"
+.br
+.ti -1c
+.RI "class \fBjsoncons::json_exception_1< Base >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::json_literals< CharT >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::json_literals< char >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::json_literals< wchar_t >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::json_char_traits< CharT, Size >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::json_char_traits< char, 1 >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::json_char_traits< wchar_t, 2 >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::json_char_traits< wchar_t, 4 >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::type_wrapper< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::type_wrapper< const T >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::type_wrapper< T & >\fP"
+.br
+.ti -1c
+.RI "struct \fBjsoncons::type_wrapper< const T & >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBjsoncons\fP"
+.br
+.RI "Copyright 2013 Daniel Parker\&. "
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBJSONCONS_STR2\fP(\fBx\fP)   #\fBx\fP"
+.br
+.ti -1c
+.RI "#define \fBJSONCONS_STR\fP(\fBx\fP)   \fBJSONCONS_STR2\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBJSONCONS_THROW_EXCEPTION\fP(Base,  \fBx\fP)   \fBthrow\fP \fBjsoncons::json_exception_0\fP<Base>((\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBJSONCONS_THROW_EXCEPTION_1\fP(Base,  fmt,  \fBarg1\fP)   \fBthrow\fP \fBjsoncons::json_exception_1\fP<Base>((fmt),(\fBarg1\fP))"
+.br
+.ti -1c
+.RI "#define \fBJSONCONS_ASSERT\fP(\fBx\fP)   assert((\fBx\fP));"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBjsoncons::is_control_character\fP (uint32_t \fBc\fP)"
+.br
+.ti -1c
+.RI "char \fBjsoncons::to_hex_character\fP (unsigned char \fBc\fP)"
+.br
+.ti -1c
+.RI "bool \fBjsoncons::is_non_ascii_character\fP (uint32_t \fBc\fP)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP uint16_t \fBjsoncons::min_lead_surrogate\fP = 0xD800"
+.br
+.ti -1c
+.RI "\fBconst\fP uint16_t \fBjsoncons::max_lead_surrogate\fP = 0xDBFF"
+.br
+.ti -1c
+.RI "\fBconst\fP uint16_t \fBjsoncons::min_trail_surrogate\fP = 0xDC00"
+.br
+.ti -1c
+.RI "\fBconst\fP uint16_t \fBjsoncons::max_trail_surrogate\fP = 0xDFFF"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define JSONCONS_ASSERT(\fBx\fP)   assert((\fBx\fP));"
+#define \fBJSONCONS_ASSERT(x)\fP if (!(x)) { \\ throw jsoncons::json_exception_0<std::runtime_error>('assertion '' \fBx\fP '' failed at ' \fBFILE\fP ':' \\ JSONCONS_STR(\fBLINE\fP)); } 
+.SS "#define JSONCONS_STR(\fBx\fP)   \fBJSONCONS_STR2\fP(\fBx\fP)"
+
+.SS "#define JSONCONS_STR2(\fBx\fP)   #\fBx\fP"
+
+.SS "#define JSONCONS_THROW_EXCEPTION(Base, \fBx\fP)   \fBthrow\fP \fBjsoncons::json_exception_0\fP<Base>((\fBx\fP))"
+
+.SS "#define JSONCONS_THROW_EXCEPTION_1(Base, fmt, \fBarg1\fP)   \fBthrow\fP \fBjsoncons::json_exception_1\fP<Base>((fmt),(\fBarg1\fP))"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

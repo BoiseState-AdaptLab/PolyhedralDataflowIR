@@ -1,0 +1,108 @@
+.TH "isl_context_op" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+isl_context_op
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_tab\fP *(* \fBdetect_nonnegative_parameters\fP )(struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP *(* \fBpeek_basic_set\fP )(struct \fBisl_context\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_tab\fP *(* \fBpeek_tab\fP )(struct \fBisl_context\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "void(* \fBadd_eq\fP )(struct \fBisl_context\fP *\fBcontext\fP, \fBisl_int\fP *\fBeq\fP, int check, int update)"
+.br
+.ti -1c
+.RI "void(* \fBadd_ineq\fP )(struct \fBisl_context\fP *\fBcontext\fP, \fBisl_int\fP *ineq, int check, int update)"
+.br
+.ti -1c
+.RI "enum \fBisl_tab_row_sign\fP(* \fBineq_sign\fP )(struct \fBisl_context\fP *\fBcontext\fP, \fBisl_int\fP *ineq, int strict)"
+.br
+.ti -1c
+.RI "int(* \fBtest_ineq\fP )(struct \fBisl_context\fP *\fBcontext\fP, \fBisl_int\fP *ineq)"
+.br
+.ti -1c
+.RI "int(* \fBget_div\fP )(struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_tab\fP *tab, struct \fBisl_vec\fP *div)"
+.br
+.ti -1c
+.RI "int(* \fBadd_div\fP )(struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_vec\fP *div)"
+.br
+.ti -1c
+.RI "int(* \fBdetect_equalities\fP )(struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "int(* \fBbest_split\fP )(struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_tab\fP *tab)"
+.br
+.ti -1c
+.RI "int(* \fBis_empty\fP )(struct \fBisl_context\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "int(* \fBis_ok\fP )(struct \fBisl_context\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "void *(* \fBsave\fP )(struct \fBisl_context\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "void(* \fBrestore\fP )(struct \fBisl_context\fP *\fBcontext\fP, void *)"
+.br
+.ti -1c
+.RI "void(* \fBdiscard\fP )(void *)"
+.br
+.ti -1c
+.RI "void(* \fBinvalidate\fP )(struct \fBisl_context\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "void(* \fBfree\fP )(struct \fBisl_context\fP *\fBcontext\fP)"
+.br
+.in -1c
+.SH "Member Data Documentation"
+.PP 
+.SS "int(* isl_context_op::add_div) (struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_vec\fP *div)"
+
+.SS "void(* isl_context_op::add_eq) (struct \fBisl_context\fP *\fBcontext\fP, \fBisl_int\fP *\fBeq\fP, int check, int update)"
+
+.SS "void(* isl_context_op::add_ineq) (struct \fBisl_context\fP *\fBcontext\fP, \fBisl_int\fP *ineq, int check, int update)"
+
+.SS "int(* isl_context_op::best_split) (struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_tab\fP *tab)"
+
+.SS "int(* isl_context_op::detect_equalities) (struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_tab\fP *tab)"
+
+.SS "struct \fBisl_tab\fP*(* isl_context_op::detect_nonnegative_parameters) (struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_tab\fP *tab)"
+
+.SS "void(* isl_context_op::discard) (void *)"
+
+.SS "void(* isl_context_op::free) (struct \fBisl_context\fP *\fBcontext\fP)"
+
+.SS "int(* isl_context_op::get_div) (struct \fBisl_context\fP *\fBcontext\fP, struct \fBisl_tab\fP *tab, struct \fBisl_vec\fP *div)"
+
+.SS "enum \fBisl_tab_row_sign\fP(* isl_context_op::ineq_sign) (struct \fBisl_context\fP *\fBcontext\fP, \fBisl_int\fP *ineq, int strict)"
+
+.SS "void(* isl_context_op::invalidate) (struct \fBisl_context\fP *\fBcontext\fP)"
+
+.SS "int(* isl_context_op::is_empty) (struct \fBisl_context\fP *\fBcontext\fP)"
+
+.SS "int(* isl_context_op::is_ok) (struct \fBisl_context\fP *\fBcontext\fP)"
+
+.SS "struct \fBisl_basic_set\fP*(* isl_context_op::peek_basic_set) (struct \fBisl_context\fP *\fBcontext\fP)"
+
+.SS "struct \fBisl_tab\fP*(* isl_context_op::peek_tab) (struct \fBisl_context\fP *\fBcontext\fP)"
+
+.SS "void(* isl_context_op::restore) (struct \fBisl_context\fP *\fBcontext\fP, void *)"
+
+.SS "void*(* isl_context_op::save) (struct \fBisl_context\fP *\fBcontext\fP)"
+
+.SS "int(* isl_context_op::test_ineq) (struct \fBisl_context\fP *\fBcontext\fP, \fBisl_int\fP *ineq)"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

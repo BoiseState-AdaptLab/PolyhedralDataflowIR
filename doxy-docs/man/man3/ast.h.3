@@ -1,0 +1,407 @@
+.TH "lib/isl/include/isl/ast.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/ast.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/ctx\&.h>\fP
+.br
+\fC#include <isl/ast_type\&.h>\fP
+.br
+\fC#include <isl/id\&.h>\fP
+.br
+\fC#include <isl/id_to_ast_expr\&.h>\fP
+.br
+\fC#include <isl/val\&.h>\fP
+.br
+\fC#include <isl/list\&.h>\fP
+.br
+\fC#include <isl/printer\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_ast_iterator_type\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBisl_options_get_ast_iterator_type\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_ast_always_print_block\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_ast_always_print_block\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_from_val\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_from_id\fP (\fB__isl_take\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_neg\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_add\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_sub\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_mul\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_div\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_pdiv_q\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_pdiv_r\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_and\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_and_then\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_or\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_or_else\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_le\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_lt\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_ge\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_gt\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_eq\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_access\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *array, \fB__isl_take\fP isl_ast_expr_list *indices)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_call\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *function, \fB__isl_take\fP isl_ast_expr_list *arguments)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_address_of\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_copy\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_free\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_ast_expr_get_ctx\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "enum \fBisl_ast_expr_type\fP \fBisl_ast_expr_get_type\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_ast_expr_get_val\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_ast_expr_get_id\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "enum \fBisl_ast_op_type\fP \fBisl_ast_expr_get_op_type\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "int \fBisl_ast_expr_get_op_n_arg\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_get_op_arg\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_set_op_arg\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr, int \fBpos\fP, \fB__isl_take\fP \fBisl_ast_expr\fP *\fBarg\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_ast_expr_is_equal\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr1, \fB__isl_keep\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_substitute_ids\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr, \fB__isl_take\fP isl_id_to_ast_expr *id2expr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_ast_expr\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "void \fBisl_ast_expr_dump\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP char * \fBisl_ast_expr_to_str\fP (\fB__isl_keep\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_alloc_user\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *expr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_copy\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_ast_node\fP * \fBisl_ast_node_free\fP (\fB__isl_take\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_ast_node_get_ctx\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "enum \fBisl_ast_node_type\fP \fBisl_ast_node_get_type\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_set_annotation\fP (\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_take\fP \fBisl_id\fP *annotation)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_ast_node_get_annotation\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_node_for_get_iterator\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_node_for_get_init\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_node_for_get_cond\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_node_for_get_inc\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_for_get_body\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_ast_node_for_is_degenerate\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_node_if_get_cond\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_if_get_then\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_ast_node_if_has_else\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_if_get_else\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_ast_node_list * \fBisl_ast_node_block_get_children\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_ast_node_mark_get_id\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_mark_get_node\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_node_user_get_expr\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_ast_node\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "void \fBisl_ast_node_dump\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_print_options\fP * \fBisl_ast_print_options_alloc\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_print_options\fP * \fBisl_ast_print_options_copy\fP (\fB__isl_keep\fP \fBisl_ast_print_options\fP *\fBoptions\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_ast_print_options\fP * \fBisl_ast_print_options_free\fP (\fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_ast_print_options_get_ctx\fP (\fB__isl_keep\fP \fBisl_ast_print_options\fP *\fBoptions\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_print_options\fP * \fBisl_ast_print_options_set_print_user\fP (\fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP, \fB__isl_give\fP \fBisl_printer\fP *(*print_user)(\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP, \fB__isl_keep\fP \fBisl_ast_node\fP *node, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_print_options\fP * \fBisl_ast_print_options_set_print_for\fP (\fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP, \fB__isl_give\fP \fBisl_printer\fP *(*print_for)(\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP, \fB__isl_keep\fP \fBisl_ast_node\fP *node, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_ast_node_foreach_ast_op_type\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node, \fBisl_stat\fP(*\fBfn\fP)(enum \fBisl_ast_op_type\fP type, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_ast_op_type_print_macro\fP (enum \fBisl_ast_op_type\fP type, \fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_ast_node_print_macros\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node, \fB__isl_take\fP \fBisl_printer\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_ast_node_print\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node, \fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_ast_node_for_print\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node, \fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_ast_node_if_print\fP (\fB__isl_keep\fP \fBisl_ast_node\fP *node, \fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_access (\fB__isl_take\fP \fBisl_ast_expr\fP * array, \fB__isl_take\fP isl_ast_expr_list * indices)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_add (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_address_of (\fB__isl_take\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_and (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_and_then (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_call (\fB__isl_take\fP \fBisl_ast_expr\fP * function, \fB__isl_take\fP isl_ast_expr_list * arguments)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_copy (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_div (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "void isl_ast_expr_dump (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_eq (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_null\fP \fBisl_ast_expr\fP* isl_ast_expr_free (\fB__isl_take\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_from_id (\fB__isl_take\fP \fBisl_id\fP * id)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_from_val (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_ge (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fBisl_ctx\fP* isl_ast_expr_get_ctx (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_ast_expr_get_id (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_get_op_arg (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr, int pos)"
+
+.SS "int isl_ast_expr_get_op_n_arg (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "enum \fBisl_ast_op_type\fP isl_ast_expr_get_op_type (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "enum \fBisl_ast_expr_type\fP isl_ast_expr_get_type (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_ast_expr_get_val (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_gt (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fBisl_bool\fP isl_ast_expr_is_equal (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr1, \fB__isl_keep\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_le (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_lt (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_mul (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_neg (\fB__isl_take\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_or (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_or_else (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_pdiv_q (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_pdiv_r (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_set_op_arg (\fB__isl_take\fP \fBisl_ast_expr\fP * expr, int pos, \fB__isl_take\fP \fBisl_ast_expr\fP * arg)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_sub (\fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_substitute_ids (\fB__isl_take\fP \fBisl_ast_expr\fP * expr, \fB__isl_take\fP isl_id_to_ast_expr * id2expr)"
+
+.SS "\fB__isl_give\fP char* isl_ast_expr_to_str (\fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_alloc_user (\fB__isl_take\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP isl_ast_node_list* isl_ast_node_block_get_children (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_copy (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "void isl_ast_node_dump (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_for_get_body (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_node_for_get_cond (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_node_for_get_inc (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_node_for_get_init (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_node_for_get_iterator (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fBisl_bool\fP isl_ast_node_for_is_degenerate (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_ast_node_for_print (\fB__isl_keep\fP \fBisl_ast_node\fP * node, \fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_take\fP \fBisl_ast_print_options\fP * options)"
+
+.SS "\fBisl_stat\fP isl_ast_node_foreach_ast_op_type (\fB__isl_keep\fP \fBisl_ast_node\fP * node, \fBisl_stat\fP(*)(enum \fBisl_ast_op_type\fP type, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_null\fP \fBisl_ast_node\fP* isl_ast_node_free (\fB__isl_take\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_ast_node_get_annotation (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fBisl_ctx\fP* isl_ast_node_get_ctx (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "enum \fBisl_ast_node_type\fP isl_ast_node_get_type (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_node_if_get_cond (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_if_get_else (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_if_get_then (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fBisl_bool\fP isl_ast_node_if_has_else (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_ast_node_if_print (\fB__isl_keep\fP \fBisl_ast_node\fP * node, \fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_take\fP \fBisl_ast_print_options\fP * options)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_ast_node_mark_get_id (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_mark_get_node (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_ast_node_print (\fB__isl_keep\fP \fBisl_ast_node\fP * node, \fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_take\fP \fBisl_ast_print_options\fP * options)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_ast_node_print_macros (\fB__isl_keep\fP \fBisl_ast_node\fP * node, \fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_set_annotation (\fB__isl_take\fP \fBisl_ast_node\fP * node, \fB__isl_take\fP \fBisl_id\fP * annotation)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_node_user_get_expr (\fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_ast_op_type_print_macro (enum \fBisl_ast_op_type\fP type, \fB__isl_take\fP \fBisl_printer\fP * p)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_print_options\fP* isl_ast_print_options_alloc (\fBisl_ctx\fP * ctx)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_print_options\fP* isl_ast_print_options_copy (\fB__isl_keep\fP \fBisl_ast_print_options\fP * options)"
+
+.SS "\fB__isl_null\fP \fBisl_ast_print_options\fP* isl_ast_print_options_free (\fB__isl_take\fP \fBisl_ast_print_options\fP * options)"
+
+.SS "\fBisl_ctx\fP* isl_ast_print_options_get_ctx (\fB__isl_keep\fP \fBisl_ast_print_options\fP * options)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_print_options\fP* isl_ast_print_options_set_print_for (\fB__isl_take\fP \fBisl_ast_print_options\fP * options, \fB__isl_give\fP \fBisl_printer\fP *(*)(\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP, \fB__isl_keep\fP \fBisl_ast_node\fP *node, void *\fBuser\fP) print_for, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_print_options\fP* isl_ast_print_options_set_print_user (\fB__isl_take\fP \fBisl_ast_print_options\fP * options, \fB__isl_give\fP \fBisl_printer\fP *(*)(\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_take\fP \fBisl_ast_print_options\fP *\fBoptions\fP, \fB__isl_keep\fP \fBisl_ast_node\fP *node, void *\fBuser\fP) print_user, void * user)"
+
+.SS "int isl_options_get_ast_always_print_block (\fBisl_ctx\fP * ctx)"
+
+.SS "\fBconst\fP char* isl_options_get_ast_iterator_type (\fBisl_ctx\fP * ctx)"
+
+.SS "\fBisl_stat\fP isl_options_set_ast_always_print_block (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fBisl_stat\fP isl_options_set_ast_iterator_type (\fBisl_ctx\fP * ctx, \fBconst\fP char * val)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_ast_expr (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_ast_expr\fP * expr)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_ast_node (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_ast_node\fP * node)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

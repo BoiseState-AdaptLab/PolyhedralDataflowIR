@@ -1,0 +1,144 @@
+.TH "lib/iegenlib/src/set_relation/set_relation.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/iegenlib/src/set_relation/set_relation.cc \- Implementations of the Set and Relation classes\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'set_relation\&.h'\fP
+.br
+\fC#include 'UFCallMap\&.h'\fP
+.br
+\fC#include 'Visitor\&.h'\fP
+.br
+\fC#include <stack>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBiegenlib::VisitorIndexUFC\fP"
+.br
+.ti -1c
+.RI "class \fBiegenlib::VisitorIsUFCallParam\fP"
+.br
+.ti -1c
+.RI "class \fBiegenlib::VisitorBoundDomainRange\fP"
+.br
+.ti -1c
+.RI "class \fBiegenlib::VisitorSuperAffineSet\fP"
+.br
+.ti -1c
+.RI "class \fBiegenlib::VisitorReverseAffineSubstitution\fP"
+.br
+.ti -1c
+.RI "class \fBiegenlib::VisitorProjectOut\fP"
+.br
+.RI "Vistor Classes used in projection process\&. "
+.ti -1c
+.RI "class \fBiegenlib::VisitorProjectOutCleanUp\fP"
+.br
+.ti -1c
+.RI "class \fBiegenlib::VisitorNumUFCallConstsMustRemove\fP"
+.br
+.ti -1c
+.RI "class \fBiegenlib::VisitorRemoveUFCallConsts\fP"
+.br
+.ti -1c
+.RI "class \fBiegenlib::VisitorGatherAllParameters\fP"
+.br
+.ti -1c
+.RI "class \fBiegenlib::VisitorGetString\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBiegenlib\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "string \fBiegenlib::passSetStrThruISL\fP (string sstr)"
+.br
+.RI "Runs an Affine \fBSet\fP (string) through ISL and returns the resulting set\&. "
+.ti -1c
+.RI "string \fBiegenlib::passUnionSetStrThruISL\fP (string sstr)"
+.br
+.RI "Runs an Affine Union Set* (string) through ISL\&. "
+.ti -1c
+.RI "string \fBiegenlib::passRelationStrThruISL\fP (string rstr)"
+.br
+.RI "Runs an Affine \fBRelation\fP through ISL and returns the normalized result\&. "
+.ti -1c
+.RI "string \fBiegenlib::passUnionRelationStrThruISL\fP (string rstr)"
+.br
+.RI "Runs an Affine Union \fBRelation\fP through ISL and returns the normalized result\&. "
+.ti -1c
+.RI "Set * \fBiegenlib::passSetThruISL\fP (Set *s)"
+.br
+.RI "Runs an Affine \fBSet\fP through ISL and returns the resulting normalized set\&. "
+.ti -1c
+.RI "Relation * \fBiegenlib::passRelationThruISL\fP (Relation *r)"
+.br
+.RI "Runs an Affine \fBRelation\fP through ISL and returns the normalized result\&. "
+.ti -1c
+.RI "Set * \fBiegenlib::islSetProjectOut\fP (Set *s, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "bool \fBiegenlib::_compareConjunctions\fP (Conjunction *first, Conjunction *second)"
+.br
+.ti -1c
+.RI "std::pair< std::string, std::string > \fBiegenlib::instantiate\fP (UniQuantRule *uqRule, Exp x1, Exp x2, UFCallMap *ufcmap, TupleDecl origTupleDecl)"
+.br
+.ti -1c
+.RI "string \fBiegenlib::symsForInstantiationSet\fP (Set *drOrigSet, UFCallMap *ufcmap)"
+.br
+.ti -1c
+.RI "\fBisl_set\fP * \fBiegenlib::instantiationSet\fP (srParts supSetParts, \fBstd::set\fP< std::pair< std::string, std::string >> instantiations, string syms, \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "Set * \fBiegenlib::checkIslSet\fP (\fBisl_set\fP *\fBset\fP, \fBisl_ctx\fP *ctx, UFCallMap *ufcmap, Set *origSet)"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< std::pair< std::string, std::string > > \fBiegenlib::ruleInstantiation\fP (\fBstd::set\fP< Exp > instExps, bool *useRule, TupleDecl origTupleDecl, UFCallMap *ufcmap)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Implementations of the Set and Relation classes\&. 
+
+
+.PP
+\fBDate\fP
+.RS 4
+Started: 3/28/12
+.RE
+.PP
+\fBAuthors\fP
+.RS 4
+Michelle Strout, Joe Strout, and Mahdi Soltan Mohammadi
+.RE
+.PP
+Copyright (c) 2012, Colorado State University 
+.br
+ Copyright (c) 2015-2016, University of Arizona 
+.br
+ All rights reserved\&. 
+.br
+ See \&.\&./\&.\&./COPYING for details\&. 
+.br
+ 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

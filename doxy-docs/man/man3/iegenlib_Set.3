@@ -1,0 +1,278 @@
+.TH "iegenlib::Set" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::Set \- A \fBSparseConstraints\fP class that represents a \fBSet\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <set_relation\&.h>\fP
+.PP
+Inherits \fBiegenlib::SparseConstraints\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSet\fP (std::string \fBstr\fP)"
+.br
+.RI "Parses the string to construct \fBSet\fP, assuming omega or ISL syntax\&. "
+.ti -1c
+.RI "\fBSet\fP (int \fBarity\fP)"
+.br
+.ti -1c
+.RI "\fBSet\fP (\fBTupleDecl\fP tdecl)"
+.br
+.ti -1c
+.RI "\fBSet\fP (\fBconst\fP \fBSet\fP &other)"
+.br
+.RI "Copy constructor\&. "
+.ti -1c
+.RI "\fB~Set\fP ()"
+.br
+.ti -1c
+.RI "\fBSet\fP & \fBoperator=\fP (\fBconst\fP \fBSet\fP &other)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBSet\fP &other) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBoperator<\fP (\fBconst\fP \fBSet\fP &other) \fBconst\fP"
+.br
+.RI "Less than operator\&. "
+.ti -1c
+.RI "std::string \fBtoDotString\fP () \fBconst\fP"
+.br
+.RI "Create a graph for visualization with graphviz\&. "
+.ti -1c
+.RI "void \fBsetTupleDecl\fP (\fBTupleDecl\fP tuple_decl)"
+.br
+.ti -1c
+.RI "int \fBarity\fP () \fBconst\fP"
+.br
+.RI "Get our total arity, IOW number of tuple elements\&. "
+.ti -1c
+.RI "\fBSet\fP * \fBUnion\fP (\fBconst\fP \fBSet\fP *\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBIntersect\fP (\fBconst\fP \fBSet\fP *\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBboundTupleExp\fP (\fBconst\fP \fBTupleExpTerm\fP &tuple_exp) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBaddUFConstraints\fP (std::string uf1str, std::string opstr, std::string uf2str) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBaddConstraintsDueToMonotonicity\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBboundDomainRange\fP ()"
+.br
+.ti -1c
+.RI "void \fBnormalize\fP ()"
+.br
+.RI "Send through ISL to achieve a canonical form\&. "
+.ti -1c
+.RI "void \fBacceptVisitor\fP (\fBVisitor\fP *v)"
+.br
+.RI "\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. "
+.ti -1c
+.RI "\fBSet\fP * \fBsuperAffineSet\fP (\fBUFCallMap\fP *ufcmap, bool boundUFCs=true)"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBreverseAffineSubstitution\fP (\fBUFCallMap\fP *ufcmap)"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBprojectOut\fP (int tvar)"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBsimplifyForPartialParallel\fP (\fBstd::set\fP< int > parallelTvs)"
+.br
+.ti -1c
+.RI "bool \fBisDefault\fP ()"
+.br
+.ti -1c
+.RI "int \fBgetArity\fP ()"
+.br
+.ti -1c
+.RI "\fBSet\fP * \fBdetectUnsatOrFindEqualities\fP (bool *useRule=\fBNULL\fP)"
+.br
+.ti -1c
+.RI "string \fBgetString\fP ()"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+A \fBSparseConstraints\fP class that represents a \fBSet\fP\&. 
+
+This class has one arity related to it\&.
+.PP
+Representation example: {[x]:x < 100} 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::Set::Set (std::string str)"
+
+.PP
+Parses the string to construct \fBSet\fP, assuming omega or ISL syntax\&. 
+.SS "iegenlib::Set::Set (int arity)"
+Creates a set with the specified arity\&. It starts with no constraints so all tuples of that arity belong in it\&. 
+.SS "iegenlib::Set::Set (\fBTupleDecl\fP tdecl)"
+Creates a set with the specified tuple declaration\&. 
+.br
+ It starts with no constraints so all tuples of that arity belong in it\&. 
+.SS "iegenlib::Set::Set (\fBconst\fP \fBSet\fP & other)"
+
+.PP
+Copy constructor\&. 
+.SS "iegenlib::Set::~Set ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void iegenlib::Set::acceptVisitor (\fBVisitor\fP * v)"
+
+.PP
+\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. 
+.SS "\fBSet\fP* iegenlib::Set::addConstraintsDueToMonotonicity () const"
+For UFs declared as having a Monotonicity value (see MonotonicType in UninterFunc\&.h) constraints will be added to parameter expressions as needed\&. For example, if we find that f(e1)<f(e2) and f is monotonically non-decreasing, then we will add the constraint that e1<e2\&.
+.PP
+\fBReturns\fP
+.RS 4
+\fBSet\fP will contain new constraints and will be owned by caller 
+.RE
+.PP
+
+.SS "\fBSet\fP* iegenlib::Set::addUFConstraints (std::string uf1str, std::string opstr, std::string uf2str) const"
+Will create constraints uf1str(e) opstr uf2str(e) for all actual parameters that occur for those UFs\&. See SparseConstraints::addUFConstraintsHelper for more docs\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIuf1str\fP name of first uninterpreted function 
+.br
+\fIopstr\fP operator that describes relationship between UFs 
+.br
+\fIuf2str\fP name of second uninterpreted function\&.
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+\fBSet\fP will contain new constraints and will be owned by caller 
+.RE
+.PP
+
+.SS "int iegenlib::Set::arity () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Get our total arity, IOW number of tuple elements\&. 
+.PP
+Reimplemented from \fBiegenlib::SparseConstraints\fP\&.
+.SS "\fBSet\fP * iegenlib::Set::boundDomainRange ()"
+Adds constraints due to domain and range of all UFCalls in the \fBSet\fP\&. Function returns the new \fBSet\fP with added constraints, leaving caller unchanged\&. User owns the returned \fBSet\fP object\&. 
+.SS "\fBSet\fP * iegenlib::Set::boundTupleExp (\fBconst\fP \fBTupleExpTerm\fP & tuple_exp) const"
+Treating this \fBSet\fP like a domain or range\&. Creates a new set where passed in tuple expression is bound assuming this domain, or range\&. User must deallocate returned \fBSet\fP\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fItuple_exp\fP Expression tuple to bound\&. Could just have one elem\&.
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+\fBSet\fP will contain all bounds on expressions in tuple expression\&. 
+.RE
+.PP
+
+.SS "\fBSet\fP * iegenlib::Set::detectUnsatOrFindEqualities (bool * useRule = \fC\fBNULL\fP\fP)"
+
+.SS "int iegenlib::Set::getArity ()\fC [inline]\fP"
+
+.SS "string iegenlib::Set::getString ()"
+This function generates a string representation of the \fBSet\fP\&. There are two differences between this function and other string genrators, like toString, and prettyPrintSring: (1) it uses visitor patter (2) The generated string is better formatted, for instance while other functions generate something like following for some relation: {[i,j] : i - j = 0 && i - 6 >= 0 && -j + 2 >= 0} This function genrates bellow for the same relation: {[i,j] : i = j && 0 <= i && j <= 2} For more examples see the getString test case in \fBset_relation_test\&.cc\fP 
+.SS "\fBSet\fP * iegenlib::Set::Intersect (\fBconst\fP \fBSet\fP * rhs) const"
+Intersect this set with the given other one (i\&.e\&., this Intersect rhs)\&. Returns a new \fBSet\fP, which the caller is responsible for deallocating\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIrhs\fP (not adopted) 
+.RE
+.PP
+
+.SS "bool iegenlib::Set::isDefault ()\fC [inline]\fP"
+
+.SS "void iegenlib::Set::normalize ()"
+
+.PP
+Send through ISL to achieve a canonical form\&. 
+.SS "bool iegenlib::Set::operator< (\fBconst\fP \fBSet\fP & other) const"
+
+.PP
+Less than operator\&. Less than operator\&. Compare two \fBSet\fP in the following order:
+.IP "1." 4
+by arity: mArity
+.IP "2." 4
+by Conjunctions: using SparseConstraints::operator<(Exp) 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.PP
+
+.SS "\fBSet\fP & iegenlib::Set::operator= (\fBconst\fP \fBSet\fP & other)"
+
+.SS "bool iegenlib::Set::operator== (\fBconst\fP \fBSet\fP & other) const"
+Equal operator\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.SS "\fBSet\fP * iegenlib::Set::projectOut (int tvar)"
+Projects out tuple var No\&. tvar, if it is not an argument to a UFCall\&. If tvar is an argument to some UFCall, then returns NULL\&.
+.PP
+Projects out tuple varrable No\&. tvar if tvar is not argument to any UFCall tvar is calculated based on ariety starting from 0\&. Consequently, to project out jp from S: tvar = 5 S = {[i,j,k,ip,jp,kp] : \&.\&.\&.}
+.PP
+NOTE: if tvar is argument some UFCall, then we cannot project it out and functions returns NULL\&. Ex: if \fBcol(k)\fP in constraints exists we cannot project out 'k' 
+.SS "\fBSet\fP * iegenlib::Set::reverseAffineSubstitution (\fBUFCallMap\fP * ufcmap)"
+Creates a sub non-affine set from an affine set\&. By replacing symbolic constants that are representative of UFCalls with their respective UFCalls\&. The function does not own the ufcmap\&.
+.PP
+Creates a super affine set from a non-affine set\&. To do this: (1) We add constraints due to all UFCalls' domain and range (2) We replace all UFCalls with symbolic constants found in the ufc map\&. The function does not own the ufcmap\&. 
+.SS "void iegenlib::Set::setTupleDecl (\fBTupleDecl\fP tuple_decl)\fC [virtual]\fP"
+For all conjunctions, sets them to the given tuple declaration\&. If there are some constants that don't agree then throws exception\&. If replacing a constant with a variable ignores the substitution in that conjunction\&. Also modifies arity to match\&. 
+.PP
+Reimplemented from \fBiegenlib::SparseConstraints\fP\&.
+.SS "\fBSet\fP * iegenlib::Set::simplifyForPartialParallel (\fBstd::set\fP< int > parallelTvs)"
+This function simplifies constraints sets of non-affine sets that are targeted for level set parallelism\&. These sets are representative of data access dependency relations\&. For level set parallelism, we need to create an optimized inspector code that checks data dependency based these constraints in run time\&. This function is implementation of Simplification Algorithm that simplifies dependency relations, so we can generate optimized inspector code from constraint sets\&.
+.PP
+This function simplifies constraints of non-affine sets that are targeted for level set parallelism\&. These sets are representative of data access dependency relations\&. For level set parallelism, we need to create an optimized inspector code that checks data dependency based these constraints in run time\&. This function is implementation of Simplification Algorithm that simplifies dependency relations, so we can generate optimized inspector code from constraint sets\&. 
+.SS "\fBSet\fP * iegenlib::Set::superAffineSet (\fBUFCallMap\fP * ufcmap, bool boundUFCs = \fCtrue\fP)"
+Creates a super affine set from a non-affine set\&. To do this: (1) OPTIONAL: We add constraints due to all UFCalls' domain and range (2) We replace all UFCalls with symbolic constants in the ufc map\&. ufcmap: is going to pupulated with UFCs and their eq\&. symbolic constants it can be later used to replace back the UFCs with reverseAffineSubstitution boundUFCs: for most purposes we probably want to bound domain and range 
+.br
+ of UFCalls in a set before turning it into a super affine set\&. However, sometimes it might be desiarable not to do that, e\&.g in rule instantiation The function does not own the ufcmap\&.
+.PP
+Creates a super affine set from a non-affine set\&. To do this: (1) We add constraints due to all UFCalls' domain and range (2) We replace all UFCalls with symbolic constants found in the ufc map\&. The function does not own the ufcmap\&. 
+.SS "std::string iegenlib::Set::toDotString () const\fC [virtual]\fP"
+
+.PP
+Create a graph for visualization with graphviz\&. 
+.PP
+Reimplemented from \fBiegenlib::SparseConstraints\fP\&.
+.SS "\fBSet\fP * iegenlib::Set::Union (\fBconst\fP \fBSet\fP * rhs) const"
+Union this set with the given other one (i\&.e\&., this Union rhs)\&. Returns a new \fBSet\fP, which the caller is responsible for deallocating\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIrhs\fP (not adopted) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

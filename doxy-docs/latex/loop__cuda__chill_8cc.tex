@@ -1,0 +1,263 @@
+\hypertarget{loop__cuda__chill_8cc}{}\doxysection{lib/chill/loop\+\_\+cuda\+\_\+chill.cc File Reference}
+\label{loop__cuda__chill_8cc}\index{lib/chill/loop\_cuda\_chill.cc@{lib/chill/loop\_cuda\_chill.cc}}
+{\ttfamily \#include $<$malloc.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}loop\+\_\+cuda\+\_\+chill.\+hh\char`\"{}}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G\+\_\+string\+Builder.\+h$>$}\newline
+{\ttfamily \#include $<$omega/code\+\_\+gen/include/codegen.\+h$>$}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G\+\_\+utils.\+h$>$}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G\+\_\+output\+Repr.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}loop.\+hh\char`\"{}}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}omegatools.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ir\+\_\+cudachill.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}chill\+\_\+error.\+hh\char`\"{}}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$strings.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}cudaize\+\_\+codegen\+\_\+v2.\+cc\char`\"{}}\newline
+Include dependency graph for loop\+\_\+cuda\+\_\+chill.\+cc\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{loop__cuda__chill_8cc__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_const_char_star_comparator}{Const\+Char\+Star\+Comparator}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceomega}{omega}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{loop__cuda__chill_8cc_a526e00945e7e8e4319b65777bd2451b5}{N\+O\+T\+R\+U\+N\+O\+N\+G\+PU}}~(ordered\+\_\+cudaized\+\_\+stmts\mbox{[}iter\mbox{]}.second == -\/1)
+\item 
+\#define \mbox{\hyperlink{loop__cuda__chill_8cc_a4b10da127db60231310cac4b2ef8eff6}{R\+U\+N\+O\+N\+G\+PU}}~(ordered\+\_\+cudaized\+\_\+stmts\mbox{[}iter\mbox{]}.second != -\/1)
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$, \mbox{\hyperlink{struct_const_char_star_comparator}{Const\+Char\+Star\+Comparator}} $>$ \mbox{\hyperlink{loop__cuda__chill_8cc_abbc8e9efd2c38cecafcfb9e158176420}{what\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{loop__cuda__chill_8cc_a1d1cfd8ffb84e947f82999c682b666a7}{Type}} \{ \mbox{\hyperlink{loop__cuda__chill_8cc_a1d1cfd8ffb84e947f82999c682b666a7a637b69dea56f804278aa50e975337e01}{Int}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{loop__cuda__chill_8cc_a061abc603b511e55af9fd55abb79a964}{charstarvectorindex}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}}, std\+::vector$<$ char $\ast$ $>$ vec)
+\item 
+std\+::string \& \mbox{\hyperlink{loop__cuda__chill_8cc_aa9d76a5aec100521d1d5733c6ee38db8}{upcase}} (std\+::string \&s)
+\item 
+void \mbox{\hyperlink{loop__cuda__chill_8cc_a60a57cf1dc8dadc98dae4a2dc1450f9f}{print\+Vs}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::string $>$ \&cur\+Order)
+\item 
+void \mbox{\hyperlink{loop__cuda__chill_8cc_a2589cfd6bc5351580f4653d9835f67bb}{print\+VS}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::string $>$ \&cur\+Order)
+\item 
+\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$ \mbox{\hyperlink{loop__cuda__chill_8cc_ae4ddd54c01fdbed1a8d55b447ef7c02a}{wrap\+In\+If\+From\+Min\+Bound}} (\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$then\+\_\+part, \mbox{\hyperlink{classchill_a_s_t___for_stmt}{chill\+A\+S\+T\+\_\+\+For\+Stmt}} $\ast$loop, \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$symtab, \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$bound\+\_\+sym)
+\item 
+void \mbox{\hyperlink{loop__cuda__chill_8cc_a8f5b904ad209655f913c2a09ddf2d748}{find\+Replace\+Prefered\+Idxs}} (\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$newkernelcode, \mbox{\hyperlink{classchill_a_s_t___function_decl}{chill\+A\+S\+T\+\_\+\+Function\+Decl}} $\ast$kernel)
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{loop__cuda__chill_8cc_a7395e78dc068bb06cab125c86504f1cd}{clean\+Order}} (std\+::vector$<$ std\+::string $>$ idx\+Names)
+\item 
+\mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}} $\ast$ \mbox{\hyperlink{loop__cuda__chill_8cc_acf1568454cbe159d45d445acc237efe4}{add\+Builtin}} (char $\ast$nameofbuiltin, char $\ast$type\+Of\+Builtin, \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$somecode)
+\item 
+void \mbox{\hyperlink{loop__cuda__chill_8cc_a309f78bca703363b3246e743879708b1}{swap\+Var\+References}} (\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$newkernelcode, \mbox{\hyperlink{classchill_a_s_t___function_decl}{chill\+A\+S\+T\+\_\+\+Function\+Decl}} $\ast$kernel)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \mbox{\hyperlink{loop__cuda__chill_8cc_a0c0466ff7a5db58b4f31a83681db7e90}{k\+\_\+cuda\+\_\+texture\+\_\+memory}}
+\item 
+char $\ast$ \mbox{\hyperlink{loop__cuda__chill_8cc_ac8bfe7f98e4796ed0f7273e2b9856c32}{k\+\_\+ocg\+\_\+comment}}
+\item 
+bool \mbox{\hyperlink{loop__cuda__chill_8cc_a3332078a83055bc83e29da1303049942}{cuda\+Debug}}
+\item 
+int \mbox{\hyperlink{namespaceomega_a31d649b0aa8772140c74273ae9b8b105}{omega\+::check\+Loop\+Level}} = 0
+\item 
+int \mbox{\hyperlink{namespaceomega_a5c262ac6f92323b86eaaef2756fe5aa2}{omega\+::stmt\+For\+Loop\+Check}}
+\item 
+int \mbox{\hyperlink{namespaceomega_aa8901810b49dc0a8e0c63d6358189d20}{omega\+::upper\+Bound\+For\+Level}}
+\item 
+int \mbox{\hyperlink{namespaceomega_a2c7d1c377ad09f126b8c8614827ce1cb}{omega\+::lower\+Bound\+For\+Level}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a526e00945e7e8e4319b65777bd2451b5}\label{loop__cuda__chill_8cc_a526e00945e7e8e4319b65777bd2451b5}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!NOTRUNONGPU@{NOTRUNONGPU}}
+\index{NOTRUNONGPU@{NOTRUNONGPU}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{NOTRUNONGPU}{NOTRUNONGPU}}
+{\footnotesize\ttfamily \#define N\+O\+T\+R\+U\+N\+O\+N\+G\+PU~(ordered\+\_\+cudaized\+\_\+stmts\mbox{[}iter\mbox{]}.second == -\/1)}
+
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a4b10da127db60231310cac4b2ef8eff6}\label{loop__cuda__chill_8cc_a4b10da127db60231310cac4b2ef8eff6}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!RUNONGPU@{RUNONGPU}}
+\index{RUNONGPU@{RUNONGPU}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{RUNONGPU}{RUNONGPU}}
+{\footnotesize\ttfamily \#define R\+U\+N\+O\+N\+G\+PU~(ordered\+\_\+cudaized\+\_\+stmts\mbox{[}iter\mbox{]}.second != -\/1)}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_abbc8e9efd2c38cecafcfb9e158176420}\label{loop__cuda__chill_8cc_abbc8e9efd2c38cecafcfb9e158176420}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!what\_t@{what\_t}}
+\index{what\_t@{what\_t}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{what\_t}{what\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$, \mbox{\hyperlink{struct_const_char_star_comparator}{Const\+Char\+Star\+Comparator}}$>$ \mbox{\hyperlink{loop__cuda__chill_8cc_abbc8e9efd2c38cecafcfb9e158176420}{what\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a1d1cfd8ffb84e947f82999c682b666a7}\label{loop__cuda__chill_8cc_a1d1cfd8ffb84e947f82999c682b666a7}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!Type@{Type}}
+\index{Type@{Type}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{loop__cuda__chill_8cc_a1d1cfd8ffb84e947f82999c682b666a7}{Type}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Int@{Int}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!Int@{Int}}}\mbox{\Hypertarget{loop__cuda__chill_8cc_a1d1cfd8ffb84e947f82999c682b666a7a637b69dea56f804278aa50e975337e01}\label{loop__cuda__chill_8cc_a1d1cfd8ffb84e947f82999c682b666a7a637b69dea56f804278aa50e975337e01}} 
+Int&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_acf1568454cbe159d45d445acc237efe4}\label{loop__cuda__chill_8cc_acf1568454cbe159d45d445acc237efe4}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!addBuiltin@{addBuiltin}}
+\index{addBuiltin@{addBuiltin}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{addBuiltin()}{addBuiltin()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classchill_a_s_t___var_decl}{chill\+A\+S\+T\+\_\+\+Var\+Decl}}$\ast$ add\+Builtin (\begin{DoxyParamCaption}\item[{char $\ast$}]{nameofbuiltin,  }\item[{char $\ast$}]{type\+Of\+Builtin,  }\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{somecode }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a061abc603b511e55af9fd55abb79a964}\label{loop__cuda__chill_8cc_a061abc603b511e55af9fd55abb79a964}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!charstarvectorindex@{charstarvectorindex}}
+\index{charstarvectorindex@{charstarvectorindex}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{charstarvectorindex()}{charstarvectorindex()}}
+{\footnotesize\ttfamily int charstarvectorindex (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{str,  }\item[{std\+::vector$<$ char $\ast$ $>$}]{vec }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a7395e78dc068bb06cab125c86504f1cd}\label{loop__cuda__chill_8cc_a7395e78dc068bb06cab125c86504f1cd}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!cleanOrder@{cleanOrder}}
+\index{cleanOrder@{cleanOrder}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{cleanOrder()}{cleanOrder()}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::string$>$ clean\+Order (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{idx\+Names }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{loop__cuda__chill_8cc_a7395e78dc068bb06cab125c86504f1cd_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a8f5b904ad209655f913c2a09ddf2d748}\label{loop__cuda__chill_8cc_a8f5b904ad209655f913c2a09ddf2d748}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!findReplacePreferedIdxs@{findReplacePreferedIdxs}}
+\index{findReplacePreferedIdxs@{findReplacePreferedIdxs}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{findReplacePreferedIdxs()}{findReplacePreferedIdxs()}}
+{\footnotesize\ttfamily void find\+Replace\+Prefered\+Idxs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{newkernelcode,  }\item[{\mbox{\hyperlink{classchill_a_s_t___function_decl}{chill\+A\+S\+T\+\_\+\+Function\+Decl}} $\ast$}]{kernel }\end{DoxyParamCaption})}
+
+This would be better if it was done by a C\+Hi\+LL xformation instead of at codegen
+
+state\+: for(...) for(...) cur\+\_\+body stmt1
+
+stm1 is in-\/between two loops that are going to be reduced. The solution is to put stmt1 at the end of cur\+\_\+body but conditionally run in on the last step of the for loop.
+
+A C\+Hi\+LL command that would work better\+:
+
+for(...) stmt0 for(for i=0; i$<$n; i++) cur\+\_\+body stmt1 =$>$ for(...) for(for i=0; i$<$n; i++) if(i==0) stmt0 cur\+\_\+body if(i==n-\/1) stmt1 Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{loop__cuda__chill_8cc_a8f5b904ad209655f913c2a09ddf2d748_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a60a57cf1dc8dadc98dae4a2dc1450f9f}\label{loop__cuda__chill_8cc_a60a57cf1dc8dadc98dae4a2dc1450f9f}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!printVs@{printVs}}
+\index{printVs@{printVs}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{printVs()}{printVs()}}
+{\footnotesize\ttfamily void print\+Vs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::string $>$ \&}]{cur\+Order }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=307pt]{loop__cuda__chill_8cc_a60a57cf1dc8dadc98dae4a2dc1450f9f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a2589cfd6bc5351580f4653d9835f67bb}\label{loop__cuda__chill_8cc_a2589cfd6bc5351580f4653d9835f67bb}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!printVS@{printVS}}
+\index{printVS@{printVS}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{printVS()}{printVS()}}
+{\footnotesize\ttfamily void print\+VS (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::string $>$ \&}]{cur\+Order }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{loop__cuda__chill_8cc_a2589cfd6bc5351580f4653d9835f67bb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a309f78bca703363b3246e743879708b1}\label{loop__cuda__chill_8cc_a309f78bca703363b3246e743879708b1}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!swapVarReferences@{swapVarReferences}}
+\index{swapVarReferences@{swapVarReferences}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{swapVarReferences()}{swapVarReferences()}}
+{\footnotesize\ttfamily void swap\+Var\+References (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{newkernelcode,  }\item[{\mbox{\hyperlink{classchill_a_s_t___function_decl}{chill\+A\+S\+T\+\_\+\+Function\+Decl}} $\ast$}]{kernel }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{loop__cuda__chill_8cc_a309f78bca703363b3246e743879708b1_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_aa9d76a5aec100521d1d5733c6ee38db8}\label{loop__cuda__chill_8cc_aa9d76a5aec100521d1d5733c6ee38db8}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!upcase@{upcase}}
+\index{upcase@{upcase}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{upcase()}{upcase()}}
+{\footnotesize\ttfamily std\+::string\& upcase (\begin{DoxyParamCaption}\item[{std\+::string \&}]{s }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{loop__cuda__chill_8cc_ae4ddd54c01fdbed1a8d55b447ef7c02a}\label{loop__cuda__chill_8cc_ae4ddd54c01fdbed1a8d55b447ef7c02a}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!wrapInIfFromMinBound@{wrapInIfFromMinBound}}
+\index{wrapInIfFromMinBound@{wrapInIfFromMinBound}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{wrapInIfFromMinBound()}{wrapInIfFromMinBound()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}}$\ast$ wrap\+In\+If\+From\+Min\+Bound (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{then\+\_\+part,  }\item[{\mbox{\hyperlink{classchill_a_s_t___for_stmt}{chill\+A\+S\+T\+\_\+\+For\+Stmt}} $\ast$}]{loop,  }\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{symtab,  }\item[{\mbox{\hyperlink{classchill_a_s_t__node}{chill\+A\+S\+T\+\_\+node}} $\ast$}]{bound\+\_\+sym }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{loop__cuda__chill_8cc_ae4ddd54c01fdbed1a8d55b447ef7c02a_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a3332078a83055bc83e29da1303049942}\label{loop__cuda__chill_8cc_a3332078a83055bc83e29da1303049942}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!cudaDebug@{cudaDebug}}
+\index{cudaDebug@{cudaDebug}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{cudaDebug}{cudaDebug}}
+{\footnotesize\ttfamily bool cuda\+Debug}
+
+\mbox{\Hypertarget{loop__cuda__chill_8cc_a0c0466ff7a5db58b4f31a83681db7e90}\label{loop__cuda__chill_8cc_a0c0466ff7a5db58b4f31a83681db7e90}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!k\_cuda\_texture\_memory@{k\_cuda\_texture\_memory}}
+\index{k\_cuda\_texture\_memory@{k\_cuda\_texture\_memory}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{k\_cuda\_texture\_memory}{k\_cuda\_texture\_memory}}
+{\footnotesize\ttfamily char$\ast$ k\+\_\+cuda\+\_\+texture\+\_\+memory}
+
+\mbox{\Hypertarget{loop__cuda__chill_8cc_ac8bfe7f98e4796ed0f7273e2b9856c32}\label{loop__cuda__chill_8cc_ac8bfe7f98e4796ed0f7273e2b9856c32}} 
+\index{loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}!k\_ocg\_comment@{k\_ocg\_comment}}
+\index{k\_ocg\_comment@{k\_ocg\_comment}!loop\_cuda\_chill.cc@{loop\_cuda\_chill.cc}}
+\doxysubsubsection{\texorpdfstring{k\_ocg\_comment}{k\_ocg\_comment}}
+{\footnotesize\ttfamily char$\ast$ k\+\_\+ocg\+\_\+comment}
+

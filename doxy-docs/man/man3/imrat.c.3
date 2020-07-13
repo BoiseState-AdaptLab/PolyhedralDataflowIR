@@ -1,0 +1,269 @@
+.TH "lib/isl/imath/imrat.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/imath/imrat.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'imrat\&.h'\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <ctype\&.h>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBTEMP\fP(K)   (temp + (K))"
+.br
+.ti -1c
+.RI "#define \fBSETUP\fP(E,  \fBC\fP)   do{\fBif\fP((\fBres\fP = (E)) != \fBMP_OK\fP) goto CLEANUP; ++(\fBC\fP);}while(0)"
+.br
+.ti -1c
+.RI "#define \fBCHECK\fP(\fBTEST\fP)   assert(\fBTEST\fP)"
+.br
+.ti -1c
+.RI "#define \fBNRCHECK\fP(\fBTEST\fP)   assert(\fBTEST\fP)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_init\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_rat\fP \fBmp_rat_alloc\fP (void)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_reduce\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_init_size\fP (\fBmp_rat\fP r, \fBmp_size\fP n_prec, \fBmp_size\fP d_prec)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_init_copy\fP (\fBmp_rat\fP r, \fBmp_rat\fP old)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_set_value\fP (\fBmp_rat\fP r, \fBmp_small\fP numer, \fBmp_small\fP denom)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_set_uvalue\fP (\fBmp_rat\fP r, \fBmp_usmall\fP numer, \fBmp_usmall\fP denom)"
+.br
+.ti -1c
+.RI "void \fBmp_rat_clear\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "void \fBmp_rat_free\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_numer\fP (\fBmp_rat\fP r, \fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBmp_int\fP \fBmp_rat_numer_ref\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_denom\fP (\fBmp_rat\fP r, \fBmp_int\fP \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBmp_int\fP \fBmp_rat_denom_ref\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_sign\fP \fBmp_rat_sign\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_copy\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "void \fBmp_rat_zero\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_abs\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_neg\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_recip\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_add\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBb\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_sub\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBb\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_mul\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBb\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_div\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBb\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_add_int\fP (\fBmp_rat\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_sub_int\fP (\fBmp_rat\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_mul_int\fP (\fBmp_rat\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_div_int\fP (\fBmp_rat\fP \fBa\fP, \fBmp_int\fP \fBb\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_expt\fP (\fBmp_rat\fP \fBa\fP, \fBmp_small\fP \fBb\fP, \fBmp_rat\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "int \fBmp_rat_compare\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBb\fP)"
+.br
+.ti -1c
+.RI "int \fBmp_rat_compare_unsigned\fP (\fBmp_rat\fP \fBa\fP, \fBmp_rat\fP \fBb\fP)"
+.br
+.ti -1c
+.RI "int \fBmp_rat_compare_zero\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "int \fBmp_rat_compare_value\fP (\fBmp_rat\fP r, \fBmp_small\fP \fBn\fP, \fBmp_small\fP d)"
+.br
+.ti -1c
+.RI "int \fBmp_rat_is_integer\fP (\fBmp_rat\fP r)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_to_ints\fP (\fBmp_rat\fP r, \fBmp_small\fP *\fBnum\fP, \fBmp_small\fP *den)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_to_string\fP (\fBmp_rat\fP r, \fBmp_size\fP radix, char *\fBstr\fP, int limit)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_to_decimal\fP (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBmp_size\fP prec, \fBmp_round_mode\fP round, char *\fBstr\fP, int limit)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_string_len\fP (\fBmp_rat\fP r, \fBmp_size\fP radix)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_decimal_len\fP (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBmp_size\fP prec)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_read_string\fP (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_read_cstring\fP (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char *\fBstr\fP, char **end)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_read_ustring\fP (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char *\fBstr\fP, char **end)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_read_decimal\fP (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fBmp_result\fP \fBmp_rat_read_cdecimal\fP (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char *\fBstr\fP, char **end)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define CHECK(\fBTEST\fP)   assert(\fBTEST\fP)"
+
+.SS "#define NRCHECK(\fBTEST\fP)   assert(\fBTEST\fP)"
+
+.SS "#define SETUP(E, \fBC\fP)   do{\fBif\fP((\fBres\fP = (E)) != \fBMP_OK\fP) goto CLEANUP; ++(\fBC\fP);}while(0)"
+
+.SS "#define TEMP(K)   (temp + (K))"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fBmp_result\fP mp_rat_abs (\fBmp_rat\fP a, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_add (\fBmp_rat\fP a, \fBmp_rat\fP b, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_add_int (\fBmp_rat\fP a, \fBmp_int\fP b, \fBmp_rat\fP c)"
+
+.SS "\fBmp_rat\fP mp_rat_alloc (void)"
+
+.SS "void mp_rat_clear (\fBmp_rat\fP r)"
+
+.SS "int mp_rat_compare (\fBmp_rat\fP a, \fBmp_rat\fP b)"
+
+.SS "int mp_rat_compare_unsigned (\fBmp_rat\fP a, \fBmp_rat\fP b)"
+
+.SS "int mp_rat_compare_value (\fBmp_rat\fP r, \fBmp_small\fP n, \fBmp_small\fP d)"
+
+.SS "int mp_rat_compare_zero (\fBmp_rat\fP r)"
+
+.SS "\fBmp_result\fP mp_rat_copy (\fBmp_rat\fP a, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_decimal_len (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBmp_size\fP prec)"
+
+.SS "\fBmp_result\fP mp_rat_denom (\fBmp_rat\fP r, \fBmp_int\fP z)"
+
+.SS "\fBmp_int\fP mp_rat_denom_ref (\fBmp_rat\fP r)"
+
+.SS "\fBmp_result\fP mp_rat_div (\fBmp_rat\fP a, \fBmp_rat\fP b, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_div_int (\fBmp_rat\fP a, \fBmp_int\fP b, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_expt (\fBmp_rat\fP a, \fBmp_small\fP b, \fBmp_rat\fP c)"
+
+.SS "void mp_rat_free (\fBmp_rat\fP r)"
+
+.SS "\fBmp_result\fP mp_rat_init (\fBmp_rat\fP r)"
+
+.SS "\fBmp_result\fP mp_rat_init_copy (\fBmp_rat\fP r, \fBmp_rat\fP old)"
+
+.SS "\fBmp_result\fP mp_rat_init_size (\fBmp_rat\fP r, \fBmp_size\fP n_prec, \fBmp_size\fP d_prec)"
+
+.SS "int mp_rat_is_integer (\fBmp_rat\fP r)"
+
+.SS "\fBmp_result\fP mp_rat_mul (\fBmp_rat\fP a, \fBmp_rat\fP b, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_mul_int (\fBmp_rat\fP a, \fBmp_int\fP b, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_neg (\fBmp_rat\fP a, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_numer (\fBmp_rat\fP r, \fBmp_int\fP z)"
+
+.SS "\fBmp_int\fP mp_rat_numer_ref (\fBmp_rat\fP r)"
+
+.SS "\fBmp_result\fP mp_rat_read_cdecimal (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char * str, char ** end)"
+
+.SS "\fBmp_result\fP mp_rat_read_cstring (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char * str, char ** end)"
+
+.SS "\fBmp_result\fP mp_rat_read_decimal (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char * str)"
+
+.SS "\fBmp_result\fP mp_rat_read_string (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char * str)"
+
+.SS "\fBmp_result\fP mp_rat_read_ustring (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBconst\fP char * str, char ** end)"
+
+.SS "\fBmp_result\fP mp_rat_recip (\fBmp_rat\fP a, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_reduce (\fBmp_rat\fP r)"
+
+.SS "\fBmp_result\fP mp_rat_set_uvalue (\fBmp_rat\fP r, \fBmp_usmall\fP numer, \fBmp_usmall\fP denom)"
+
+.SS "\fBmp_result\fP mp_rat_set_value (\fBmp_rat\fP r, \fBmp_small\fP numer, \fBmp_small\fP denom)"
+
+.SS "\fBmp_sign\fP mp_rat_sign (\fBmp_rat\fP r)"
+
+.SS "\fBmp_result\fP mp_rat_string_len (\fBmp_rat\fP r, \fBmp_size\fP radix)"
+
+.SS "\fBmp_result\fP mp_rat_sub (\fBmp_rat\fP a, \fBmp_rat\fP b, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_sub_int (\fBmp_rat\fP a, \fBmp_int\fP b, \fBmp_rat\fP c)"
+
+.SS "\fBmp_result\fP mp_rat_to_decimal (\fBmp_rat\fP r, \fBmp_size\fP radix, \fBmp_size\fP prec, \fBmp_round_mode\fP round, char * str, int limit)"
+
+.SS "\fBmp_result\fP mp_rat_to_ints (\fBmp_rat\fP r, \fBmp_small\fP * num, \fBmp_small\fP * den)"
+
+.SS "\fBmp_result\fP mp_rat_to_string (\fBmp_rat\fP r, \fBmp_size\fP radix, char * str, int limit)"
+
+.SS "void mp_rat_zero (\fBmp_rat\fP r)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

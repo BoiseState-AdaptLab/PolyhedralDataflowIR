@@ -1,0 +1,133 @@
+.TH "lib/isl/include/isl/hash.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/hash.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <isl/stdint\&.h>\fP
+.br
+\fC#include <isl/ctx\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_hash_table_entry\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_hash_table\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBisl_hash_init\fP()   (2166136261\fBu\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_hash_byte\fP(h,  \fBb\fP)"
+.br
+.ti -1c
+.RI "#define \fBisl_hash_hash\fP(h,  h2)"
+.br
+.ti -1c
+.RI "#define \fBisl_hash_bits\fP(h,  bits)"
+.br
+.ti -1c
+.RI "#define \fBisl_hash_builtin\fP(h,  l)   \fBisl_hash_mem\fP(h, &l, sizeof(l))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "uint32_t \fBisl_hash_string\fP (uint32_t hash, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "uint32_t \fBisl_hash_mem\fP (uint32_t hash, \fBconst\fP void *\fBp\fP, size_t len)"
+.br
+.ti -1c
+.RI "struct \fBisl_hash_table\fP * \fBisl_hash_table_alloc\fP (struct \fBisl_ctx\fP *ctx, int \fBmin_size\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_hash_table_free\fP (struct \fBisl_ctx\fP *ctx, struct \fBisl_hash_table\fP *\fBtable\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_hash_table_init\fP (struct \fBisl_ctx\fP *ctx, struct \fBisl_hash_table\fP *\fBtable\fP, int \fBmin_size\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_hash_table_clear\fP (struct \fBisl_hash_table\fP *\fBtable\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_hash_table_entry\fP * \fBisl_hash_table_find\fP (struct \fBisl_ctx\fP *ctx, struct \fBisl_hash_table\fP *\fBtable\fP, uint32_t key_hash, int(*\fBeq\fP)(\fBconst\fP void *entry, \fBconst\fP void *\fBval\fP), \fBconst\fP void *\fBval\fP, int reserve)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_hash_table_foreach\fP (\fBisl_ctx\fP *ctx, struct \fBisl_hash_table\fP *\fBtable\fP, \fBisl_stat\fP(*\fBfn\fP)(void **entry, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_hash_table_remove\fP (struct \fBisl_ctx\fP *ctx, struct \fBisl_hash_table\fP *\fBtable\fP, struct \fBisl_hash_table_entry\fP *entry)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define isl_hash_bits(h, bits)"
+\fBValue:\fP
+.PP
+.nf
+ ((bits) == 32) ? (h) :                      \
+    ((bits) >= 16) ?                        \
+          ((h) >> (bits)) ^ ((h) & (((uint32_t)1 << (bits)) - 1)) : \
+          (((h) >> (bits)) ^ (h)) & (((uint32_t)1 << (bits)) - 1)
+.fi
+.SS "#define isl_hash_builtin(h, l)   \fBisl_hash_mem\fP(h, &l, sizeof(l))"
+
+.SS "#define isl_hash_byte(h, \fBb\fP)"
+\fBValue:\fP
+.PP
+.nf
+                 do {                    \
+                    h *= 16777619;          \
+                    h ^= b;             \
+                } while(0)
+.fi
+.SS "#define isl_hash_hash(h, h2)"
+\fBValue:\fP
+.PP
+.nf
+    do {                                \
+        isl_hash_byte(h, (h2) & 0xFF);              \
+        isl_hash_byte(h, ((h2) >> 8) & 0xFF);           \
+        isl_hash_byte(h, ((h2) >> 16) & 0xFF);          \
+        isl_hash_byte(h, ((h2) >> 24) & 0xFF);          \
+    } while(0)
+.fi
+.SS "#define isl_hash_init()   (2166136261\fBu\fP)"
+
+.SH "Function Documentation"
+.PP 
+.SS "uint32_t isl_hash_mem (uint32_t hash, \fBconst\fP void * p, size_t len)"
+
+.SS "uint32_t isl_hash_string (uint32_t hash, \fBconst\fP char * s)"
+
+.SS "struct \fBisl_hash_table\fP* isl_hash_table_alloc (struct \fBisl_ctx\fP * ctx, int min_size)"
+
+.SS "void isl_hash_table_clear (struct \fBisl_hash_table\fP * table)"
+
+.SS "struct \fBisl_hash_table_entry\fP* isl_hash_table_find (struct \fBisl_ctx\fP * ctx, struct \fBisl_hash_table\fP * table, uint32_t key_hash, int(*)(\fBconst\fP void *entry, \fBconst\fP void *\fBval\fP) eq, \fBconst\fP void * val, int reserve)"
+
+.SS "\fBisl_stat\fP isl_hash_table_foreach (\fBisl_ctx\fP * ctx, struct \fBisl_hash_table\fP * table, \fBisl_stat\fP(*)(void **entry, void *\fBuser\fP) fn, void * user)"
+
+.SS "void isl_hash_table_free (struct \fBisl_ctx\fP * ctx, struct \fBisl_hash_table\fP * table)"
+
+.SS "int isl_hash_table_init (struct \fBisl_ctx\fP * ctx, struct \fBisl_hash_table\fP * table, int min_size)"
+
+.SS "void isl_hash_table_remove (struct \fBisl_ctx\fP * ctx, struct \fBisl_hash_table\fP * table, struct \fBisl_hash_table_entry\fP * entry)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

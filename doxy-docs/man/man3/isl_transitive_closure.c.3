@@ -1,0 +1,133 @@
+.TH "lib/isl/isl_transitive_closure.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_transitive_closure.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl_lp_private\&.h>\fP
+.br
+\fC#include <isl/union_map\&.h>\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl_options_private\&.h>\fP
+.br
+\fC#include <isl_tarjan\&.h>\fP
+.br
+\fC#include 'isl_power_templ\&.c'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_tc_follows_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_power\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBIMPURE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBPURE_PARAM\fP   1"
+.br
+.ti -1c
+.RI "#define \fBPURE_VAR\fP   2"
+.br
+.ti -1c
+.RI "#define \fBMIXED\fP   3"
+.br
+.ti -1c
+.RI "#define \fBLEFT\fP   2"
+.br
+.ti -1c
+.RI "#define \fBRIGHT\fP   1"
+.br
+.ti -1c
+.RI "#define \fBTYPE\fP   \fBisl_map\fP"
+.br
+.ti -1c
+.RI "#define \fBTYPE\fP   \fBisl_union_map\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBisl_map_is_transitively_closed\fP (\fB__isl_keep\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_union_map_is_transitively_closed\fP (\fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_power\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, int *exact)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_reaching_path_lengths\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, int *exact)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_transitive_closure\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, int *exact)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_transitive_closure\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, int *exact)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_map_power\fP (\fB__isl_take\fP \fBisl_union_map\fP *umap, int *exact)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define IMPURE   0"
+
+.SS "#define LEFT   2"
+
+.SS "#define MIXED   3"
+
+.SS "#define PURE_PARAM   1"
+
+.SS "#define PURE_VAR   2"
+
+.SS "#define RIGHT   1"
+
+.SS "#define TYPE   \fBisl_map\fP"
+
+.SS "#define TYPE   \fBisl_union_map\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "int isl_map_is_transitively_closed (\fB__isl_keep\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_power (\fB__isl_take\fP \fBisl_map\fP * map, int * exact)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_reaching_path_lengths (\fB__isl_take\fP \fBisl_map\fP * map, int * exact)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_transitive_closure (\fB__isl_take\fP \fBisl_map\fP * map, int * exact)"
+
+.SS "int isl_union_map_is_transitively_closed (\fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_power (\fB__isl_take\fP \fBisl_union_map\fP * umap, int * exact)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_map_transitive_closure (\fB__isl_take\fP \fBisl_union_map\fP * umap, int * exact)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

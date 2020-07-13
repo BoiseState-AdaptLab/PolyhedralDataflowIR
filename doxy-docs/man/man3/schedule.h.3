@@ -1,0 +1,340 @@
+.TH "lib/isl/include/isl/schedule.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/schedule.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/union_set_type\&.h>\fP
+.br
+\fC#include <isl/union_map_type\&.h>\fP
+.br
+\fC#include <isl/schedule_type\&.h>\fP
+.br
+\fC#include <isl/aff_type\&.h>\fP
+.br
+\fC#include <isl/band\&.h>\fP
+.br
+\fC#include <isl/space\&.h>\fP
+.br
+\fC#include <isl/set_type\&.h>\fP
+.br
+\fC#include <isl/list\&.h>\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBisl_schedule_constraints\fP \fBisl_schedule_constraints\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_schedule_max_coefficient\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_schedule_max_coefficient\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_schedule_max_constant_term\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_schedule_max_constant_term\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_schedule_maximize_band_depth\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_schedule_maximize_band_depth\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_schedule_outer_coincidence\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_schedule_outer_coincidence\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_schedule_split_scaled\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_schedule_split_scaled\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_schedule_separate_components\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_schedule_separate_components\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_schedule_serialize_sccs\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_schedule_serialize_sccs\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_copy\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_on_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_context\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_validity\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_union_map\fP *validity)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_coincidence\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_union_map\fP *coincidence)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_proximity\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_union_map\fP *proximity)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_conditional_validity\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_union_map\fP *\fBcondition\fP, \fB__isl_take\fP \fBisl_union_map\fP *validity)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_free\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_schedule_constraints_get_ctx\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_schedule_constraints_get_domain\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_constraints_get_validity\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_constraints_get_coincidence\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_constraints_get_conditional_validity\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_constraints_get_conditional_validity_condition\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "void \fBisl_schedule_constraints_dump\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_constraints_compute_schedule\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_union_set_compute_schedule\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_union_map\fP *validity, \fB__isl_take\fP \fBisl_union_map\fP *proximity)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_empty\fP (\fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_from_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_copy\fP (\fB__isl_keep\fP \fBisl_schedule\fP *sched)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_schedule\fP * \fBisl_schedule_free\fP (\fB__isl_take\fP \fBisl_schedule\fP *sched)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_get_map\fP (\fB__isl_keep\fP \fBisl_schedule\fP *sched)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_schedule_get_ctx\fP (\fB__isl_keep\fP \fBisl_schedule\fP *sched)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_schedule_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_schedule\fP *schedule1, \fB__isl_keep\fP \fBisl_schedule\fP *schedule2)"
+.br
+.ti -1c
+.RI "\fB__isl_export\fP \fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_schedule_get_root\fP (\fB__isl_keep\fP \fBisl_schedule\fP *schedule)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_schedule_get_domain\fP (\fB__isl_keep\fP \fBisl_schedule\fP *schedule)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_schedule_foreach_schedule_node_top_down\fP (\fB__isl_keep\fP \fBisl_schedule\fP *sched, \fBisl_bool\fP(*\fBfn\fP)(\fB__isl_keep\fP \fBisl_schedule_node\fP *node, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_map_schedule_node_bottom_up\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule, \fB__isl_give\fP \fBisl_schedule_node\fP *(*\fBfn\fP)(\fB__isl_take\fP \fBisl_schedule_node\fP *node, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_insert_context\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_insert_partial_schedule\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *partial)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_insert_guard\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule, \fB__isl_take\fP \fBisl_set\fP *guard)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_sequence\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule1, \fB__isl_take\fP \fBisl_schedule\fP *schedule2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_set\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule1, \fB__isl_take\fP \fBisl_schedule\fP *schedule2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_intersect_domain\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule, \fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_gist_domain_params\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_reset_user\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_align_params\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_overload\fP \fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_pullback_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_schedule\fP *schedule, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_band_list * \fBisl_schedule_get_band_forest\fP (\fB__isl_keep\fP \fBisl_schedule\fP *schedule)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_read_from_file\fP (\fBisl_ctx\fP *ctx, FILE *input)"
+.br
+.ti -1c
+.RI "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_read_from_str\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_schedule\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_schedule\fP *schedule)"
+.br
+.ti -1c
+.RI "void \fBisl_schedule_dump\fP (\fB__isl_keep\fP \fBisl_schedule\fP *schedule)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP char * \fBisl_schedule_to_str\fP (\fB__isl_keep\fP \fBisl_schedule\fP *schedule)"
+.br
+.ti -1c
+.RI "int \fBisl_schedule_foreach_band\fP (\fB__isl_keep\fP \fBisl_schedule\fP *sched, int(*\fBfn\fP)(\fB__isl_keep\fP \fBisl_band\fP *band, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBisl_schedule_constraints\fP \fBisl_schedule_constraints\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "int isl_options_get_schedule_max_coefficient (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_options_get_schedule_max_constant_term (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_options_get_schedule_maximize_band_depth (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_options_get_schedule_outer_coincidence (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_options_get_schedule_separate_components (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_options_get_schedule_serialize_sccs (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_options_get_schedule_split_scaled (\fBisl_ctx\fP * ctx)"
+
+.SS "\fBisl_stat\fP isl_options_set_schedule_max_coefficient (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fBisl_stat\fP isl_options_set_schedule_max_constant_term (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fBisl_stat\fP isl_options_set_schedule_maximize_band_depth (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fBisl_stat\fP isl_options_set_schedule_outer_coincidence (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fBisl_stat\fP isl_options_set_schedule_separate_components (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fBisl_stat\fP isl_options_set_schedule_serialize_sccs (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fBisl_stat\fP isl_options_set_schedule_split_scaled (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_schedule (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_schedule\fP * schedule)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_align_params (\fB__isl_take\fP \fBisl_schedule\fP * schedule, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_constraints_compute_schedule (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_copy (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "void isl_schedule_constraints_dump (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_null\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_free (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_constraints_get_coincidence (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_constraints_get_conditional_validity (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_constraints_get_conditional_validity_condition (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fBisl_ctx\fP* isl_schedule_constraints_get_ctx (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_schedule_constraints_get_domain (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_constraints_get_validity (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_on_domain (\fB__isl_take\fP \fBisl_union_set\fP * domain)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_coincidence (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_union_map\fP * coincidence)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_conditional_validity (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_union_map\fP * condition, \fB__isl_take\fP \fBisl_union_map\fP * validity)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_context (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_proximity (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_union_map\fP * proximity)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_validity (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_union_map\fP * validity)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_copy (\fB__isl_keep\fP \fBisl_schedule\fP * sched)"
+
+.SS "void isl_schedule_dump (\fB__isl_keep\fP \fBisl_schedule\fP * schedule)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_empty (\fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "int isl_schedule_foreach_band (\fB__isl_keep\fP \fBisl_schedule\fP * sched, int(*)(\fB__isl_keep\fP \fBisl_band\fP *band, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fBisl_stat\fP isl_schedule_foreach_schedule_node_top_down (\fB__isl_keep\fP \fBisl_schedule\fP * sched, \fBisl_bool\fP(*)(\fB__isl_keep\fP \fBisl_schedule_node\fP *node, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_null\fP \fBisl_schedule\fP* isl_schedule_free (\fB__isl_take\fP \fBisl_schedule\fP * sched)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_from_domain (\fB__isl_take\fP \fBisl_union_set\fP * domain)"
+
+.SS "\fB__isl_give\fP isl_band_list* isl_schedule_get_band_forest (\fB__isl_keep\fP \fBisl_schedule\fP * schedule)"
+
+.SS "\fBisl_ctx\fP* isl_schedule_get_ctx (\fB__isl_keep\fP \fBisl_schedule\fP * sched)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_schedule_get_domain (\fB__isl_keep\fP \fBisl_schedule\fP * schedule)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_get_map (\fB__isl_keep\fP \fBisl_schedule\fP * sched)"
+
+.SS "\fB__isl_export\fP \fB__isl_give\fP \fBisl_schedule_node\fP* isl_schedule_get_root (\fB__isl_keep\fP \fBisl_schedule\fP * schedule)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_gist_domain_params (\fB__isl_take\fP \fBisl_schedule\fP * schedule, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_insert_context (\fB__isl_take\fP \fBisl_schedule\fP * schedule, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_insert_guard (\fB__isl_take\fP \fBisl_schedule\fP * schedule, \fB__isl_take\fP \fBisl_set\fP * guard)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_insert_partial_schedule (\fB__isl_take\fP \fBisl_schedule\fP * schedule, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * partial)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_intersect_domain (\fB__isl_take\fP \fBisl_schedule\fP * schedule, \fB__isl_take\fP \fBisl_union_set\fP * domain)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_map_schedule_node_bottom_up (\fB__isl_take\fP \fBisl_schedule\fP * schedule, \fB__isl_give\fP \fBisl_schedule_node\fP *(*)(\fB__isl_take\fP \fBisl_schedule_node\fP *node, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fBisl_bool\fP isl_schedule_plain_is_equal (\fB__isl_keep\fP \fBisl_schedule\fP * schedule1, \fB__isl_keep\fP \fBisl_schedule\fP * schedule2)"
+
+.SS "\fB__isl_overload\fP \fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_pullback_union_pw_multi_aff (\fB__isl_take\fP \fBisl_schedule\fP * schedule, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_read_from_file (\fBisl_ctx\fP * ctx, FILE * input)"
+
+.SS "\fB__isl_constructor\fP \fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_read_from_str (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_reset_user (\fB__isl_take\fP \fBisl_schedule\fP * schedule)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_sequence (\fB__isl_take\fP \fBisl_schedule\fP * schedule1, \fB__isl_take\fP \fBisl_schedule\fP * schedule2)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_set (\fB__isl_take\fP \fBisl_schedule\fP * schedule1, \fB__isl_take\fP \fBisl_schedule\fP * schedule2)"
+
+.SS "\fB__isl_give\fP char* isl_schedule_to_str (\fB__isl_keep\fP \fBisl_schedule\fP * schedule)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_union_set_compute_schedule (\fB__isl_take\fP \fBisl_union_set\fP * domain, \fB__isl_take\fP \fBisl_union_map\fP * validity, \fB__isl_take\fP \fBisl_union_map\fP * proximity)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

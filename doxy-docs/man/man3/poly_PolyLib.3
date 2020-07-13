@@ -1,0 +1,155 @@
+.TH "poly::PolyLib" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+poly::PolyLib
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <PolyLib\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBmap\fP< string, string > & \fBmacros\fP ()"
+.br
+.ti -1c
+.RI "string \fBadd\fP (\fBconst\fP string &constStr, \fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "string \fBget\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "string \fBnewSet\fP (\fBconst\fP string &setStr)"
+.br
+.ti -1c
+.RI "string \fBnewRelation\fP (\fBconst\fP string &relStr)"
+.br
+.ti -1c
+.RI "string \fBapply\fP (\fBconst\fP string &relName, \fBconst\fP string &setName, \fBconst\fP string &resName='')"
+.br
+.ti -1c
+.RI "string \fBdomain\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "string \fBinverse\fP (\fBconst\fP string &relName)"
+.br
+.ti -1c
+.RI "string \fBunion_\fP (\fBconst\fP string &lhsName, \fBconst\fP string &rhsName)"
+.br
+.ti -1c
+.RI "string \fBcompose\fP (\fBconst\fP string &lhsName, \fBconst\fP string &rhsName)"
+.br
+.ti -1c
+.RI "string \fBcodegen\fP (\fBconst\fP string &setName, \fBconst\fP vector< string > &schedules={})"
+.br
+.ti -1c
+.RI "string \fBcodegen\fP (\fBconst\fP string &setStr, \fBconst\fP string &setName, bool skipNorm, \fBconst\fP vector< string > &schedules={})"
+.br
+.ti -1c
+.RI "string \fBcodegen\fP (\fBconst\fP vector< string > &names, \fBmap\fP< string, vector< string > > &schedules)"
+.br
+.ti -1c
+.RI "string \fBcodegen\fP (vector< string > &names, \fBmap\fP< string, vector< string > > &statements, \fBmap\fP< string, vector< string > > &guards, \fBmap\fP< string, vector< string > > &schedules, \fBconst\fP vector< string > &parTypes={}, \fBconst\fP string &iterType='', bool defineMacros=false)"
+.br
+.ti -1c
+.RI "string \fBcodegen\fP (\fBconst\fP string &setName, \fBconst\fP string &iterType, \fBconst\fP string &ompSched='', bool defineMacros=false, \fBconst\fP vector< string > &statements={}, \fBconst\fP vector< string > &guards={}, \fBconst\fP vector< string > &schedules={})"
+.br
+.ti -1c
+.RI "void \fBaddMacros\fP (\fBmap\fP< string, string > &\fBmacros\fP, \fBconst\fP \fBmap\fP< string, string > &others)"
+.br
+.ti -1c
+.RI "void \fBaddMacros\fP (\fBmap\fP< string, string > &\fBmacros\fP, \fBconst\fP string &code)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "string \fBbuildPragma\fP (\fBconst\fP string &partype, \fBconst\fP string &privates)"
+.br
+.ti -1c
+.RI "void \fBaddPragmas\fP (\fBconst\fP vector< string > &parTypes, \fBconst\fP string &privates, string &code)"
+.br
+.ti -1c
+.RI "void \fBaddStatements\fP (\fBconst\fP string &\fBname\fP, unsigned \fBcount\fP, \fBconst\fP vector< string > &statements, \fBconst\fP vector< string > &guards, \fBconst\fP vector< string > &schedules, string &defines)"
+.br
+.ti -1c
+.RI "string \fBout_iterators\fP (\fBconst\fP string &code)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP int \fB_max_iters\fP = 15"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, string > \fB_macros\fP"
+.br
+.ti -1c
+.RI "\fBIEGenLib\fP \fB_iegen\fP"
+.br
+.ti -1c
+.RI "\fBOmegaLib\fP \fB_omega\fP"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "string poly::PolyLib::add (\fBconst\fP string & constStr, \fBconst\fP string & name = \fC''\fP)\fC [inline]\fP"
+
+.SS "void poly::PolyLib::addMacros (\fBmap\fP< string, string > & macros, \fBconst\fP \fBmap\fP< string, string > & others)\fC [inline]\fP"
+
+.SS "void poly::PolyLib::addMacros (\fBmap\fP< string, string > & macros, \fBconst\fP string & code)\fC [inline]\fP"
+
+.SS "void poly::PolyLib::addPragmas (\fBconst\fP vector< string > & parTypes, \fBconst\fP string & privates, string & code)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void poly::PolyLib::addStatements (\fBconst\fP string & name, unsigned count, \fBconst\fP vector< string > & statements, \fBconst\fP vector< string > & guards, \fBconst\fP vector< string > & schedules, string & defines)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "string poly::PolyLib::apply (\fBconst\fP string & relName, \fBconst\fP string & setName, \fBconst\fP string & resName = \fC''\fP)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::buildPragma (\fBconst\fP string & partype, \fBconst\fP string & privates)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "string poly::PolyLib::codegen (\fBconst\fP string & setName, \fBconst\fP string & iterType, \fBconst\fP string & ompSched = \fC''\fP, bool defineMacros = \fCfalse\fP, \fBconst\fP vector< string > & statements = \fC{}\fP, \fBconst\fP vector< string > & guards = \fC{}\fP, \fBconst\fP vector< string > & schedules = \fC{}\fP)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::codegen (\fBconst\fP string & setName, \fBconst\fP vector< string > & schedules = \fC{}\fP)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::codegen (\fBconst\fP string & setStr, \fBconst\fP string & setName, bool skipNorm, \fBconst\fP vector< string > & schedules = \fC{}\fP)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::codegen (\fBconst\fP vector< string > & names, \fBmap\fP< string, vector< string > > & schedules)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::codegen (vector< string > & names, \fBmap\fP< string, vector< string > > & statements, \fBmap\fP< string, vector< string > > & guards, \fBmap\fP< string, vector< string > > & schedules, \fBconst\fP vector< string > & parTypes = \fC{}\fP, \fBconst\fP string & iterType = \fC''\fP, bool defineMacros = \fCfalse\fP)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::compose (\fBconst\fP string & lhsName, \fBconst\fP string & rhsName)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::domain (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::get (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::inverse (\fBconst\fP string & relName)\fC [inline]\fP"
+
+.SS "\fBmap\fP<string, string>& poly::PolyLib::macros ()\fC [inline]\fP"
+
+.SS "string poly::PolyLib::newRelation (\fBconst\fP string & relStr)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::newSet (\fBconst\fP string & setStr)\fC [inline]\fP"
+
+.SS "string poly::PolyLib::out_iterators (\fBconst\fP string & code)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "string poly::PolyLib::union_ (\fBconst\fP string & lhsName, \fBconst\fP string & rhsName)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBIEGenLib\fP poly::PolyLib::_iegen\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, string> poly::PolyLib::_macros\fC [protected]\fP"
+
+.SS "\fBconst\fP int poly::PolyLib::_max_iters = 15\fC [protected]\fP"
+
+.SS "\fBOmegaLib\fP poly::PolyLib::_omega\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

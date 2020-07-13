@@ -1,0 +1,132 @@
+.TH "lib/isl/include/isl/band.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/band.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/printer\&.h>\fP
+.br
+\fC#include <isl/list\&.h>\fP
+.br
+\fC#include <isl/union_map_type\&.h>\fP
+.br
+\fC#include <isl/vec\&.h>\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBisl_band\fP \fBisl_band\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_band\fP * \fBisl_band_copy\fP (\fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_band\fP * \fBisl_band_free\fP (\fB__isl_take\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_band_get_ctx\fP (\fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "int \fBisl_band_has_children\fP (\fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_band_list * \fBisl_band_get_children\fP (\fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_band_get_prefix_schedule\fP (\fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_band_get_partial_schedule\fP (\fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_band_get_suffix_schedule\fP (\fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_tile_scale_tile_loops\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_tile_scale_tile_loops\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_options_set_tile_shift_point_loops\fP (\fBisl_ctx\fP *ctx, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_options_get_tile_shift_point_loops\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBisl_band_tile\fP (\fB__isl_keep\fP \fBisl_band\fP *band, \fB__isl_take\fP \fBisl_vec\fP *sizes)"
+.br
+.ti -1c
+.RI "int \fBisl_band_split\fP (\fB__isl_keep\fP \fBisl_band\fP *band, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_band_n_member\fP (\fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "int \fBisl_band_member_is_coincident\fP (\fB__isl_keep\fP \fBisl_band\fP *band, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_band_list_foreach_band\fP (\fB__isl_keep\fP isl_band_list *list, int(*\fBfn\fP)(\fB__isl_keep\fP \fBisl_band\fP *band, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_band\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.ti -1c
+.RI "void \fBisl_band_dump\fP (\fB__isl_keep\fP \fBisl_band\fP *band)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBisl_band\fP \fBisl_band\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_band\fP* isl_band_copy (\fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SS "void isl_band_dump (\fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SS "\fB__isl_null\fP \fBisl_band\fP* isl_band_free (\fB__isl_take\fP \fBisl_band\fP * band)"
+
+.SS "\fB__isl_give\fP isl_band_list* isl_band_get_children (\fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SS "\fBisl_ctx\fP* isl_band_get_ctx (\fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_band_get_partial_schedule (\fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_band_get_prefix_schedule (\fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_band_get_suffix_schedule (\fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SS "int isl_band_has_children (\fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SS "int isl_band_list_foreach_band (\fB__isl_keep\fP isl_band_list * list, int(*)(\fB__isl_keep\fP \fBisl_band\fP *band, void *\fBuser\fP) fn, void * user)"
+
+.SS "int isl_band_member_is_coincident (\fB__isl_keep\fP \fBisl_band\fP * band, int pos)"
+
+.SS "int isl_band_n_member (\fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SS "int isl_band_split (\fB__isl_keep\fP \fBisl_band\fP * band, int pos)"
+
+.SS "int isl_band_tile (\fB__isl_keep\fP \fBisl_band\fP * band, \fB__isl_take\fP \fBisl_vec\fP * sizes)"
+
+.SS "int isl_options_get_tile_scale_tile_loops (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_options_get_tile_shift_point_loops (\fBisl_ctx\fP * ctx)"
+
+.SS "\fBisl_stat\fP isl_options_set_tile_scale_tile_loops (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fBisl_stat\fP isl_options_set_tile_shift_point_loops (\fBisl_ctx\fP * ctx, int val)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_band (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_band\fP * band)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

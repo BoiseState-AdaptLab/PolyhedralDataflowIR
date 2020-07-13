@@ -1,0 +1,203 @@
+.TH "lib/isl/isl_vec.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_vec.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_val_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl/deprecated/vec_int\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_vec_get_ctx\fP (\fB__isl_keep\fP \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBisl_vec_alloc\fP (struct \fBisl_ctx\fP *ctx, unsigned \fBsize\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_extend\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, unsigned \fBsize\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_zero_extend\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, unsigned \fBsize\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_concat\fP (\fB__isl_take\fP \fBisl_vec\fP *vec1, \fB__isl_take\fP \fBisl_vec\fP *vec2)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBisl_vec_copy\fP (struct \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBisl_vec_dup\fP (struct \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBisl_vec_cow\fP (struct \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_vec\fP * \fBisl_vec_free\fP (\fB__isl_take\fP \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "int \fBisl_vec_size\fP (\fB__isl_keep\fP \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "int \fBisl_vec_get_element\fP (\fB__isl_keep\fP \fBisl_vec\fP *vec, int \fBpos\fP, \fBisl_int\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_vec_get_element_val\fP (\fB__isl_keep\fP \fBisl_vec\fP *vec, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_set_element\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, int \fBpos\fP, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_set_element_si\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, int \fBpos\fP, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_set_element_val\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, int \fBpos\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "int \fBisl_vec_cmp_element\fP (\fB__isl_keep\fP \fBisl_vec\fP *vec1, \fB__isl_keep\fP \fBisl_vec\fP *vec2, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_vec_is_equal\fP (\fB__isl_keep\fP \fBisl_vec\fP *vec1, \fB__isl_keep\fP \fBisl_vec\fP *vec2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_vec\fP (\fB__isl_take\fP \fBisl_printer\fP *printer, \fB__isl_keep\fP \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "void \fBisl_vec_dump\fP (struct \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_set\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_set_si\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_set_val\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_clr\fP (\fB__isl_take\fP \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "void \fBisl_vec_lcm\fP (struct \fBisl_vec\fP *vec, \fBisl_int\fP *\fBlcm\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBisl_vec_ceil\fP (struct \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBisl_vec_normalize\fP (struct \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_neg\fP (\fB__isl_take\fP \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_scale\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, \fBisl_int\fP \fBm\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_fdiv_r\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, \fBisl_int\fP \fBm\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_add\fP (\fB__isl_take\fP \fBisl_vec\fP *vec1, \fB__isl_take\fP \fBisl_vec\fP *vec2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_sort\fP (\fB__isl_take\fP \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_drop_els\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, unsigned \fBpos\fP, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_insert_els\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, unsigned \fBpos\fP, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_insert_zero_els\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, unsigned \fBpos\fP, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_vec_move_els\fP (\fB__isl_take\fP \fBisl_vec\fP *vec, unsigned dst_pos, unsigned src_pos, unsigned \fBn\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_vec (\fB__isl_take\fP \fBisl_printer\fP * printer, \fB__isl_keep\fP \fBisl_vec\fP * vec)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_add (\fB__isl_take\fP \fBisl_vec\fP * vec1, \fB__isl_take\fP \fBisl_vec\fP * vec2)"
+
+.SS "struct \fBisl_vec\fP* isl_vec_alloc (struct \fBisl_ctx\fP * ctx, unsigned size)"
+
+.SS "struct \fBisl_vec\fP* isl_vec_ceil (struct \fBisl_vec\fP * vec)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_clr (\fB__isl_take\fP \fBisl_vec\fP * vec)"
+
+.SS "int isl_vec_cmp_element (\fB__isl_keep\fP \fBisl_vec\fP * vec1, \fB__isl_keep\fP \fBisl_vec\fP * vec2, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_concat (\fB__isl_take\fP \fBisl_vec\fP * vec1, \fB__isl_take\fP \fBisl_vec\fP * vec2)"
+
+.SS "struct \fBisl_vec\fP* isl_vec_copy (struct \fBisl_vec\fP * vec)"
+
+.SS "struct \fBisl_vec\fP* isl_vec_cow (struct \fBisl_vec\fP * vec)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_drop_els (\fB__isl_take\fP \fBisl_vec\fP * vec, unsigned pos, unsigned n)"
+
+.SS "void isl_vec_dump (struct \fBisl_vec\fP * vec)"
+
+.SS "struct \fBisl_vec\fP* isl_vec_dup (struct \fBisl_vec\fP * vec)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_extend (\fB__isl_take\fP \fBisl_vec\fP * vec, unsigned size)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_fdiv_r (\fB__isl_take\fP \fBisl_vec\fP * vec, \fBisl_int\fP m)"
+
+.SS "\fB__isl_null\fP \fBisl_vec\fP* isl_vec_free (\fB__isl_take\fP \fBisl_vec\fP * vec)"
+
+.SS "\fBisl_ctx\fP* isl_vec_get_ctx (\fB__isl_keep\fP \fBisl_vec\fP * vec)"
+
+.SS "int isl_vec_get_element (\fB__isl_keep\fP \fBisl_vec\fP * vec, int pos, \fBisl_int\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_vec_get_element_val (\fB__isl_keep\fP \fBisl_vec\fP * vec, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_insert_els (\fB__isl_take\fP \fBisl_vec\fP * vec, unsigned pos, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_insert_zero_els (\fB__isl_take\fP \fBisl_vec\fP * vec, unsigned pos, unsigned n)"
+
+.SS "\fBisl_bool\fP isl_vec_is_equal (\fB__isl_keep\fP \fBisl_vec\fP * vec1, \fB__isl_keep\fP \fBisl_vec\fP * vec2)"
+
+.SS "void isl_vec_lcm (struct \fBisl_vec\fP * vec, \fBisl_int\fP * lcm)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_move_els (\fB__isl_take\fP \fBisl_vec\fP * vec, unsigned dst_pos, unsigned src_pos, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_neg (\fB__isl_take\fP \fBisl_vec\fP * vec)"
+
+.SS "struct \fBisl_vec\fP* isl_vec_normalize (struct \fBisl_vec\fP * vec)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_scale (\fB__isl_take\fP \fBisl_vec\fP * vec, \fBisl_int\fP m)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_set (\fB__isl_take\fP \fBisl_vec\fP * vec, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_set_element (\fB__isl_take\fP \fBisl_vec\fP * vec, int pos, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_set_element_si (\fB__isl_take\fP \fBisl_vec\fP * vec, int pos, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_set_element_val (\fB__isl_take\fP \fBisl_vec\fP * vec, int pos, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_set_si (\fB__isl_take\fP \fBisl_vec\fP * vec, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_set_val (\fB__isl_take\fP \fBisl_vec\fP * vec, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "int isl_vec_size (\fB__isl_keep\fP \fBisl_vec\fP * vec)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_sort (\fB__isl_take\fP \fBisl_vec\fP * vec)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_vec_zero_extend (\fB__isl_take\fP \fBisl_vec\fP * vec, unsigned size)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

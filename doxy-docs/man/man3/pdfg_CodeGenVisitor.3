@@ -1,0 +1,386 @@
+.TH "pdfg::CodeGenVisitor" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::CodeGenVisitor
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Visitor\&.hpp>\fP
+.PP
+Inherits \fBpdfg::DFGVisitor\fP\&.
+.PP
+Inherited by \fBpdfg::CudaGenVisitor\fP, and \fBpdfg::OmpGenVisitor\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCodeGenVisitor\fP (\fBconst\fP string &\fBpath\fP='', \fBconst\fP string &lang='C', unsigned niters=15)"
+.br
+.ti -1c
+.RI "void \fBinclude\fP (\fBconst\fP initializer_list< string > &libraries)"
+.br
+.ti -1c
+.RI "void \fBinclude\fP (\fBconst\fP string &library)"
+.br
+.ti -1c
+.RI "void \fBdefine\fP (\fBconst\fP initializer_list< string > &defines)"
+.br
+.ti -1c
+.RI "void \fBdefine\fP (\fBconst\fP \fBmap\fP< string, string > &defines)"
+.br
+.ti -1c
+.RI "void \fBdefine\fP (\fBconst\fP pair< string, string > &defpair)"
+.br
+.ti -1c
+.RI "void \fBdefine\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP string &defn='')"
+.br
+.ti -1c
+.RI "void \fBfunction\fP (\fBconst\fP string &\fBheader\fP, \fBconst\fP string &\fBbody\fP)"
+.br
+.ti -1c
+.RI "void \fBtypdef\fP (\fBconst\fP string &type, \fBconst\fP string &alias)"
+.br
+.ti -1c
+.RI "string \fBallocFunction\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBallocFunction\fP (\fBconst\fP string &\fBfunction\fP)"
+.br
+.ti -1c
+.RI "string \fBompSchedule\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBompSchedule\fP (\fBconst\fP string &schedule)"
+.br
+.ti -1c
+.RI "string \fBpath\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBpath\fP (\fBconst\fP string &in_path)"
+.br
+.ti -1c
+.RI "vector< string > \fBheader\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< string > \fBallocs\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< string > \fBbody\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBadd_size\fP (\fBconst\fP string &\fBname\fP, unsigned \fBsize\fP)"
+.br
+.ti -1c
+.RI "void \fBsetup\fP (\fBFlowGraph\fP *graph) override"
+.br
+.ti -1c
+.RI "void \fBenter\fP (\fBDataNode\fP *node) override"
+.br
+.ti -1c
+.RI "void \fBenter\fP (\fBCompNode\fP *node) override"
+.br
+.ti -1c
+.RI "void \fBfinish\fP (\fBFlowGraph\fP *graph) override"
+.br
+.ti -1c
+.RI "string \fBstr\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdefineFlags\fP (\fBconst\fP \fBmap\fP< string, bool > &flags)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBinit\fP ()"
+.br
+.ti -1c
+.RI "string \fBgetDefine\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBaddComment\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBaddHeader\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddFooter\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddIncludes\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddOptDefines\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddDefines\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddTypeDefs\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddFunctions\fP ()"
+.br
+.ti -1c
+.RI "void \fBundoDefines\fP ()"
+.br
+.ti -1c
+.RI "void \fBupdateComp\fP (\fBComp\fP *comp, vector< string > &names, \fBmap\fP< string, vector< string > > &statements, \fBmap\fP< string, vector< string > > &guards, \fBmap\fP< string, vector< string > > &schedules)"
+.br
+.ti -1c
+.RI "void \fBaddMappings\fP (\fBCompNode\fP *node)"
+.br
+.ti -1c
+.RI "string \fBcreateMapping\fP (\fBconst\fP \fBAccess\fP *access)"
+.br
+.ti -1c
+.RI "virtual string \fBrestrict\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual string \fBdataLabel\fP (\fBDataNode\fP *node) \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual void \fBallocate\fP (\fBDataNode\fP *node)"
+.br
+.ti -1c
+.RI "virtual void \fBdeallocate\fP (\fBDataNode\fP *node)"
+.br
+.ti -1c
+.RI "virtual void \fBcodegen\fP (\fBCompNode\fP *node, vector< string > &names, \fBmap\fP< string, vector< string >> &statements, \fBmap\fP< string, vector< string >> &guards, \fBmap\fP< string, vector< string >> &schedules)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fB_niters\fP"
+.br
+.ti -1c
+.RI "string \fB_indent\fP"
+.br
+.ti -1c
+.RI "string \fB_lang\fP"
+.br
+.ti -1c
+.RI "string \fB_path\fP"
+.br
+.ti -1c
+.RI "string \fB_ompsched\fP"
+.br
+.ti -1c
+.RI "string \fB_alloc_fxn\fP"
+.br
+.ti -1c
+.RI "string \fB_free_fxn\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, string > \fB_mappings\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, unsigned > \fB_data_sizes\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, bool > \fB_define_flags\fP"
+.br
+.ti -1c
+.RI "vector< pair< string, string > > \fB_defines\fP"
+.br
+.ti -1c
+.RI "vector< pair< string, string > > \fB_typedefs\fP"
+.br
+.ti -1c
+.RI "vector< pair< string, string > > \fB_functions\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_includes\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_header\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_params\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_body\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_mathFuncs\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_allocs\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_frees\fP"
+.br
+.ti -1c
+.RI "\fBPolyLib\fP \fB_poly\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "ostream & \fBoperator<<\fP (ostream &os, \fBconst\fP \fBCodeGenVisitor\fP &cgen)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::CodeGenVisitor::CodeGenVisitor (\fBconst\fP string & path = \fC''\fP, \fBconst\fP string & lang = \fC'C'\fP, unsigned niters = \fC15\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void pdfg::CodeGenVisitor::add_size (\fBconst\fP string & name, unsigned size)\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::addComment ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::CodeGenVisitor::addDefines ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::CodeGenVisitor::addFooter ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::CodeGenVisitor::addFunctions ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "virtual void pdfg::CodeGenVisitor::addHeader ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.SS "void pdfg::CodeGenVisitor::addIncludes ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::CodeGenVisitor::addMappings (\fBCompNode\fP * node)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::CodeGenVisitor::addOptDefines ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::CodeGenVisitor::addTypeDefs ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "virtual void pdfg::CodeGenVisitor::allocate (\fBDataNode\fP * node)\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBpdfg::OmpGenVisitor\fP\&.
+.SS "string pdfg::CodeGenVisitor::allocFunction () const\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::allocFunction (\fBconst\fP string & function)\fC [inline]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::allocs () const\fC [inline]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::body () const\fC [inline]\fP"
+
+.SS "virtual void pdfg::CodeGenVisitor::codegen (\fBCompNode\fP * node, vector< string > & names, \fBmap\fP< string, vector< string >> & statements, \fBmap\fP< string, vector< string >> & guards, \fBmap\fP< string, vector< string >> & schedules)\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBpdfg::OmpGenVisitor\fP\&.
+.SS "string pdfg::CodeGenVisitor::createMapping (\fBconst\fP \fBAccess\fP * access)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "virtual string pdfg::CodeGenVisitor::dataLabel (\fBDataNode\fP * node) const\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.SS "virtual void pdfg::CodeGenVisitor::deallocate (\fBDataNode\fP * node)\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.SS "void pdfg::CodeGenVisitor::define (\fBconst\fP initializer_list< string > & defines)\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::define (\fBconst\fP \fBmap\fP< string, string > & defines)\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::define (\fBconst\fP pair< string, string > & defpair)\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::define (\fBconst\fP string & name, \fBconst\fP string & defn = \fC''\fP)\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::defineFlags (\fBconst\fP \fBmap\fP< string, bool > & flags)\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::enter (\fBCompNode\fP * node)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "void pdfg::CodeGenVisitor::enter (\fBDataNode\fP * node)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "void pdfg::CodeGenVisitor::finish (\fBFlowGraph\fP * graph)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "void pdfg::CodeGenVisitor::function (\fBconst\fP string & header, \fBconst\fP string & body)\fC [inline]\fP"
+
+.SS "string pdfg::CodeGenVisitor::getDefine (\fBconst\fP string & name)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::header () const\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::include (\fBconst\fP initializer_list< string > & libraries)\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::include (\fBconst\fP string & library)\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::init ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "string pdfg::CodeGenVisitor::ompSchedule () const\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::ompSchedule (\fBconst\fP string & schedule)\fC [inline]\fP"
+
+.SS "string pdfg::CodeGenVisitor::path () const\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::path (\fBconst\fP string & in_path)\fC [inline]\fP"
+
+.SS "virtual string pdfg::CodeGenVisitor::restrict () const\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBpdfg::CudaGenVisitor\fP\&.
+.SS "void pdfg::CodeGenVisitor::setup (\fBFlowGraph\fP * graph)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBpdfg::DFGVisitor\fP\&.
+.SS "string pdfg::CodeGenVisitor::str () const\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::typdef (\fBconst\fP string & type, \fBconst\fP string & alias)\fC [inline]\fP"
+
+.SS "void pdfg::CodeGenVisitor::undoDefines ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::CodeGenVisitor::updateComp (\fBComp\fP * comp, vector< string > & names, \fBmap\fP< string, vector< string > > & statements, \fBmap\fP< string, vector< string > > & guards, \fBmap\fP< string, vector< string > > & schedules)\fC [inline]\fP, \fC [protected]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "ostream& operator<< (ostream & os, \fBconst\fP \fBCodeGenVisitor\fP & cgen)\fC [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "string pdfg::CodeGenVisitor::_alloc_fxn\fC [protected]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::_allocs\fC [protected]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::_body\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, unsigned> pdfg::CodeGenVisitor::_data_sizes\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, bool> pdfg::CodeGenVisitor::_define_flags\fC [protected]\fP"
+
+.SS "vector<pair<string, string> > pdfg::CodeGenVisitor::_defines\fC [protected]\fP"
+
+.SS "string pdfg::CodeGenVisitor::_free_fxn\fC [protected]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::_frees\fC [protected]\fP"
+
+.SS "vector<pair<string, string> > pdfg::CodeGenVisitor::_functions\fC [protected]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::_header\fC [protected]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::_includes\fC [protected]\fP"
+
+.SS "string pdfg::CodeGenVisitor::_indent\fC [protected]\fP"
+
+.SS "string pdfg::CodeGenVisitor::_lang\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, string> pdfg::CodeGenVisitor::_mappings\fC [protected]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::_mathFuncs\fC [protected]\fP"
+
+.SS "unsigned pdfg::CodeGenVisitor::_niters\fC [protected]\fP"
+
+.SS "string pdfg::CodeGenVisitor::_ompsched\fC [protected]\fP"
+
+.SS "vector<string> pdfg::CodeGenVisitor::_params\fC [protected]\fP"
+
+.SS "string pdfg::CodeGenVisitor::_path\fC [protected]\fP"
+
+.SS "\fBPolyLib\fP pdfg::CodeGenVisitor::_poly\fC [protected]\fP"
+
+.SS "vector<pair<string, string> > pdfg::CodeGenVisitor::_typedefs\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

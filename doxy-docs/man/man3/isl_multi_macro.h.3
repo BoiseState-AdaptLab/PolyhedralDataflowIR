@@ -1,0 +1,57 @@
+.TH "lib/isl/isl_multi_macro.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_multi_macro.h
+.SH SYNOPSIS
+.br
+.PP
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBxCAT\fP(\fBA\fP,  \fBB\fP)   \fBA\fP ## \fBB\fP"
+.br
+.ti -1c
+.RI "#define \fBCAT\fP(\fBA\fP,  \fBB\fP)   \fBxCAT\fP(\fBA\fP,\fBB\fP)"
+.br
+.ti -1c
+.RI "#define \fBEL\fP   \fBCAT\fP(isl_,\fBBASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBxFN\fP(\fBTYPE\fP,  NAME)   \fBTYPE\fP ## _ ## NAME"
+.br
+.ti -1c
+.RI "#define \fBFN\fP(\fBTYPE\fP,  NAME)   \fBxFN\fP(\fBTYPE\fP,NAME)"
+.br
+.ti -1c
+.RI "#define \fBxMULTI\fP(\fBBASE\fP)   isl_multi_ ## \fBBASE\fP"
+.br
+.ti -1c
+.RI "#define \fBMULTI\fP(\fBBASE\fP)   \fBxMULTI\fP(\fBBASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBDOM\fP   \fBCAT\fP(isl_,\fBDOMBASE\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define CAT(\fBA\fP, \fBB\fP)   \fBxCAT\fP(\fBA\fP,\fBB\fP)"
+
+.SS "#define DOM   \fBCAT\fP(isl_,\fBDOMBASE\fP)"
+
+.SS "#define EL   \fBCAT\fP(isl_,\fBBASE\fP)"
+
+.SS "#define FN(\fBTYPE\fP, NAME)   \fBxFN\fP(\fBTYPE\fP,NAME)"
+
+.SS "\fB__isl_give\fP MULTI(\fBBASE\fP)   \fBxMULTI\fP(\fBBASE\fP)"
+
+.SS "#define xCAT(\fBA\fP, \fBB\fP)   \fBA\fP ## \fBB\fP"
+
+.SS "#define xFN(\fBTYPE\fP, NAME)   \fBTYPE\fP ## _ ## NAME"
+
+.SS "#define xMULTI(\fBBASE\fP)   isl_multi_ ## \fBBASE\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,1075 @@
+.TH "lib/isl/isl_test.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_test.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <limits\&.h>\fP
+.br
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl_aff_private\&.h>\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl/flow\&.h>\fP
+.br
+\fC#include <isl_constraint_private\&.h>\fP
+.br
+\fC#include <isl/polynomial\&.h>\fP
+.br
+\fC#include <isl/union_set\&.h>\fP
+.br
+\fC#include <isl/union_map\&.h>\fP
+.br
+\fC#include <isl_factorization\&.h>\fP
+.br
+\fC#include <isl/schedule\&.h>\fP
+.br
+\fC#include <isl/schedule_node\&.h>\fP
+.br
+\fC#include <isl_options_private\&.h>\fP
+.br
+\fC#include <isl/vertices\&.h>\fP
+.br
+\fC#include <isl/ast_build\&.h>\fP
+.br
+\fC#include <isl/val\&.h>\fP
+.br
+\fC#include <isl/ilp\&.h>\fP
+.br
+\fC#include <isl_ast_build_expr\&.h>\fP
+.br
+\fC#include <isl/options\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBmust_may\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_vertices_test_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_test_codegen_data\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBARRAY_SIZE\fP(array)   (sizeof(array)/sizeof(*array))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBtest_parse_map\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "int \fBtest_parse_map_equal\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP, \fBconst\fP char *str2)"
+.br
+.ti -1c
+.RI "void \fBtest_parse_pwqp\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP)"
+.br
+.ti -1c
+.RI "int \fBtest_parse\fP (struct \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBtest_application_case\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBtest_affine_hull_case\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "int \fBtest_affine_hull\fP (struct \fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "void \fBtest_convex_hull_case\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBtest_gist_case\fP (struct \fBisl_ctx\fP *ctx, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "int \fBtest_coalesce_set\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP, int check_one)"
+.br
+.ti -1c
+.RI "int \fBtest_coalesce_unbounded_wrapping\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_sv\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_factorize\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_one_schedule\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *d, \fBconst\fP char *w, \fBconst\fP char *r, \fBconst\fP char *s, int tilable, int parallel)"
+.br
+.ti -1c
+.RI "int \fBtest_special_schedule\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBdomain\fP, \fBconst\fP char *validity, \fBconst\fP char *proximity, \fBconst\fP char *expected_sched)"
+.br
+.ti -1c
+.RI "int \fBtest_schedule\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_plain_injective\fP (\fBisl_ctx\fP *ctx, \fBconst\fP char *\fBstr\fP, int injective)"
+.br
+.ti -1c
+.RI "int \fBtest_injective\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_aff\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_dim_max\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_product\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_equal\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_fixed\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_vertices\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_union_pw\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_output\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_sample\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_fixed_power\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_slice\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_eliminate\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtest_align_parameters\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBmap1\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBmap2\fP"
+.br
+.ti -1c
+.RI "} \fBparse_map_equal_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fB__isl_give\fP \fBisl_val\fP *(* \fBop\fP )(\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBarg\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBres\fP"
+.br
+.ti -1c
+.RI "} \fBval_un_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fB__isl_give\fP \fBisl_val\fP *(* \fBfn\fP )(\fB__isl_take\fP \fBisl_val\fP *v1, 
+.br
+      \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "} \fBval_bin_op\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBarg1\fP"
+.br
+.ti -1c
+.RI "   unsigned char \fBop\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBarg2\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBres\fP"
+.br
+.ti -1c
+.RI "} \fBval_bin_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBmap\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBhull\fP"
+.br
+.ti -1c
+.RI "} \fBplain_unshifted_simple_hull_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBset\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBhull\fP"
+.br
+.ti -1c
+.RI "} \fBconvex_hull_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBmap\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBcontext\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBgist\fP"
+.br
+.ti -1c
+.RI "} \fBplain_gist_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBset\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBcontext\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBgist\fP"
+.br
+.ti -1c
+.RI "} \fBgist_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   int \fBsingle_disjunct\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBstr\fP"
+.br
+.ti -1c
+.RI "} \fBcoalesce_unbounded_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   int \fBsingle_disjunct\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBstr\fP"
+.br
+.ti -1c
+.RI "} \fBcoalesce_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBmap\fP"
+.br
+.ti -1c
+.RI "   int \fBsv\fP"
+.br
+.ti -1c
+.RI "} \fBsv_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBstr\fP"
+.br
+.ti -1c
+.RI "   int \fBbijective\fP"
+.br
+.ti -1c
+.RI "} \fBbijective_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBpwqp\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBset\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBgist\fP"
+.br
+.ti -1c
+.RI "} \fBpwqp_gist_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBset1\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBset2\fP"
+.br
+.ti -1c
+.RI "   int \fBsubset\fP"
+.br
+.ti -1c
+.RI "} \fBsubset_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBminuend\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBsubtrahend\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBdifference\fP"
+.br
+.ti -1c
+.RI "} \fBsubtract_domain_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBdomain\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBflow\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBcondition\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBconditional_validity\fP"
+.br
+.ti -1c
+.RI "   int \fBouter_band_n\fP"
+.br
+.ti -1c
+.RI "} \fBlive_range_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fB__isl_give\fP \fBisl_aff\fP *(* \fBfn\fP )(\fB__isl_take\fP \fBisl_aff\fP *aff1, 
+.br
+      \fB__isl_take\fP \fBisl_aff\fP *aff2)"
+.br
+.ti -1c
+.RI "} \fBaff_bin_op\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBarg1\fP"
+.br
+.ti -1c
+.RI "   unsigned char \fBop\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBarg2\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBres\fP"
+.br
+.ti -1c
+.RI "} \fBaff_bin_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fB__isl_give\fP \fBisl_union_pw_multi_aff\fP *(* \fBfn\fP )(\fB__isl_take\fP 
+.br
+      \fBisl_union_pw_multi_aff\fP *upma1, 
+.br
+      \fB__isl_take\fP 
+.br
+      \fBisl_union_pw_multi_aff\fP *upma2)"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBarg1\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBarg2\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBres\fP"
+.br
+.ti -1c
+.RI "} \fBupma_bin_tests\fP []"
+.br
+.ti -1c
+.RI "struct  { \&.\&.\&. }  \fBupma_bin_fail_tests\fP []"
+.br
+.ti -1c
+.RI "struct \fBisl_vertices_test_data\fP \fBvertices_tests\fP []"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBset_conversion_tests\fP []"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBconversion_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBset\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBma\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBres\fP"
+.br
+.ti -1c
+.RI "} \fBpreimage_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBmap\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBma\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBres\fP"
+.br
+.ti -1c
+.RI "} \fBpreimage_domain_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBma1\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBma\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBres\fP"
+.br
+.ti -1c
+.RI "} \fBpullback_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBset\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBdual\fP"
+.br
+.ti -1c
+.RI "} \fBcoef_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBset\fP"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBdual\fP"
+.br
+.ti -1c
+.RI "} \fBsol_tests\fP []"
+.br
+.ti -1c
+.RI "struct  { \&.\&.\&. }  \fBtile_tests\fP []"
+.br
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "   \fBconst\fP char * \fBname\fP"
+.br
+.ti -1c
+.RI "   int(* \fBfn\fP )(\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "} \fBtests\fP []"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ARRAY_SIZE(array)   (sizeof(array)/sizeof(*array))"
+
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc, char ** argv)"
+
+.SS "int test_aff (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_affine_hull (struct \fBisl_ctx\fP * ctx)"
+
+.SS "void test_affine_hull_case (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * name)"
+
+.SS "int test_align_parameters (\fBisl_ctx\fP * ctx)"
+
+.SS "void test_application_case (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * name)"
+
+.SS "int test_coalesce_set (\fBisl_ctx\fP * ctx, \fBconst\fP char * str, int check_one)"
+
+.SS "int test_coalesce_unbounded_wrapping (\fBisl_ctx\fP * ctx)"
+
+.SS "void test_convex_hull_case (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * name)"
+
+.SS "int test_dim_max (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_eliminate (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_equal (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_factorize (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_fixed (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_fixed_power (\fBisl_ctx\fP * ctx)"
+
+.SS "void test_gist_case (struct \fBisl_ctx\fP * ctx, \fBconst\fP char * name)"
+
+.SS "int test_injective (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_one_schedule (\fBisl_ctx\fP * ctx, \fBconst\fP char * d, \fBconst\fP char * w, \fBconst\fP char * r, \fBconst\fP char * s, int tilable, int parallel)"
+
+.SS "int test_output (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_parse (struct \fBisl_ctx\fP * ctx)"
+
+.SS "void test_parse_map (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "int test_parse_map_equal (\fBisl_ctx\fP * ctx, \fBconst\fP char * str, \fBconst\fP char * str2)"
+
+.SS "void test_parse_pwqp (\fBisl_ctx\fP * ctx, \fBconst\fP char * str)"
+
+.SS "int test_plain_injective (\fBisl_ctx\fP * ctx, \fBconst\fP char * str, int injective)"
+
+.SS "int test_product (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_sample (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_schedule (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_slice (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_special_schedule (\fBisl_ctx\fP * ctx, \fBconst\fP char * domain, \fBconst\fP char * validity, \fBconst\fP char * proximity, \fBconst\fP char * expected_sched)"
+
+.SS "int test_sv (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_union_pw (\fBisl_ctx\fP * ctx)"
+
+.SS "int test_vertices (\fBisl_ctx\fP * ctx)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "struct { \&.\&.\&. }  aff_bin_op[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    ['+'] = { &isl_aff_add },
+    ['-'] = { &isl_aff_sub },
+    ['*'] = { &isl_aff_mul },
+    ['/'] = { &isl_aff_div },
+}
+.fi
+.SS "struct { \&.\&.\&. }  aff_bin_tests[]"
+
+.SS "\fBconst\fP char* arg"
+
+.SS "\fBconst\fP char* arg1"
+
+.SS "\fBconst\fP char* arg2"
+
+.SS "int bijective"
+
+.SS "struct { \&.\&.\&. }  bijective_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "[N,M]->{[i,j] -> [i]}", 0 },
+    { "[N,M]->{[i,j] -> [i] : j=i}", 1 },
+    { "[N,M]->{[i,j] -> [i] : j=0}", 1 },
+    { "[N,M]->{[i,j] -> [i] : j=N}", 1 },
+    { "[N,M]->{[i,j] -> [j,i]}", 1 },
+    { "[N,M]->{[i,j] -> [i+j]}", 0 },
+    { "[N,M]->{[i,j] -> []}", 0 },
+    { "[N,M]->{[i,j] -> [i,j,N]}", 1 },
+    { "[N,M]->{[i,j] -> [2i]}", 0 },
+    { "[N,M]->{[i,j] -> [i,i]}", 0 },
+    { "[N,M]->{[i,j] -> [2i,i]}", 0 },
+    { "[N,M]->{[i,j] -> [2i,j]}", 1 },
+    { "[N,M]->{[i,j] -> [x,y] : 2x=i & y =j}", 1 },
+}
+.fi
+.SS "struct { \&.\&.\&. }  coalesce_tests[]"
+
+.SS "struct { \&.\&.\&. }  coalesce_unbounded_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { 1, "{ [x,y,z] : y + 2 >= 0 and x - y + 1 >= 0 and "
+            "-x - y + 1 >= 0 and -3 <= z <= 3;"
+        "[x,y,z] : -x+z + 20 >= 0 and -x-z + 20 >= 0 and "
+            "x-z + 20 >= 0 and x+z + 20 >= 0 and "
+            "-10 <= y <= 0}" },
+    { 1, "{ [x,y] : 0 <= x,y <= 10; [5,y]: 4 <= y <= 11 }" },
+    { 1, "{ [x,0,0] : -5 <= x <= 5; [0,y,1] : -5 <= y <= 5 }" },
+    { 1, "{ [x,y] : 0 <= x <= 10 and 0 >= y >= -1 and x+y >= 0; [0,1] }" },
+    { 1, "{ [x,y] : (0 <= x,y <= 4) or (2 <= x,y <= 5 and x + y <= 9) }" },
+}
+.fi
+.SS "struct { \&.\&.\&. }  coef_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ rat: [i] : 0 <= i <= 10 }",
+      "{ rat: coefficients[[cst] -> [a]] : cst >= 0 and 10a + cst >= 0 }" },
+    { "{ rat: [i] : FALSE }",
+      "{ rat: coefficients[[cst] -> [a]] }" },
+    { "{ rat: [i] : }",
+      "{ rat: coefficients[[cst] -> [0]] : cst >= 0 }" },
+}
+.fi
+.SS "\fBconst\fP char* condition"
+
+.SS "\fBconst\fP char* conditional_validity"
+
+.SS "\fBconst\fP char* context"
+
+.SS "\fBconst\fP char* conversion_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    "{ [a, b, c, d] -> s0[a, b, e, f] : "
+        "exists (e0 = [(a - 2c)/3], e1 = [(-4 + b - 5d)/9], "
+        "e2 = [(-d + f)/9]: 3e0 = a - 2c and 9e1 = -4 + b - 5d and "
+        "9e2 = -d + f and f >= 0 and f <= 8 and 9e >= -5 - 2a and "
+        "9e <= -2 - 2a) }",
+    "{ [a, b] -> [c] : exists (e0 = floor((-a - b + c)/5): "
+        "5e0 = -a - b + c and c >= -a and c <= 4 - a) }",
+    "{ [a, b] -> [c] : exists d : 18 * d = -3 - a + 2c and 1 <= c <= 3 }",
+}
+.fi
+.SS "struct { \&.\&.\&. }  convex_hull_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ [i0, i1, i2] : (i2 = 1 and i0 = 0 and i1 >= 0) or "
+           "(i0 = 1 and i1 = 0 and i2 = 1) or "
+           "(i0 = 0 and i1 = 0 and i2 = 0) }",
+      "{ [i0, i1, i2] : i0 >= 0 and i2 >= i0 and i2 <= 1 and i1 >= 0 }" },
+    { "[n] -> { [i0, i1, i0] : i0 <= -4 + n; "
+        "[i0, i0, i2] : n = 6 and i0 >= 0 and i2 <= 7 - i0 and "
+        "i2 <= 5 and i2 >= 4; "
+        "[3, i1, 3] : n = 5 and i1 <= 2 and i1 >= 0 }",
+      "[n] -> { [i0, i1, i2] : i2 <= -1 + n and 2i2 <= -6 + 3n - i0 and "
+        "i2 <= 5 + i0 and i2 >= i0 }" },
+    { "{ [x, y] : 3y <= 2x and y >= -2 + 2x and 2y >= 2 - x }",
+        "{ [x, y] : 1 = 0 }" },
+}
+.fi
+.SS "\fBconst\fP char* difference"
+
+.SS "\fBconst\fP char* domain"
+
+.SS "\fBconst\fP char* dual"
+
+.SS "\fBconst\fP char* flow"
+
+.SS "int(* fn) (\fBisl_ctx\fP *ctx)"
+
+.SS "\fBconst\fP char* gist"
+
+.SS "struct { \&.\&.\&. }  gist_tests[]"
+
+.SS "\fBconst\fP char* hull"
+
+.SS "struct { \&.\&.\&. }  live_range_tests[]"
+
+.SS "\fBconst\fP char* ma"
+
+.SS "\fBconst\fP char* ma1"
+
+.SS "\fBconst\fP char* map"
+
+.SS "\fBconst\fP char* map1"
+
+.SS "\fBconst\fP char* map2"
+
+.SS "\fBconst\fP char* minuend"
+
+.SS "\fBconst\fP char* name"
+
+.SS "unsigned char op"
+
+.SS "int outer_band_n"
+
+.SS "struct { \&.\&.\&. }  parse_map_equal_tests[]"
+
+.SS "struct { \&.\&.\&. }  plain_gist_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ [i] -> [j] : i >= 1 and j >= 1 or i >= 2 and j <= 10 }",
+      "{ [i] -> [j] : i >= 1 }",
+      "{ [i] -> [j] : j >= 1 or i >= 2 and j <= 10 }" },
+    { "{ [n] -> [i,j,k] : (i mod 3 = 2 and j mod 4 = 2) or "
+        "(j mod 4 = 2 and k mod 6 = n) }",
+      "{ [n] -> [i,j,k] : j mod 4 = 2 }",
+      "{ [n] -> [i,j,k] : (i mod 3 = 2) or (k mod 6 = n) }" },
+    { "{ [i] -> [j] : i > j and (exists a,b : i <= 2a + 5b <= 2) }",
+      "{ [i] -> [j] : i > j }",
+      "{ [i] -> [j] : exists a,b : i <= 2a + 5b <= 2 }" },
+}
+.fi
+.SS "struct { \&.\&.\&. }  plain_unshifted_simple_hull_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ [i] -> [j] : i >= 1 and j >= 1 or i >= 2 and j <= 10 }",
+      "{ [i] -> [j] : i >= 1 }" },
+    { "{ [n] -> [i,j,k] : (i mod 3 = 2 and j mod 4 = 2) or "
+        "(j mod 4 = 2 and k mod 6 = n) }",
+      "{ [n] -> [i,j,k] : j mod 4 = 2 }" },
+}
+.fi
+.SS "struct { \&.\&.\&. }  preimage_domain_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ B[i,j] -> C[2i + 3j] : 0 <= i < 10 and 0 <= j < 100 }",
+      "{ A[j,i] -> B[i,j] }",
+      "{ A[j,i] -> C[2i + 3j] : 0 <= i < 10 and 0 <= j < 100 }" },
+    { "{ B[i] -> C[i]; D[i] -> E[i] }",
+      "{ A[i] -> B[i + 1] }",
+      "{ A[i] -> C[i + 1] }" },
+    { "{ B[i] -> C[i]; B[i] -> E[i] }",
+      "{ A[i] -> B[i + 1] }",
+      "{ A[i] -> C[i + 1]; A[i] -> E[i + 1] }" },
+    { "{ B[i] -> C[([i/2])] }",
+      "{ A[i] -> B[2i] }",
+      "{ A[i] -> C[i] }" },
+    { "{ B[i,j] -> C[([i/2]), ([(i+j)/3])] }",
+      "{ A[i] -> B[([i/5]), ([i/7])] }",
+      "{ A[i] -> C[([([i/5])/2]), ([(([i/5])+([i/7]))/3])] }" },
+    { "[N] -> { B[i] -> C[([N/2]), i, ([N/3])] }",
+      "[N] -> { A[] -> B[([N/5])] }",
+      "[N] -> { A[] -> C[([N/2]), ([N/5]), ([N/3])] }" },
+    { "{ B[i] -> C[i] : exists a : i = 5 a }",
+      "{ A[i] -> B[2i] }",
+      "{ A[i] -> C[2i] : exists a : 2i = 5 a }" },
+    { "{ B[i] -> C[i] : exists a : i = 2 a; "
+        "B[i] -> D[i] : exists a : i = 2 a + 1 }",
+      "{ A[i] -> B[2i] }",
+      "{ A[i] -> C[2i] }" },
+}
+.fi
+.SS "struct { \&.\&.\&. }  preimage_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ B[i,j] : 0 <= i < 10 and 0 <= j < 100 }",
+      "{ A[j,i] -> B[i,j] }",
+      "{ A[j,i] : 0 <= i < 10 and 0 <= j < 100 }" },
+    { "{ rat: B[i,j] : 0 <= i, j and 3 i + 5 j <= 100 }",
+      "{ A[a,b] -> B[a/2,b/6] }",
+      "{ rat: A[a,b] : 0 <= a, b and 9 a + 5 b <= 600 }" },
+    { "{ B[i,j] : 0 <= i, j and 3 i + 5 j <= 100 }",
+      "{ A[a,b] -> B[a/2,b/6] }",
+      "{ A[a,b] : 0 <= a, b and 9 a + 5 b <= 600 and "
+            "exists i,j : a = 2 i and b = 6 j }" },
+    { "[n] -> { S[i] : 0 <= i <= 100 }", "[n] -> { S[n] }",
+      "[n] -> { : 0 <= n <= 100 }" },
+    { "{ B[i] : 0 <= i < 100 and exists a : i = 4 a }",
+      "{ A[a] -> B[2a] }",
+      "{ A[a] : 0 <= a < 50 and exists b : a = 2 b }" },
+    { "{ B[i] : 0 <= i < 100 and exists a : i = 4 a }",
+      "{ A[a] -> B[([a/2])] }",
+      "{ A[a] : 0 <= a < 200 and exists b : [a/2] = 4 b }" },
+    { "{ B[i,j,k] : 0 <= i,j,k <= 100 }",
+      "{ A[a] -> B[a,a,a/3] }",
+      "{ A[a] : 0 <= a <= 100 and exists b : a = 3 b }" },
+    { "{ B[i,j] : j = [(i)/2] } ", "{ A[i,j] -> B[i/3,j] }",
+      "{ A[i,j] : j = [(i)/6] and exists a : i = 3 a }" },
+}
+.fi
+.SS "struct { \&.\&.\&. }  pullback_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ B[i,j] -> C[i + 2j] }" , "{ A[a,b] -> B[b,a] }",
+      "{ A[a,b] -> C[b + 2a] }" },
+    { "{ B[i] -> C[2i] }", "{ A[a] -> B[(a)/2] }", "{ A[a] -> C[a] }" },
+    { "{ B[i] -> C[(i)/2] }", "{ A[a] -> B[2a] }", "{ A[a] -> C[a] }" },
+    { "{ B[i] -> C[(i)/2] }", "{ A[a] -> B[(a)/3] }",
+      "{ A[a] -> C[(a)/6] }" },
+    { "{ B[i] -> C[2i] }", "{ A[a] -> B[5a] }", "{ A[a] -> C[10a] }" },
+    { "{ B[i] -> C[2i] }", "{ A[a] -> B[(a)/3] }",
+      "{ A[a] -> C[(2a)/3] }" },
+    { "{ B[i,j] -> C[i + j] }", "{ A[a] -> B[a,a] }", "{ A[a] -> C[2a] }"},
+    { "{ B[a] -> C[a,a] }", "{ A[i,j] -> B[i + j] }",
+      "{ A[i,j] -> C[i + j, i + j] }"},
+    { "{ B[i] -> C[([i/2])] }", "{ B[5] }", "{ C[2] }" },
+    { "[n] -> { B[i,j] -> C[([i/2]) + 2j] }",
+      "[n] -> { B[n,[n/3]] }", "[n] -> { C[([n/2]) + 2*[n/3]] }", },
+    { "{ [i, j] -> [floor((i)/4) + floor((2*i+j)/5)] }",
+      "{ [i, j] -> [floor((i)/3), j] }",
+      "{ [i, j] -> [(floor((i)/12) + floor((j + 2*floor((i)/3))/5))] }" },
+}
+.fi
+.SS "\fBconst\fP char* pwqp"
+
+.SS "struct { \&.\&.\&. }  pwqp_gist_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ [i] -> i }", "{ [k] : exists a : k = 2a }", "{ [i] -> i }" },
+    { "{ [i] -> i + [ (i + [i/3])/2 ] }", "{ [10] }", "{ [i] -> 16 }" },
+    { "{ [i] -> ([(i)/2]) }", "{ [k] : exists a : k = 2a+1 }",
+      "{ [i] -> -1/2 + 1/2 * i }" },
+    { "{ [i] -> i^2 : i != 0 }", "{ [i] : i != 0 }", "{ [i] -> i^2 }" },
+}
+.fi
+.SS "\fBconst\fP char* res"
+
+.SS "\fBconst\fP char* set"
+
+.SS "\fBconst\fP char* set1"
+
+.SS "\fBconst\fP char* set2"
+
+.SS "\fBconst\fP char* set_conversion_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    "[N] -> { [i] : N - 1 <= 2 i <= N }",
+    "[N] -> { [i] : exists a : i = 4 a and N - 1 <= i <= N }",
+    "[N] -> { [i,j] : exists a : i = 4 a and N - 1 <= i, 2j <= N }",
+    "[N] -> { [[i]->[j]] : exists a : i = 4 a and N - 1 <= i, 2j <= N }",
+    "[N] -> { [3*floor(N/2) + 5*floor(N/3)] }",
+    "[a, b] -> { [c, d] : (4*floor((-a + c)/4) = -a + c and "
+            "32*floor((-b + d)/32) = -b + d and 5 <= c <= 8 and "
+            "-3 + c <= d <= 28 + c) }",
+}
+.fi
+.SS "int single_disjunct"
+
+.SS "struct { \&.\&.\&. }  sol_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ rat: coefficients[[cst] -> [a]] : cst >= 0 and 10a + cst >= 0 }",
+      "{ rat: [i] : 0 <= i <= 10 }" },
+    { "{ rat: coefficients[[cst] -> [a]] : FALSE }",
+      "{ rat: [i] }" },
+    { "{ rat: coefficients[[cst] -> [a]] }",
+      "{ rat: [i] : FALSE }" },
+}
+.fi
+.SS "\fBconst\fP char* str"
+
+.SS "int subset"
+
+.SS "struct { \&.\&.\&. }  subset_tests[]"
+
+.SS "struct { \&.\&.\&. }  subtract_domain_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ A[i] -> B[i] }", "{ A[i] }", "{ }" },
+    { "{ A[i] -> B[i] }", "{ B[i] }", "{ A[i] -> B[i] }" },
+    { "{ A[i] -> B[i] }", "{ A[i] : i > 0 }", "{ A[i] -> B[i] : i <= 0 }" },
+}
+.fi
+.SS "\fBconst\fP char* subtrahend"
+
+.SS "int sv"
+
+.SS "struct { \&.\&.\&. }  sv_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "[N] -> { [i] -> [f] : 0 <= i <= N and 0 <= i - 10 f <= 9 }", 1 },
+    { "[N] -> { [i] -> [f] : 0 <= i <= N and 0 <= i - 10 f <= 10 }", 0 },
+    { "{ [i] -> [3*floor(i/2) + 5*floor(i/3)] }", 1 },
+    { "{ S1[i] -> [i] : 0 <= i <= 9; S2[i] -> [i] : 0 <= i <= 9 }", 1 },
+    { "{ [i] -> S1[i] : 0 <= i <= 9; [i] -> S2[i] : 0 <= i <= 9 }", 0 },
+    { "{ A[i] -> [i]; B[i] -> [i]; B[i] -> [i + 1] }", 0 },
+    { "{ A[i] -> [i]; B[i] -> [i] : i < 0; B[i] -> [i + 1] : i > 0 }", 1 },
+    { "{ A[i] -> [i]; B[i] -> A[i] : i < 0; B[i] -> [i + 1] : i > 0 }", 1 },
+    { "{ A[i] -> [i]; B[i] -> [j] : i - 1 <= j <= i }", 0 },
+}
+.fi
+.SS "struct { \&.\&.\&. }  tests[]"
+
+.SS "struct { \&.\&.\&. }  tile_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { 0, 0, "[n] -> { S[i,j] : 0 <= i,j < n }",
+      "[{ S[i,j] -> [i] }, { S[i,j] -> [j] }]",
+      "{ [32,32] }",
+      "[{ S[i,j] -> [floor(i/32)] }, { S[i,j] -> [floor(j/32)] }]",
+      "[{ S[i,j] -> [i] }, { S[i,j] -> [j] }]",
+    },
+    { 1, 0, "[n] -> { S[i,j] : 0 <= i,j < n }",
+      "[{ S[i,j] -> [i] }, { S[i,j] -> [j] }]",
+      "{ [32,32] }",
+      "[{ S[i,j] -> [32*floor(i/32)] }, { S[i,j] -> [32*floor(j/32)] }]",
+      "[{ S[i,j] -> [i] }, { S[i,j] -> [j] }]",
+    },
+    { 0, 1, "[n] -> { S[i,j] : 0 <= i,j < n }",
+      "[{ S[i,j] -> [i] }, { S[i,j] -> [j] }]",
+      "{ [32,32] }",
+      "[{ S[i,j] -> [floor(i/32)] }, { S[i,j] -> [floor(j/32)] }]",
+      "[{ S[i,j] -> [i%32] }, { S[i,j] -> [j%32] }]",
+    },
+    { 1, 1, "[n] -> { S[i,j] : 0 <= i,j < n }",
+      "[{ S[i,j] -> [i] }, { S[i,j] -> [j] }]",
+      "{ [32,32] }",
+      "[{ S[i,j] -> [32*floor(i/32)] }, { S[i,j] -> [32*floor(j/32)] }]",
+      "[{ S[i,j] -> [i%32] }, { S[i,j] -> [j%32] }]",
+    },
+}
+.fi
+.SS "struct { \&.\&.\&. }  upma_bin_fail_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { &isl_union_pw_multi_aff_union_add, "{ B[x] -> A[1] : x <= 0 }",
+      "{ B[x] -> C[2] : x >= 0 }" },
+}
+.fi
+.SS "struct { \&.\&.\&. }  upma_bin_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { &isl_union_pw_multi_aff_add, "{ A[] -> [0]; B[0] -> [1] }",
+      "{ B[x] -> [2] : x >= 0 }", "{ B[0] -> [3] }" },
+    { &isl_union_pw_multi_aff_union_add, "{ A[] -> [0]; B[0] -> [1] }",
+      "{ B[x] -> [2] : x >= 0 }",
+      "{ A[] -> [0]; B[0] -> [3]; B[x] -> [2] : x >= 1 }" },
+    { &isl_union_pw_multi_aff_pullback_union_pw_multi_aff,
+      "{ A[] -> B[0]; C[x] -> B[1] : x < 10; C[y] -> B[2] : y >= 10 }",
+      "{ D[i] -> A[] : i < 0; D[i] -> C[i + 5] : i >= 0 }",
+      "{ D[i] -> B[0] : i < 0; D[i] -> B[1] : 0 <= i < 5; "
+        "D[i] -> B[2] : i >= 5 }" },
+    { &isl_union_pw_multi_aff_union_add, "{ B[x] -> A[1] : x <= 0 }",
+      "{ B[x] -> C[2] : x > 0 }",
+      "{ B[x] -> A[1] : x <= 0; B[x] -> C[2] : x > 0 }" },
+    { &isl_union_pw_multi_aff_union_add, "{ B[x] -> A[1] : x <= 0 }",
+      "{ B[x] -> A[2] : x >= 0 }",
+      "{ B[x] -> A[1] : x < 0; B[x] -> A[2] : x > 0; B[0] -> A[3] }" },
+}
+.fi
+.SS "struct { \&.\&.\&. }  val_bin_op[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    ['+'] = { &isl_val_add },
+    ['-'] = { &isl_val_sub },
+    ['*'] = { &isl_val_mul },
+    ['/'] = { &isl_val_div },
+    ['g'] = { &isl_val_gcd },
+    ['m'] = { &isl_val_min },
+    ['M'] = { &isl_val_max },
+}
+.fi
+.SS "struct { \&.\&.\&. }  val_bin_tests[]"
+
+.SS "struct { \&.\&.\&. }  val_un_tests[]"
+
+.SS "struct \fBisl_vertices_test_data\fP vertices_tests[]"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    { "{ A[t, i] : t = 12 and i >= 4 and i <= 12 }",
+      2, { "{ A[12, 4] }", "{ A[12, 12] }" } },
+    { "{ A[t, i] : t = 14 and i = 1 }",
+      1, { "{ A[14, 1] }" } },
+}
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

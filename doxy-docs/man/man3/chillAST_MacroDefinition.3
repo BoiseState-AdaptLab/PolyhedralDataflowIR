@@ -1,0 +1,248 @@
+.TH "chillAST_MacroDefinition" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_MacroDefinition
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "int \fBnumParameters\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetName\fP (char *\fBn\fP)"
+.br
+.ti -1c
+.RI "void \fBsetRhsString\fP (char *\fBn\fP)"
+.br
+.ti -1c
+.RI "char * \fBgetRhsString\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_MacroDefinition\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_MacroDefinition\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_MacroDefinition\fP (\fBconst\fP char *\fBname\fP, \fBconst\fP char *\fBrhs\fP)"
+.br
+.ti -1c
+.RI "void \fBaddParameter\fP (\fBchillAST_VarDecl\fP *\fBp\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBhasParameterNamed\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBfindParameterNamed\fP (\fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBaddChild\fP (\fBchillAST_node\fP *node) override"
+.br
+.ti -1c
+.RI "void \fBinsertChild\fP (int \fBi\fP, \fBchillAST_node\fP *node) override"
+.br
+.ti -1c
+.RI "void \fBsetBody\fP (\fBchillAST_node\fP *bod)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetBody\fP ()"
+.br
+.ti -1c
+.RI "bool \fBhasSymbolTable\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBgetSymbolTable\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBaddVariableToSymbolTable\fP (\fBchillAST_VarDecl\fP *vd) override"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBclone\fP () override"
+.br
+.ti -1c
+.RI "void \fBgatherVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL variable declarations "
+.ti -1c
+.RI "void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL scalar variable declarations "
+.ti -1c
+.RI "void \fBgatherArrayVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL array variable declarations "
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBfindArrayDecl\fP (\fBconst\fP char *\fBname\fP) override"
+.br
+.ti -1c
+.RI "void \fBgatherVarUsage\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherDeclRefExprs\fP (vector< \fBchillAST_DeclRefExpr\fP * > &refs) override"
+.br
+.RI "gather both scalar and array references "
+.ti -1c
+.RI "void \fBcleanUpVarDecls\fP ()"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char * \fBmacroName\fP"
+.br
+.ti -1c
+.RI "char * \fBrhsString\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBchillAST_VarDecl\fP * > \fBparameters\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_MacroDefinition::chillAST_MacroDefinition ()"
+
+.SS "chillAST_MacroDefinition::chillAST_MacroDefinition (\fBconst\fP char * name)\fC [explicit]\fP"
+
+.SS "chillAST_MacroDefinition::chillAST_MacroDefinition (\fBconst\fP char * name, \fBconst\fP char * rhs)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void chillAST_MacroDefinition::addChild (\fBchillAST_node\fP * node)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_MacroDefinition::addParameter (\fBchillAST_VarDecl\fP * p)"
+
+.SS "\fBchillAST_SymbolTable\fP* chillAST_MacroDefinition::addVariableToSymbolTable (\fBchillAST_VarDecl\fP * vd)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_MacroDefinition::cleanUpVarDecls ()"
+
+.SS "\fBchillAST_node\fP * chillAST_MacroDefinition::clone ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP* chillAST_MacroDefinition::constantFold ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP* chillAST_MacroDefinition::findArrayDecl (\fBconst\fP char * name)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_MacroDefinition::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP* chillAST_MacroDefinition::findParameterNamed (\fBconst\fP char * name)\fC [inline]\fP"
+
+.SS "void chillAST_MacroDefinition::gatherArrayVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL array variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_MacroDefinition::gatherDeclRefExprs (vector< \fBchillAST_DeclRefExpr\fP * > & refs)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather both scalar and array references 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_MacroDefinition::gatherScalarVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL scalar variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_MacroDefinition::gatherVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_MacroDefinition::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_MacroDefinition::gatherVarUsage (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP* chillAST_MacroDefinition::getBody ()\fC [inline]\fP"
+
+.SS "char* chillAST_MacroDefinition::getRhsString ()\fC [inline]\fP"
+
+.SS "\fBchillAST_SymbolTable\fP* chillAST_MacroDefinition::getSymbolTable ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBCHILL_ASTNODE_TYPE\fP chillAST_MacroDefinition::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_VarDecl\fP * chillAST_MacroDefinition::hasParameterNamed (\fBconst\fP char * name)"
+
+.SS "bool chillAST_MacroDefinition::hasSymbolTable ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_MacroDefinition::insertChild (int i, \fBchillAST_node\fP * node)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "int chillAST_MacroDefinition::numParameters ()\fC [inline]\fP"
+
+.SS "void chillAST_MacroDefinition::setBody (\fBchillAST_node\fP * bod)"
+
+.SS "void chillAST_MacroDefinition::setName (char * n)\fC [inline]\fP"
+
+.SS "void chillAST_MacroDefinition::setRhsString (char * n)\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "char* chillAST_MacroDefinition::macroName"
+
+.SS "std::vector<\fBchillAST_VarDecl\fP *> chillAST_MacroDefinition::parameters"
+
+.SS "char* chillAST_MacroDefinition::rhsString"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

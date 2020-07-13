@@ -1,0 +1,137 @@
+\hypertarget{loop_8hh}{}\doxysection{lib/chill/loop.hh File Reference}
+\label{loop_8hh}\index{lib/chill/loop.hh@{lib/chill/loop.hh}}
+
+
+Core loop transformation functionality.  
+
+
+{\ttfamily \#include $<$omega.\+h$>$}\newline
+{\ttfamily \#include $<$omega/code\+\_\+gen/include/codegen.\+h$>$}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G.\+h$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include \char`\"{}dep.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ir\+\_\+code.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}irtools.\+hh\char`\"{}}\newline
+{\ttfamily \#include $<$code\+\_\+gen/\+C\+G\+\_\+string\+Builder.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}stencil.\+hh\char`\"{}}\newline
+Include dependency graph for loop.\+hh\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{loop_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{loop_8hh__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_loop_level}{Loop\+Level}}
+\begin{DoxyCompactList}\small\item\em Describes properties of each loop level of a statement. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_statement}{Statement}}
+\item 
+struct \mbox{\hyperlink{struct_pragma_info}{Pragma\+Info}}
+\begin{DoxyCompactList}\small\item\em Info for pragmas during code generation. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_o_m_p_pragma_info}{O\+M\+P\+Pragma\+Info}}
+\begin{DoxyCompactList}\small\item\em Info for omp pragma during code generation. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_loop}{Loop}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{loop_8hh_a57d11adc33c8dce5074d22dd34a64583}{Tiling\+Method\+Type}} \{ \mbox{\hyperlink{loop_8hh_a57d11adc33c8dce5074d22dd34a64583a109c03460dedfd2e5218dff32a15b9f4}{Strided\+Tile}}, 
+\mbox{\hyperlink{loop_8hh_a57d11adc33c8dce5074d22dd34a64583a81a7d682dfe36aec0a759dee8c34e0f9}{Counted\+Tile}}
+ \}
+\item 
+enum \mbox{\hyperlink{loop_8hh_a9bbe4756c734efd157f151179e4860f8}{Loop\+Level\+Type}} \{ \mbox{\hyperlink{loop_8hh_a9bbe4756c734efd157f151179e4860f8a65ed2472ab73e9fb35a2a0ffd831fa6a}{Loop\+Level\+Original}}, 
+\mbox{\hyperlink{loop_8hh_a9bbe4756c734efd157f151179e4860f8a16ecf006002f996b05aa385fc99f7492}{Loop\+Level\+Tile}}, 
+\mbox{\hyperlink{loop_8hh_a9bbe4756c734efd157f151179e4860f8a2d99204a4c8d337a4ee1b92aa665a7f4}{Loop\+Level\+Unknown}}
+ \}
+\item 
+enum \mbox{\hyperlink{loop_8hh_adb23b61e5176a0359b0a7b221f32b275}{Barrier\+Type}} \{ \mbox{\hyperlink{loop_8hh_adb23b61e5176a0359b0a7b221f32b275ae212939582a1343dbb860563c0d85fe2}{Barrier}}, 
+\mbox{\hyperlink{loop_8hh_adb23b61e5176a0359b0a7b221f32b275af199fc9503b22cc628dfaaebdf74c1a3}{P2P}}, 
+\mbox{\hyperlink{loop_8hh_adb23b61e5176a0359b0a7b221f32b275a839b6f803f27f25f506f658fc8bed090}{D\+O\+A\+C\+R\+O\+SS}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Core loop transformation functionality. 
+
+\char`\"{}level\char`\"{} (starting from 1) means loop level and it corresponds to \char`\"{}dim\char`\"{} (starting from 0) in transformed iteration space \mbox{[}c\+\_\+1,l\+\_\+1,c\+\_\+2,l\+\_\+2,...., c\+\_\+n,l\+\_\+n,c\+\_\+(n+1)\mbox{]}, e.\+g., l\+\_\+2 is loop level 2 in generated code, dim 3 in transformed iteration space, and variable 4 in Omega relation. All c\textquotesingle{}s are constant numbers only and they will not show up as actual loops.
+
+Formula\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{cp__als__nd__coo_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}} = 2*level -\/ 1}
+\DoxyCodeLine{\mbox{\hyperlink{oc__quick__kill_8cc_aa7b9d53756ba6d974e0e786afaf1e6c6}{var}} = \mbox{\hyperlink{cp__als__nd__coo_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}} + 1}
+\end{DoxyCode}
+ 
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{loop_8hh_adb23b61e5176a0359b0a7b221f32b275}\label{loop_8hh_adb23b61e5176a0359b0a7b221f32b275}} 
+\index{loop.hh@{loop.hh}!BarrierType@{BarrierType}}
+\index{BarrierType@{BarrierType}!loop.hh@{loop.hh}}
+\doxysubsubsection{\texorpdfstring{BarrierType}{BarrierType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{loop_8hh_adb23b61e5176a0359b0a7b221f32b275}{Barrier\+Type}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Barrier@{Barrier}!loop.hh@{loop.hh}}\index{loop.hh@{loop.hh}!Barrier@{Barrier}}}\mbox{\Hypertarget{loop_8hh_adb23b61e5176a0359b0a7b221f32b275ae212939582a1343dbb860563c0d85fe2}\label{loop_8hh_adb23b61e5176a0359b0a7b221f32b275ae212939582a1343dbb860563c0d85fe2}} 
+Barrier&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{P2P@{P2P}!loop.hh@{loop.hh}}\index{loop.hh@{loop.hh}!P2P@{P2P}}}\mbox{\Hypertarget{loop_8hh_adb23b61e5176a0359b0a7b221f32b275af199fc9503b22cc628dfaaebdf74c1a3}\label{loop_8hh_adb23b61e5176a0359b0a7b221f32b275af199fc9503b22cc628dfaaebdf74c1a3}} 
+P2P&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DOACROSS@{DOACROSS}!loop.hh@{loop.hh}}\index{loop.hh@{loop.hh}!DOACROSS@{DOACROSS}}}\mbox{\Hypertarget{loop_8hh_adb23b61e5176a0359b0a7b221f32b275a839b6f803f27f25f506f658fc8bed090}\label{loop_8hh_adb23b61e5176a0359b0a7b221f32b275a839b6f803f27f25f506f658fc8bed090}} 
+D\+O\+A\+C\+R\+O\+SS&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{loop_8hh_a9bbe4756c734efd157f151179e4860f8}\label{loop_8hh_a9bbe4756c734efd157f151179e4860f8}} 
+\index{loop.hh@{loop.hh}!LoopLevelType@{LoopLevelType}}
+\index{LoopLevelType@{LoopLevelType}!loop.hh@{loop.hh}}
+\doxysubsubsection{\texorpdfstring{LoopLevelType}{LoopLevelType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{loop_8hh_a9bbe4756c734efd157f151179e4860f8}{Loop\+Level\+Type}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LoopLevelOriginal@{LoopLevelOriginal}!loop.hh@{loop.hh}}\index{loop.hh@{loop.hh}!LoopLevelOriginal@{LoopLevelOriginal}}}\mbox{\Hypertarget{loop_8hh_a9bbe4756c734efd157f151179e4860f8a65ed2472ab73e9fb35a2a0ffd831fa6a}\label{loop_8hh_a9bbe4756c734efd157f151179e4860f8a65ed2472ab73e9fb35a2a0ffd831fa6a}} 
+Loop\+Level\+Original&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LoopLevelTile@{LoopLevelTile}!loop.hh@{loop.hh}}\index{loop.hh@{loop.hh}!LoopLevelTile@{LoopLevelTile}}}\mbox{\Hypertarget{loop_8hh_a9bbe4756c734efd157f151179e4860f8a16ecf006002f996b05aa385fc99f7492}\label{loop_8hh_a9bbe4756c734efd157f151179e4860f8a16ecf006002f996b05aa385fc99f7492}} 
+Loop\+Level\+Tile&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LoopLevelUnknown@{LoopLevelUnknown}!loop.hh@{loop.hh}}\index{loop.hh@{loop.hh}!LoopLevelUnknown@{LoopLevelUnknown}}}\mbox{\Hypertarget{loop_8hh_a9bbe4756c734efd157f151179e4860f8a2d99204a4c8d337a4ee1b92aa665a7f4}\label{loop_8hh_a9bbe4756c734efd157f151179e4860f8a2d99204a4c8d337a4ee1b92aa665a7f4}} 
+Loop\+Level\+Unknown&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{loop_8hh_a57d11adc33c8dce5074d22dd34a64583}\label{loop_8hh_a57d11adc33c8dce5074d22dd34a64583}} 
+\index{loop.hh@{loop.hh}!TilingMethodType@{TilingMethodType}}
+\index{TilingMethodType@{TilingMethodType}!loop.hh@{loop.hh}}
+\doxysubsubsection{\texorpdfstring{TilingMethodType}{TilingMethodType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{loop_8hh_a57d11adc33c8dce5074d22dd34a64583}{Tiling\+Method\+Type}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{StridedTile@{StridedTile}!loop.hh@{loop.hh}}\index{loop.hh@{loop.hh}!StridedTile@{StridedTile}}}\mbox{\Hypertarget{loop_8hh_a57d11adc33c8dce5074d22dd34a64583a109c03460dedfd2e5218dff32a15b9f4}\label{loop_8hh_a57d11adc33c8dce5074d22dd34a64583a109c03460dedfd2e5218dff32a15b9f4}} 
+Strided\+Tile&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CountedTile@{CountedTile}!loop.hh@{loop.hh}}\index{loop.hh@{loop.hh}!CountedTile@{CountedTile}}}\mbox{\Hypertarget{loop_8hh_a57d11adc33c8dce5074d22dd34a64583a81a7d682dfe36aec0a759dee8c34e0f9}\label{loop_8hh_a57d11adc33c8dce5074d22dd34a64583a81a7d682dfe36aec0a759dee8c34e0f9}} 
+Counted\+Tile&\\
+\hline
+
+\end{DoxyEnumFields}

@@ -1,0 +1,1042 @@
+.TH "lib/gmp/gmpxx.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/gmp/gmpxx.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <iosfwd>\fP
+.br
+\fC#include <cstring>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <stdexcept>\fP
+.br
+\fC#include <cfloat>\fP
+.br
+\fC#include <gmp\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fB__gmp_unary_plus\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_unary_minus\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_unary_com\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_plus\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_minus\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_lshift\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_rshift\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_multiplies\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_divides\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_modulus\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_and\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_ior\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_xor\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_cmp_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_equal\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_less\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_greater\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_unary_increment\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_unary_decrement\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_abs_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_trunc_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_floor_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_ceil_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_sqrt_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_hypot_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_sgn_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_gcd_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_lcm_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_rand_function\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_alloc_cstring\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, U >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_ref< T >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_ref< __gmp_expr< T, U > >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< T, U >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< mpz_t >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< mpq_t >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< mpf_t >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< mpz_t, mpq_t >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< mpq_t, mpz_t >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< mpz_t, mpf_t >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< mpf_t, mpz_t >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< mpq_t, mpf_t >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_resolve_expr< mpf_t, mpq_t >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_unary_expr< T, Op >\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_binary_expr< T, U, Op >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< mpz_t, mpz_t >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< mpq_t, mpq_t >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< mpf_t, mpf_t >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_temp< T >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_temp< mpf_t >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_unary_expr< __gmp_expr< T, T >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_unary_expr< U, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_unary_expr< __gmp_expr< T, U >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< T, T >, __gmp_expr< T, T >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< T, T >, U, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< U, __gmp_expr< T, T >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< T, T >, __gmp_expr< U, V >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< U, V >, __gmp_expr< T, T >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< T, T >, __gmp_expr< T, U >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< T, U >, __gmp_expr< T, T >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< T, U >, V, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< U, __gmp_expr< T, V >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< T, U >, __gmp_expr< V, W >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< U, V >, __gmp_expr< T, W >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< T, __gmp_binary_expr< __gmp_expr< T, U >, __gmp_expr< T, V >, Op > >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_urandomb_value\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_urandomm_value\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< mpz_t, __gmp_urandomb_value >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< mpz_t, __gmp_urandomm_value >\fP"
+.br
+.ti -1c
+.RI "class \fB__gmp_expr< mpf_t, __gmp_urandomb_value >\fP"
+.br
+.ti -1c
+.RI "class \fBgmp_randclass\fP"
+.br
+.ti -1c
+.RI "class \fBstd::numeric_limits< mpz_class >\fP"
+.br
+.ti -1c
+.RI "class \fBstd::numeric_limits< mpq_class >\fP"
+.br
+.ti -1c
+.RI "class \fBstd::numeric_limits< mpf_class >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBstd\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__GMPXX_CONSTANT\fP(\fBX\fP)   false"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_CONSTANT_TRUE\fP(\fBX\fP)   (\fB__GMPXX_CONSTANT\fP(\fBX\fP) && (\fBX\fP))"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_USE_CXX11\fP   0"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPZ_ULI_LIMBS\fP   1"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_BITS_TO_LIMBS\fP(\fBn\fP)   (((\fBn\fP) + (\fBGMP_NUMB_BITS\fP \- 1)) / \fBGMP_NUMB_BITS\fP)"
+.br
+.ti -1c
+.RI "#define \fB__GMPZ_DBL_LIMBS\fP   \fB__GMPXX_BITS_TO_LIMBS\fP(DBL_MAX_EXP)+1"
+.br
+.ti -1c
+.RI "#define \fB__GMPQ_NUM_DBL_LIMBS\fP   \fB__GMPZ_DBL_LIMBS\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPQ_DEN_DBL_LIMBS\fP   \fB__GMPXX_BITS_TO_LIMBS\fP(DBL_MANT_DIG+1\-DBL_MIN_EXP)+1"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_TMPZ_UI\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_TMPZ_SI\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_TMPZ_D\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_TMPQ_UI\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_TMPQ_SI\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_TMPQ_D\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPP_DECLARE_COMPOUND_OPERATOR\fP(fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_DECLARE_COMPOUND_OPERATOR\fP(fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DECLARE_COMPOUND_OPERATOR\fP(fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DECLARE_COMPOUND_OPERATOR_UI\fP(fun)   \fB__gmp_expr\fP & fun(\fBmp_bitcnt_t\fP);"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DECLARE_INCREMENT_OPERATOR\fP(fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_DEFINE_ARITHMETIC_CONSTRUCTORS\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPXX_DEFINE_ARITHMETIC_ASSIGNMENTS\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMPZQ_DEFINE_EXPR\fP(eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DEFINE_UNARY_FUNCTION\fP(fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DEFINE_UNARY_TYPE_FUNCTION\fP(type,  fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPP_DEFINE_BINARY_FUNCTION\fP(fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNN_DEFINE_BINARY_FUNCTION\fP(fun,  eval_fun,  type,  bigtype)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNS_DEFINE_BINARY_FUNCTION\fP(fun,  eval_fun,  type)   \fB__GMPNN_DEFINE_BINARY_FUNCTION\fP(fun, eval_fun, type, signed long int)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNU_DEFINE_BINARY_FUNCTION\fP(fun,  eval_fun,  type)   \fB__GMPNN_DEFINE_BINARY_FUNCTION\fP(fun, eval_fun, type, unsigned long int)"
+.br
+.ti -1c
+.RI "#define \fB__GMPND_DEFINE_BINARY_FUNCTION\fP(fun,  eval_fun,  type)   \fB__GMPNN_DEFINE_BINARY_FUNCTION\fP(fun, eval_fun, type, double)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNLD_DEFINE_BINARY_FUNCTION\fP(fun,  eval_fun,  type)   \fB__GMPNN_DEFINE_BINARY_FUNCTION\fP(fun, eval_fun, type, long double)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_DEFINE_BINARY_FUNCTION\fP(fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DEFINE_BINARY_FUNCTION\fP(fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DEFINE_BINARY_FUNCTION_UI\fP(fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPP_DEFINE_BINARY_TYPE_FUNCTION\fP(type,  fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNN_DEFINE_BINARY_TYPE_FUNCTION\fP(type,  fun,  eval_fun,  type2,  bigtype)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNS_DEFINE_BINARY_TYPE_FUNCTION\fP(type,  fun,  eval_fun,  type2)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNU_DEFINE_BINARY_TYPE_FUNCTION\fP(type,  fun,  eval_fun,  type2)"
+.br
+.ti -1c
+.RI "#define \fB__GMPND_DEFINE_BINARY_TYPE_FUNCTION\fP(type,  fun,  eval_fun,  type2)   \fB__GMPNN_DEFINE_BINARY_TYPE_FUNCTION\fP(type, fun, eval_fun, type2, double)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNLD_DEFINE_BINARY_TYPE_FUNCTION\fP(type,  fun,  eval_fun,  type2)   \fB__GMPNN_DEFINE_BINARY_TYPE_FUNCTION\fP(type, fun, eval_fun, type2, long double)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_DEFINE_BINARY_TYPE_FUNCTION\fP(type,  fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DEFINE_BINARY_TYPE_FUNCTION\fP(type,  fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPP_DEFINE_COMPOUND_OPERATOR\fP(type,  fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNN_DEFINE_COMPOUND_OPERATOR\fP(type,  fun,  eval_fun,  type2,  bigtype)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNS_DEFINE_COMPOUND_OPERATOR\fP(type,  fun,  eval_fun,  type2)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNU_DEFINE_COMPOUND_OPERATOR\fP(type,  fun,  eval_fun,  type2)"
+.br
+.ti -1c
+.RI "#define \fB__GMPND_DEFINE_COMPOUND_OPERATOR\fP(type,  fun,  eval_fun,  type2)   \fB__GMPNN_DEFINE_COMPOUND_OPERATOR\fP(type, fun, eval_fun, type2, double)"
+.br
+.ti -1c
+.RI "#define \fB__GMPNLD_DEFINE_COMPOUND_OPERATOR\fP(type,  fun,  eval_fun,  type2)   \fB__GMPNN_DEFINE_COMPOUND_OPERATOR\fP(type, fun, eval_fun, type2, long double)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_DEFINE_COMPOUND_OPERATOR\fP(type,  fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DEFINE_COMPOUND_OPERATOR\fP(type,  fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPZ_DEFINE_COMPOUND_OPERATOR\fP(fun,  eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR\fP(\fBmpz\fP, fun, eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPQ_DEFINE_COMPOUND_OPERATOR\fP(fun,  eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR\fP(\fBmpq\fP, fun, eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPF_DEFINE_COMPOUND_OPERATOR\fP(fun,  eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR\fP(mpf, fun, eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DEFINE_COMPOUND_OPERATOR_UI\fP(type,  fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPZ_DEFINE_COMPOUND_OPERATOR_UI\fP(fun,  eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR_UI\fP(\fBmpz\fP, fun, eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPQ_DEFINE_COMPOUND_OPERATOR_UI\fP(fun,  eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR_UI\fP(\fBmpq\fP, fun, eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPF_DEFINE_COMPOUND_OPERATOR_UI\fP(fun,  eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR_UI\fP(mpf, fun, eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DEFINE_INCREMENT_OPERATOR\fP(type,  fun,  eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPZ_DEFINE_INCREMENT_OPERATOR\fP(fun,  eval_fun)   \fB__GMP_DEFINE_INCREMENT_OPERATOR\fP(\fBmpz\fP, fun, eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPQ_DEFINE_INCREMENT_OPERATOR\fP(fun,  eval_fun)   \fB__GMP_DEFINE_INCREMENT_OPERATOR\fP(\fBmpq\fP, fun, eval_fun)"
+.br
+.ti -1c
+.RI "#define \fB__GMPF_DEFINE_INCREMENT_OPERATOR\fP(fun,  eval_fun)   \fB__GMP_DEFINE_INCREMENT_OPERATOR\fP(mpf, fun, eval_fun)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef void(* \fB__gmp_freefunc_t\fP) (void *, size_t)"
+.br
+.ti -1c
+.RI "typedef \fB__gmp_expr\fP< \fBmpz_t\fP, \fBmpz_t\fP > \fBmpz_class\fP"
+.br
+.ti -1c
+.RI "typedef \fB__gmp_expr\fP< \fBmpq_t\fP, \fBmpq_t\fP > \fBmpq_class\fP"
+.br
+.ti -1c
+.RI "typedef \fB__gmp_expr\fP< \fBmpf_t\fP, \fBmpf_t\fP > \fBmpf_class\fP"
+.br
+.ti -1c
+.RI "typedef void \fB__gmp_randinit_default_t\fP(\fBgmp_randstate_t\fP)"
+.br
+.ti -1c
+.RI "typedef void \fB__gmp_randinit_lc_2exp_t\fP(\fBgmp_randstate_t\fP, \fBmpz_srcptr\fP, unsigned long int, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "typedef int \fB__gmp_randinit_lc_2exp_size_t\fP(\fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fB__mpz_set_ui_safe\fP (\fBmpz_ptr\fP \fBp\fP, unsigned long l)"
+.br
+.ti -1c
+.RI "void \fB__mpz_set_si_safe\fP (\fBmpz_ptr\fP \fBp\fP, long l)"
+.br
+.ti -1c
+.RI "unsigned long \fB__gmpxx_abs_ui\fP (signed long l)"
+.br
+.ti -1c
+.RI "template<class T , class U > std::ostream & \fBoperator<<\fP (std::ostream &o, \fBconst\fP \fB__gmp_expr\fP< \fBT\fP, \fBU\fP > &expr)"
+.br
+.ti -1c
+.RI "template<class T > std::istream & \fBoperator>>\fP (std::istream &\fBi\fP, \fB__gmp_expr\fP< \fBT\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "void \fB__gmp_set_expr\fP (\fBmpz_ptr\fP \fBz\fP, \fBconst\fP \fBmpz_class\fP &w)"
+.br
+.ti -1c
+.RI "template<class T > void \fB__gmp_set_expr\fP (\fBmpz_ptr\fP \fBz\fP, \fBconst\fP \fB__gmp_expr\fP< \fBmpz_t\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "template<class T > void \fB__gmp_set_expr\fP (\fBmpz_ptr\fP \fBz\fP, \fBconst\fP \fB__gmp_expr\fP< \fBmpq_t\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "template<class T > void \fB__gmp_set_expr\fP (\fBmpz_ptr\fP \fBz\fP, \fBconst\fP \fB__gmp_expr\fP< \fBmpf_t\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "void \fB__gmp_set_expr\fP (\fBmpq_ptr\fP q, \fBconst\fP \fBmpz_class\fP &\fBz\fP)"
+.br
+.ti -1c
+.RI "template<class T > void \fB__gmp_set_expr\fP (\fBmpq_ptr\fP q, \fBconst\fP \fB__gmp_expr\fP< \fBmpz_t\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "void \fB__gmp_set_expr\fP (\fBmpq_ptr\fP q, \fBconst\fP \fBmpq_class\fP &r)"
+.br
+.ti -1c
+.RI "template<class T > void \fB__gmp_set_expr\fP (\fBmpq_ptr\fP q, \fBconst\fP \fB__gmp_expr\fP< \fBmpq_t\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "template<class T > void \fB__gmp_set_expr\fP (\fBmpq_ptr\fP q, \fBconst\fP \fB__gmp_expr\fP< \fBmpf_t\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "template<class T > void \fB__gmp_set_expr\fP (\fBmpf_ptr\fP \fBf\fP, \fBconst\fP \fB__gmp_expr\fP< \fBmpz_t\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "template<class T > void \fB__gmp_set_expr\fP (\fBmpf_ptr\fP \fBf\fP, \fBconst\fP \fB__gmp_expr\fP< \fBmpq_t\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "void \fB__gmp_set_expr\fP (\fBmpf_ptr\fP \fBf\fP, \fBconst\fP \fBmpf_class\fP &g)"
+.br
+.ti -1c
+.RI "template<class T > void \fB__gmp_set_expr\fP (\fBmpf_ptr\fP \fBf\fP, \fBconst\fP \fB__gmp_expr\fP< \fBmpf_t\fP, \fBT\fP > &expr)"
+.br
+.ti -1c
+.RI "template<class T > void \fBswap\fP (\fB__gmp_expr\fP< \fBT\fP, \fBT\fP > &\fBx\fP, \fB__gmp_expr\fP< \fBT\fP, \fBT\fP > &\fBy\fP) \fB__GMPXX_NOEXCEPT\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define __GMP_DECLARE_COMPOUND_OPERATOR(fun)"
+\fBValue:\fP
+.PP
+.nf
+__GMPP_DECLARE_COMPOUND_OPERATOR(fun)        \
+__GMPN_DECLARE_COMPOUND_OPERATOR(fun)
+.fi
+.SS "#define __GMP_DECLARE_COMPOUND_OPERATOR_UI(fun)   \fB__gmp_expr\fP & fun(\fBmp_bitcnt_t\fP);"
+
+.SS "#define __GMP_DECLARE_INCREMENT_OPERATOR(fun)"
+\fBValue:\fP
+.PP
+.nf
+  inline __gmp_expr & fun();                  \
+  inline __gmp_expr fun(int);
+.fi
+.SS "#define __GMP_DEFINE_BINARY_FUNCTION(fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+__GMPP_DEFINE_BINARY_FUNCTION(fun, eval_fun)        \
+__GMPN_DEFINE_BINARY_FUNCTION(fun, eval_fun)
+.fi
+.SS "#define __GMP_DEFINE_BINARY_FUNCTION_UI(fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+                                                                       \
+template <class T, class U>                                            \
+inline __gmp_expr                                                      \
+<T, __gmp_binary_expr<__gmp_expr<T, U>, mp_bitcnt_t, eval_fun> > \
+fun(const __gmp_expr<T, U> &expr, mp_bitcnt_t l)                 \
+{                                                                      \
+  return __gmp_expr<T, __gmp_binary_expr                               \
+    <__gmp_expr<T, U>, mp_bitcnt_t, eval_fun> >(expr, l);        \
+}
+.fi
+.SS "#define __GMP_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+__GMPP_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun)        \
+__GMPN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun)
+.fi
+.SS "#define __GMP_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+__GMPP_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun)        \
+__GMPN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun)
+.fi
+.SS "#define __GMP_DEFINE_COMPOUND_OPERATOR_UI(type, fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+                                                                \
+inline type##_class & type##_class::fun(mp_bitcnt_t l)    \
+{                                                               \
+  __gmp_set_expr(mp, __gmp_expr<type##_t, __gmp_binary_expr     \
+    <type##_class, mp_bitcnt_t, eval_fun> >(*this, l));   \
+  return *this;                                                 \
+}
+.fi
+.SS "#define __GMP_DEFINE_INCREMENT_OPERATOR(type, fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+                                                             \
+inline type##_class & type##_class::fun()                    \
+{                                                            \
+  eval_fun::eval(mp);                                        \
+  return *this;                                              \
+}                                                            \
+                                                             \
+inline type##_class type##_class::fun(int)                   \
+{                                                            \
+  type##_class temp(*this);                                  \
+  eval_fun::eval(mp);                                        \
+  return temp;                                               \
+}
+.fi
+.SS "#define __GMP_DEFINE_UNARY_FUNCTION(fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+                                                                             \
+template <class T, class U>                                                  \
+inline __gmp_expr<T, __gmp_unary_expr<__gmp_expr<T, U>, eval_fun> >          \
+fun(const __gmp_expr<T, U> &expr)                                            \
+{                                                                            \
+  return __gmp_expr<T, __gmp_unary_expr<__gmp_expr<T, U>, eval_fun> >(expr); \
+}
+.fi
+.SS "#define __GMP_DEFINE_UNARY_TYPE_FUNCTION(type, fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+                                                              \
+template <class T, class U>                                   \
+inline type fun(const __gmp_expr<T, U> &expr)                 \
+{                                                             \
+  __gmp_expr<T, T> const& temp(expr); \
+  return eval_fun::eval(temp\&.__get_mp());                     \
+}
+.fi
+.SS "#define __GMPF_DEFINE_COMPOUND_OPERATOR(fun, eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR\fP(mpf, fun, eval_fun)"
+
+.SS "#define __GMPF_DEFINE_COMPOUND_OPERATOR_UI(fun, eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR_UI\fP(mpf, fun, eval_fun)"
+
+.SS "#define __GMPF_DEFINE_INCREMENT_OPERATOR(fun, eval_fun)   \fB__GMP_DEFINE_INCREMENT_OPERATOR\fP(mpf, fun, eval_fun)"
+
+.SS "#define __GMPN_DECLARE_COMPOUND_OPERATOR(fun)"
+\fBValue:\fP
+.PP
+.nf
+  __gmp_expr & fun(signed char);              \
+  __gmp_expr & fun(unsigned char);            \
+  __gmp_expr & fun(signed int);               \
+  __gmp_expr & fun(unsigned int);             \
+  __gmp_expr & fun(signed short int);         \
+  __gmp_expr & fun(unsigned short int);       \
+  __gmp_expr & fun(signed long int);          \
+  __gmp_expr & fun(unsigned long int);        \
+  __gmp_expr & fun(float);                    \
+  __gmp_expr & fun(double);                   \
+  /* __gmp_expr & fun(long double); */
+.fi
+.SS "#define __GMPN_DEFINE_BINARY_FUNCTION(fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+__GMPNS_DEFINE_BINARY_FUNCTION(fun, eval_fun, signed char)        \
+__GMPNU_DEFINE_BINARY_FUNCTION(fun, eval_fun, unsigned char)      \
+__GMPNS_DEFINE_BINARY_FUNCTION(fun, eval_fun, signed int)         \
+__GMPNU_DEFINE_BINARY_FUNCTION(fun, eval_fun, unsigned int)       \
+__GMPNS_DEFINE_BINARY_FUNCTION(fun, eval_fun, signed short int)   \
+__GMPNU_DEFINE_BINARY_FUNCTION(fun, eval_fun, unsigned short int) \
+__GMPNS_DEFINE_BINARY_FUNCTION(fun, eval_fun, signed long int)    \
+__GMPNU_DEFINE_BINARY_FUNCTION(fun, eval_fun, unsigned long int)  \
+__GMPND_DEFINE_BINARY_FUNCTION(fun, eval_fun, float)              \
+__GMPND_DEFINE_BINARY_FUNCTION(fun, eval_fun, double)             \
+/* __GMPNLD_DEFINE_BINARY_FUNCTION(fun, eval_fun, long double) */
+.fi
+.SS "#define __GMPN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+__GMPNS_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, signed char)        \
+__GMPNU_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, unsigned char)      \
+__GMPNS_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, signed int)         \
+__GMPNU_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, unsigned int)       \
+__GMPNS_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, signed short int)   \
+__GMPNU_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, unsigned short int) \
+__GMPNS_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, signed long int)    \
+__GMPNU_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, unsigned long int)  \
+__GMPND_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, float)              \
+__GMPND_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, double)             \
+/* __GMPNLD_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, long double) */
+.fi
+.SS "#define __GMPN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+__GMPNS_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, signed char)        \
+__GMPNU_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, unsigned char)      \
+__GMPNS_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, signed int)         \
+__GMPNU_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, unsigned int)       \
+__GMPNS_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, signed short int)   \
+__GMPNU_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, unsigned short int) \
+__GMPNS_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, signed long int)    \
+__GMPNU_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, unsigned long int)  \
+__GMPND_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, float)              \
+__GMPND_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, double)             \
+/* __GMPNLD_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, long double) */
+.fi
+.SS "#define __GMPND_DEFINE_BINARY_FUNCTION(fun, eval_fun, type)   \fB__GMPNN_DEFINE_BINARY_FUNCTION\fP(fun, eval_fun, type, double)"
+
+.SS "#define __GMPND_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2)   \fB__GMPNN_DEFINE_BINARY_TYPE_FUNCTION\fP(type, fun, eval_fun, type2, double)"
+
+.SS "#define __GMPND_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2)   \fB__GMPNN_DEFINE_COMPOUND_OPERATOR\fP(type, fun, eval_fun, type2, double)"
+
+.SS "#define __GMPNLD_DEFINE_BINARY_FUNCTION(fun, eval_fun, type)   \fB__GMPNN_DEFINE_BINARY_FUNCTION\fP(fun, eval_fun, type, long double)"
+
+.SS "#define __GMPNLD_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2)   \fB__GMPNN_DEFINE_BINARY_TYPE_FUNCTION\fP(type, fun, eval_fun, type2, long double)"
+
+.SS "#define __GMPNLD_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2)   \fB__GMPNN_DEFINE_COMPOUND_OPERATOR\fP(type, fun, eval_fun, type2, long double)"
+
+.SS "#define __GMPNN_DEFINE_BINARY_FUNCTION(fun, eval_fun, type, bigtype)"
+\fBValue:\fP
+.PP
+.nf
+                                                                           \
+template <class T, class U>                                                \
+inline __gmp_expr                                                          \
+<T, __gmp_binary_expr<__gmp_expr<T, U>, bigtype, eval_fun> >               \
+fun(const __gmp_expr<T, U> &expr, type t)                                  \
+{                                                                          \
+  return __gmp_expr                                                        \
+    <T, __gmp_binary_expr<__gmp_expr<T, U>, bigtype, eval_fun> >(expr, t); \
+}                                                                          \
+                                                                           \
+template <class T, class U>                                                \
+inline __gmp_expr                                                          \
+<T, __gmp_binary_expr<bigtype, __gmp_expr<T, U>, eval_fun> >               \
+fun(type t, const __gmp_expr<T, U> &expr)                                  \
+{                                                                          \
+  return __gmp_expr                                                        \
+    <T, __gmp_binary_expr<bigtype, __gmp_expr<T, U>, eval_fun> >(t, expr); \
+}
+.fi
+.SS "#define __GMPNN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2, bigtype)"
+\fBValue:\fP
+.PP
+.nf
+                                                                   \
+template <class T, class U>                                        \
+inline type fun(const __gmp_expr<T, U> &expr, type2 t)             \
+{                                                                  \
+  __gmp_expr<T, T> const& temp(expr);      \
+  return eval_fun::eval(temp\&.__get_mp(), static_cast<bigtype>(t)); \
+}                                                                  \
+                                                                   \
+template <class T, class U>                                        \
+inline type fun(type2 t, const __gmp_expr<T, U> &expr)             \
+{                                                                  \
+  __gmp_expr<T, T> const& temp(expr);      \
+  return eval_fun::eval(static_cast<bigtype>(t), temp\&.__get_mp()); \
+}
+.fi
+.SS "#define __GMPNN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2, bigtype)"
+\fBValue:\fP
+.PP
+.nf
+                                                                 \
+inline type##_class & type##_class::fun(type2 t)                 \
+{                                                                \
+  __gmp_set_expr(mp, __gmp_expr<type##_t, __gmp_binary_expr      \
+         <type##_class, bigtype, eval_fun> >(*this, t)); \
+  return *this;                                                  \
+}
+.fi
+.SS "#define __GMPNS_DEFINE_BINARY_FUNCTION(fun, eval_fun, type)   \fB__GMPNN_DEFINE_BINARY_FUNCTION\fP(fun, eval_fun, type, signed long int)"
+
+.SS "#define __GMPNS_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2)"
+\fBValue:\fP
+.PP
+.nf
+__GMPNN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun,                \
+                    type2, signed long int)
+.fi
+.SS "#define __GMPNS_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2)"
+\fBValue:\fP
+.PP
+.nf
+__GMPNN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun,                \
+                 type2, signed long int)
+.fi
+.SS "#define __GMPNU_DEFINE_BINARY_FUNCTION(fun, eval_fun, type)   \fB__GMPNN_DEFINE_BINARY_FUNCTION\fP(fun, eval_fun, type, unsigned long int)"
+
+.SS "#define __GMPNU_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun, type2)"
+\fBValue:\fP
+.PP
+.nf
+__GMPNN_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun,                \
+                    type2, unsigned long int)
+.fi
+.SS "#define __GMPNU_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun, type2)"
+\fBValue:\fP
+.PP
+.nf
+__GMPNN_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun,                \
+                 type2, unsigned long int)
+.fi
+.SS "#define __GMPP_DECLARE_COMPOUND_OPERATOR(fun)"
+\fBValue:\fP
+.PP
+.nf
+  template <class T, class U>                                         \
+  __gmp_expr<value_type, value_type> & fun(const __gmp_expr<T, U> &);
+.fi
+.SS "#define __GMPP_DEFINE_BINARY_FUNCTION(fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+                                                                       \
+template <class T, class U, class V, class W>                          \
+inline __gmp_expr<typename __gmp_resolve_expr<T, V>::value_type,       \
+__gmp_binary_expr<__gmp_expr<T, U>, __gmp_expr<V, W>, eval_fun> >      \
+fun(const __gmp_expr<T, U> &expr1, const __gmp_expr<V, W> &expr2)      \
+{                                                                      \
+  return __gmp_expr<typename __gmp_resolve_expr<T, V>::value_type,     \
+     __gmp_binary_expr<__gmp_expr<T, U>, __gmp_expr<V, W>, eval_fun> > \
+    (expr1, expr2);                                                    \
+}
+.fi
+.SS "#define __GMPP_DEFINE_BINARY_TYPE_FUNCTION(type, fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+                                                                        \
+template <class T, class U, class V, class W>                           \
+inline type fun(const __gmp_expr<T, U> &expr1,                          \
+        const __gmp_expr<V, W> &expr2)                          \
+{                                                                       \
+  __gmp_expr<T, T> const& temp1(expr1);                                 \
+  __gmp_expr<V, V> const& temp2(expr2);                                 \
+  return eval_fun::eval(temp1\&.__get_mp(), temp2\&.__get_mp());            \
+}
+.fi
+.SS "#define __GMPP_DEFINE_COMPOUND_OPERATOR(type, fun, eval_fun)"
+\fBValue:\fP
+.PP
+.nf
+                                                                             \
+template <class T, class U>                                                  \
+inline type##_class & type##_class::fun(const __gmp_expr<T, U> &expr)        \
+{                                                                            \
+  __gmp_set_expr(mp, __gmp_expr<type##_t, __gmp_binary_expr                  \
+         <type##_class, __gmp_expr<T, U>, eval_fun> >(*this, expr)); \
+  return *this;                                                              \
+}
+.fi
+.SS "#define __GMPQ_DEFINE_COMPOUND_OPERATOR(fun, eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR\fP(\fBmpq\fP, fun, eval_fun)"
+
+.SS "#define __GMPQ_DEFINE_COMPOUND_OPERATOR_UI(fun, eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR_UI\fP(\fBmpq\fP, fun, eval_fun)"
+
+.SS "#define __GMPQ_DEFINE_INCREMENT_OPERATOR(fun, eval_fun)   \fB__GMP_DEFINE_INCREMENT_OPERATOR\fP(\fBmpq\fP, fun, eval_fun)"
+
+.SS "#define __GMPQ_DEN_DBL_LIMBS   \fB__GMPXX_BITS_TO_LIMBS\fP(DBL_MANT_DIG+1\-DBL_MIN_EXP)+1"
+
+.SS "#define __GMPQ_NUM_DBL_LIMBS   \fB__GMPZ_DBL_LIMBS\fP"
+
+.SS "#define __GMPXX_BITS_TO_LIMBS(\fBn\fP)   (((\fBn\fP) + (\fBGMP_NUMB_BITS\fP \- 1)) / \fBGMP_NUMB_BITS\fP)"
+
+.SS "#define __GMPXX_CONSTANT(\fBX\fP)   false"
+
+.SS "#define __GMPXX_CONSTANT_TRUE(\fBX\fP)   (\fB__GMPXX_CONSTANT\fP(\fBX\fP) && (\fBX\fP))"
+
+.SS "#define __GMPXX_DEFINE_ARITHMETIC_ASSIGNMENTS"
+\fBValue:\fP
+.PP
+.nf
+  __gmp_expr & operator=(signed char c) { assign_si(c); return *this; } \
+  __gmp_expr & operator=(unsigned char c) { assign_ui(c); return *this; } \
+  __gmp_expr & operator=(signed int i) { assign_si(i); return *this; } \
+  __gmp_expr & operator=(unsigned int i) { assign_ui(i); return *this; } \
+  __gmp_expr & operator=(signed short int s) { assign_si(s); return *this; } \
+  __gmp_expr & operator=(unsigned short int s) { assign_ui(s); return *this; } \
+  __gmp_expr & operator=(signed long int l) { assign_si(l); return *this; } \
+  __gmp_expr & operator=(unsigned long int l) { assign_ui(l); return *this; } \
+  __gmp_expr & operator=(float f) { assign_d(f); return *this; } \
+  __gmp_expr & operator=(double d) { assign_d(d); return *this; }
+.fi
+.SS "#define __GMPXX_DEFINE_ARITHMETIC_CONSTRUCTORS"
+\fBValue:\fP
+.PP
+.nf
+  __gmp_expr(signed char c) { init_si(c); }       \
+  __gmp_expr(unsigned char c) { init_ui(c); }       \
+  __gmp_expr(signed int i) { init_si(i); }      \
+  __gmp_expr(unsigned int i) { init_ui(i); }        \
+  __gmp_expr(signed short int s) { init_si(s); }    \
+  __gmp_expr(unsigned short int s) { init_ui(s); }  \
+  __gmp_expr(signed long int l) { init_si(l); }     \
+  __gmp_expr(unsigned long int l) { init_ui(l); }   \
+  __gmp_expr(float f) { init_d(f); }            \
+  __gmp_expr(double d) { init_d(d); }
+.fi
+.SS "#define __GMPXX_NOEXCEPT"
+
+.SS "#define __GMPXX_TMPQ_D"
+\fBValue:\fP
+.PP
+.nf
+  mpq_t temp;                             \
+  mp_limb_t limbs[__GMPQ_NUM_DBL_LIMBS + __GMPQ_DEN_DBL_LIMBS];     \
+  mpq_numref(temp)->_mp_d = limbs;                  \
+  mpq_numref(temp)->_mp_alloc = __GMPQ_NUM_DBL_LIMBS;           \
+  mpq_denref(temp)->_mp_d = limbs + __GMPQ_NUM_DBL_LIMBS;       \
+  mpq_denref(temp)->_mp_alloc = __GMPQ_DEN_DBL_LIMBS;           \
+  mpq_set_d (temp, d)
+.fi
+.SS "#define __GMPXX_TMPQ_SI"
+\fBValue:\fP
+.PP
+.nf
+  mpq_t temp;                                \
+  mp_limb_t limbs[__GMPZ_ULI_LIMBS+1];                  \
+  mpq_numref(temp)->_mp_d = limbs;                  \
+  __mpz_set_si_safe (mpq_numref(temp), l);              \
+  mpq_denref(temp)->_mp_d = limbs + __GMPZ_ULI_LIMBS;           \
+  mpq_denref(temp)->_mp_size = 1;                   \
+  mpq_denref(temp)->_mp_d[0] = 1
+.fi
+.SS "#define __GMPXX_TMPQ_UI"
+\fBValue:\fP
+.PP
+.nf
+  mpq_t temp;                                \
+  mp_limb_t limbs[__GMPZ_ULI_LIMBS+1];                  \
+  mpq_numref(temp)->_mp_d = limbs;                  \
+  __mpz_set_ui_safe (mpq_numref(temp), l);              \
+  mpq_denref(temp)->_mp_d = limbs + __GMPZ_ULI_LIMBS;           \
+  mpq_denref(temp)->_mp_size = 1;                   \
+  mpq_denref(temp)->_mp_d[0] = 1
+.fi
+.SS "#define __GMPXX_TMPZ_D"
+\fBValue:\fP
+.PP
+.nf
+  mpz_t temp;                             \
+  mp_limb_t limbs[__GMPZ_DBL_LIMBS];                    \
+  temp->_mp_d = limbs;                          \
+  temp->_mp_alloc = __GMPZ_DBL_LIMBS;                   \
+  mpz_set_d (temp, d)
+.fi
+.SS "#define __GMPXX_TMPZ_SI"
+\fBValue:\fP
+.PP
+.nf
+  mpz_t temp;                                \
+  mp_limb_t limbs[__GMPZ_ULI_LIMBS];                    \
+  temp->_mp_d = limbs;                          \
+  __mpz_set_si_safe (temp, l)
+.fi
+.SS "#define __GMPXX_TMPZ_UI"
+\fBValue:\fP
+.PP
+.nf
+  mpz_t temp;                                \
+  mp_limb_t limbs[__GMPZ_ULI_LIMBS];                    \
+  temp->_mp_d = limbs;                          \
+  __mpz_set_ui_safe (temp, l)
+.fi
+.SS "#define __GMPXX_USE_CXX11   0"
+
+.SS "#define __GMPZ_DBL_LIMBS   \fB__GMPXX_BITS_TO_LIMBS\fP(DBL_MAX_EXP)+1"
+
+.SS "#define __GMPZ_DEFINE_COMPOUND_OPERATOR(fun, eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR\fP(\fBmpz\fP, fun, eval_fun)"
+
+.SS "#define __GMPZ_DEFINE_COMPOUND_OPERATOR_UI(fun, eval_fun)   \fB__GMP_DEFINE_COMPOUND_OPERATOR_UI\fP(\fBmpz\fP, fun, eval_fun)"
+
+.SS "#define __GMPZ_DEFINE_INCREMENT_OPERATOR(fun, eval_fun)   \fB__GMP_DEFINE_INCREMENT_OPERATOR\fP(\fBmpz\fP, fun, eval_fun)"
+
+.SS "#define __GMPZ_ULI_LIMBS   1"
+
+.SS "#define __GMPZQ_DEFINE_EXPR(eval_fun)"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef void(* __gmp_freefunc_t) (void *, size_t)"
+
+.SS "typedef void __gmp_randinit_default_t(\fBgmp_randstate_t\fP)"
+
+.SS "typedef int __gmp_randinit_lc_2exp_size_t(\fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "typedef void __gmp_randinit_lc_2exp_t(\fBgmp_randstate_t\fP, \fBmpz_srcptr\fP, unsigned long int, \fBmp_bitcnt_t\fP)"
+
+.SS "typedef \fB__gmp_expr\fP<\fBmpf_t\fP, \fBmpf_t\fP> \fBmpf_class\fP"
+
+.SS "typedef \fB__gmp_expr\fP<\fBmpq_t\fP, \fBmpq_t\fP> \fBmpq_class\fP"
+
+.SS "typedef \fB__gmp_expr\fP<\fBmpz_t\fP, \fBmpz_t\fP> \fBmpz_class\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "template<class T > void __gmp_set_expr (\fBmpf_ptr\fP f, \fBconst\fP \fB__gmp_expr\fP< \fBmpf_t\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "template<class T > void __gmp_set_expr (\fBmpf_ptr\fP f, \fBconst\fP \fB__gmp_expr\fP< \fBmpq_t\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "template<class T > void __gmp_set_expr (\fBmpf_ptr\fP f, \fBconst\fP \fB__gmp_expr\fP< \fBmpz_t\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "void __gmp_set_expr (\fBmpf_ptr\fP f, \fBconst\fP \fBmpf_class\fP & g)\fC [inline]\fP"
+
+.SS "template<class T > void __gmp_set_expr (\fBmpq_ptr\fP q, \fBconst\fP \fB__gmp_expr\fP< \fBmpf_t\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "template<class T > void __gmp_set_expr (\fBmpq_ptr\fP q, \fBconst\fP \fB__gmp_expr\fP< \fBmpq_t\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "template<class T > void __gmp_set_expr (\fBmpq_ptr\fP q, \fBconst\fP \fB__gmp_expr\fP< \fBmpz_t\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "void __gmp_set_expr (\fBmpq_ptr\fP q, \fBconst\fP \fBmpq_class\fP & r)\fC [inline]\fP"
+
+.SS "void __gmp_set_expr (\fBmpq_ptr\fP q, \fBconst\fP \fBmpz_class\fP & z)\fC [inline]\fP"
+
+.SS "template<class T > void __gmp_set_expr (\fBmpz_ptr\fP z, \fBconst\fP \fB__gmp_expr\fP< \fBmpf_t\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "template<class T > void __gmp_set_expr (\fBmpz_ptr\fP z, \fBconst\fP \fB__gmp_expr\fP< \fBmpq_t\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "template<class T > void __gmp_set_expr (\fBmpz_ptr\fP z, \fBconst\fP \fB__gmp_expr\fP< \fBmpz_t\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "void __gmp_set_expr (\fBmpz_ptr\fP z, \fBconst\fP \fBmpz_class\fP & w)\fC [inline]\fP"
+
+.SS "unsigned long __gmpxx_abs_ui (signed long l)\fC [inline]\fP"
+
+.SS "void __mpz_set_si_safe (\fBmpz_ptr\fP p, long l)\fC [inline]\fP"
+
+.SS "void __mpz_set_ui_safe (\fBmpz_ptr\fP p, unsigned long l)\fC [inline]\fP"
+
+.SS "template<class T , class U > std::ostream& operator<< (std::ostream & o, \fBconst\fP \fB__gmp_expr\fP< \fBT\fP, \fBU\fP > & expr)\fC [inline]\fP"
+
+.SS "template<class T > std::istream& operator>> (std::istream & i, \fB__gmp_expr\fP< \fBT\fP, \fBT\fP > & expr)\fC [inline]\fP"
+
+.SS "template<class T > void swap (\fB__gmp_expr\fP< \fBT\fP, \fBT\fP > & x, \fB__gmp_expr\fP< \fBT\fP, \fBT\fP > & y)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

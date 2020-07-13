@@ -1,0 +1,238 @@
+.TH "pdfg::Digraph" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::Digraph
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Digraph\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBDigraph\fP (\fBconst\fP string &\fBname\fP='', \fBconst\fP unsigned \fBsize\fP=0)"
+.br
+.ti -1c
+.RI "\fBDigraph\fP (\fBconst\fP \fBDigraph\fP &other)"
+.br
+.ti -1c
+.RI "\fBDigraph\fP & \fBoperator=\fP (\fBconst\fP \fBDigraph\fP &other)"
+.br
+.ti -1c
+.RI "string \fBname\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBroot\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_root\fP (\fBconst\fP string &\fBnode\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_leaf\fP (\fBconst\fP string &\fBnode\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< string > & \fBnodes\fP ()"
+.br
+.ti -1c
+.RI "vector< string > \fBleaf_nodes\fP ()"
+.br
+.ti -1c
+.RI "vector< string > \fBint_nodes\fP ()"
+.br
+.ti -1c
+.RI "vector< string > \fBlabels\fP ()"
+.br
+.ti -1c
+.RI "vector< string > \fBint_labels\fP ()"
+.br
+.ti -1c
+.RI "bool \fBremove_edge\fP (\fBconst\fP string &src, \fBconst\fP string &dest)"
+.br
+.ti -1c
+.RI "vector< \fBPair\fP > \fBedges\fP (\fBconst\fP string &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "unsigned \fBsize\fP (\fBconst\fP string &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBlabel\fP (\fBconst\fP string &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBparent\fP (\fBconst\fP string &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBchild\fP (\fBconst\fP string &\fBparent\fP, unsigned \fBedge\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, string > \fBattrs\fP (\fBconst\fP string &\fBname\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBlast_node\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBlast_leaf\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBfind\fP (\fBconst\fP string &\fBkey\fP)"
+.br
+.ti -1c
+.RI "string \fBfind\fP (\fBconst\fP string &\fBkey\fP, vector< int > &path)"
+.br
+.ti -1c
+.RI "string \fBfind\fP (\fBconst\fP string &\fBnode\fP, \fBconst\fP string &\fBkey\fP)"
+.br
+.ti -1c
+.RI "string \fBfind\fP (\fBconst\fP string &\fBnode\fP, \fBconst\fP string &\fBkey\fP, vector< int > &path, \fBconst\fP vector< string > &skips={})"
+.br
+.ti -1c
+.RI "string \fBinsert\fP (\fBconst\fP string &before, string \fBname\fP, \fBconst\fP string &\fBlabel\fP, initializer_list< string > \fBattrs\fP={})"
+.br
+.ti -1c
+.RI "string \fBnode\fP (string \fBname\fP)"
+.br
+.ti -1c
+.RI "string \fBnode\fP (string \fBname\fP, int \fBlabel\fP, initializer_list< string > \fBattrs\fP={})"
+.br
+.ti -1c
+.RI "string \fBnode\fP (string \fBname\fP, \fBconst\fP string &\fBlabel\fP, initializer_list< string > \fBattrs\fP={})"
+.br
+.ti -1c
+.RI "int \fBindex\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBedge\fP (\fBconst\fP string &src, \fBconst\fP string &dest, \fBconst\fP int \fBlabel\fP)"
+.br
+.ti -1c
+.RI "void \fBedge\fP (\fBconst\fP string &src, \fBconst\fP string &dest, \fBconst\fP string &\fBlabel\fP)"
+.br
+.ti -1c
+.RI "string \fBedge\fP (\fBconst\fP string &src, \fBconst\fP string &dest)"
+.br
+.ti -1c
+.RI "string \fBgraph_attr\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBgraph_attr\fP (\fBconst\fP string &\fBname\fP, \fBconst\fP string &\fBval\fP)"
+.br
+.ti -1c
+.RI "string \fBattr\fP (\fBconst\fP string &\fBnode\fP, \fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBattr\fP (\fBconst\fP string &\fBnode\fP, \fBconst\fP string &\fBname\fP, \fBconst\fP string &\fBval\fP)"
+.br
+.ti -1c
+.RI "string \fBsplit\fP (\fBconst\fP string &\fBnode\fP)"
+.br
+.ti -1c
+.RI "string \fBto_dot\fP ()"
+.br
+.ti -1c
+.RI "string \fBinsertSchedule\fP (\fBconst\fP vector< string > &sched, vector< int > &path)"
+.br
+.ti -1c
+.RI "string \fBinsertLeaf\fP (\fBconst\fP string &inode, \fBconst\fP string &\fBlabel\fP, vector< int > &path)"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "ostream & \fBoperator<<\fP (ostream &out, \fBDigraph\fP &g)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::Digraph::Digraph (\fBconst\fP string & name = \fC''\fP, \fBconst\fP unsigned size = \fC0\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "pdfg::Digraph::Digraph (\fBconst\fP \fBDigraph\fP & other)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "string pdfg::Digraph::attr (\fBconst\fP string & node, \fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "void pdfg::Digraph::attr (\fBconst\fP string & node, \fBconst\fP string & name, \fBconst\fP string & val)\fC [inline]\fP"
+
+.SS "\fBmap\fP<string, string> pdfg::Digraph::attrs (\fBconst\fP string & name) const\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::child (\fBconst\fP string & parent, unsigned edge) const\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::edge (\fBconst\fP string & src, \fBconst\fP string & dest)\fC [inline]\fP"
+
+.SS "void pdfg::Digraph::edge (\fBconst\fP string & src, \fBconst\fP string & dest, \fBconst\fP int label)\fC [inline]\fP"
+
+.SS "void pdfg::Digraph::edge (\fBconst\fP string & src, \fBconst\fP string & dest, \fBconst\fP string & label)\fC [inline]\fP"
+
+.SS "vector<\fBPair\fP> pdfg::Digraph::edges (\fBconst\fP string & name) const\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::find (\fBconst\fP string & key)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::find (\fBconst\fP string & key, vector< int > & path)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::find (\fBconst\fP string & node, \fBconst\fP string & key)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::find (\fBconst\fP string & node, \fBconst\fP string & key, vector< int > & path, \fBconst\fP vector< string > & skips = \fC{}\fP)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::graph_attr (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "void pdfg::Digraph::graph_attr (\fBconst\fP string & name, \fBconst\fP string & val)\fC [inline]\fP"
+
+.SS "int pdfg::Digraph::index (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::insert (\fBconst\fP string & before, string name, \fBconst\fP string & label, initializer_list< string > attrs = \fC{}\fP)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::insertLeaf (\fBconst\fP string & inode, \fBconst\fP string & label, vector< int > & path)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::insertSchedule (\fBconst\fP vector< string > & sched, vector< int > & path)\fC [inline]\fP"
+
+.SS "vector<string> pdfg::Digraph::int_labels ()\fC [inline]\fP"
+
+.SS "vector<string> pdfg::Digraph::int_nodes ()\fC [inline]\fP"
+
+.SS "bool pdfg::Digraph::is_leaf (\fBconst\fP string & node) const\fC [inline]\fP"
+
+.SS "bool pdfg::Digraph::is_root (\fBconst\fP string & node) const\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::label (\fBconst\fP string & name) const\fC [inline]\fP"
+
+.SS "vector<string> pdfg::Digraph::labels ()\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::last_leaf () const\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::last_node () const\fC [inline]\fP"
+
+.SS "vector<string> pdfg::Digraph::leaf_nodes ()\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::name () const\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::node (string name)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::node (string name, \fBconst\fP string & label, initializer_list< string > attrs = \fC{}\fP)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::node (string name, int label, initializer_list< string > attrs = \fC{}\fP)\fC [inline]\fP"
+
+.SS "vector<string>& pdfg::Digraph::nodes ()\fC [inline]\fP"
+
+.SS "\fBDigraph\fP& pdfg::Digraph::operator= (\fBconst\fP \fBDigraph\fP & other)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::parent (\fBconst\fP string & name) const\fC [inline]\fP"
+
+.SS "bool pdfg::Digraph::remove_edge (\fBconst\fP string & src, \fBconst\fP string & dest)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::root () const\fC [inline]\fP"
+
+.SS "unsigned pdfg::Digraph::size (\fBconst\fP string & name) const\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::split (\fBconst\fP string & node)\fC [inline]\fP"
+
+.SS "string pdfg::Digraph::to_dot ()\fC [inline]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "ostream& operator<< (ostream & out, \fBDigraph\fP & g)\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

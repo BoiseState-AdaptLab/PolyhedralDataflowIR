@@ -1,0 +1,144 @@
+.TH "omglib::OmegaLib" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omglib::OmegaLib
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <OmegaLib\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "vector< string > \fBin_iterators\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "vector< string > \fBout_iterators\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBcodegen\fP (\fBconst\fP vector< string > &names, \fBmap\fP< string, string > &relmap, \fBmap\fP< string, vector< string > > &schedmap)"
+.br
+.ti -1c
+.RI "string \fBcodegen\fP (\fBconst\fP string &relation, \fBconst\fP string &id='I', const vector< string > &schedules={})"
+.br
+.RI "TODO: This is the legacy version of 'codegen', verify unit tests and then remove it! "
+.ti -1c
+.RI "string \fBparse\fP (\fBconst\fP string &code, unsigned nstatements=1)"
+.br
+.ti -1c
+.RI "void \fBomega_cmd\fP (\fBconst\fP string &code, ostream &os)"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, string > \fBmacros\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBisknown\fP (\fBconst\fP string &cond, \fBconst\fP vector< string > &iters, \fBconst\fP vector< string > &exists) \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBgetiter\fP (\fBconst\fP string &\fBarg\fP, \fBconst\fP vector< string > &iters) \fBconst\fP"
+.br
+.ti -1c
+.RI "string \fBpreprocess\fP (\fBconst\fP string &relation, string &relid)"
+.br
+.ti -1c
+.RI "void \fBparse_relation\fP (\fBconst\fP string &relation, vector< string > &iters, string &condstr, vector< string > &conds)"
+.br
+.ti -1c
+.RI "void \fBparse_conds\fP (\fBconst\fP string &relation, \fBconst\fP vector< string > &conds, \fBconst\fP vector< string > &iters, vector< string > &exists, vector< string > &knowns, \fBmap\fP< string, size_t > &symcons, \fBmap\fP< string, \fBUninterpFunc\fP > &ufuncs)"
+.br
+.ti -1c
+.RI "string \fBparse_knowns\fP (string &relation, vector< string > &iters, vector< string > &conds, string &condstr, vector< string > &knowns, \fBmap\fP< string, size_t > &symcons, string &symlist)"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBUninterpFunc\fP > \fBparse_ufuncs\fP (\fBconst\fP string &relation, \fBconst\fP vector< string > &iters, \fBconst\fP \fBmap\fP< string, \fBUninterpFunc\fP > &ufuncs)"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBUninterpFunc\fP > \fBupdate_ufuncs\fP (\fBconst\fP string &relation, \fBconst\fP vector< string > &iters, string &symlist, \fBconst\fP \fBmap\fP< string, \fBUninterpFunc\fP > &ufuncs)"
+.br
+.ti -1c
+.RI "void \fBupdate_relations\fP (\fBconst\fP \fBmap\fP< string, \fBUninterpFunc\fP > &ufuncs, string &relation, string &given)"
+.br
+.ti -1c
+.RI "string \fBcodegen_expr\fP (\fBconst\fP string &relname, \fBconst\fP vector< string > &schedules)"
+.br
+.ti -1c
+.RI "void \fBmerge_ufuncs\fP (\fBconst\fP \fBmap\fP< string, \fBUninterpFunc\fP > &srcmap, \fBmap\fP< string, \fBUninterpFunc\fP > &destmap)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "vector< string > \fB_kwords\fP"
+.br
+.ti -1c
+.RI "vector< string > \fB_iterators\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBUninterpFunc\fP > \fB_ufuncs\fP"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "string omglib::OmegaLib::codegen (\fBconst\fP string & relation, \fBconst\fP string & id = \fC'I'\fP, \fBconst\fP vector< string > & schedules = \fC{}\fP)\fC [inline]\fP"
+
+.PP
+TODO: This is the legacy version of 'codegen', verify unit tests and then remove it! 
+.SS "string omglib::OmegaLib::codegen (\fBconst\fP vector< string > & names, \fBmap\fP< string, string > & relmap, \fBmap\fP< string, vector< string > > & schedmap)\fC [inline]\fP"
+
+.SS "string omglib::OmegaLib::codegen_expr (\fBconst\fP string & relname, \fBconst\fP vector< string > & schedules)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "string omglib::OmegaLib::getiter (\fBconst\fP string & arg, \fBconst\fP vector< string > & iters) const\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "vector<string> omglib::OmegaLib::in_iterators () const\fC [inline]\fP"
+
+.SS "bool omglib::OmegaLib::isknown (\fBconst\fP string & cond, \fBconst\fP vector< string > & iters, \fBconst\fP vector< string > & exists) const\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBmap\fP<string, string> omglib::OmegaLib::macros ()\fC [inline]\fP"
+
+.SS "void omglib::OmegaLib::merge_ufuncs (\fBconst\fP \fBmap\fP< string, \fBUninterpFunc\fP > & srcmap, \fBmap\fP< string, \fBUninterpFunc\fP > & destmap)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void omglib::OmegaLib::omega_cmd (\fBconst\fP string & code, ostream & os)\fC [inline]\fP"
+
+.SS "vector<string> omglib::OmegaLib::out_iterators () const\fC [inline]\fP"
+
+.SS "string omglib::OmegaLib::parse (\fBconst\fP string & code, unsigned nstatements = \fC1\fP)\fC [inline]\fP"
+
+.SS "void omglib::OmegaLib::parse_conds (\fBconst\fP string & relation, \fBconst\fP vector< string > & conds, \fBconst\fP vector< string > & iters, vector< string > & exists, vector< string > & knowns, \fBmap\fP< string, size_t > & symcons, \fBmap\fP< string, \fBUninterpFunc\fP > & ufuncs)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "string omglib::OmegaLib::parse_knowns (string & relation, vector< string > & iters, vector< string > & conds, string & condstr, vector< string > & knowns, \fBmap\fP< string, size_t > & symcons, string & symlist)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void omglib::OmegaLib::parse_relation (\fBconst\fP string & relation, vector< string > & iters, string & condstr, vector< string > & conds)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBUninterpFunc\fP> omglib::OmegaLib::parse_ufuncs (\fBconst\fP string & relation, \fBconst\fP vector< string > & iters, \fBconst\fP \fBmap\fP< string, \fBUninterpFunc\fP > & ufuncs)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "string omglib::OmegaLib::preprocess (\fBconst\fP string & relation, string & relid)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void omglib::OmegaLib::update_relations (\fBconst\fP \fBmap\fP< string, \fBUninterpFunc\fP > & ufuncs, string & relation, string & given)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBUninterpFunc\fP> omglib::OmegaLib::update_ufuncs (\fBconst\fP string & relation, \fBconst\fP vector< string > & iters, string & symlist, \fBconst\fP \fBmap\fP< string, \fBUninterpFunc\fP > & ufuncs)\fC [inline]\fP, \fC [protected]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "vector<string> omglib::OmegaLib::_iterators\fC [protected]\fP"
+
+.SS "vector<string> omglib::OmegaLib::_kwords\fC [protected]\fP"
+\fBInitial value:\fP
+.PP
+.nf
+= {"exists", "union", "intersection", "complement", "compose", "inverse",
+                              "domain", "range", "hull", "codegen", "farkas", "forall", "given", "and",
+                              "or", "not", "within", "subsetof", "supersetof", "symbolic"}
+.fi
+.SS "\fBmap\fP<string, \fBUninterpFunc\fP> omglib::OmegaLib::_ufuncs\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

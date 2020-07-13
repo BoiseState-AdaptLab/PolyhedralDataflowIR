@@ -1,0 +1,241 @@
+.TH "lib/isl/isl_mat.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_mat.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl/space\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl_val_private\&.h>\fP
+.br
+\fC#include <isl/deprecated/mat_int\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_mat_get_ctx\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_alloc\fP (struct \fBisl_ctx\fP *ctx, unsigned n_row, unsigned n_col)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_extend\fP (struct \fBisl_mat\fP *mat, unsigned n_row, unsigned n_col)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_sub_alloc6\fP (\fBisl_ctx\fP *ctx, \fBisl_int\fP **\fBrow\fP, unsigned first_row, unsigned n_row, unsigned first_col, unsigned n_col)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_sub_alloc\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat, unsigned first_row, unsigned n_row, unsigned first_col, unsigned n_col)"
+.br
+.ti -1c
+.RI "void \fBisl_mat_sub_copy\fP (struct \fBisl_ctx\fP *ctx, \fBisl_int\fP **dst, \fBisl_int\fP **src, unsigned n_row, unsigned dst_col, unsigned src_col, unsigned n_col)"
+.br
+.ti -1c
+.RI "void \fBisl_mat_sub_neg\fP (struct \fBisl_ctx\fP *ctx, \fBisl_int\fP **dst, \fBisl_int\fP **src, unsigned n_row, unsigned dst_col, unsigned src_col, unsigned n_col)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_copy\fP (struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_dup\fP (struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_cow\fP (struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_mat\fP * \fBisl_mat_free\fP (\fB__isl_take\fP \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "int \fBisl_mat_rows\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "int \fBisl_mat_cols\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "int \fBisl_mat_get_element\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat, int \fBrow\fP, int \fBcol\fP, \fBisl_int\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_mat_get_element_val\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat, int \fBrow\fP, int \fBcol\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_set_element\fP (\fB__isl_take\fP \fBisl_mat\fP *mat, int \fBrow\fP, int \fBcol\fP, \fBisl_int\fP v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_set_element_si\fP (\fB__isl_take\fP \fBisl_mat\fP *mat, int \fBrow\fP, int \fBcol\fP, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_set_element_val\fP (\fB__isl_take\fP \fBisl_mat\fP *mat, int \fBrow\fP, int \fBcol\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_diag\fP (\fBisl_ctx\fP *ctx, unsigned n_row, \fBisl_int\fP d)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_identity\fP (\fBisl_ctx\fP *ctx, unsigned n_row)"
+.br
+.ti -1c
+.RI "int \fBisl_mat_is_scaled_identity\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBisl_mat_vec_product\fP (struct \fBisl_mat\fP *mat, struct \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_mat_vec_inverse_product\fP (\fB__isl_take\fP \fBisl_mat\fP *mat, \fB__isl_take\fP \fBisl_vec\fP *vec)"
+.br
+.ti -1c
+.RI "struct \fBisl_vec\fP * \fBisl_vec_mat_product\fP (struct \fBisl_vec\fP *vec, struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_aff_direct_sum\fP (struct \fBisl_mat\fP *left, struct \fBisl_mat\fP *right)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_left_hermite\fP (struct \fBisl_mat\fP *M, int \fBneg\fP, struct \fBisl_mat\fP **\fBU\fP, struct \fBisl_mat\fP **Q)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_right_kernel\fP (struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_lin_to_aff\fP (struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_diagonal\fP (\fB__isl_take\fP \fBisl_mat\fP *mat1, \fB__isl_take\fP \fBisl_mat\fP *mat2)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_inverse_product\fP (struct \fBisl_mat\fP *left, struct \fBisl_mat\fP *right)"
+.br
+.ti -1c
+.RI "void \fBisl_mat_col_scale\fP (struct \fBisl_mat\fP *mat, unsigned \fBcol\fP, \fBisl_int\fP \fBm\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_mat_col_combine\fP (struct \fBisl_mat\fP *mat, unsigned dst, \fBisl_int\fP m1, unsigned src1, \fBisl_int\fP m2, unsigned src2)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_right_inverse\fP (struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_transpose\fP (struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_swap_cols\fP (struct \fBisl_mat\fP *mat, unsigned \fBi\fP, unsigned \fBj\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_mat\fP * \fBisl_mat_swap_rows\fP (struct \fBisl_mat\fP *mat, unsigned \fBi\fP, unsigned \fBj\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_mat\fP * \fBisl_mat_product\fP (\fB__isl_take\fP \fBisl_mat\fP *left, \fB__isl_take\fP \fBisl_mat\fP *right)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_preimage\fP (struct \fBisl_basic_set\fP *bset, struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "struct \fBisl_set\fP * \fBisl_set_preimage\fP (struct \fBisl_set\fP *\fBset\fP, struct \fBisl_mat\fP *mat)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_transform_dims\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned first, \fB__isl_take\fP \fBisl_mat\fP *trans)"
+.br
+.ti -1c
+.RI "void \fBisl_mat_print_internal\fP (\fB__isl_keep\fP \fBisl_mat\fP *mat, FILE *out, int indent)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_preimage (struct \fBisl_basic_set\fP * bset, struct \fBisl_mat\fP * mat)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_transform_dims (\fB__isl_take\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned first, \fB__isl_take\fP \fBisl_mat\fP * trans)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_aff_direct_sum (struct \fBisl_mat\fP * left, struct \fBisl_mat\fP * right)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_alloc (struct \fBisl_ctx\fP * ctx, unsigned n_row, unsigned n_col)"
+
+.SS "void isl_mat_col_combine (struct \fBisl_mat\fP * mat, unsigned dst, \fBisl_int\fP m1, unsigned src1, \fBisl_int\fP m2, unsigned src2)"
+
+.SS "void isl_mat_col_scale (struct \fBisl_mat\fP * mat, unsigned col, \fBisl_int\fP m)"
+
+.SS "int isl_mat_cols (\fB__isl_keep\fP \fBisl_mat\fP * mat)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_copy (struct \fBisl_mat\fP * mat)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_cow (struct \fBisl_mat\fP * mat)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_diag (\fBisl_ctx\fP * ctx, unsigned n_row, \fBisl_int\fP d)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_diagonal (\fB__isl_take\fP \fBisl_mat\fP * mat1, \fB__isl_take\fP \fBisl_mat\fP * mat2)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_dup (struct \fBisl_mat\fP * mat)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_extend (struct \fBisl_mat\fP * mat, unsigned n_row, unsigned n_col)"
+
+.SS "\fB__isl_null\fP \fBisl_mat\fP* isl_mat_free (\fB__isl_take\fP \fBisl_mat\fP * mat)"
+
+.SS "\fBisl_ctx\fP* isl_mat_get_ctx (\fB__isl_keep\fP \fBisl_mat\fP * mat)"
+
+.SS "int isl_mat_get_element (\fB__isl_keep\fP \fBisl_mat\fP * mat, int row, int col, \fBisl_int\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_mat_get_element_val (\fB__isl_keep\fP \fBisl_mat\fP * mat, int row, int col)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_identity (\fBisl_ctx\fP * ctx, unsigned n_row)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_inverse_product (struct \fBisl_mat\fP * left, struct \fBisl_mat\fP * right)"
+
+.SS "int isl_mat_is_scaled_identity (\fB__isl_keep\fP \fBisl_mat\fP * mat)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_left_hermite (struct \fBisl_mat\fP * M, int neg, struct \fBisl_mat\fP ** U, struct \fBisl_mat\fP ** Q)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_lin_to_aff (struct \fBisl_mat\fP * mat)"
+
+.SS "void isl_mat_print_internal (\fB__isl_keep\fP \fBisl_mat\fP * mat, FILE * out, int indent)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_product (\fB__isl_take\fP \fBisl_mat\fP * left, \fB__isl_take\fP \fBisl_mat\fP * right)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_right_inverse (struct \fBisl_mat\fP * mat)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_right_kernel (struct \fBisl_mat\fP * mat)"
+
+.SS "int isl_mat_rows (\fB__isl_keep\fP \fBisl_mat\fP * mat)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_set_element (\fB__isl_take\fP \fBisl_mat\fP * mat, int row, int col, \fBisl_int\fP v)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_set_element_si (\fB__isl_take\fP \fBisl_mat\fP * mat, int row, int col, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_set_element_val (\fB__isl_take\fP \fBisl_mat\fP * mat, int row, int col, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_sub_alloc (\fB__isl_keep\fP \fBisl_mat\fP * mat, unsigned first_row, unsigned n_row, unsigned first_col, unsigned n_col)"
+
+.SS "\fB__isl_give\fP \fBisl_mat\fP* isl_mat_sub_alloc6 (\fBisl_ctx\fP * ctx, \fBisl_int\fP ** row, unsigned first_row, unsigned n_row, unsigned first_col, unsigned n_col)"
+
+.SS "void isl_mat_sub_copy (struct \fBisl_ctx\fP * ctx, \fBisl_int\fP ** dst, \fBisl_int\fP ** src, unsigned n_row, unsigned dst_col, unsigned src_col, unsigned n_col)"
+
+.SS "void isl_mat_sub_neg (struct \fBisl_ctx\fP * ctx, \fBisl_int\fP ** dst, \fBisl_int\fP ** src, unsigned n_row, unsigned dst_col, unsigned src_col, unsigned n_col)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_swap_cols (struct \fBisl_mat\fP * mat, unsigned i, unsigned j)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_swap_rows (struct \fBisl_mat\fP * mat, unsigned i, unsigned j)"
+
+.SS "struct \fBisl_mat\fP* isl_mat_transpose (struct \fBisl_mat\fP * mat)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_mat_vec_inverse_product (\fB__isl_take\fP \fBisl_mat\fP * mat, \fB__isl_take\fP \fBisl_vec\fP * vec)"
+
+.SS "struct \fBisl_vec\fP* isl_mat_vec_product (struct \fBisl_mat\fP * mat, struct \fBisl_vec\fP * vec)"
+
+.SS "struct \fBisl_set\fP* isl_set_preimage (struct \fBisl_set\fP * set, struct \fBisl_mat\fP * mat)"
+
+.SS "struct \fBisl_vec\fP* isl_vec_mat_product (struct \fBisl_vec\fP * vec, struct \fBisl_mat\fP * mat)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

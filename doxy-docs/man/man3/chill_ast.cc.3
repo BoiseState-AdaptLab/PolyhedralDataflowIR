@@ -1,0 +1,155 @@
+.TH "lib/chill/chill_ast.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/chill_ast.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'chill_ast\&.hh'\fP
+.br
+\fC#include 'printer/dump\&.h'\fP
+.br
+\fC#include 'printer/cfamily\&.h'\fP
+.br
+\fC#include <fstream>\fP
+.br
+\fC#include <cstring>\fP
+.br
+\fC#include 'chill_ast\&.def'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "char * \fBparseUnderlyingType\fP (char *sometype)"
+.br
+.RI "Parse to the most basic type\&. "
+.ti -1c
+.RI "void \fBprintSymbolTable\fP (\fBchillAST_SymbolTable\fP *st)"
+.br
+.ti -1c
+.RI "void \fBprintSymbolTableMoreInfo\fP (\fBchillAST_SymbolTable\fP *st)"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBsymbolTableFindVariableNamed\fP (\fBchillAST_SymbolTable\fP *\fBtable\fP, \fBconst\fP char *\fBname\fP)"
+.br
+.ti -1c
+.RI "char * \fBulhack\fP (char *brackets)"
+.br
+.RI "remove UL from numbers, MODIFIES the argument! "
+.ti -1c
+.RI "char * \fBrestricthack\fP (char *typeinfo)"
+.br
+.RI "remove \fBrestrict\fP , MODIFIES the argument! "
+.ti -1c
+.RI "char * \fBparseArrayParts\fP (char *sometype)"
+.br
+.ti -1c
+.RI "char * \fBsplitTypeInfo\fP (char *underlyingtype)"
+.br
+.RI "return the bracketed part of a type "
+.ti -1c
+.RI "bool \fBisRestrict\fP (\fBconst\fP char *sometype)"
+.br
+.ti -1c
+.RI "bool \fBstreq\fP (\fBconst\fP char *\fBa\fP, \fBconst\fP char *\fBb\fP)"
+.br
+.ti -1c
+.RI "void \fBchillindent\fP (int howfar, FILE *fp)"
+.br
+.ti -1c
+.RI "void \fBinsertNewDeclAtLocationOfOldIfNeeded\fP (\fBchillAST_VarDecl\fP *newdecl, \fBchillAST_VarDecl\fP *olddecl)"
+.br
+.ti -1c
+.RI "void \fBgatherVarDecls\fP (vector< \fBchillAST_node\fP * > &code, vector< \fBchillAST_VarDecl\fP * > &decls)"
+.br
+.ti -1c
+.RI "void \fBgatherVarUsage\fP (vector< \fBchillAST_node\fP * > &code, vector< \fBchillAST_VarDecl\fP * > &decls)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBminmaxTernary\fP (\fBconst\fP char *\fBop\fP, \fBchillAST_node\fP *left, \fBchillAST_node\fP *right)"
+.br
+.ti -1c
+.RI "void \fBfindFunctionDeclRecursive\fP (\fBchillAST_node\fP *node, \fBconst\fP char *procname, vector< \fBchillAST_FunctionDecl\fP * > &funcs)"
+.br
+.ti -1c
+.RI "\fBchillAST_FunctionDecl\fP * \fBfindFunctionDecl\fP (\fBchillAST_node\fP *node, \fBconst\fP char *procname)"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBaddSymbolToTable\fP (\fBchillAST_SymbolTable\fP *st, \fBchillAST_VarDecl\fP *vd)"
+.br
+.ti -1c
+.RI "\fBchillAST_TypedefTable\fP * \fBaddTypedefToTable\fP (\fBchillAST_TypedefTable\fP *tdt, \fBchillAST_TypedefDecl\fP *td)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP char * \fBChill_AST_Node_Names\fP []"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fBchillAST_SymbolTable\fP* addSymbolToTable (\fBchillAST_SymbolTable\fP * st, \fBchillAST_VarDecl\fP * vd)"
+
+.SS "\fBchillAST_TypedefTable\fP* addTypedefToTable (\fBchillAST_TypedefTable\fP * tdt, \fBchillAST_TypedefDecl\fP * td)"
+
+.SS "void chillindent (int howfar, FILE * fp)"
+
+.SS "\fBchillAST_FunctionDecl\fP* findFunctionDecl (\fBchillAST_node\fP * node, \fBconst\fP char * procname)"
+
+.SS "void findFunctionDeclRecursive (\fBchillAST_node\fP * node, \fBconst\fP char * procname, vector< \fBchillAST_FunctionDecl\fP * > & funcs)"
+
+.SS "void gatherVarDecls (vector< \fBchillAST_node\fP * > & code, vector< \fBchillAST_VarDecl\fP * > & decls)"
+
+.SS "void gatherVarUsage (vector< \fBchillAST_node\fP * > & code, vector< \fBchillAST_VarDecl\fP * > & decls)"
+
+.SS "void insertNewDeclAtLocationOfOldIfNeeded (\fBchillAST_VarDecl\fP * newdecl, \fBchillAST_VarDecl\fP * olddecl)"
+
+.SS "bool isRestrict (\fBconst\fP char * sometype)"
+
+.SS "\fBchillAST_node\fP* minmaxTernary (\fBconst\fP char * op, \fBchillAST_node\fP * left, \fBchillAST_node\fP * right)"
+
+.SS "char* parseArrayParts (char * sometype)"
+
+.SS "char* parseUnderlyingType (char * sometype)"
+
+.PP
+Parse to the most basic type\&. 
+.SS "void printSymbolTable (\fBchillAST_SymbolTable\fP * st)"
+
+.SS "void printSymbolTableMoreInfo (\fBchillAST_SymbolTable\fP * st)"
+
+.SS "char* restricthack (char * typeinfo)"
+
+.PP
+remove \fBrestrict\fP , MODIFIES the argument! 
+.SS "char* splitTypeInfo (char * underlyingtype)"
+
+.PP
+return the bracketed part of a type 
+.SS "bool streq (\fBconst\fP char * a, \fBconst\fP char * b)"
+
+.SS "\fBchillAST_VarDecl\fP* symbolTableFindVariableNamed (\fBchillAST_SymbolTable\fP * table, \fBconst\fP char * name)"
+
+.SS "char* ulhack (char * brackets)"
+
+.PP
+remove UL from numbers, MODIFIES the argument! change '1024UL' to '1024' 
+.SH "Variable Documentation"
+.PP 
+.SS "\fBconst\fP char* Chill_AST_Node_Names[]"
+\fBInitial value:\fP
+.PP
+.nf
+= { 
+  "Unknown AST node type",
+
+}
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

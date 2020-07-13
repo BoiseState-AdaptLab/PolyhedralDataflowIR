@@ -1,0 +1,228 @@
+.TH "lib/chill/omega/omega_lib/src/Relations.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/omega_lib/src/Relations.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <omega/Relation\&.h>\fP
+.br
+\fC#include <omega/Rel_map\&.h>\fP
+.br
+\fC#include <omega/pres_tree\&.h>\fP
+.br
+\fC#include <omega/pres_dnf\&.h>\fP
+.br
+\fC#include <omega/pres_conj\&.h>\fP
+.br
+\fC#include <omega/hull\&.h>\fP
+.br
+\fC#include <basic/Tuple\&.h>\fP
+.br
+\fC#include <basic/Map\&.h>\fP
+.br
+\fC#include <basic/util\&.h>\fP
+.br
+\fC#include <omega/omega_i\&.h>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+\fC#include '\&.\&./\&.\&./\&.\&./chill_io\&.hh'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBCHECK_MAYBE_SUBSET\fP   1"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "Relation \fBomega::consume_and_regurgitate\fP (\fBNOT_CONST\fP Relation &\fBR\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Union\fP (\fBNOT_CONST\fP Relation &\fBr1\fP, \fBNOT_CONST\fP Relation &\fBr2\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Intersection\fP (\fBNOT_CONST\fP Relation &\fBr1\fP, \fBNOT_CONST\fP Relation &\fBr2\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Restrict_Domain\fP (\fBNOT_CONST\fP Relation &\fBr1\fP, \fBNOT_CONST\fP Relation &\fBr2\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Restrict_Range\fP (\fBNOT_CONST\fP Relation &\fBr1\fP, \fBNOT_CONST\fP Relation &\fBr2\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Extend_Domain\fP (\fBNOT_CONST\fP Relation &\fBR\fP)"
+.br
+.RI "Add 1-more input variable to relation\&. "
+.ti -1c
+.RI "Relation \fBomega::Extend_Domain\fP (\fBNOT_CONST\fP Relation &\fBR\fP, int more)"
+.br
+.RI "Add more-more input variables to relation\&. "
+.ti -1c
+.RI "Relation \fBomega::Extend_Range\fP (\fBNOT_CONST\fP Relation &\fBR\fP)"
+.br
+.RI "Add 1-more output variable to relation\&. "
+.ti -1c
+.RI "Relation \fBomega::Extend_Range\fP (\fBNOT_CONST\fP Relation &\fBR\fP, int more)"
+.br
+.RI "Add more-more output variables to relation\&. "
+.ti -1c
+.RI "Relation \fBomega::Extend_Set\fP (\fBNOT_CONST\fP Relation &\fBR\fP)"
+.br
+.RI "Add 1-more variable to set\&. "
+.ti -1c
+.RI "Relation \fBomega::Extend_Set\fP (\fBNOT_CONST\fP Relation &\fBR\fP, int more)"
+.br
+.RI "Add more-more variables to set\&. "
+.ti -1c
+.RI "Relation \fBomega::Domain\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Range\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Cross_Product\fP (\fBNOT_CONST\fP Relation &\fBA\fP, \fBNOT_CONST\fP Relation &\fBB\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Inverse\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.RI "Inverse the input and output tuple\&. "
+.ti -1c
+.RI "Relation \fBomega::After\fP (\fBNOT_CONST\fP Relation &r, int carried_by, int new_output, int dir=1)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Identity\fP (int n_inp)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Identity\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Deltas\fP (\fBNOT_CONST\fP Relation &\fBR\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Deltas\fP (\fBNOT_CONST\fP Relation &\fBR\fP, int eq_no)"
+.br
+.ti -1c
+.RI "Relation \fBomega::DeltasToRelation\fP (\fBNOT_CONST\fP Relation &\fBR\fP, int n_input, int n_output)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Join\fP (\fBNOT_CONST\fP Relation &\fBG\fP, \fBNOT_CONST\fP Relation &F)"
+.br
+.RI "Same as Composition\&. "
+.ti -1c
+.RI "bool \fBomega::prepare_relations_for_composition\fP (Relation &F, Relation &\fBG\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Composition\fP (\fBNOT_CONST\fP Relation &F, \fBNOT_CONST\fP Relation &\fBG\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::Is_Obvious_Subset\fP (\fBNOT_CONST\fP Relation &\fBr1\fP, \fBNOT_CONST\fP Relation &\fBr2\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::do_subset_check\fP (\fBNOT_CONST\fP Relation &input_r1, \fBNOT_CONST\fP Relation &input_r2)"
+.br
+.ti -1c
+.RI "bool \fBomega::Must_Be_Subset\fP (\fBNOT_CONST\fP Relation &\fBr1\fP, \fBNOT_CONST\fP Relation &\fBr2\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::Might_Be_Subset\fP (\fBNOT_CONST\fP Relation &\fBr1\fP, \fBNOT_CONST\fP Relation &\fBr2\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Difference\fP (\fBNOT_CONST\fP Relation &\fBr1\fP, \fBNOT_CONST\fP Relation &\fBr2\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Complement\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.ti -1c
+.RI "Relation \fBomega::GistSingleConjunct\fP (\fBNOT_CONST\fP Relation &\fBR\fP, \fBNOT_CONST\fP Relation &R2, int effort=0)"
+.br
+.RI "Compute (gist r1 given r2)\&. Assuming that r2 has only one conjunct\&. r2 may have zero input and output OR may have # in/out vars equal to r1\&. "
+.ti -1c
+.RI "Relation \fBomega::Gist\fP (\fBNOT_CONST\fP Relation &R1, \fBNOT_CONST\fP Relation &R2, int effort=0)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Project_On_Sym\fP (\fBNOT_CONST\fP Relation &\fBR\fP, \fBNOT_CONST\fP Relation &\fBcontext\fP=Relation::Null())"
+.br
+.ti -1c
+.RI "Relation \fBomega::Project\fP (\fBNOT_CONST\fP Relation &\fBR\fP, Global_Var_ID v)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Project_Sym\fP (\fBNOT_CONST\fP Relation &\fBR\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Project\fP (\fBNOT_CONST\fP Relation &\fBS\fP, Sequence< Variable_ID > &s)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Project\fP (\fBNOT_CONST\fP Relation &r, int \fBpos\fP, Var_Kind vkind)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Project\fP (\fBNOT_CONST\fP Relation &\fBS\fP, Variable_ID v)"
+.br
+.ti -1c
+.RI "void \fBomega::remap_DNF_vars\fP (Rel_Body *map_rel, Rel_Body *ref_rel)"
+.br
+.ti -1c
+.RI "Relation \fBomega::projectOntoJust\fP (Relation \fBR\fP, Variable_ID v)"
+.br
+.ti -1c
+.RI "Relation \fBomega::EQs_to_GEQs\fP (\fBNOT_CONST\fP Relation &, bool excludeStrides=false)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Symbolic_Solution\fP (\fBNOT_CONST\fP Relation &\fBS\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Symbolic_Solution\fP (\fBNOT_CONST\fP Relation &\fBS\fP, Sequence< Variable_ID > &\fBT\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Sample_Solution\fP (\fBNOT_CONST\fP Relation &\fBS\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Solution\fP (\fBNOT_CONST\fP Relation &\fBS\fP, Sequence< Variable_ID > &\fBT\fP)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Approximate\fP (\fBNOT_CONST\fP Relation &\fBR\fP, bool strides_allowed=false)"
+.br
+.ti -1c
+.RI "Relation \fBomega::Lower_Bound\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.RI "Lower bound of the relation in question\&. "
+.ti -1c
+.RI "Relation \fBomega::Upper_Bound\fP (\fBNOT_CONST\fP Relation &r)"
+.br
+.RI "Upper bound of the relation in question\&. "
+.ti -1c
+.RI "bool \fBomega::operator==\fP (\fBconst\fP Relation &, \fBconst\fP Relation &)"
+.br
+.ti -1c
+.RI "void \fBomega::align\fP (Rel_Body *originalr, Rel_Body *newr, F_Exists *fe, Formula *\fBf\fP, \fBconst\fP Mapping &mapping, bool &newrIsSet, List< int > &seen_exists, Variable_ID_Tuple &seen_exists_ids)"
+.br
+.ti -1c
+.RI "void \fBomega::MapRel1\fP (Relation &inputRel, \fBconst\fP Mapping &\fBmap\fP, Combine_Type ctype, int number_input=\-1, int number_output=\-1, bool invalidate_resulting_leading_info=true, bool finalize=true)"
+.br
+.ti -1c
+.RI "Relation \fBomega::MapAndCombineRel2\fP (Relation &R1, Relation &R2, \fBconst\fP Mapping &mapping1, \fBconst\fP Mapping &mapping2, Combine_Type ctype, int number_input=\-1, int number_output=\-1)"
+.br
+.ti -1c
+.RI "Relation \fBomega::merge_rels\fP (Tuple< Relation > &\fBR\fP, \fBconst\fP Tuple< \fBstd::map\fP< Variable_ID, std::pair< Var_Kind, int > > > &mapping, \fBconst\fP Tuple< bool > &inverse, Combine_Type ctype, int number_input=\-1, int number_output=\-1)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define CHECK_MAYBE_SUBSET   1"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

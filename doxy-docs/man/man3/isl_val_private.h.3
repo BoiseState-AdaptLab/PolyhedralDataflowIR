@@ -1,0 +1,153 @@
+.TH "lib/isl/isl_val_private.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_val_private.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_int\&.h>\fP
+.br
+\fC#include <isl/val\&.h>\fP
+.br
+\fC#include <isl/local_space\&.h>\fP
+.br
+\fC#include <isl_reordering\&.h>\fP
+.br
+\fC#include <isl_list_templ\&.h>\fP
+.br
+\fC#include <isl_multi_templ\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_val\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEL\fP   \fBisl_val\fP"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   \fBval\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_alloc\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_normalize\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_int_from_isl_int\fP (\fBisl_ctx\fP *ctx, \fBisl_int\fP \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_rat_from_isl_int\fP (\fBisl_ctx\fP *ctx, \fBisl_int\fP \fBn\fP, \fBisl_int\fP d)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_cow\fP (\fB__isl_take\fP \fBisl_val\fP *\fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_val_involves_dims\fP (\fB__isl_keep\fP \fBisl_val\fP *v, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_insert_dims\fP (\fB__isl_take\fP \fBisl_val\fP *v, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_drop_dims\fP (\fB__isl_take\fP \fBisl_val\fP *v, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_set_dim_name\fP (\fB__isl_take\fP \fBisl_val\fP *v, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_val_get_space\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_reset_domain_space\fP (\fB__isl_take\fP \fBisl_val\fP *v, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_align_params\fP (\fB__isl_take\fP \fBisl_val\fP *v, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_realign_domain\fP (\fB__isl_take\fP \fBisl_val\fP *v, \fB__isl_take\fP \fBisl_reordering\fP *r)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_zero_on_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_scale_val\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_scale_down_val\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_mod_val\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "int \fBisl_val_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_val\fP *val1, \fB__isl_keep\fP \fBisl_val\fP *val2)"
+.br
+.ti -1c
+.RI "int \fBisl_val_matching_params\fP (\fB__isl_keep\fP \fBisl_val\fP *v, \fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "int \fBisl_val_check_match_domain_space\fP (\fB__isl_keep\fP \fBisl_val\fP *v, \fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BASE   \fBval\fP"
+
+.SS "#define EL   \fBisl_val\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_align_params (\fB__isl_take\fP \fBisl_val\fP * v, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_alloc (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_val_check_match_domain_space (\fB__isl_keep\fP \fBisl_val\fP * v, \fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_cow (\fB__isl_take\fP \fBisl_val\fP * val)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_drop_dims (\fB__isl_take\fP \fBisl_val\fP * v, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_val_get_space (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_insert_dims (\fB__isl_take\fP \fBisl_val\fP * v, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_int_from_isl_int (\fBisl_ctx\fP * ctx, \fBisl_int\fP n)"
+
+.SS "int isl_val_involves_dims (\fB__isl_keep\fP \fBisl_val\fP * v, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "int isl_val_matching_params (\fB__isl_keep\fP \fBisl_val\fP * v, \fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_mod_val (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_normalize (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "int isl_val_plain_is_equal (\fB__isl_keep\fP \fBisl_val\fP * val1, \fB__isl_keep\fP \fBisl_val\fP * val2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_rat_from_isl_int (\fBisl_ctx\fP * ctx, \fBisl_int\fP n, \fBisl_int\fP d)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_realign_domain (\fB__isl_take\fP \fBisl_val\fP * v, \fB__isl_take\fP \fBisl_reordering\fP * r)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_reset_domain_space (\fB__isl_take\fP \fBisl_val\fP * v, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_scale_down_val (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_scale_val (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_set_dim_name (\fB__isl_take\fP \fBisl_val\fP * v, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_zero_on_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

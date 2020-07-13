@@ -1,0 +1,219 @@
+.TH "lib/chill/omegatools.hh" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omegatools.hh
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include <omega\&.h>\fP
+.br
+\fC#include 'dep\&.hh'\fP
+.br
+\fC#include 'ir_code\&.hh'\fP
+.br
+\fC#include 'loop\&.hh'\fP
+.br
+
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBLexicalOrderType\fP { \fBLEX_MATCH\fP, \fBLEX_BEFORE\fP, \fBLEX_AFTER\fP, \fBLEX_UNKNOWN\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBtmp_e\fP ()"
+.br
+.ti -1c
+.RI "void \fBexp2formula\fP (\fBLoop\fP *loop, \fBIR_Code\fP *ir, \fBomega::Relation\fP &r, \fBomega::F_And\fP *f_root, std::vector< \fBomega::Free_Var_Decl\fP * > &freevars, \fBomega::CG_outputRepr\fP *repr, \fBomega::Variable_ID\fP \fBlhs\fP, char side, \fBIR_CONDITION_TYPE\fP rel, bool destroy, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols_stringrepr, \fBstd::map\fP< std::string, std::vector< \fBomega::Relation\fP > > &index_variables)"
+.br
+.RI "Convert expression tree to omega relation\&. "
+.ti -1c
+.RI "\fBomega::Relation\fP \fBarrays2relation\fP (\fBLoop\fP *loop, \fBIR_Code\fP *ir, std::vector< \fBomega::Free_Var_Decl\fP * > &freevars, \fBconst\fP \fBIR_ArrayRef\fP *ref_src, \fBconst\fP \fBomega::Relation\fP &IS_w, \fBconst\fP \fBIR_ArrayRef\fP *ref_dst, \fBconst\fP \fBomega::Relation\fP &IS_r, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols_stringrepr, \fBstd::map\fP< std::string, std::vector< \fBomega::Relation\fP > > &unin_rel)"
+.br
+.ti -1c
+.RI "std::pair< std::vector< \fBDependenceVector\fP >, std::vector< \fBDependenceVector\fP > > \fBrelation2dependences\fP (\fBconst\fP \fBIR_ArrayRef\fP *ref_src, \fBconst\fP \fBIR_ArrayRef\fP *ref_dst, \fBconst\fP \fBomega::Relation\fP &r)"
+.br
+.ti -1c
+.RI "void \fBexp2constraint\fP (\fBLoop\fP *loop, \fBIR_Code\fP *ir, \fBomega::Relation\fP &r, \fBomega::F_And\fP *f_root, std::vector< \fBomega::Free_Var_Decl\fP * > &freevars, \fBomega::CG_outputRepr\fP *repr, bool destroy, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols_stringrepr, \fBstd::map\fP< std::string, std::vector< \fBomega::Relation\fP > > &index_variables)"
+.br
+.RI "Convert a boolean expression to omega relation\&. 'destroy' means shallow deallocation of 'repr', not freeing the actual code inside\&. "
+.ti -1c
+.RI "bool \fBis_single_iteration\fP (\fBconst\fP \fBomega::Relation\fP &r, int \fBdim\fP)"
+.br
+.ti -1c
+.RI "void \fBassign_const\fP (\fBomega::Relation\fP &r, int \fBdim\fP, int \fBval\fP)"
+.br
+.ti -1c
+.RI "int \fBget_const\fP (\fBconst\fP \fBomega::Relation\fP &r, int \fBdim\fP, \fBomega::Var_Kind\fP type)"
+.br
+.ti -1c
+.RI "\fBomega::Variable_ID\fP \fBfind_index\fP (\fBomega::Relation\fP &r, \fBconst\fP std::string &s, char side)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBpermute_relation\fP (\fBconst\fP std::vector< int > &pi)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBget_loop_bound\fP (\fBconst\fP \fBomega::Relation\fP &r, int \fBdim\fP)"
+.br
+.ti -1c
+.RI "bool \fBis_single_loop_iteration\fP (\fBconst\fP \fBomega::Relation\fP &r, int level, \fBconst\fP \fBomega::Relation\fP &known)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBget_loop_bound\fP (\fBconst\fP \fBomega::Relation\fP &r, int level, \fBconst\fP \fBomega::Relation\fP &known)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBget_max_loop_bound\fP (\fBconst\fP std::vector< \fBomega::Relation\fP > &r, int \fBdim\fP)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBget_min_loop_bound\fP (\fBconst\fP std::vector< \fBomega::Relation\fP > &r, int \fBdim\fP)"
+.br
+.ti -1c
+.RI "void \fBadd_loop_stride\fP (\fBomega::Relation\fP &r, \fBconst\fP \fBomega::Relation\fP &bound, int \fBdim\fP, int stride)"
+.br
+.ti -1c
+.RI "bool \fBis_inner_loop_depend_on_level\fP (\fBconst\fP \fBomega::Relation\fP &r, int level, \fBconst\fP \fBomega::Relation\fP &known)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBadjust_loop_bound\fP (\fBconst\fP \fBomega::Relation\fP &r, int level, int adjustment)"
+.br
+.ti -1c
+.RI "bool \fBlowerBoundIsZero\fP (\fBconst\fP \fBomega::Relation\fP &bound, int \fBdim\fP)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBand_with_relation_and_replace_var\fP (\fBconst\fP \fBomega::Relation\fP &\fBR\fP, \fBomega::Variable_ID\fP v1, \fBomega::Relation\fP &g)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBreplicate_IS_and_add_at_pos\fP (\fBconst\fP \fBomega::Relation\fP &\fBR\fP, int level, \fBomega::Relation\fP &bound)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBreplicate_IS_and_add_bound\fP (\fBconst\fP \fBomega::Relation\fP &\fBR\fP, int level, \fBomega::Relation\fP &bound)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBconstruct_int_floor\fP (\fBomega::CG_outputBuilder\fP *ocg, \fBconst\fP \fBomega::Relation\fP &\fBR\fP, \fBconst\fP \fBomega::GEQ_Handle\fP &h, \fBomega::Variable_ID\fP v, \fBconst\fP std::vector< std::pair< \fBomega::CG_outputRepr\fP *, int > > &assigned_on_the_fly, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > unin)"
+.br
+.ti -1c
+.RI "std::pair< \fBomega::Relation\fP, bool > \fBreplace_set_var_as_existential\fP (\fBconst\fP \fBomega::Relation\fP &\fBR\fP, int \fBpos\fP, std::vector< \fBomega::Relation\fP > &bound)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBreplace_set_var_as_Global\fP (\fBconst\fP \fBomega::Relation\fP &\fBR\fP, int \fBpos\fP, std::vector< \fBomega::Relation\fP > &bound)"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< std::string > \fBget_global_vars\fP (\fBconst\fP \fBomega::Relation\fP &r)"
+.br
+.RI "Return names of global vars with arity 0\&. "
+.ti -1c
+.RI "\fBomega::Relation\fP \fBreplace_set_vars\fP (\fBconst\fP \fBomega::Relation\fP &new_relation, \fBconst\fP \fBomega::Relation\fP &old_relation, int counter)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBreplace_set_var_as_another_set_var\fP (\fBconst\fP \fBomega::Relation\fP &old_relation, \fBconst\fP \fBomega::Relation\fP &new_relation, int old_pos, int new_pos)"
+.br
+.RI "Replicates old_relation's bounds for set var at old_pos into new_relation at new_pos\&. "
+.ti -1c
+.RI "\fBomega::Relation\fP \fBreplace_set_var_as_another_set_var\fP (\fBconst\fP \fBomega::Relation\fP &new_relation, \fBconst\fP \fBomega::Relation\fP &old_relation, int new_pos, int old_pos, \fBstd::map\fP< int, int > &pos_mapping)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBextract_upper_bound\fP (\fBconst\fP \fBomega::Relation\fP &\fBR\fP, \fBomega::Variable_ID\fP v1)"
+.br
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBLexicalOrderType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fILEX_MATCH \fP\fP
+.TP
+\fB\fILEX_BEFORE \fP\fP
+.TP
+\fB\fILEX_AFTER \fP\fP
+.TP
+\fB\fILEX_UNKNOWN \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "void add_loop_stride (\fBomega::Relation\fP & r, \fBconst\fP \fBomega::Relation\fP & bound, int dim, int stride)"
+
+.SS "\fBomega::Relation\fP adjust_loop_bound (\fBconst\fP \fBomega::Relation\fP & r, int level, int adjustment)"
+
+.SS "\fBomega::Relation\fP and_with_relation_and_replace_var (\fBconst\fP \fBomega::Relation\fP & R, \fBomega::Variable_ID\fP v1, \fBomega::Relation\fP & g)"
+
+.SS "\fBomega::Relation\fP arrays2relation (\fBLoop\fP * loop, \fBIR_Code\fP * ir, std::vector< \fBomega::Free_Var_Decl\fP * > & freevars, \fBconst\fP \fBIR_ArrayRef\fP * ref_src, \fBconst\fP \fBomega::Relation\fP & IS_w, \fBconst\fP \fBIR_ArrayRef\fP * ref_dst, \fBconst\fP \fBomega::Relation\fP & IS_r, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols_stringrepr, \fBstd::map\fP< std::string, std::vector< \fBomega::Relation\fP > > & unin_rel)"
+
+.SS "void assign_const (\fBomega::Relation\fP & r, int dim, int val)"
+
+.SS "\fBomega::CG_outputRepr\fP* construct_int_floor (\fBomega::CG_outputBuilder\fP * ocg, \fBconst\fP \fBomega::Relation\fP & R, \fBconst\fP \fBomega::GEQ_Handle\fP & h, \fBomega::Variable_ID\fP v, \fBconst\fP std::vector< std::pair< \fBomega::CG_outputRepr\fP *, int > > & assigned_on_the_fly, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > unin)"
+
+.SS "void exp2constraint (\fBLoop\fP * loop, \fBIR_Code\fP * ir, \fBomega::Relation\fP & r, \fBomega::F_And\fP * f_root, std::vector< \fBomega::Free_Var_Decl\fP * > & freevars, \fBomega::CG_outputRepr\fP * repr, bool destroy, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols_stringrepr, \fBstd::map\fP< std::string, std::vector< \fBomega::Relation\fP > > & index_variables)"
+
+.PP
+Convert a boolean expression to omega relation\&. 'destroy' means shallow deallocation of 'repr', not freeing the actual code inside\&. 
+.SS "void exp2formula (\fBLoop\fP * loop, \fBIR_Code\fP * ir, \fBomega::Relation\fP & r, \fBomega::F_And\fP * f_root, std::vector< \fBomega::Free_Var_Decl\fP * > & freevars, \fBomega::CG_outputRepr\fP * repr, \fBomega::Variable_ID\fP lhs, char side, \fBIR_CONDITION_TYPE\fP rel, bool destroy, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols_stringrepr, \fBstd::map\fP< std::string, std::vector< \fBomega::Relation\fP > > & index_variables)"
+
+.PP
+Convert expression tree to omega relation\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdestroy\fP shallow deallocation of 'repr', not freeing the actual code inside\&. 
+.RE
+.PP
+
+.SS "\fBomega::Relation\fP extract_upper_bound (\fBconst\fP \fBomega::Relation\fP & R, \fBomega::Variable_ID\fP v1)"
+
+.SS "\fBomega::Variable_ID\fP find_index (\fBomega::Relation\fP & r, \fBconst\fP std::string & s, char side)"
+
+.SS "int get_const (\fBconst\fP \fBomega::Relation\fP & r, int dim, \fBomega::Var_Kind\fP type)"
+
+.SS "\fBstd::set\fP<std::string> get_global_vars (\fBconst\fP \fBomega::Relation\fP & r)"
+
+.PP
+Return names of global vars with arity 0\&. 
+.SS "\fBomega::Relation\fP get_loop_bound (\fBconst\fP \fBomega::Relation\fP & r, int dim)"
+
+.SS "\fBomega::Relation\fP get_loop_bound (\fBconst\fP \fBomega::Relation\fP & r, int level, \fBconst\fP \fBomega::Relation\fP & known)"
+
+.SS "\fBomega::Relation\fP get_max_loop_bound (\fBconst\fP std::vector< \fBomega::Relation\fP > & r, int dim)"
+
+.SS "\fBomega::Relation\fP get_min_loop_bound (\fBconst\fP std::vector< \fBomega::Relation\fP > & r, int dim)"
+
+.SS "bool is_inner_loop_depend_on_level (\fBconst\fP \fBomega::Relation\fP & r, int level, \fBconst\fP \fBomega::Relation\fP & known)"
+
+.SS "bool is_single_iteration (\fBconst\fP \fBomega::Relation\fP & r, int dim)"
+
+.SS "bool is_single_loop_iteration (\fBconst\fP \fBomega::Relation\fP & r, int level, \fBconst\fP \fBomega::Relation\fP & known)"
+
+.SS "bool lowerBoundIsZero (\fBconst\fP \fBomega::Relation\fP & bound, int dim)"
+
+.SS "\fBomega::Relation\fP permute_relation (\fBconst\fP std::vector< int > & pi)"
+
+.SS "std::pair<std::vector<\fBDependenceVector\fP>, std::vector<\fBDependenceVector\fP> > relation2dependences (\fBconst\fP \fBIR_ArrayRef\fP * ref_src, \fBconst\fP \fBIR_ArrayRef\fP * ref_dst, \fBconst\fP \fBomega::Relation\fP & r)"
+
+.SS "\fBomega::Relation\fP replace_set_var_as_another_set_var (\fBconst\fP \fBomega::Relation\fP & new_relation, \fBconst\fP \fBomega::Relation\fP & old_relation, int new_pos, int old_pos, \fBstd::map\fP< int, int > & pos_mapping)"
+
+.SS "\fBomega::Relation\fP replace_set_var_as_another_set_var (\fBconst\fP \fBomega::Relation\fP & old_relation, \fBconst\fP \fBomega::Relation\fP & new_relation, int old_pos, int new_pos)"
+
+.PP
+Replicates old_relation's bounds for set var at old_pos into new_relation at new_pos\&. position's bounds must involve constants, only supports GEQs 
+.SS "std::pair<\fBomega::Relation\fP, bool> replace_set_var_as_existential (\fBconst\fP \fBomega::Relation\fP & R, int pos, std::vector< \fBomega::Relation\fP > & bound)"
+
+.SS "\fBomega::Relation\fP replace_set_var_as_Global (\fBconst\fP \fBomega::Relation\fP & R, int pos, std::vector< \fBomega::Relation\fP > & bound)"
+
+.SS "\fBomega::Relation\fP replace_set_vars (\fBconst\fP \fBomega::Relation\fP & new_relation, \fBconst\fP \fBomega::Relation\fP & old_relation, int counter)"
+
+.SS "\fBomega::Relation\fP replicate_IS_and_add_at_pos (\fBconst\fP \fBomega::Relation\fP & R, int level, \fBomega::Relation\fP & bound)"
+
+.SS "\fBomega::Relation\fP replicate_IS_and_add_bound (\fBconst\fP \fBomega::Relation\fP & R, int level, \fBomega::Relation\fP & bound)"
+
+.SS "std::string tmp_e ()"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

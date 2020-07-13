@@ -1,0 +1,172 @@
+.TH "chillAST_CallExpr" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_CallExpr
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_CallExpr\fP (\fBchillAST_node\fP *function)"
+.br
+.ti -1c
+.RI "void \fBaddArg\fP (\fBchillAST_node\fP *newarg)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "void \fBgatherArrayRefs\fP (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarRefs\fP (std::vector< \fBchillAST_DeclRefExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL variable declarations "
+.ti -1c
+.RI "void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherArrayVarDecls\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.RI "gather ACTUAL array variable declarations "
+.ti -1c
+.RI "void \fBgatherVarUsage\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherDeclRefExprs\fP (vector< \fBchillAST_DeclRefExpr\fP * > &refs) override"
+.br
+.RI "gather both scalar and array references "
+.ti -1c
+.RI "void \fBreplaceVarDecls\fP (\fBchillAST_VarDecl\fP *olddecl, \fBchillAST_VarDecl\fP *newdecl) override"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBclone\fP () override"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBcallee\fP"
+.br
+.ti -1c
+.RI "int \fBnumargs\fP"
+.br
+.ti -1c
+.RI "std::vector< class \fBchillAST_node\fP * > \fBargs\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBgrid\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBblock\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_CallExpr::chillAST_CallExpr (\fBchillAST_node\fP * function)\fC [explicit]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void chillAST_CallExpr::addArg (\fBchillAST_node\fP * newarg)"
+
+.SS "\fBchillAST_node\fP * chillAST_CallExpr::clone ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP * chillAST_CallExpr::constantFold ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_CallExpr::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_CallExpr::gatherArrayRefs (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_CallExpr::gatherArrayVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL array variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_CallExpr::gatherDeclRefExprs (vector< \fBchillAST_DeclRefExpr\fP * > & refs)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather both scalar and array references 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_CallExpr::gatherScalarRefs (std::vector< \fBchillAST_DeclRefExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_CallExpr::gatherVarDecls (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+gather ACTUAL variable declarations 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_CallExpr::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_CallExpr::gatherVarUsage (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBCHILL_ASTNODE_TYPE\fP chillAST_CallExpr::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_CallExpr::replaceVarDecls (\fBchillAST_VarDecl\fP * olddecl, \fBchillAST_VarDecl\fP * newdecl)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<class \fBchillAST_node\fP*> chillAST_CallExpr::args"
+
+.SS "\fBchillAST_VarDecl\fP* chillAST_CallExpr::block"
+
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_CallExpr::callee"
+
+.SS "\fBchillAST_VarDecl\fP* chillAST_CallExpr::grid"
+
+.SS "int chillAST_CallExpr::numargs"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

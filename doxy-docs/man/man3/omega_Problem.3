@@ -1,0 +1,712 @@
+.TH "omega::Problem" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::Problem
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <oc\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBProblem\fP (int in_eqs=0, int in_geqs=0)"
+.br
+.ti -1c
+.RI "\fBProblem\fP (\fBconst\fP \fBProblem\fP &)"
+.br
+.ti -1c
+.RI "\fB~Problem\fP ()"
+.br
+.ti -1c
+.RI "\fBProblem\fP & \fBoperator=\fP (\fBconst\fP \fBProblem\fP &)"
+.br
+.ti -1c
+.RI "int \fBpadEQs\fP (int oldalloc, int newreq)"
+.br
+.ti -1c
+.RI "int \fBpadGEQs\fP (int oldalloc, int newreq)"
+.br
+.ti -1c
+.RI "int \fBpadEQs\fP (int newreq)"
+.br
+.ti -1c
+.RI "int \fBpadGEQs\fP (int newreq)"
+.br
+.ti -1c
+.RI "void \fBzeroVariable\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "void \fBputVariablesInStandardOrder\fP ()"
+.br
+.ti -1c
+.RI "void \fBnoteEssential\fP (int onlyWildcards)"
+.br
+.ti -1c
+.RI "int \fBfindDifference\fP (int \fBe\fP, int &v1, int &v2)"
+.br
+.ti -1c
+.RI "int \fBchainKill\fP (int color, int onlyWildcards)"
+.br
+.ti -1c
+.RI "int \fBnewGEQ\fP ()"
+.br
+.ti -1c
+.RI "int \fBnewEQ\fP ()"
+.br
+.ti -1c
+.RI "int \fBnewSUB\fP ()"
+.br
+.ti -1c
+.RI "void \fBinitializeProblem\fP ()"
+.br
+.ti -1c
+.RI "void \fBinitializeVariables\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintProblem\fP (int debug=1) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintSub\fP (int v) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBprint_sub_to_string\fP (int v) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBclearSubs\fP ()"
+.br
+.ti -1c
+.RI "void \fBprintRedEquations\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBcountRedEquations\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBcountRedGEQs\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBcountRedEQs\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBcountRedSUBs\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdifficulty\fP (int &numberNZs, \fBcoef_t\fP &maxMinAbsCoef, \fBcoef_t\fP &sumMinAbsCoef) \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBprettyPrintProblem\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBprettyPrintProblemToString\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBprettyPrintRedEquations\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBsimplifyProblem\fP (int verify, int subs, int redundantElimination)"
+.br
+.ti -1c
+.RI "int \fBsimplifyProblem\fP ()"
+.br
+.ti -1c
+.RI "int \fBsimplifyAndVerifyProblem\fP ()"
+.br
+.ti -1c
+.RI "int \fBsimplifyApproximate\fP (bool strides_allowed)"
+.br
+.ti -1c
+.RI "void \fBcoalesce\fP ()"
+.br
+.ti -1c
+.RI "void \fBpartialElimination\fP ()"
+.br
+.ti -1c
+.RI "void \fBunprotectVariable\fP (int \fBvar\fP)"
+.br
+.ti -1c
+.RI "void \fBnegateGEQ\fP (int)"
+.br
+.ti -1c
+.RI "void \fBconvertEQstoGEQs\fP (bool excludeStrides)"
+.br
+.ti -1c
+.RI "void \fBconvertEQtoGEQs\fP (int \fBeq\fP)"
+.br
+.ti -1c
+.RI "void \fBnameWildcard\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "void \fBuseWildNames\fP ()"
+.br
+.ti -1c
+.RI "void \fBordered_elimination\fP (int symbolic)"
+.br
+.ti -1c
+.RI "int \fBeliminateRedundant\fP (bool expensive)"
+.br
+.ti -1c
+.RI "void \fBeliminateRed\fP (bool expensive)"
+.br
+.ti -1c
+.RI "void \fBconstrainVariableSign\fP (int color, int \fBvar\fP, int sign)"
+.br
+.ti -1c
+.RI "void \fBconstrainVariableValue\fP (int color, int \fBvar\fP, int value)"
+.br
+.ti -1c
+.RI "void \fBquery_difference\fP (int v1, int v2, \fBcoef_t\fP &lowerBound, \fBcoef_t\fP &upperBound, bool &guaranteed)"
+.br
+.ti -1c
+.RI "int \fBsolve\fP (int desiredResult)"
+.br
+.ti -1c
+.RI "std::string \fBprint_term_to_string\fP (\fBconst\fP \fBeqn\fP *\fBe\fP, int \fBc\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintTerm\fP (\fBconst\fP \fBeqn\fP *\fBe\fP, int \fBc\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBprintEqnToString\fP (\fBconst\fP \fBeqn\fP *\fBe\fP, int test, int extra) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBsprintEqn\fP (char *\fBstr\fP, \fBconst\fP \fBeqn\fP *\fBe\fP, int is_geq, int extra) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintEqn\fP (\fBconst\fP \fBeqn\fP *\fBe\fP, int is_geq, int extra) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintEQ\fP (\fBconst\fP \fBeqn\fP *\fBe\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBprint_EQ_to_string\fP (\fBconst\fP \fBeqn\fP *\fBe\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBprint_GEQ_to_string\fP (\fBconst\fP \fBeqn\fP *\fBe\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintGEQ\fP (\fBconst\fP \fBeqn\fP *\fBe\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintGEQextra\fP (\fBconst\fP \fBeqn\fP *\fBe\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintSubstitution\fP (int s) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintVars\fP (int debug=1) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBswapVars\fP (int \fBi\fP, int \fBj\fP)"
+.br
+.ti -1c
+.RI "void \fBreverseProtectedVariables\fP ()"
+.br
+.ti -1c
+.RI "\fBredCheck\fP \fBredSimplifyProblem\fP (int effort, int computeGist)"
+.br
+.ti -1c
+.RI "\fBcoef_t\fP \fBquery_variable_mod\fP (int v, \fBcoef_t\fP \fBfactor\fP, int color=\fBEQ_BLACK\fP, int nModularEQs=0, int nModularVars=0) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBcoef_t\fP \fBquery_variable_mod\fP (int v, \fBcoef_t\fP \fBfactor\fP, int color, int nModularEQs, int nModularVars, \fBTuple\fP< bool > &working_on) \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBqueryVariable\fP (int \fBi\fP, \fBcoef_t\fP *lowerBound, \fBcoef_t\fP *upperBound)"
+.br
+.ti -1c
+.RI "int \fBquery_variable_bounds\fP (int \fBi\fP, \fBcoef_t\fP *l, \fBcoef_t\fP *\fBu\fP)"
+.br
+.ti -1c
+.RI "void \fBqueryCoupledVariable\fP (int \fBi\fP, \fBcoef_t\fP *l, \fBcoef_t\fP *\fBu\fP, int *couldBeZero, \fBcoef_t\fP lowerBound, \fBcoef_t\fP upperBound)"
+.br
+.ti -1c
+.RI "int \fBqueryVariableSigns\fP (int \fBi\fP, int dd_lt, int dd_eq, int dd_gt, \fBcoef_t\fP lowerBound, \fBcoef_t\fP upperBound, bool *distKnown, \fBcoef_t\fP *dist)"
+.br
+.ti -1c
+.RI "void \fBaddingEqualityConstraint\fP (int \fBe\fP)"
+.br
+.ti -1c
+.RI "\fBnormalizeReturnType\fP \fBnormalize\fP ()"
+.br
+.ti -1c
+.RI "void \fBnormalize_ext\fP ()"
+.br
+.ti -1c
+.RI "void \fBcleanoutWildcards\fP ()"
+.br
+.ti -1c
+.RI "void \fBsubstitute\fP (\fBeqn\fP *\fBsub\fP, int \fBi\fP, \fBcoef_t\fP \fBc\fP)"
+.br
+.ti -1c
+.RI "void \fBdeleteVariable\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "void \fBdeleteBlack\fP ()"
+.br
+.ti -1c
+.RI "int \fBaddNewProtectedWildcard\fP ()"
+.br
+.ti -1c
+.RI "int \fBaddNewUnprotectedWildcard\fP ()"
+.br
+.ti -1c
+.RI "int \fBprotectWildcard\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "void \fBdoMod\fP (\fBcoef_t\fP \fBfactor\fP, int \fBe\fP, int \fBj\fP)"
+.br
+.ti -1c
+.RI "void \fBfreeEliminations\fP (int fv)"
+.br
+.ti -1c
+.RI "int \fBverifyProblem\fP ()"
+.br
+.ti -1c
+.RI "void \fBresurrectSubs\fP ()"
+.br
+.ti -1c
+.RI "int \fBsolveEQ\fP ()"
+.br
+.ti -1c
+.RI "int \fBcombineToTighten\fP ()"
+.br
+.ti -1c
+.RI "int \fBquickKill\fP (int onlyWildcards, bool desperate=false)"
+.br
+.ti -1c
+.RI "int \fBexpensiveEqualityCheck\fP ()"
+.br
+.ti -1c
+.RI "int \fBexpensiveRedKill\fP ()"
+.br
+.ti -1c
+.RI "int \fBexpensiveKill\fP ()"
+.br
+.ti -1c
+.RI "int \fBsmoothWeirdEquations\fP ()"
+.br
+.ti -1c
+.RI "void \fBquickRedKill\fP (int computeGist)"
+.br
+.ti -1c
+.RI "void \fBchainUnprotect\fP ()"
+.br
+.ti -1c
+.RI "void \fBfreeRedEliminations\fP ()"
+.br
+.ti -1c
+.RI "void \fBdoElimination\fP (int \fBe\fP, int \fBi\fP)"
+.br
+.ti -1c
+.RI "void \fBanalyzeElimination\fP (int &v, int &darkConstraints, int &darkShadowFeasible, int &unit, \fBcoef_t\fP &parallelSplinters, \fBcoef_t\fP &disjointSplinters, \fBcoef_t\fP &lbSplinters, \fBcoef_t\fP &ubSplinters, int &parallelLB)"
+.br
+.ti -1c
+.RI "int \fBparallelSplinter\fP (int \fBe\fP, int \fBdiff\fP, int desiredResult)"
+.br
+.ti -1c
+.RI "int \fBsolveGEQ\fP (int desiredResult)"
+.br
+.ti -1c
+.RI "void \fBsetInternals\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetExternals\fP ()"
+.br
+.ti -1c
+.RI "int \fBreduceProblem\fP ()"
+.br
+.ti -1c
+.RI "void \fBproblem_merge\fP (\fBProblem\fP &)"
+.br
+.ti -1c
+.RI "void \fBdeleteRed\fP ()"
+.br
+.ti -1c
+.RI "void \fBturnRedBlack\fP ()"
+.br
+.ti -1c
+.RI "void \fBcheckGistInvariant\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBcheck\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBcoef_t\fP \fBcheckSum\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBrememberRedConstraint\fP (\fBeqn\fP *\fBe\fP, \fBredType\fP type, \fBcoef_t\fP stride)"
+.br
+.ti -1c
+.RI "void \fBrecallRedMemories\fP ()"
+.br
+.ti -1c
+.RI "void \fBsimplifyStrideConstraints\fP ()"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBorgVariable\fP (int \fBi\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBvariable\fP (int \fBi\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdeleteGEQ\fP (int \fBe\fP)"
+.br
+.ti -1c
+.RI "void \fBdeleteEQ\fP (int \fBe\fP)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "short \fBnVars\fP"
+.br
+.ti -1c
+.RI "short \fBsafeVars\fP"
+.br
+.ti -1c
+.RI "short \fBnEQs\fP"
+.br
+.ti -1c
+.RI "short \fBnGEQs\fP"
+.br
+.ti -1c
+.RI "short \fBnSUBs\fP"
+.br
+.ti -1c
+.RI "short \fBnMemories\fP"
+.br
+.ti -1c
+.RI "short \fBallocEQs\fP"
+.br
+.ti -1c
+.RI "short \fBallocGEQs\fP"
+.br
+.ti -1c
+.RI "short \fBvarsOfInterest\fP"
+.br
+.ti -1c
+.RI "bool \fBvariablesInitialized\fP"
+.br
+.ti -1c
+.RI "bool \fBvariablesFreed\fP"
+.br
+.ti -1c
+.RI "short \fBvar\fP [\fBmaxVars\fP+2]"
+.br
+.ti -1c
+.RI "short \fBforwardingAddress\fP [\fBmaxVars\fP+2]"
+.br
+.ti -1c
+.RI "int \fBhashVersion\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP char *(* \fBget_var_name\fP )(unsigned int \fBvar\fP, void *args)"
+.br
+.ti -1c
+.RI "void * \fBgetVarNameArgs\fP"
+.br
+.ti -1c
+.RI "\fBeqn\fP * \fBGEQs\fP"
+.br
+.ti -1c
+.RI "\fBeqn\fP * \fBEQs\fP"
+.br
+.ti -1c
+.RI "bool \fBisTemporary\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBconst\fP int \fBmin_alloc\fP = 10"
+.br
+.ti -1c
+.RI "static \fBconst\fP int \fBfirst_alloc_pad\fP = 5"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::Problem::Problem (int in_eqs = \fC0\fP, int in_geqs = \fC0\fP)"
+
+.SS "omega::Problem::Problem (\fBconst\fP \fBProblem\fP & p2)"
+
+.SS "omega::Problem::~Problem ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void omega::Problem::addingEqualityConstraint (int e)"
+
+.SS "int omega::Problem::addNewProtectedWildcard ()"
+
+.SS "int omega::Problem::addNewUnprotectedWildcard ()"
+
+.SS "void omega::Problem::analyzeElimination (int & v, int & darkConstraints, int & darkShadowFeasible, int & unit, \fBcoef_t\fP & parallelSplinters, \fBcoef_t\fP & disjointSplinters, \fBcoef_t\fP & lbSplinters, \fBcoef_t\fP & ubSplinters, int & parallelLB)"
+
+.SS "int omega::Problem::chainKill (int color, int onlyWildcards)"
+
+.SS "void omega::Problem::chainUnprotect ()"
+
+.SS "void omega::Problem::check () const"
+
+.SS "void omega::Problem::checkGistInvariant () const"
+
+.SS "\fBcoef_t\fP omega::Problem::checkSum () const"
+
+.SS "void omega::Problem::cleanoutWildcards ()"
+
+.SS "void omega::Problem::clearSubs ()"
+
+.SS "void omega::Problem::coalesce ()"
+
+.SS "int omega::Problem::combineToTighten ()"
+
+.SS "void omega::Problem::constrainVariableSign (int color, int var, int sign)"
+
+.SS "void omega::Problem::constrainVariableValue (int color, int var, int value)"
+
+.SS "void omega::Problem::convertEQstoGEQs (bool excludeStrides)"
+
+.SS "void omega::Problem::convertEQtoGEQs (int eq)"
+
+.SS "int omega::Problem::countRedEQs () const"
+
+.SS "int omega::Problem::countRedEquations () const"
+
+.SS "int omega::Problem::countRedGEQs () const"
+
+.SS "int omega::Problem::countRedSUBs () const"
+
+.SS "void omega::Problem::deleteBlack ()"
+
+.SS "void omega::Problem::deleteEQ (int e)\fC [inline]\fP"
+
+.SS "void omega::Problem::deleteGEQ (int e)\fC [inline]\fP"
+
+.SS "void omega::Problem::deleteRed ()"
+
+.SS "void omega::Problem::deleteVariable (int i)"
+
+.SS "void omega::Problem::difficulty (int & numberNZs, \fBcoef_t\fP & maxMinAbsCoef, \fBcoef_t\fP & sumMinAbsCoef) const"
+
+.SS "void omega::Problem::doElimination (int e, int i)"
+
+.SS "void omega::Problem::doMod (\fBcoef_t\fP factor, int e, int j)"
+
+.SS "void omega::Problem::eliminateRed (bool expensive)"
+
+.SS "int omega::Problem::eliminateRedundant (bool expensive)"
+
+.SS "int omega::Problem::expensiveEqualityCheck ()"
+
+.SS "int omega::Problem::expensiveKill ()"
+
+.SS "int omega::Problem::expensiveRedKill ()"
+
+.SS "int omega::Problem::findDifference (int e, int & v1, int & v2)"
+
+.SS "void omega::Problem::freeEliminations (int fv)"
+
+.SS "void omega::Problem::freeRedEliminations ()"
+
+.SS "void omega::Problem::initializeProblem ()"
+
+.SS "void omega::Problem::initializeVariables () const"
+
+.SS "void omega::Problem::nameWildcard (int i)"
+
+.SS "void omega::Problem::negateGEQ (int e)"
+
+.SS "int omega::Problem::newEQ ()"
+
+.SS "int omega::Problem::newGEQ ()"
+
+.SS "int omega::Problem::newSUB ()\fC [inline]\fP"
+
+.SS "\fBnormalizeReturnType\fP omega::Problem::normalize ()"
+
+.SS "void omega::Problem::normalize_ext ()"
+
+.SS "void omega::Problem::noteEssential (int onlyWildcards)"
+
+.SS "\fBProblem\fP & omega::Problem::operator= (\fBconst\fP \fBProblem\fP & p2)"
+
+.SS "void omega::Problem::ordered_elimination (int symbolic)"
+
+.SS "\fBconst\fP char* omega::Problem::orgVariable (int i) const\fC [inline]\fP"
+
+.SS "int omega::Problem::padEQs (int newreq)\fC [inline]\fP"
+
+.SS "int omega::Problem::padEQs (int oldalloc, int newreq)\fC [inline]\fP"
+
+.SS "int omega::Problem::padGEQs (int newreq)\fC [inline]\fP"
+
+.SS "int omega::Problem::padGEQs (int oldalloc, int newreq)\fC [inline]\fP"
+
+.SS "int omega::Problem::parallelSplinter (int e, int diff, int desiredResult)"
+
+.SS "void omega::Problem::partialElimination ()"
+
+.SS "int omega::Problem::prettyPrintProblem () const"
+
+.SS "std::string omega::Problem::prettyPrintProblemToString () const"
+
+.SS "int omega::Problem::prettyPrintRedEquations () const"
+
+.SS "std::string omega::Problem::print_EQ_to_string (\fBconst\fP \fBeqn\fP * e) const\fC [inline]\fP"
+
+.SS "std::string omega::Problem::print_GEQ_to_string (\fBconst\fP \fBeqn\fP * e) const\fC [inline]\fP"
+
+.SS "std::string omega::Problem::print_sub_to_string (int v) const"
+
+.SS "std::string omega::Problem::print_term_to_string (\fBconst\fP \fBeqn\fP * e, int c) const"
+
+.SS "void omega::Problem::printEQ (\fBconst\fP \fBeqn\fP * e) const\fC [inline]\fP"
+
+.SS "void omega::Problem::printEqn (\fBconst\fP \fBeqn\fP * e, int is_geq, int extra) const"
+
+.SS "std::string omega::Problem::printEqnToString (\fBconst\fP \fBeqn\fP * e, int test, int extra) const"
+
+.SS "void omega::Problem::printGEQ (\fBconst\fP \fBeqn\fP * e) const\fC [inline]\fP"
+
+.SS "void omega::Problem::printGEQextra (\fBconst\fP \fBeqn\fP * e) const\fC [inline]\fP"
+
+.SS "void omega::Problem::printProblem (int debug = \fC1\fP) const"
+
+.SS "void omega::Problem::printRedEquations () const"
+
+.SS "void omega::Problem::printSub (int v) const"
+
+.SS "void omega::Problem::printSubstitution (int s) const"
+
+.SS "void omega::Problem::printTerm (\fBconst\fP \fBeqn\fP * e, int c) const"
+
+.SS "void omega::Problem::printVars (int debug = \fC1\fP) const"
+
+.SS "void omega::Problem::problem_merge (\fBProblem\fP & p2)"
+
+.SS "int omega::Problem::protectWildcard (int i)"
+
+.SS "void omega::Problem::putVariablesInStandardOrder ()"
+
+.SS "void omega::Problem::query_difference (int v1, int v2, \fBcoef_t\fP & lowerBound, \fBcoef_t\fP & upperBound, bool & guaranteed)"
+
+.SS "int omega::Problem::query_variable_bounds (int i, \fBcoef_t\fP * l, \fBcoef_t\fP * u)"
+
+.SS "\fBcoef_t\fP omega::Problem::query_variable_mod (int v, \fBcoef_t\fP factor, int color, int nModularEQs, int nModularVars, \fBTuple\fP< bool > & working_on) const"
+
+.SS "\fBcoef_t\fP omega::Problem::query_variable_mod (int v, \fBcoef_t\fP factor, int color = \fC\fBEQ_BLACK\fP\fP, int nModularEQs = \fC0\fP, int nModularVars = \fC0\fP) const"
+
+.SS "void omega::Problem::queryCoupledVariable (int i, \fBcoef_t\fP * l, \fBcoef_t\fP * u, int * couldBeZero, \fBcoef_t\fP lowerBound, \fBcoef_t\fP upperBound)"
+
+.SS "int omega::Problem::queryVariable (int i, \fBcoef_t\fP * lowerBound, \fBcoef_t\fP * upperBound)"
+
+.SS "int omega::Problem::queryVariableSigns (int i, int dd_lt, int dd_eq, int dd_gt, \fBcoef_t\fP lowerBound, \fBcoef_t\fP upperBound, bool * distKnown, \fBcoef_t\fP * dist)"
+
+.SS "int omega::Problem::quickKill (int onlyWildcards, bool desperate = \fCfalse\fP)"
+
+.SS "void omega::Problem::quickRedKill (int computeGist)"
+
+.SS "void omega::Problem::recallRedMemories ()"
+
+.SS "\fBredCheck\fP omega::Problem::redSimplifyProblem (int effort, int computeGist)"
+
+.SS "int omega::Problem::reduceProblem ()"
+
+.SS "void omega::Problem::rememberRedConstraint (\fBeqn\fP * e, \fBredType\fP type, \fBcoef_t\fP stride)"
+
+.SS "void omega::Problem::resurrectSubs ()"
+
+.SS "void omega::Problem::reverseProtectedVariables ()"
+
+.SS "void omega::Problem::setExternals ()"
+
+.SS "void omega::Problem::setInternals ()"
+
+.SS "int omega::Problem::simplifyAndVerifyProblem ()"
+
+.SS "int omega::Problem::simplifyApproximate (bool strides_allowed)"
+
+.SS "int omega::Problem::simplifyProblem ()"
+
+.SS "int omega::Problem::simplifyProblem (int verify, int subs, int redundantElimination)"
+
+.SS "void omega::Problem::simplifyStrideConstraints ()"
+
+.SS "int omega::Problem::smoothWeirdEquations ()"
+
+.SS "int omega::Problem::solve (int desiredResult)"
+
+.SS "int omega::Problem::solveEQ ()"
+
+.SS "int omega::Problem::solveGEQ (int desiredResult)"
+
+.SS "void omega::Problem::sprintEqn (char * str, \fBconst\fP \fBeqn\fP * e, int is_geq, int extra) const"
+
+.SS "void omega::Problem::substitute (\fBeqn\fP * sub, int i, \fBcoef_t\fP c)"
+
+.SS "void omega::Problem::swapVars (int i, int j)"
+
+.SS "void omega::Problem::turnRedBlack ()"
+
+.SS "void omega::Problem::unprotectVariable (int var)"
+
+.SS "void omega::Problem::useWildNames ()"
+
+.SS "\fBconst\fP char* omega::Problem::variable (int i) const\fC [inline]\fP"
+
+.SS "int omega::Problem::verifyProblem ()"
+
+.SS "void omega::Problem::zeroVariable (int i)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "short omega::Problem::allocEQs"
+
+.SS "short omega::Problem::allocGEQs"
+
+.SS "\fBeqn\fP* omega::Problem::EQs"
+
+.SS "\fBconst\fP int omega::Problem::first_alloc_pad = 5\fC [static]\fP"
+
+.SS "short omega::Problem::forwardingAddress[\fBmaxVars\fP+2]"
+
+.SS "\fBeqn\fP* omega::Problem::GEQs"
+
+.SS "\fBconst\fP char*(* omega::Problem::get_var_name) (unsigned int \fBvar\fP, void *args)"
+
+.SS "void* omega::Problem::getVarNameArgs"
+
+.SS "int omega::Problem::hashVersion"
+
+.SS "bool omega::Problem::isTemporary"
+
+.SS "\fBconst\fP int omega::Problem::min_alloc = 10\fC [static]\fP"
+
+.SS "short omega::Problem::nEQs"
+
+.SS "short omega::Problem::nGEQs"
+
+.SS "short omega::Problem::nMemories"
+
+.SS "short omega::Problem::nSUBs"
+
+.SS "short omega::Problem::nVars"
+
+.SS "short omega::Problem::safeVars"
+
+.SS "short omega::Problem::var[\fBmaxVars\fP+2]"
+
+.SS "bool omega::Problem::variablesFreed"
+
+.SS "bool omega::Problem::variablesInitialized"
+
+.SS "short omega::Problem::varsOfInterest"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

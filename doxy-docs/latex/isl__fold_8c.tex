@@ -1,0 +1,1098 @@
+\hypertarget{isl__fold_8c}{}\doxysection{lib/isl/isl\+\_\+fold.c File Reference}
+\label{isl__fold_8c}\index{lib/isl/isl\_fold.c@{lib/isl/isl\_fold.c}}
+{\ttfamily \#include $<$isl\+\_\+map\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+union\+\_\+map\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+polynomial\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+point\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+space\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+lp\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+seq.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+mat\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+val\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+vec\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+config.\+h$>$}\newline
+{\ttfamily \#include $<$isl/deprecated/polynomial\+\_\+int.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+pw\+\_\+templ.\+c$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+union\+\_\+single.\+c$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+union\+\_\+eval.\+c$>$}\newline
+Include dependency graph for isl\+\_\+fold.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structisl__apply__fold__data}{isl\+\_\+apply\+\_\+fold\+\_\+data}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_af81f3dad912c2d34c90b074ed73a1686}{I\+S\+L\+\_\+\+D\+I\+M\+\_\+H}}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_acaf3e90dc3f3728c0e695007483407ee}{H\+A\+S\+\_\+\+T\+Y\+PE}}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a80665c70b5c319208328ddbb0e1fba7a}{PW}}~\mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a76c0767a1d1beeb40285bd6ad6d237b8}{EL}}~\mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a2fea536da68294b501d561ca7d620e26}{E\+L\+\_\+\+I\+S\+\_\+\+Z\+E\+RO}}~is\+\_\+empty
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_ac328e551bde3d39b6d7b8cc9e048d941}{Z\+E\+RO}}~zero
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a7ba3c0fce704c58b81fd1a22057eaffb}{I\+S\+\_\+\+Z\+E\+RO}}~is\+\_\+zero
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_abbab477a47201196b8e02020a1c022a1}{F\+I\+E\+LD}}~fold
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a564fbbe187bc809f8c55bb69ff4e1609}{D\+E\+F\+A\+U\+L\+T\+\_\+\+I\+S\+\_\+\+Z\+E\+RO}}~1
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a501c780bf5fbd80c05916bda3dfbe10a}{N\+O\+\_\+\+N\+EG}}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a363d880e69ba3f0e3e6e2c96252fa412}{N\+O\+\_\+\+S\+UB}}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a6120755382bbf51d705ef17b811379b0}{N\+O\+\_\+\+P\+U\+L\+L\+B\+A\+CK}}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_adb8e526f08326af80d46f91f9d686e82}{U\+N\+I\+ON}}~\mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_ad27cacdbd81ea4aa38cf2ac995aa935f}{P\+A\+RT}}~\mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a47736fb8515a7383c5db94b41eead78a}{P\+A\+R\+TS}}~pw\+\_\+qpolynomial\+\_\+fold
+\item 
+\#define \mbox{\hyperlink{isl__fold_8c_a363d880e69ba3f0e3e6e2c96252fa412}{N\+O\+\_\+\+S\+UB}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} \mbox{\hyperlink{isl__fold_8c_ad0676bbe9f227516bab529d1fe715f2d}{isl\+\_\+fold\+\_\+type\+\_\+negate}} (enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} type)
+\item 
+\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ \mbox{\hyperlink{isl__fold_8c_aeb7ffca5fa9b2917c3b97520f504b222}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+ctx}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$ \mbox{\hyperlink{isl__fold_8c_aeb16f1991d5a1d1988bf3fd7fab7ec27}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+domain\+\_\+space}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a2f64615ad7c0519f98245acd6f5b0d18}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+space}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_af979d65110a29b7bdb33b941466df075}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+reset\+\_\+domain\+\_\+space}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$\mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_af0300f5f74a595d83367d7e8f2678f1d}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+reset\+\_\+space\+\_\+and\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$space, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$\mbox{\hyperlink{isl__test_8c_a52e31162553211bc239fae1a464d7751}{domain}})
+\item 
+int \mbox{\hyperlink{isl__fold_8c_a7c61291d680ef83feae0d14cab59013c}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+involves\+\_\+dims}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} type, unsigned first, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a1d4fd0007b036d3f212cf05a79721fa3}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+set\+\_\+dim\+\_\+name}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} type, unsigned \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$s)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a2a72b50c7fc062aa914c57783fb14767}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+drop\+\_\+dims}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} type, unsigned first, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a3eaeb33eb9e651f88ba669fe7c91f038}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+insert\+\_\+dims}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} type, unsigned first, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a48617d7e00ba9aa31038423890210fe7}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+fold\+\_\+on\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}}, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a2afbaba61bedc31f5791c4c3b04a4810}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+add\+\_\+qpolynomial}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial}{isl\+\_\+qpolynomial}} $\ast$qp)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a8ceee37063519dbc4243d339509eedd7}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+add\+\_\+on\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$dom, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a53daa58ac55638e2ae0f8383bd4d486d}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+substitute\+\_\+equalities}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$\mbox{\hyperlink{_a_s_t_8hh_a6b2c7f50d10e7077f357f7026c8f1e12ac1400642bc856b68972da1ae5e7a1015}{eq}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a9efcaedef34bacf91e9c9e4abd1663ff}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+gist}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{isl__test_8c_a94f090d1fb5c71712726fcdf025b9ace}{context}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a29b31ee9d8807068c8ea3aa8bd53b478}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+gist\+\_\+params}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{isl__test_8c_a94f090d1fb5c71712726fcdf025b9ace}{context}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a9da8ab02cee4de6024d1fef19d0a2ee6}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+empty}} (enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} type, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$\mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a0f09eea4c8da7b69f8db9efed8d4c34d}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+alloc}} (enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} type, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial}{isl\+\_\+qpolynomial}} $\ast$qp)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a0ad59154783100d56a4bf133aab27e7b}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+copy}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a18579fae7335e2eb8e948d2bf6c5265a}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+dup}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a484f8c5558ec4adbd2a1934fafb02df8}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+cow}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+void \mbox{\hyperlink{isl__fold_8c_a561fc5dbc3b475d99b9aabc39cc78aff}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+free}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+int \mbox{\hyperlink{isl__fold_8c_a505e5ae52c83e605b13ef39f7d6fb189}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+is\+\_\+empty}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__fold_8c_ac537ae968349d8e27d39a6919f1b34e1}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+is\+\_\+nan}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a43575a20f2ccb159db1c7e6f99143a10}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+fold}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a9ad721bbad147ee52aaf5222d8840031}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+fold}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$pw1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$pw2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a70528f67c85c81bdc1c64ac2f7c5c84c}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+fold\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$\mbox{\hyperlink{euler__step__3d__ff__tile__cu_8h_af7325b366c4aecba2c4331767c0c3fe7}{u}}, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$part)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a7c49e6b2a8147cff5e9a25fbe08653c8}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+fold}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$u1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$u2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a0b74c3677a857aafae6330980d972c9a}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+from\+\_\+pw\+\_\+qpolynomial}} (enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} type, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial}{isl\+\_\+pw\+\_\+qpolynomial}} $\ast$\mbox{\hyperlink{isl__test_8c_a00405247f81e7c61aab09d5cb481f30c}{pwqp}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_ace697235ee875fa080d071ab8d2b326a}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+add}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$pwf1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$pwf2)
+\item 
+int \mbox{\hyperlink{isl__fold_8c_a5e7eed4e815c9c59545a6f47886e32cd}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+plain\+\_\+is\+\_\+equal}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a424dae5b6248b96e1c319e265b69b6ce}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+eval}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__point}{isl\+\_\+point}} $\ast$pnt)
+\item 
+size\+\_\+t \mbox{\hyperlink{isl__fold_8c_a728a91507a74e54f815991cf96d86d22}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+size}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$pwf)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a80dcc152406ba03dcac15df7dc427c18}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+opt\+\_\+on\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}}, int \mbox{\hyperlink{linalg_8h_ac39d9cef6a5e030ba8d9e11121054268}{max}})
+\item 
+int \mbox{\hyperlink{isl__fold_8c_ab3af3edb1ffe73d74d2e6e1987b2497e}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+covers}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$pwf1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$pwf2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a4d1b665d9c0c53cd115787c82d4f05a9}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+morph\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__morph}{isl\+\_\+morph}} $\ast$morph)
+\item 
+enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} \mbox{\hyperlink{isl__fold_8c_aedd52689c387f5efc3de547219935f72}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+type}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold)
+\item 
+enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} \mbox{\hyperlink{isl__fold_8c_aece6106c4e9971e391d1e8b0234eadf0}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+type}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$upwf)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a6b207df44b5e7934664a670e4e220fca}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+lift}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$\mbox{\hyperlink{cp__als__nd__hicoo__acc_8h_a61ffa457d87a5588b86d8e13aa34e420}{dim}})
+\item 
+\mbox{\hyperlink{ctx_8h_a24b0940e02b023913e9524010890db8b}{isl\+\_\+stat}} \mbox{\hyperlink{isl__fold_8c_a42f0d8c19971545c4e96e1d4155add67}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+foreach\+\_\+qpolynomial}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a24b0940e02b023913e9524010890db8b}{isl\+\_\+stat}}($\ast$\mbox{\hyperlink{isl__test__int_8c_a39f3ffc342ec8fff175990701317e981}{fn}})(\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial}{isl\+\_\+qpolynomial}} $\ast$qp, void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}}), void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_afde79b52e5a922f98105353e85c2e998}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+move\+\_\+dims}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} dst\+\_\+type, unsigned dst\+\_\+pos, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} src\+\_\+type, unsigned src\+\_\+pos, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a9bc89356a86982275b089858f9f62545}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+substitute}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}} type, unsigned first, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial}{isl\+\_\+qpolynomial}} $\ast$$\ast$subs)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a3287ec0eb296e4b9cfce8fd095ea08f1}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+add\+\_\+union\+\_\+pw\+\_\+qpolynomial}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$upwf, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a11991102869cd7874b4f69bb9797fe93}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial}} $\ast$upwqp)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a5e77e88c74d65bd1138537e49995d4bc}{isl\+\_\+map\+\_\+apply\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{map}}, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$pwf, int $\ast$tight)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_aca2e67da9d19300e9bbb484eabc817ff}{isl\+\_\+set\+\_\+apply\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{set}}, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$pwf, int $\ast$tight)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_ad31b80b1569f8ce118af159b3325fb44}{isl\+\_\+union\+\_\+map\+\_\+apply\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$umap, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$upwf, int $\ast$tight)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a6381be112caab64f9a848ccc2d4823f1}{isl\+\_\+union\+\_\+set\+\_\+apply\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{union__map__type_8h_a7ebd16187c9653859611db949d88cfd8}{isl\+\_\+union\+\_\+set}} $\ast$uset, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$upwf, int $\ast$tight)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a3b3a3256736bd34249684f174aad761d}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+realign\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__reordering}{isl\+\_\+reordering}} $\ast$r)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_ae5abe3bbf6071c5dd13adfe399b1623d}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+mul\+\_\+isl\+\_\+int}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a7940cfb1875076295077e2c2aeac0526}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+scale}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a4420366f64b91c4ea258ba152927443b}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+scale\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$ \mbox{\hyperlink{isl__fold_8c_a97fc174efea16609776ef04b81d4c22e}{isl\+\_\+qpolynomial\+\_\+fold\+\_\+scale\+\_\+down\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$fold, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{isl__fold_8c_a564fbbe187bc809f8c55bb69ff4e1609}\label{isl__fold_8c_a564fbbe187bc809f8c55bb69ff4e1609}} 
+\index{isl\_fold.c@{isl\_fold.c}!DEFAULT\_IS\_ZERO@{DEFAULT\_IS\_ZERO}}
+\index{DEFAULT\_IS\_ZERO@{DEFAULT\_IS\_ZERO}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_IS\_ZERO}{DEFAULT\_IS\_ZERO}}
+{\footnotesize\ttfamily \#define D\+E\+F\+A\+U\+L\+T\+\_\+\+I\+S\+\_\+\+Z\+E\+RO~1}
+
+\mbox{\Hypertarget{isl__fold_8c_a76c0767a1d1beeb40285bd6ad6d237b8}\label{isl__fold_8c_a76c0767a1d1beeb40285bd6ad6d237b8}} 
+\index{isl\_fold.c@{isl\_fold.c}!EL@{EL}}
+\index{EL@{EL}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{EL}{EL}}
+{\footnotesize\ttfamily \#define EL~\mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}}
+
+\mbox{\Hypertarget{isl__fold_8c_a2fea536da68294b501d561ca7d620e26}\label{isl__fold_8c_a2fea536da68294b501d561ca7d620e26}} 
+\index{isl\_fold.c@{isl\_fold.c}!EL\_IS\_ZERO@{EL\_IS\_ZERO}}
+\index{EL\_IS\_ZERO@{EL\_IS\_ZERO}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{EL\_IS\_ZERO}{EL\_IS\_ZERO}}
+{\footnotesize\ttfamily \#define E\+L\+\_\+\+I\+S\+\_\+\+Z\+E\+RO~is\+\_\+empty}
+
+\mbox{\Hypertarget{isl__fold_8c_abbab477a47201196b8e02020a1c022a1}\label{isl__fold_8c_abbab477a47201196b8e02020a1c022a1}} 
+\index{isl\_fold.c@{isl\_fold.c}!FIELD@{FIELD}}
+\index{FIELD@{FIELD}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{FIELD}{FIELD}}
+{\footnotesize\ttfamily \#define F\+I\+E\+LD~fold}
+
+\mbox{\Hypertarget{isl__fold_8c_acaf3e90dc3f3728c0e695007483407ee}\label{isl__fold_8c_acaf3e90dc3f3728c0e695007483407ee}} 
+\index{isl\_fold.c@{isl\_fold.c}!HAS\_TYPE@{HAS\_TYPE}}
+\index{HAS\_TYPE@{HAS\_TYPE}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{HAS\_TYPE}{HAS\_TYPE}}
+{\footnotesize\ttfamily \#define H\+A\+S\+\_\+\+T\+Y\+PE}
+
+\mbox{\Hypertarget{isl__fold_8c_a7ba3c0fce704c58b81fd1a22057eaffb}\label{isl__fold_8c_a7ba3c0fce704c58b81fd1a22057eaffb}} 
+\index{isl\_fold.c@{isl\_fold.c}!IS\_ZERO@{IS\_ZERO}}
+\index{IS\_ZERO@{IS\_ZERO}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{IS\_ZERO}{IS\_ZERO}}
+{\footnotesize\ttfamily \#define I\+S\+\_\+\+Z\+E\+RO~is\+\_\+zero}
+
+\mbox{\Hypertarget{isl__fold_8c_af81f3dad912c2d34c90b074ed73a1686}\label{isl__fold_8c_af81f3dad912c2d34c90b074ed73a1686}} 
+\index{isl\_fold.c@{isl\_fold.c}!ISL\_DIM\_H@{ISL\_DIM\_H}}
+\index{ISL\_DIM\_H@{ISL\_DIM\_H}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{ISL\_DIM\_H}{ISL\_DIM\_H}}
+{\footnotesize\ttfamily \#define I\+S\+L\+\_\+\+D\+I\+M\+\_\+H}
+
+\mbox{\Hypertarget{isl__fold_8c_a501c780bf5fbd80c05916bda3dfbe10a}\label{isl__fold_8c_a501c780bf5fbd80c05916bda3dfbe10a}} 
+\index{isl\_fold.c@{isl\_fold.c}!NO\_NEG@{NO\_NEG}}
+\index{NO\_NEG@{NO\_NEG}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{NO\_NEG}{NO\_NEG}}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+N\+EG}
+
+\mbox{\Hypertarget{isl__fold_8c_a6120755382bbf51d705ef17b811379b0}\label{isl__fold_8c_a6120755382bbf51d705ef17b811379b0}} 
+\index{isl\_fold.c@{isl\_fold.c}!NO\_PULLBACK@{NO\_PULLBACK}}
+\index{NO\_PULLBACK@{NO\_PULLBACK}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{NO\_PULLBACK}{NO\_PULLBACK}}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+P\+U\+L\+L\+B\+A\+CK}
+
+\mbox{\Hypertarget{isl__fold_8c_a363d880e69ba3f0e3e6e2c96252fa412}\label{isl__fold_8c_a363d880e69ba3f0e3e6e2c96252fa412}} 
+\index{isl\_fold.c@{isl\_fold.c}!NO\_SUB@{NO\_SUB}}
+\index{NO\_SUB@{NO\_SUB}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{NO\_SUB}{NO\_SUB}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+S\+UB}
+
+\mbox{\Hypertarget{isl__fold_8c_a363d880e69ba3f0e3e6e2c96252fa412}\label{isl__fold_8c_a363d880e69ba3f0e3e6e2c96252fa412}} 
+\index{isl\_fold.c@{isl\_fold.c}!NO\_SUB@{NO\_SUB}}
+\index{NO\_SUB@{NO\_SUB}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{NO\_SUB}{NO\_SUB}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \#define N\+O\+\_\+\+S\+UB}
+
+\mbox{\Hypertarget{isl__fold_8c_ad27cacdbd81ea4aa38cf2ac995aa935f}\label{isl__fold_8c_ad27cacdbd81ea4aa38cf2ac995aa935f}} 
+\index{isl\_fold.c@{isl\_fold.c}!PART@{PART}}
+\index{PART@{PART}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{PART}{PART}}
+{\footnotesize\ttfamily \#define P\+A\+RT~\mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}}
+
+\mbox{\Hypertarget{isl__fold_8c_a47736fb8515a7383c5db94b41eead78a}\label{isl__fold_8c_a47736fb8515a7383c5db94b41eead78a}} 
+\index{isl\_fold.c@{isl\_fold.c}!PARTS@{PARTS}}
+\index{PARTS@{PARTS}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{PARTS}{PARTS}}
+{\footnotesize\ttfamily \#define P\+A\+R\+TS~pw\+\_\+qpolynomial\+\_\+fold}
+
+\mbox{\Hypertarget{isl__fold_8c_a80665c70b5c319208328ddbb0e1fba7a}\label{isl__fold_8c_a80665c70b5c319208328ddbb0e1fba7a}} 
+\index{isl\_fold.c@{isl\_fold.c}!PW@{PW}}
+\index{PW@{PW}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{PW}{PW}}
+{\footnotesize\ttfamily \#define PW~\mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}}
+
+\mbox{\Hypertarget{isl__fold_8c_adb8e526f08326af80d46f91f9d686e82}\label{isl__fold_8c_adb8e526f08326af80d46f91f9d686e82}} 
+\index{isl\_fold.c@{isl\_fold.c}!UNION@{UNION}}
+\index{UNION@{UNION}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{UNION}{UNION}}
+{\footnotesize\ttfamily \#define \mbox{\hyperlink{struct_u_n_i_o_n}{U\+N\+I\+ON}}~\mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}}
+
+\mbox{\Hypertarget{isl__fold_8c_ac328e551bde3d39b6d7b8cc9e048d941}\label{isl__fold_8c_ac328e551bde3d39b6d7b8cc9e048d941}} 
+\index{isl\_fold.c@{isl\_fold.c}!ZERO@{ZERO}}
+\index{ZERO@{ZERO}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{ZERO}{ZERO}}
+{\footnotesize\ttfamily \#define Z\+E\+RO~zero}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{isl__fold_8c_ad0676bbe9f227516bab529d1fe715f2d}\label{isl__fold_8c_ad0676bbe9f227516bab529d1fe715f2d}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_fold\_type\_negate@{isl\_fold\_type\_negate}}
+\index{isl\_fold\_type\_negate@{isl\_fold\_type\_negate}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_fold\_type\_negate()}{isl\_fold\_type\_negate()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} isl\+\_\+fold\+\_\+type\+\_\+negate (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}}}]{type }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_ad0676bbe9f227516bab529d1fe715f2d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a5e77e88c74d65bd1138537e49995d4bc}\label{isl__fold_8c_a5e77e88c74d65bd1138537e49995d4bc}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_map\_apply\_pw\_qpolynomial\_fold@{isl\_map\_apply\_pw\_qpolynomial\_fold}}
+\index{isl\_map\_apply\_pw\_qpolynomial\_fold@{isl\_map\_apply\_pw\_qpolynomial\_fold}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_map\_apply\_pw\_qpolynomial\_fold()}{isl\_map\_apply\_pw\_qpolynomial\_fold()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+map\+\_\+apply\+\_\+pw\+\_\+qpolynomial\+\_\+fold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__map}{isl\+\_\+map}} $\ast$}]{map,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{pwf,  }\item[{int $\ast$}]{tight }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a5e77e88c74d65bd1138537e49995d4bc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a5e77e88c74d65bd1138537e49995d4bc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_ace697235ee875fa080d071ab8d2b326a}\label{isl__fold_8c_ace697235ee875fa080d071ab8d2b326a}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_pw\_qpolynomial\_fold\_add@{isl\_pw\_qpolynomial\_fold\_add}}
+\index{isl\_pw\_qpolynomial\_fold\_add@{isl\_pw\_qpolynomial\_fold\_add}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_pw\_qpolynomial\_fold\_add()}{isl\_pw\_qpolynomial\_fold\_add()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{pwf1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{pwf2 }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__fold_8c_ab3af3edb1ffe73d74d2e6e1987b2497e}\label{isl__fold_8c_ab3af3edb1ffe73d74d2e6e1987b2497e}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_pw\_qpolynomial\_fold\_covers@{isl\_pw\_qpolynomial\_fold\_covers}}
+\index{isl\_pw\_qpolynomial\_fold\_covers@{isl\_pw\_qpolynomial\_fold\_covers}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_pw\_qpolynomial\_fold\_covers()}{isl\_pw\_qpolynomial\_fold\_covers()}}
+{\footnotesize\ttfamily int isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+covers (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{pwf1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{pwf2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_ab3af3edb1ffe73d74d2e6e1987b2497e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a9ad721bbad147ee52aaf5222d8840031}\label{isl__fold_8c_a9ad721bbad147ee52aaf5222d8840031}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_pw\_qpolynomial\_fold\_fold@{isl\_pw\_qpolynomial\_fold\_fold}}
+\index{isl\_pw\_qpolynomial\_fold\_fold@{isl\_pw\_qpolynomial\_fold\_fold}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_pw\_qpolynomial\_fold\_fold()}{isl\_pw\_qpolynomial\_fold\_fold()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+fold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{pw1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{pw2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a9ad721bbad147ee52aaf5222d8840031_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a9ad721bbad147ee52aaf5222d8840031_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a0b74c3677a857aafae6330980d972c9a}\label{isl__fold_8c_a0b74c3677a857aafae6330980d972c9a}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_pw\_qpolynomial\_fold\_from\_pw\_qpolynomial@{isl\_pw\_qpolynomial\_fold\_from\_pw\_qpolynomial}}
+\index{isl\_pw\_qpolynomial\_fold\_from\_pw\_qpolynomial@{isl\_pw\_qpolynomial\_fold\_from\_pw\_qpolynomial}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_pw\_qpolynomial\_fold\_from\_pw\_qpolynomial()}{isl\_pw\_qpolynomial\_fold\_from\_pw\_qpolynomial()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+from\+\_\+pw\+\_\+qpolynomial (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}}}]{type,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial}{isl\+\_\+pw\+\_\+qpolynomial}} $\ast$}]{pwqp }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a0b74c3677a857aafae6330980d972c9a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a0b74c3677a857aafae6330980d972c9a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a728a91507a74e54f815991cf96d86d22}\label{isl__fold_8c_a728a91507a74e54f815991cf96d86d22}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_pw\_qpolynomial\_fold\_size@{isl\_pw\_qpolynomial\_fold\_size}}
+\index{isl\_pw\_qpolynomial\_fold\_size@{isl\_pw\_qpolynomial\_fold\_size}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_pw\_qpolynomial\_fold\_size()}{isl\_pw\_qpolynomial\_fold\_size()}}
+{\footnotesize\ttfamily size\+\_\+t isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{pwf }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__fold_8c_a8ceee37063519dbc4243d339509eedd7}\label{isl__fold_8c_a8ceee37063519dbc4243d339509eedd7}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_add\_on\_domain@{isl\_qpolynomial\_fold\_add\_on\_domain}}
+\index{isl\_qpolynomial\_fold\_add\_on\_domain@{isl\_qpolynomial\_fold\_add\_on\_domain}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_add\_on\_domain()}{isl\_qpolynomial\_fold\_add\_on\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+add\+\_\+on\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{dom,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a8ceee37063519dbc4243d339509eedd7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a8ceee37063519dbc4243d339509eedd7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a2afbaba61bedc31f5791c4c3b04a4810}\label{isl__fold_8c_a2afbaba61bedc31f5791c4c3b04a4810}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_add\_qpolynomial@{isl\_qpolynomial\_fold\_add\_qpolynomial}}
+\index{isl\_qpolynomial\_fold\_add\_qpolynomial@{isl\_qpolynomial\_fold\_add\_qpolynomial}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_add\_qpolynomial()}{isl\_qpolynomial\_fold\_add\_qpolynomial()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+add\+\_\+qpolynomial (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial}{isl\+\_\+qpolynomial}} $\ast$}]{qp }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a2afbaba61bedc31f5791c4c3b04a4810_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a2afbaba61bedc31f5791c4c3b04a4810_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a0f09eea4c8da7b69f8db9efed8d4c34d}\label{isl__fold_8c_a0f09eea4c8da7b69f8db9efed8d4c34d}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_alloc@{isl\_qpolynomial\_fold\_alloc}}
+\index{isl\_qpolynomial\_fold\_alloc@{isl\_qpolynomial\_fold\_alloc}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_alloc()}{isl\_qpolynomial\_fold\_alloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+alloc (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}}}]{type,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial}{isl\+\_\+qpolynomial}} $\ast$}]{qp }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a0f09eea4c8da7b69f8db9efed8d4c34d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a0ad59154783100d56a4bf133aab27e7b}\label{isl__fold_8c_a0ad59154783100d56a4bf133aab27e7b}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_copy@{isl\_qpolynomial\_fold\_copy}}
+\index{isl\_qpolynomial\_fold\_copy@{isl\_qpolynomial\_fold\_copy}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_copy()}{isl\_qpolynomial\_fold\_copy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+copy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a0ad59154783100d56a4bf133aab27e7b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a484f8c5558ec4adbd2a1934fafb02df8}\label{isl__fold_8c_a484f8c5558ec4adbd2a1934fafb02df8}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_cow@{isl\_qpolynomial\_fold\_cow}}
+\index{isl\_qpolynomial\_fold\_cow@{isl\_qpolynomial\_fold\_cow}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_cow()}{isl\_qpolynomial\_fold\_cow()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+cow (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a484f8c5558ec4adbd2a1934fafb02df8_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a484f8c5558ec4adbd2a1934fafb02df8_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a2a72b50c7fc062aa914c57783fb14767}\label{isl__fold_8c_a2a72b50c7fc062aa914c57783fb14767}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_drop\_dims@{isl\_qpolynomial\_fold\_drop\_dims}}
+\index{isl\_qpolynomial\_fold\_drop\_dims@{isl\_qpolynomial\_fold\_drop\_dims}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_drop\_dims()}{isl\_qpolynomial\_fold\_drop\_dims()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+drop\+\_\+dims (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{type,  }\item[{unsigned}]{first,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__fold_8c_a18579fae7335e2eb8e948d2bf6c5265a}\label{isl__fold_8c_a18579fae7335e2eb8e948d2bf6c5265a}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_dup@{isl\_qpolynomial\_fold\_dup}}
+\index{isl\_qpolynomial\_fold\_dup@{isl\_qpolynomial\_fold\_dup}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_dup()}{isl\_qpolynomial\_fold\_dup()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+dup (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=292pt]{isl__fold_8c_a18579fae7335e2eb8e948d2bf6c5265a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a18579fae7335e2eb8e948d2bf6c5265a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a9da8ab02cee4de6024d1fef19d0a2ee6}\label{isl__fold_8c_a9da8ab02cee4de6024d1fef19d0a2ee6}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_empty@{isl\_qpolynomial\_fold\_empty}}
+\index{isl\_qpolynomial\_fold\_empty@{isl\_qpolynomial\_fold\_empty}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_empty()}{isl\_qpolynomial\_fold\_empty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+empty (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}}}]{type,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{dim }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a9da8ab02cee4de6024d1fef19d0a2ee6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a424dae5b6248b96e1c319e265b69b6ce}\label{isl__fold_8c_a424dae5b6248b96e1c319e265b69b6ce}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_eval@{isl\_qpolynomial\_fold\_eval}}
+\index{isl\_qpolynomial\_fold\_eval@{isl\_qpolynomial\_fold\_eval}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_eval()}{isl\_qpolynomial\_fold\_eval()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+eval (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__point}{isl\+\_\+point}} $\ast$}]{pnt }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a424dae5b6248b96e1c319e265b69b6ce_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a43575a20f2ccb159db1c7e6f99143a10}\label{isl__fold_8c_a43575a20f2ccb159db1c7e6f99143a10}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_fold@{isl\_qpolynomial\_fold\_fold}}
+\index{isl\_qpolynomial\_fold\_fold@{isl\_qpolynomial\_fold\_fold}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_fold()}{isl\_qpolynomial\_fold\_fold()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+fold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a43575a20f2ccb159db1c7e6f99143a10_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a48617d7e00ba9aa31038423890210fe7}\label{isl__fold_8c_a48617d7e00ba9aa31038423890210fe7}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_fold\_on\_domain@{isl\_qpolynomial\_fold\_fold\_on\_domain}}
+\index{isl\_qpolynomial\_fold\_fold\_on\_domain@{isl\_qpolynomial\_fold\_fold\_on\_domain}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_fold\_on\_domain()}{isl\_qpolynomial\_fold\_fold\_on\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+fold\+\_\+on\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a48617d7e00ba9aa31038423890210fe7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a48617d7e00ba9aa31038423890210fe7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a42f0d8c19971545c4e96e1d4155add67}\label{isl__fold_8c_a42f0d8c19971545c4e96e1d4155add67}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_foreach\_qpolynomial@{isl\_qpolynomial\_fold\_foreach\_qpolynomial}}
+\index{isl\_qpolynomial\_fold\_foreach\_qpolynomial@{isl\_qpolynomial\_fold\_foreach\_qpolynomial}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_foreach\_qpolynomial()}{isl\_qpolynomial\_fold\_foreach\_qpolynomial()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a24b0940e02b023913e9524010890db8b}{isl\+\_\+stat}} isl\+\_\+qpolynomial\+\_\+fold\+\_\+foreach\+\_\+qpolynomial (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a24b0940e02b023913e9524010890db8b}{isl\+\_\+stat}}($\ast$)(\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial}{isl\+\_\+qpolynomial}} $\ast$qp, void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}})}]{fn,  }\item[{void $\ast$}]{user }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a42f0d8c19971545c4e96e1d4155add67_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a561fc5dbc3b475d99b9aabc39cc78aff}\label{isl__fold_8c_a561fc5dbc3b475d99b9aabc39cc78aff}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_free@{isl\_qpolynomial\_fold\_free}}
+\index{isl\_qpolynomial\_fold\_free@{isl\_qpolynomial\_fold\_free}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_free()}{isl\_qpolynomial\_fold\_free()}}
+{\footnotesize\ttfamily void isl\+\_\+qpolynomial\+\_\+fold\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a561fc5dbc3b475d99b9aabc39cc78aff_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a561fc5dbc3b475d99b9aabc39cc78aff_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_aeb7ffca5fa9b2917c3b97520f504b222}\label{isl__fold_8c_aeb7ffca5fa9b2917c3b97520f504b222}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_get\_ctx@{isl\_qpolynomial\_fold\_get\_ctx}}
+\index{isl\_qpolynomial\_fold\_get\_ctx@{isl\_qpolynomial\_fold\_get\_ctx}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_get\_ctx()}{isl\_qpolynomial\_fold\_get\_ctx()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+ctx (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_aeb7ffca5fa9b2917c3b97520f504b222_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_aeb16f1991d5a1d1988bf3fd7fab7ec27}\label{isl__fold_8c_aeb16f1991d5a1d1988bf3fd7fab7ec27}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_get\_domain\_space@{isl\_qpolynomial\_fold\_get\_domain\_space}}
+\index{isl\_qpolynomial\_fold\_get\_domain\_space@{isl\_qpolynomial\_fold\_get\_domain\_space}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_get\_domain\_space()}{isl\_qpolynomial\_fold\_get\_domain\_space()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+domain\+\_\+space (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{isl__fold_8c_aeb16f1991d5a1d1988bf3fd7fab7ec27_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_aeb16f1991d5a1d1988bf3fd7fab7ec27_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a2f64615ad7c0519f98245acd6f5b0d18}\label{isl__fold_8c_a2f64615ad7c0519f98245acd6f5b0d18}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_get\_space@{isl\_qpolynomial\_fold\_get\_space}}
+\index{isl\_qpolynomial\_fold\_get\_space@{isl\_qpolynomial\_fold\_get\_space}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_get\_space()}{isl\_qpolynomial\_fold\_get\_space()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+space (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a2f64615ad7c0519f98245acd6f5b0d18_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_aedd52689c387f5efc3de547219935f72}\label{isl__fold_8c_aedd52689c387f5efc3de547219935f72}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_get\_type@{isl\_qpolynomial\_fold\_get\_type}}
+\index{isl\_qpolynomial\_fold\_get\_type@{isl\_qpolynomial\_fold\_get\_type}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_get\_type()}{isl\_qpolynomial\_fold\_get\_type()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} isl\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__fold_8c_a9efcaedef34bacf91e9c9e4abd1663ff}\label{isl__fold_8c_a9efcaedef34bacf91e9c9e4abd1663ff}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_gist@{isl\_qpolynomial\_fold\_gist}}
+\index{isl\_qpolynomial\_fold\_gist@{isl\_qpolynomial\_fold\_gist}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_gist()}{isl\_qpolynomial\_fold\_gist()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+gist (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{context }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a9efcaedef34bacf91e9c9e4abd1663ff_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a9efcaedef34bacf91e9c9e4abd1663ff_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a29b31ee9d8807068c8ea3aa8bd53b478}\label{isl__fold_8c_a29b31ee9d8807068c8ea3aa8bd53b478}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_gist\_params@{isl\_qpolynomial\_fold\_gist\_params}}
+\index{isl\_qpolynomial\_fold\_gist\_params@{isl\_qpolynomial\_fold\_gist\_params}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_gist\_params()}{isl\_qpolynomial\_fold\_gist\_params()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+gist\+\_\+params (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{context }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a29b31ee9d8807068c8ea3aa8bd53b478_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a3eaeb33eb9e651f88ba669fe7c91f038}\label{isl__fold_8c_a3eaeb33eb9e651f88ba669fe7c91f038}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_insert\_dims@{isl\_qpolynomial\_fold\_insert\_dims}}
+\index{isl\_qpolynomial\_fold\_insert\_dims@{isl\_qpolynomial\_fold\_insert\_dims}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_insert\_dims()}{isl\_qpolynomial\_fold\_insert\_dims()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+insert\+\_\+dims (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{type,  }\item[{unsigned}]{first,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a3eaeb33eb9e651f88ba669fe7c91f038_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a7c61291d680ef83feae0d14cab59013c}\label{isl__fold_8c_a7c61291d680ef83feae0d14cab59013c}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_involves\_dims@{isl\_qpolynomial\_fold\_involves\_dims}}
+\index{isl\_qpolynomial\_fold\_involves\_dims@{isl\_qpolynomial\_fold\_involves\_dims}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_involves\_dims()}{isl\_qpolynomial\_fold\_involves\_dims()}}
+{\footnotesize\ttfamily int isl\+\_\+qpolynomial\+\_\+fold\+\_\+involves\+\_\+dims (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{type,  }\item[{unsigned}]{first,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a7c61291d680ef83feae0d14cab59013c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a505e5ae52c83e605b13ef39f7d6fb189}\label{isl__fold_8c_a505e5ae52c83e605b13ef39f7d6fb189}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_is\_empty@{isl\_qpolynomial\_fold\_is\_empty}}
+\index{isl\_qpolynomial\_fold\_is\_empty@{isl\_qpolynomial\_fold\_is\_empty}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_is\_empty()}{isl\_qpolynomial\_fold\_is\_empty()}}
+{\footnotesize\ttfamily int isl\+\_\+qpolynomial\+\_\+fold\+\_\+is\+\_\+empty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a505e5ae52c83e605b13ef39f7d6fb189_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_ac537ae968349d8e27d39a6919f1b34e1}\label{isl__fold_8c_ac537ae968349d8e27d39a6919f1b34e1}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_is\_nan@{isl\_qpolynomial\_fold\_is\_nan}}
+\index{isl\_qpolynomial\_fold\_is\_nan@{isl\_qpolynomial\_fold\_is\_nan}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_is\_nan()}{isl\_qpolynomial\_fold\_is\_nan()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+qpolynomial\+\_\+fold\+\_\+is\+\_\+nan (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_ac537ae968349d8e27d39a6919f1b34e1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_ac537ae968349d8e27d39a6919f1b34e1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a6b207df44b5e7934664a670e4e220fca}\label{isl__fold_8c_a6b207df44b5e7934664a670e4e220fca}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_lift@{isl\_qpolynomial\_fold\_lift}}
+\index{isl\_qpolynomial\_fold\_lift@{isl\_qpolynomial\_fold\_lift}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_lift()}{isl\_qpolynomial\_fold\_lift()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+lift (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{dim }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a6b207df44b5e7934664a670e4e220fca_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a4d1b665d9c0c53cd115787c82d4f05a9}\label{isl__fold_8c_a4d1b665d9c0c53cd115787c82d4f05a9}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_morph\_domain@{isl\_qpolynomial\_fold\_morph\_domain}}
+\index{isl\_qpolynomial\_fold\_morph\_domain@{isl\_qpolynomial\_fold\_morph\_domain}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_morph\_domain()}{isl\_qpolynomial\_fold\_morph\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+morph\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__morph}{isl\+\_\+morph}} $\ast$}]{morph }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a4d1b665d9c0c53cd115787c82d4f05a9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_afde79b52e5a922f98105353e85c2e998}\label{isl__fold_8c_afde79b52e5a922f98105353e85c2e998}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_move\_dims@{isl\_qpolynomial\_fold\_move\_dims}}
+\index{isl\_qpolynomial\_fold\_move\_dims@{isl\_qpolynomial\_fold\_move\_dims}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_move\_dims()}{isl\_qpolynomial\_fold\_move\_dims()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+move\+\_\+dims (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{dst\+\_\+type,  }\item[{unsigned}]{dst\+\_\+pos,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{src\+\_\+type,  }\item[{unsigned}]{src\+\_\+pos,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_afde79b52e5a922f98105353e85c2e998_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_ae5abe3bbf6071c5dd13adfe399b1623d}\label{isl__fold_8c_ae5abe3bbf6071c5dd13adfe399b1623d}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_mul\_isl\_int@{isl\_qpolynomial\_fold\_mul\_isl\_int}}
+\index{isl\_qpolynomial\_fold\_mul\_isl\_int@{isl\_qpolynomial\_fold\_mul\_isl\_int}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_mul\_isl\_int()}{isl\_qpolynomial\_fold\_mul\_isl\_int()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+mul\+\_\+isl\+\_\+int (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_ae5abe3bbf6071c5dd13adfe399b1623d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_ae5abe3bbf6071c5dd13adfe399b1623d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a80dcc152406ba03dcac15df7dc427c18}\label{isl__fold_8c_a80dcc152406ba03dcac15df7dc427c18}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_opt\_on\_domain@{isl\_qpolynomial\_fold\_opt\_on\_domain}}
+\index{isl\_qpolynomial\_fold\_opt\_on\_domain@{isl\_qpolynomial\_fold\_opt\_on\_domain}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_opt\_on\_domain()}{isl\_qpolynomial\_fold\_opt\_on\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+opt\+\_\+on\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set,  }\item[{int}]{max }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a80dcc152406ba03dcac15df7dc427c18_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a5e7eed4e815c9c59545a6f47886e32cd}\label{isl__fold_8c_a5e7eed4e815c9c59545a6f47886e32cd}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_plain\_is\_equal@{isl\_qpolynomial\_fold\_plain\_is\_equal}}
+\index{isl\_qpolynomial\_fold\_plain\_is\_equal@{isl\_qpolynomial\_fold\_plain\_is\_equal}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_plain\_is\_equal()}{isl\_qpolynomial\_fold\_plain\_is\_equal()}}
+{\footnotesize\ttfamily int isl\+\_\+qpolynomial\+\_\+fold\+\_\+plain\+\_\+is\+\_\+equal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a5e7eed4e815c9c59545a6f47886e32cd_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a3b3a3256736bd34249684f174aad761d}\label{isl__fold_8c_a3b3a3256736bd34249684f174aad761d}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_realign\_domain@{isl\_qpolynomial\_fold\_realign\_domain}}
+\index{isl\_qpolynomial\_fold\_realign\_domain@{isl\_qpolynomial\_fold\_realign\_domain}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_realign\_domain()}{isl\_qpolynomial\_fold\_realign\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+realign\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__reordering}{isl\+\_\+reordering}} $\ast$}]{r }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a3b3a3256736bd34249684f174aad761d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_af979d65110a29b7bdb33b941466df075}\label{isl__fold_8c_af979d65110a29b7bdb33b941466df075}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_reset\_domain\_space@{isl\_qpolynomial\_fold\_reset\_domain\_space}}
+\index{isl\_qpolynomial\_fold\_reset\_domain\_space@{isl\_qpolynomial\_fold\_reset\_domain\_space}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_reset\_domain\_space()}{isl\_qpolynomial\_fold\_reset\_domain\_space()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+reset\+\_\+domain\+\_\+space (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{dim }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_af979d65110a29b7bdb33b941466df075_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_af979d65110a29b7bdb33b941466df075_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_af0300f5f74a595d83367d7e8f2678f1d}\label{isl__fold_8c_af0300f5f74a595d83367d7e8f2678f1d}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_reset\_space\_and\_domain@{isl\_qpolynomial\_fold\_reset\_space\_and\_domain}}
+\index{isl\_qpolynomial\_fold\_reset\_space\_and\_domain@{isl\_qpolynomial\_fold\_reset\_space\_and\_domain}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_reset\_space\_and\_domain()}{isl\_qpolynomial\_fold\_reset\_space\_and\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+reset\+\_\+space\+\_\+and\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{space,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{domain }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_af0300f5f74a595d83367d7e8f2678f1d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a7940cfb1875076295077e2c2aeac0526}\label{isl__fold_8c_a7940cfb1875076295077e2c2aeac0526}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_scale@{isl\_qpolynomial\_fold\_scale}}
+\index{isl\_qpolynomial\_fold\_scale@{isl\_qpolynomial\_fold\_scale}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_scale()}{isl\_qpolynomial\_fold\_scale()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+scale (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a7940cfb1875076295077e2c2aeac0526_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a97fc174efea16609776ef04b81d4c22e}\label{isl__fold_8c_a97fc174efea16609776ef04b81d4c22e}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_scale\_down\_val@{isl\_qpolynomial\_fold\_scale\_down\_val}}
+\index{isl\_qpolynomial\_fold\_scale\_down\_val@{isl\_qpolynomial\_fold\_scale\_down\_val}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_scale\_down\_val()}{isl\_qpolynomial\_fold\_scale\_down\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+scale\+\_\+down\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a97fc174efea16609776ef04b81d4c22e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a4420366f64b91c4ea258ba152927443b}\label{isl__fold_8c_a4420366f64b91c4ea258ba152927443b}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_scale\_val@{isl\_qpolynomial\_fold\_scale\_val}}
+\index{isl\_qpolynomial\_fold\_scale\_val@{isl\_qpolynomial\_fold\_scale\_val}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_scale\_val()}{isl\_qpolynomial\_fold\_scale\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+scale\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a4420366f64b91c4ea258ba152927443b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a4420366f64b91c4ea258ba152927443b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a1d4fd0007b036d3f212cf05a79721fa3}\label{isl__fold_8c_a1d4fd0007b036d3f212cf05a79721fa3}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_set\_dim\_name@{isl\_qpolynomial\_fold\_set\_dim\_name}}
+\index{isl\_qpolynomial\_fold\_set\_dim\_name@{isl\_qpolynomial\_fold\_set\_dim\_name}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_set\_dim\_name()}{isl\_qpolynomial\_fold\_set\_dim\_name()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+set\+\_\+dim\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{type,  }\item[{unsigned}]{pos,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{s }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a1d4fd0007b036d3f212cf05a79721fa3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a9bc89356a86982275b089858f9f62545}\label{isl__fold_8c_a9bc89356a86982275b089858f9f62545}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_substitute@{isl\_qpolynomial\_fold\_substitute}}
+\index{isl\_qpolynomial\_fold\_substitute@{isl\_qpolynomial\_fold\_substitute}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_substitute()}{isl\_qpolynomial\_fold\_substitute()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+substitute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{enum \mbox{\hyperlink{space_8h_afe2358cb537f035e8d3dec50cb7ba3b6}{isl\+\_\+dim\+\_\+type}}}]{type,  }\item[{unsigned}]{first,  }\item[{unsigned}]{n,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__qpolynomial}{isl\+\_\+qpolynomial}} $\ast$$\ast$}]{subs }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a9bc89356a86982275b089858f9f62545_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a53daa58ac55638e2ae0f8383bd4d486d}\label{isl__fold_8c_a53daa58ac55638e2ae0f8383bd4d486d}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_qpolynomial\_fold\_substitute\_equalities@{isl\_qpolynomial\_fold\_substitute\_equalities}}
+\index{isl\_qpolynomial\_fold\_substitute\_equalities@{isl\_qpolynomial\_fold\_substitute\_equalities}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_qpolynomial\_fold\_substitute\_equalities()}{isl\_qpolynomial\_fold\_substitute\_equalities()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+qpolynomial\+\_\+fold\+\_\+substitute\+\_\+equalities (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__qpolynomial__fold}{isl\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{fold,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a33e6fe131ebf5368a144738de345ce5e}{isl\+\_\+basic\+\_\+set}} $\ast$}]{eq }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a53daa58ac55638e2ae0f8383bd4d486d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_aca2e67da9d19300e9bbb484eabc817ff}\label{isl__fold_8c_aca2e67da9d19300e9bbb484eabc817ff}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_set\_apply\_pw\_qpolynomial\_fold@{isl\_set\_apply\_pw\_qpolynomial\_fold}}
+\index{isl\_set\_apply\_pw\_qpolynomial\_fold@{isl\_set\_apply\_pw\_qpolynomial\_fold}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_set\_apply\_pw\_qpolynomial\_fold()}{isl\_set\_apply\_pw\_qpolynomial\_fold()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+set\+\_\+apply\+\_\+pw\+\_\+qpolynomial\+\_\+fold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{set,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{pwf,  }\item[{int $\ast$}]{tight }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_aca2e67da9d19300e9bbb484eabc817ff_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_ad31b80b1569f8ce118af159b3325fb44}\label{isl__fold_8c_ad31b80b1569f8ce118af159b3325fb44}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_union\_map\_apply\_union\_pw\_qpolynomial\_fold@{isl\_union\_map\_apply\_union\_pw\_qpolynomial\_fold}}
+\index{isl\_union\_map\_apply\_union\_pw\_qpolynomial\_fold@{isl\_union\_map\_apply\_union\_pw\_qpolynomial\_fold}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_union\_map\_apply\_union\_pw\_qpolynomial\_fold()}{isl\_union\_map\_apply\_union\_pw\_qpolynomial\_fold()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+union\+\_\+map\+\_\+apply\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$}]{umap,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{upwf,  }\item[{int $\ast$}]{tight }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_ad31b80b1569f8ce118af159b3325fb44_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_ad31b80b1569f8ce118af159b3325fb44_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a3287ec0eb296e4b9cfce8fd095ea08f1}\label{isl__fold_8c_a3287ec0eb296e4b9cfce8fd095ea08f1}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_union\_pw\_qpolynomial\_fold\_add\_union\_pw\_qpolynomial@{isl\_union\_pw\_qpolynomial\_fold\_add\_union\_pw\_qpolynomial}}
+\index{isl\_union\_pw\_qpolynomial\_fold\_add\_union\_pw\_qpolynomial@{isl\_union\_pw\_qpolynomial\_fold\_add\_union\_pw\_qpolynomial}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_union\_pw\_qpolynomial\_fold\_add\_union\_pw\_qpolynomial()}{isl\_union\_pw\_qpolynomial\_fold\_add\_union\_pw\_qpolynomial()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+add\+\_\+union\+\_\+pw\+\_\+qpolynomial (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{upwf,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a11991102869cd7874b4f69bb9797fe93}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial}} $\ast$}]{upwqp }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a3287ec0eb296e4b9cfce8fd095ea08f1_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a7c49e6b2a8147cff5e9a25fbe08653c8}\label{isl__fold_8c_a7c49e6b2a8147cff5e9a25fbe08653c8}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_union\_pw\_qpolynomial\_fold\_fold@{isl\_union\_pw\_qpolynomial\_fold\_fold}}
+\index{isl\_union\_pw\_qpolynomial\_fold\_fold@{isl\_union\_pw\_qpolynomial\_fold\_fold}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_union\_pw\_qpolynomial\_fold\_fold()}{isl\_union\_pw\_qpolynomial\_fold\_fold()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+fold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{u1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{u2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a7c49e6b2a8147cff5e9a25fbe08653c8_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a70528f67c85c81bdc1c64ac2f7c5c84c}\label{isl__fold_8c_a70528f67c85c81bdc1c64ac2f7c5c84c}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_union\_pw\_qpolynomial\_fold\_fold\_pw\_qpolynomial\_fold@{isl\_union\_pw\_qpolynomial\_fold\_fold\_pw\_qpolynomial\_fold}}
+\index{isl\_union\_pw\_qpolynomial\_fold\_fold\_pw\_qpolynomial\_fold@{isl\_union\_pw\_qpolynomial\_fold\_fold\_pw\_qpolynomial\_fold}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_union\_pw\_qpolynomial\_fold\_fold\_pw\_qpolynomial\_fold()}{isl\_union\_pw\_qpolynomial\_fold\_fold\_pw\_qpolynomial\_fold()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+fold\+\_\+pw\+\_\+qpolynomial\+\_\+fold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{u,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__pw__qpolynomial__fold}{isl\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{part }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a70528f67c85c81bdc1c64ac2f7c5c84c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_aece6106c4e9971e391d1e8b0234eadf0}\label{isl__fold_8c_aece6106c4e9971e391d1e8b0234eadf0}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_union\_pw\_qpolynomial\_fold\_get\_type@{isl\_union\_pw\_qpolynomial\_fold\_get\_type}}
+\index{isl\_union\_pw\_qpolynomial\_fold\_get\_type@{isl\_union\_pw\_qpolynomial\_fold\_get\_type}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_union\_pw\_qpolynomial\_fold\_get\_type()}{isl\_union\_pw\_qpolynomial\_fold\_get\_type()}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{polynomial__type_8h_a38fd71259f99fdf4eef8e91c68ad0d44}{isl\+\_\+fold}} isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold\+\_\+get\+\_\+type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{upwf }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_aece6106c4e9971e391d1e8b0234eadf0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__fold_8c_a6381be112caab64f9a848ccc2d4823f1}\label{isl__fold_8c_a6381be112caab64f9a848ccc2d4823f1}} 
+\index{isl\_fold.c@{isl\_fold.c}!isl\_union\_set\_apply\_union\_pw\_qpolynomial\_fold@{isl\_union\_set\_apply\_union\_pw\_qpolynomial\_fold}}
+\index{isl\_union\_set\_apply\_union\_pw\_qpolynomial\_fold@{isl\_union\_set\_apply\_union\_pw\_qpolynomial\_fold}!isl\_fold.c@{isl\_fold.c}}
+\doxysubsubsection{\texorpdfstring{isl\_union\_set\_apply\_union\_pw\_qpolynomial\_fold()}{isl\_union\_set\_apply\_union\_pw\_qpolynomial\_fold()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}}$\ast$ isl\+\_\+union\+\_\+set\+\_\+apply\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{union__map__type_8h_a7ebd16187c9653859611db949d88cfd8}{isl\+\_\+union\+\_\+set}} $\ast$}]{uset,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{polynomial__type_8h_a0bc76d0c16ff504f468ec9a83a5f14cc}{isl\+\_\+union\+\_\+pw\+\_\+qpolynomial\+\_\+fold}} $\ast$}]{upwf,  }\item[{int $\ast$}]{tight }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__fold_8c_a6381be112caab64f9a848ccc2d4823f1_cgraph}
+\end{center}
+\end{figure}

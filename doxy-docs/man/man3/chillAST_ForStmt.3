@@ -1,0 +1,302 @@
+.TH "chillAST_ForStmt" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+chillAST_ForStmt
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <chill_ast\&.hh>\fP
+.PP
+Inherits \fBchillAST_node\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCHILL_ASTNODE_TYPE\fP \fBgetType\fP () override"
+.br
+.ti -1c
+.RI "bool \fBhasSymbolTable\fP () override"
+.br
+.ti -1c
+.RI "\fBchillAST_ForStmt\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_ForStmt\fP (\fBchillAST_node\fP *ini, \fBchillAST_node\fP *con, \fBchillAST_node\fP *inc, \fBchillAST_node\fP *bod)"
+.br
+.ti -1c
+.RI "void \fBaddSyncs\fP ()"
+.br
+.ti -1c
+.RI "void \fBremoveSyncComment\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetInit\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetCond\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetInc\fP ()"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBgetBody\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetBody\fP (\fBchillAST_node\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "bool \fBisNotLeaf\fP () override"
+.br
+.ti -1c
+.RI "bool \fBisLeaf\fP () override"
+.br
+.ti -1c
+.RI "void \fBprintControl\fP (int indent=0, FILE *fp=stderr)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBconstantFold\fP () override"
+.br
+.RI "Folding constant, to some degree\&. "
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBclone\fP () override"
+.br
+.ti -1c
+.RI "void \fBgatherVarDeclsMore\fP (vector< \fBchillAST_VarDecl\fP * > &decls) override"
+.br
+.ti -1c
+.RI "void \fBgatherArrayRefs\fP (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBgatherScalarRefs\fP (std::vector< \fBchillAST_DeclRefExpr\fP * > &refs, bool writtento) override"
+.br
+.ti -1c
+.RI "void \fBreplaceVarDecls\fP (\fBchillAST_VarDecl\fP *olddecl, \fBchillAST_VarDecl\fP *newdecl) override"
+.br
+.ti -1c
+.RI "bool \fBfindLoopIndexesToReplace\fP (\fBchillAST_SymbolTable\fP *symtab, bool forcesync=false) override"
+.br
+.RI "this just looks for ForStmts with preferred index metacomment attached "
+.ti -1c
+.RI "void \fBgatherLoopIndeces\fP (std::vector< \fBchillAST_VarDecl\fP * > &indeces) override"
+.br
+.RI "recursively walking parent links, looking for loops and grabbing the declRefExpr in the loop init and cond "
+.ti -1c
+.RI "void \fBgatherLoopVars\fP (std::vector< std::string > &loopvars)"
+.br
+.ti -1c
+.RI "void \fBfind_deepest_loops\fP (std::vector< \fBchillAST_ForStmt\fP * > &\fBloops\fP) override"
+.br
+.RI "generic for \fBchillAST_node\fP with children "
+.ti -1c
+.RI "void \fBloseLoopWithLoopVar\fP (char *\fBvar\fP) override"
+.br
+.RI "Replace the loop with the loop body, if loop is with this variable\&. "
+.ti -1c
+.RI "void \fBreplaceChild\fP (\fBchillAST_node\fP *old, \fBchillAST_node\fP *newchild) override"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBaddVariableToSymbolTable\fP (\fBchillAST_VarDecl\fP *vd) override"
+.br
+.ti -1c
+.RI "void \fBgatherStatements\fP (std::vector< \fBchillAST_node\fP * > &statements) override"
+.br
+.RI "Get a vector of statements\&. "
+.ti -1c
+.RI "bool \fBlowerBound\fP (int &l)"
+.br
+.ti -1c
+.RI "bool \fBupperBound\fP (int &\fBu\fP)"
+.br
+.ti -1c
+.RI "void \fBprependStatement\fP (\fBchillAST_node\fP *stmt) override"
+.br
+.RI "prepend a statement to the begining of a block, the body of a loop, or the body of a function "
+.ti -1c
+.RI "void \fBappendStatement\fP (\fBchillAST_node\fP *stmt) override"
+.br
+.RI "append a statement to the end of a block, the body of a loop, or the body of a function "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBinit\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBcond\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBincr\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_Child\fP< \fBchillAST_node\fP > \fBbody\fP"
+.br
+.ti -1c
+.RI "\fBIR_CONDITION_TYPE\fP \fBconditionoperator\fP"
+.br
+.ti -1c
+.RI "char * \fBpragma\fP"
+.br
+.ti -1c
+.RI "\fBchillAST_SymbolTable\fP * \fBsymbol_table\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "chillAST_ForStmt::chillAST_ForStmt ()"
+
+.SS "chillAST_ForStmt::chillAST_ForStmt (\fBchillAST_node\fP * ini, \fBchillAST_node\fP * con, \fBchillAST_node\fP * inc, \fBchillAST_node\fP * bod)"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void chillAST_ForStmt::addSyncs ()"
+
+.SS "\fBchillAST_SymbolTable\fP* chillAST_ForStmt::addVariableToSymbolTable (\fBchillAST_VarDecl\fP * vd)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::appendStatement (\fBchillAST_node\fP * stmt)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+append a statement to the end of a block, the body of a loop, or the body of a function 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP * chillAST_ForStmt::clone ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP * chillAST_ForStmt::constantFold ()\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Folding constant, to some degree\&. We should need to delegate this to the backend compiler 
+.PP
+\fBReturns\fP
+.RS 4
+This node 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::find_deepest_loops (std::vector< \fBchillAST_ForStmt\fP * > & loops)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+generic for \fBchillAST_node\fP with children 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_ForStmt::findLoopIndexesToReplace (\fBchillAST_SymbolTable\fP * symtab, bool forcesync = \fCfalse\fP)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+this just looks for ForStmts with preferred index metacomment attached 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::gatherArrayRefs (std::vector< \fBchillAST_ArraySubscriptExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::gatherLoopIndeces (std::vector< \fBchillAST_VarDecl\fP * > & indeces)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+recursively walking parent links, looking for loops and grabbing the declRefExpr in the loop init and cond 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::gatherLoopVars (std::vector< std::string > & loopvars)"
+
+.SS "void chillAST_ForStmt::gatherScalarRefs (std::vector< \fBchillAST_DeclRefExpr\fP * > & refs, bool writtento)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::gatherStatements (std::vector< \fBchillAST_node\fP * > & statements)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Get a vector of statements\&. 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::gatherVarDeclsMore (vector< \fBchillAST_VarDecl\fP * > & decls)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "\fBchillAST_node\fP* chillAST_ForStmt::getBody ()\fC [inline]\fP"
+
+.SS "\fBchillAST_node\fP* chillAST_ForStmt::getCond ()\fC [inline]\fP"
+
+.SS "\fBchillAST_node\fP* chillAST_ForStmt::getInc ()\fC [inline]\fP"
+
+.SS "\fBchillAST_node\fP* chillAST_ForStmt::getInit ()\fC [inline]\fP"
+
+.SS "\fBCHILL_ASTNODE_TYPE\fP chillAST_ForStmt::getType ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_ForStmt::hasSymbolTable ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_ForStmt::isLeaf ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_ForStmt::isNotLeaf ()\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::loseLoopWithLoopVar (char * var)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Replace the loop with the loop body, if loop is with this variable\&. The loop will be spread across a bunch of cores that will each calculate their own loop variable\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIvar\fP 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "bool chillAST_ForStmt::lowerBound (int & l)"
+
+.SS "void chillAST_ForStmt::prependStatement (\fBchillAST_node\fP * stmt)\fC [inline]\fP, \fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+prepend a statement to the begining of a block, the body of a loop, or the body of a function 
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::printControl (int indent = \fC0\fP, FILE * fp = \fCstderr\fP)"
+
+.SS "void chillAST_ForStmt::removeSyncComment ()"
+
+.SS "void chillAST_ForStmt::replaceChild (\fBchillAST_node\fP * old, \fBchillAST_node\fP * newchild)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::replaceVarDecls (\fBchillAST_VarDecl\fP * olddecl, \fBchillAST_VarDecl\fP * newdecl)\fC [override]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented from \fBchillAST_node\fP\&.
+.SS "void chillAST_ForStmt::setBody (\fBchillAST_node\fP * b)\fC [inline]\fP"
+
+.SS "bool chillAST_ForStmt::upperBound (int & u)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_ForStmt::body"
+
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_ForStmt::cond"
+
+.SS "\fBIR_CONDITION_TYPE\fP chillAST_ForStmt::conditionoperator"
+
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_ForStmt::incr"
+
+.SS "\fBchillAST_Child\fP<\fBchillAST_node\fP> chillAST_ForStmt::init"
+
+.SS "char* chillAST_ForStmt::pragma"
+
+.SS "\fBchillAST_SymbolTable\fP* chillAST_ForStmt::symbol_table"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

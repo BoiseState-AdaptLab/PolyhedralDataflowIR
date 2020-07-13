@@ -1,0 +1,246 @@
+.TH "iegenlib::TupleExpTerm" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::TupleExpTerm \- A tuple of expressions\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <expression\&.h>\fP
+.PP
+Inherits \fBiegenlib::Term\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTupleExpTerm\fP (int coeff, unsigned int \fBsize\fP)"
+.br
+.ti -1c
+.RI "void \fBreset\fP ()"
+.br
+.ti -1c
+.RI "\fB~TupleExpTerm\fP ()"
+.br
+.RI "Destructor\&. "
+.ti -1c
+.RI "\fBTupleExpTerm\fP (unsigned int \fBsize\fP)"
+.br
+.RI "Convenience constructor, assumes coeff = 1\&. "
+.ti -1c
+.RI "\fBTupleExpTerm\fP (\fBconst\fP \fBTupleExpTerm\fP &other)"
+.br
+.RI "Copy constructor\&. "
+.ti -1c
+.RI "\fBTupleExpTerm\fP & \fBoperator=\fP (\fBconst\fP \fBTupleExpTerm\fP &other)"
+.br
+.RI "Copy assignment operator\&. "
+.ti -1c
+.RI "bool \fBoperator<\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "Less than operator\&. "
+.ti -1c
+.RI "bool \fBcombine\fP (\fBTerm\fP *other)"
+.br
+.RI "Equality operator\&. "
+.ti -1c
+.RI "\fBTerm\fP * \fBclone\fP () \fBconst\fP"
+.br
+.RI "Create a copy of this \fBTerm\fP (and of the same subclass) "
+.ti -1c
+.RI "std::string \fBtoString\fP (bool absValue=false) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBprettyPrintString\fP (\fBconst\fP \fBTupleDecl\fP &aTupleDecl, bool absValue=false) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBtoDotString\fP (bool absValue=false) \fBconst\fP"
+.br
+.RI "Creates a brief compact string to help with DOT output\&. "
+.ti -1c
+.RI "std::string \fBtype\fP () \fBconst\fP"
+.br
+.RI "Returns string of subclass type\&. "
+.ti -1c
+.RI "bool \fBisTupleExp\fP () \fBconst\fP"
+.br
+.RI "Returns true if the \fBTerm\fP is really a \fBUFCallTerm\fP\&. "
+.ti -1c
+.RI "bool \fBisConst\fP () \fBconst\fP"
+.br
+.RI "Returns true if the \fBTerm\fP is a const\&. "
+.ti -1c
+.RI "void \fBsetExpElem\fP (unsigned int exp_index, \fBExp\fP *exp)"
+.br
+.ti -1c
+.RI "\fBExp\fP * \fBgetExpElem\fP (unsigned int exp_index)"
+.br
+.RI "Returns pointer to individual expression\&. Indexing starts at 0\&. "
+.ti -1c
+.RI "\fBExp\fP * \fBcloneExp\fP (unsigned int exp_index) \fBconst\fP"
+.br
+.RI "Returns a clone of the specified expression\&. "
+.ti -1c
+.RI "unsigned int \fBsize\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBfactorMatches\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "Returns true if this term can be combined with the given term\&. "
+.ti -1c
+.RI "void \fBacceptVisitor\fP (\fBVisitor\fP *v)"
+.br
+.RI "\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+A tuple of expressions\&. 
+
+Modeled somewhat off of \fBUFCallTerm\fP but also off \fBTupleDecl\fP in terms of not exposing how expressions are stored\&.
+.PP
+Memory management: the \fBTupleExpTerm\fP assumes ownership of any expressions it contains, copies those when the \fBTupleExpTerm\fP itself is copied, and deletes them when the \fBTupleExpTerm\fP is destroyed\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::TupleExpTerm::TupleExpTerm (int coeff, unsigned int size)"
+Constructor
+.PP
+Memory management: this object assumes ownership of the passed-in \fBExp\fP objects\&. The caller must not destroy them, and should not assume they survive destruction of this \fBUFCallTerm\fP\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIcoeff\fP -- coefficient for the call 
+.RE
+.PP
+
+.SS "iegenlib::TupleExpTerm::~TupleExpTerm ()"
+
+.PP
+Destructor\&. 
+.SS "iegenlib::TupleExpTerm::TupleExpTerm (unsigned int size)"
+
+.PP
+Convenience constructor, assumes coeff = 1\&. 
+.SS "iegenlib::TupleExpTerm::TupleExpTerm (\fBconst\fP \fBTupleExpTerm\fP & other)"
+
+.PP
+Copy constructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void iegenlib::TupleExpTerm::acceptVisitor (\fBVisitor\fP * v)\fC [virtual]\fP"
+
+.PP
+\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBTerm\fP * iegenlib::TupleExpTerm::clone () const\fC [virtual]\fP"
+
+.PP
+Create a copy of this \fBTerm\fP (and of the same subclass) 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBExp\fP * iegenlib::TupleExpTerm::cloneExp (unsigned int exp_index) const"
+
+.PP
+Returns a clone of the specified expression\&. 
+.SS "bool iegenlib::TupleExpTerm::combine (\fBTerm\fP * other)\fC [virtual]\fP"
+
+.PP
+Equality operator\&. Combine another tuple expression term into this one, if possible, by adding sub expressions pointwise\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP -- term to attempt to combine with this one\&.(adopt) 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if other was combined with this one; false otherwise 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "bool iegenlib::TupleExpTerm::factorMatches (\fBconst\fP \fBTerm\fP & other) const\fC [virtual]\fP"
+
+.PP
+Returns true if this term can be combined with the given term\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBExp\fP * iegenlib::TupleExpTerm::getExpElem (unsigned int exp_index)"
+
+.PP
+Returns pointer to individual expression\&. Indexing starts at 0\&. 
+.SS "bool iegenlib::TupleExpTerm::isConst () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the \fBTerm\fP is a const\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "bool iegenlib::TupleExpTerm::isTupleExp () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the \fBTerm\fP is really a \fBUFCallTerm\fP\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "bool iegenlib::TupleExpTerm::operator< (\fBconst\fP \fBTerm\fP & other) const\fC [virtual]\fP"
+
+.PP
+Less than operator\&. Less than operator\&. Compare two \fBTupleExpTerm\fP in the following order:
+.IP "1." 4
+by size: the number of elements
+.IP "2." 4
+by expressions starting with index 0 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "\fBTupleExpTerm\fP & iegenlib::TupleExpTerm::operator= (\fBconst\fP \fBTupleExpTerm\fP & other)"
+
+.PP
+Copy assignment operator\&. 
+.SS "std::string iegenlib::TupleExpTerm::prettyPrintString (\fBconst\fP \fBTupleDecl\fP & aTupleDecl, bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+In comma-separated list of expressions, replaces any tuple var instances with given tuple var decl\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "void iegenlib::TupleExpTerm::reset ()"
+
+.SS "void iegenlib::TupleExpTerm::setExpElem (unsigned int exp_index, \fBExp\fP * exp)"
+Setting individual expressions\&. Indexing starts at 0\&. Becomes owner of passed in expression\&. 
+.SS "unsigned int iegenlib::TupleExpTerm::size () const"
+
+.SS "std::string iegenlib::TupleExpTerm::toDotString (bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Creates a brief compact string to help with DOT output\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "std::string iegenlib::TupleExpTerm::toString (bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+Creates a comma separated list of expressions\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIabsValue\fP Will use absolute value of coeff if true\&. 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+.SS "std::string iegenlib::TupleExpTerm::type () const\fC [virtual]\fP"
+
+.PP
+Returns string of subclass type\&. 
+.PP
+Reimplemented from \fBiegenlib::Term\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,186 @@
+.TH "lib/isl/isl_ast_graft.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_ast_graft.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ast_private\&.h>\fP
+.br
+\fC#include <isl_ast_build_expr\&.h>\fP
+.br
+\fC#include <isl_ast_build_private\&.h>\fP
+.br
+\fC#include <isl_ast_graft_private\&.h>\fP
+.br
+\fC#include <isl_list_templ\&.c>\fP
+.br
+\fC#include <print_templ\&.c>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_insert_if_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_if_node\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBBASE\fP   ast_graft"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   ast_graft"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_ast_graft_get_ctx\fP (\fB__isl_keep\fP \fBisl_ast_graft\fP *graft)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_graft_get_node\fP (\fB__isl_keep\fP \fBisl_ast_graft\fP *graft)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_alloc\fP (\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_alloc_domain\fP (\fB__isl_take\fP \fBisl_map\fP *executed, \fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_graft_list_extract_hoistable_guard\fP (\fB__isl_keep\fP isl_ast_graft_list *list, \fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_set_enforced\fP (\fB__isl_take\fP \fBisl_ast_graft\fP *graft, \fB__isl_take\fP \fBisl_basic_set\fP *enforced)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_ast_graft_list * \fBisl_ast_graft_list_insert_pending_guard_nodes\fP (\fB__isl_take\fP isl_ast_graft_list *list, \fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_ast_graft_list_extract_shared_enforced\fP (\fB__isl_keep\fP isl_ast_graft_list *list, \fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_ast_graft_list * \fBisl_ast_graft_list_gist_guards\fP (\fB__isl_take\fP isl_ast_graft_list *list, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_alloc_from_children\fP (\fB__isl_take\fP isl_ast_graft_list *list, \fB__isl_take\fP \fBisl_set\fP *guard, \fB__isl_take\fP \fBisl_basic_set\fP *enforced, \fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_keep\fP \fBisl_ast_build\fP *sub_build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_ast_graft_list * \fBisl_ast_graft_list_fuse\fP (\fB__isl_take\fP isl_ast_graft_list *list, \fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_insert_for\fP (\fB__isl_take\fP \fBisl_ast_graft\fP *graft, \fB__isl_take\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_insert_mark\fP (\fB__isl_take\fP \fBisl_ast_graft\fP *graft, \fB__isl_take\fP \fBisl_id\fP *\fBmark\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_from_graft_list\fP (\fB__isl_take\fP isl_ast_graft_list *list, \fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "void * \fBisl_ast_graft_free\fP (\fB__isl_take\fP \fBisl_ast_graft\fP *graft)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_enforce\fP (\fB__isl_take\fP \fBisl_ast_graft\fP *graft, \fB__isl_take\fP \fBisl_basic_set\fP *enforced)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_ast_graft_get_enforced\fP (\fB__isl_keep\fP \fBisl_ast_graft\fP *graft)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_graft_get_guard\fP (\fB__isl_keep\fP \fBisl_ast_graft\fP *graft)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_add_guard\fP (\fB__isl_take\fP \fBisl_ast_graft\fP *graft, \fB__isl_take\fP \fBisl_set\fP *guard, \fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_unembed\fP (\fB__isl_take\fP \fBisl_ast_graft\fP *graft, int product)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_ast_graft_list * \fBisl_ast_graft_list_unembed\fP (\fB__isl_take\fP isl_ast_graft_list *list, int product)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_graft\fP * \fBisl_ast_graft_preimage_multi_aff\fP (\fB__isl_take\fP \fBisl_ast_graft\fP *graft, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_ast_graft_list * \fBisl_ast_graft_list_preimage_multi_aff\fP (\fB__isl_take\fP isl_ast_graft_list *list, \fB__isl_take\fP \fBisl_multi_aff\fP *\fBma\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_ast_graft_list * \fBisl_ast_graft_list_sort_guard\fP (\fB__isl_take\fP isl_ast_graft_list *list)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_ast_graft_list * \fBisl_ast_graft_list_merge\fP (\fB__isl_take\fP isl_ast_graft_list *list1, \fB__isl_take\fP isl_ast_graft_list *list2, \fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_ast_graft\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_ast_graft\fP *graft)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BASE   ast_graft"
+
+.SS "#define BASE   ast_graft"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_add_guard (\fB__isl_take\fP \fBisl_ast_graft\fP * graft, \fB__isl_take\fP \fBisl_set\fP * guard, \fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_alloc (\fB__isl_take\fP \fBisl_ast_node\fP * node, \fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_alloc_domain (\fB__isl_take\fP \fBisl_map\fP * executed, \fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_alloc_from_children (\fB__isl_take\fP isl_ast_graft_list * list, \fB__isl_take\fP \fBisl_set\fP * guard, \fB__isl_take\fP \fBisl_basic_set\fP * enforced, \fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_keep\fP \fBisl_ast_build\fP * sub_build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_enforce (\fB__isl_take\fP \fBisl_ast_graft\fP * graft, \fB__isl_take\fP \fBisl_basic_set\fP * enforced)"
+
+.SS "void* isl_ast_graft_free (\fB__isl_take\fP \fBisl_ast_graft\fP * graft)"
+
+.SS "\fBisl_ctx\fP* isl_ast_graft_get_ctx (\fB__isl_keep\fP \fBisl_ast_graft\fP * graft)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_ast_graft_get_enforced (\fB__isl_keep\fP \fBisl_ast_graft\fP * graft)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_graft_get_guard (\fB__isl_keep\fP \fBisl_ast_graft\fP * graft)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_graft_get_node (\fB__isl_keep\fP \fBisl_ast_graft\fP * graft)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_insert_for (\fB__isl_take\fP \fBisl_ast_graft\fP * graft, \fB__isl_take\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_insert_mark (\fB__isl_take\fP \fBisl_ast_graft\fP * graft, \fB__isl_take\fP \fBisl_id\fP * mark)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_graft_list_extract_hoistable_guard (\fB__isl_keep\fP isl_ast_graft_list * list, \fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_ast_graft_list_extract_shared_enforced (\fB__isl_keep\fP isl_ast_graft_list * list, \fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP isl_ast_graft_list* isl_ast_graft_list_fuse (\fB__isl_take\fP isl_ast_graft_list * list, \fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP isl_ast_graft_list* isl_ast_graft_list_gist_guards (\fB__isl_take\fP isl_ast_graft_list * list, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP isl_ast_graft_list* isl_ast_graft_list_insert_pending_guard_nodes (\fB__isl_take\fP isl_ast_graft_list * list, \fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP isl_ast_graft_list* isl_ast_graft_list_merge (\fB__isl_take\fP isl_ast_graft_list * list1, \fB__isl_take\fP isl_ast_graft_list * list2, \fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP isl_ast_graft_list* isl_ast_graft_list_preimage_multi_aff (\fB__isl_take\fP isl_ast_graft_list * list, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP isl_ast_graft_list* isl_ast_graft_list_sort_guard (\fB__isl_take\fP isl_ast_graft_list * list)"
+
+.SS "\fB__isl_give\fP isl_ast_graft_list* isl_ast_graft_list_unembed (\fB__isl_take\fP isl_ast_graft_list * list, int product)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_preimage_multi_aff (\fB__isl_take\fP \fBisl_ast_graft\fP * graft, \fB__isl_take\fP \fBisl_multi_aff\fP * ma)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_set_enforced (\fB__isl_take\fP \fBisl_ast_graft\fP * graft, \fB__isl_take\fP \fBisl_basic_set\fP * enforced)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_graft\fP* isl_ast_graft_unembed (\fB__isl_take\fP \fBisl_ast_graft\fP * graft, int product)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_from_graft_list (\fB__isl_take\fP isl_ast_graft_list * list, \fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_ast_graft (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_ast_graft\fP * graft)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

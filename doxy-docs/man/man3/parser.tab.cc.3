@@ -1,0 +1,595 @@
+.TH "lib/chill/omega/parser/parser.tab.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/parser/parser.tab.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <basic/Dynamic_Array\&.h>\fP
+.br
+\fC#include <basic/Iterator\&.h>\fP
+.br
+\fC#include <omega/parser/AST\&.hh>\fP
+.br
+\fC#include <omega/hull\&.h>\fP
+.br
+\fC#include <omega/closure\&.h>\fP
+.br
+\fC#include <omega/reach\&.h>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <fstream>\fP
+.br
+\fC#include 'parser\&.tab\&.hh'\fP
+.br
+\fC#include <FlexLexer\&.h>\fP
+.br
+\fC#include <sys/time\&.h>\fP
+.br
+\fC#include <sys/resource\&.h>\fP
+.br
+\fC#include <sys/types\&.h>\fP
+.br
+\fC#include <codegen\&.h>\fP
+.br
+\fC#include <stddef\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "union \fByyalloc\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBYYBISON\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYYBISON_VERSION\fP   '3\&.0\&.4'"
+.br
+.ti -1c
+.RI "#define \fBYYSKELETON_NAME\fP   'yacc\&.c'"
+.br
+.ti -1c
+.RI "#define \fBYYPURE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYYPUSH\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYYPULL\fP   1"
+.br
+.ti -1c
+.RI "#define \fBBUILD_CODEGEN\fP   1"
+.br
+.ti -1c
+.RI "#define \fBOC_BUILD_DATE\fP   '10/07/2018'"
+.br
+.ti -1c
+.RI "#define \fBSKIP_MAIN\fP   1"
+.br
+.ti -1c
+.RI "#define \fByylex\fP   mylexer\&.yylex"
+.br
+.ti -1c
+.RI "#define \fBYY_NULLPTR\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYYERROR_VERBOSE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYY_YY_PARSER_TAB_HH_INCLUDED\fP"
+.br
+.ti -1c
+.RI "#define \fBYYSIZE_T\fP   size_t"
+.br
+.ti -1c
+.RI "#define \fBYYSIZE_MAXIMUM\fP   ((\fBYYSIZE_T\fP) \-1)"
+.br
+.ti -1c
+.RI "#define \fBYY_\fP(Msgid)   Msgid"
+.br
+.ti -1c
+.RI "#define \fBYY_ATTRIBUTE\fP(Spec)   /* empty */"
+.br
+.ti -1c
+.RI "#define \fBYY_ATTRIBUTE_PURE\fP   \fBYY_ATTRIBUTE\fP ((__pure__))"
+.br
+.ti -1c
+.RI "#define \fBYY_ATTRIBUTE_UNUSED\fP   \fBYY_ATTRIBUTE\fP ((__unused__))"
+.br
+.ti -1c
+.RI "#define \fB_Noreturn\fP   \fBYY_ATTRIBUTE\fP ((__noreturn__))"
+.br
+.ti -1c
+.RI "#define \fBYYUSE\fP(E)   ((void) (E))"
+.br
+.ti -1c
+.RI "#define \fBYY_INITIAL_VALUE\fP(Value)   Value"
+.br
+.ti -1c
+.RI "#define \fBYY_IGNORE_MAYBE_UNINITIALIZED_BEGIN\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_IGNORE_MAYBE_UNINITIALIZED_END\fP"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_ALLOC\fP   \fBYYMALLOC\fP"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_FREE\fP   \fBYYFREE\fP"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_ALLOC_MAXIMUM\fP   \fBYYSIZE_MAXIMUM\fP"
+.br
+.ti -1c
+.RI "#define \fBYYMALLOC\fP   \fBmalloc\fP"
+.br
+.ti -1c
+.RI "#define \fBYYFREE\fP   \fBfree\fP"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_GAP_MAXIMUM\fP   (sizeof (union \fByyalloc\fP) \- 1)"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_BYTES\fP(\fBN\fP)"
+.br
+.ti -1c
+.RI "#define \fBYYCOPY_NEEDED\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_RELOCATE\fP(Stack_alloc,  Stack)"
+.br
+.ti -1c
+.RI "#define \fBYYCOPY\fP(Dst,  Src,  Count)"
+.br
+.ti -1c
+.RI "#define \fBYYFINAL\fP   2"
+.br
+.ti -1c
+.RI "#define \fBYYLAST\fP   732"
+.br
+.ti -1c
+.RI "#define \fBYYNTOKENS\fP   108"
+.br
+.ti -1c
+.RI "#define \fBYYNNTS\fP   40"
+.br
+.ti -1c
+.RI "#define \fBYYNRULES\fP   159"
+.br
+.ti -1c
+.RI "#define \fBYYNSTATES\fP   309"
+.br
+.ti -1c
+.RI "#define \fBYYUNDEFTOK\fP   2"
+.br
+.ti -1c
+.RI "#define \fBYYMAXUTOK\fP   350"
+.br
+.ti -1c
+.RI "#define \fBYYTRANSLATE\fP(YYX)   ((unsigned int) (YYX) <= \fBYYMAXUTOK\fP ? yytranslate[YYX] : \fBYYUNDEFTOK\fP)"
+.br
+.ti -1c
+.RI "#define \fBYYPACT_NINF\fP   \-141"
+.br
+.ti -1c
+.RI "#define \fByypact_value_is_default\fP(Yystate)   (!!((Yystate) == (\-141)))"
+.br
+.ti -1c
+.RI "#define \fBYYTABLE_NINF\fP   \-104"
+.br
+.ti -1c
+.RI "#define \fByytable_value_is_error\fP(Yytable_value)   0"
+.br
+.ti -1c
+.RI "#define \fByyerrok\fP   (yyerrstatus = 0)"
+.br
+.ti -1c
+.RI "#define \fByyclearin\fP   (\fByychar\fP = \fBYYEMPTY\fP)"
+.br
+.ti -1c
+.RI "#define \fBYYEMPTY\fP   (\-2)"
+.br
+.ti -1c
+.RI "#define \fBYYEOF\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYYACCEPT\fP   goto yyacceptlab"
+.br
+.ti -1c
+.RI "#define \fBYYABORT\fP   goto yyabortlab"
+.br
+.ti -1c
+.RI "#define \fBYYERROR\fP   goto yyerrorlab"
+.br
+.ti -1c
+.RI "#define \fBYYRECOVERING\fP()   (!!yyerrstatus)"
+.br
+.ti -1c
+.RI "#define \fBYYBACKUP\fP(Token,  Value)"
+.br
+.ti -1c
+.RI "#define \fBYYTERROR\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYYERRCODE\fP   256"
+.br
+.ti -1c
+.RI "#define \fBYYDPRINTF\fP(Args)"
+.br
+.ti -1c
+.RI "#define \fBYY_SYMBOL_PRINT\fP(Title,  \fBType\fP,  Value,  Location)"
+.br
+.ti -1c
+.RI "#define \fBYY_STACK_PRINT\fP(Bottom,  Top)"
+.br
+.ti -1c
+.RI "#define \fBYY_REDUCE_PRINT\fP(Rule)"
+.br
+.ti -1c
+.RI "#define \fBYYINITDEPTH\fP   200"
+.br
+.ti -1c
+.RI "#define \fBYYMAXDEPTH\fP   10000"
+.br
+.ti -1c
+.RI "#define \fBYYPOPSTACK\fP(\fBN\fP)   (yyvsp \-= (\fBN\fP), yyssp \-= (\fBN\fP))"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef unsigned char \fByytype_uint8\fP"
+.br
+.ti -1c
+.RI "typedef signed char \fByytype_int8\fP"
+.br
+.ti -1c
+.RI "typedef unsigned short int \fByytype_uint16\fP"
+.br
+.ti -1c
+.RI "typedef short int \fByytype_int16\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBstart_clock\fP (void)"
+.br
+.ti -1c
+.RI "int \fBclock_diff\fP (void)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBLexForward\fP (int \fBn\fP)"
+.br
+.ti -1c
+.RI "void \fByyerror\fP (\fBconst\fP std::string &s)"
+.br
+.ti -1c
+.RI "void \fBflushScanBuffer\fP ()"
+.br
+.ti -1c
+.RI "int \fByyparse\fP (void)"
+.br
+.ti -1c
+.RI "void * \fBmalloc\fP (\fBYYSIZE_T\fP)"
+.br
+.ti -1c
+.RI "void \fBfree\fP (void *)"
+.br
+.ti -1c
+.RI "int \fBomega_run\fP (std::istream *is, std::ostream *os)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "struct rusage \fBstart_time\fP"
+.br
+.ti -1c
+.RI "bool \fBanyTimingDone\fP = false"
+.br
+.ti -1c
+.RI "yyFlexLexer \fBmylexer\fP"
+.br
+.ti -1c
+.RI "int \fBomega_calc_debug\fP = 0"
+.br
+.ti -1c
+.RI "bool \fBis_interactive\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBPROMPT_STRING\fP"
+.br
+.ti -1c
+.RI "bool \fBsimplify\fP = true"
+.br
+.ti -1c
+.RI "std::string \fBerr_msg\fP"
+.br
+.ti -1c
+.RI "bool \fBneed_coef\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< std::string, \fBRelation\fP * > \fBrelationMap\fP"
+.br
+.ti -1c
+.RI "int \fBargCount\fP = 0"
+.br
+.ti -1c
+.RI "int \fBtuplePos\fP = 0"
+.br
+.ti -1c
+.RI "\fBArgument_Tuple\fP \fBcurrentTuple\fP = Input_Tuple"
+.br
+.ti -1c
+.RI "\fBreachable_information\fP * \fBreachable_info\fP"
+.br
+.ti -1c
+.RI "\fBYYSTYPE\fP \fByylval\fP"
+.br
+.ti -1c
+.RI "int \fByychar\fP"
+.br
+.ti -1c
+.RI "int \fByynerrs\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _Noreturn   \fBYY_ATTRIBUTE\fP ((__noreturn__))"
+
+.SS "#define BUILD_CODEGEN   1"
+
+.SS "#define OC_BUILD_DATE   '10/07/2018'"
+
+.SS "#define SKIP_MAIN   1"
+
+.SS "#define YY_(Msgid)   Msgid"
+
+.SS "#define YY_ATTRIBUTE(Spec)   /* empty */"
+
+.SS "#define YY_ATTRIBUTE_PURE   \fBYY_ATTRIBUTE\fP ((__pure__))"
+
+.SS "#define YY_ATTRIBUTE_UNUSED   \fBYY_ATTRIBUTE\fP ((__unused__))"
+
+.SS "#define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN"
+
+.SS "#define YY_IGNORE_MAYBE_UNINITIALIZED_END"
+
+.SS "#define YY_INITIAL_VALUE(Value)   Value"
+
+.SS "#define YY_NULLPTR   0"
+
+.SS "#define YY_REDUCE_PRINT(Rule)"
+
+.SS "#define YY_STACK_PRINT(Bottom, Top)"
+
+.SS "#define YY_SYMBOL_PRINT(Title, \fBType\fP, Value, Location)"
+
+.SS "#define YY_YY_PARSER_TAB_HH_INCLUDED"
+
+.SS "#define YYABORT   goto yyabortlab"
+
+.SS "#define YYACCEPT   goto yyacceptlab"
+
+.SS "#define YYBACKUP(Token, Value)"
+\fBValue:\fP
+.PP
+.nf
+do                                                              \\
+  if (yychar == YYEMPTY)                                        \
+    {                                                           \
+      yychar = (Token);                                         \
+      yylval = (Value);                                         \
+      YYPOPSTACK (yylen);                                       \
+      yystate = *yyssp;                                         \
+      goto yybackup;                                            \
+    }                                                           \
+  else                                                          \
+    {                                                           \
+      yyerror (YY_("syntax error: cannot back up")); \
+      YYERROR;                                                  \
+    }                                                           \
+while (0)
+.fi
+.SS "#define YYBISON   1"
+
+.SS "#define YYBISON_VERSION   '3\&.0\&.4'"
+
+.SS "#define yyclearin   (\fByychar\fP = \fBYYEMPTY\fP)"
+
+.SS "#define YYCOPY(Dst, Src, Count)"
+\fBValue:\fP
+.PP
+.nf
+      do                                        \
+        {                                       \
+          YYSIZE_T yyi;                         \
+          for (yyi = 0; yyi < (Count); yyi++)   \
+            (Dst)[yyi] = (Src)[yyi];            \
+        }                                       \
+      while (0)
+.fi
+.SS "#define YYCOPY_NEEDED   1"
+
+.SS "#define YYDPRINTF(Args)"
+
+.SS "#define YYEMPTY   (\-2)"
+
+.SS "#define YYEOF   0"
+
+.SS "#define YYERRCODE   256"
+
+.SS "#define yyerrok   (yyerrstatus = 0)"
+
+.SS "#define YYERROR   goto yyerrorlab"
+
+.SS "#define YYERROR_VERBOSE   0"
+
+.SS "#define YYFINAL   2"
+
+.SS "#define YYFREE   \fBfree\fP"
+
+.SS "#define YYINITDEPTH   200"
+
+.SS "#define YYLAST   732"
+
+.SS "int yylex   mylexer\&.yylex"
+
+.SS "#define YYMALLOC   \fBmalloc\fP"
+
+.SS "#define YYMAXDEPTH   10000"
+
+.SS "#define YYMAXUTOK   350"
+
+.SS "#define YYNNTS   40"
+
+.SS "#define YYNRULES   159"
+
+.SS "#define YYNSTATES   309"
+
+.SS "#define YYNTOKENS   108"
+
+.SS "#define YYPACT_NINF   \-141"
+
+.SS "#define yypact_value_is_default(Yystate)   (!!((Yystate) == (\-141)))"
+
+.SS "#define YYPOPSTACK(\fBN\fP)   (yyvsp \-= (\fBN\fP), yyssp \-= (\fBN\fP))"
+
+.SS "#define YYPULL   1"
+
+.SS "#define YYPURE   0"
+
+.SS "#define YYPUSH   0"
+
+.SS "#define YYRECOVERING()   (!!yyerrstatus)"
+
+.SS "#define YYSIZE_MAXIMUM   ((\fBYYSIZE_T\fP) \-1)"
+
+.SS "#define YYSIZE_T   size_t"
+
+.SS "#define YYSKELETON_NAME   'yacc\&.c'"
+
+.SS "#define YYSTACK_ALLOC   \fBYYMALLOC\fP"
+
+.SS "#define YYSTACK_ALLOC_MAXIMUM   \fBYYSIZE_MAXIMUM\fP"
+
+.SS "#define YYSTACK_BYTES(\fBN\fP)"
+\fBValue:\fP
+.PP
+.nf
+     ((N) * (sizeof (yytype_int16) + sizeof (YYSTYPE)) \
+      + YYSTACK_GAP_MAXIMUM)
+.fi
+.SS "#define YYSTACK_FREE   \fBYYFREE\fP"
+
+.SS "#define YYSTACK_GAP_MAXIMUM   (sizeof (union \fByyalloc\fP) \- 1)"
+
+.SS "#define YYSTACK_RELOCATE(Stack_alloc, Stack)"
+\fBValue:\fP
+.PP
+.nf
+    do                                                                  \
+      {                                                                 \
+        YYSIZE_T yynewbytes;                                            \
+        YYCOPY (&yyptr->Stack_alloc, Stack, yysize);                    \
+        Stack = &yyptr->Stack_alloc;                                    \
+        yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+        yyptr += yynewbytes / sizeof (*yyptr);                          \
+      }                                                                 \
+    while (0)
+.fi
+.SS "#define YYTABLE_NINF   \-104"
+
+.SS "#define yytable_value_is_error(Yytable_value)   0"
+
+.SS "#define YYTERROR   1"
+
+.SS "#define YYTRANSLATE(YYX)   ((unsigned int) (YYX) <= \fBYYMAXUTOK\fP ? yytranslate[YYX] : \fBYYUNDEFTOK\fP)"
+
+.SS "#define YYUNDEFTOK   2"
+
+.SS "#define YYUSE(E)   ((void) (E))"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef short int \fByytype_int16\fP"
+
+.SS "typedef signed char \fByytype_int8\fP"
+
+.SS "typedef unsigned short int \fByytype_uint16\fP"
+
+.SS "typedef unsigned char \fByytype_uint8\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "int clock_diff (void)"
+
+.SS "void flushScanBuffer ()"
+
+.SS "void free (void *)"
+
+.SS "\fBRelation\fP LexForward (int n)"
+
+.SS "void* malloc (\fBYYSIZE_T\fP)"
+
+.SS "int omega_run (std::istream * is, std::ostream * os)"
+
+.SS "void start_clock (void)"
+
+.SS "void yyerror (\fBconst\fP std::string & s)"
+
+.SS "int yyparse (void)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "bool anyTimingDone = false"
+
+.SS "int argCount = 0"
+
+.SS "\fBArgument_Tuple\fP currentTuple = Input_Tuple"
+
+.SS "std::string err_msg"
+
+.SS "bool is_interactive"
+
+.SS "yyFlexLexer mylexer"
+
+.SS "bool need_coef"
+
+.SS "int omega_calc_debug = 0"
+
+.SS "\fBconst\fP char* PROMPT_STRING"
+
+.SS "\fBreachable_information\fP* reachable_info"
+
+.SS "\fBstd::map\fP<std::string, \fBRelation\fP *> relationMap"
+
+.SS "bool simplify = true"
+
+.SS "struct rusage start_time"
+
+.SS "int tuplePos = 0"
+
+.SS "int yychar"
+
+.SS "\fBYYSTYPE\fP yylval"
+
+.SS "int yynerrs"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

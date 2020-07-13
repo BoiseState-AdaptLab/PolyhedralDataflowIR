@@ -1,0 +1,90 @@
+.TH "src/common/iegen_util.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/common/iegen_util.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <sys/time\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEPS\fP   0\&.01"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   (((\fBx\fP) < 0\&.0) ? \-(\fBx\fP) : (\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  \fBN\fP)   (\fBi\fP)*(\fBN\fP)+(\fBj\fP)"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+(\fBN\fP)*((\fBj\fP)+(M)*(\fBi\fP)))"
+.br
+.ti -1c
+.RI "#define \fBarray_init\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0; __i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBGET_TIME\fP(now)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcsr_init\fP (\fBcsr_data_t\fP *\fBcsr\fP, int nr, int nc, int nnz)"
+.br
+.ti -1c
+.RI "void \fBcsr_read\fP (\fBconst\fP char *fpath, \fBcsr_data_t\fP *\fBcsr\fP)"
+.br
+.ti -1c
+.RI "void \fBcsr_spmv\fP (\fBcsr_data_t\fP \fBconst\fP *\fBcsr\fP, \fBreal\fP \fBconst\fP *\fBx\fP, \fBreal\fP *\fBy\fP)"
+.br
+.ti -1c
+.RI "int \fBcsr_bsr_verify\fP (\fBcsr_data_t\fP \fBconst\fP *\fBcsr\fP, \fBbsr_data_t\fP \fBconst\fP *bsr, \fBreal\fP \fBconst\fP *\fBx\fP, \fBreal\fP \fBconst\fP *\fBy\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define abs(\fBx\fP)   (((\fBx\fP) < 0\&.0) ? \-(\fBx\fP) : (\fBx\fP))"
+
+.SS "#define array_init(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0; __i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define EPS   0\&.01"
+
+.SS "#define GET_TIME(now)"
+\fBValue:\fP
+.PP
+.nf
+   { \
+   struct timeval tv; \
+   gettimeofday(&tv, NULL); \
+   now = tv\&.tv_sec + tv\&.tv_usec * 1E-6; \
+}
+.fi
+.SS "#define offset2(\fBi\fP, \fBj\fP, \fBN\fP)   (\fBi\fP)*(\fBN\fP)+(\fBj\fP)"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+(\fBN\fP)*((\fBj\fP)+(M)*(\fBi\fP)))"
+
+.SH "Function Documentation"
+.PP 
+.SS "int csr_bsr_verify (\fBcsr_data_t\fP \fBconst\fP * csr, \fBbsr_data_t\fP \fBconst\fP * bsr, \fBreal\fP \fBconst\fP * x, \fBreal\fP \fBconst\fP * y)"
+
+.SS "void csr_init (\fBcsr_data_t\fP * csr, int nr, int nc, int nnz)"
+
+.SS "void csr_read (\fBconst\fP char * fpath, \fBcsr_data_t\fP * csr)"
+
+.SS "void csr_spmv (\fBcsr_data_t\fP \fBconst\fP * csr, \fBreal\fP \fBconst\fP * x, \fBreal\fP * y)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

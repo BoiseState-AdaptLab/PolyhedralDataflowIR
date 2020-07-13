@@ -1,0 +1,207 @@
+.TH "lib/isl/isl_tab_pip.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_tab_pip.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include 'isl_map_private\&.h'\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include 'isl_tab\&.h'\fP
+.br
+\fC#include 'isl_sample\&.h'\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl_aff_private\&.h>\fP
+.br
+\fC#include <isl_options_private\&.h>\fP
+.br
+\fC#include <isl_config\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_context_op\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_context\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_context_lex\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_partial_sol\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_sol_callback\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_sol\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_sol_map\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_context_gbr\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_gbr_tab_undo\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_constraint_equal_info\fP"
+.br
+.ti -1c
+.RI "union \fBisl_lex_res\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_sol_for\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_trivial\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_sol_pma\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBI_CST\fP   1 << 0"
+.br
+.ti -1c
+.RI "#define \fBI_PAR\fP   1 << 1"
+.br
+.ti -1c
+.RI "#define \fBI_VAR\fP   1 << 2"
+.br
+.ti -1c
+.RI "#define \fBCUT_ALL\fP   1"
+.br
+.ti -1c
+.RI "#define \fBCUT_ONE\fP   0"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_map\fP * \fBisl_tab_basic_map_partial_lexopt\fP (struct \fBisl_basic_map\fP *\fBbmap\fP, struct \fBisl_basic_set\fP *dom, struct \fBisl_set\fP **empty, int \fBmax\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_map_foreach_lexopt\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP, int \fBmax\fP, int(*\fBfn\fP)(\fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_take\fP isl_aff_list *list, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_foreach_lexopt\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, int \fBmax\fP, int(*\fBfn\fP)(\fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_take\fP isl_aff_list *list, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_tab_basic_set_non_trivial_lexmin\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, int n_op, int n_region, struct \fBisl_region\fP *region, int(*conflict)(int con, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_vec\fP * \fBisl_tab_basic_set_non_neg_lexmin\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_basic_map_partial_lexopt_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, \fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_give\fP \fBisl_set\fP **empty, int \fBmax\fP)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_context_op\fP \fBisl_context_lex_op\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_context_op\fP \fBisl_context_gbr_op\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define CUT_ALL   1"
+
+.SS "#define CUT_ONE   0"
+
+.SS "#define I_CST   1 << 0"
+
+.SS "#define I_PAR   1 << 1"
+
+.SS "#define I_VAR   1 << 2"
+
+.SH "Function Documentation"
+.PP 
+.SS "int isl_basic_map_foreach_lexopt (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap, int max, int(*)(\fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_take\fP isl_aff_list *list, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_basic_map_partial_lexopt_pw_multi_aff (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, \fB__isl_take\fP \fBisl_basic_set\fP * dom, \fB__isl_give\fP \fBisl_set\fP ** empty, int max)"
+
+.SS "int isl_basic_set_foreach_lexopt (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, int max, int(*)(\fB__isl_take\fP \fBisl_basic_set\fP *dom, \fB__isl_take\fP isl_aff_list *list, void *\fBuser\fP) fn, void * user)"
+
+.SS "struct \fBisl_map\fP* isl_tab_basic_map_partial_lexopt (struct \fBisl_basic_map\fP * bmap, struct \fBisl_basic_set\fP * dom, struct \fBisl_set\fP ** empty, int max)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_tab_basic_set_non_neg_lexmin (\fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_vec\fP* isl_tab_basic_set_non_trivial_lexmin (\fB__isl_take\fP \fBisl_basic_set\fP * bset, int n_op, int n_region, struct \fBisl_region\fP * region, int(*)(int con, void *\fBuser\fP) conflict, void * user)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "struct \fBisl_context_op\fP isl_context_gbr_op"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    context_gbr_detect_nonnegative_parameters,
+    context_gbr_peek_basic_set,
+    context_gbr_peek_tab,
+    context_gbr_add_eq,
+    context_gbr_add_ineq,
+    context_gbr_ineq_sign,
+    context_gbr_test_ineq,
+    context_gbr_get_div,
+    context_gbr_add_div,
+    context_gbr_detect_equalities,
+    context_gbr_best_split,
+    context_gbr_is_empty,
+    context_gbr_is_ok,
+    context_gbr_save,
+    context_gbr_restore,
+    context_gbr_discard,
+    context_gbr_invalidate,
+    context_gbr_free,
+}
+.fi
+.SS "struct \fBisl_context_op\fP isl_context_lex_op"
+\fBInitial value:\fP
+.PP
+.nf
+= {
+    context_lex_detect_nonnegative_parameters,
+    context_lex_peek_basic_set,
+    context_lex_peek_tab,
+    context_lex_add_eq,
+    context_lex_add_ineq,
+    context_lex_ineq_sign,
+    context_lex_test_ineq,
+    context_lex_get_div,
+    context_lex_add_div,
+    context_lex_detect_equalities,
+    context_lex_best_split,
+    context_lex_is_empty,
+    context_lex_is_ok,
+    context_lex_save,
+    context_lex_restore,
+    context_lex_discard,
+    context_lex_invalidate,
+    context_lex_free,
+}
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

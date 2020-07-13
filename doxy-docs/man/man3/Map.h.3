@@ -1,0 +1,70 @@
+.TH "lib/chill/omega/basic/include/basic/Map.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/omega/basic/include/basic/Map.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <basic/Link\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <basic/Map\&.c>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBomega::MapElement< K, V >\fP"
+.br
+.ti -1c
+.RI "class \fBomega::MapElementIterator< K, V >\fP"
+.br
+.ti -1c
+.RI "class \fBomega::Map< K, V >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBforeach_map\fP(\fBk\fP,  K,  v,  \fBV\fP,  M,  \fBA\fP)   {for (\fBomega::MapElementIterator\fP<K,\fBV\fP> __M_##\fBk\fP = (M)\&.iterator();__M_##\fBk\fP;__M_##\fBk\fP++) {K & \fBk\fP = *__M_##\fBk\fP; \fBV\fP & v = __M_##k\&.value(); \fBA\fP;}}"
+.br
+.ti -1c
+.RI "#define \fBinstantiate_Map\fP(T1,  T2)"
+.br
+.ti -1c
+.RI "#define \fBinstantiate_MapElement\fP(T1,  T2)   \fBinstantiate_Map\fP(T1,T2)"
+.br
+.ti -1c
+.RI "#define \fBinstantiate_MapElementIterator\fP(T1,  T2)   \fBinstantiate_Map\fP(T1,T2)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define foreach_map(\fBk\fP, K, v, \fBV\fP, M, \fBA\fP)   {for (\fBomega::MapElementIterator\fP<K,\fBV\fP> __M_##\fBk\fP = (M)\&.iterator();__M_##\fBk\fP;__M_##\fBk\fP++) {K & \fBk\fP = *__M_##\fBk\fP; \fBV\fP & v = __M_##k\&.value(); \fBA\fP;}}"
+
+.SS "#define instantiate_Map(T1, T2)"
+\fBValue:\fP
+.PP
+.nf
+                template class Map<T1,T2>; \
+                template class MapElement<T1,T2>; \
+                template class MapElementIterator<T1,T2>;
+.fi
+.SS "#define instantiate_MapElement(T1, T2)   \fBinstantiate_Map\fP(T1,T2)"
+
+.SS "#define instantiate_MapElementIterator(T1, T2)   \fBinstantiate_Map\fP(T1,T2)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

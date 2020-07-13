@@ -1,0 +1,167 @@
+.TH "omega::Formula" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+omega::Formula \- Presburger \fBFormula\fP base class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <pres_form\&.h>\fP
+.PP
+Inherited by \fBomega::F_And\fP, \fBomega::F_Declaration\fP, \fBomega::F_Not\fP, \fBomega::F_Or\fP, and \fBomega::Rel_Body\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fBNode_Type\fP \fBnode_type\fP ()=0"
+.br
+.ti -1c
+.RI "\fBF_Forall\fP * \fBadd_forall\fP ()"
+.br
+.ti -1c
+.RI "\fBF_Exists\fP * \fBadd_exists\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBF_And\fP * \fBand_with\fP ()"
+.br
+.ti -1c
+.RI "\fBF_And\fP * \fBadd_and\fP ()"
+.br
+.ti -1c
+.RI "\fBF_Or\fP * \fBadd_or\fP ()"
+.br
+.ti -1c
+.RI "\fBF_Not\fP * \fBadd_not\fP ()"
+.br
+.ti -1c
+.RI "void \fBadd_unknown\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBfinalize\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBprint\fP (FILE *output_file)"
+.br
+.ti -1c
+.RI "\fBRel_Body\fP * \fBrelation\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fB~Formula\fP ()"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBRelation\fP"
+.br
+.ti -1c
+.RI "class \fBDNF\fP"
+.br
+.ti -1c
+.RI "class \fBConjunct\fP"
+.br
+.ti -1c
+.RI "class \fBF_Declaration\fP"
+.br
+.ti -1c
+.RI "class \fBF_Exists\fP"
+.br
+.ti -1c
+.RI "class \fBF_Forall\fP"
+.br
+.ti -1c
+.RI "class \fBF_Or\fP"
+.br
+.ti -1c
+.RI "class \fBF_And\fP"
+.br
+.ti -1c
+.RI "class \fBF_Not\fP"
+.br
+.ti -1c
+.RI "class \fBRel_Body\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Presburger \fBFormula\fP base class\&. 
+
+A multi-way(0 allowed) tree that represents a Presburger formula\&. Children can be either other formula nodes or 'atomic' constraints (single equality, inequality, or stride)\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "omega::Formula::~Formula ()\fC [protected]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBF_And\fP * omega::Formula::add_and ()"
+
+.SS "\fBF_Exists\fP * omega::Formula::add_exists ()"
+
+.SS "\fBF_Forall\fP * omega::Formula::add_forall ()"
+
+.SS "\fBF_Not\fP * omega::Formula::add_not ()"
+
+.SS "\fBF_Or\fP * omega::Formula::add_or ()"
+
+.SS "void omega::Formula::add_unknown ()"
+
+.SS "\fBF_And\fP * omega::Formula::and_with ()\fC [virtual]\fP"
+Replacing this node with an \fBF_And\fP node that uses this as one of the child and another \fBF_And\fP node as the other\&.
+.PP
+\fBReturns\fP
+.RS 4
+the other \fBF_And\fP node 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBomega::F_And\fP\&.
+.SS "void omega::Formula::finalize ()\fC [virtual]\fP"
+Finalize the constraint to make it non-mutable so that certain simplification can take place\&.
+.PP
+Should call it after each subpart is finished to achieve maximum efficiency\&. 
+.PP
+Reimplemented in \fBomega::F_Not\fP, \fBomega::Rel_Body\fP, and \fBomega::F_Declaration\fP\&.
+.SS "virtual \fBNode_Type\fP omega::Formula::node_type ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBomega::F_Not\fP, \fBomega::F_Or\fP, \fBomega::F_Forall\fP, \fBomega::Conjunct\fP, \fBomega::Rel_Body\fP, \fBomega::F_Exists\fP, and \fBomega::F_And\fP\&.
+.SS "void omega::Formula::print (FILE * output_file)\fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBomega::Conjunct\fP, \fBomega::Rel_Body\fP, and \fBomega::F_Declaration\fP\&.
+.SS "\fBRel_Body\fP* omega::Formula::relation ()\fC [inline]\fP"
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBConjunct\fP\fC [friend]\fP"
+
+.SS "friend class \fBDNF\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_And\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Declaration\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Exists\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Forall\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Not\fP\fC [friend]\fP"
+
+.SS "friend class \fBF_Or\fP\fC [friend]\fP"
+
+.SS "friend class \fBRel_Body\fP\fC [friend]\fP"
+
+.SS "friend class \fBRelation\fP\fC [friend]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

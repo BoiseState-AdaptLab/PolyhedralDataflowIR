@@ -1,0 +1,438 @@
+.TH "pdfg::GraphMaker" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+pdfg::GraphMaker
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <GraphIL\&.hpp>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBCheckpoint\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGraphMaker\fP (\fBGraphMaker\fP \fBconst\fP &)=delete"
+.br
+.ti -1c
+.RI "void \fBoperator=\fP (\fBGraphMaker\fP \fBconst\fP &)=delete"
+.br
+.ti -1c
+.RI "void \fBnewGraph\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBalign_iters\fP (bool align=true)"
+.br
+.ti -1c
+.RI "void \fBfuse\fP ()"
+.br
+.ti -1c
+.RI "void \fBfuse\fP (initializer_list< string > names)"
+.br
+.ti -1c
+.RI "void \fBfuse\fP (\fBComp\fP &comp1, \fBComp\fP &comp2)"
+.br
+.ti -1c
+.RI "void \fBtile\fP (initializer_list< string > iters, initializer_list< unsigned > sizes)"
+.br
+.ti -1c
+.RI "void \fBcheckpoint\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBrestore\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "\fBComp\fP * \fBgetComp\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBaddComp\fP (\fBComp\fP &comp)"
+.br
+.ti -1c
+.RI "bool \fBmergeComps\fP (\fBconst\fP string &\fBname\fP, \fBSpace\fP &lspace, \fBSpace\fP &rspace, \fBconst\fP string &oper)"
+.br
+.ti -1c
+.RI "string \fBindexType\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBindexType\fP (\fBconst\fP string &type)"
+.br
+.ti -1c
+.RI "string \fBdataType\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdataType\fP (\fBconst\fP string &type)"
+.br
+.ti -1c
+.RI "string \fBdefaultValue\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdefaultValue\fP (\fBconst\fP string &defVal)"
+.br
+.ti -1c
+.RI "string \fBreturnName\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBreturnName\fP (\fBconst\fP string &returnName)"
+.br
+.ti -1c
+.RI "void \fBoutputs\fP (\fBconst\fP vector< string > &outputs)"
+.br
+.ti -1c
+.RI "void \fBaddSpace\fP (\fBconst\fP \fBSpace\fP &space)"
+.br
+.ti -1c
+.RI "void \fBaddRel\fP (\fBconst\fP \fBRel\fP &rel)"
+.br
+.ti -1c
+.RI "void \fBaddIter\fP (\fBconst\fP \fBIter\fP &iter)"
+.br
+.ti -1c
+.RI "void \fBaddFunc\fP (\fBconst\fP \fBFunc\fP &func)"
+.br
+.ti -1c
+.RI "void \fBaddConst\fP (\fBconst\fP \fBConst\fP &con)"
+.br
+.ti -1c
+.RI "\fBConst\fP \fBgetConst\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBaddAccess\fP (\fBconst\fP \fBAccess\fP &access)"
+.br
+.ti -1c
+.RI "void \fBprintAccesses\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddMacro\fP (\fBMacro\fP &macro)"
+.br
+.ti -1c
+.RI "\fBSpace\fP \fBgetSpace\fP (\fBconst\fP string &\fBname\fP)"
+.br
+.ti -1c
+.RI "void \fBnewSpace\fP (\fBconst\fP \fBSpace\fP &space)"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBSpace\fP > & \fBspaces\fP ()"
+.br
+.ti -1c
+.RI "string \fBcodegen\fP (\fBconst\fP string &path='', \fBconst\fP string &\fBname\fP='', \fBconst\fP string &lang='C', const string &ompsched='')"
+.br
+.ti -1c
+.RI "string \fBcompile\fP (\fBconst\fP string &src, \fBconst\fP string &obj)"
+.br
+.ti -1c
+.RI "void \fBprint\fP (\fBconst\fP string &file='')"
+.br
+.ti -1c
+.RI "void \fBperfmodel\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBreschedule\fP (\fBconst\fP string &\fBname\fP='', \fBDigraph\fP *itergraph=nullptr)"
+.br
+.ti -1c
+.RI "void \fBdata_reduce\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBmem_alloc\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBparallelize\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "void \fBtransform\fP (\fBconst\fP string &\fBname\fP='', initializer_list< string > tile_iters={}, initializer_list< unsigned > tile_sizes={}, initializer_list< initializer_list< string > > fuse_names={}, bool reduce_precision=false)"
+.br
+.ti -1c
+.RI "string \fBto_dot\fP (\fBconst\fP string &\fBname\fP='')"
+.br
+.ti -1c
+.RI "\fBExpr\fP * \fBgetSize\fP (\fBconst\fP \fBComp\fP &comp, \fBconst\fP \fBFunc\fP &func)"
+.br
+.ti -1c
+.RI "\fBMath\fP \fBgetFuncSize\fP (\fBconst\fP \fBComp\fP &comp, \fBconst\fP \fBFunc\fP &func)"
+.br
+.ti -1c
+.RI "string \fBgetType\fP (\fBconst\fP \fBComp\fP &comp, \fBconst\fP \fBFunc\fP &func) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBclearFLOPs\fP ()"
+.br
+.ti -1c
+.RI "void \fBincFLOPs\fP (unsigned increment=1)"
+.br
+.ti -1c
+.RI "unsigned \fBgetFLOPs\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBsetFLOPs\fP (unsigned nflops)"
+.br
+.ti -1c
+.RI "void \fBaddDefine\fP (\fBconst\fP string &define)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBGraphMaker\fP & \fBget\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGraphMaker\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~GraphMaker\fP ()"
+.br
+.ti -1c
+.RI "bool \fBhasIter\fP (\fBconst\fP string &expr)"
+.br
+.ti -1c
+.RI "void \fBmakeHierarchical\fP (\fBCompNode\fP *compNode, \fBDataNode\fP *dataNode)"
+.br
+.ti -1c
+.RI "void \fBupdateStatements\fP (\fBconst\fP vector< \fBAccess\fP > &accs, \fBconst\fP string &dname, \fBconst\fP string &rname, \fBconst\fP string &wname, \fBconst\fP vector< \fBMath\fP > &inStmts, vector< \fBMath\fP > &outStmts)"
+.br
+.ti -1c
+.RI "vector< int > \fBcalcReuseDist\fP (\fBconst\fP vector< \fBAccess\fP > &accs)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fB_scheduled\fP"
+.br
+.ti -1c
+.RI "bool \fB_reduced\fP"
+.br
+.ti -1c
+.RI "bool \fB_allocated\fP"
+.br
+.ti -1c
+.RI "bool \fB_parallelized\fP"
+.br
+.ti -1c
+.RI "bool \fB_transformed\fP"
+.br
+.ti -1c
+.RI "string \fB_indexType\fP"
+.br
+.ti -1c
+.RI "string \fB_dataType\fP"
+.br
+.ti -1c
+.RI "string \fB_graphName\fP"
+.br
+.ti -1c
+.RI "unsigned \fB_nflops\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, bool > \fB_defines\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBIter\fP > \fB_iters\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBFunc\fP > \fB_funcs\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBConst\fP > \fB_consts\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBSpace\fP > \fB_spaces\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBRel\fP > \fB_relations\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, vector< \fBAccess\fP > > \fB_accessMap\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, vector< \fBMacro\fP > > \fB_macros\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBCheckpoint\fP > \fB_checkpoints\fP"
+.br
+.ti -1c
+.RI "\fBmap\fP< string, \fBFlowGraph\fP * > \fB_graphs\fP"
+.br
+.ti -1c
+.RI "\fBFlowGraph\fP * \fB_flowGraph\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "pdfg::GraphMaker::GraphMaker ()\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "virtual pdfg::GraphMaker::~GraphMaker ()\fC [inline]\fP, \fC [protected]\fP, \fC [virtual]\fP"
+
+.SS "pdfg::GraphMaker::GraphMaker (\fBGraphMaker\fP \fBconst\fP &)\fC [delete]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void pdfg::GraphMaker::addAccess (\fBconst\fP \fBAccess\fP & access)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::addComp (\fBComp\fP & comp)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::addConst (\fBconst\fP \fBConst\fP & con)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::addDefine (\fBconst\fP string & define)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::addFunc (\fBconst\fP \fBFunc\fP & func)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::addIter (\fBconst\fP \fBIter\fP & iter)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::addMacro (\fBMacro\fP & macro)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::addRel (\fBconst\fP \fBRel\fP & rel)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::addSpace (\fBconst\fP \fBSpace\fP & space)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::align_iters (bool align = \fCtrue\fP)\fC [inline]\fP"
+
+.SS "vector<int> pdfg::GraphMaker::calcReuseDist (\fBconst\fP vector< \fBAccess\fP > & accs)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::GraphMaker::checkpoint (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::clearFLOPs ()\fC [inline]\fP"
+
+.SS "string pdfg::GraphMaker::codegen (\fBconst\fP string & path = \fC''\fP, \fBconst\fP string & name = \fC''\fP, \fBconst\fP string & lang = \fC'C'\fP, \fBconst\fP string & ompsched = \fC''\fP)\fC [inline]\fP"
+
+.SS "string pdfg::GraphMaker::compile (\fBconst\fP string & src, \fBconst\fP string & obj)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::data_reduce (\fBconst\fP string & name = \fC''\fP)\fC [inline]\fP"
+
+.SS "string pdfg::GraphMaker::dataType () const\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::dataType (\fBconst\fP string & type)\fC [inline]\fP"
+
+.SS "string pdfg::GraphMaker::defaultValue () const\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::defaultValue (\fBconst\fP string & defVal)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::fuse ()\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::fuse (\fBComp\fP & comp1, \fBComp\fP & comp2)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::fuse (initializer_list< string > names)\fC [inline]\fP"
+
+.SS "static \fBGraphMaker\fP& pdfg::GraphMaker::get ()\fC [inline]\fP, \fC [static]\fP"
+
+.SS "\fBComp\fP* pdfg::GraphMaker::getComp (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "\fBConst\fP pdfg::GraphMaker::getConst (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "unsigned pdfg::GraphMaker::getFLOPs () const\fC [inline]\fP"
+
+.SS "\fBMath\fP pdfg::GraphMaker::getFuncSize (\fBconst\fP \fBComp\fP & comp, \fBconst\fP \fBFunc\fP & func)\fC [inline]\fP"
+
+.SS "\fBExpr\fP* pdfg::GraphMaker::getSize (\fBconst\fP \fBComp\fP & comp, \fBconst\fP \fBFunc\fP & func)\fC [inline]\fP"
+
+.SS "\fBSpace\fP pdfg::GraphMaker::getSpace (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "string pdfg::GraphMaker::getType (\fBconst\fP \fBComp\fP & comp, \fBconst\fP \fBFunc\fP & func) const\fC [inline]\fP"
+
+.SS "bool pdfg::GraphMaker::hasIter (\fBconst\fP string & expr)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::GraphMaker::incFLOPs (unsigned increment = \fC1\fP)\fC [inline]\fP"
+
+.SS "string pdfg::GraphMaker::indexType () const\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::indexType (\fBconst\fP string & type)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::makeHierarchical (\fBCompNode\fP * compNode, \fBDataNode\fP * dataNode)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "void pdfg::GraphMaker::mem_alloc (\fBconst\fP string & name = \fC''\fP)\fC [inline]\fP"
+
+.SS "bool pdfg::GraphMaker::mergeComps (\fBconst\fP string & name, \fBSpace\fP & lspace, \fBSpace\fP & rspace, \fBconst\fP string & oper)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::newGraph (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::newSpace (\fBconst\fP \fBSpace\fP & space)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::operator= (\fBGraphMaker\fP \fBconst\fP &)\fC [delete]\fP"
+
+.SS "void pdfg::GraphMaker::outputs (\fBconst\fP vector< string > & outputs)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::parallelize (\fBconst\fP string & name = \fC''\fP)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::perfmodel (\fBconst\fP string & name = \fC''\fP)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::print (\fBconst\fP string & file = \fC''\fP)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::printAccesses ()\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::reschedule (\fBconst\fP string & name = \fC''\fP, \fBDigraph\fP * itergraph = \fCnullptr\fP)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::restore (\fBconst\fP string & name)\fC [inline]\fP"
+
+.SS "string pdfg::GraphMaker::returnName () const\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::returnName (\fBconst\fP string & returnName)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::setFLOPs (unsigned nflops)\fC [inline]\fP"
+
+.SS "\fBmap\fP<string, \fBSpace\fP>& pdfg::GraphMaker::spaces ()\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::tile (initializer_list< string > iters, initializer_list< unsigned > sizes)\fC [inline]\fP"
+
+.SS "string pdfg::GraphMaker::to_dot (\fBconst\fP string & name = \fC''\fP)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::transform (\fBconst\fP string & name = \fC''\fP, initializer_list< string > tile_iters = \fC{}\fP, initializer_list< unsigned > tile_sizes = \fC{}\fP, initializer_list< initializer_list< string > > fuse_names = \fC{}\fP, bool reduce_precision = \fCfalse\fP)\fC [inline]\fP"
+
+.SS "void pdfg::GraphMaker::updateStatements (\fBconst\fP vector< \fBAccess\fP > & accs, \fBconst\fP string & dname, \fBconst\fP string & rname, \fBconst\fP string & wname, \fBconst\fP vector< \fBMath\fP > & inStmts, vector< \fBMath\fP > & outStmts)\fC [inline]\fP, \fC [protected]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBmap\fP<string, vector<\fBAccess\fP> > pdfg::GraphMaker::_accessMap\fC [protected]\fP"
+
+.SS "bool pdfg::GraphMaker::_allocated\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBCheckpoint\fP> pdfg::GraphMaker::_checkpoints\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBConst\fP> pdfg::GraphMaker::_consts\fC [protected]\fP"
+
+.SS "string pdfg::GraphMaker::_dataType\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, bool> pdfg::GraphMaker::_defines\fC [protected]\fP"
+
+.SS "\fBFlowGraph\fP* pdfg::GraphMaker::_flowGraph\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBFunc\fP> pdfg::GraphMaker::_funcs\fC [protected]\fP"
+
+.SS "string pdfg::GraphMaker::_graphName\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBFlowGraph\fP*> pdfg::GraphMaker::_graphs\fC [protected]\fP"
+
+.SS "string pdfg::GraphMaker::_indexType\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBIter\fP> pdfg::GraphMaker::_iters\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, vector<\fBMacro\fP> > pdfg::GraphMaker::_macros\fC [protected]\fP"
+
+.SS "unsigned pdfg::GraphMaker::_nflops\fC [protected]\fP"
+
+.SS "bool pdfg::GraphMaker::_parallelized\fC [protected]\fP"
+
+.SS "bool pdfg::GraphMaker::_reduced\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBRel\fP> pdfg::GraphMaker::_relations\fC [protected]\fP"
+
+.SS "bool pdfg::GraphMaker::_scheduled\fC [protected]\fP"
+
+.SS "\fBmap\fP<string, \fBSpace\fP> pdfg::GraphMaker::_spaces\fC [protected]\fP"
+
+.SS "bool pdfg::GraphMaker::_transformed\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

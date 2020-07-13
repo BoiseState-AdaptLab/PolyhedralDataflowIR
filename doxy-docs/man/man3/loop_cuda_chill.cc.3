@@ -1,0 +1,189 @@
+.TH "lib/chill/loop_cuda_chill.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/loop_cuda_chill.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <malloc\&.h>\fP
+.br
+\fC#include 'loop_cuda_chill\&.hh'\fP
+.br
+\fC#include <code_gen/CG_stringBuilder\&.h>\fP
+.br
+\fC#include <omega/code_gen/include/codegen\&.h>\fP
+.br
+\fC#include <code_gen/CG_utils\&.h>\fP
+.br
+\fC#include <code_gen/CG_outputRepr\&.h>\fP
+.br
+\fC#include 'loop\&.hh'\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include 'omegatools\&.hh'\fP
+.br
+\fC#include 'ir_cudachill\&.hh'\fP
+.br
+\fC#include 'chill_error\&.hh'\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <strings\&.h>\fP
+.br
+\fC#include 'cudaize_codegen_v2\&.cc'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBConstCharStarComparator\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBomega\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBNOTRUNONGPU\fP   (ordered_cudaized_stmts[iter]\&.second == \-1)"
+.br
+.ti -1c
+.RI "#define \fBRUNONGPU\fP   (ordered_cudaized_stmts[iter]\&.second != \-1)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBstd::set\fP< \fBconst\fP char *, \fBConstCharStarComparator\fP > \fBwhat_t\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBType\fP { \fBInt\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBcharstarvectorindex\fP (\fBconst\fP char *\fBstr\fP, std::vector< char * > vec)"
+.br
+.ti -1c
+.RI "std::string & \fBupcase\fP (std::string &s)"
+.br
+.ti -1c
+.RI "void \fBprintVs\fP (\fBconst\fP std::vector< std::string > &curOrder)"
+.br
+.ti -1c
+.RI "void \fBprintVS\fP (\fBconst\fP std::vector< std::string > &curOrder)"
+.br
+.ti -1c
+.RI "\fBchillAST_node\fP * \fBwrapInIfFromMinBound\fP (\fBchillAST_node\fP *then_part, \fBchillAST_ForStmt\fP *loop, \fBchillAST_node\fP *symtab, \fBchillAST_node\fP *bound_sym)"
+.br
+.ti -1c
+.RI "void \fBfindReplacePreferedIdxs\fP (\fBchillAST_node\fP *newkernelcode, \fBchillAST_FunctionDecl\fP *kernel)"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBcleanOrder\fP (std::vector< std::string > idxNames)"
+.br
+.ti -1c
+.RI "\fBchillAST_VarDecl\fP * \fBaddBuiltin\fP (char *nameofbuiltin, char *typeOfBuiltin, \fBchillAST_node\fP *somecode)"
+.br
+.ti -1c
+.RI "void \fBswapVarReferences\fP (\fBchillAST_node\fP *newkernelcode, \fBchillAST_FunctionDecl\fP *kernel)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "char * \fBk_cuda_texture_memory\fP"
+.br
+.ti -1c
+.RI "char * \fBk_ocg_comment\fP"
+.br
+.ti -1c
+.RI "bool \fBcudaDebug\fP"
+.br
+.ti -1c
+.RI "int \fBomega::checkLoopLevel\fP = 0"
+.br
+.ti -1c
+.RI "int \fBomega::stmtForLoopCheck\fP"
+.br
+.ti -1c
+.RI "int \fBomega::upperBoundForLevel\fP"
+.br
+.ti -1c
+.RI "int \fBomega::lowerBoundForLevel\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define NOTRUNONGPU   (ordered_cudaized_stmts[iter]\&.second == \-1)"
+
+.SS "#define RUNONGPU   (ordered_cudaized_stmts[iter]\&.second != \-1)"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBstd::set\fP<\fBconst\fP char *, \fBConstCharStarComparator\fP> \fBwhat_t\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIInt \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "\fBchillAST_VarDecl\fP* addBuiltin (char * nameofbuiltin, char * typeOfBuiltin, \fBchillAST_node\fP * somecode)"
+
+.SS "int charstarvectorindex (\fBconst\fP char * str, std::vector< char * > vec)"
+
+.SS "std::vector<std::string> cleanOrder (std::vector< std::string > idxNames)"
+
+.SS "void findReplacePreferedIdxs (\fBchillAST_node\fP * newkernelcode, \fBchillAST_FunctionDecl\fP * kernel)"
+This would be better if it was done by a CHiLL xformation instead of at codegen
+.PP
+state: for(\&.\&.\&.) for(\&.\&.\&.) cur_body stmt1
+.PP
+stm1 is in-between two loops that are going to be reduced\&. The solution is to put stmt1 at the end of cur_body but conditionally run in on the last step of the for loop\&.
+.PP
+A CHiLL command that would work better:
+.PP
+for(\&.\&.\&.) stmt0 for(for i=0; i<n; i++) cur_body stmt1 => for(\&.\&.\&.) for(for i=0; i<n; i++) if(i==0) stmt0 cur_body if(i==n-1) stmt1 
+.SS "void printVs (\fBconst\fP std::vector< std::string > & curOrder)"
+
+.SS "void printVS (\fBconst\fP std::vector< std::string > & curOrder)"
+
+.SS "void swapVarReferences (\fBchillAST_node\fP * newkernelcode, \fBchillAST_FunctionDecl\fP * kernel)"
+
+.SS "std::string& upcase (std::string & s)"
+
+.SS "\fBchillAST_node\fP* wrapInIfFromMinBound (\fBchillAST_node\fP * then_part, \fBchillAST_ForStmt\fP * loop, \fBchillAST_node\fP * symtab, \fBchillAST_node\fP * bound_sym)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "bool cudaDebug"
+
+.SS "char* k_cuda_texture_memory"
+
+.SS "char* k_ocg_comment"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,375 @@
+.TH "iegenlib::Exp" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::Exp \- An affine expression that allows uninterpreted function call terms\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <expression\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBExp\fP ()"
+.br
+.RI "Default constructor\&. "
+.ti -1c
+.RI "\fBExp\fP (\fBconst\fP \fBExp\fP &other)"
+.br
+.RI "Copy constructor\&. Performs a deep copy\&. "
+.ti -1c
+.RI "\fBExp\fP & \fBoperator=\fP (\fBconst\fP \fBExp\fP &other)"
+.br
+.RI "Copy assignment\&. "
+.ti -1c
+.RI "void \fBreset\fP ()"
+.br
+.RI "Destructor\&. "
+.ti -1c
+.RI "virtual \fB~Exp\fP ()"
+.br
+.RI "Destructor\&. "
+.ti -1c
+.RI "virtual \fBExp\fP * \fBclone\fP () \fBconst\fP"
+.br
+.RI "Create a copy of this \fBExp\fP (and of the same subclass) "
+.ti -1c
+.RI "virtual std::string \fBtoString\fP () \fBconst\fP"
+.br
+.RI "Creates a compact string to help with debugging\&. "
+.ti -1c
+.RI "virtual std::string \fBprettyPrintString\fP (\fBconst\fP \fBTupleDecl\fP &aTupleDecl) \fBconst\fP"
+.br
+.RI "Convert to a human-readable string (substitute in tuple vars)\&. "
+.ti -1c
+.RI "void \fBaddTerm\fP (\fBTerm\fP *term)"
+.br
+.RI "Add a term to this expression\&. "
+.ti -1c
+.RI "void \fBaddExp\fP (\fBExp\fP *exp)"
+.br
+.RI "Add another expression to this one\&. "
+.ti -1c
+.RI "void \fBmultiplyBy\fP (int constant)"
+.br
+.RI "Multiply all terms in this expression by a constant\&. "
+.ti -1c
+.RI "bool \fBisDivisible\fP (int divisor) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBdivideBy\fP (int divisor)"
+.br
+.RI "Divide all coefficients and the constant term by the given divisor\&. "
+.ti -1c
+.RI "\fBExp\fP * \fBsolveForFactor\fP (\fBTerm\fP *\fBfactor\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBExp\fP * \fBinvertFuncToExposeFactor\fP (\fBTerm\fP *\fBfactor\fP) \fBconst\fP"
+.br
+.RI "FIXME: should only work on equality expressions\&. Really? "
+.ti -1c
+.RI "void \fBsubstitute\fP (\fBSubMap\fP &searchTermToSubExp)"
+.br
+.ti -1c
+.RI "void \fBnormalizeForEquality\fP ()"
+.br
+.RI "FIXME: should only work on equality expressions\&. "
+.ti -1c
+.RI "\fBExp\fP * \fBcollapseNestedInvertibleFunctions\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBdependsOn\fP (\fBconst\fP \fBTerm\fP &\fBfactor\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBhasIndexedUFCall\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBUFCallTerm\fP * \fBcloneIndexedUFCallTerm\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBequalsZero\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "Returns true if this expression equals the given term\&. "
+.ti -1c
+.RI "bool \fBoperator<\fP (\fBconst\fP \fBExp\fP &other) \fBconst\fP"
+.br
+.RI "Less than operator\&. "
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBExp\fP &other) \fBconst\fP"
+.br
+.RI "Equality operator\&. "
+.ti -1c
+.RI "void \fBremapTupleVars\fP (\fBconst\fP std::vector< int > &oldToNewLocs)"
+.br
+.ti -1c
+.RI "void \fBsetExpression\fP ()"
+.br
+.RI "Calls the ExpCase for the visitor design pattern\&. "
+.ti -1c
+.RI "void \fBsetInequality\fP ()"
+.br
+.RI "Sets mExpType to Inequality, to indicate \fBExp\fP >= 0\&. "
+.ti -1c
+.RI "void \fBsetEquality\fP ()"
+.br
+.RI "Sets mExpType to Equality, to indicate \fBExp\fP == 0\&. "
+.ti -1c
+.RI "bool \fBisExpression\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisInequality\fP ()"
+.br
+.RI "Returns true if the \fBExp\fP is an inequality, ie expression >= 0\&. "
+.ti -1c
+.RI "bool \fBisEquality\fP ()"
+.br
+.RI "Returns true if the \fBExp\fP is an equality, ie expression == 0\&. "
+.ti -1c
+.RI "bool \fBisConst\fP () \fBconst\fP"
+.br
+.RI "Returns true if only have a constant term\&. "
+.ti -1c
+.RI "bool \fBisContradiction\fP () \fBconst\fP"
+.br
+.RI "Returns true if we have something like: 2 = 0\&. "
+.ti -1c
+.RI "\fBTerm\fP * \fBgetTerm\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBTerm\fP * \fBgetConstTerm\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBtoDotString\fP (int &next_id) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::string \fBtoDotString\fP (int parent_id, int &next_id) \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBStringIterator\fP * \fBgetSymbolIterator\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBacceptVisitor\fP (\fBVisitor\fP *v)"
+.br
+.RI "\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. "
+.ti -1c
+.RI "std::list< \fBTerm\fP * > \fBgetTermList\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Protected Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBexptype\fP { \fBExpression\fP, \fBInequality\fP, \fBEquality\fP }"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBexptype\fP \fBgetExpType\fP () \fBconst\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+An affine expression that allows uninterpreted function call terms\&. 
+
+Memory management: the \fBExp\fP manages its own copies of any terms it contains, copies those when the \fBExp\fP itself is copied, and deletes them when the \fBExp\fP is destroyed\&. 
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBiegenlib::Exp::exptype\fP\fC [protected]\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIExpression \fP\fP
+.TP
+\fB\fIInequality \fP\fP
+.TP
+\fB\fIEquality \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::Exp::Exp ()\fC [inline]\fP"
+
+.PP
+Default constructor\&. 
+.SS "iegenlib::Exp::Exp (\fBconst\fP \fBExp\fP & other)"
+
+.PP
+Copy constructor\&. Performs a deep copy\&. Copy constructor\&. 
+.SS "iegenlib::Exp::~Exp ()\fC [virtual]\fP"
+
+.PP
+Destructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void iegenlib::Exp::acceptVisitor (\fBVisitor\fP * v)"
+
+.PP
+\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. 
+.SS "void iegenlib::Exp::addExp (\fBExp\fP * exp)"
+
+.PP
+Add another expression to this one\&. Add another expression to this one\&. 
+.br
+ /param term (adopted) 
+.SS "void iegenlib::Exp::addTerm (\fBTerm\fP * term)"
+
+.PP
+Add a term to this expression\&. Add a term to this expression\&. /param term (adopted) 
+.SS "\fBExp\fP * iegenlib::Exp::clone () const\fC [virtual]\fP"
+
+.PP
+Create a copy of this \fBExp\fP (and of the same subclass) Create a copy of this \fBExp\fP (of the same subclass) 
+.SS "\fBUFCallTerm\fP * iegenlib::Exp::cloneIndexedUFCallTerm () const"
+Returns a clone of the single indexed UFCall in expression\&. If there are none or more than one then an exception is thrown\&. 
+.SS "\fBExp\fP * iegenlib::Exp::collapseNestedInvertibleFunctions () const"
+Return a new \fBExp\fP with all nested functions such as f ( f_inv ( i ) ) changed to i\&.
+.PP
+Return a new \fBExp\fP with all nested functions such as f ( f_inv ( i ) ) changed to i\&. g(g_inv(x)[0], g_inv(x)[1]) changed to x 
+.SS "bool iegenlib::Exp::dependsOn (\fBconst\fP \fBTerm\fP & factor) const"
+Search for the given factor anywhere in this expression (including within \fBUFCallTerm\fP arguments, recursively)\&. 
+.SS "void iegenlib::Exp::divideBy (int divisor)"
+
+.PP
+Divide all coefficients and the constant term by the given divisor\&. 
+.SS "bool iegenlib::Exp::equalsZero () const"
+Return true iff this expression has no terms, or has only a constant term equal to 0\&. 
+.SS "\fBTerm\fP * iegenlib::Exp::getConstTerm () const"
+Return Term* for constant term if there is one\&. Otherwise return NULL\&. This expression still owns the \fBTerm\fP\&. 
+.SS "\fBexptype\fP iegenlib::Exp::getExpType () const\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "\fBStringIterator\fP * iegenlib::Exp::getSymbolIterator () const"
+Returns an iterator over symbolic constant variables\&. Assumes all \fBVarTerm\fP's are symbolic constants\&.
+.PP
+Creates iterator over all symbolic constants in the expression\&. Caller is responsible for deleting the \fBStringIterator\fP\&. 
+.SS "\fBTerm\fP * iegenlib::Exp::getTerm () const"
+Return Term* if the expression has only one \fBTerm\fP\&. Otherwise returns NULL\&. this still owns \fBTerm\fP\&.
+.PP
+Return Term* if the expression has only one \fBTerm\fP\&. Otherwise returns NULL\&. Still owns \fBTerm\fP\&. 
+.SS "std::list< \fBTerm\fP * > iegenlib::Exp::getTermList () const"
+Get a list of pointers to the terms in this expression\&. All pointers in this list are still owned by the expression\&. Caller should NOT modify expressions or delete them\&.
+.PP
+Get a list of pointers to the terms in this expression\&. All pointers in this list will be owned by caller\&. 
+.SS "bool iegenlib::Exp::hasIndexedUFCall () const"
+Returns true if this expression contains a \fBUFCallTerm\fP that is being indexed\&. 
+.SS "\fBExp\fP * iegenlib::Exp::invertFuncToExposeFactor (\fBTerm\fP * factor_ptr) const"
+
+.PP
+FIXME: should only work on equality expressions\&. Really? Search this expression for the given factor and invert a function to expose the factor\&. Return a new expression (which is an equality constraint, exp=0, that exposes the term with the factor\&. Returns NULL if can't do this\&.
+.PP
+Creates an expression by inverting a function and exposing the given factor if the given factor is in an argument expression to a bijective uninterpreted function\&. For example, this \fBExp\fP: __tv0 + x + f( y ) factor: y returns: y - f_inv(-_tv0 - x)
+.PP
+If can't expose the given factor, then returns NULL\&. Owns given factor but caller is responsible for deallocating space for returned expression\&. 
+.SS "bool iegenlib::Exp::isConst () const"
+
+.PP
+Returns true if only have a constant term\&. 
+.SS "bool iegenlib::Exp::isContradiction () const"
+
+.PP
+Returns true if we have something like: 2 = 0\&. 
+.SS "bool iegenlib::Exp::isDivisible (int divisor) const"
+Return whether all coefficients in this expression are evenly divisible by the given integer\&. 
+.SS "bool iegenlib::Exp::isEquality ()\fC [inline]\fP"
+
+.PP
+Returns true if the \fBExp\fP is an equality, ie expression == 0\&. 
+.SS "bool iegenlib::Exp::isExpression ()\fC [inline]\fP"
+Returns true if the \fBExp\fP is a simple expression, not a constraint Does not mean it is a UFCall param\&. 
+.SS "bool iegenlib::Exp::isInequality ()\fC [inline]\fP"
+
+.PP
+Returns true if the \fBExp\fP is an inequality, ie expression >= 0\&. 
+.SS "void iegenlib::Exp::multiplyBy (int constant)"
+
+.PP
+Multiply all terms in this expression by a constant\&. 
+.SS "void iegenlib::Exp::normalizeForEquality ()"
+
+.PP
+FIXME: should only work on equality expressions\&. Normalize this expression for use in an equality expression\&. This is called when we know this expression is equal to zero; in that case, it's valid to multiply the whole expression by -1\&. So we do so, in order to ensure the first term has a positive coefficient, so that equivalent expressions can be reliably compared\&. 
+.SS "bool iegenlib::Exp::operator< (\fBconst\fP \fBExp\fP & other) const"
+
+.PP
+Less than operator\&. Less than operator\&. Compare two \fBExp\fP in the following order:
+.IP "1." 4
+by size: number of terms in mTerms
+.IP "2." 4
+by sorted term values: using Term::operator<(Term) This operator assumes that the list of terms (mTerms) is sorted for both \fBExp\fP being compared\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.PP
+
+.SS "\fBExp\fP & iegenlib::Exp::operator= (\fBconst\fP \fBExp\fP & other)"
+
+.PP
+Copy assignment\&. 
+.SS "bool iegenlib::Exp::operator== (\fBconst\fP \fBExp\fP & other) const"
+
+.PP
+Equality operator\&. Equality operator\&. Compare two \fBExp\fP for equality\&. This operator assumes operator<(Exp) is well defined\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.SS "bool iegenlib::Exp::operator== (\fBconst\fP \fBTerm\fP & other) const"
+
+.PP
+Returns true if this expression equals the given term\&. 
+.SS "std::string iegenlib::Exp::prettyPrintString (\fBconst\fP \fBTupleDecl\fP & aTupleDecl) const\fC [virtual]\fP"
+
+.PP
+Convert to a human-readable string (substitute in tuple vars)\&. Creates a compact string, pretty printed\&. 
+.SS "void iegenlib::Exp::remapTupleVars (\fBconst\fP std::vector< int > & oldToNewLocs)"
+Find any TupleVarTerms in this expression (and subexpressions) and remap the locations according to the oldToNewLocs vector, where oldToNewLocs[i] = j means that old location i becomes new location j (i\&.e\&. __tvi -> __tvj)\&. Throws an exception if an old location is out of range for the given oldToNewLocs\&. The new location will be -1 for old locations that are not being remapped\&. 
+.SS "void iegenlib::Exp::reset ()"
+
+.PP
+Destructor\&. 
+.SS "void iegenlib::Exp::setEquality ()\fC [inline]\fP"
+
+.PP
+Sets mExpType to Equality, to indicate \fBExp\fP == 0\&. 
+.SS "void iegenlib::Exp::setExpression ()\fC [inline]\fP"
+
+.PP
+Calls the ExpCase for the visitor design pattern\&. Sets mExpType to Expression, for a simple expression 
+.SS "void iegenlib::Exp::setInequality ()\fC [inline]\fP"
+
+.PP
+Sets mExpType to Inequality, to indicate \fBExp\fP >= 0\&. 
+.SS "\fBExp\fP * iegenlib::Exp::solveForFactor (\fBTerm\fP * factor) const"
+Assumes the equality \fBExp\fP=0 and solves for the given factor\&. FIXME: should only work on equality expressions\&. Really? /param factor (adopted) 
+.br
+ 
+.SS "void iegenlib::Exp::substitute (\fBSubMap\fP & searchTermToSubExp)"
+Substitute each expression for the factor (i\&.e\&. the non-coefficient part of a term), which is its key\&. 
+.SS "std::string iegenlib::Exp::toDotString (int & next_id) const"
+Output the \fBExp\fP in dot format\&. Note here, we still need to provide 'digraph name {' and '}' Pass in the parent node id and the next node id\&. The next node id will be set upon exit from this routine\&. If no parent id is given then will not draw edge from parent to self\&.
+.PP
+Output the \fBExp\fP in dot format\&. Pass in the next node id\&. The next node id will be set to next id upon exit from this routine\&. 
+.SS "std::string iegenlib::Exp::toDotString (int parent_id, int & next_id) const"
+Output the \fBExp\fP in dot format\&. Pass in the parent node id and the next node id\&. The next node id will be set upon exit from this routine\&. 
+.SS "std::string iegenlib::Exp::toString () const\fC [virtual]\fP"
+
+.PP
+Creates a compact string to help with debugging\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

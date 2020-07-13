@@ -1,0 +1,194 @@
+.TH "out/coo_hicoo_insp.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/coo_hicoo_insp.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <limits\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBabsmin\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBabsmax\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBsgn\fP(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset5\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  \fBm\fP,  M,  \fBN\fP,  \fBP\fP,  Q)   ((\fBm\fP)+((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))*(Q))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBval\fP(\fBn\fP)   val[(\fBn\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbval\fP(\fBp\fP)   (*bval)[(\fBp\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbmap\fP(\fBb\fP,  bi,  bj,  bk,  \fBm\fP)   bmap[(bi)][(bj)][(bk)][(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbp\fP(\fBb\fP)   (*bp)[(\fBb\fP)]"
+.br
+.ti -1c
+.RI "#define \fBbsize\fP(\fBb\fP,  bi,  bj,  bk)   bsize[(bi)][(bj)][(bk)]"
+.br
+.ti -1c
+.RI "#define \fBp\fP(\fBi\fP)   p"
+.br
+.ti -1c
+.RI "#define \fBind\fP(\fBm\fP,  \fBn\fP)   indices[\fBoffset2\fP((\fBm\fP),(\fBn\fP),M)]"
+.br
+.ti -1c
+.RI "#define \fBbind\fP(\fBm\fP,  \fBb\fP)   (*bindices)[\fBoffset2\fP((\fBb\fP),(\fBm\fP),ord)]"
+.br
+.ti -1c
+.RI "#define \fBeind\fP(\fBm\fP,  \fBn\fP)   (*eindices)[\fBoffset2\fP((\fBn\fP),(\fBm\fP),ord)]"
+.br
+.ti -1c
+.RI "#define \fBclz\fP(\fBx\fP)   __builtin_clz((\fBx\fP))"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef unsigned int \fBuint\fP"
+.br
+.ti -1c
+.RI "typedef unsigned short \fBushort\fP"
+.br
+.ti -1c
+.RI "typedef unsigned char \fBbyte\fP"
+.br
+.ti -1c
+.RI "typedef float \fBreal\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBilog2\fP (unsigned \fBx\fP)"
+.br
+.ti -1c
+.RI "unsigned \fBcoo_hicoo_insp\fP (\fBconst\fP float *\fBval\fP, \fBconst\fP unsigned \fBB\fP, \fBconst\fP unsigned M, \fBconst\fP unsigned \fBN\fP, \fBconst\fP unsigned *\fBdim\fP, \fBconst\fP unsigned *indices, \fBreal\fP **\fBbval\fP, unsigned short **bindices, unsigned **\fBbp\fP, unsigned char **eindices)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define absmax(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmax\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define absmin(\fBx\fP, \fBy\fP)   ((\fBx\fP)=\fBmin\fP(\fBabs\fP((\fBx\fP)),\fBabs\fP((\fBy\fP))))"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define bind(\fBm\fP, \fBb\fP)   (*bindices)[\fBoffset2\fP((\fBb\fP),(\fBm\fP),ord)]"
+
+.SS "#define bmap(\fBb\fP, bi, bj, bk, \fBm\fP)   bmap[(bi)][(bj)][(bk)][(\fBm\fP)]"
+
+.SS "#define bp(\fBb\fP)   (*bp)[(\fBb\fP)]"
+
+.SS "#define bsize(\fBb\fP, bi, bj, bk)   bsize[(bi)][(bj)][(bk)]"
+
+.SS "#define bval(\fBp\fP)   (*bval)[(\fBp\fP)]"
+
+.SS "#define clz(\fBx\fP)   __builtin_clz((\fBx\fP))"
+
+.SS "#define eind(\fBm\fP, \fBn\fP)   (*eindices)[\fBoffset2\fP((\fBn\fP),(\fBm\fP),ord)]"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define ind(\fBm\fP, \fBn\fP)   indices[\fBoffset2\fP((\fBm\fP),(\fBn\fP),M)]"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define offset5(\fBi\fP, \fBj\fP, \fBk\fP, l, \fBm\fP, M, \fBN\fP, \fBP\fP, Q)   ((\fBm\fP)+((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))*(Q))"
+
+.SS "#define p(\fBi\fP)   p"
+
+.SS "#define sgn(\fBx\fP)   ((\fBx\fP)<0?\-1:1)"
+
+.SS "#define val(\fBn\fP)   val[(\fBn\fP)]"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef unsigned char \fBbyte\fP"
+
+.SS "typedef float \fBreal\fP"
+
+.SS "typedef unsigned int \fBuint\fP"
+
+.SS "typedef unsigned short \fBushort\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "unsigned coo_hicoo_insp (\fBconst\fP float * val, \fBconst\fP unsigned B, \fBconst\fP unsigned M, \fBconst\fP unsigned N, \fBconst\fP unsigned * dim, \fBconst\fP unsigned * indices, \fBreal\fP ** bval, unsigned short ** bindices, unsigned ** bp, unsigned char ** eindices)\fC [inline]\fP"
+
+.SS "unsigned ilog2 (unsigned x)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

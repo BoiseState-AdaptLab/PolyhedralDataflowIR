@@ -1,0 +1,148 @@
+.TH "testing::internal::FloatingPoint< RawType >" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+testing::internal::FloatingPoint< RawType >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <gtest\-internal\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBTypeWithSize\fP< sizeof(RawType)>::UInt \fBBits\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFloatingPoint\fP (\fBconst\fP RawType &\fBx\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP \fBBits\fP & \fBbits\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBBits\fP \fBexponent_bits\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBBits\fP \fBfraction_bits\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBBits\fP \fBsign_bit\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBis_nan\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBAlmostEquals\fP (\fBconst\fP \fBFloatingPoint\fP &\fBrhs\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "float \fBMax\fP ()"
+.br
+.ti -1c
+.RI "double \fBMax\fP ()"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static RawType \fBReinterpretBits\fP (\fBconst\fP \fBBits\fP \fBbits\fP)"
+.br
+.ti -1c
+.RI "static RawType \fBInfinity\fP ()"
+.br
+.ti -1c
+.RI "static RawType \fBMax\fP ()"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBconst\fP size_t \fBkBitCount\fP = 8*sizeof(RawType)"
+.br
+.ti -1c
+.RI "static \fBconst\fP size_t \fBkFractionBitCount\fP"
+.br
+.ti -1c
+.RI "static \fBconst\fP size_t \fBkExponentBitCount\fP = \fBkBitCount\fP \- 1 \- \fBkFractionBitCount\fP"
+.br
+.ti -1c
+.RI "static \fBconst\fP \fBBits\fP \fBkSignBitMask\fP = static_cast<\fBBits\fP>(1) << (\fBkBitCount\fP \- 1)"
+.br
+.ti -1c
+.RI "static \fBconst\fP \fBBits\fP \fBkFractionBitMask\fP"
+.br
+.ti -1c
+.RI "static \fBconst\fP \fBBits\fP \fBkExponentBitMask\fP = ~(\fBkSignBitMask\fP | \fBkFractionBitMask\fP)"
+.br
+.ti -1c
+.RI "static \fBconst\fP size_t \fBkMaxUlps\fP = 4"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename RawType > typedef \fBTypeWithSize\fP<sizeof(RawType)>::UInt \fBtesting::internal::FloatingPoint\fP< RawType >::\fBBits\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename RawType > \fBtesting::internal::FloatingPoint\fP< RawType >::\fBFloatingPoint\fP (\fBconst\fP RawType & x)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename RawType > bool \fBtesting::internal::FloatingPoint\fP< RawType >::AlmostEquals (\fBconst\fP \fBFloatingPoint\fP< RawType > & rhs) const\fC [inline]\fP"
+
+.SS "template<typename RawType > \fBconst\fP \fBBits\fP& \fBtesting::internal::FloatingPoint\fP< RawType >::bits () const\fC [inline]\fP"
+
+.SS "template<typename RawType > \fBBits\fP \fBtesting::internal::FloatingPoint\fP< RawType >::exponent_bits () const\fC [inline]\fP"
+
+.SS "template<typename RawType > \fBBits\fP \fBtesting::internal::FloatingPoint\fP< RawType >::fraction_bits () const\fC [inline]\fP"
+
+.SS "template<typename RawType > static RawType \fBtesting::internal::FloatingPoint\fP< RawType >::Infinity ()\fC [inline]\fP, \fC [static]\fP"
+
+.SS "template<typename RawType > bool \fBtesting::internal::FloatingPoint\fP< RawType >::is_nan () const\fC [inline]\fP"
+
+.SS "template<typename RawType > static RawType \fBtesting::internal::FloatingPoint\fP< RawType >::Max ()\fC [static]\fP"
+
+.SS "float \fBtesting::internal::FloatingPoint\fP< float >::Max ()\fC [inline]\fP"
+
+.SS "double \fBtesting::internal::FloatingPoint\fP< double >::Max ()\fC [inline]\fP"
+
+.SS "template<typename RawType > static RawType \fBtesting::internal::FloatingPoint\fP< RawType >::ReinterpretBits (\fBconst\fP \fBBits\fP bits)\fC [inline]\fP, \fC [static]\fP"
+
+.SS "template<typename RawType > \fBBits\fP \fBtesting::internal::FloatingPoint\fP< RawType >::sign_bit () const\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename RawType > \fBconst\fP size_t \fBtesting::internal::FloatingPoint\fP< RawType >::kBitCount = 8*sizeof(RawType)\fC [static]\fP"
+
+.SS "template<typename RawType > \fBconst\fP size_t \fBtesting::internal::FloatingPoint\fP< RawType >::kExponentBitCount = \fBkBitCount\fP \- 1 \- \fBkFractionBitCount\fP\fC [static]\fP"
+
+.SS "template<typename RawType > \fBconst\fP \fBBits\fP \fBtesting::internal::FloatingPoint\fP< RawType >::kExponentBitMask = ~(\fBkSignBitMask\fP | \fBkFractionBitMask\fP)\fC [static]\fP"
+
+.SS "template<typename RawType > \fBconst\fP size_t \fBtesting::internal::FloatingPoint\fP< RawType >::kFractionBitCount\fC [static]\fP"
+\fBInitial value:\fP
+.PP
+.nf
+=
+    std::numeric_limits<RawType>::digits - 1
+.fi
+.SS "template<typename RawType > \fBconst\fP \fBBits\fP \fBtesting::internal::FloatingPoint\fP< RawType >::kFractionBitMask\fC [static]\fP"
+\fBInitial value:\fP
+.PP
+.nf
+=
+    ~static_cast<Bits>(0) >> (kExponentBitCount + 1)
+.fi
+.SS "template<typename RawType > \fBconst\fP size_t \fBtesting::internal::FloatingPoint\fP< RawType >::kMaxUlps = 4\fC [static]\fP"
+
+.SS "template<typename RawType > \fBconst\fP \fBBits\fP \fBtesting::internal::FloatingPoint\fP< RawType >::kSignBitMask = static_cast<\fBBits\fP>(1) << (\fBkBitCount\fP \- 1)\fC [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

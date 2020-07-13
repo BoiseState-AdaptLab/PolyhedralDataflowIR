@@ -1,0 +1,4219 @@
+.TH "lib/gmp/gmp.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/gmp/gmp.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stddef\&.h>\fP
+.br
+\fC#include <limits\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fB__mpz_struct\fP"
+.br
+.ti -1c
+.RI "struct \fB__mpq_struct\fP"
+.br
+.ti -1c
+.RI "struct \fB__mpf_struct\fP"
+.br
+.ti -1c
+.RI "struct \fB__gmp_randstate_struct\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__GMP_HAVE_HOST_CPU_FAMILY_power\fP   0"
+.br
+.ti -1c
+.RI "#define \fB__GMP_HAVE_HOST_CPU_FAMILY_powerpc\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGMP_LIMB_BITS\fP   64"
+.br
+.ti -1c
+.RI "#define \fBGMP_NAIL_BITS\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGMP_NUMB_BITS\fP   (\fBGMP_LIMB_BITS\fP \- \fBGMP_NAIL_BITS\fP)"
+.br
+.ti -1c
+.RI "#define \fBGMP_NUMB_MASK\fP   ((~ \fB__GMP_CAST\fP (\fBmp_limb_t\fP, 0)) >> \fBGMP_NAIL_BITS\fP)"
+.br
+.ti -1c
+.RI "#define \fBGMP_NUMB_MAX\fP   \fBGMP_NUMB_MASK\fP"
+.br
+.ti -1c
+.RI "#define \fBGMP_NAIL_MASK\fP   (~ \fBGMP_NUMB_MASK\fP)"
+.br
+.ti -1c
+.RI "#define \fB__GNU_MP__\fP   6"
+.br
+.ti -1c
+.RI "#define \fB__GMP_LIBGMP_DLL\fP   0"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DECLSPEC\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMP_MP_SIZE_T_INT\fP   0"
+.br
+.ti -1c
+.RI "#define \fB__GMP_DECLSPEC_XX\fP"
+.br
+.ti -1c
+.RI "#define \fB__MPN\fP(\fBx\fP)   __gmpn_##\fBx\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMP_GNUC_PREREQ\fP(maj,  \fBmin\fP)   0"
+.br
+.ti -1c
+.RI "#define \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMP_CAST\fP(type,  expr)   ((type) (expr))"
+.br
+.ti -1c
+.RI "#define \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMP_INLINE_PROTOTYPES\fP   1"
+.br
+.ti -1c
+.RI "#define \fB__GMP_ABS\fP(\fBx\fP)   ((\fBx\fP) >= 0 ? (\fBx\fP) : \-(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fB__GMP_MAX\fP(h,  \fBi\fP)   ((h) > (\fBi\fP) ? (h) : (\fBi\fP))"
+.br
+.ti -1c
+.RI "#define \fB__GMP_LIKELY\fP(cond)   (cond)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_UNLIKELY\fP(cond)   (cond)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_CRAY_Pragma\fP(\fBstr\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpq_numref\fP(Q)   (&((Q)\->_mp_num))"
+.br
+.ti -1c
+.RI "#define \fBmpq_denref\fP(Q)   (&((Q)\->_mp_den))"
+.br
+.ti -1c
+.RI "#define \fBmp_set_memory_functions\fP   __gmp_set_memory_functions"
+.br
+.ti -1c
+.RI "#define \fBmp_get_memory_functions\fP   __gmp_get_memory_functions"
+.br
+.ti -1c
+.RI "#define \fBmp_bits_per_limb\fP   __gmp_bits_per_limb"
+.br
+.ti -1c
+.RI "#define \fBgmp_errno\fP   __gmp_errno"
+.br
+.ti -1c
+.RI "#define \fBgmp_version\fP   __gmp_version"
+.br
+.ti -1c
+.RI "#define \fBgmp_randinit\fP   __gmp_randinit"
+.br
+.ti -1c
+.RI "#define \fBgmp_randinit_default\fP   __gmp_randinit_default"
+.br
+.ti -1c
+.RI "#define \fBgmp_randinit_lc_2exp\fP   __gmp_randinit_lc_2exp"
+.br
+.ti -1c
+.RI "#define \fBgmp_randinit_lc_2exp_size\fP   __gmp_randinit_lc_2exp_size"
+.br
+.ti -1c
+.RI "#define \fBgmp_randinit_mt\fP   __gmp_randinit_mt"
+.br
+.ti -1c
+.RI "#define \fBgmp_randinit_set\fP   __gmp_randinit_set"
+.br
+.ti -1c
+.RI "#define \fBgmp_randseed\fP   __gmp_randseed"
+.br
+.ti -1c
+.RI "#define \fBgmp_randseed_ui\fP   __gmp_randseed_ui"
+.br
+.ti -1c
+.RI "#define \fBgmp_randclear\fP   __gmp_randclear"
+.br
+.ti -1c
+.RI "#define \fBgmp_urandomb_ui\fP   __gmp_urandomb_ui"
+.br
+.ti -1c
+.RI "#define \fBgmp_urandomm_ui\fP   __gmp_urandomm_ui"
+.br
+.ti -1c
+.RI "#define \fBgmp_asprintf\fP   __gmp_asprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_fprintf\fP   __gmp_fprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_obstack_printf\fP   __gmp_obstack_printf"
+.br
+.ti -1c
+.RI "#define \fBgmp_obstack_vprintf\fP   __gmp_obstack_vprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_printf\fP   __gmp_printf"
+.br
+.ti -1c
+.RI "#define \fBgmp_snprintf\fP   __gmp_snprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_sprintf\fP   __gmp_sprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_vasprintf\fP   __gmp_vasprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_vfprintf\fP   __gmp_vfprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_vprintf\fP   __gmp_vprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_vsnprintf\fP   __gmp_vsnprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_vsprintf\fP   __gmp_vsprintf"
+.br
+.ti -1c
+.RI "#define \fBgmp_fscanf\fP   __gmp_fscanf"
+.br
+.ti -1c
+.RI "#define \fBgmp_scanf\fP   __gmp_scanf"
+.br
+.ti -1c
+.RI "#define \fBgmp_sscanf\fP   __gmp_sscanf"
+.br
+.ti -1c
+.RI "#define \fBgmp_vfscanf\fP   __gmp_vfscanf"
+.br
+.ti -1c
+.RI "#define \fBgmp_vscanf\fP   __gmp_vscanf"
+.br
+.ti -1c
+.RI "#define \fBgmp_vsscanf\fP   __gmp_vsscanf"
+.br
+.ti -1c
+.RI "#define \fB_mpz_realloc\fP   __gmpz_realloc"
+.br
+.ti -1c
+.RI "#define \fBmpz_realloc\fP   __gmpz_realloc"
+.br
+.ti -1c
+.RI "#define \fBmpz_abs\fP   __gmpz_abs"
+.br
+.ti -1c
+.RI "#define \fBmpz_add\fP   __gmpz_add"
+.br
+.ti -1c
+.RI "#define \fBmpz_add_ui\fP   __gmpz_add_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_addmul\fP   __gmpz_addmul"
+.br
+.ti -1c
+.RI "#define \fBmpz_addmul_ui\fP   __gmpz_addmul_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_and\fP   __gmpz_and"
+.br
+.ti -1c
+.RI "#define \fBmpz_array_init\fP   __gmpz_array_init"
+.br
+.ti -1c
+.RI "#define \fBmpz_bin_ui\fP   __gmpz_bin_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_bin_uiui\fP   __gmpz_bin_uiui"
+.br
+.ti -1c
+.RI "#define \fBmpz_cdiv_q\fP   __gmpz_cdiv_q"
+.br
+.ti -1c
+.RI "#define \fBmpz_cdiv_q_2exp\fP   __gmpz_cdiv_q_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpz_cdiv_q_ui\fP   __gmpz_cdiv_q_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_cdiv_qr\fP   __gmpz_cdiv_qr"
+.br
+.ti -1c
+.RI "#define \fBmpz_cdiv_qr_ui\fP   __gmpz_cdiv_qr_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_cdiv_r\fP   __gmpz_cdiv_r"
+.br
+.ti -1c
+.RI "#define \fBmpz_cdiv_r_2exp\fP   __gmpz_cdiv_r_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpz_cdiv_r_ui\fP   __gmpz_cdiv_r_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_cdiv_ui\fP   __gmpz_cdiv_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_clear\fP   __gmpz_clear"
+.br
+.ti -1c
+.RI "#define \fBmpz_clears\fP   __gmpz_clears"
+.br
+.ti -1c
+.RI "#define \fBmpz_clrbit\fP   __gmpz_clrbit"
+.br
+.ti -1c
+.RI "#define \fBmpz_cmp\fP   __gmpz_cmp"
+.br
+.ti -1c
+.RI "#define \fBmpz_cmp_d\fP   __gmpz_cmp_d"
+.br
+.ti -1c
+.RI "#define \fB_mpz_cmp_si\fP   __gmpz_cmp_si"
+.br
+.ti -1c
+.RI "#define \fB_mpz_cmp_ui\fP   __gmpz_cmp_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_cmpabs\fP   __gmpz_cmpabs"
+.br
+.ti -1c
+.RI "#define \fBmpz_cmpabs_d\fP   __gmpz_cmpabs_d"
+.br
+.ti -1c
+.RI "#define \fBmpz_cmpabs_ui\fP   __gmpz_cmpabs_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_com\fP   __gmpz_com"
+.br
+.ti -1c
+.RI "#define \fBmpz_combit\fP   __gmpz_combit"
+.br
+.ti -1c
+.RI "#define \fBmpz_congruent_p\fP   __gmpz_congruent_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_congruent_2exp_p\fP   __gmpz_congruent_2exp_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_congruent_ui_p\fP   __gmpz_congruent_ui_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_divexact\fP   __gmpz_divexact"
+.br
+.ti -1c
+.RI "#define \fBmpz_divexact_ui\fP   __gmpz_divexact_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_divisible_p\fP   __gmpz_divisible_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_divisible_ui_p\fP   __gmpz_divisible_ui_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_divisible_2exp_p\fP   __gmpz_divisible_2exp_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_dump\fP   __gmpz_dump"
+.br
+.ti -1c
+.RI "#define \fBmpz_export\fP   __gmpz_export"
+.br
+.ti -1c
+.RI "#define \fBmpz_fac_ui\fP   __gmpz_fac_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_2fac_ui\fP   __gmpz_2fac_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_mfac_uiui\fP   __gmpz_mfac_uiui"
+.br
+.ti -1c
+.RI "#define \fBmpz_primorial_ui\fP   __gmpz_primorial_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_fdiv_q\fP   __gmpz_fdiv_q"
+.br
+.ti -1c
+.RI "#define \fBmpz_fdiv_q_2exp\fP   __gmpz_fdiv_q_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpz_fdiv_q_ui\fP   __gmpz_fdiv_q_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_fdiv_qr\fP   __gmpz_fdiv_qr"
+.br
+.ti -1c
+.RI "#define \fBmpz_fdiv_qr_ui\fP   __gmpz_fdiv_qr_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_fdiv_r\fP   __gmpz_fdiv_r"
+.br
+.ti -1c
+.RI "#define \fBmpz_fdiv_r_2exp\fP   __gmpz_fdiv_r_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpz_fdiv_r_ui\fP   __gmpz_fdiv_r_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_fdiv_ui\fP   __gmpz_fdiv_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_fib_ui\fP   __gmpz_fib_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_fib2_ui\fP   __gmpz_fib2_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_fits_sint_p\fP   __gmpz_fits_sint_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_fits_slong_p\fP   __gmpz_fits_slong_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_fits_sshort_p\fP   __gmpz_fits_sshort_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_fits_uint_p\fP   __gmpz_fits_uint_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_fits_ulong_p\fP   __gmpz_fits_ulong_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_fits_ushort_p\fP   __gmpz_fits_ushort_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_gcd\fP   __gmpz_gcd"
+.br
+.ti -1c
+.RI "#define \fBmpz_gcd_ui\fP   __gmpz_gcd_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_gcdext\fP   __gmpz_gcdext"
+.br
+.ti -1c
+.RI "#define \fBmpz_get_d\fP   __gmpz_get_d"
+.br
+.ti -1c
+.RI "#define \fBmpz_get_d_2exp\fP   __gmpz_get_d_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpz_get_si\fP   __gmpz_get_si"
+.br
+.ti -1c
+.RI "#define \fBmpz_get_str\fP   __gmpz_get_str"
+.br
+.ti -1c
+.RI "#define \fBmpz_get_ui\fP   __gmpz_get_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_getlimbn\fP   __gmpz_getlimbn"
+.br
+.ti -1c
+.RI "#define \fBmpz_hamdist\fP   __gmpz_hamdist"
+.br
+.ti -1c
+.RI "#define \fBmpz_import\fP   __gmpz_import"
+.br
+.ti -1c
+.RI "#define \fBmpz_init\fP   __gmpz_init"
+.br
+.ti -1c
+.RI "#define \fBmpz_init2\fP   __gmpz_init2"
+.br
+.ti -1c
+.RI "#define \fBmpz_inits\fP   __gmpz_inits"
+.br
+.ti -1c
+.RI "#define \fBmpz_init_set\fP   __gmpz_init_set"
+.br
+.ti -1c
+.RI "#define \fBmpz_init_set_d\fP   __gmpz_init_set_d"
+.br
+.ti -1c
+.RI "#define \fBmpz_init_set_si\fP   __gmpz_init_set_si"
+.br
+.ti -1c
+.RI "#define \fBmpz_init_set_str\fP   __gmpz_init_set_str"
+.br
+.ti -1c
+.RI "#define \fBmpz_init_set_ui\fP   __gmpz_init_set_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_inp_raw\fP   __gmpz_inp_raw"
+.br
+.ti -1c
+.RI "#define \fBmpz_inp_str\fP   __gmpz_inp_str"
+.br
+.ti -1c
+.RI "#define \fBmpz_invert\fP   __gmpz_invert"
+.br
+.ti -1c
+.RI "#define \fBmpz_ior\fP   __gmpz_ior"
+.br
+.ti -1c
+.RI "#define \fBmpz_jacobi\fP   __gmpz_jacobi"
+.br
+.ti -1c
+.RI "#define \fBmpz_kronecker\fP   \fBmpz_jacobi\fP  /* alias */"
+.br
+.ti -1c
+.RI "#define \fBmpz_kronecker_si\fP   __gmpz_kronecker_si"
+.br
+.ti -1c
+.RI "#define \fBmpz_kronecker_ui\fP   __gmpz_kronecker_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_si_kronecker\fP   __gmpz_si_kronecker"
+.br
+.ti -1c
+.RI "#define \fBmpz_ui_kronecker\fP   __gmpz_ui_kronecker"
+.br
+.ti -1c
+.RI "#define \fBmpz_lcm\fP   __gmpz_lcm"
+.br
+.ti -1c
+.RI "#define \fBmpz_lcm_ui\fP   __gmpz_lcm_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_legendre\fP   \fBmpz_jacobi\fP  /* alias */"
+.br
+.ti -1c
+.RI "#define \fBmpz_lucnum_ui\fP   __gmpz_lucnum_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_lucnum2_ui\fP   __gmpz_lucnum2_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_millerrabin\fP   __gmpz_millerrabin"
+.br
+.ti -1c
+.RI "#define \fBmpz_mod\fP   __gmpz_mod"
+.br
+.ti -1c
+.RI "#define \fBmpz_mod_ui\fP   \fBmpz_fdiv_r_ui\fP /* same as \fBfdiv_r\fP because divisor unsigned */"
+.br
+.ti -1c
+.RI "#define \fBmpz_mul\fP   __gmpz_mul"
+.br
+.ti -1c
+.RI "#define \fBmpz_mul_2exp\fP   __gmpz_mul_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpz_mul_si\fP   __gmpz_mul_si"
+.br
+.ti -1c
+.RI "#define \fBmpz_mul_ui\fP   __gmpz_mul_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_neg\fP   __gmpz_neg"
+.br
+.ti -1c
+.RI "#define \fBmpz_nextprime\fP   __gmpz_nextprime"
+.br
+.ti -1c
+.RI "#define \fBmpz_out_raw\fP   __gmpz_out_raw"
+.br
+.ti -1c
+.RI "#define \fBmpz_out_str\fP   __gmpz_out_str"
+.br
+.ti -1c
+.RI "#define \fBmpz_perfect_power_p\fP   __gmpz_perfect_power_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_perfect_square_p\fP   __gmpz_perfect_square_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_popcount\fP   __gmpz_popcount"
+.br
+.ti -1c
+.RI "#define \fBmpz_pow_ui\fP   __gmpz_pow_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_powm\fP   __gmpz_powm"
+.br
+.ti -1c
+.RI "#define \fBmpz_powm_sec\fP   __gmpz_powm_sec"
+.br
+.ti -1c
+.RI "#define \fBmpz_powm_ui\fP   __gmpz_powm_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_probab_prime_p\fP   __gmpz_probab_prime_p"
+.br
+.ti -1c
+.RI "#define \fBmpz_random\fP   __gmpz_random"
+.br
+.ti -1c
+.RI "#define \fBmpz_random2\fP   __gmpz_random2"
+.br
+.ti -1c
+.RI "#define \fBmpz_realloc2\fP   __gmpz_realloc2"
+.br
+.ti -1c
+.RI "#define \fBmpz_remove\fP   __gmpz_remove"
+.br
+.ti -1c
+.RI "#define \fBmpz_root\fP   __gmpz_root"
+.br
+.ti -1c
+.RI "#define \fBmpz_rootrem\fP   __gmpz_rootrem"
+.br
+.ti -1c
+.RI "#define \fBmpz_rrandomb\fP   __gmpz_rrandomb"
+.br
+.ti -1c
+.RI "#define \fBmpz_scan0\fP   __gmpz_scan0"
+.br
+.ti -1c
+.RI "#define \fBmpz_scan1\fP   __gmpz_scan1"
+.br
+.ti -1c
+.RI "#define \fBmpz_set\fP   __gmpz_set"
+.br
+.ti -1c
+.RI "#define \fBmpz_set_d\fP   __gmpz_set_d"
+.br
+.ti -1c
+.RI "#define \fBmpz_set_f\fP   __gmpz_set_f"
+.br
+.ti -1c
+.RI "#define \fBmpz_set_q\fP   __gmpz_set_q"
+.br
+.ti -1c
+.RI "#define \fBmpz_set_si\fP   __gmpz_set_si"
+.br
+.ti -1c
+.RI "#define \fBmpz_set_str\fP   __gmpz_set_str"
+.br
+.ti -1c
+.RI "#define \fBmpz_set_ui\fP   __gmpz_set_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_setbit\fP   __gmpz_setbit"
+.br
+.ti -1c
+.RI "#define \fBmpz_size\fP   __gmpz_size"
+.br
+.ti -1c
+.RI "#define \fBmpz_sizeinbase\fP   __gmpz_sizeinbase"
+.br
+.ti -1c
+.RI "#define \fBmpz_sqrt\fP   __gmpz_sqrt"
+.br
+.ti -1c
+.RI "#define \fBmpz_sqrtrem\fP   __gmpz_sqrtrem"
+.br
+.ti -1c
+.RI "#define \fBmpz_sub\fP   __gmpz_sub"
+.br
+.ti -1c
+.RI "#define \fBmpz_sub_ui\fP   __gmpz_sub_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_ui_sub\fP   __gmpz_ui_sub"
+.br
+.ti -1c
+.RI "#define \fBmpz_submul\fP   __gmpz_submul"
+.br
+.ti -1c
+.RI "#define \fBmpz_submul_ui\fP   __gmpz_submul_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_swap\fP   __gmpz_swap"
+.br
+.ti -1c
+.RI "#define \fBmpz_tdiv_ui\fP   __gmpz_tdiv_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_tdiv_q\fP   __gmpz_tdiv_q"
+.br
+.ti -1c
+.RI "#define \fBmpz_tdiv_q_2exp\fP   __gmpz_tdiv_q_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpz_tdiv_q_ui\fP   __gmpz_tdiv_q_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_tdiv_qr\fP   __gmpz_tdiv_qr"
+.br
+.ti -1c
+.RI "#define \fBmpz_tdiv_qr_ui\fP   __gmpz_tdiv_qr_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_tdiv_r\fP   __gmpz_tdiv_r"
+.br
+.ti -1c
+.RI "#define \fBmpz_tdiv_r_2exp\fP   __gmpz_tdiv_r_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpz_tdiv_r_ui\fP   __gmpz_tdiv_r_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_tstbit\fP   __gmpz_tstbit"
+.br
+.ti -1c
+.RI "#define \fBmpz_ui_pow_ui\fP   __gmpz_ui_pow_ui"
+.br
+.ti -1c
+.RI "#define \fBmpz_urandomb\fP   __gmpz_urandomb"
+.br
+.ti -1c
+.RI "#define \fBmpz_urandomm\fP   __gmpz_urandomm"
+.br
+.ti -1c
+.RI "#define \fBmpz_xor\fP   __gmpz_xor"
+.br
+.ti -1c
+.RI "#define \fBmpz_eor\fP   __gmpz_xor"
+.br
+.ti -1c
+.RI "#define \fBmpz_limbs_read\fP   __gmpz_limbs_read"
+.br
+.ti -1c
+.RI "#define \fBmpz_limbs_write\fP   __gmpz_limbs_write"
+.br
+.ti -1c
+.RI "#define \fBmpz_limbs_modify\fP   __gmpz_limbs_modify"
+.br
+.ti -1c
+.RI "#define \fBmpz_limbs_finish\fP   __gmpz_limbs_finish"
+.br
+.ti -1c
+.RI "#define \fBmpz_roinit_n\fP   __gmpz_roinit_n"
+.br
+.ti -1c
+.RI "#define \fBMPZ_ROINIT_N\fP(xp,  xs)   {{0, (xs),(xp) }}"
+.br
+.ti -1c
+.RI "#define \fBmpq_abs\fP   __gmpq_abs"
+.br
+.ti -1c
+.RI "#define \fBmpq_add\fP   __gmpq_add"
+.br
+.ti -1c
+.RI "#define \fBmpq_canonicalize\fP   __gmpq_canonicalize"
+.br
+.ti -1c
+.RI "#define \fBmpq_clear\fP   __gmpq_clear"
+.br
+.ti -1c
+.RI "#define \fBmpq_clears\fP   __gmpq_clears"
+.br
+.ti -1c
+.RI "#define \fBmpq_cmp\fP   __gmpq_cmp"
+.br
+.ti -1c
+.RI "#define \fB_mpq_cmp_si\fP   __gmpq_cmp_si"
+.br
+.ti -1c
+.RI "#define \fB_mpq_cmp_ui\fP   __gmpq_cmp_ui"
+.br
+.ti -1c
+.RI "#define \fBmpq_cmp_z\fP   __gmpq_cmp_z"
+.br
+.ti -1c
+.RI "#define \fBmpq_div\fP   __gmpq_div"
+.br
+.ti -1c
+.RI "#define \fBmpq_div_2exp\fP   __gmpq_div_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpq_equal\fP   __gmpq_equal"
+.br
+.ti -1c
+.RI "#define \fBmpq_get_num\fP   __gmpq_get_num"
+.br
+.ti -1c
+.RI "#define \fBmpq_get_den\fP   __gmpq_get_den"
+.br
+.ti -1c
+.RI "#define \fBmpq_get_d\fP   __gmpq_get_d"
+.br
+.ti -1c
+.RI "#define \fBmpq_get_str\fP   __gmpq_get_str"
+.br
+.ti -1c
+.RI "#define \fBmpq_init\fP   __gmpq_init"
+.br
+.ti -1c
+.RI "#define \fBmpq_inits\fP   __gmpq_inits"
+.br
+.ti -1c
+.RI "#define \fBmpq_inp_str\fP   __gmpq_inp_str"
+.br
+.ti -1c
+.RI "#define \fBmpq_inv\fP   __gmpq_inv"
+.br
+.ti -1c
+.RI "#define \fBmpq_mul\fP   __gmpq_mul"
+.br
+.ti -1c
+.RI "#define \fBmpq_mul_2exp\fP   __gmpq_mul_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpq_neg\fP   __gmpq_neg"
+.br
+.ti -1c
+.RI "#define \fBmpq_out_str\fP   __gmpq_out_str"
+.br
+.ti -1c
+.RI "#define \fBmpq_set\fP   __gmpq_set"
+.br
+.ti -1c
+.RI "#define \fBmpq_set_d\fP   __gmpq_set_d"
+.br
+.ti -1c
+.RI "#define \fBmpq_set_den\fP   __gmpq_set_den"
+.br
+.ti -1c
+.RI "#define \fBmpq_set_f\fP   __gmpq_set_f"
+.br
+.ti -1c
+.RI "#define \fBmpq_set_num\fP   __gmpq_set_num"
+.br
+.ti -1c
+.RI "#define \fBmpq_set_si\fP   __gmpq_set_si"
+.br
+.ti -1c
+.RI "#define \fBmpq_set_str\fP   __gmpq_set_str"
+.br
+.ti -1c
+.RI "#define \fBmpq_set_ui\fP   __gmpq_set_ui"
+.br
+.ti -1c
+.RI "#define \fBmpq_set_z\fP   __gmpq_set_z"
+.br
+.ti -1c
+.RI "#define \fBmpq_sub\fP   __gmpq_sub"
+.br
+.ti -1c
+.RI "#define \fBmpq_swap\fP   __gmpq_swap"
+.br
+.ti -1c
+.RI "#define \fBmpf_abs\fP   __gmpf_abs"
+.br
+.ti -1c
+.RI "#define \fBmpf_add\fP   __gmpf_add"
+.br
+.ti -1c
+.RI "#define \fBmpf_add_ui\fP   __gmpf_add_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_ceil\fP   __gmpf_ceil"
+.br
+.ti -1c
+.RI "#define \fBmpf_clear\fP   __gmpf_clear"
+.br
+.ti -1c
+.RI "#define \fBmpf_clears\fP   __gmpf_clears"
+.br
+.ti -1c
+.RI "#define \fBmpf_cmp\fP   __gmpf_cmp"
+.br
+.ti -1c
+.RI "#define \fBmpf_cmp_z\fP   __gmpf_cmp_z"
+.br
+.ti -1c
+.RI "#define \fBmpf_cmp_d\fP   __gmpf_cmp_d"
+.br
+.ti -1c
+.RI "#define \fBmpf_cmp_si\fP   __gmpf_cmp_si"
+.br
+.ti -1c
+.RI "#define \fBmpf_cmp_ui\fP   __gmpf_cmp_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_div\fP   __gmpf_div"
+.br
+.ti -1c
+.RI "#define \fBmpf_div_2exp\fP   __gmpf_div_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpf_div_ui\fP   __gmpf_div_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_dump\fP   __gmpf_dump"
+.br
+.ti -1c
+.RI "#define \fBmpf_eq\fP   __gmpf_eq"
+.br
+.ti -1c
+.RI "#define \fBmpf_fits_sint_p\fP   __gmpf_fits_sint_p"
+.br
+.ti -1c
+.RI "#define \fBmpf_fits_slong_p\fP   __gmpf_fits_slong_p"
+.br
+.ti -1c
+.RI "#define \fBmpf_fits_sshort_p\fP   __gmpf_fits_sshort_p"
+.br
+.ti -1c
+.RI "#define \fBmpf_fits_uint_p\fP   __gmpf_fits_uint_p"
+.br
+.ti -1c
+.RI "#define \fBmpf_fits_ulong_p\fP   __gmpf_fits_ulong_p"
+.br
+.ti -1c
+.RI "#define \fBmpf_fits_ushort_p\fP   __gmpf_fits_ushort_p"
+.br
+.ti -1c
+.RI "#define \fBmpf_floor\fP   __gmpf_floor"
+.br
+.ti -1c
+.RI "#define \fBmpf_get_d\fP   __gmpf_get_d"
+.br
+.ti -1c
+.RI "#define \fBmpf_get_d_2exp\fP   __gmpf_get_d_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpf_get_default_prec\fP   __gmpf_get_default_prec"
+.br
+.ti -1c
+.RI "#define \fBmpf_get_prec\fP   __gmpf_get_prec"
+.br
+.ti -1c
+.RI "#define \fBmpf_get_si\fP   __gmpf_get_si"
+.br
+.ti -1c
+.RI "#define \fBmpf_get_str\fP   __gmpf_get_str"
+.br
+.ti -1c
+.RI "#define \fBmpf_get_ui\fP   __gmpf_get_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_init\fP   __gmpf_init"
+.br
+.ti -1c
+.RI "#define \fBmpf_init2\fP   __gmpf_init2"
+.br
+.ti -1c
+.RI "#define \fBmpf_inits\fP   __gmpf_inits"
+.br
+.ti -1c
+.RI "#define \fBmpf_init_set\fP   __gmpf_init_set"
+.br
+.ti -1c
+.RI "#define \fBmpf_init_set_d\fP   __gmpf_init_set_d"
+.br
+.ti -1c
+.RI "#define \fBmpf_init_set_si\fP   __gmpf_init_set_si"
+.br
+.ti -1c
+.RI "#define \fBmpf_init_set_str\fP   __gmpf_init_set_str"
+.br
+.ti -1c
+.RI "#define \fBmpf_init_set_ui\fP   __gmpf_init_set_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_inp_str\fP   __gmpf_inp_str"
+.br
+.ti -1c
+.RI "#define \fBmpf_integer_p\fP   __gmpf_integer_p"
+.br
+.ti -1c
+.RI "#define \fBmpf_mul\fP   __gmpf_mul"
+.br
+.ti -1c
+.RI "#define \fBmpf_mul_2exp\fP   __gmpf_mul_2exp"
+.br
+.ti -1c
+.RI "#define \fBmpf_mul_ui\fP   __gmpf_mul_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_neg\fP   __gmpf_neg"
+.br
+.ti -1c
+.RI "#define \fBmpf_out_str\fP   __gmpf_out_str"
+.br
+.ti -1c
+.RI "#define \fBmpf_pow_ui\fP   __gmpf_pow_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_random2\fP   __gmpf_random2"
+.br
+.ti -1c
+.RI "#define \fBmpf_reldiff\fP   __gmpf_reldiff"
+.br
+.ti -1c
+.RI "#define \fBmpf_set\fP   __gmpf_set"
+.br
+.ti -1c
+.RI "#define \fBmpf_set_d\fP   __gmpf_set_d"
+.br
+.ti -1c
+.RI "#define \fBmpf_set_default_prec\fP   __gmpf_set_default_prec"
+.br
+.ti -1c
+.RI "#define \fBmpf_set_prec\fP   __gmpf_set_prec"
+.br
+.ti -1c
+.RI "#define \fBmpf_set_prec_raw\fP   __gmpf_set_prec_raw"
+.br
+.ti -1c
+.RI "#define \fBmpf_set_q\fP   __gmpf_set_q"
+.br
+.ti -1c
+.RI "#define \fBmpf_set_si\fP   __gmpf_set_si"
+.br
+.ti -1c
+.RI "#define \fBmpf_set_str\fP   __gmpf_set_str"
+.br
+.ti -1c
+.RI "#define \fBmpf_set_ui\fP   __gmpf_set_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_set_z\fP   __gmpf_set_z"
+.br
+.ti -1c
+.RI "#define \fBmpf_size\fP   __gmpf_size"
+.br
+.ti -1c
+.RI "#define \fBmpf_sqrt\fP   __gmpf_sqrt"
+.br
+.ti -1c
+.RI "#define \fBmpf_sqrt_ui\fP   __gmpf_sqrt_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_sub\fP   __gmpf_sub"
+.br
+.ti -1c
+.RI "#define \fBmpf_sub_ui\fP   __gmpf_sub_ui"
+.br
+.ti -1c
+.RI "#define \fBmpf_swap\fP   __gmpf_swap"
+.br
+.ti -1c
+.RI "#define \fBmpf_trunc\fP   __gmpf_trunc"
+.br
+.ti -1c
+.RI "#define \fBmpf_ui_div\fP   __gmpf_ui_div"
+.br
+.ti -1c
+.RI "#define \fBmpf_ui_sub\fP   __gmpf_ui_sub"
+.br
+.ti -1c
+.RI "#define \fBmpf_urandomb\fP   __gmpf_urandomb"
+.br
+.ti -1c
+.RI "#define \fBmpn_add\fP   \fB__MPN\fP(\fBadd\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_add_1\fP   \fB__MPN\fP(add_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_add_n\fP   \fB__MPN\fP(add_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_addmul_1\fP   \fB__MPN\fP(addmul_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_cmp\fP   \fB__MPN\fP(\fBcmp\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_zero_p\fP   \fB__MPN\fP(zero_p)"
+.br
+.ti -1c
+.RI "#define \fBmpn_divexact_1\fP   \fB__MPN\fP(divexact_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_divexact_by3\fP(dst,  src,  \fBsize\fP)   \fBmpn_divexact_by3c\fP (dst, src, \fBsize\fP, \fB__GMP_CAST\fP (\fBmp_limb_t\fP, 0))"
+.br
+.ti -1c
+.RI "#define \fBmpn_divexact_by3c\fP   \fB__MPN\fP(divexact_by3c)"
+.br
+.ti -1c
+.RI "#define \fBmpn_divmod_1\fP(qp,  np,  nsize,  dlimb)   \fBmpn_divrem_1\fP (qp, \fB__GMP_CAST\fP (\fBmp_size_t\fP, 0), np, nsize, dlimb)"
+.br
+.ti -1c
+.RI "#define \fBmpn_divrem\fP   \fB__MPN\fP(divrem)"
+.br
+.ti -1c
+.RI "#define \fBmpn_divrem_1\fP   \fB__MPN\fP(divrem_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_divrem_2\fP   \fB__MPN\fP(divrem_2)"
+.br
+.ti -1c
+.RI "#define \fBmpn_div_qr_1\fP   \fB__MPN\fP(div_qr_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_div_qr_2\fP   \fB__MPN\fP(div_qr_2)"
+.br
+.ti -1c
+.RI "#define \fBmpn_gcd\fP   \fB__MPN\fP(\fBgcd\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_gcd_1\fP   \fB__MPN\fP(gcd_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_gcdext_1\fP   \fB__MPN\fP(gcdext_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_gcdext\fP   \fB__MPN\fP(gcdext)"
+.br
+.ti -1c
+.RI "#define \fBmpn_get_str\fP   \fB__MPN\fP(\fBget_str\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_hamdist\fP   \fB__MPN\fP(hamdist)"
+.br
+.ti -1c
+.RI "#define \fBmpn_lshift\fP   \fB__MPN\fP(lshift)"
+.br
+.ti -1c
+.RI "#define \fBmpn_mod_1\fP   \fB__MPN\fP(mod_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_mul\fP   \fB__MPN\fP(\fBmul\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_mul_1\fP   \fB__MPN\fP(mul_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_mul_n\fP   \fB__MPN\fP(mul_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sqr\fP   \fB__MPN\fP(sqr)"
+.br
+.ti -1c
+.RI "#define \fBmpn_neg\fP   \fB__MPN\fP(\fBneg\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_com\fP   \fB__MPN\fP(com)"
+.br
+.ti -1c
+.RI "#define \fBmpn_perfect_square_p\fP   \fB__MPN\fP(perfect_square_p)"
+.br
+.ti -1c
+.RI "#define \fBmpn_perfect_power_p\fP   \fB__MPN\fP(perfect_power_p)"
+.br
+.ti -1c
+.RI "#define \fBmpn_popcount\fP   \fB__MPN\fP(popcount)"
+.br
+.ti -1c
+.RI "#define \fBmpn_pow_1\fP   \fB__MPN\fP(pow_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_preinv_mod_1\fP   \fB__MPN\fP(preinv_mod_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_random\fP   \fB__MPN\fP(random)"
+.br
+.ti -1c
+.RI "#define \fBmpn_random2\fP   \fB__MPN\fP(random2)"
+.br
+.ti -1c
+.RI "#define \fBmpn_rshift\fP   \fB__MPN\fP(rshift)"
+.br
+.ti -1c
+.RI "#define \fBmpn_scan0\fP   \fB__MPN\fP(scan0)"
+.br
+.ti -1c
+.RI "#define \fBmpn_scan1\fP   \fB__MPN\fP(scan1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_set_str\fP   \fB__MPN\fP(\fBset_str\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sizeinbase\fP   \fB__MPN\fP(\fBsizeinbase\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sqrtrem\fP   \fB__MPN\fP(sqrtrem)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sub\fP   \fB__MPN\fP(\fBsub\fP)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sub_1\fP   \fB__MPN\fP(sub_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sub_n\fP   \fB__MPN\fP(sub_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_submul_1\fP   \fB__MPN\fP(submul_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_tdiv_qr\fP   \fB__MPN\fP(tdiv_qr)"
+.br
+.ti -1c
+.RI "#define \fBmpn_and_n\fP   \fB__MPN\fP(and_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_andn_n\fP   \fB__MPN\fP(andn_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_nand_n\fP   \fB__MPN\fP(nand_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_ior_n\fP   \fB__MPN\fP(ior_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_iorn_n\fP   \fB__MPN\fP(iorn_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_nior_n\fP   \fB__MPN\fP(nior_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_xor_n\fP   \fB__MPN\fP(xor_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_xnor_n\fP   \fB__MPN\fP(xnor_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_copyi\fP   \fB__MPN\fP(copyi)"
+.br
+.ti -1c
+.RI "#define \fBmpn_copyd\fP   \fB__MPN\fP(copyd)"
+.br
+.ti -1c
+.RI "#define \fBmpn_zero\fP   \fB__MPN\fP(zero)"
+.br
+.ti -1c
+.RI "#define \fBmpn_cnd_add_n\fP   \fB__MPN\fP(cnd_add_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_cnd_sub_n\fP   \fB__MPN\fP(cnd_sub_n)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_add_1\fP   \fB__MPN\fP(sec_add_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_add_1_itch\fP   \fB__MPN\fP(sec_add_1_itch)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_sub_1\fP   \fB__MPN\fP(sec_sub_1)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_sub_1_itch\fP   \fB__MPN\fP(sec_sub_1_itch)"
+.br
+.ti -1c
+.RI "#define \fBmpn_cnd_swap\fP   \fB__MPN\fP(cnd_swap)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_mul\fP   \fB__MPN\fP(sec_mul)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_mul_itch\fP   \fB__MPN\fP(sec_mul_itch)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_sqr\fP   \fB__MPN\fP(sec_sqr)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_sqr_itch\fP   \fB__MPN\fP(sec_sqr_itch)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_powm\fP   \fB__MPN\fP(sec_powm)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_powm_itch\fP   \fB__MPN\fP(sec_powm_itch)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_tabselect\fP   \fB__MPN\fP(sec_tabselect)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_div_qr\fP   \fB__MPN\fP(sec_div_qr)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_div_qr_itch\fP   \fB__MPN\fP(sec_div_qr_itch)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_div_r\fP   \fB__MPN\fP(sec_div_r)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_div_r_itch\fP   \fB__MPN\fP(sec_div_r_itch)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_invert\fP   \fB__MPN\fP(sec_invert)"
+.br
+.ti -1c
+.RI "#define \fBmpn_sec_invert_itch\fP   \fB__MPN\fP(sec_invert_itch)"
+.br
+.ti -1c
+.RI "#define \fB__GMPZ_FITS_UTYPE_P\fP(\fBz\fP,  maxval)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_AORS\fP(cout,  wp,  xp,  xsize,  yp,  ysize,  FUNCTION,  \fBTEST\fP)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_ADD\fP(cout,  wp,  xp,  xsize,  yp,  ysize)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_SUB\fP(cout,  wp,  xp,  xsize,  yp,  ysize)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_AORS_1\fP(cout,  dst,  src,  \fBn\fP,  v,  OP,  CB)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_ADDCB\fP(r,  \fBx\fP,  \fBy\fP)   ((r) < (\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_SUBCB\fP(r,  \fBx\fP,  \fBy\fP)   ((\fBx\fP) < (\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_ADD_1\fP(cout,  dst,  src,  \fBn\fP,  v)   \fB__GMPN_AORS_1\fP(cout, dst, src, \fBn\fP, v, +, \fB__GMPN_ADDCB\fP)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_SUB_1\fP(cout,  dst,  src,  \fBn\fP,  v)   \fB__GMPN_AORS_1\fP(cout, dst, src, \fBn\fP, v, \-, \fB__GMPN_SUBCB\fP)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_CMP\fP(result,  xp,  yp,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_COPY_REST\fP(dst,  src,  \fBsize\fP,  \fBstart\fP)"
+.br
+.ti -1c
+.RI "#define \fB__GMPN_COPY\fP(dst,  src,  \fBsize\fP)   \fB__GMPN_COPY_REST\fP (dst, src, \fBsize\fP, 0)"
+.br
+.ti -1c
+.RI "#define \fBmpz_sgn\fP(Z)   ((Z)\->_mp_size < 0 ? \-1 : (Z)\->_mp_size > 0)"
+.br
+.ti -1c
+.RI "#define \fBmpf_sgn\fP(F)   ((F)\->_mp_size < 0 ? \-1 : (F)\->_mp_size > 0)"
+.br
+.ti -1c
+.RI "#define \fBmpq_sgn\fP(Q)   ((Q)\->_mp_num\&._mp_size < 0 ? \-1 : (Q)\->_mp_num\&._mp_size > 0)"
+.br
+.ti -1c
+.RI "#define \fBmpz_cmp_ui\fP(Z,  UI)   \fB_mpz_cmp_ui\fP (Z,UI)"
+.br
+.ti -1c
+.RI "#define \fBmpz_cmp_si\fP(Z,  UI)   \fB_mpz_cmp_si\fP (Z,UI)"
+.br
+.ti -1c
+.RI "#define \fBmpq_cmp_ui\fP(Q,  NUI,  DUI)   \fB_mpq_cmp_ui\fP (Q,NUI,DUI)"
+.br
+.ti -1c
+.RI "#define \fBmpq_cmp_si\fP(q,  \fBn\fP,  d)   \fB_mpq_cmp_si\fP(q,\fBn\fP,d)"
+.br
+.ti -1c
+.RI "#define \fBmpz_odd_p\fP(\fBz\fP)   (((\fBz\fP)\->_mp_size != 0) & \fB__GMP_CAST\fP (int, (\fBz\fP)\->_mp_d[0]))"
+.br
+.ti -1c
+.RI "#define \fBmpz_even_p\fP(\fBz\fP)   (! \fBmpz_odd_p\fP (\fBz\fP))"
+.br
+.ti -1c
+.RI "#define \fBmpn_divmod\fP(qp,  np,  nsize,  dp,  dsize)   \fBmpn_divrem\fP (qp, \fB__GMP_CAST\fP (\fBmp_size_t\fP, 0), np, nsize, dp, dsize)"
+.br
+.ti -1c
+.RI "#define \fBmpz_mdiv\fP   \fBmpz_fdiv_q\fP"
+.br
+.ti -1c
+.RI "#define \fBmpz_mdivmod\fP   \fBmpz_fdiv_qr\fP"
+.br
+.ti -1c
+.RI "#define \fBmpz_mmod\fP   \fBmpz_fdiv_r\fP"
+.br
+.ti -1c
+.RI "#define \fBmpz_mdiv_ui\fP   \fBmpz_fdiv_q_ui\fP"
+.br
+.ti -1c
+.RI "#define \fBmpz_mdivmod_ui\fP(q,  r,  \fBn\fP,  d)   (((r) == 0) ? \fBmpz_fdiv_q_ui\fP (q,\fBn\fP,d) : \fBmpz_fdiv_qr_ui\fP (q,r,\fBn\fP,d))"
+.br
+.ti -1c
+.RI "#define \fBmpz_mmod_ui\fP(r,  \fBn\fP,  d)   (((r) == 0) ? \fBmpz_fdiv_ui\fP (\fBn\fP,d) : \fBmpz_fdiv_r_ui\fP (r,\fBn\fP,d))"
+.br
+.ti -1c
+.RI "#define \fBmpz_div\fP   \fBmpz_fdiv_q\fP"
+.br
+.ti -1c
+.RI "#define \fBmpz_divmod\fP   \fBmpz_fdiv_qr\fP"
+.br
+.ti -1c
+.RI "#define \fBmpz_div_ui\fP   \fBmpz_fdiv_q_ui\fP"
+.br
+.ti -1c
+.RI "#define \fBmpz_divmod_ui\fP   \fBmpz_fdiv_qr_ui\fP"
+.br
+.ti -1c
+.RI "#define \fBmpz_div_2exp\fP   \fBmpz_fdiv_q_2exp\fP"
+.br
+.ti -1c
+.RI "#define \fBmpz_mod_2exp\fP   \fBmpz_fdiv_r_2exp\fP"
+.br
+.ti -1c
+.RI "#define \fB__GMP_CC\fP   'gcc'"
+.br
+.ti -1c
+.RI "#define \fB__GMP_CFLAGS\fP   '\-O2 \-pedantic \-fomit\-frame\-pointer \-m64 \-mtune=sandybridge \-march=sandybridge'"
+.br
+.ti -1c
+.RI "#define \fB__GNU_MP_VERSION\fP   6"
+.br
+.ti -1c
+.RI "#define \fB__GNU_MP_VERSION_MINOR\fP   1"
+.br
+.ti -1c
+.RI "#define \fB__GNU_MP_VERSION_PATCHLEVEL\fP   2"
+.br
+.ti -1c
+.RI "#define \fB__GNU_MP_RELEASE\fP   (\fB__GNU_MP_VERSION\fP * 10000 + \fB__GNU_MP_VERSION_MINOR\fP * 100 + \fB__GNU_MP_VERSION_PATCHLEVEL\fP)"
+.br
+.ti -1c
+.RI "#define \fB__GMP_H__\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef unsigned long int \fBmp_limb_t\fP"
+.br
+.ti -1c
+.RI "typedef long int \fBmp_limb_signed_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned long int \fBmp_bitcnt_t\fP"
+.br
+.ti -1c
+.RI "typedef \fB__mpz_struct\fP \fBMP_INT\fP"
+.br
+.ti -1c
+.RI "typedef \fB__mpz_struct\fP \fBmpz_t\fP[1]"
+.br
+.ti -1c
+.RI "typedef \fBmp_limb_t\fP * \fBmp_ptr\fP"
+.br
+.ti -1c
+.RI "typedef long int \fBmp_size_t\fP"
+.br
+.ti -1c
+.RI "typedef long int \fBmp_exp_t\fP"
+.br
+.ti -1c
+.RI "typedef \fB__mpq_struct\fP \fBMP_RAT\fP"
+.br
+.ti -1c
+.RI "typedef \fB__mpq_struct\fP \fBmpq_t\fP[1]"
+.br
+.ti -1c
+.RI "typedef \fB__mpf_struct\fP \fBmpf_t\fP[1]"
+.br
+.ti -1c
+.RI "typedef \fB__gmp_randstate_struct\fP \fBgmp_randstate_t\fP[1]"
+.br
+.ti -1c
+.RI "typedef \fB__mpz_struct\fP * \fBmpz_ptr\fP"
+.br
+.ti -1c
+.RI "typedef \fB__mpf_struct\fP * \fBmpf_ptr\fP"
+.br
+.ti -1c
+.RI "typedef \fB__mpq_struct\fP * \fBmpq_ptr\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBgmp_randalg_t\fP { \fBGMP_RAND_ALG_DEFAULT\fP = 0, \fBGMP_RAND_ALG_LC\fP = GMP_RAND_ALG_DEFAULT }"
+.br
+.ti -1c
+.RI "enum { \fBGMP_ERROR_NONE\fP = 0, \fBGMP_ERROR_UNSUPPORTED_ARGUMENT\fP = 1, \fBGMP_ERROR_DIVISION_BY_ZERO\fP = 2, \fBGMP_ERROR_SQRT_OF_NEGATIVE\fP = 4, \fBGMP_ERROR_INVALID_ARGUMENT\fP = 8 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmp_set_memory_functions\fP (void *(*)(size_t), void *(*)(void *, size_t, size_t), void(*)(void *, size_t)) \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmp_get_memory_functions\fP (void *(**)(size_t), void *(**)(void *, size_t, size_t), void(**)(void *, size_t)) \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBgmp_randinit\fP (\fBgmp_randstate_t\fP, \fBgmp_randalg_t\fP,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBgmp_randinit_default\fP (\fBgmp_randstate_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBgmp_randinit_lc_2exp\fP (\fBgmp_randstate_t\fP, \fBmpz_srcptr\fP, unsigned long int, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBgmp_randinit_lc_2exp_size\fP (\fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBgmp_randinit_mt\fP (\fBgmp_randstate_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBgmp_randinit_set\fP (\fBgmp_randstate_t\fP, \fBconst\fP \fB__gmp_randstate_struct\fP *)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBgmp_randseed\fP (\fBgmp_randstate_t\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBgmp_randseed_ui\fP (\fBgmp_randstate_t\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBgmp_randclear\fP (\fBgmp_randstate_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long \fBgmp_urandomb_ui\fP (\fBgmp_randstate_t\fP, unsigned long)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long \fBgmp_urandomm_ui\fP (\fBgmp_randstate_t\fP, unsigned long)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBgmp_asprintf\fP (char **, \fBconst\fP char *,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBgmp_printf\fP (\fBconst\fP char *,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBgmp_snprintf\fP (char *, size_t, \fBconst\fP char *,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBgmp_sprintf\fP (char *, \fBconst\fP char *,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBgmp_scanf\fP (\fBconst\fP char *,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBgmp_sscanf\fP (\fBconst\fP char *, \fBconst\fP char *,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void * \fB_mpz_realloc\fP (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_abs\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_add\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_add_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_addmul\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_addmul_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_and\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_array_init\fP (\fBmpz_ptr\fP, \fBmp_size_t\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_bin_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_bin_uiui\fP (\fBmpz_ptr\fP, unsigned long int, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_cdiv_q\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_cdiv_q_2exp\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_cdiv_q_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_cdiv_qr\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_cdiv_qr_ui\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_cdiv_r\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_cdiv_r_2exp\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_cdiv_r_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_cdiv_ui\fP (\fBmpz_srcptr\fP, unsigned long int) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_clear\fP (\fBmpz_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_clears\fP (\fBmpz_ptr\fP,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_clrbit\fP (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_cmp\fP (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_cmp_d\fP (\fBmpz_srcptr\fP, double) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fB_mpz_cmp_si\fP (\fBmpz_srcptr\fP, signed long int) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fB_mpz_cmp_ui\fP (\fBmpz_srcptr\fP, unsigned long int) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_cmpabs\fP (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_cmpabs_d\fP (\fBmpz_srcptr\fP, double) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_cmpabs_ui\fP (\fBmpz_srcptr\fP, unsigned long int) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_com\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_combit\fP (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_congruent_p\fP (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_congruent_2exp_p\fP (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_congruent_ui_p\fP (\fBmpz_srcptr\fP, unsigned long, unsigned long) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_divexact\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_divexact_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_divisible_p\fP (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_divisible_ui_p\fP (\fBmpz_srcptr\fP, unsigned long) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_divisible_2exp_p\fP (\fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_dump\fP (\fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void * \fBmpz_export\fP (void *, size_t *, int, size_t, int, size_t, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_fac_ui\fP (\fBmpz_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_2fac_ui\fP (\fBmpz_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_mfac_uiui\fP (\fBmpz_ptr\fP, unsigned long int, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_primorial_ui\fP (\fBmpz_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_fdiv_q\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_fdiv_q_2exp\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_fdiv_q_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_fdiv_qr\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_fdiv_qr_ui\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_fdiv_r\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_fdiv_r_2exp\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_fdiv_r_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_fdiv_ui\fP (\fBmpz_srcptr\fP, unsigned long int) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_fib_ui\fP (\fBmpz_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_fib2_ui\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_fits_sint_p\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_fits_slong_p\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_fits_sshort_p\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_fits_uint_p\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_fits_ulong_p\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_fits_ushort_p\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_gcd\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_gcd_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_gcdext\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP double \fBmpz_get_d\fP (\fBmpz_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP double \fBmpz_get_d_2exp\fP (signed long int *, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP long int \fBmpz_get_si\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP char * \fBmpz_get_str\fP (char *, int, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_get_ui\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpz_getlimbn\fP (\fBmpz_srcptr\fP, \fBmp_size_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpz_hamdist\fP (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_import\fP (\fBmpz_ptr\fP, size_t, int, size_t, int, size_t, \fBconst\fP void *)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_init\fP (\fBmpz_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_init2\fP (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_inits\fP (\fBmpz_ptr\fP,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_init_set\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_init_set_d\fP (\fBmpz_ptr\fP, double)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_init_set_si\fP (\fBmpz_ptr\fP, signed long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_init_set_str\fP (\fBmpz_ptr\fP, \fBconst\fP char *, int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_init_set_ui\fP (\fBmpz_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_invert\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_ior\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_jacobi\fP (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_kronecker_si\fP (\fBmpz_srcptr\fP, long) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_kronecker_ui\fP (\fBmpz_srcptr\fP, unsigned long) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_si_kronecker\fP (long, \fBmpz_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_ui_kronecker\fP (unsigned long, \fBmpz_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_lcm\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_lcm_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_lucnum_ui\fP (\fBmpz_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_lucnum2_ui\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_millerrabin\fP (\fBmpz_srcptr\fP, int) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_mod\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_mul\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_mul_2exp\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_mul_si\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_mul_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_neg\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_nextprime\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_perfect_power_p\fP (\fBmpz_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_perfect_square_p\fP (\fBmpz_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpz_popcount\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_pow_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_powm\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_powm_sec\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_powm_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_probab_prime_p\fP (\fBmpz_srcptr\fP, int) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_random\fP (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_random2\fP (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_realloc2\fP (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpz_remove\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_root\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_rootrem\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_rrandomb\fP (\fBmpz_ptr\fP, \fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpz_scan0\fP (\fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpz_scan1\fP (\fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_set\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_set_d\fP (\fBmpz_ptr\fP, double)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_set_f\fP (\fBmpz_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_set_q\fP (\fBmpz_ptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_set_si\fP (\fBmpz_ptr\fP, signed long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_set_str\fP (\fBmpz_ptr\fP, \fBconst\fP char *, int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_set_ui\fP (\fBmpz_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_setbit\fP (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP size_t \fBmpz_size\fP (\fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP size_t \fBmpz_sizeinbase\fP (\fBmpz_srcptr\fP, int) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_sqrt\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_sqrtrem\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_sub\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_sub_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_ui_sub\fP (\fBmpz_ptr\fP, unsigned long int, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_submul\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_submul_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_swap\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP) \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_tdiv_ui\fP (\fBmpz_srcptr\fP, unsigned long int) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_tdiv_q\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_tdiv_q_2exp\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_tdiv_q_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_tdiv_qr\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_tdiv_qr_ui\fP (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_tdiv_r\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_tdiv_r_2exp\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long int \fBmpz_tdiv_r_ui\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpz_tstbit\fP (\fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_ui_pow_ui\fP (\fBmpz_ptr\fP, unsigned long int, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_urandomb\fP (\fBmpz_ptr\fP, \fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_urandomm\fP (\fBmpz_ptr\fP, \fBgmp_randstate_t\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_xor\fP (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_srcptr\fP \fBmpz_limbs_read\fP (\fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_ptr\fP \fBmpz_limbs_write\fP (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_ptr\fP \fBmpz_limbs_modify\fP (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpz_limbs_finish\fP (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmpz_srcptr\fP \fBmpz_roinit_n\fP (\fBmpz_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_abs\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_add\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_canonicalize\fP (\fBmpq_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_clear\fP (\fBmpq_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_clears\fP (\fBmpq_ptr\fP,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpq_cmp\fP (\fBmpq_srcptr\fP, \fBmpq_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fB_mpq_cmp_si\fP (\fBmpq_srcptr\fP, long, unsigned long) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fB_mpq_cmp_ui\fP (\fBmpq_srcptr\fP, unsigned long int, unsigned long int) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpq_cmp_z\fP (\fBmpq_srcptr\fP, \fBmpz_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_div\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_div_2exp\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpq_equal\fP (\fBmpq_srcptr\fP, \fBmpq_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_get_num\fP (\fBmpz_ptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_get_den\fP (\fBmpz_ptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP double \fBmpq_get_d\fP (\fBmpq_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP char * \fBmpq_get_str\fP (char *, int, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_init\fP (\fBmpq_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_inits\fP (\fBmpq_ptr\fP,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_inv\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_mul\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_mul_2exp\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_neg\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_set\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_set_d\fP (\fBmpq_ptr\fP, double)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_set_den\fP (\fBmpq_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_set_f\fP (\fBmpq_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_set_num\fP (\fBmpq_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_set_si\fP (\fBmpq_ptr\fP, signed long int, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpq_set_str\fP (\fBmpq_ptr\fP, \fBconst\fP char *, int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_set_ui\fP (\fBmpq_ptr\fP, unsigned long int, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_set_z\fP (\fBmpq_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_sub\fP (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpq_swap\fP (\fBmpq_ptr\fP, \fBmpq_ptr\fP) \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_abs\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_add\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_add_ui\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_ceil\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_clear\fP (\fBmpf_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_clears\fP (\fBmpf_ptr\fP,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_cmp\fP (\fBmpf_srcptr\fP, \fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_cmp_z\fP (\fBmpf_srcptr\fP, \fBmpz_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_cmp_d\fP (\fBmpf_srcptr\fP, double) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_cmp_si\fP (\fBmpf_srcptr\fP, signed long int) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_cmp_ui\fP (\fBmpf_srcptr\fP, unsigned long int) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_div\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_div_2exp\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_div_ui\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_dump\fP (\fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_eq\fP (\fBmpf_srcptr\fP, \fBmpf_srcptr\fP, \fBmp_bitcnt_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_fits_sint_p\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_fits_slong_p\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_fits_sshort_p\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_fits_uint_p\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_fits_ulong_p\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_fits_ushort_p\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_floor\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP double \fBmpf_get_d\fP (\fBmpf_srcptr\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP double \fBmpf_get_d_2exp\fP (signed long int *, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpf_get_prec\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP long \fBmpf_get_si\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP char * \fBmpf_get_str\fP (char *, \fBmp_exp_t\fP *, int, size_t, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP unsigned long \fBmpf_get_ui\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_init\fP (\fBmpf_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_init2\fP (\fBmpf_ptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_inits\fP (\fBmpf_ptr\fP,\&.\&.\&.)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_init_set\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_init_set_d\fP (\fBmpf_ptr\fP, double)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_init_set_si\fP (\fBmpf_ptr\fP, signed long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_init_set_str\fP (\fBmpf_ptr\fP, \fBconst\fP char *, int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_init_set_ui\fP (\fBmpf_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_integer_p\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_mul\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_mul_2exp\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_mul_ui\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_neg\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_pow_ui\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_random2\fP (\fBmpf_ptr\fP, \fBmp_size_t\fP, \fBmp_exp_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_reldiff\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_set\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_set_d\fP (\fBmpf_ptr\fP, double)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_set_default_prec\fP (\fBmp_bitcnt_t\fP) \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_set_prec\fP (\fBmpf_ptr\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_set_prec_raw\fP (\fBmpf_ptr\fP, \fBmp_bitcnt_t\fP) \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_set_q\fP (\fBmpf_ptr\fP, \fBmpq_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_set_si\fP (\fBmpf_ptr\fP, signed long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpf_set_str\fP (\fBmpf_ptr\fP, \fBconst\fP char *, int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_set_ui\fP (\fBmpf_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_set_z\fP (\fBmpf_ptr\fP, \fBmpz_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP size_t \fBmpf_size\fP (\fBmpf_srcptr\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_sqrt\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_sqrt_ui\fP (\fBmpf_ptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_sub\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_sub_ui\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_swap\fP (\fBmpf_ptr\fP, \fBmpf_ptr\fP) \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_trunc\fP (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_ui_div\fP (\fBmpf_ptr\fP, unsigned long int, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_ui_sub\fP (\fBmpf_ptr\fP, unsigned long int, \fBmpf_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpf_urandomb\fP (\fBmpf_t\fP, \fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_add\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_add_1\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP) \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_add_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_addmul_1\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpn_cmp\fP (\fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpn_zero_p\fP (\fBmp_srcptr\fP, \fBmp_size_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_divexact_1\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_divexact_by3c\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_divrem\fP (\fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_divrem_1\fP (\fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_divrem_2\fP (\fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_div_qr_1\fP (\fBmp_ptr\fP, \fBmp_limb_t\fP *, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_div_qr_2\fP (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_gcd\fP (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_gcd_1\fP (\fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_gcdext_1\fP (\fBmp_limb_signed_t\fP *, \fBmp_limb_signed_t\fP *, \fBmp_limb_t\fP, \fBmp_limb_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_gcdext\fP (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_size_t\fP *, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP size_t \fBmpn_get_str\fP (unsigned char *, int, \fBmp_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpn_hamdist\fP (\fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_lshift\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, unsigned int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_mod_1\fP (\fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_mul\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_mul_1\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_mul_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_sqr\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_neg\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_com\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpn_perfect_square_p\fP (\fBmp_srcptr\fP, \fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpn_perfect_power_p\fP (\fBmp_srcptr\fP, \fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpn_popcount\fP (\fBmp_srcptr\fP, \fBmp_size_t\fP) \fB__GMP_NOTHROW\fP \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_pow_1\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP, \fBmp_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_preinv_mod_1\fP (\fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP, \fBmp_limb_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_random\fP (\fBmp_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_random2\fP (\fBmp_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_rshift\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, unsigned int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpn_scan0\fP (\fBmp_srcptr\fP, \fBmp_bitcnt_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP \fBmpn_scan1\fP (\fBmp_srcptr\fP, \fBmp_bitcnt_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_set_str\fP (\fBmp_ptr\fP, \fBconst\fP unsigned char *, size_t, int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP size_t \fBmpn_sizeinbase\fP (\fBmp_srcptr\fP, \fBmp_size_t\fP, int)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_sqrtrem\fP (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_sub\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_sub_1\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP) \fB__GMP_NOTHROW\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_sub_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_submul_1\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_tdiv_qr\fP (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_and_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_andn_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_nand_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_ior_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_iorn_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_nior_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_xor_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_xnor_n\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_copyi\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_copyd\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_zero\fP (\fBmp_ptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_cnd_add_n\fP (\fBmp_limb_t\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_cnd_sub_n\fP (\fBmp_limb_t\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_sec_add_1\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP, \fBmp_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_sec_add_1_itch\fP (\fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_sec_sub_1\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP, \fBmp_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_sec_sub_1_itch\fP (\fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_cnd_swap\fP (\fBmp_limb_t\fP, volatile \fBmp_limb_t\fP *, volatile \fBmp_limb_t\fP *, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_sec_mul\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_sec_mul_itch\fP (\fBmp_size_t\fP, \fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_sec_sqr\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_sec_sqr_itch\fP (\fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_sec_powm\fP (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_bitcnt_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_sec_powm_itch\fP (\fBmp_size_t\fP, \fBmp_bitcnt_t\fP, \fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_sec_tabselect\fP (volatile \fBmp_limb_t\fP *, volatile \fBconst\fP \fBmp_limb_t\fP *, \fBmp_size_t\fP, \fBmp_size_t\fP, \fBmp_size_t\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP \fBmpn_sec_div_qr\fP (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_sec_div_qr_itch\fP (\fBmp_size_t\fP, \fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP void \fBmpn_sec_div_r\fP (\fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_sec_div_r_itch\fP (\fBmp_size_t\fP, \fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBmpn_sec_invert\fP (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_bitcnt_t\fP, \fBmp_ptr\fP)"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP \fBmpn_sec_invert_itch\fP (\fBmp_size_t\fP) \fB__GMP_ATTRIBUTE_PURE\fP"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP typedef \fBmp_limb_t\fP * \fBmp_srcptr\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP typedef \fB__mpz_struct\fP * \fBmpz_srcptr\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP typedef \fB__mpf_struct\fP * \fBmpf_srcptr\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP typedef \fB__mpq_struct\fP * \fBmpq_srcptr\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fB__GMP_DECLSPEC\fP int \fBmp_bits_per_limb\fP"
+.br
+.ti -1c
+.RI "\fB__GMP_DECLSPEC\fP int \fBgmp_errno\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP \fB__GMP_DECLSPEC\fP char *\fBconst\fP \fBgmp_version\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define __GMP_ABS(\fBx\fP)   ((\fBx\fP) >= 0 ? (\fBx\fP) : \-(\fBx\fP))"
+
+.SS "#define __GMP_ATTRIBUTE_PURE"
+
+.SS "#define __GMP_CAST(type, expr)   ((type) (expr))"
+
+.SS "#define __GMP_CC   'gcc'"
+
+.SS "#define __GMP_CFLAGS   '\-O2 \-pedantic \-fomit\-frame\-pointer \-m64 \-mtune=sandybridge \-march=sandybridge'"
+
+.SS "#define __GMP_CRAY_Pragma(\fBstr\fP)"
+
+.SS "#define __GMP_DECLSPEC"
+
+.SS "#define __GMP_DECLSPEC_XX"
+
+.SS "#define __GMP_GNUC_PREREQ(maj, \fBmin\fP)   0"
+
+.SS "#define __GMP_H__"
+
+.SS "#define __GMP_HAVE_HOST_CPU_FAMILY_power   0"
+
+.SS "#define __GMP_HAVE_HOST_CPU_FAMILY_powerpc   0"
+
+.SS "#define __GMP_INLINE_PROTOTYPES   1"
+
+.SS "#define __GMP_LIBGMP_DLL   0"
+
+.SS "#define __GMP_LIKELY(cond)   (cond)"
+
+.SS "#define __GMP_MAX(h, \fBi\fP)   ((h) > (\fBi\fP) ? (h) : (\fBi\fP))"
+
+.SS "#define __GMP_MP_SIZE_T_INT   0"
+
+.SS "#define __GMP_NOTHROW"
+
+.SS "#define __GMP_UNLIKELY(cond)   (cond)"
+
+.SS "#define __GMPN_ADD(cout, wp, xp, xsize, yp, ysize)"
+\fBValue:\fP
+.PP
+.nf
+  __GMPN_AORS (cout, wp, xp, xsize, yp, ysize, mpn_add_n,       \
+               (((wp)[__gmp_i++] = (__gmp_x + 1) & GMP_NUMB_MASK) == 0))
+.fi
+.SS "#define __GMPN_ADD_1(cout, dst, src, \fBn\fP, v)   \fB__GMPN_AORS_1\fP(cout, dst, src, \fBn\fP, v, +, \fB__GMPN_ADDCB\fP)"
+
+.SS "#define __GMPN_ADDCB(r, \fBx\fP, \fBy\fP)   ((r) < (\fBy\fP))"
+
+.SS "#define __GMPN_AORS(cout, wp, xp, xsize, yp, ysize, FUNCTION, \fBTEST\fP)"
+
+.SS "#define __GMPN_AORS_1(cout, dst, src, \fBn\fP, v, OP, CB)"
+
+.SS "#define __GMPN_CMP(result, xp, yp, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                                                  \
+    mp_size_t  __gmp_i;                                                 \
+    mp_limb_t  __gmp_x, __gmp_y;                                        \
+                                                                        \
+    /* ASSERT ((size) >= 0); */                                         \
+                                                                        \
+    (result) = 0;                                                       \
+    __gmp_i = (size);                                                   \
+    while (--__gmp_i >= 0)                                              \
+      {                                                                 \
+        __gmp_x = (xp)[__gmp_i];                                        \
+        __gmp_y = (yp)[__gmp_i];                                        \
+        if (__gmp_x != __gmp_y)                                         \
+          {                                                             \
+            /* Cannot use __gmp_x - __gmp_y, may overflow an "int" */   \
+            (result) = (__gmp_x > __gmp_y ? 1 : -1);                    \
+            break;                                                      \
+          }                                                             \
+      }                                                                 \
+  } while (0)
+.fi
+.SS "#define __GMPN_COPY(dst, src, \fBsize\fP)   \fB__GMPN_COPY_REST\fP (dst, src, \fBsize\fP, 0)"
+
+.SS "#define __GMPN_COPY_REST(dst, src, \fBsize\fP, \fBstart\fP)"
+\fBValue:\fP
+.PP
+.nf
+  do {                                                          \
+    mp_size_t __gmp_j;                                          \
+    /* ASSERT ((size) >= 0); */                                 \
+    /* ASSERT ((start) >= 0); */                                \
+    /* ASSERT ((start) <= (size)); */                           \
+    /* ASSERT (MPN_SAME_OR_SEPARATE_P (dst, src, size)); */     \
+    __GMP_CRAY_Pragma ("_CRI ivdep");                           \
+    for (__gmp_j = (start); __gmp_j < (size); __gmp_j++)        \
+      (dst)[__gmp_j] = (src)[__gmp_j];                          \
+  } while (0)
+.fi
+.SS "#define __GMPN_SUB(cout, wp, xp, xsize, yp, ysize)"
+\fBValue:\fP
+.PP
+.nf
+  __GMPN_AORS (cout, wp, xp, xsize, yp, ysize, mpn_sub_n,       \
+               (((wp)[__gmp_i++] = (__gmp_x - 1) & GMP_NUMB_MASK), __gmp_x == 0))
+.fi
+.SS "#define __GMPN_SUB_1(cout, dst, src, \fBn\fP, v)   \fB__GMPN_AORS_1\fP(cout, dst, src, \fBn\fP, v, \-, \fB__GMPN_SUBCB\fP)"
+
+.SS "#define __GMPN_SUBCB(r, \fBx\fP, \fBy\fP)   ((\fBx\fP) < (\fBy\fP))"
+
+.SS "#define __GMPZ_FITS_UTYPE_P(\fBz\fP, maxval)"
+\fBValue:\fP
+.PP
+.nf
+  mp_size_t  __gmp_n = z->_mp_size;                  \
+  mp_ptr  __gmp_p = z->_mp_d;                       \
+  return (__gmp_n == 0 || (__gmp_n == 1 && __gmp_p[0] <= maxval));
+.fi
+.SS "#define __GNU_MP__   6"
+
+.SS "#define __GNU_MP_RELEASE   (\fB__GNU_MP_VERSION\fP * 10000 + \fB__GNU_MP_VERSION_MINOR\fP * 100 + \fB__GNU_MP_VERSION_PATCHLEVEL\fP)"
+
+.SS "#define __GNU_MP_VERSION   6"
+
+.SS "#define __GNU_MP_VERSION_MINOR   1"
+
+.SS "#define __GNU_MP_VERSION_PATCHLEVEL   2"
+
+.SS "#define __MPN(\fBx\fP)   __gmpn_##\fBx\fP"
+
+.SS "#define _mpq_cmp_si   __gmpq_cmp_si"
+
+.SS "#define _mpq_cmp_ui   __gmpq_cmp_ui"
+
+.SS "#define _mpz_cmp_si   __gmpz_cmp_si"
+
+.SS "#define _mpz_cmp_ui   __gmpz_cmp_ui"
+
+.SS "#define _mpz_realloc   __gmpz_realloc"
+
+.SS "#define gmp_asprintf   __gmp_asprintf"
+
+.SS "#define gmp_errno   __gmp_errno"
+
+.SS "#define gmp_fprintf   __gmp_fprintf"
+
+.SS "#define gmp_fscanf   __gmp_fscanf"
+
+.SS "#define GMP_LIMB_BITS   64"
+
+.SS "#define GMP_NAIL_BITS   0"
+
+.SS "#define GMP_NAIL_MASK   (~ \fBGMP_NUMB_MASK\fP)"
+
+.SS "#define GMP_NUMB_BITS   (\fBGMP_LIMB_BITS\fP \- \fBGMP_NAIL_BITS\fP)"
+
+.SS "#define GMP_NUMB_MASK   ((~ \fB__GMP_CAST\fP (\fBmp_limb_t\fP, 0)) >> \fBGMP_NAIL_BITS\fP)"
+
+.SS "#define GMP_NUMB_MAX   \fBGMP_NUMB_MASK\fP"
+
+.SS "#define gmp_obstack_printf   __gmp_obstack_printf"
+
+.SS "#define gmp_obstack_vprintf   __gmp_obstack_vprintf"
+
+.SS "#define gmp_printf   __gmp_printf"
+
+.SS "#define gmp_randclear   __gmp_randclear"
+
+.SS "#define gmp_randinit   __gmp_randinit"
+
+.SS "#define gmp_randinit_default   __gmp_randinit_default"
+
+.SS "#define gmp_randinit_lc_2exp   __gmp_randinit_lc_2exp"
+
+.SS "#define gmp_randinit_lc_2exp_size   __gmp_randinit_lc_2exp_size"
+
+.SS "#define gmp_randinit_mt   __gmp_randinit_mt"
+
+.SS "#define gmp_randinit_set   __gmp_randinit_set"
+
+.SS "#define gmp_randseed   __gmp_randseed"
+
+.SS "#define gmp_randseed_ui   __gmp_randseed_ui"
+
+.SS "#define gmp_scanf   __gmp_scanf"
+
+.SS "#define gmp_snprintf   __gmp_snprintf"
+
+.SS "#define gmp_sprintf   __gmp_sprintf"
+
+.SS "#define gmp_sscanf   __gmp_sscanf"
+
+.SS "#define gmp_urandomb_ui   __gmp_urandomb_ui"
+
+.SS "#define gmp_urandomm_ui   __gmp_urandomm_ui"
+
+.SS "#define gmp_vasprintf   __gmp_vasprintf"
+
+.SS "#define gmp_version   __gmp_version"
+
+.SS "#define gmp_vfprintf   __gmp_vfprintf"
+
+.SS "#define gmp_vfscanf   __gmp_vfscanf"
+
+.SS "#define gmp_vprintf   __gmp_vprintf"
+
+.SS "#define gmp_vscanf   __gmp_vscanf"
+
+.SS "#define gmp_vsnprintf   __gmp_vsnprintf"
+
+.SS "#define gmp_vsprintf   __gmp_vsprintf"
+
+.SS "#define gmp_vsscanf   __gmp_vsscanf"
+
+.SS "#define mp_bits_per_limb   __gmp_bits_per_limb"
+
+.SS "#define mp_get_memory_functions   __gmp_get_memory_functions"
+
+.SS "#define mp_set_memory_functions   __gmp_set_memory_functions"
+
+.SS "#define mpf_abs   __gmpf_abs"
+
+.SS "#define mpf_add   __gmpf_add"
+
+.SS "#define mpf_add_ui   __gmpf_add_ui"
+
+.SS "#define mpf_ceil   __gmpf_ceil"
+
+.SS "#define mpf_clear   __gmpf_clear"
+
+.SS "#define mpf_clears   __gmpf_clears"
+
+.SS "#define mpf_cmp   __gmpf_cmp"
+
+.SS "#define mpf_cmp_d   __gmpf_cmp_d"
+
+.SS "#define mpf_cmp_si   __gmpf_cmp_si"
+
+.SS "#define mpf_cmp_ui   __gmpf_cmp_ui"
+
+.SS "#define mpf_cmp_z   __gmpf_cmp_z"
+
+.SS "#define mpf_div   __gmpf_div"
+
+.SS "#define mpf_div_2exp   __gmpf_div_2exp"
+
+.SS "#define mpf_div_ui   __gmpf_div_ui"
+
+.SS "#define mpf_dump   __gmpf_dump"
+
+.SS "#define mpf_eq   __gmpf_eq"
+
+.SS "#define mpf_fits_sint_p   __gmpf_fits_sint_p"
+
+.SS "#define mpf_fits_slong_p   __gmpf_fits_slong_p"
+
+.SS "#define mpf_fits_sshort_p   __gmpf_fits_sshort_p"
+
+.SS "#define mpf_fits_uint_p   __gmpf_fits_uint_p"
+
+.SS "#define mpf_fits_ulong_p   __gmpf_fits_ulong_p"
+
+.SS "#define mpf_fits_ushort_p   __gmpf_fits_ushort_p"
+
+.SS "#define mpf_floor   __gmpf_floor"
+
+.SS "#define mpf_get_d   __gmpf_get_d"
+
+.SS "#define mpf_get_d_2exp   __gmpf_get_d_2exp"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpf_get_default_prec   __gmpf_get_default_prec"
+
+.SS "#define mpf_get_prec   __gmpf_get_prec"
+
+.SS "#define mpf_get_si   __gmpf_get_si"
+
+.SS "#define mpf_get_str   __gmpf_get_str"
+
+.SS "#define mpf_get_ui   __gmpf_get_ui"
+
+.SS "#define mpf_init   __gmpf_init"
+
+.SS "#define mpf_init2   __gmpf_init2"
+
+.SS "#define mpf_init_set   __gmpf_init_set"
+
+.SS "#define mpf_init_set_d   __gmpf_init_set_d"
+
+.SS "#define mpf_init_set_si   __gmpf_init_set_si"
+
+.SS "#define mpf_init_set_str   __gmpf_init_set_str"
+
+.SS "#define mpf_init_set_ui   __gmpf_init_set_ui"
+
+.SS "#define mpf_inits   __gmpf_inits"
+
+.SS "#define mpf_inp_str   __gmpf_inp_str"
+
+.SS "#define mpf_integer_p   __gmpf_integer_p"
+
+.SS "#define mpf_mul   __gmpf_mul"
+
+.SS "#define mpf_mul_2exp   __gmpf_mul_2exp"
+
+.SS "#define mpf_mul_ui   __gmpf_mul_ui"
+
+.SS "#define mpf_neg   __gmpf_neg"
+
+.SS "#define mpf_out_str   __gmpf_out_str"
+
+.SS "#define mpf_pow_ui   __gmpf_pow_ui"
+
+.SS "#define mpf_random2   __gmpf_random2"
+
+.SS "#define mpf_reldiff   __gmpf_reldiff"
+
+.SS "#define mpf_set   __gmpf_set"
+
+.SS "#define mpf_set_d   __gmpf_set_d"
+
+.SS "#define mpf_set_default_prec   __gmpf_set_default_prec"
+
+.SS "#define mpf_set_prec   __gmpf_set_prec"
+
+.SS "#define mpf_set_prec_raw   __gmpf_set_prec_raw"
+
+.SS "#define mpf_set_q   __gmpf_set_q"
+
+.SS "#define mpf_set_si   __gmpf_set_si"
+
+.SS "#define mpf_set_str   __gmpf_set_str"
+
+.SS "#define mpf_set_ui   __gmpf_set_ui"
+
+.SS "#define mpf_set_z   __gmpf_set_z"
+
+.SS "#define mpf_sgn(F)   ((F)\->_mp_size < 0 ? \-1 : (F)\->_mp_size > 0)"
+
+.SS "#define mpf_size   __gmpf_size"
+
+.SS "#define mpf_sqrt   __gmpf_sqrt"
+
+.SS "#define mpf_sqrt_ui   __gmpf_sqrt_ui"
+
+.SS "#define mpf_sub   __gmpf_sub"
+
+.SS "#define mpf_sub_ui   __gmpf_sub_ui"
+
+.SS "#define mpf_swap   __gmpf_swap"
+
+.SS "#define mpf_trunc   __gmpf_trunc"
+
+.SS "#define mpf_ui_div   __gmpf_ui_div"
+
+.SS "#define mpf_ui_sub   __gmpf_ui_sub"
+
+.SS "#define mpf_urandomb   __gmpf_urandomb"
+
+.SS "#define mpn_add   \fB__MPN\fP(\fBadd\fP)"
+
+.SS "#define mpn_add_1   \fB__MPN\fP(add_1)"
+
+.SS "#define mpn_add_n   \fB__MPN\fP(add_n)"
+
+.SS "#define mpn_addmul_1   \fB__MPN\fP(addmul_1)"
+
+.SS "#define mpn_and_n   \fB__MPN\fP(and_n)"
+
+.SS "#define mpn_andn_n   \fB__MPN\fP(andn_n)"
+
+.SS "#define mpn_cmp   \fB__MPN\fP(\fBcmp\fP)"
+
+.SS "#define mpn_cnd_add_n   \fB__MPN\fP(cnd_add_n)"
+
+.SS "#define mpn_cnd_sub_n   \fB__MPN\fP(cnd_sub_n)"
+
+.SS "#define mpn_cnd_swap   \fB__MPN\fP(cnd_swap)"
+
+.SS "#define mpn_com   \fB__MPN\fP(com)"
+
+.SS "#define mpn_copyd   \fB__MPN\fP(copyd)"
+
+.SS "#define mpn_copyi   \fB__MPN\fP(copyi)"
+
+.SS "#define mpn_div_qr_1   \fB__MPN\fP(div_qr_1)"
+
+.SS "#define mpn_div_qr_2   \fB__MPN\fP(div_qr_2)"
+
+.SS "#define mpn_divexact_1   \fB__MPN\fP(divexact_1)"
+
+.SS "#define mpn_divexact_by3(dst, src, \fBsize\fP)   \fBmpn_divexact_by3c\fP (dst, src, \fBsize\fP, \fB__GMP_CAST\fP (\fBmp_limb_t\fP, 0))"
+
+.SS "#define mpn_divexact_by3c   \fB__MPN\fP(divexact_by3c)"
+
+.SS "#define mpn_divmod(qp, np, nsize, dp, dsize)   \fBmpn_divrem\fP (qp, \fB__GMP_CAST\fP (\fBmp_size_t\fP, 0), np, nsize, dp, dsize)"
+
+.SS "#define mpn_divmod_1(qp, np, nsize, dlimb)   \fBmpn_divrem_1\fP (qp, \fB__GMP_CAST\fP (\fBmp_size_t\fP, 0), np, nsize, dlimb)"
+
+.SS "#define mpn_divrem   \fB__MPN\fP(divrem)"
+
+.SS "#define mpn_divrem_1   \fB__MPN\fP(divrem_1)"
+
+.SS "#define mpn_divrem_2   \fB__MPN\fP(divrem_2)"
+
+.SS "#define mpn_gcd   \fB__MPN\fP(\fBgcd\fP)"
+
+.SS "#define mpn_gcd_1   \fB__MPN\fP(gcd_1)"
+
+.SS "#define mpn_gcdext   \fB__MPN\fP(gcdext)"
+
+.SS "#define mpn_gcdext_1   \fB__MPN\fP(gcdext_1)"
+
+.SS "#define mpn_get_str   \fB__MPN\fP(\fBget_str\fP)"
+
+.SS "#define mpn_hamdist   \fB__MPN\fP(hamdist)"
+
+.SS "#define mpn_ior_n   \fB__MPN\fP(ior_n)"
+
+.SS "#define mpn_iorn_n   \fB__MPN\fP(iorn_n)"
+
+.SS "#define mpn_lshift   \fB__MPN\fP(lshift)"
+
+.SS "#define mpn_mod_1   \fB__MPN\fP(mod_1)"
+
+.SS "#define mpn_mul   \fB__MPN\fP(\fBmul\fP)"
+
+.SS "#define mpn_mul_1   \fB__MPN\fP(mul_1)"
+
+.SS "#define mpn_mul_n   \fB__MPN\fP(mul_n)"
+
+.SS "#define mpn_nand_n   \fB__MPN\fP(nand_n)"
+
+.SS "#define mpn_neg   \fB__MPN\fP(\fBneg\fP)"
+
+.SS "#define mpn_nior_n   \fB__MPN\fP(nior_n)"
+
+.SS "#define mpn_perfect_power_p   \fB__MPN\fP(perfect_power_p)"
+
+.SS "#define mpn_perfect_square_p   \fB__MPN\fP(perfect_square_p)"
+
+.SS "#define mpn_popcount   \fB__MPN\fP(popcount)"
+
+.SS "#define mpn_pow_1   \fB__MPN\fP(pow_1)"
+
+.SS "#define mpn_preinv_mod_1   \fB__MPN\fP(preinv_mod_1)"
+
+.SS "#define mpn_random   \fB__MPN\fP(random)"
+
+.SS "#define mpn_random2   \fB__MPN\fP(random2)"
+
+.SS "#define mpn_rshift   \fB__MPN\fP(rshift)"
+
+.SS "#define mpn_scan0   \fB__MPN\fP(scan0)"
+
+.SS "#define mpn_scan1   \fB__MPN\fP(scan1)"
+
+.SS "#define mpn_sec_add_1   \fB__MPN\fP(sec_add_1)"
+
+.SS "#define mpn_sec_add_1_itch   \fB__MPN\fP(sec_add_1_itch)"
+
+.SS "#define mpn_sec_div_qr   \fB__MPN\fP(sec_div_qr)"
+
+.SS "#define mpn_sec_div_qr_itch   \fB__MPN\fP(sec_div_qr_itch)"
+
+.SS "#define mpn_sec_div_r   \fB__MPN\fP(sec_div_r)"
+
+.SS "#define mpn_sec_div_r_itch   \fB__MPN\fP(sec_div_r_itch)"
+
+.SS "#define mpn_sec_invert   \fB__MPN\fP(sec_invert)"
+
+.SS "#define mpn_sec_invert_itch   \fB__MPN\fP(sec_invert_itch)"
+
+.SS "#define mpn_sec_mul   \fB__MPN\fP(sec_mul)"
+
+.SS "#define mpn_sec_mul_itch   \fB__MPN\fP(sec_mul_itch)"
+
+.SS "#define mpn_sec_powm   \fB__MPN\fP(sec_powm)"
+
+.SS "#define mpn_sec_powm_itch   \fB__MPN\fP(sec_powm_itch)"
+
+.SS "#define mpn_sec_sqr   \fB__MPN\fP(sec_sqr)"
+
+.SS "#define mpn_sec_sqr_itch   \fB__MPN\fP(sec_sqr_itch)"
+
+.SS "#define mpn_sec_sub_1   \fB__MPN\fP(sec_sub_1)"
+
+.SS "#define mpn_sec_sub_1_itch   \fB__MPN\fP(sec_sub_1_itch)"
+
+.SS "#define mpn_sec_tabselect   \fB__MPN\fP(sec_tabselect)"
+
+.SS "#define mpn_set_str   \fB__MPN\fP(\fBset_str\fP)"
+
+.SS "#define mpn_sizeinbase   \fB__MPN\fP(\fBsizeinbase\fP)"
+
+.SS "#define mpn_sqr   \fB__MPN\fP(sqr)"
+
+.SS "#define mpn_sqrtrem   \fB__MPN\fP(sqrtrem)"
+
+.SS "#define mpn_sub   \fB__MPN\fP(\fBsub\fP)"
+
+.SS "#define mpn_sub_1   \fB__MPN\fP(sub_1)"
+
+.SS "#define mpn_sub_n   \fB__MPN\fP(sub_n)"
+
+.SS "#define mpn_submul_1   \fB__MPN\fP(submul_1)"
+
+.SS "#define mpn_tdiv_qr   \fB__MPN\fP(tdiv_qr)"
+
+.SS "#define mpn_xnor_n   \fB__MPN\fP(xnor_n)"
+
+.SS "#define mpn_xor_n   \fB__MPN\fP(xor_n)"
+
+.SS "#define mpn_zero   \fB__MPN\fP(zero)"
+
+.SS "#define mpn_zero_p   \fB__MPN\fP(zero_p)"
+
+.SS "#define mpq_abs   __gmpq_abs"
+
+.SS "#define mpq_add   __gmpq_add"
+
+.SS "#define mpq_canonicalize   __gmpq_canonicalize"
+
+.SS "#define mpq_clear   __gmpq_clear"
+
+.SS "#define mpq_clears   __gmpq_clears"
+
+.SS "#define mpq_cmp   __gmpq_cmp"
+
+.SS "#define mpq_cmp_si(q, \fBn\fP, d)   \fB_mpq_cmp_si\fP(q,\fBn\fP,d)"
+
+.SS "#define mpq_cmp_ui(Q, NUI, DUI)   \fB_mpq_cmp_ui\fP (Q,NUI,DUI)"
+
+.SS "#define mpq_cmp_z   __gmpq_cmp_z"
+
+.SS "#define mpq_denref(Q)   (&((Q)\->_mp_den))"
+
+.SS "#define mpq_div   __gmpq_div"
+
+.SS "#define mpq_div_2exp   __gmpq_div_2exp"
+
+.SS "#define mpq_equal   __gmpq_equal"
+
+.SS "#define mpq_get_d   __gmpq_get_d"
+
+.SS "#define mpq_get_den   __gmpq_get_den"
+
+.SS "#define mpq_get_num   __gmpq_get_num"
+
+.SS "#define mpq_get_str   __gmpq_get_str"
+
+.SS "#define mpq_init   __gmpq_init"
+
+.SS "#define mpq_inits   __gmpq_inits"
+
+.SS "#define mpq_inp_str   __gmpq_inp_str"
+
+.SS "#define mpq_inv   __gmpq_inv"
+
+.SS "#define mpq_mul   __gmpq_mul"
+
+.SS "#define mpq_mul_2exp   __gmpq_mul_2exp"
+
+.SS "#define mpq_neg   __gmpq_neg"
+
+.SS "#define mpq_numref(Q)   (&((Q)\->_mp_num))"
+
+.SS "#define mpq_out_str   __gmpq_out_str"
+
+.SS "#define mpq_set   __gmpq_set"
+
+.SS "#define mpq_set_d   __gmpq_set_d"
+
+.SS "#define mpq_set_den   __gmpq_set_den"
+
+.SS "#define mpq_set_f   __gmpq_set_f"
+
+.SS "#define mpq_set_num   __gmpq_set_num"
+
+.SS "#define mpq_set_si   __gmpq_set_si"
+
+.SS "#define mpq_set_str   __gmpq_set_str"
+
+.SS "#define mpq_set_ui   __gmpq_set_ui"
+
+.SS "#define mpq_set_z   __gmpq_set_z"
+
+.SS "#define mpq_sgn(Q)   ((Q)\->_mp_num\&._mp_size < 0 ? \-1 : (Q)\->_mp_num\&._mp_size > 0)"
+
+.SS "#define mpq_sub   __gmpq_sub"
+
+.SS "#define mpq_swap   __gmpq_swap"
+
+.SS "#define mpz_2fac_ui   __gmpz_2fac_ui"
+
+.SS "#define mpz_abs   __gmpz_abs"
+
+.SS "#define mpz_add   __gmpz_add"
+
+.SS "#define mpz_add_ui   __gmpz_add_ui"
+
+.SS "#define mpz_addmul   __gmpz_addmul"
+
+.SS "#define mpz_addmul_ui   __gmpz_addmul_ui"
+
+.SS "#define mpz_and   __gmpz_and"
+
+.SS "#define mpz_array_init   __gmpz_array_init"
+
+.SS "#define mpz_bin_ui   __gmpz_bin_ui"
+
+.SS "#define mpz_bin_uiui   __gmpz_bin_uiui"
+
+.SS "#define mpz_cdiv_q   __gmpz_cdiv_q"
+
+.SS "#define mpz_cdiv_q_2exp   __gmpz_cdiv_q_2exp"
+
+.SS "#define mpz_cdiv_q_ui   __gmpz_cdiv_q_ui"
+
+.SS "#define mpz_cdiv_qr   __gmpz_cdiv_qr"
+
+.SS "#define mpz_cdiv_qr_ui   __gmpz_cdiv_qr_ui"
+
+.SS "#define mpz_cdiv_r   __gmpz_cdiv_r"
+
+.SS "#define mpz_cdiv_r_2exp   __gmpz_cdiv_r_2exp"
+
+.SS "#define mpz_cdiv_r_ui   __gmpz_cdiv_r_ui"
+
+.SS "#define mpz_cdiv_ui   __gmpz_cdiv_ui"
+
+.SS "#define mpz_clear   __gmpz_clear"
+
+.SS "#define mpz_clears   __gmpz_clears"
+
+.SS "#define mpz_clrbit   __gmpz_clrbit"
+
+.SS "#define mpz_cmp   __gmpz_cmp"
+
+.SS "#define mpz_cmp_d   __gmpz_cmp_d"
+
+.SS "#define mpz_cmp_si(Z, UI)   \fB_mpz_cmp_si\fP (Z,UI)"
+
+.SS "#define mpz_cmp_ui(Z, UI)   \fB_mpz_cmp_ui\fP (Z,UI)"
+
+.SS "#define mpz_cmpabs   __gmpz_cmpabs"
+
+.SS "#define mpz_cmpabs_d   __gmpz_cmpabs_d"
+
+.SS "#define mpz_cmpabs_ui   __gmpz_cmpabs_ui"
+
+.SS "#define mpz_com   __gmpz_com"
+
+.SS "#define mpz_combit   __gmpz_combit"
+
+.SS "#define mpz_congruent_2exp_p   __gmpz_congruent_2exp_p"
+
+.SS "#define mpz_congruent_p   __gmpz_congruent_p"
+
+.SS "#define mpz_congruent_ui_p   __gmpz_congruent_ui_p"
+
+.SS "#define mpz_div   \fBmpz_fdiv_q\fP"
+
+.SS "#define mpz_div_2exp   \fBmpz_fdiv_q_2exp\fP"
+
+.SS "#define mpz_div_ui   \fBmpz_fdiv_q_ui\fP"
+
+.SS "#define mpz_divexact   __gmpz_divexact"
+
+.SS "#define mpz_divexact_ui   __gmpz_divexact_ui"
+
+.SS "#define mpz_divisible_2exp_p   __gmpz_divisible_2exp_p"
+
+.SS "#define mpz_divisible_p   __gmpz_divisible_p"
+
+.SS "#define mpz_divisible_ui_p   __gmpz_divisible_ui_p"
+
+.SS "#define mpz_divmod   \fBmpz_fdiv_qr\fP"
+
+.SS "#define mpz_divmod_ui   \fBmpz_fdiv_qr_ui\fP"
+
+.SS "#define mpz_dump   __gmpz_dump"
+
+.SS "#define mpz_eor   __gmpz_xor"
+
+.SS "#define mpz_even_p(\fBz\fP)   (! \fBmpz_odd_p\fP (\fBz\fP))"
+
+.SS "#define mpz_export   __gmpz_export"
+
+.SS "#define mpz_fac_ui   __gmpz_fac_ui"
+
+.SS "#define mpz_fdiv_q   __gmpz_fdiv_q"
+
+.SS "#define mpz_fdiv_q_2exp   __gmpz_fdiv_q_2exp"
+
+.SS "#define mpz_fdiv_q_ui   __gmpz_fdiv_q_ui"
+
+.SS "#define mpz_fdiv_qr   __gmpz_fdiv_qr"
+
+.SS "#define mpz_fdiv_qr_ui   __gmpz_fdiv_qr_ui"
+
+.SS "#define mpz_fdiv_r   __gmpz_fdiv_r"
+
+.SS "#define mpz_fdiv_r_2exp   __gmpz_fdiv_r_2exp"
+
+.SS "#define mpz_fdiv_r_ui   __gmpz_fdiv_r_ui"
+
+.SS "#define mpz_fdiv_ui   __gmpz_fdiv_ui"
+
+.SS "#define mpz_fib2_ui   __gmpz_fib2_ui"
+
+.SS "#define mpz_fib_ui   __gmpz_fib_ui"
+
+.SS "#define mpz_fits_sint_p   __gmpz_fits_sint_p"
+
+.SS "#define mpz_fits_slong_p   __gmpz_fits_slong_p"
+
+.SS "#define mpz_fits_sshort_p   __gmpz_fits_sshort_p"
+
+.SS "#define mpz_fits_uint_p   __gmpz_fits_uint_p"
+
+.SS "#define mpz_fits_ulong_p   __gmpz_fits_ulong_p"
+
+.SS "#define mpz_fits_ushort_p   __gmpz_fits_ushort_p"
+
+.SS "#define mpz_gcd   __gmpz_gcd"
+
+.SS "#define mpz_gcd_ui   __gmpz_gcd_ui"
+
+.SS "#define mpz_gcdext   __gmpz_gcdext"
+
+.SS "#define mpz_get_d   __gmpz_get_d"
+
+.SS "#define mpz_get_d_2exp   __gmpz_get_d_2exp"
+
+.SS "#define mpz_get_si   __gmpz_get_si"
+
+.SS "#define mpz_get_str   __gmpz_get_str"
+
+.SS "#define mpz_get_ui   __gmpz_get_ui"
+
+.SS "#define mpz_getlimbn   __gmpz_getlimbn"
+
+.SS "#define mpz_hamdist   __gmpz_hamdist"
+
+.SS "#define mpz_import   __gmpz_import"
+
+.SS "#define mpz_init   __gmpz_init"
+
+.SS "#define mpz_init2   __gmpz_init2"
+
+.SS "#define mpz_init_set   __gmpz_init_set"
+
+.SS "#define mpz_init_set_d   __gmpz_init_set_d"
+
+.SS "#define mpz_init_set_si   __gmpz_init_set_si"
+
+.SS "#define mpz_init_set_str   __gmpz_init_set_str"
+
+.SS "#define mpz_init_set_ui   __gmpz_init_set_ui"
+
+.SS "#define mpz_inits   __gmpz_inits"
+
+.SS "#define mpz_inp_raw   __gmpz_inp_raw"
+
+.SS "#define mpz_inp_str   __gmpz_inp_str"
+
+.SS "#define mpz_invert   __gmpz_invert"
+
+.SS "#define mpz_ior   __gmpz_ior"
+
+.SS "#define mpz_jacobi   __gmpz_jacobi"
+
+.SS "#define mpz_kronecker   \fBmpz_jacobi\fP  /* alias */"
+
+.SS "#define mpz_kronecker_si   __gmpz_kronecker_si"
+
+.SS "#define mpz_kronecker_ui   __gmpz_kronecker_ui"
+
+.SS "#define mpz_lcm   __gmpz_lcm"
+
+.SS "#define mpz_lcm_ui   __gmpz_lcm_ui"
+
+.SS "#define mpz_legendre   \fBmpz_jacobi\fP  /* alias */"
+
+.SS "#define mpz_limbs_finish   __gmpz_limbs_finish"
+
+.SS "#define mpz_limbs_modify   __gmpz_limbs_modify"
+
+.SS "#define mpz_limbs_read   __gmpz_limbs_read"
+
+.SS "#define mpz_limbs_write   __gmpz_limbs_write"
+
+.SS "#define mpz_lucnum2_ui   __gmpz_lucnum2_ui"
+
+.SS "#define mpz_lucnum_ui   __gmpz_lucnum_ui"
+
+.SS "#define mpz_mdiv   \fBmpz_fdiv_q\fP"
+
+.SS "#define mpz_mdiv_ui   \fBmpz_fdiv_q_ui\fP"
+
+.SS "#define mpz_mdivmod   \fBmpz_fdiv_qr\fP"
+
+.SS "#define mpz_mdivmod_ui(q, r, \fBn\fP, d)   (((r) == 0) ? \fBmpz_fdiv_q_ui\fP (q,\fBn\fP,d) : \fBmpz_fdiv_qr_ui\fP (q,r,\fBn\fP,d))"
+
+.SS "#define mpz_mfac_uiui   __gmpz_mfac_uiui"
+
+.SS "#define mpz_millerrabin   __gmpz_millerrabin"
+
+.SS "#define mpz_mmod   \fBmpz_fdiv_r\fP"
+
+.SS "#define mpz_mmod_ui(r, \fBn\fP, d)   (((r) == 0) ? \fBmpz_fdiv_ui\fP (\fBn\fP,d) : \fBmpz_fdiv_r_ui\fP (r,\fBn\fP,d))"
+
+.SS "#define mpz_mod   __gmpz_mod"
+
+.SS "#define mpz_mod_2exp   \fBmpz_fdiv_r_2exp\fP"
+
+.SS "#define mpz_mod_ui   \fBmpz_fdiv_r_ui\fP /* same as \fBfdiv_r\fP because divisor unsigned */"
+
+.SS "#define mpz_mul   __gmpz_mul"
+
+.SS "#define mpz_mul_2exp   __gmpz_mul_2exp"
+
+.SS "#define mpz_mul_si   __gmpz_mul_si"
+
+.SS "#define mpz_mul_ui   __gmpz_mul_ui"
+
+.SS "#define mpz_neg   __gmpz_neg"
+
+.SS "#define mpz_nextprime   __gmpz_nextprime"
+
+.SS "#define mpz_odd_p(\fBz\fP)   (((\fBz\fP)\->_mp_size != 0) & \fB__GMP_CAST\fP (int, (\fBz\fP)\->_mp_d[0]))"
+
+.SS "#define mpz_out_raw   __gmpz_out_raw"
+
+.SS "#define mpz_out_str   __gmpz_out_str"
+
+.SS "#define mpz_perfect_power_p   __gmpz_perfect_power_p"
+
+.SS "#define mpz_perfect_square_p   __gmpz_perfect_square_p"
+
+.SS "#define mpz_popcount   __gmpz_popcount"
+
+.SS "#define mpz_pow_ui   __gmpz_pow_ui"
+
+.SS "#define mpz_powm   __gmpz_powm"
+
+.SS "#define mpz_powm_sec   __gmpz_powm_sec"
+
+.SS "#define mpz_powm_ui   __gmpz_powm_ui"
+
+.SS "#define mpz_primorial_ui   __gmpz_primorial_ui"
+
+.SS "#define mpz_probab_prime_p   __gmpz_probab_prime_p"
+
+.SS "#define mpz_random   __gmpz_random"
+
+.SS "#define mpz_random2   __gmpz_random2"
+
+.SS "#define mpz_realloc   __gmpz_realloc"
+
+.SS "#define mpz_realloc2   __gmpz_realloc2"
+
+.SS "#define mpz_remove   __gmpz_remove"
+
+.SS "#define mpz_roinit_n   __gmpz_roinit_n"
+
+.SS "#define MPZ_ROINIT_N(xp, xs)   {{0, (xs),(xp) }}"
+
+.SS "#define mpz_root   __gmpz_root"
+
+.SS "#define mpz_rootrem   __gmpz_rootrem"
+
+.SS "#define mpz_rrandomb   __gmpz_rrandomb"
+
+.SS "#define mpz_scan0   __gmpz_scan0"
+
+.SS "#define mpz_scan1   __gmpz_scan1"
+
+.SS "#define mpz_set   __gmpz_set"
+
+.SS "#define mpz_set_d   __gmpz_set_d"
+
+.SS "#define mpz_set_f   __gmpz_set_f"
+
+.SS "#define mpz_set_q   __gmpz_set_q"
+
+.SS "#define mpz_set_si   __gmpz_set_si"
+
+.SS "#define mpz_set_str   __gmpz_set_str"
+
+.SS "#define mpz_set_ui   __gmpz_set_ui"
+
+.SS "#define mpz_setbit   __gmpz_setbit"
+
+.SS "#define mpz_sgn(Z)   ((Z)\->_mp_size < 0 ? \-1 : (Z)\->_mp_size > 0)"
+
+.SS "#define mpz_si_kronecker   __gmpz_si_kronecker"
+
+.SS "#define mpz_size   __gmpz_size"
+
+.SS "#define mpz_sizeinbase   __gmpz_sizeinbase"
+
+.SS "#define mpz_sqrt   __gmpz_sqrt"
+
+.SS "#define mpz_sqrtrem   __gmpz_sqrtrem"
+
+.SS "#define mpz_sub   __gmpz_sub"
+
+.SS "#define mpz_sub_ui   __gmpz_sub_ui"
+
+.SS "#define mpz_submul   __gmpz_submul"
+
+.SS "#define mpz_submul_ui   __gmpz_submul_ui"
+
+.SS "#define mpz_swap   __gmpz_swap"
+
+.SS "#define mpz_tdiv_q   __gmpz_tdiv_q"
+
+.SS "#define mpz_tdiv_q_2exp   __gmpz_tdiv_q_2exp"
+
+.SS "#define mpz_tdiv_q_ui   __gmpz_tdiv_q_ui"
+
+.SS "#define mpz_tdiv_qr   __gmpz_tdiv_qr"
+
+.SS "#define mpz_tdiv_qr_ui   __gmpz_tdiv_qr_ui"
+
+.SS "#define mpz_tdiv_r   __gmpz_tdiv_r"
+
+.SS "#define mpz_tdiv_r_2exp   __gmpz_tdiv_r_2exp"
+
+.SS "#define mpz_tdiv_r_ui   __gmpz_tdiv_r_ui"
+
+.SS "#define mpz_tdiv_ui   __gmpz_tdiv_ui"
+
+.SS "#define mpz_tstbit   __gmpz_tstbit"
+
+.SS "#define mpz_ui_kronecker   __gmpz_ui_kronecker"
+
+.SS "#define mpz_ui_pow_ui   __gmpz_ui_pow_ui"
+
+.SS "#define mpz_ui_sub   __gmpz_ui_sub"
+
+.SS "#define mpz_urandomb   __gmpz_urandomb"
+
+.SS "#define mpz_urandomm   __gmpz_urandomm"
+
+.SS "#define mpz_xor   __gmpz_xor"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fB__gmp_randstate_struct\fP gmp_randstate_t[1]"
+
+.SS "typedef unsigned long int \fBmp_bitcnt_t\fP"
+
+.SS "typedef long int \fBmp_exp_t\fP"
+
+.SS "typedef \fB__mpz_struct\fP \fBMP_INT\fP"
+
+.SS "typedef long int \fBmp_limb_signed_t\fP"
+
+.SS "typedef unsigned long int \fBmp_limb_t\fP"
+
+.SS "typedef \fBmp_limb_t\fP* \fBmp_ptr\fP"
+
+.SS "typedef \fB__mpq_struct\fP \fBMP_RAT\fP"
+
+.SS "typedef long int \fBmp_size_t\fP"
+
+.SS "typedef \fB__mpf_struct\fP* \fBmpf_ptr\fP"
+
+.SS "typedef \fB__mpf_struct\fP mpf_t[1]"
+
+.SS "typedef \fB__mpq_struct\fP* \fBmpq_ptr\fP"
+
+.SS "typedef \fB__mpq_struct\fP \fBmpq_t\fP[1]"
+
+.SS "typedef \fB__mpz_struct\fP* \fBmpz_ptr\fP"
+
+.SS "typedef \fB__mpz_struct\fP \fBmpz_t\fP[1]"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "anonymous enum"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIGMP_ERROR_NONE \fP\fP
+.TP
+\fB\fIGMP_ERROR_UNSUPPORTED_ARGUMENT \fP\fP
+.TP
+\fB\fIGMP_ERROR_DIVISION_BY_ZERO \fP\fP
+.TP
+\fB\fIGMP_ERROR_SQRT_OF_NEGATIVE \fP\fP
+.TP
+\fB\fIGMP_ERROR_INVALID_ARGUMENT \fP\fP
+.SS "enum \fBgmp_randalg_t\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIGMP_RAND_ALG_DEFAULT \fP\fP
+.TP
+\fB\fIGMP_RAND_ALG_LC \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "\fB__GMP_DECLSPEC\fP int _mpq_cmp_si (\fBmpq_srcptr\fP, long, unsigned long)"
+
+.SS "\fB__GMP_DECLSPEC\fP int _mpq_cmp_ui (\fBmpq_srcptr\fP, unsigned long int, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int _mpz_cmp_si (\fBmpz_srcptr\fP, signed long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int _mpz_cmp_ui (\fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void* _mpz_realloc (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int gmp_asprintf (char **, \fBconst\fP char *,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP int gmp_printf (\fBconst\fP char *,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP void gmp_randclear (\fBgmp_randstate_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void gmp_randinit (\fBgmp_randstate_t\fP, \fBgmp_randalg_t\fP,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP void gmp_randinit_default (\fBgmp_randstate_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void gmp_randinit_lc_2exp (\fBgmp_randstate_t\fP, \fBmpz_srcptr\fP, unsigned long int, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int gmp_randinit_lc_2exp_size (\fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void gmp_randinit_mt (\fBgmp_randstate_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void gmp_randinit_set (\fBgmp_randstate_t\fP, \fBconst\fP \fB__gmp_randstate_struct\fP *)"
+
+.SS "\fB__GMP_DECLSPEC\fP void gmp_randseed (\fBgmp_randstate_t\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void gmp_randseed_ui (\fBgmp_randstate_t\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int gmp_scanf (\fBconst\fP char *,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP int gmp_snprintf (char *, size_t, \fBconst\fP char *,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP int gmp_sprintf (char *, \fBconst\fP char *,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP int gmp_sscanf (\fBconst\fP char *, \fBconst\fP char *,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long gmp_urandomb_ui (\fBgmp_randstate_t\fP, unsigned long)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long gmp_urandomm_ui (\fBgmp_randstate_t\fP, unsigned long)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mp_get_memory_functions (void ***)(size_t, void ***)(void *, size_t, size_t, void(**)(void *, size_t))"
+
+.SS "\fB__GMP_DECLSPEC\fP void mp_set_memory_functions (void **)(size_t, void **)(void *, size_t, size_t, void(*)(void *, size_t))"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_abs (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_add (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_add_ui (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_ceil (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_clear (\fBmpf_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_clears (\fBmpf_ptr\fP,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_cmp (\fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_cmp_d (\fBmpf_srcptr\fP, double)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_cmp_si (\fBmpf_srcptr\fP, signed long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_cmp_ui (\fBmpf_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_cmp_z (\fBmpf_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_div (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_div_2exp (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_div_ui (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_dump (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_eq (\fBmpf_srcptr\fP, \fBmpf_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_fits_sint_p (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_fits_slong_p (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_fits_sshort_p (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_fits_uint_p (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_fits_ulong_p (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_fits_ushort_p (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_floor (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP double mpf_get_d (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP double mpf_get_d_2exp (signed long int *, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpf_get_prec (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP long mpf_get_si (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP char* mpf_get_str (char *, \fBmp_exp_t\fP *, int, size_t, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long mpf_get_ui (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_init (\fBmpf_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_init2 (\fBmpf_ptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_init_set (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_init_set_d (\fBmpf_ptr\fP, double)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_init_set_si (\fBmpf_ptr\fP, signed long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_init_set_str (\fBmpf_ptr\fP, \fBconst\fP char *, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_init_set_ui (\fBmpf_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_inits (\fBmpf_ptr\fP,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_integer_p (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_mul (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_mul_2exp (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_mul_ui (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_neg (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_pow_ui (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_random2 (\fBmpf_ptr\fP, \fBmp_size_t\fP, \fBmp_exp_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_reldiff (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_set (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_set_d (\fBmpf_ptr\fP, double)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_set_default_prec (\fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_set_prec (\fBmpf_ptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_set_prec_raw (\fBmpf_ptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_set_q (\fBmpf_ptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_set_si (\fBmpf_ptr\fP, signed long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpf_set_str (\fBmpf_ptr\fP, \fBconst\fP char *, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_set_ui (\fBmpf_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_set_z (\fBmpf_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP size_t mpf_size (\fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_sqrt (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_sqrt_ui (\fBmpf_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_sub (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_sub_ui (\fBmpf_ptr\fP, \fBmpf_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_swap (\fBmpf_ptr\fP, \fBmpf_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_trunc (\fBmpf_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_ui_div (\fBmpf_ptr\fP, unsigned long int, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_ui_sub (\fBmpf_ptr\fP, unsigned long int, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpf_urandomb (\fBmpf_t\fP, \fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_add (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_add_1 (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_add_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_addmul_1 (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_and_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_andn_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpn_cmp (\fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_cnd_add_n (\fBmp_limb_t\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_cnd_sub_n (\fBmp_limb_t\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_cnd_swap (\fBmp_limb_t\fP, volatile \fBmp_limb_t\fP *, volatile \fBmp_limb_t\fP *, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_com (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_copyd (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_copyi (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_div_qr_1 (\fBmp_ptr\fP, \fBmp_limb_t\fP *, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_div_qr_2 (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_divexact_1 (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_divexact_by3c (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_divrem (\fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_divrem_1 (\fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_divrem_2 (\fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_gcd (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_gcd_1 (\fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_gcdext (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_size_t\fP *, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_gcdext_1 (\fBmp_limb_signed_t\fP *, \fBmp_limb_signed_t\fP *, \fBmp_limb_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP size_t mpn_get_str (unsigned char *, int, \fBmp_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpn_hamdist (\fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_ior_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_iorn_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_lshift (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, unsigned int)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_mod_1 (\fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_mul (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_mul_1 (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_mul_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_nand_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_neg (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_nior_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpn_perfect_power_p (\fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpn_perfect_square_p (\fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpn_popcount (\fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_pow_1 (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP, \fBmp_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_preinv_mod_1 (\fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_random (\fBmp_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_random2 (\fBmp_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_rshift (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, unsigned int)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpn_scan0 (\fBmp_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpn_scan1 (\fBmp_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_sec_add_1 (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP, \fBmp_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_sec_add_1_itch (\fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_sec_div_qr (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_sec_div_qr_itch (\fBmp_size_t\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_sec_div_r (\fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_sec_div_r_itch (\fBmp_size_t\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpn_sec_invert (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_bitcnt_t\fP, \fBmp_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_sec_invert_itch (\fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_sec_mul (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_sec_mul_itch (\fBmp_size_t\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_sec_powm (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_bitcnt_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_sec_powm_itch (\fBmp_size_t\fP, \fBmp_bitcnt_t\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_sec_sqr (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_sec_sqr_itch (\fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_sec_sub_1 (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP, \fBmp_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_sec_sub_1_itch (\fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_sec_tabselect (volatile \fBmp_limb_t\fP *, volatile \fBconst\fP \fBmp_limb_t\fP *, \fBmp_size_t\fP, \fBmp_size_t\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_set_str (\fBmp_ptr\fP, \fBconst\fP unsigned char *, size_t, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP size_t mpn_sizeinbase (\fBmp_srcptr\fP, \fBmp_size_t\fP, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_sqr (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_size_t\fP mpn_sqrtrem (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_sub (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_sub_1 (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_sub_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpn_submul_1 (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_limb_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_tdiv_qr (\fBmp_ptr\fP, \fBmp_ptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_xnor_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_xor_n (\fBmp_ptr\fP, \fBmp_srcptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpn_zero (\fBmp_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpn_zero_p (\fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_abs (\fBmpq_ptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_add (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_canonicalize (\fBmpq_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_clear (\fBmpq_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_clears (\fBmpq_ptr\fP,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpq_cmp (\fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpq_cmp_z (\fBmpq_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_div (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_div_2exp (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpq_equal (\fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP double mpq_get_d (\fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_get_den (\fBmpz_ptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_get_num (\fBmpz_ptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP char* mpq_get_str (char *, int, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_init (\fBmpq_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_inits (\fBmpq_ptr\fP,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_inv (\fBmpq_ptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_mul (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_mul_2exp (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_neg (\fBmpq_ptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_set (\fBmpq_ptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_set_d (\fBmpq_ptr\fP, double)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_set_den (\fBmpq_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_set_f (\fBmpq_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_set_num (\fBmpq_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_set_si (\fBmpq_ptr\fP, signed long int, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpq_set_str (\fBmpq_ptr\fP, \fBconst\fP char *, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_set_ui (\fBmpq_ptr\fP, unsigned long int, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_set_z (\fBmpq_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_sub (\fBmpq_ptr\fP, \fBmpq_srcptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpq_swap (\fBmpq_ptr\fP, \fBmpq_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_2fac_ui (\fBmpz_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_abs (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_add (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_add_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_addmul (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_addmul_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_and (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_array_init (\fBmpz_ptr\fP, \fBmp_size_t\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_bin_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_bin_uiui (\fBmpz_ptr\fP, unsigned long int, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_cdiv_q (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_cdiv_q_2exp (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_cdiv_q_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_cdiv_qr (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_cdiv_qr_ui (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_cdiv_r (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_cdiv_r_2exp (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_cdiv_r_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_cdiv_ui (\fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_clear (\fBmpz_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_clears (\fBmpz_ptr\fP,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_clrbit (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_cmp (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_cmp_d (\fBmpz_srcptr\fP, double)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_cmpabs (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_cmpabs_d (\fBmpz_srcptr\fP, double)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_cmpabs_ui (\fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_com (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_combit (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_congruent_2exp_p (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_congruent_p (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_congruent_ui_p (\fBmpz_srcptr\fP, unsigned long, unsigned long)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_divexact (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_divexact_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_divisible_2exp_p (\fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_divisible_p (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_divisible_ui_p (\fBmpz_srcptr\fP, unsigned long)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_dump (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void* mpz_export (void *, size_t *, int, size_t, int, size_t, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_fac_ui (\fBmpz_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_fdiv_q (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_fdiv_q_2exp (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_fdiv_q_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_fdiv_qr (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_fdiv_qr_ui (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_fdiv_r (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_fdiv_r_2exp (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_fdiv_r_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_fdiv_ui (\fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_fib2_ui (\fBmpz_ptr\fP, \fBmpz_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_fib_ui (\fBmpz_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_fits_sint_p (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_fits_slong_p (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_fits_sshort_p (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_fits_uint_p (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_fits_ulong_p (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_fits_ushort_p (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_gcd (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_gcd_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_gcdext (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP double mpz_get_d (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP double mpz_get_d_2exp (signed long int *, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP long int mpz_get_si (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP char* mpz_get_str (char *, int, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_get_ui (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_limb_t\fP mpz_getlimbn (\fBmpz_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpz_hamdist (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_import (\fBmpz_ptr\fP, size_t, int, size_t, int, size_t, \fBconst\fP void *)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_init (\fBmpz_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_init2 (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_init_set (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_init_set_d (\fBmpz_ptr\fP, double)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_init_set_si (\fBmpz_ptr\fP, signed long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_init_set_str (\fBmpz_ptr\fP, \fBconst\fP char *, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_init_set_ui (\fBmpz_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_inits (\fBmpz_ptr\fP,  \&.\&.\&.)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_invert (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_ior (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_jacobi (\fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_kronecker_si (\fBmpz_srcptr\fP, long)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_kronecker_ui (\fBmpz_srcptr\fP, unsigned long)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_lcm (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_lcm_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_limbs_finish (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_ptr\fP mpz_limbs_modify (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_srcptr\fP mpz_limbs_read (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_ptr\fP mpz_limbs_write (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_lucnum2_ui (\fBmpz_ptr\fP, \fBmpz_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_lucnum_ui (\fBmpz_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_mfac_uiui (\fBmpz_ptr\fP, unsigned long int, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_millerrabin (\fBmpz_srcptr\fP, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_mod (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_mul (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_mul_2exp (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_mul_si (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_mul_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_neg (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_nextprime (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_perfect_power_p (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_perfect_square_p (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpz_popcount (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_pow_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_powm (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_powm_sec (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_powm_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_primorial_ui (\fBmpz_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_probab_prime_p (\fBmpz_srcptr\fP, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_random (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_random2 (\fBmpz_ptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_realloc2 (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpz_remove (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmpz_srcptr\fP mpz_roinit_n (\fBmpz_ptr\fP, \fBmp_srcptr\fP, \fBmp_size_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_root (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_rootrem (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_rrandomb (\fBmpz_ptr\fP, \fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpz_scan0 (\fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP \fBmp_bitcnt_t\fP mpz_scan1 (\fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_set (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_set_d (\fBmpz_ptr\fP, double)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_set_f (\fBmpz_ptr\fP, \fBmpf_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_set_q (\fBmpz_ptr\fP, \fBmpq_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_set_si (\fBmpz_ptr\fP, signed long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_set_str (\fBmpz_ptr\fP, \fBconst\fP char *, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_set_ui (\fBmpz_ptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_setbit (\fBmpz_ptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_si_kronecker (long, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP size_t mpz_size (\fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP size_t mpz_sizeinbase (\fBmpz_srcptr\fP, int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_sqrt (\fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_sqrtrem (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_sub (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_sub_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_submul (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_submul_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_swap (\fBmpz_ptr\fP, \fBmpz_ptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_tdiv_q (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_tdiv_q_2exp (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_tdiv_q_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_tdiv_qr (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_tdiv_qr_ui (\fBmpz_ptr\fP, \fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_tdiv_r (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_tdiv_r_2exp (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_tdiv_r_ui (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP unsigned long int mpz_tdiv_ui (\fBmpz_srcptr\fP, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_tstbit (\fBmpz_srcptr\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP int mpz_ui_kronecker (unsigned long, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_ui_pow_ui (\fBmpz_ptr\fP, unsigned long int, unsigned long int)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_ui_sub (\fBmpz_ptr\fP, unsigned long int, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_urandomb (\fBmpz_ptr\fP, \fBgmp_randstate_t\fP, \fBmp_bitcnt_t\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_urandomm (\fBmpz_ptr\fP, \fBgmp_randstate_t\fP, \fBmpz_srcptr\fP)"
+
+.SS "\fB__GMP_DECLSPEC\fP void mpz_xor (\fBmpz_ptr\fP, \fBmpz_srcptr\fP, \fBmpz_srcptr\fP)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fB__GMP_DECLSPEC\fP int gmp_errno"
+
+.SS "\fBconst\fP \fB__GMP_DECLSPEC\fP char* \fBconst\fP gmp_version"
+
+.SS "\fBconst\fP \fB__GMP_DECLSPEC\fP int mp_bits_per_limb"
+
+.SS "\fBconst\fP typedef \fBmp_limb_t\fP* mp_srcptr"
+
+.SS "\fBconst\fP typedef \fB__mpf_struct\fP* mpf_srcptr"
+
+.SS "\fBconst\fP typedef \fB__mpq_struct\fP* mpq_srcptr"
+
+.SS "\fBconst\fP typedef \fB__mpz_struct\fP* mpz_srcptr"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

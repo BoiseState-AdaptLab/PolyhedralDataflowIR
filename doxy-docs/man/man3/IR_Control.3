@@ -1,0 +1,67 @@
+.TH "IR_Control" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IR_Control \- Base abstract class for code structures\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ir_code\&.hh>\fP
+.PP
+Inherited by \fBIR_Block\fP, \fBIR_If\fP, \fBIR_Loop\fP, and \fBIR_While\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fB~IR_Control\fP ()"
+.br
+.ti -1c
+.RI "virtual \fBIR_CONTROL_TYPE\fP \fBtype\fP () \fBconst\fP =0"
+.br
+.ti -1c
+.RI "virtual \fBIR_Block\fP * \fBconvert\fP ()=0"
+.br
+.ti -1c
+.RI "virtual \fBIR_Control\fP * \fBclone\fP () \fBconst\fP =0"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP \fBIR_Code\fP * \fBir_\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Base abstract class for code structures\&. 
+
+This is a place holder for the actual structure in the IR code\&. However, in cases that original source code may be transformed during loop initialization such as converting a while loop to a for loop or reconstructing the loop from low level IR code, the helper loop class (NOT IMPLEMENTED) must contain the transformed code that needs to be freed when out of service\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "virtual IR_Control::~IR_Control ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual \fBIR_Control\fP* IR_Control::clone () const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_chillIf\fP, \fBIR_chillBlock\fP, and \fBIR_chillLoop\fP\&.
+.SS "virtual \fBIR_Block\fP* IR_Control::convert ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_chillIf\fP, \fBIR_chillLoop\fP, and \fBIR_Block\fP\&.
+.SS "virtual \fBIR_CONTROL_TYPE\fP IR_Control::type () const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_If\fP, \fBIR_Block\fP, and \fBIR_Loop\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBconst\fP \fBIR_Code\fP* IR_Control::ir_"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

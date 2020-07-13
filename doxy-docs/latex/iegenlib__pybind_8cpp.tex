@@ -1,0 +1,391 @@
+\hypertarget{iegenlib__pybind_8cpp}{}\doxysection{scripts/iegenlib/iegenlib\+\_\+pybind.cpp File Reference}
+\label{iegenlib__pybind_8cpp}\index{scripts/iegenlib/iegenlib\_pybind.cpp@{scripts/iegenlib/iegenlib\_pybind.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$iegenlib.\+h$>$}\newline
+{\ttfamily \#include $<$pybind11/pybind11.\+h$>$}\newline
+Include dependency graph for iegenlib\+\_\+pybind.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{iegenlib__pybind_8cpp_a1c73e82bc570861a006bef2ddea46b12}{S\+E\+T\+\_\+\+R\+E\+L\+A\+T\+I\+O\+N\+\_\+\+D\+O\+T\+\_\+\+F\+I\+L\+E\+\_\+\+N\+A\+ME}}~\char`\"{}set\+\_\+relation.\+dot\char`\"{}
+\item 
+\#define \mbox{\hyperlink{iegenlib__pybind_8cpp_a707d29f88cf4b13fd91bd58af3301f8c}{A\+S\+T\+\_\+\+D\+O\+T\+\_\+\+F\+I\+L\+E\+\_\+\+N\+A\+ME}}~\char`\"{}ast.\+dot\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{iegenlib__pybind_8cpp_a22a8bcb54825d1c0ccf1200b1ebde407}{lowercase}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::string \&\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}})
+\item 
+bool \mbox{\hyperlink{iegenlib__pybind_8cpp_acc3754ed09afe93b026c8d9183a9a8b1}{contains}} (std\+::string s, std\+::string substring, bool case\+Sensitive=false)
+\item 
+bool \mbox{\hyperlink{iegenlib__pybind_8cpp_ac56932552d159c49ed62b00f3b23c002}{is\+Relation}} (std\+::string input)
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_relation}{Relation}} $\ast$ \mbox{\hyperlink{iegenlib__pybind_8cpp_a85478f3c07d346389dae121020743d20}{new\+Relation\+Or\+Null}} (std\+::string input)
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_set}{Set}} $\ast$ \mbox{\hyperlink{iegenlib__pybind_8cpp_a55ab8cb30ee5cd4ea092ee89af343061}{new\+Set\+Or\+Null}} (std\+::string input)
+\item 
+std\+::string \mbox{\hyperlink{iegenlib__pybind_8cpp_ad57ff3be77db0995c21ddf17e7241144}{handle\+Set}} (std\+::string \mbox{\hyperlink{gmp__compat_8h_aa788c0b8537ad82b96b6b9ae70af12b9}{set\+\_\+str}})
+\item 
+std\+::string \mbox{\hyperlink{iegenlib__pybind_8cpp_a03101e4853680a9cd15e9479375c6b48}{handle\+Relation}} (std\+::string relation\+\_\+str)
+\item 
+std\+::string \mbox{\hyperlink{iegenlib__pybind_8cpp_a428c54b0cdc0e73e1721127eaad07840}{handle\+Inverse}} (std\+::string set\+\_\+relation\+\_\+str)
+\item 
+std\+::string \mbox{\hyperlink{iegenlib__pybind_8cpp_a0cf9465530c5ad1f3d8fca9b7c132482}{handle\+Compose}} (std\+::string set\+\_\+relation\+\_\+str)
+\item 
+std\+::string \mbox{\hyperlink{iegenlib__pybind_8cpp_a68192b67ecaf99002ad6f17adceca70b}{handle\+Apply}} (std\+::string set\+\_\+relation\+\_\+str)
+\item 
+std\+::string \mbox{\hyperlink{iegenlib__pybind_8cpp_aa78d40c21af8e531d094c12ba7f7b6d0}{handle\+Union}} (std\+::string set\+\_\+relation\+\_\+str)
+\item 
+\mbox{\hyperlink{iegenlib__pybind_8cpp_a3bc4d4c84f0defc6e69d2f4f18620fe2}{P\+Y\+B\+I\+N\+D11\+\_\+\+M\+O\+D\+U\+LE}} (iegenlib, mod)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a707d29f88cf4b13fd91bd58af3301f8c}\label{iegenlib__pybind_8cpp_a707d29f88cf4b13fd91bd58af3301f8c}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!AST\_DOT\_FILE\_NAME@{AST\_DOT\_FILE\_NAME}}
+\index{AST\_DOT\_FILE\_NAME@{AST\_DOT\_FILE\_NAME}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{AST\_DOT\_FILE\_NAME}{AST\_DOT\_FILE\_NAME}}
+{\footnotesize\ttfamily \#define A\+S\+T\+\_\+\+D\+O\+T\+\_\+\+F\+I\+L\+E\+\_\+\+N\+A\+ME~\char`\"{}ast.\+dot\char`\"{}}
+
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a1c73e82bc570861a006bef2ddea46b12}\label{iegenlib__pybind_8cpp_a1c73e82bc570861a006bef2ddea46b12}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!SET\_RELATION\_DOT\_FILE\_NAME@{SET\_RELATION\_DOT\_FILE\_NAME}}
+\index{SET\_RELATION\_DOT\_FILE\_NAME@{SET\_RELATION\_DOT\_FILE\_NAME}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{SET\_RELATION\_DOT\_FILE\_NAME}{SET\_RELATION\_DOT\_FILE\_NAME}}
+{\footnotesize\ttfamily \#define S\+E\+T\+\_\+\+R\+E\+L\+A\+T\+I\+O\+N\+\_\+\+D\+O\+T\+\_\+\+F\+I\+L\+E\+\_\+\+N\+A\+ME~\char`\"{}set\+\_\+relation.\+dot\char`\"{}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_acc3754ed09afe93b026c8d9183a9a8b1}\label{iegenlib__pybind_8cpp_acc3754ed09afe93b026c8d9183a9a8b1}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!contains@{contains}}
+\index{contains@{contains}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily bool contains (\begin{DoxyParamCaption}\item[{std\+::string}]{s,  }\item[{std\+::string}]{substring,  }\item[{bool}]{case\+Sensitive = {\ttfamily false} }\end{DoxyParamCaption})}
+
+contains
+
+This is a small helper that reports whether one string contains a substring of interest. It is preferred over directly using the s.\+find() != string\+::npos idiom because (1) it is shorter, and (2) it more clearly expresses the intent to the human reader. Also, this method can now act in a case-\/insensitive manner, which find doesn\textquotesingle{}t naturally do.
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & -- string to search \\
+\hline
+{\em substring} & -- substring to search for \\
+\hline
+{\em case\+Sensitive} & -- if true, do a case-\/sensitive search (defaults to false) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if s contains substring, false otherwise 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{iegenlib__pybind_8cpp_acc3754ed09afe93b026c8d9183a9a8b1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_acc3754ed09afe93b026c8d9183a9a8b1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a68192b67ecaf99002ad6f17adceca70b}\label{iegenlib__pybind_8cpp_a68192b67ecaf99002ad6f17adceca70b}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!handleApply@{handleApply}}
+\index{handleApply@{handleApply}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{handleApply()}{handleApply()}}
+{\footnotesize\ttfamily std\+::string handle\+Apply (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Apply
+
+Handle the case of an Apply input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a68192b67ecaf99002ad6f17adceca70b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{iegenlib__pybind_8cpp_a68192b67ecaf99002ad6f17adceca70b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a0cf9465530c5ad1f3d8fca9b7c132482}\label{iegenlib__pybind_8cpp_a0cf9465530c5ad1f3d8fca9b7c132482}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!handleCompose@{handleCompose}}
+\index{handleCompose@{handleCompose}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{handleCompose()}{handleCompose()}}
+{\footnotesize\ttfamily std\+::string handle\+Compose (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Compose
+
+Handle the case of a Compose input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a0cf9465530c5ad1f3d8fca9b7c132482_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{iegenlib__pybind_8cpp_a0cf9465530c5ad1f3d8fca9b7c132482_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a428c54b0cdc0e73e1721127eaad07840}\label{iegenlib__pybind_8cpp_a428c54b0cdc0e73e1721127eaad07840}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!handleInverse@{handleInverse}}
+\index{handleInverse@{handleInverse}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{handleInverse()}{handleInverse()}}
+{\footnotesize\ttfamily std\+::string handle\+Inverse (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Inverse
+
+Handle the case of an Inverse input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a428c54b0cdc0e73e1721127eaad07840_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=315pt]{iegenlib__pybind_8cpp_a428c54b0cdc0e73e1721127eaad07840_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a03101e4853680a9cd15e9479375c6b48}\label{iegenlib__pybind_8cpp_a03101e4853680a9cd15e9479375c6b48}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!handleRelation@{handleRelation}}
+\index{handleRelation@{handleRelation}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{handleRelation()}{handleRelation()}}
+{\footnotesize\ttfamily std\+::string handle\+Relation (\begin{DoxyParamCaption}\item[{std\+::string}]{relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Relation
+
+Handle the case of a relation input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a03101e4853680a9cd15e9479375c6b48_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=319pt]{iegenlib__pybind_8cpp_a03101e4853680a9cd15e9479375c6b48_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_ad57ff3be77db0995c21ddf17e7241144}\label{iegenlib__pybind_8cpp_ad57ff3be77db0995c21ddf17e7241144}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!handleSet@{handleSet}}
+\index{handleSet@{handleSet}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{handleSet()}{handleSet()}}
+{\footnotesize\ttfamily std\+::string handle\+Set (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Set
+
+Handle the case of a set input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_ad57ff3be77db0995c21ddf17e7241144_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{iegenlib__pybind_8cpp_ad57ff3be77db0995c21ddf17e7241144_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_aa78d40c21af8e531d094c12ba7f7b6d0}\label{iegenlib__pybind_8cpp_aa78d40c21af8e531d094c12ba7f7b6d0}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!handleUnion@{handleUnion}}
+\index{handleUnion@{handleUnion}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{handleUnion()}{handleUnion()}}
+{\footnotesize\ttfamily std\+::string handle\+Union (\begin{DoxyParamCaption}\item[{std\+::string}]{set\+\_\+relation\+\_\+str }\end{DoxyParamCaption})}
+
+handle\+Union
+
+Handle the case of a Union input. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_aa78d40c21af8e531d094c12ba7f7b6d0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=307pt]{iegenlib__pybind_8cpp_aa78d40c21af8e531d094c12ba7f7b6d0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_ac56932552d159c49ed62b00f3b23c002}\label{iegenlib__pybind_8cpp_ac56932552d159c49ed62b00f3b23c002}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!isRelation@{isRelation}}
+\index{isRelation@{isRelation}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{isRelation()}{isRelation()}}
+{\footnotesize\ttfamily bool is\+Relation (\begin{DoxyParamCaption}\item[{std\+::string}]{input }\end{DoxyParamCaption})}
+
+is\+Relation
+
+Determine whether the given input is a relation, by searching for the arrow token (\char`\"{}-\/$>$\char`\"{}), which appears only in a relation (and never in a set).
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & -- string to examine \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true iff input appears to be a relation 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{iegenlib__pybind_8cpp_ac56932552d159c49ed62b00f3b23c002_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_ac56932552d159c49ed62b00f3b23c002_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a22a8bcb54825d1c0ccf1200b1ebde407}\label{iegenlib__pybind_8cpp_a22a8bcb54825d1c0ccf1200b1ebde407}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!lowercase@{lowercase}}
+\index{lowercase@{lowercase}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{lowercase()}{lowercase()}}
+{\footnotesize\ttfamily std\+::string lowercase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::string \&}]{str }\end{DoxyParamCaption})}
+
+lowercase
+
+Converts the given string to lowercase.
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & -- string to convert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+lowercase version of str 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a22a8bcb54825d1c0ccf1200b1ebde407_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a85478f3c07d346389dae121020743d20}\label{iegenlib__pybind_8cpp_a85478f3c07d346389dae121020743d20}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!newRelationOrNull@{newRelationOrNull}}
+\index{newRelationOrNull@{newRelationOrNull}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{newRelationOrNull()}{newRelationOrNull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_relation}{Relation}}$\ast$ new\+Relation\+Or\+Null (\begin{DoxyParamCaption}\item[{std\+::string}]{input }\end{DoxyParamCaption})}
+
+new\+Relation\+Or\+Null
+
+This factory function returns a new Relation object, if the input string appears to describe a relation; otherwise it returns N\+U\+LL.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & -- string to examine \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new Relation constructed with input, or N\+U\+LL 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a85478f3c07d346389dae121020743d20_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a85478f3c07d346389dae121020743d20_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a55ab8cb30ee5cd4ea092ee89af343061}\label{iegenlib__pybind_8cpp_a55ab8cb30ee5cd4ea092ee89af343061}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!newSetOrNull@{newSetOrNull}}
+\index{newSetOrNull@{newSetOrNull}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{newSetOrNull()}{newSetOrNull()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_set}{Set}}$\ast$ new\+Set\+Or\+Null (\begin{DoxyParamCaption}\item[{std\+::string}]{input }\end{DoxyParamCaption})}
+
+new\+Set\+Or\+Null
+
+This factory function returns a new Set object, if the input string appears to describe a Set; otherwise it returns N\+U\+LL.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & -- string to examine \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new Set constructed with input, or N\+U\+LL 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a55ab8cb30ee5cd4ea092ee89af343061_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a55ab8cb30ee5cd4ea092ee89af343061_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{iegenlib__pybind_8cpp_a3bc4d4c84f0defc6e69d2f4f18620fe2}\label{iegenlib__pybind_8cpp_a3bc4d4c84f0defc6e69d2f4f18620fe2}} 
+\index{iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}!PYBIND11\_MODULE@{PYBIND11\_MODULE}}
+\index{PYBIND11\_MODULE@{PYBIND11\_MODULE}!iegenlib\_pybind.cpp@{iegenlib\_pybind.cpp}}
+\doxysubsubsection{\texorpdfstring{PYBIND11\_MODULE()}{PYBIND11\_MODULE()}}
+{\footnotesize\ttfamily P\+Y\+B\+I\+N\+D11\+\_\+\+M\+O\+D\+U\+LE (\begin{DoxyParamCaption}\item[{iegenlib}]{,  }\item[{mod}]{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{iegenlib__pybind_8cpp_a3bc4d4c84f0defc6e69d2f4f18620fe2_cgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,283 @@
+.TH "lib/isl/isl_flow.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_flow.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include <isl/union_set\&.h>\fP
+.br
+\fC#include <isl/union_map\&.h>\fP
+.br
+\fC#include <isl/flow\&.h>\fP
+.br
+\fC#include <isl/schedule_node\&.h>\fP
+.br
+\fC#include <isl_sort\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_restriction\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_labeled_map\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_access_info\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_flow\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_sched_info\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_access_info\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_flow\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_compute_flow_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_scheduled_access\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_compute_flow_schedule_data\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBisl_restriction_type\fP { \fBisl_restriction_type_empty\fP, \fBisl_restriction_type_none\fP, \fBisl_restriction_type_input\fP, \fBisl_restriction_type_output\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_restriction\fP * \fBisl_restriction_none\fP (\fB__isl_take\fP \fBisl_map\fP *source_map)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_restriction\fP * \fBisl_restriction_empty\fP (\fB__isl_take\fP \fBisl_map\fP *source_map)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_restriction\fP * \fBisl_restriction_input\fP (\fB__isl_take\fP \fBisl_set\fP *source_restr, \fB__isl_take\fP \fBisl_set\fP *sink_restr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_restriction\fP * \fBisl_restriction_output\fP (\fB__isl_take\fP \fBisl_set\fP *source_restr)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_restriction\fP * \fBisl_restriction_free\fP (\fB__isl_take\fP \fBisl_restriction\fP *restr)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_restriction_get_ctx\fP (\fB__isl_keep\fP \fBisl_restriction\fP *restr)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_access_info\fP * \fBisl_access_info_alloc\fP (\fB__isl_take\fP \fBisl_map\fP *sink, void *sink_user, \fBisl_access_level_before\fP \fBfn\fP, int max_source)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_access_info\fP * \fBisl_access_info_free\fP (\fB__isl_take\fP \fBisl_access_info\fP *acc)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_access_info_get_ctx\fP (\fB__isl_keep\fP \fBisl_access_info\fP *acc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_access_info\fP * \fBisl_access_info_set_restrict\fP (\fB__isl_take\fP \fBisl_access_info\fP *acc, \fBisl_access_restrict\fP \fBfn\fP, void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_access_info\fP * \fBisl_access_info_add_source\fP (\fB__isl_take\fP \fBisl_access_info\fP *acc, \fB__isl_take\fP \fBisl_map\fP *source, int must, void *source_user)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_flow_foreach\fP (\fB__isl_keep\fP \fBisl_flow\fP *deps, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_map\fP *dep, int must, void *dep_user, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_flow_get_no_source\fP (\fB__isl_keep\fP \fBisl_flow\fP *deps, int must)"
+.br
+.ti -1c
+.RI "void \fBisl_flow_free\fP (\fB__isl_take\fP \fBisl_flow\fP *deps)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_flow_get_ctx\fP (\fB__isl_keep\fP \fBisl_flow\fP *deps)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_flow\fP * \fBisl_access_info_compute_flow\fP (\fB__isl_take\fP \fBisl_access_info\fP *acc)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_union_access_info\fP * \fBisl_union_access_info_free\fP (\fB__isl_take\fP \fBisl_union_access_info\fP *access)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_union_access_info_get_ctx\fP (\fB__isl_keep\fP \fBisl_union_access_info\fP *access)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_access_info\fP * \fBisl_union_access_info_from_sink\fP (\fB__isl_take\fP \fBisl_union_map\fP *sink)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_access_info\fP * \fBisl_union_access_info_set_must_source\fP (\fB__isl_take\fP \fBisl_union_access_info\fP *access, \fB__isl_take\fP \fBisl_union_map\fP *must_source)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_access_info\fP * \fBisl_union_access_info_set_may_source\fP (\fB__isl_take\fP \fBisl_union_access_info\fP *access, \fB__isl_take\fP \fBisl_union_map\fP *may_source)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_access_info\fP * \fBisl_union_access_info_set_schedule\fP (\fB__isl_take\fP \fBisl_union_access_info\fP *access, \fB__isl_take\fP \fBisl_schedule\fP *schedule)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_access_info\fP * \fBisl_union_access_info_set_schedule_map\fP (\fB__isl_take\fP \fBisl_union_access_info\fP *access, \fB__isl_take\fP \fBisl_union_map\fP *schedule_map)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_access_info\fP * \fBisl_union_access_info_copy\fP (\fB__isl_keep\fP \fBisl_union_access_info\fP *access)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_access_info\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_access_info\fP *access)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP char * \fBisl_union_access_info_to_str\fP (\fB__isl_keep\fP \fBisl_union_access_info\fP *access)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_union_flow_get_ctx\fP (\fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_union_flow\fP * \fBisl_union_flow_free\fP (\fB__isl_take\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_union_flow_dump\fP (\fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_flow_get_full_must_dependence\fP (\fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_flow_get_full_may_dependence\fP (\fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_flow_get_must_dependence\fP (\fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_flow_get_may_dependence\fP (\fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_flow_get_must_no_source\fP (\fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_union_flow_get_may_no_source\fP (\fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_flow\fP * \fBisl_union_access_info_compute_flow\fP (\fB__isl_take\fP \fBisl_union_access_info\fP *access)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_flow\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP char * \fBisl_union_flow_to_str\fP (\fB__isl_keep\fP \fBisl_union_flow\fP *\fBflow\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_union_map_compute_flow\fP (\fB__isl_take\fP \fBisl_union_map\fP *sink, \fB__isl_take\fP \fBisl_union_map\fP *must_source, \fB__isl_take\fP \fBisl_union_map\fP *may_source, \fB__isl_take\fP \fBisl_union_map\fP *schedule, \fB__isl_give\fP \fBisl_union_map\fP **must_dep, \fB__isl_give\fP \fBisl_union_map\fP **may_dep, \fB__isl_give\fP \fBisl_union_map\fP **must_no_source, \fB__isl_give\fP \fBisl_union_map\fP **may_no_source)"
+.br
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBisl_restriction_type\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIisl_restriction_type_empty \fP\fP
+.TP
+\fB\fIisl_restriction_type_none \fP\fP
+.TP
+\fB\fIisl_restriction_type_input \fP\fP
+.TP
+\fB\fIisl_restriction_type_output \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_access_info\fP* isl_access_info_add_source (\fB__isl_take\fP \fBisl_access_info\fP * acc, \fB__isl_take\fP \fBisl_map\fP * source, int must, void * source_user)"
+
+.SS "\fB__isl_give\fP \fBisl_access_info\fP* isl_access_info_alloc (\fB__isl_take\fP \fBisl_map\fP * sink, void * sink_user, \fBisl_access_level_before\fP fn, int max_source)"
+
+.SS "\fB__isl_give\fP \fBisl_flow\fP* isl_access_info_compute_flow (\fB__isl_take\fP \fBisl_access_info\fP * acc)"
+
+.SS "\fB__isl_null\fP \fBisl_access_info\fP* isl_access_info_free (\fB__isl_take\fP \fBisl_access_info\fP * acc)"
+
+.SS "\fBisl_ctx\fP* isl_access_info_get_ctx (\fB__isl_keep\fP \fBisl_access_info\fP * acc)"
+
+.SS "\fB__isl_give\fP \fBisl_access_info\fP* isl_access_info_set_restrict (\fB__isl_take\fP \fBisl_access_info\fP * acc, \fBisl_access_restrict\fP fn, void * user)"
+
+.SS "\fBisl_stat\fP isl_flow_foreach (\fB__isl_keep\fP \fBisl_flow\fP * deps, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_map\fP *dep, int must, void *dep_user, void *\fBuser\fP) fn, void * user)"
+
+.SS "void isl_flow_free (\fB__isl_take\fP \fBisl_flow\fP * deps)"
+
+.SS "\fBisl_ctx\fP* isl_flow_get_ctx (\fB__isl_keep\fP \fBisl_flow\fP * deps)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_flow_get_no_source (\fB__isl_keep\fP \fBisl_flow\fP * deps, int must)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_access_info (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_access_info\fP * access)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_flow (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fB__isl_give\fP \fBisl_restriction\fP* isl_restriction_empty (\fB__isl_take\fP \fBisl_map\fP * source_map)"
+
+.SS "\fB__isl_null\fP \fBisl_restriction\fP* isl_restriction_free (\fB__isl_take\fP \fBisl_restriction\fP * restr)"
+
+.SS "\fBisl_ctx\fP* isl_restriction_get_ctx (\fB__isl_keep\fP \fBisl_restriction\fP * restr)"
+
+.SS "\fB__isl_give\fP \fBisl_restriction\fP* isl_restriction_input (\fB__isl_take\fP \fBisl_set\fP * source_restr, \fB__isl_take\fP \fBisl_set\fP * sink_restr)"
+
+.SS "\fB__isl_give\fP \fBisl_restriction\fP* isl_restriction_none (\fB__isl_take\fP \fBisl_map\fP * source_map)"
+
+.SS "\fB__isl_give\fP \fBisl_restriction\fP* isl_restriction_output (\fB__isl_take\fP \fBisl_set\fP * source_restr)"
+
+.SS "\fB__isl_give\fP \fBisl_union_flow\fP* isl_union_access_info_compute_flow (\fB__isl_take\fP \fBisl_union_access_info\fP * access)"
+
+.SS "\fB__isl_give\fP \fBisl_union_access_info\fP* isl_union_access_info_copy (\fB__isl_keep\fP \fBisl_union_access_info\fP * access)"
+
+.SS "\fB__isl_null\fP \fBisl_union_access_info\fP* isl_union_access_info_free (\fB__isl_take\fP \fBisl_union_access_info\fP * access)"
+
+.SS "\fB__isl_give\fP \fBisl_union_access_info\fP* isl_union_access_info_from_sink (\fB__isl_take\fP \fBisl_union_map\fP * sink)"
+
+.SS "\fBisl_ctx\fP* isl_union_access_info_get_ctx (\fB__isl_keep\fP \fBisl_union_access_info\fP * access)"
+
+.SS "\fB__isl_give\fP \fBisl_union_access_info\fP* isl_union_access_info_set_may_source (\fB__isl_take\fP \fBisl_union_access_info\fP * access, \fB__isl_take\fP \fBisl_union_map\fP * may_source)"
+
+.SS "\fB__isl_give\fP \fBisl_union_access_info\fP* isl_union_access_info_set_must_source (\fB__isl_take\fP \fBisl_union_access_info\fP * access, \fB__isl_take\fP \fBisl_union_map\fP * must_source)"
+
+.SS "\fB__isl_give\fP \fBisl_union_access_info\fP* isl_union_access_info_set_schedule (\fB__isl_take\fP \fBisl_union_access_info\fP * access, \fB__isl_take\fP \fBisl_schedule\fP * schedule)"
+
+.SS "\fB__isl_give\fP \fBisl_union_access_info\fP* isl_union_access_info_set_schedule_map (\fB__isl_take\fP \fBisl_union_access_info\fP * access, \fB__isl_take\fP \fBisl_union_map\fP * schedule_map)"
+
+.SS "\fB__isl_give\fP char* isl_union_access_info_to_str (\fB__isl_keep\fP \fBisl_union_access_info\fP * access)"
+
+.SS "void isl_union_flow_dump (\fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fB__isl_null\fP \fBisl_union_flow\fP* isl_union_flow_free (\fB__isl_take\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fBisl_ctx\fP* isl_union_flow_get_ctx (\fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_flow_get_full_may_dependence (\fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_flow_get_full_must_dependence (\fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_flow_get_may_dependence (\fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_flow_get_may_no_source (\fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_flow_get_must_dependence (\fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_union_flow_get_must_no_source (\fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "\fB__isl_give\fP char* isl_union_flow_to_str (\fB__isl_keep\fP \fBisl_union_flow\fP * flow)"
+
+.SS "int isl_union_map_compute_flow (\fB__isl_take\fP \fBisl_union_map\fP * sink, \fB__isl_take\fP \fBisl_union_map\fP * must_source, \fB__isl_take\fP \fBisl_union_map\fP * may_source, \fB__isl_take\fP \fBisl_union_map\fP * schedule, \fB__isl_give\fP \fBisl_union_map\fP ** must_dep, \fB__isl_give\fP \fBisl_union_map\fP ** may_dep, \fB__isl_give\fP \fBisl_union_map\fP ** must_no_source, \fB__isl_give\fP \fBisl_union_map\fP ** may_no_source)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

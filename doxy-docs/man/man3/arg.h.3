@@ -1,0 +1,527 @@
+.TH "lib/isl/include/isl/arg.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/arg.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stddef\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_arg_choice\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_arg_flags\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_arg\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_args\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBISL_ARG_SINGLE_DASH\fP   (1 << 0)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_BOOL_ARG\fP   (1 << 1)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_HIDDEN\fP   (1 << 2)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARGS_START\fP(s,  \fBname\fP)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARGS_END\fP   { \fBisl_arg_end\fP } };"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_ALIAS\fP(l)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_ARG\fP(st,  \fBf\fP,  \fBa\fP,  d)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_FOOTER\fP(h)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_CHOICE\fP(st,  \fBf\fP,  s,  l,  \fBc\fP,  d,  h)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_OPT_CHOICE\fP(st,  \fBf\fP,  s,  l,  \fBc\fP,  d,  ds,  h)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_PHANTOM_USER_CHOICE_F\fP(s,  l,  \fBc\fP,  setter,  d,  h,  fl)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_USER_OPT_CHOICE\fP(st,  \fBf\fP,  s,  l,  \fBc\fP,  setter,  d,  ds,  h)"
+.br
+.ti -1c
+.RI "#define \fB_ISL_ARG_BOOL_F\fP(o,  s,  l,  setter,  d,  h,  fl)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_BOOL_F\fP(st,  \fBf\fP,  s,  l,  d,  h,  fl)   \fB_ISL_ARG_BOOL_F\fP(offsetof(st, \fBf\fP),s,l,\fBNULL\fP,d,h,fl)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_BOOL\fP(st,  \fBf\fP,  s,  l,  d,  h)   \fBISL_ARG_BOOL_F\fP(st,\fBf\fP,s,l,d,h,0)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_PHANTOM_BOOL_F\fP(s,  l,  setter,  h,  fl)   \fB_ISL_ARG_BOOL_F\fP(\-1,s,l,setter,0,h,fl)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_PHANTOM_BOOL\fP(s,  l,  setter,  h)   \fBISL_ARG_PHANTOM_BOOL_F\fP(s,l,setter,h,0)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_INT_F\fP(st,  \fBf\fP,  s,  l,  \fBa\fP,  d,  h,  fl)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_INT\fP(st,  \fBf\fP,  s,  l,  \fBa\fP,  d,  h)   \fBISL_ARG_INT_F\fP(st,\fBf\fP,s,l,\fBa\fP,d,h,0)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_LONG\fP(st,  \fBf\fP,  s,  lo,  d,  h)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_USER_LONG\fP(st,  \fBf\fP,  s,  lo,  setter,  d,  h)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_OPT_LONG\fP(st,  \fBf\fP,  s,  lo,  d,  ds,  h)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_ULONG\fP(st,  \fBf\fP,  s,  l,  d,  h)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_STR_F\fP(st,  \fBf\fP,  s,  l,  \fBa\fP,  d,  h,  fl)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_STR\fP(st,  \fBf\fP,  s,  l,  \fBa\fP,  d,  h)   \fBISL_ARG_STR_F\fP(st,\fBf\fP,s,l,\fBa\fP,d,h,0)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_STR_LIST\fP(st,  f_n,  f_l,  s,  l,  \fBa\fP,  h)"
+.br
+.ti -1c
+.RI "#define \fB_ISL_ARG_CHILD\fP(o,  l,  \fBc\fP,  h,  fl)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_CHILD\fP(st,  \fBf\fP,  l,  \fBc\fP,  h)   \fB_ISL_ARG_CHILD\fP(offsetof(st, \fBf\fP),l,\fBc\fP,h,0)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_GROUP_F\fP(l,  \fBc\fP,  h,  fl)   \fB_ISL_ARG_CHILD\fP(\-1,l,\fBc\fP,h,fl)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_GROUP\fP(l,  \fBc\fP,  h)   \fBISL_ARG_GROUP_F\fP(l,\fBc\fP,h,0)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_FLAGS\fP(st,  \fBf\fP,  s,  l,  \fBc\fP,  d,  h)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_USER\fP(st,  \fBf\fP,  \fBi\fP,  \fBc\fP)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_VERSION\fP(\fBprint\fP)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_ALL\fP   (1 << 0)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_SKIP_HELP\fP   (1 << 1)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_DECL\fP(prefix,  st,  args)"
+.br
+.ti -1c
+.RI "#define \fBISL_ARG_DEF\fP(prefix,  st,  args)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBisl_arg_type\fP { \fBisl_arg_end\fP, \fBisl_arg_alias\fP, \fBisl_arg_arg\fP, \fBisl_arg_bool\fP, \fBisl_arg_child\fP, \fBisl_arg_choice\fP, \fBisl_arg_flags\fP, \fBisl_arg_footer\fP, \fBisl_arg_int\fP, \fBisl_arg_user\fP, \fBisl_arg_long\fP, \fBisl_arg_ulong\fP, \fBisl_arg_str\fP, \fBisl_arg_str_list\fP, \fBisl_arg_version\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBisl_args_set_defaults\fP (struct \fBisl_args\fP *args, void *opt)"
+.br
+.ti -1c
+.RI "void \fBisl_args_free\fP (struct \fBisl_args\fP *args, void *opt)"
+.br
+.ti -1c
+.RI "int \fBisl_args_parse\fP (struct \fBisl_args\fP *args, int argc, char **argv, void *opt, unsigned flags)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _ISL_ARG_BOOL_F(o, s, l, setter, d, h, fl)"
+\fBValue:\fP
+.PP
+.nf
+   {           \
+    \&.type = isl_arg_bool,                        \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.offset = o,                         \
+    \&.help_msg = h,                           \
+    \&.flags = fl,                         \
+    \&.u = { \&.b = { \&.default_value = d, \&.set = setter } }     \
+},
+.fi
+.SS "#define _ISL_ARG_CHILD(o, l, \fBc\fP, h, fl)"
+\fBValue:\fP
+.PP
+.nf
+  {               \
+    \&.type = isl_arg_child,                       \
+    \&.long_name = l,                          \
+    \&.offset = o,                         \
+    \&.help_msg = h,                           \
+    \&.flags = fl,                         \
+    \&.u = { \&.child = { \&.child = c } }               \
+},
+.fi
+.SS "#define ISL_ARG_ALIAS(l)"
+\fBValue:\fP
+.PP
+.nf
+    {                   \
+    \&.type = isl_arg_alias,                       \
+    \&.long_name = l,                          \
+},
+.fi
+.SS "#define ISL_ARG_ALL   (1 << 0)"
+
+.SS "#define ISL_ARG_ARG(st, \fBf\fP, \fBa\fP, d)"
+\fBValue:\fP
+.PP
+.nf
+ {                   \
+    \&.type = isl_arg_arg,                     \
+    \&.argument_name = a,                      \
+    \&.offset = offsetof(st, f),                   \
+    \&.u = { \&.str = { \&.default_value = d } }             \
+},
+.fi
+.SS "#define ISL_ARG_BOOL(st, \fBf\fP, s, l, d, h)   \fBISL_ARG_BOOL_F\fP(st,\fBf\fP,s,l,d,h,0)"
+
+.SS "#define ISL_ARG_BOOL_ARG   (1 << 1)"
+
+.SS "#define ISL_ARG_BOOL_F(st, \fBf\fP, s, l, d, h, fl)   \fB_ISL_ARG_BOOL_F\fP(offsetof(st, \fBf\fP),s,l,\fBNULL\fP,d,h,fl)"
+
+.SS "#define ISL_ARG_CHILD(st, \fBf\fP, l, \fBc\fP, h)   \fB_ISL_ARG_CHILD\fP(offsetof(st, \fBf\fP),l,\fBc\fP,h,0)"
+
+.SS "#define ISL_ARG_CHOICE(st, \fBf\fP, s, l, \fBc\fP, d, h)"
+\fBValue:\fP
+.PP
+.nf
+  {               \
+    \&.type = isl_arg_choice,                      \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.u = { \&.choice = { \&.choice = c, \&.default_value = d,     \
+                \&.default_selected = d, \&.set = NULL } }    \
+},
+.fi
+.SS "#define ISL_ARG_DECL(prefix, st, args)"
+\fBValue:\fP
+.PP
+.nf
+extern struct isl_args args;                      \
+st *prefix ## _new_with_defaults(void);                 \
+void prefix ## _free(st *opt);                      \
+int prefix ## _parse(st *opt, int argc, char **argv, unsigned flags);
+.fi
+.SS "#define ISL_ARG_DEF(prefix, st, args)"
+\fBValue:\fP
+.PP
+.nf
+st *prefix ## _new_with_defaults()                 \
+{                                   \
+    st *opt = (st *)calloc(1, sizeof(st));              \
+    if (opt)                            \
+        isl_args_set_defaults(&(args), opt);            \
+    return opt;                         \
+}                                   \
+                                    \
+void prefix ## _free(st *opt)                       \
+{                                   \
+    isl_args_free(&(args), opt);                    \
+}                                   \
+                                    \
+int prefix ## _parse(st *opt, int argc, char **argv, unsigned flags)    \
+{                                   \
+    return isl_args_parse(&(args), argc, argv, opt, flags);     \
+}
+.fi
+.SS "#define ISL_ARG_FLAGS(st, \fBf\fP, s, l, \fBc\fP, d, h)"
+\fBValue:\fP
+.PP
+.nf
+ {               \
+    \&.type = isl_arg_flags,                       \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.u = { \&.flags = { \&.flags = c, \&.default_value = d } }        \
+},
+.fi
+.SS "#define ISL_ARG_FOOTER(h)"
+\fBValue:\fP
+.PP
+.nf
+   {                   \
+    \&.type = isl_arg_footer,                      \
+    \&.help_msg = h,                           \
+},
+.fi
+.SS "#define ISL_ARG_GROUP(l, \fBc\fP, h)   \fBISL_ARG_GROUP_F\fP(l,\fBc\fP,h,0)"
+
+.SS "#define ISL_ARG_GROUP_F(l, \fBc\fP, h, fl)   \fB_ISL_ARG_CHILD\fP(\-1,l,\fBc\fP,h,fl)"
+
+.SS "#define ISL_ARG_HIDDEN   (1 << 2)"
+
+.SS "#define ISL_ARG_INT(st, \fBf\fP, s, l, \fBa\fP, d, h)   \fBISL_ARG_INT_F\fP(st,\fBf\fP,s,l,\fBa\fP,d,h,0)"
+
+.SS "#define ISL_ARG_INT_F(st, \fBf\fP, s, l, \fBa\fP, d, h, fl)"
+\fBValue:\fP
+.PP
+.nf
+   {           \
+    \&.type = isl_arg_int,                     \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.argument_name = a,                      \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.flags = fl,                         \
+    \&.u = { \&.ul = { \&.default_value = d } }              \
+},
+.fi
+.SS "#define ISL_ARG_LONG(st, \fBf\fP, s, lo, d, h)"
+\fBValue:\fP
+.PP
+.nf
+    {               \
+    \&.type = isl_arg_long,                        \
+    \&.short_name = s,                     \
+    \&.long_name = lo,                     \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.u = { \&.l = { \&.default_value = d, \&.default_selected = d,    \
+              \&.set = NULL } }                    \
+},
+.fi
+.SS "#define ISL_ARG_OPT_CHOICE(st, \fBf\fP, s, l, \fBc\fP, d, ds, h)"
+\fBValue:\fP
+.PP
+.nf
+    {           \
+    \&.type = isl_arg_choice,                      \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.u = { \&.choice = { \&.choice = c, \&.default_value = d,     \
+                \&.default_selected = ds, \&.set = NULL } }   \
+},
+.fi
+.SS "#define ISL_ARG_OPT_LONG(st, \fBf\fP, s, lo, d, ds, h)"
+\fBValue:\fP
+.PP
+.nf
+    {           \
+    \&.type = isl_arg_long,                        \
+    \&.short_name = s,                     \
+    \&.long_name = lo,                     \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.u = { \&.l = { \&.default_value = d, \&.default_selected = ds,   \
+              \&.set = NULL } }                    \
+},
+.fi
+.SS "#define ISL_ARG_PHANTOM_BOOL(s, l, setter, h)   \fBISL_ARG_PHANTOM_BOOL_F\fP(s,l,setter,h,0)"
+
+.SS "#define ISL_ARG_PHANTOM_BOOL_F(s, l, setter, h, fl)   \fB_ISL_ARG_BOOL_F\fP(\-1,s,l,setter,0,h,fl)"
+
+.SS "#define ISL_ARG_PHANTOM_USER_CHOICE_F(s, l, \fBc\fP, setter, d, h, fl)"
+\fBValue:\fP
+.PP
+.nf
+  {   \
+    \&.type = isl_arg_choice,                      \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.offset = -1,                            \
+    \&.help_msg = h,                           \
+    \&.flags = fl,                         \
+    \&.u = { \&.choice = { \&.choice = c, \&.default_value = d,     \
+                \&.default_selected = d, \&.set = setter } }  \
+},
+.fi
+.SS "#define ISL_ARG_SINGLE_DASH   (1 << 0)"
+
+.SS "#define ISL_ARG_SKIP_HELP   (1 << 1)"
+
+.SS "#define ISL_ARG_STR(st, \fBf\fP, s, l, \fBa\fP, d, h)   \fBISL_ARG_STR_F\fP(st,\fBf\fP,s,l,\fBa\fP,d,h,0)"
+
+.SS "#define ISL_ARG_STR_F(st, \fBf\fP, s, l, \fBa\fP, d, h, fl)"
+\fBValue:\fP
+.PP
+.nf
+ {           \
+    \&.type = isl_arg_str,                     \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.argument_name = a,                      \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.flags = fl,                         \
+    \&.u = { \&.str = { \&.default_value = d } }             \
+},
+.fi
+.SS "#define ISL_ARG_STR_LIST(st, f_n, f_l, s, l, \fBa\fP, h)"
+\fBValue:\fP
+.PP
+.nf
+  {           \
+    \&.type = isl_arg_str_list,                    \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.argument_name = a,                      \
+    \&.offset = offsetof(st, f_l),                 \
+    \&.help_msg = h,                           \
+    \&.u = { \&.str_list = { \&.offset_n = offsetof(st, f_n) } }     \
+},
+.fi
+.SS "#define ISL_ARG_ULONG(st, \fBf\fP, s, l, d, h)"
+\fBValue:\fP
+.PP
+.nf
+    {               \
+    \&.type = isl_arg_ulong,                       \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.u = { \&.ul = { \&.default_value = d } }              \
+},
+.fi
+.SS "#define ISL_ARG_USER(st, \fBf\fP, \fBi\fP, \fBc\fP)"
+\fBValue:\fP
+.PP
+.nf
+   {                   \
+    \&.type = isl_arg_user,                        \
+    \&.offset = offsetof(st, f),                   \
+    \&.u = { \&.user = { \&.init = i, \&.clear = c} }           \
+},
+.fi
+.SS "#define ISL_ARG_USER_LONG(st, \fBf\fP, s, lo, setter, d, h)"
+\fBValue:\fP
+.PP
+.nf
+   {           \
+    \&.type = isl_arg_long,                        \
+    \&.short_name = s,                     \
+    \&.long_name = lo,                     \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.u = { \&.l = { \&.default_value = d, \&.default_selected = d,    \
+              \&.set = setter } }                  \
+},
+.fi
+.SS "#define ISL_ARG_USER_OPT_CHOICE(st, \fBf\fP, s, l, \fBc\fP, setter, d, ds, h)"
+\fBValue:\fP
+.PP
+.nf
+   {   \
+    \&.type = isl_arg_choice,                      \
+    \&.short_name = s,                     \
+    \&.long_name = l,                          \
+    \&.offset = offsetof(st, f),                   \
+    \&.help_msg = h,                           \
+    \&.u = { \&.choice = { \&.choice = c, \&.default_value = d,     \
+                \&.default_selected = ds, \&.set = setter } } \
+},
+.fi
+.SS "#define ISL_ARG_VERSION(\fBprint\fP)"
+\fBValue:\fP
+.PP
+.nf
+  {                   \
+    \&.type = isl_arg_version,                 \
+    \&.u = { \&.version = { \&.print_version = print } }         \
+},
+.fi
+.SS "#define ISL_ARGS_END   { \fBisl_arg_end\fP } };"
+
+.SS "#define ISL_ARGS_START(s, \fBname\fP)"
+\fBValue:\fP
+.PP
+.nf
+   struct isl_arg name ## LIST[];                  \
+    struct isl_args name = { sizeof(s), name ## LIST };     \
+    struct isl_arg name ## LIST[] = {
+.fi
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBisl_arg_type\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIisl_arg_end \fP\fP
+.TP
+\fB\fIisl_arg_alias \fP\fP
+.TP
+\fB\fIisl_arg_arg \fP\fP
+.TP
+\fB\fIisl_arg_bool \fP\fP
+.TP
+\fB\fIisl_arg_child \fP\fP
+.TP
+\fB\fIisl_arg_choice \fP\fP
+.TP
+\fB\fIisl_arg_flags \fP\fP
+.TP
+\fB\fIisl_arg_footer \fP\fP
+.TP
+\fB\fIisl_arg_int \fP\fP
+.TP
+\fB\fIisl_arg_user \fP\fP
+.TP
+\fB\fIisl_arg_long \fP\fP
+.TP
+\fB\fIisl_arg_ulong \fP\fP
+.TP
+\fB\fIisl_arg_str \fP\fP
+.TP
+\fB\fIisl_arg_str_list \fP\fP
+.TP
+\fB\fIisl_arg_version \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "void isl_args_free (struct \fBisl_args\fP * args, void * opt)"
+
+.SS "int isl_args_parse (struct \fBisl_args\fP * args, int argc, char ** argv, void * opt, unsigned flags)"
+
+.SS "void isl_args_set_defaults (struct \fBisl_args\fP * args, void * opt)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,69 @@
+.TH "ir_tree_node" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ir_tree_node \- IR tree is used to initialize a loop\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <irtools\&.hh>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB~ir_tree_node\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBIR_Control\fP * \fBcontent\fP"
+.br
+.ti -1c
+.RI "\fBir_tree_node\fP * \fBparent\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBir_tree_node\fP * > \fBchildren\fP"
+.br
+.ti -1c
+.RI "int \fBpayload\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+IR tree is used to initialize a loop\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ir_tree_node::~ir_tree_node ()\fC [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBir_tree_node\fP *> ir_tree_node::children"
+
+.SS "\fBIR_Control\fP* ir_tree_node::content"
+
+.SS "\fBir_tree_node\fP* ir_tree_node::parent"
+
+.SS "int ir_tree_node::payload"
+
+.IP "\(bu" 2
+For a loop node, payload is its mapped iteration space dimension\&.
+.IP "\(bu" 2
+For a simple block node, payload is its mapped statement number\&.
+.IP "\(bu" 2
+Normal if-else is split into two nodes where
+.IP "  \(bu" 4
+odd payload represents then-part
+.IP "  \(bu" 4
+even payload represents else-part\&. 
+.PP
+
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

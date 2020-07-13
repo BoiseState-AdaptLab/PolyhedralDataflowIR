@@ -1,0 +1,233 @@
+.TH "jsoncons::json_array< JsonT, Alloc >" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+jsoncons::json_array< JsonT, Alloc >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json_structures\&.hpp>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef Alloc \fBallocator_type\fP"
+.br
+.ti -1c
+.RI "typedef JsonT \fBvalue_type\fP"
+.br
+.ti -1c
+.RI "typedef std::allocator_traits< Alloc >::template rebind_alloc< JsonT > \fBvector_allocator_type\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< JsonT, Alloc >::\fBreference\fP \fBreference\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< JsonT, Alloc >::\fBconst_reference\fP \fBconst_reference\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< JsonT, Alloc >::\fBiterator\fP \fBiterator\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< JsonT, Alloc >::\fBconst_iterator\fP \fBconst_iterator\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBjson_array\fP ()"
+.br
+.ti -1c
+.RI "\fBjson_array\fP (\fBconst\fP Alloc &allocator)"
+.br
+.ti -1c
+.RI "\fBjson_array\fP (size_t n, \fBconst\fP Alloc &allocator=Alloc())"
+.br
+.ti -1c
+.RI "\fBjson_array\fP (size_t n, \fBconst\fP JsonT &value, \fBconst\fP Alloc &allocator=Alloc())"
+.br
+.ti -1c
+.RI "template<class InputIterator > \fBjson_array\fP (InputIterator \fBbegin\fP, InputIterator \fBend\fP, \fBconst\fP Alloc &allocator=Alloc())"
+.br
+.ti -1c
+.RI "\fBjson_array\fP (\fBconst\fP \fBjson_array\fP &\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBjson_array\fP (\fBconst\fP \fBjson_array\fP &\fBval\fP, \fBconst\fP Alloc &allocator)"
+.br
+.ti -1c
+.RI "\fBjson_array\fP (\fBjson_array\fP &&\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBjson_array\fP (\fBjson_array\fP &&\fBval\fP, \fBconst\fP Alloc &allocator)"
+.br
+.ti -1c
+.RI "\fBjson_array\fP (std::initializer_list< JsonT > \fBinit\fP, \fBconst\fP Alloc &allocator=Alloc())"
+.br
+.ti -1c
+.RI "Alloc \fBget_allocator\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBswap\fP (\fBjson_array\fP< JsonT, Alloc > &\fBval\fP)"
+.br
+.ti -1c
+.RI "size_t \fBsize\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "size_t \fBcapacity\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "void \fBshrink_to_fit\fP ()"
+.br
+.ti -1c
+.RI "void \fBreserve\fP (size_t n)"
+.br
+.ti -1c
+.RI "void \fBresize\fP (size_t n)"
+.br
+.ti -1c
+.RI "void \fBresize\fP (size_t n, \fBconst\fP JsonT &\fBval\fP)"
+.br
+.ti -1c
+.RI "void \fBremove_range\fP (size_t from_index, size_t to_index)"
+.br
+.ti -1c
+.RI "void \fBerase\fP (\fBiterator\fP first, \fBiterator\fP last)"
+.br
+.ti -1c
+.RI "JsonT & \fBoperator[]\fP (size_t \fBi\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP JsonT & \fBoperator[]\fP (size_t \fBi\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBpush_back\fP (\fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "void \fBpush_back\fP (JsonT &&value)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (size_t index, \fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "void \fBadd\fP (size_t index, JsonT &&value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBadd\fP (\fBconst_iterator\fP \fBpos\fP, \fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBadd\fP (\fBconst_iterator\fP \fBpos\fP, JsonT &&value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBbegin\fP ()"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBend\fP ()"
+.br
+.ti -1c
+.RI "\fBconst_iterator\fP \fBbegin\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst_iterator\fP \fBend\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBjson_array\fP< JsonT, Alloc > &\fBrhs\fP) \fBconst\fP"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<class JsonT , class Alloc > typedef Alloc \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBallocator_type\fP"
+
+.SS "template<class JsonT , class Alloc > typedef std::vector<JsonT,Alloc>::\fBconst_iterator\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBconst_iterator\fP"
+
+.SS "template<class JsonT , class Alloc > typedef std::vector<JsonT,Alloc>::\fBconst_reference\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBconst_reference\fP"
+
+.SS "template<class JsonT , class Alloc > typedef std::vector<JsonT,Alloc>::\fBiterator\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBiterator\fP"
+
+.SS "template<class JsonT , class Alloc > typedef std::vector<JsonT,Alloc>::\fBreference\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBreference\fP"
+
+.SS "template<class JsonT , class Alloc > typedef JsonT \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBvalue_type\fP"
+
+.SS "template<class JsonT , class Alloc > typedef std::allocator_traits<Alloc>:: template rebind_alloc<JsonT> \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBvector_allocator_type\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class JsonT , class Alloc > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP ()\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP (\fBconst\fP Alloc & allocator)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP (size_t n, \fBconst\fP Alloc & allocator = \fCAlloc()\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP (size_t n, \fBconst\fP JsonT & value, \fBconst\fP Alloc & allocator = \fCAlloc()\fP)\fC [inline]\fP, \fC [explicit]\fP"
+
+.SS "template<class JsonT , class Alloc > template<class InputIterator > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP (InputIterator begin, InputIterator end, \fBconst\fP Alloc & allocator = \fCAlloc()\fP)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP (\fBconst\fP \fBjson_array\fP< JsonT, Alloc > & val)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP (\fBconst\fP \fBjson_array\fP< JsonT, Alloc > & val, \fBconst\fP Alloc & allocator)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP (\fBjson_array\fP< JsonT, Alloc > && val)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP (\fBjson_array\fP< JsonT, Alloc > && val, \fBconst\fP Alloc & allocator)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBjsoncons::json_array\fP< JsonT, Alloc >::\fBjson_array\fP (std::initializer_list< JsonT > init, \fBconst\fP Alloc & allocator = \fCAlloc()\fP)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::add (\fBconst_iterator\fP pos, \fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::add (\fBconst_iterator\fP pos, JsonT && value)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::add (size_t index, \fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::add (size_t index, JsonT && value)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::begin ()\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBconst_iterator\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::begin () const\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > size_t \fBjsoncons::json_array\fP< JsonT, Alloc >::capacity () const\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::clear ()\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::end ()\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBconst_iterator\fP \fBjsoncons::json_array\fP< JsonT, Alloc >::end () const\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::erase (\fBiterator\fP first, \fBiterator\fP last)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > Alloc \fBjsoncons::json_array\fP< JsonT, Alloc >::get_allocator () const\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > bool \fBjsoncons::json_array\fP< JsonT, Alloc >::operator== (\fBconst\fP \fBjson_array\fP< JsonT, Alloc > & rhs) const\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > JsonT& \fBjsoncons::json_array\fP< JsonT, Alloc >::operator[] (size_t i)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > \fBconst\fP JsonT& \fBjsoncons::json_array\fP< JsonT, Alloc >::operator[] (size_t i) const\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::push_back (\fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::push_back (JsonT && value)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::remove_range (size_t from_index, size_t to_index)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::reserve (size_t n)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::resize (size_t n)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::resize (size_t n, \fBconst\fP JsonT & val)\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::shrink_to_fit ()\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > size_t \fBjsoncons::json_array\fP< JsonT, Alloc >::size () const\fC [inline]\fP"
+
+.SS "template<class JsonT , class Alloc > void \fBjsoncons::json_array\fP< JsonT, Alloc >::swap (\fBjson_array\fP< JsonT, Alloc > & val)\fC [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

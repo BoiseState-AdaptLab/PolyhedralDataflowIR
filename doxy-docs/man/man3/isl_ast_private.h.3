@@ -1,0 +1,121 @@
+.TH "lib/isl/isl_ast_private.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_ast_private.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/aff\&.h>\fP
+.br
+\fC#include <isl/ast\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include <isl/vec\&.h>\fP
+.br
+\fC#include <isl/list\&.h>\fP
+.br
+\fC#include <isl_list_templ\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_ast_expr\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_ast_node\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_ast_print_options\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEL\fP   \fBisl_ast_expr\fP"
+.br
+.ti -1c
+.RI "#define \fBEL\fP   \fBisl_ast_node\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_alloc_int_si\fP (\fBisl_ctx\fP *ctx, int \fBi\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_alloc_op\fP (\fBisl_ctx\fP *ctx, enum \fBisl_ast_op_type\fP \fBop\fP, int n_arg)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_expr\fP * \fBisl_ast_expr_alloc_binary\fP (enum \fBisl_ast_op_type\fP type, \fB__isl_take\fP \fBisl_ast_expr\fP *expr1, \fB__isl_take\fP \fBisl_ast_expr\fP *expr2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_alloc_for\fP (\fB__isl_take\fP \fBisl_id\fP *id)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_for_mark_degenerate\fP (\fB__isl_take\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_alloc_if\fP (\fB__isl_take\fP \fBisl_ast_expr\fP *guard)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_alloc_block\fP (\fB__isl_take\fP isl_ast_node_list *list)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_alloc_mark\fP (\fB__isl_take\fP \fBisl_id\fP *id, \fB__isl_take\fP \fBisl_ast_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_from_ast_node_list\fP (\fB__isl_take\fP isl_ast_node_list *list)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_for_set_body\fP (\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_take\fP \fBisl_ast_node\fP *body)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_node\fP * \fBisl_ast_node_if_set_then\fP (\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_take\fP \fBisl_ast_node\fP *child)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_ast_node_list_print\fP (\fB__isl_keep\fP isl_ast_node_list *list, \fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_ast_print_options\fP *\fBoptions\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define EL   \fBisl_ast_expr\fP"
+
+.SS "#define EL   \fBisl_ast_node\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_alloc_binary (enum \fBisl_ast_op_type\fP type, \fB__isl_take\fP \fBisl_ast_expr\fP * expr1, \fB__isl_take\fP \fBisl_ast_expr\fP * expr2)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_alloc_int_si (\fBisl_ctx\fP * ctx, int i)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_expr\fP* isl_ast_expr_alloc_op (\fBisl_ctx\fP * ctx, enum \fBisl_ast_op_type\fP op, int n_arg)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_alloc_block (\fB__isl_take\fP isl_ast_node_list * list)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_alloc_for (\fB__isl_take\fP \fBisl_id\fP * id)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_alloc_if (\fB__isl_take\fP \fBisl_ast_expr\fP * guard)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_alloc_mark (\fB__isl_take\fP \fBisl_id\fP * id, \fB__isl_take\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_for_mark_degenerate (\fB__isl_take\fP \fBisl_ast_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_for_set_body (\fB__isl_take\fP \fBisl_ast_node\fP * node, \fB__isl_take\fP \fBisl_ast_node\fP * body)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_from_ast_node_list (\fB__isl_take\fP isl_ast_node_list * list)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_node\fP* isl_ast_node_if_set_then (\fB__isl_take\fP \fBisl_ast_node\fP * node, \fB__isl_take\fP \fBisl_ast_node\fP * child)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_ast_node_list_print (\fB__isl_keep\fP isl_ast_node_list * list, \fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_ast_print_options\fP * options)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

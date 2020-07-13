@@ -1,0 +1,248 @@
+.TH "jsoncons::json_object< StringT, JsonT, Alloc >" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+jsoncons::json_object< StringT, JsonT, Alloc >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json_structures\&.hpp>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef Alloc \fBallocator_type\fP"
+.br
+.ti -1c
+.RI "typedef JsonT::char_type \fBchar_type\fP"
+.br
+.ti -1c
+.RI "typedef StringT \fBstring_type\fP"
+.br
+.ti -1c
+.RI "typedef \fBname_value_pair\fP< StringT, JsonT > \fBvalue_type\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< \fBvalue_type\fP, \fBallocator_type\fP >::\fBiterator\fP \fBbase_iterator\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< \fBvalue_type\fP, \fBallocator_type\fP >::\fBconst_iterator\fP \fBconst_base_iterator\fP"
+.br
+.ti -1c
+.RI "typedef \fBjson_object_iterator\fP< \fBbase_iterator\fP, \fBbase_iterator\fP > \fBiterator\fP"
+.br
+.ti -1c
+.RI "typedef \fBjson_object_iterator\fP< \fBconst_base_iterator\fP, \fBbase_iterator\fP > \fBconst_iterator\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBjson_object\fP (\fBconst\fP \fBallocator_type\fP &allocator=\fBallocator_type\fP())"
+.br
+.ti -1c
+.RI "\fBjson_object\fP (\fBconst\fP \fBjson_object\fP< StringT, JsonT, Alloc > &\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBjson_object\fP (\fBjson_object\fP &&\fBval\fP)"
+.br
+.ti -1c
+.RI "\fBjson_object\fP (\fBconst\fP \fBjson_object\fP< StringT, JsonT, Alloc > &\fBval\fP, \fBconst\fP \fBallocator_type\fP &allocator)"
+.br
+.ti -1c
+.RI "\fBjson_object\fP (\fBjson_object\fP &&\fBval\fP, \fBconst\fP \fBallocator_type\fP &allocator)"
+.br
+.ti -1c
+.RI "Alloc \fBget_allocator\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBbegin\fP ()"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBend\fP ()"
+.br
+.ti -1c
+.RI "\fBconst_iterator\fP \fBbegin\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBconst_iterator\fP \fBend\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBswap\fP (\fBjson_object\fP &\fBval\fP)"
+.br
+.ti -1c
+.RI "size_t \fBsize\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "size_t \fBcapacity\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "void \fBshrink_to_fit\fP ()"
+.br
+.ti -1c
+.RI "void \fBreserve\fP (size_t n)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBfind\fP (\fBconst\fP \fBchar_type\fP *\fBname\fP, size_t length)"
+.br
+.ti -1c
+.RI "\fBconst_iterator\fP \fBfind\fP (\fBconst\fP \fBchar_type\fP *\fBname\fP, size_t length) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBerase\fP (\fBiterator\fP first, \fBiterator\fP last)"
+.br
+.ti -1c
+.RI "void \fBerase\fP (\fBconst\fP \fBchar_type\fP *\fBname\fP, size_t length)"
+.br
+.ti -1c
+.RI "template<class InputIt , class UnaryPredicate > void \fBinsert\fP (InputIt first, InputIt last, UnaryPredicate pred)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBconst\fP \fBchar_type\fP *s, size_t length, \fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBconst\fP \fBchar_type\fP *s, size_t length, JsonT &&value)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBstring_type\fP &&\fBname\fP, \fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP, \fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBconst\fP \fBstring_type\fP &\fBname\fP, JsonT &&value)"
+.br
+.ti -1c
+.RI "void \fBset\fP (\fBstring_type\fP &&\fBname\fP, JsonT &&value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBset\fP (\fBiterator\fP hint, \fBconst\fP \fBchar_type\fP *\fBname\fP, \fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBset\fP (\fBiterator\fP hint, \fBconst\fP \fBchar_type\fP *\fBname\fP, JsonT &&value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBset\fP (\fBiterator\fP hint, \fBconst\fP \fBchar_type\fP *s, size_t length, \fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBset\fP (\fBiterator\fP hint, \fBconst\fP \fBchar_type\fP *s, size_t length, JsonT &&value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBset\fP (\fBiterator\fP hint, \fBconst\fP \fBstring_type\fP &\fBname\fP, \fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBset\fP (\fBiterator\fP hint, \fBstring_type\fP &&\fBname\fP, \fBconst\fP JsonT &value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBset\fP (\fBiterator\fP hint, \fBconst\fP \fBstring_type\fP &\fBname\fP, JsonT &&value)"
+.br
+.ti -1c
+.RI "\fBiterator\fP \fBset\fP (\fBiterator\fP hint, \fBstring_type\fP &&\fBname\fP, JsonT &&value)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBjson_object\fP< StringT, JsonT, Alloc > &\fBrhs\fP) \fBconst\fP"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<class StringT , class JsonT , class Alloc > typedef Alloc \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBallocator_type\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > typedef std::vector<\fBvalue_type\fP, \fBallocator_type\fP>::\fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBbase_iterator\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > typedef JsonT::char_type \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBchar_type\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > typedef std::vector<\fBvalue_type\fP, \fBallocator_type\fP>::\fBconst_iterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBconst_base_iterator\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > typedef \fBjson_object_iterator\fP<\fBconst_base_iterator\fP,\fBbase_iterator\fP> \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBconst_iterator\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > typedef \fBjson_object_iterator\fP<\fBbase_iterator\fP,\fBbase_iterator\fP> \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBiterator\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > typedef StringT \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBstring_type\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > typedef \fBname_value_pair\fP<StringT,JsonT> \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBvalue_type\fP"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class StringT , class JsonT , class Alloc > \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBjson_object\fP (\fBconst\fP \fBallocator_type\fP & allocator = \fC\fBallocator_type\fP()\fP)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBjson_object\fP (\fBconst\fP \fBjson_object\fP< StringT, JsonT, Alloc > & val)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBjson_object\fP (\fBjson_object\fP< StringT, JsonT, Alloc > && val)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBjson_object\fP (\fBconst\fP \fBjson_object\fP< StringT, JsonT, Alloc > & val, \fBconst\fP \fBallocator_type\fP & allocator)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::\fBjson_object\fP (\fBjson_object\fP< StringT, JsonT, Alloc > && val, \fBconst\fP \fBallocator_type\fP & allocator)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::begin ()\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBconst_iterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::begin () const\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > size_t \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::capacity () const\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::clear ()\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::end ()\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBconst_iterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::end () const\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::erase (\fBconst\fP \fBchar_type\fP * name, size_t length)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::erase (\fBiterator\fP first, \fBiterator\fP last)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::find (\fBconst\fP \fBchar_type\fP * name, size_t length)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBconst_iterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::find (\fBconst\fP \fBchar_type\fP * name, size_t length) const\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > Alloc \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::get_allocator () const\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > template<class InputIt , class UnaryPredicate > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::insert (InputIt first, InputIt last, UnaryPredicate pred)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > bool \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::operator== (\fBconst\fP \fBjson_object\fP< StringT, JsonT, Alloc > & rhs) const\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::reserve (size_t n)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBconst\fP \fBchar_type\fP * s, size_t length, \fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBconst\fP \fBchar_type\fP * s, size_t length, JsonT && value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBconst\fP \fBstring_type\fP & name, \fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBconst\fP \fBstring_type\fP & name, JsonT && value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBiterator\fP hint, \fBconst\fP \fBchar_type\fP * name, \fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBiterator\fP hint, \fBconst\fP \fBchar_type\fP * name, JsonT && value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBiterator\fP hint, \fBconst\fP \fBchar_type\fP * s, size_t length, \fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBiterator\fP hint, \fBconst\fP \fBchar_type\fP * s, size_t length, JsonT && value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBiterator\fP hint, \fBconst\fP \fBstring_type\fP & name, \fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBiterator\fP hint, \fBconst\fP \fBstring_type\fP & name, JsonT && value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBiterator\fP hint, \fBstring_type\fP && name, \fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > \fBiterator\fP \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBiterator\fP hint, \fBstring_type\fP && name, JsonT && value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBstring_type\fP && name, \fBconst\fP JsonT & value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::set (\fBstring_type\fP && name, JsonT && value)\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::shrink_to_fit ()\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > size_t \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::size () const\fC [inline]\fP"
+
+.SS "template<class StringT , class JsonT , class Alloc > void \fBjsoncons::json_object\fP< StringT, JsonT, Alloc >::swap (\fBjson_object\fP< StringT, JsonT, Alloc > & val)\fC [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,254 @@
+.TH "artifact/include/mfd/MiniFluxUtil.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+artifact/include/mfd/MiniFluxUtil.h
+.SH SYNOPSIS
+.br
+.PP
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBABS\fP(\fBx\fP)   ((\fBx\fP)<0)?\-(\fBx\fP):(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBEPS\fP   \&.000001"
+.br
+.ti -1c
+.RI "#define \fBN_A\fP   1E20"
+.br
+.ti -1c
+.RI "#define \fBdx\fP   0\&.5"
+.br
+.ti -1c
+.RI "#define \fBfactor1\fP   (1\&.0/12\&.0)"
+.br
+.ti -1c
+.RI "#define \fBfactor2\fP   2\&.0"
+.br
+.ti -1c
+.RI "#define \fBNBOXES\fP   32"
+.br
+.ti -1c
+.RI "#define \fBNCELLS\fP   128"
+.br
+.ti -1c
+.RI "#define \fBNTHREADS\fP   1"
+.br
+.ti -1c
+.RI "#define \fBNDIMS\fP   3"
+.br
+.ti -1c
+.RI "#define \fBNCOMP\fP   5"
+.br
+.ti -1c
+.RI "#define \fBNGHOST\fP   2"
+.br
+.ti -1c
+.RI "#define \fBGET_OFFSET\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   (\fBc\fP)*full_numCell3 + ((\fBz\fP)+nGhost)*full_numCell2 + ((\fBy\fP)+nGhost)*full_numCell + ((\fBx\fP)+nGhost)"
+.br
+.ti -1c
+.RI "#define \fBGET_VAL_PTR\fP(\fBb\fP,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBGET_FACE_VAL_X\fP(\fBb\fP,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBGET_FACE_VAL_Y\fP(\fBb\fP,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBGET_FACE_VAL_Z\fP(\fBb\fP,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBPHI_IN\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBPHI_OUT\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBPHI_PTR\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   (\fBGET_VAL_PTR\fP(new_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBPHI_REF\fP(\fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+.br
+.ti -1c
+.RI "#define \fBp_DATA_old\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,0,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBe_DATA_old\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,1,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBu_DATA_old\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,2,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBv_DATA_old\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,3,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBw_DATA_old\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,4,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBp_DATA_new\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,0,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBe_DATA_new\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,1,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBu_DATA_new\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,2,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBv_DATA_new\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,3,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBw_DATA_new\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,4,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBp_DATA_ref\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,0,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBe_DATA_ref\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,1,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBu_DATA_ref\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,2,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBv_DATA_ref\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,3,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBw_DATA_ref\fP(\fBz\fP,  \fBy\fP,  \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,4,\fBz\fP,\fBy\fP,\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBPRINT\fP(d,  \fBc\fP,  \fBz\fP,  \fBy\fP,  \fBx\fP,  v1,  v2,  v3,  v4,  v5)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef double \fBReal\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ABS(\fBx\fP)   ((\fBx\fP)<0)?\-(\fBx\fP):(\fBx\fP)"
+
+.SS "#define dx   0\&.5"
+
+.SS "#define e_DATA_new(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,1,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define e_DATA_old(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,1,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define e_DATA_ref(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,1,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define EPS   \&.000001"
+
+.SS "#define factor1   (1\&.0/12\&.0)"
+
+.SS "#define factor2   2\&.0"
+
+.SS "#define GET_FACE_VAL_X(\fBb\fP, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+        (b)+(c)*(numCell)*(numCell)*(numCell+1) +\
+        (z)*(numCell)*(numCell+1)+(y)*(numCell+1)+(x)
+.fi
+.SS "#define GET_FACE_VAL_Y(\fBb\fP, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+        (b)+(c)*(numCell)*(numCell+1)*(numCell) +\
+        (z)*(numCell+1)*(numCell)+(y)*(numCell)+(x)
+.fi
+.SS "#define GET_FACE_VAL_Z(\fBb\fP, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+        (b)+(c)*(numCell+1)*(numCell)*(numCell) +\
+        (z)*(numCell)*(numCell)+(y)*(numCell)+(x)
+.fi
+.SS "#define GET_OFFSET(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   (\fBc\fP)*full_numCell3 + ((\fBz\fP)+nGhost)*full_numCell2 + ((\fBy\fP)+nGhost)*full_numCell + ((\fBx\fP)+nGhost)"
+
+.SS "#define GET_VAL_PTR(\fBb\fP, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)"
+\fBValue:\fP
+.PP
+.nf
+                    (b)+ (c)*full_numCell3 + ((z)+nGhost) * full_numCell2 +\
+                    ((y)+nGhost)*full_numCell+((x)+nGhost)
+.fi
+.SS "#define N_A   1E20"
+
+.SS "#define NBOXES   32"
+
+.SS "#define NCELLS   128"
+
+.SS "#define NCOMP   5"
+
+.SS "#define NDIMS   3"
+
+.SS "#define NGHOST   2"
+
+.SS "#define NTHREADS   1"
+
+.SS "#define p_DATA_new(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,0,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define p_DATA_old(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,0,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define p_DATA_ref(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,0,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define PHI_IN(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define PHI_OUT(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define PHI_PTR(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   (\fBGET_VAL_PTR\fP(new_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define PHI_REF(\fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,(\fBc\fP),(\fBz\fP),(\fBy\fP),(\fBx\fP)))"
+
+.SS "#define PRINT(d, \fBc\fP, \fBz\fP, \fBy\fP, \fBx\fP, v1, v2, v3, v4, v5)"
+\fBValue:\fP
+.PP
+.nf
+    {\
+    switch (d) {\
+        case 0: fprintf(stderr, "FLUX1X"); break;\
+        case 1: fprintf(stderr, "FLUX2X"); break;\
+        case 2: fprintf(stderr, "DIFFX"); break;\
+        case 3: fprintf(stderr, "FLUX1Y"); break;\
+        case 4: fprintf(stderr, "FLUX2Y"); break;\
+        case 5: fprintf(stderr, "DIFFY"); break;\
+        case 6: fprintf(stderr, "FLUX1Z"); break;\
+        case 7: fprintf(stderr, "FLUX2Z"); break;\
+        case 8: fprintf(stderr, "DIFFZ"); break;\
+    }\
+    fprintf(stderr, "\t%d\t%d\t%d\t%d\t%g\t%g\t%g", c,z,y,x,v1,v2,v3);\
+    if (v4 != N_A) fprintf(stderr, "\t%g", v4);\
+    if (v5 != N_A) fprintf(stderr, "\t%g", v5);\
+    fprintf(stderr, "\t%d\n", _printCounter);\
+    _printCounter += 1;\
+}
+.fi
+.SS "#define u_DATA_new(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,2,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define u_DATA_old(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,2,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define u_DATA_ref(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,2,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define v_DATA_new(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,3,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define v_DATA_old(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,3,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define v_DATA_ref(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,3,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define w_DATA_new(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(new_box,4,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define w_DATA_old(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(old_box,4,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SS "#define w_DATA_ref(\fBz\fP, \fBy\fP, \fBx\fP)   *(\fBGET_VAL_PTR\fP(ref_box,4,\fBz\fP,\fBy\fP,\fBx\fP))"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef double \fBReal\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,213 @@
+\hypertarget{gen-bases_8c}{}\doxysection{lib/gmp/gen-\/bases.c File Reference}
+\label{gen-bases_8c}\index{lib/gmp/gen-\/bases.c@{lib/gmp/gen-\/bases.c}}
+{\ttfamily \#include \char`\"{}bootstrap.\+c\char`\"{}}\newline
+Include dependency graph for gen-\/bases.c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{gen-bases_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{gen-bases_8c_a82a0d767f4ee56b386e4b2c196563573}{P\+O\+W2\+\_\+P}}(\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})~(((\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}) \& ((\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}) -\/ 1)) == 0)
+\item 
+\#define \mbox{\hyperlink{gen-bases_8c_af4d98da13b92f926914c4a759759b393}{E\+X\+T\+RA}}~16
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \mbox{\hyperlink{gen-bases_8c_aea64512e51b36e9ecf413680d5a400f4}{ulog2}} (unsigned int \mbox{\hyperlink{minifluxdiv-notes_8txt_af3da72996179f679711153892cf560b3}{x}})
+\item 
+void \mbox{\hyperlink{gen-bases_8c_a062dd34c879d4350ff9079b65bb8a616}{generate}} (int \mbox{\hyperlink{gen-trialdivtab_8c_ab69d6066e35d047e05aeb52059aeece9}{limb\+\_\+bits}}, int nail\+\_\+bits, int base)
+\item 
+void \mbox{\hyperlink{gen-bases_8c_a55454ec1deed0452f1396f0ca0e2dbff}{header}} (int \mbox{\hyperlink{gen-trialdivtab_8c_ab69d6066e35d047e05aeb52059aeece9}{limb\+\_\+bits}}, int nail\+\_\+bits)
+\item 
+void \mbox{\hyperlink{gen-bases_8c_a93b4926e9848a9bbdc7c31daa258afdc}{mp\+\_\+2logb}} (\mbox{\hyperlink{imath_8h_a0d7035cfc63e8e2fc1da19ca1843a04c}{mpz\+\_\+t}} r, int bi, int prec)
+\item 
+void \mbox{\hyperlink{gen-bases_8c_a6591fc85e1951168bb6f4d02a81b4570}{table}} (int \mbox{\hyperlink{gen-trialdivtab_8c_ab69d6066e35d047e05aeb52059aeece9}{limb\+\_\+bits}}, int nail\+\_\+bits)
+\item 
+int \mbox{\hyperlink{gen-bases_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{gen-bases_8c_a7e7503ad73d21ffca1062e76b739e490}{chars\+\_\+per\+\_\+limb}}
+\item 
+\mbox{\hyperlink{imath_8h_a0d7035cfc63e8e2fc1da19ca1843a04c}{mpz\+\_\+t}} \mbox{\hyperlink{gen-bases_8c_a2b2585c1945190be80c002b6fa978af6}{big\+\_\+base}}
+\item 
+int \mbox{\hyperlink{gen-bases_8c_a2189e92d10aeef91e244b7d301a3ff24}{normalization\+\_\+steps}}
+\item 
+\mbox{\hyperlink{imath_8h_a0d7035cfc63e8e2fc1da19ca1843a04c}{mpz\+\_\+t}} \mbox{\hyperlink{gen-bases_8c_a9a32618d23be047bcf5fef394ecf073c}{big\+\_\+base\+\_\+inverted}}
+\item 
+\mbox{\hyperlink{imath_8h_a0d7035cfc63e8e2fc1da19ca1843a04c}{mpz\+\_\+t}} \mbox{\hyperlink{gen-bases_8c_a6209c84e71961ed93d538bb60395500d}{t}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{gen-bases_8c_af4d98da13b92f926914c4a759759b393}\label{gen-bases_8c_af4d98da13b92f926914c4a759759b393}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!EXTRA@{EXTRA}}
+\index{EXTRA@{EXTRA}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{EXTRA}{EXTRA}}
+{\footnotesize\ttfamily \#define E\+X\+T\+RA~16}
+
+\mbox{\Hypertarget{gen-bases_8c_a82a0d767f4ee56b386e4b2c196563573}\label{gen-bases_8c_a82a0d767f4ee56b386e4b2c196563573}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!POW2\_P@{POW2\_P}}
+\index{POW2\_P@{POW2\_P}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{POW2\_P}{POW2\_P}}
+{\footnotesize\ttfamily \#define P\+O\+W2\+\_\+P(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}} }\end{DoxyParamCaption})~(((\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}) \& ((\mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}) -\/ 1)) == 0)}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{gen-bases_8c_a062dd34c879d4350ff9079b65bb8a616}\label{gen-bases_8c_a062dd34c879d4350ff9079b65bb8a616}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!generate@{generate}}
+\index{generate@{generate}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{generate()}{generate()}}
+{\footnotesize\ttfamily void generate (\begin{DoxyParamCaption}\item[{int}]{limb\+\_\+bits,  }\item[{int}]{nail\+\_\+bits,  }\item[{int}]{base }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=271pt]{gen-bases_8c_a062dd34c879d4350ff9079b65bb8a616_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{gen-bases_8c_a062dd34c879d4350ff9079b65bb8a616_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{gen-bases_8c_a55454ec1deed0452f1396f0ca0e2dbff}\label{gen-bases_8c_a55454ec1deed0452f1396f0ca0e2dbff}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!header@{header}}
+\index{header@{header}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{header()}{header()}}
+{\footnotesize\ttfamily void header (\begin{DoxyParamCaption}\item[{int}]{limb\+\_\+bits,  }\item[{int}]{nail\+\_\+bits }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{gen-bases_8c_a55454ec1deed0452f1396f0ca0e2dbff_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=207pt]{gen-bases_8c_a55454ec1deed0452f1396f0ca0e2dbff_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{gen-bases_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{gen-bases_8c_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!main@{main}}
+\index{main@{main}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{gen-bases_8c_a3c04138a5bfe5d72780bb7e82a18e627_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{gen-bases_8c_a93b4926e9848a9bbdc7c31daa258afdc}\label{gen-bases_8c_a93b4926e9848a9bbdc7c31daa258afdc}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!mp\_2logb@{mp\_2logb}}
+\index{mp\_2logb@{mp\_2logb}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{mp\_2logb()}{mp\_2logb()}}
+{\footnotesize\ttfamily void mp\+\_\+2logb (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imath_8h_a0d7035cfc63e8e2fc1da19ca1843a04c}{mpz\+\_\+t}}}]{r,  }\item[{int}]{bi,  }\item[{int}]{prec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{gen-bases_8c_a93b4926e9848a9bbdc7c31daa258afdc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{gen-bases_8c_a93b4926e9848a9bbdc7c31daa258afdc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{gen-bases_8c_a6591fc85e1951168bb6f4d02a81b4570}\label{gen-bases_8c_a6591fc85e1951168bb6f4d02a81b4570}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!table@{table}}
+\index{table@{table}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{table()}{table()}}
+{\footnotesize\ttfamily void table (\begin{DoxyParamCaption}\item[{int}]{limb\+\_\+bits,  }\item[{int}]{nail\+\_\+bits }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{gen-bases_8c_a6591fc85e1951168bb6f4d02a81b4570_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{gen-bases_8c_a6591fc85e1951168bb6f4d02a81b4570_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{gen-bases_8c_aea64512e51b36e9ecf413680d5a400f4}\label{gen-bases_8c_aea64512e51b36e9ecf413680d5a400f4}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!ulog2@{ulog2}}
+\index{ulog2@{ulog2}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{ulog2()}{ulog2()}}
+{\footnotesize\ttfamily unsigned int ulog2 (\begin{DoxyParamCaption}\item[{unsigned int}]{x }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{gen-bases_8c_aea64512e51b36e9ecf413680d5a400f4_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{gen-bases_8c_a2b2585c1945190be80c002b6fa978af6}\label{gen-bases_8c_a2b2585c1945190be80c002b6fa978af6}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!big\_base@{big\_base}}
+\index{big\_base@{big\_base}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{big\_base}{big\_base}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_a0d7035cfc63e8e2fc1da19ca1843a04c}{mpz\+\_\+t}} big\+\_\+base}
+
+\mbox{\Hypertarget{gen-bases_8c_a9a32618d23be047bcf5fef394ecf073c}\label{gen-bases_8c_a9a32618d23be047bcf5fef394ecf073c}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!big\_base\_inverted@{big\_base\_inverted}}
+\index{big\_base\_inverted@{big\_base\_inverted}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{big\_base\_inverted}{big\_base\_inverted}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_a0d7035cfc63e8e2fc1da19ca1843a04c}{mpz\+\_\+t}} big\+\_\+base\+\_\+inverted}
+
+\mbox{\Hypertarget{gen-bases_8c_a7e7503ad73d21ffca1062e76b739e490}\label{gen-bases_8c_a7e7503ad73d21ffca1062e76b739e490}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!chars\_per\_limb@{chars\_per\_limb}}
+\index{chars\_per\_limb@{chars\_per\_limb}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{chars\_per\_limb}{chars\_per\_limb}}
+{\footnotesize\ttfamily int chars\+\_\+per\+\_\+limb}
+
+\mbox{\Hypertarget{gen-bases_8c_a2189e92d10aeef91e244b7d301a3ff24}\label{gen-bases_8c_a2189e92d10aeef91e244b7d301a3ff24}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!normalization\_steps@{normalization\_steps}}
+\index{normalization\_steps@{normalization\_steps}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{normalization\_steps}{normalization\_steps}}
+{\footnotesize\ttfamily int normalization\+\_\+steps}
+
+\mbox{\Hypertarget{gen-bases_8c_a6209c84e71961ed93d538bb60395500d}\label{gen-bases_8c_a6209c84e71961ed93d538bb60395500d}} 
+\index{gen-\/bases.c@{gen-\/bases.c}!t@{t}}
+\index{t@{t}!gen-\/bases.c@{gen-\/bases.c}}
+\doxysubsubsection{\texorpdfstring{t}{t}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_a0d7035cfc63e8e2fc1da19ca1843a04c}{mpz\+\_\+t}} t}
+

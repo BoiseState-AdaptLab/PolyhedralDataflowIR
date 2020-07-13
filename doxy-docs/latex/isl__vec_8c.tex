@@ -1,0 +1,701 @@
+\hypertarget{isl__vec_8c}{}\doxysection{lib/isl/isl\+\_\+vec.c File Reference}
+\label{isl__vec_8c}\index{lib/isl/isl\_vec.c@{lib/isl/isl\_vec.c}}
+{\ttfamily \#include $<$isl\+\_\+ctx\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+seq.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+val\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+vec\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl/deprecated/vec\+\_\+int.\+h$>$}\newline
+Include dependency graph for isl\+\_\+vec.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a2a448891757f0e606e0b87707a907a32}{isl\+\_\+vec\+\_\+get\+\_\+ctx}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a448eaaf47336d247726e18db665522df}{isl\+\_\+vec\+\_\+alloc}} (struct \mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx, unsigned \mbox{\hyperlink{hull__legacy_8cc_a6fe044f9a8b37fadb6109a82381c7dd3}{size}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_ab52f9bfe9e35d0f96ee030f939f38523}{isl\+\_\+vec\+\_\+extend}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, unsigned \mbox{\hyperlink{hull__legacy_8cc_a6fe044f9a8b37fadb6109a82381c7dd3}{size}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_ab9e6c7acf95d5908e13d58071200e9dd}{isl\+\_\+vec\+\_\+zero\+\_\+extend}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, unsigned \mbox{\hyperlink{hull__legacy_8cc_a6fe044f9a8b37fadb6109a82381c7dd3}{size}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_aa03efcf804a2c7a7087cd62c820ed825}{isl\+\_\+vec\+\_\+concat}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec2)
+\item 
+struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a9e94247825061115a6ca5e13e108f974}{isl\+\_\+vec\+\_\+copy}} (struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_add60e8b23130217f2a291a4cf61000bb}{isl\+\_\+vec\+\_\+dup}} (struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_ae8d166551a41f214d9b42f67f421d1cf}{isl\+\_\+vec\+\_\+cow}} (struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+\mbox{\hyperlink{ctx_8h_a452b57ad9167af3e3cf5eaa8b9a45f78}{\+\_\+\+\_\+isl\+\_\+null}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a67347e25cea4eb552185fc3fb595f507}{isl\+\_\+vec\+\_\+free}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+int \mbox{\hyperlink{isl__vec_8c_aaa10ea8e702cd2b0c7a210c10ab0c709}{isl\+\_\+vec\+\_\+size}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+int \mbox{\hyperlink{isl__vec_8c_ac9af3e3646852b0ab544f920d5906f36}{isl\+\_\+vec\+\_\+get\+\_\+element}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, int \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a409f51e4210b6d85510dc33dadda795d}{isl\+\_\+vec\+\_\+get\+\_\+element\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, int \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a081b9cfe0fc2f0aeb81bb7370beacc87}{isl\+\_\+vec\+\_\+set\+\_\+element}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, int \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_aea38b996d3a255966b2588b04a4a8e7f}{isl\+\_\+vec\+\_\+set\+\_\+element\+\_\+si}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, int \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, int v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a64e25a002260949cf8fb76e9a2efc674}{isl\+\_\+vec\+\_\+set\+\_\+element\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, int \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+int \mbox{\hyperlink{isl__vec_8c_a7841f536185f3ebf00d68988702a45d9}{isl\+\_\+vec\+\_\+cmp\+\_\+element}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec2, int \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}})
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__vec_8c_a875a19a06f881bebf8482254b019c896}{isl\+\_\+vec\+\_\+is\+\_\+equal}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a14f4efe35089810a1fba9b03eccdc3c7}{isl\+\_\+printer\+\_\+print\+\_\+vec}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}} $\ast$printer, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+void \mbox{\hyperlink{isl__vec_8c_ada2d9e363059ffac667f810b3a0cbb2f}{isl\+\_\+vec\+\_\+dump}} (struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_ab0dbc5e2d2269864154c24a25b1a4650}{isl\+\_\+vec\+\_\+set}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_aa1c550eace253090bdd7baa1fd73338b}{isl\+\_\+vec\+\_\+set\+\_\+si}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, int v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a316b9fdcb4289eef5bf0653667d6a4b2}{isl\+\_\+vec\+\_\+set\+\_\+val}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$v)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a9ccaecc625259cc0dab0bd4ece1ac867}{isl\+\_\+vec\+\_\+clr}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+void \mbox{\hyperlink{isl__vec_8c_a07c46574e121e2bb35684d18cc5d9f55}{isl\+\_\+vec\+\_\+lcm}} (struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$\mbox{\hyperlink{gmp__compat_8h_a6c89e402488973f3123577ed1ca6f1f1}{lcm}})
+\item 
+struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_aaa61cbf95bea2da433891de9c1331a01}{isl\+\_\+vec\+\_\+ceil}} (struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a4bb8629484ca1e818f8aed4d54814e89}{isl\+\_\+vec\+\_\+normalize}} (struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_af29a421978e6019132f85f48f1a17638}{isl\+\_\+vec\+\_\+neg}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a9faf895f7acc098c05630205e0284e82}{isl\+\_\+vec\+\_\+scale}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} \mbox{\hyperlink{notes_8txt_a16ed35ac1739dfaead255294b74ba947}{m}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a13c4d0c3ba5ea5dddc16f91641327aba}{isl\+\_\+vec\+\_\+fdiv\+\_\+r}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, \mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} \mbox{\hyperlink{notes_8txt_a16ed35ac1739dfaead255294b74ba947}{m}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a3178212289ad9f81f7e486c5147e053f}{isl\+\_\+vec\+\_\+add}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a559fbbd4b66188e37d091efc5172b650}{isl\+\_\+vec\+\_\+sort}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a83cbf7be1bea8ee046b44db6fd3f1513}{isl\+\_\+vec\+\_\+drop\+\_\+els}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, unsigned \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_ad413b2b15e3abb0abbf5fc70419214e9}{isl\+\_\+vec\+\_\+insert\+\_\+els}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, unsigned \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_a70f4dc90fae29019707ad809c7b8caa7}{isl\+\_\+vec\+\_\+insert\+\_\+zero\+\_\+els}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, unsigned \mbox{\hyperlink{hull__legacy_8cc_adaafb5d1f348c1e5ccde9ea64f174410}{pos}}, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$ \mbox{\hyperlink{isl__vec_8c_aae7b143dddbf316f11711f61a0553ace}{isl\+\_\+vec\+\_\+move\+\_\+els}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$vec, unsigned dst\+\_\+pos, unsigned src\+\_\+pos, unsigned \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{isl__vec_8c_a14f4efe35089810a1fba9b03eccdc3c7}\label{isl__vec_8c_a14f4efe35089810a1fba9b03eccdc3c7}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_printer\_print\_vec@{isl\_printer\_print\_vec}}
+\index{isl\_printer\_print\_vec@{isl\_printer\_print\_vec}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_printer\_print\_vec()}{isl\_printer\_print\_vec()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}}$\ast$ isl\+\_\+printer\+\_\+print\+\_\+vec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}} $\ast$}]{printer,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a14f4efe35089810a1fba9b03eccdc3c7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=315pt]{isl__vec_8c_a14f4efe35089810a1fba9b03eccdc3c7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a3178212289ad9f81f7e486c5147e053f}\label{isl__vec_8c_a3178212289ad9f81f7e486c5147e053f}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_add@{isl\_vec\_add}}
+\index{isl\_vec\_add@{isl\_vec\_add}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_add()}{isl\_vec\_add()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a3178212289ad9f81f7e486c5147e053f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a448eaaf47336d247726e18db665522df}\label{isl__vec_8c_a448eaaf47336d247726e18db665522df}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_alloc@{isl\_vec\_alloc}}
+\index{isl\_vec\_alloc@{isl\_vec\_alloc}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_alloc()}{isl\_vec\_alloc()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+alloc (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx,  }\item[{unsigned}]{size }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a448eaaf47336d247726e18db665522df_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{isl__vec_8c_a448eaaf47336d247726e18db665522df_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_aaa61cbf95bea2da433891de9c1331a01}\label{isl__vec_8c_aaa61cbf95bea2da433891de9c1331a01}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_ceil@{isl\_vec\_ceil}}
+\index{isl\_vec\_ceil@{isl\_vec\_ceil}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_ceil()}{isl\_vec\_ceil()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+ceil (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_aaa61cbf95bea2da433891de9c1331a01_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a9ccaecc625259cc0dab0bd4ece1ac867}\label{isl__vec_8c_a9ccaecc625259cc0dab0bd4ece1ac867}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_clr@{isl\_vec\_clr}}
+\index{isl\_vec\_clr@{isl\_vec\_clr}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_clr()}{isl\_vec\_clr()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+clr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a9ccaecc625259cc0dab0bd4ece1ac867_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a9ccaecc625259cc0dab0bd4ece1ac867_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a7841f536185f3ebf00d68988702a45d9}\label{isl__vec_8c_a7841f536185f3ebf00d68988702a45d9}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_cmp\_element@{isl\_vec\_cmp\_element}}
+\index{isl\_vec\_cmp\_element@{isl\_vec\_cmp\_element}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_cmp\_element()}{isl\_vec\_cmp\_element()}}
+{\footnotesize\ttfamily int isl\+\_\+vec\+\_\+cmp\+\_\+element (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec2,  }\item[{int}]{pos }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{isl__vec_8c_a7841f536185f3ebf00d68988702a45d9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_aa03efcf804a2c7a7087cd62c820ed825}\label{isl__vec_8c_aa03efcf804a2c7a7087cd62c820ed825}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_concat@{isl\_vec\_concat}}
+\index{isl\_vec\_concat@{isl\_vec\_concat}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_concat()}{isl\_vec\_concat()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+concat (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_aa03efcf804a2c7a7087cd62c820ed825_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a9e94247825061115a6ca5e13e108f974}\label{isl__vec_8c_a9e94247825061115a6ca5e13e108f974}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_copy@{isl\_vec\_copy}}
+\index{isl\_vec\_copy@{isl\_vec\_copy}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_copy()}{isl\_vec\_copy()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+copy (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__vec_8c_ae8d166551a41f214d9b42f67f421d1cf}\label{isl__vec_8c_ae8d166551a41f214d9b42f67f421d1cf}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_cow@{isl\_vec\_cow}}
+\index{isl\_vec\_cow@{isl\_vec\_cow}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_cow()}{isl\_vec\_cow()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+cow (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_ae8d166551a41f214d9b42f67f421d1cf_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{isl__vec_8c_ae8d166551a41f214d9b42f67f421d1cf_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a83cbf7be1bea8ee046b44db6fd3f1513}\label{isl__vec_8c_a83cbf7be1bea8ee046b44db6fd3f1513}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_drop\_els@{isl\_vec\_drop\_els}}
+\index{isl\_vec\_drop\_els@{isl\_vec\_drop\_els}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_drop\_els()}{isl\_vec\_drop\_els()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+drop\+\_\+els (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{unsigned}]{pos,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a83cbf7be1bea8ee046b44db6fd3f1513_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a83cbf7be1bea8ee046b44db6fd3f1513_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_ada2d9e363059ffac667f810b3a0cbb2f}\label{isl__vec_8c_ada2d9e363059ffac667f810b3a0cbb2f}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_dump@{isl\_vec\_dump}}
+\index{isl\_vec\_dump@{isl\_vec\_dump}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_dump()}{isl\_vec\_dump()}}
+{\footnotesize\ttfamily void isl\+\_\+vec\+\_\+dump (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_ada2d9e363059ffac667f810b3a0cbb2f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_add60e8b23130217f2a291a4cf61000bb}\label{isl__vec_8c_add60e8b23130217f2a291a4cf61000bb}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_dup@{isl\_vec\_dup}}
+\index{isl\_vec\_dup@{isl\_vec\_dup}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_dup()}{isl\_vec\_dup()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+dup (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_add60e8b23130217f2a291a4cf61000bb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{isl__vec_8c_add60e8b23130217f2a291a4cf61000bb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_ab52f9bfe9e35d0f96ee030f939f38523}\label{isl__vec_8c_ab52f9bfe9e35d0f96ee030f939f38523}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_extend@{isl\_vec\_extend}}
+\index{isl\_vec\_extend@{isl\_vec\_extend}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_extend()}{isl\_vec\_extend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+extend (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{unsigned}]{size }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_ab52f9bfe9e35d0f96ee030f939f38523_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_ab52f9bfe9e35d0f96ee030f939f38523_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a13c4d0c3ba5ea5dddc16f91641327aba}\label{isl__vec_8c_a13c4d0c3ba5ea5dddc16f91641327aba}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_fdiv\_r@{isl\_vec\_fdiv\_r}}
+\index{isl\_vec\_fdiv\_r@{isl\_vec\_fdiv\_r}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_fdiv\_r()}{isl\_vec\_fdiv\_r()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+fdiv\+\_\+r (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}}]{m }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a13c4d0c3ba5ea5dddc16f91641327aba_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a67347e25cea4eb552185fc3fb595f507}\label{isl__vec_8c_a67347e25cea4eb552185fc3fb595f507}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_free@{isl\_vec\_free}}
+\index{isl\_vec\_free@{isl\_vec\_free}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_free()}{isl\_vec\_free()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a452b57ad9167af3e3cf5eaa8b9a45f78}{\+\_\+\+\_\+isl\+\_\+null}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=270pt]{isl__vec_8c_a67347e25cea4eb552185fc3fb595f507_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{isl__vec_8c_a67347e25cea4eb552185fc3fb595f507_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a2a448891757f0e606e0b87707a907a32}\label{isl__vec_8c_a2a448891757f0e606e0b87707a907a32}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_get\_ctx@{isl\_vec\_get\_ctx}}
+\index{isl\_vec\_get\_ctx@{isl\_vec\_get\_ctx}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_get\_ctx()}{isl\_vec\_get\_ctx()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}}$\ast$ isl\+\_\+vec\+\_\+get\+\_\+ctx (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a2a448891757f0e606e0b87707a907a32_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_ac9af3e3646852b0ab544f920d5906f36}\label{isl__vec_8c_ac9af3e3646852b0ab544f920d5906f36}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_get\_element@{isl\_vec\_get\_element}}
+\index{isl\_vec\_get\_element@{isl\_vec\_get\_element}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_get\_element()}{isl\_vec\_get\_element()}}
+{\footnotesize\ttfamily int isl\+\_\+vec\+\_\+get\+\_\+element (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{int}]{pos,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__vec_8c_a409f51e4210b6d85510dc33dadda795d}\label{isl__vec_8c_a409f51e4210b6d85510dc33dadda795d}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_get\_element\_val@{isl\_vec\_get\_element\_val}}
+\index{isl\_vec\_get\_element\_val@{isl\_vec\_get\_element\_val}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_get\_element\_val()}{isl\_vec\_get\_element\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}}$\ast$ isl\+\_\+vec\+\_\+get\+\_\+element\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{int}]{pos }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{isl__vec_8c_a409f51e4210b6d85510dc33dadda795d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a409f51e4210b6d85510dc33dadda795d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_ad413b2b15e3abb0abbf5fc70419214e9}\label{isl__vec_8c_ad413b2b15e3abb0abbf5fc70419214e9}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_insert\_els@{isl\_vec\_insert\_els}}
+\index{isl\_vec\_insert\_els@{isl\_vec\_insert\_els}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_insert\_els()}{isl\_vec\_insert\_els()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+insert\+\_\+els (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{unsigned}]{pos,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_ad413b2b15e3abb0abbf5fc70419214e9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_ad413b2b15e3abb0abbf5fc70419214e9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a70f4dc90fae29019707ad809c7b8caa7}\label{isl__vec_8c_a70f4dc90fae29019707ad809c7b8caa7}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_insert\_zero\_els@{isl\_vec\_insert\_zero\_els}}
+\index{isl\_vec\_insert\_zero\_els@{isl\_vec\_insert\_zero\_els}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_insert\_zero\_els()}{isl\_vec\_insert\_zero\_els()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+insert\+\_\+zero\+\_\+els (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{unsigned}]{pos,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a70f4dc90fae29019707ad809c7b8caa7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a70f4dc90fae29019707ad809c7b8caa7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a875a19a06f881bebf8482254b019c896}\label{isl__vec_8c_a875a19a06f881bebf8482254b019c896}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_is\_equal@{isl\_vec\_is\_equal}}
+\index{isl\_vec\_is\_equal@{isl\_vec\_is\_equal}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_is\_equal()}{isl\_vec\_is\_equal()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+vec\+\_\+is\+\_\+equal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{isl__vec_8c_a875a19a06f881bebf8482254b019c896_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{isl__vec_8c_a875a19a06f881bebf8482254b019c896_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a07c46574e121e2bb35684d18cc5d9f55}\label{isl__vec_8c_a07c46574e121e2bb35684d18cc5d9f55}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_lcm@{isl\_vec\_lcm}}
+\index{isl\_vec\_lcm@{isl\_vec\_lcm}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_lcm()}{isl\_vec\_lcm()}}
+{\footnotesize\ttfamily void isl\+\_\+vec\+\_\+lcm (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}} $\ast$}]{lcm }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a07c46574e121e2bb35684d18cc5d9f55_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_aae7b143dddbf316f11711f61a0553ace}\label{isl__vec_8c_aae7b143dddbf316f11711f61a0553ace}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_move\_els@{isl\_vec\_move\_els}}
+\index{isl\_vec\_move\_els@{isl\_vec\_move\_els}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_move\_els()}{isl\_vec\_move\_els()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+move\+\_\+els (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{unsigned}]{dst\+\_\+pos,  }\item[{unsigned}]{src\+\_\+pos,  }\item[{unsigned}]{n }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_aae7b143dddbf316f11711f61a0553ace_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=327pt]{isl__vec_8c_aae7b143dddbf316f11711f61a0553ace_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_af29a421978e6019132f85f48f1a17638}\label{isl__vec_8c_af29a421978e6019132f85f48f1a17638}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_neg@{isl\_vec\_neg}}
+\index{isl\_vec\_neg@{isl\_vec\_neg}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_neg()}{isl\_vec\_neg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+neg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_af29a421978e6019132f85f48f1a17638_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{isl__vec_8c_af29a421978e6019132f85f48f1a17638_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a4bb8629484ca1e818f8aed4d54814e89}\label{isl__vec_8c_a4bb8629484ca1e818f8aed4d54814e89}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_normalize@{isl\_vec\_normalize}}
+\index{isl\_vec\_normalize@{isl\_vec\_normalize}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_normalize()}{isl\_vec\_normalize()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+normalize (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a4bb8629484ca1e818f8aed4d54814e89_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a4bb8629484ca1e818f8aed4d54814e89_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a9faf895f7acc098c05630205e0284e82}\label{isl__vec_8c_a9faf895f7acc098c05630205e0284e82}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_scale@{isl\_vec\_scale}}
+\index{isl\_vec\_scale@{isl\_vec\_scale}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_scale()}{isl\_vec\_scale()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+scale (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}}]{m }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a9faf895f7acc098c05630205e0284e82_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_ab0dbc5e2d2269864154c24a25b1a4650}\label{isl__vec_8c_ab0dbc5e2d2269864154c24a25b1a4650}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_set@{isl\_vec\_set}}
+\index{isl\_vec\_set@{isl\_vec\_set}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_set()}{isl\_vec\_set()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_ab0dbc5e2d2269864154c24a25b1a4650_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a081b9cfe0fc2f0aeb81bb7370beacc87}\label{isl__vec_8c_a081b9cfe0fc2f0aeb81bb7370beacc87}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_set\_element@{isl\_vec\_set\_element}}
+\index{isl\_vec\_set\_element@{isl\_vec\_set\_element}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_set\_element()}{isl\_vec\_set\_element()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+set\+\_\+element (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{int}]{pos,  }\item[{\mbox{\hyperlink{int_8h_acc2a52588c42d3c7ed5d477fa0a755bc}{isl\+\_\+int}}}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a081b9cfe0fc2f0aeb81bb7370beacc87_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a081b9cfe0fc2f0aeb81bb7370beacc87_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_aea38b996d3a255966b2588b04a4a8e7f}\label{isl__vec_8c_aea38b996d3a255966b2588b04a4a8e7f}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_set\_element\_si@{isl\_vec\_set\_element\_si}}
+\index{isl\_vec\_set\_element\_si@{isl\_vec\_set\_element\_si}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_set\_element\_si()}{isl\_vec\_set\_element\_si()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+set\+\_\+element\+\_\+si (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{int}]{pos,  }\item[{int}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_aea38b996d3a255966b2588b04a4a8e7f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_aea38b996d3a255966b2588b04a4a8e7f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a64e25a002260949cf8fb76e9a2efc674}\label{isl__vec_8c_a64e25a002260949cf8fb76e9a2efc674}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_set\_element\_val@{isl\_vec\_set\_element\_val}}
+\index{isl\_vec\_set\_element\_val@{isl\_vec\_set\_element\_val}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_set\_element\_val()}{isl\_vec\_set\_element\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+set\+\_\+element\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{int}]{pos,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a64e25a002260949cf8fb76e9a2efc674_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a64e25a002260949cf8fb76e9a2efc674_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_aa1c550eace253090bdd7baa1fd73338b}\label{isl__vec_8c_aa1c550eace253090bdd7baa1fd73338b}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_set\_si@{isl\_vec\_set\_si}}
+\index{isl\_vec\_set\_si@{isl\_vec\_set\_si}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_set\_si()}{isl\_vec\_set\_si()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+set\+\_\+si (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{int}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_aa1c550eace253090bdd7baa1fd73338b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a316b9fdcb4289eef5bf0653667d6a4b2}\label{isl__vec_8c_a316b9fdcb4289eef5bf0653667d6a4b2}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_set\_val@{isl\_vec\_set\_val}}
+\index{isl\_vec\_set\_val@{isl\_vec\_set\_val}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_set\_val()}{isl\_vec\_set\_val()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+set\+\_\+val (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__val}{isl\+\_\+val}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_a316b9fdcb4289eef5bf0653667d6a4b2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_aaa10ea8e702cd2b0c7a210c10ab0c709}\label{isl__vec_8c_aaa10ea8e702cd2b0c7a210c10ab0c709}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_size@{isl\_vec\_size}}
+\index{isl\_vec\_size@{isl\_vec\_size}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_size()}{isl\_vec\_size()}}
+{\footnotesize\ttfamily int isl\+\_\+vec\+\_\+size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{isl__vec_8c_aaa10ea8e702cd2b0c7a210c10ab0c709_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__vec_8c_a559fbbd4b66188e37d091efc5172b650}\label{isl__vec_8c_a559fbbd4b66188e37d091efc5172b650}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_sort@{isl\_vec\_sort}}
+\index{isl\_vec\_sort@{isl\_vec\_sort}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_sort()}{isl\_vec\_sort()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+sort (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{isl__vec_8c_ab9e6c7acf95d5908e13d58071200e9dd}\label{isl__vec_8c_ab9e6c7acf95d5908e13d58071200e9dd}} 
+\index{isl\_vec.c@{isl\_vec.c}!isl\_vec\_zero\_extend@{isl\_vec\_zero\_extend}}
+\index{isl\_vec\_zero\_extend@{isl\_vec\_zero\_extend}!isl\_vec.c@{isl\_vec.c}}
+\doxysubsubsection{\texorpdfstring{isl\_vec\_zero\_extend()}{isl\_vec\_zero\_extend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}}$\ast$ isl\+\_\+vec\+\_\+zero\+\_\+extend (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__vec}{isl\+\_\+vec}} $\ast$}]{vec,  }\item[{unsigned}]{size }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__vec_8c_ab9e6c7acf95d5908e13d58071200e9dd_cgraph}
+\end{center}
+\end{figure}

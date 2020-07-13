@@ -1,0 +1,735 @@
+.TH "Loop" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Loop
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <loop\&.hh>\fP
+.PP
+Inherited by \fBLoopCuda\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBdebugRelations\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBomp_mark_pragma\fP (int, int, std::string)"
+.br
+.ti -1c
+.RI "void \fBomp_mark_parallel_for\fP (int, int, \fBconst\fP std::vector< std::string > &, \fBconst\fP std::vector< std::string > &)"
+.br
+.ti -1c
+.RI "\fBLoop\fP ()"
+.br
+.ti -1c
+.RI "\fBLoop\fP (\fBconst\fP \fBIR_Control\fP *control)"
+.br
+.ti -1c
+.RI "\fB~Loop\fP ()"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBgetCode\fP (int effort=3) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBstencilASEPadded\fP (int stmt_num)"
+.br
+.ti -1c
+.RI "void \fBinvalidateCodeGen\fP ()"
+.br
+.RI "invalidate saved codegen computation "
+.ti -1c
+.RI "void \fBprintCode\fP (int effort=3) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBaddKnown\fP (\fBconst\fP \fBomega::Relation\fP &cond)"
+.br
+.ti -1c
+.RI "void \fBprint_internal_loop_structure\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "bool \fBisInitialized\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBnum_statement\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintIterationSpace\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBprintDependenceGraph\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "std::vector< std::pair< std::string, std::string > > \fBdepRelsForParallelization\fP (int parallelLoopLevel=0)"
+.br
+.ti -1c
+.RI "int \fBreplaceCode\fP ()"
+.br
+.ti -1c
+.RI "void \fBremoveDependence\fP (int stmt_num_from, int stmt_num_to)"
+.br
+.ti -1c
+.RI "void \fBdump\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBstd::set\fP< int > > \fBsort_by_same_loops\fP (\fBstd::set\fP< int > active, int level)"
+.br
+.ti -1c
+.RI "bool \fBnonsingular\fP (\fBconst\fP std::vector< std::vector< int > > &M)"
+.br
+.RI "legacy unimodular transformations for perfectly nested loops "
+.ti -1c
+.RI "void \fBpermute\fP (\fBconst\fP \fBstd::set\fP< int > &active, \fBconst\fP std::vector< int > &pi)"
+.br
+.ti -1c
+.RI "void \fBpermute\fP (int stmt_num, int level, \fBconst\fP std::vector< int > &pi)"
+.br
+.ti -1c
+.RI "void \fBpermute\fP (\fBconst\fP std::vector< int > &pi)"
+.br
+.ti -1c
+.RI "void \fBoriginal\fP ()"
+.br
+.ti -1c
+.RI "void \fBtile\fP (int stmt_num, int level, int tile_size, int outer_level=1, \fBTilingMethodType\fP method=\fBStridedTile\fP, int alignment_offset=0, int alignment_multiple=1)"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< int > \fBsplit\fP (int stmt_num, int level, \fBconst\fP \fBomega::Relation\fP &cond)"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< int > \fBunroll\fP (int stmt_num, int level, int unroll_amount, std::vector< std::vector< std::string > >idxNames=std::vector< std::vector< std::string > >(), int cleanup_split_level=0)"
+.br
+.ti -1c
+.RI "bool \fBdatacopy\fP (\fBconst\fP std::vector< std::pair< int, std::vector< int > > > &array_ref_nums, int level, bool allow_extra_read=false, int fastest_changing_dimension=\-1, int padding_stride=1, int padding_alignment=4, int memory_type=0)"
+.br
+.RI "Datacopy function by reffering arrays by numbers\&. "
+.ti -1c
+.RI "bool \fBdatacopy\fP (int stmt_num, int level, \fBconst\fP std::string &array_name, bool allow_extra_read=false, int fastest_changing_dimension=\-1, int padding_stride=1, int padding_alignment=4, int memory_type=0)"
+.br
+.RI "Datacopy function by reffering arrays by name\&. "
+.ti -1c
+.RI "bool \fBdatacopy_privatized\fP (int stmt_num, int level, \fBconst\fP std::string &array_name, \fBconst\fP std::vector< int > &privatized_levels, bool allow_extra_read=false, int fastest_changing_dimension=\-1, int padding_stride=1, int padding_alignment=1, int memory_type=0)"
+.br
+.ti -1c
+.RI "bool \fBdatacopy_privatized\fP (\fBconst\fP std::vector< std::pair< int, std::vector< int > > > &array_ref_nums, int level, \fBconst\fP std::vector< int > &privatized_levels, bool allow_extra_read=false, int fastest_changing_dimension=\-1, int padding_stride=1, int padding_alignment=1, int memory_type=0)"
+.br
+.ti -1c
+.RI "bool \fBdatacopy_privatized\fP (\fBconst\fP std::vector< std::pair< int, std::vector< \fBIR_ArrayRef\fP * > > > &stmt_refs, int level, \fBconst\fP std::vector< int > &privatized_levels, bool allow_extra_read, int fastest_changing_dimension, int padding_stride, int padding_alignment, int memory_type=0)"
+.br
+.ti -1c
+.RI "bool \fBfind_stencil_shape\fP (int stmt_num)"
+.br
+.ti -1c
+.RI "Graph< \fBstd::set\fP< int >, bool > \fBconstruct_induced_graph_at_level\fP (std::vector< \fBstd::set\fP< int > > s, \fBDependenceGraph\fP \fBdep\fP, int dep_dim)"
+.br
+.ti -1c
+.RI "std::vector< \fBstd::set\fP< int > > \fBtyped_fusion\fP (Graph< \fBstd::set\fP< int >, bool > g, std::vector< bool > &types)"
+.br
+.ti -1c
+.RI "void \fBfuse\fP (\fBconst\fP \fBstd::set\fP< int > &stmt_nums, int level)"
+.br
+.ti -1c
+.RI "void \fBdistribute\fP (\fBconst\fP \fBstd::set\fP< int > &stmt_nums, int level)"
+.br
+.ti -1c
+.RI "void \fBskew\fP (\fBconst\fP \fBstd::set\fP< int > &stmt_nums, int level, \fBconst\fP std::vector< int > &skew_amount)"
+.br
+.ti -1c
+.RI "void \fBshift\fP (\fBconst\fP \fBstd::set\fP< int > &stmt_nums, int level, int shift_amount)"
+.br
+.ti -1c
+.RI "void \fBscale\fP (\fBconst\fP \fBstd::set\fP< int > &stmt_nums, int level, int scale_amount)"
+.br
+.ti -1c
+.RI "void \fBreverse\fP (\fBconst\fP \fBstd::set\fP< int > &stmt_nums, int level)"
+.br
+.ti -1c
+.RI "void \fBpeel\fP (int stmt_num, int level, int peel_amount=1)"
+.br
+.ti -1c
+.RI "void \fBmodular_shift\fP (int stmt_num, int level, int shift_amount)"
+.br
+.ti -1c
+.RI "void \fBdiagonal_map\fP (int stmt_num, \fBconst\fP std::pair< int, int > &levels, int \fBoffset\fP)"
+.br
+.ti -1c
+.RI "void \fBmodular_partition\fP (int stmt_num, int level, int stride)"
+.br
+.ti -1c
+.RI "void \fBflatten\fP (int stmt_num, std::string index_name, std::vector< int > &loop_levels, std::string inspector_name)"
+.br
+.ti -1c
+.RI "void \fBnormalize\fP (int stmt_num, int loop_level)"
+.br
+.ti -1c
+.RI "void \fBgenerate_ghostcells_v2\fP (std::vector< int > \fBstmt\fP, int loop_num, int ghost_value, int hold_inner_loop_constant=0)"
+.br
+.ti -1c
+.RI "void \fBshift_to\fP (int stmt_num, int level, int absolute_position)"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< int > \fBunroll_extra\fP (int stmt_num, int level, int unroll_amount, int cleanup_split_level=0)"
+.br
+.ti -1c
+.RI "bool \fBis_dependence_valid_based_on_lex_order\fP (int \fBi\fP, int \fBj\fP, \fBconst\fP \fBDependenceVector\fP &dv, bool before)"
+.br
+.ti -1c
+.RI "void \fBsplit_with_alignment\fP (int stmt_num, int level, int alignment, int direction=0)"
+.br
+.ti -1c
+.RI "void \fBreduce\fP (int stmt_num, std::vector< int > &level, int param, std::string func_name, std::vector< int > &seq_levels, std::vector< int > cudaized_levels=std::vector< int >(), int bound_level=\-1)"
+.br
+.ti -1c
+.RI "void \fBscalar_expand\fP (int stmt_num, \fBconst\fP std::vector< int > &levels, std::string arrName, int memory_type=0, int padding_alignment=0, int assign_then_accumulate=1, int padding_stride=0)"
+.br
+.ti -1c
+.RI "void \fBELLify\fP (int stmt_num, std::vector< std::string > arrays_to_pad, int pad_to, bool dense_pad=false, std::string dense_pad_pos_array='')"
+.br
+.ti -1c
+.RI "void \fBcompact\fP (int stmt_num, int level, std::string new_array, int zero, std::string data_array)"
+.br
+.ti -1c
+.RI "void \fBmake_dense\fP (int stmt_num, int loop_level, std::string new_loop_index)"
+.br
+.ti -1c
+.RI "void \fBset_array_size\fP (std::string \fBname\fP, int \fBsize\fP)"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBiegen_parser\fP (std::string &\fBstr\fP, std::vector< std::string > &index_names)"
+.br
+.ti -1c
+.RI "void \fBpragma\fP (int stmt_num, int level, \fBconst\fP std::string &pragmaText)"
+.br
+.ti -1c
+.RI "void \fBprefetch\fP (int stmt_num, int level, \fBconst\fP std::string &arrName, int hint)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBIR_Code\fP * \fBir\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBIR_PointerSymbol\fP * > \fBptr_variables\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::Free_Var_Decl\fP * > \fBfreevar\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBStatement\fP > \fBstmt\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::CG_outputRepr\fP * > \fBactual_code\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBir_tree_node\fP * > \fBir_stmt\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBir_tree_node\fP * > \fBir_tree\fP"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< std::string > \fBreduced_write_refs\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< std::string, int > \fBarray_dims\fP"
+.br
+.ti -1c
+.RI "\fBDependenceGraph\fP \fBdep\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::Relation\fP > \fBdep_relation\fP"
+.br
+.ti -1c
+.RI "int \fBnum_dep_dim\fP"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBknown\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBinit_code\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_outputRepr\fP * \fBcleanup_code\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< int, std::vector< \fBomega::Free_Var_Decl\fP * > > \fBoverflow\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > > \fBuninterpreted_symbols\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > > \fBuninterpreted_symbols_stringrepr\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBstd::map\fP< std::string, std::vector< \fBomega::Relation\fP > > > \fBunin_rel\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< std::string, \fBstd::set\fP< std::string > > \fBunin_symbol_args\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< std::string, std::string > \fBunin_symbol_for_iegen\fP"
+.br
+.ti -1c
+.RI "std::vector< std::pair< std::string, std::string > > \fBdep_rel_for_iegen\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBPragmaInfo\fP > \fBgeneral_pragma_info\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBOMPPragmaInfo\fP > \fBomp_pragma_info\fP"
+.br
+.ti -1c
+.RI "int \fBreplaceCode_ind\fP"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBinit_loop\fP (std::vector< \fBir_tree_node\fP * > &\fBir_tree\fP, std::vector< \fBir_tree_node\fP * > &\fBir_stmt\fP)"
+.br
+.ti -1c
+.RI "int \fBget_dep_dim_of\fP (int \fBstmt\fP, int level) \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBget_last_dep_dim_before\fP (int \fBstmt\fP, int level) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::Relation\fP > \fBgetNewIS\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBgetNewIS\fP (int stmt_num) \fBconst\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBgetLexicalOrder\fP (int stmt_num) \fBconst\fP"
+.br
+.RI "Get the lexical order of a statment as a vector\&. "
+.ti -1c
+.RI "int \fBgetLexicalOrder\fP (int stmt_num, int level) \fBconst\fP"
+.br
+.RI "Get the lexical ordering of the statement at level\&. "
+.ti -1c
+.RI "\fBstd::set\fP< int > \fBgetStatements\fP (\fBconst\fP std::vector< int > &lex, int \fBdim\fP) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBshiftLexicalOrder\fP (\fBconst\fP std::vector< int > &lex, int \fBdim\fP, int amount)"
+.br
+.RI "Shift the Lexical order of the statements\&. "
+.ti -1c
+.RI "void \fBsetLexicalOrder\fP (int \fBdim\fP, \fBconst\fP \fBstd::set\fP< int > &active, int starting_order=0, std::vector< std::vector< std::string > >idxNames=std::vector< std::vector< std::string > >())"
+.br
+.RI "Assign the lexical order of statements according to dependences\&. "
+.ti -1c
+.RI "void \fBapply_xform\fP (int stmt_num)"
+.br
+.ti -1c
+.RI "void \fBapply_xform\fP (\fBstd::set\fP< int > &active)"
+.br
+.ti -1c
+.RI "void \fBapply_xform\fP ()"
+.br
+.ti -1c
+.RI "\fBstd::set\fP< int > \fBgetSubLoopNest\fP (int stmt_num, int level) \fBconst\fP"
+.br
+.ti -1c
+.RI "int \fBgetMinLexValue\fP (\fBstd::set\fP< int > stmts, int level)"
+.br
+.ti -1c
+.RI "\fBomega::Relation\fP \fBparseExpWithWhileToRel\fP (\fBomega::CG_outputRepr\fP *repr, \fBomega::Relation\fP &\fBR\fP, int \fBloc\fP)"
+.br
+.ti -1c
+.RI "void \fBomp_apply_pragmas\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBtmp_loop_var_name_counter\fP"
+.br
+.ti -1c
+.RI "int \fBoverflow_var_name_counter\fP"
+.br
+.ti -1c
+.RI "std::vector< int > \fBstmt_nesting_level_\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBindex\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< int, \fBomega::CG_outputRepr\fP * > \fBreplace\fP"
+.br
+.ti -1c
+.RI "\fBstd::map\fP< int, std::pair< int, std::string > > \fBreduced_statements\fP"
+.br
+.ti -1c
+.RI "\fBomega::CodeGen\fP * \fBlast_compute_cg_\fP"
+.br
+.ti -1c
+.RI "\fBomega::CG_result\fP * \fBlast_compute_cgr_\fP"
+.br
+.ti -1c
+.RI "int \fBlast_compute_effort_\fP"
+.br
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static \fBconst\fP std::string \fBtmp_loop_var_name_prefix\fP = std::string('chill_t')"
+.br
+.ti -1c
+.RI "static \fBconst\fP std::string \fBoverflow_var_name_prefix\fP = std::string('over')"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Loop::Loop ()\fC [inline]\fP"
+
+.SS "Loop::Loop (\fBconst\fP \fBIR_Control\fP * control)"
+
+.SS "Loop::~Loop ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void Loop::addKnown (\fBconst\fP \fBomega::Relation\fP & cond)"
+
+.SS "void Loop::apply_xform ()\fC [protected]\fP"
+
+.SS "void Loop::apply_xform (int stmt_num)\fC [protected]\fP"
+
+.SS "void Loop::apply_xform (\fBstd::set\fP< int > & active)\fC [protected]\fP"
+
+.SS "void Loop::compact (int stmt_num, int level, std::string new_array, int zero, std::string data_array)"
+
+.SS "Graph< \fBstd::set\fP< int >, bool > Loop::construct_induced_graph_at_level (std::vector< \fBstd::set\fP< int > > s, \fBDependenceGraph\fP dep, int dep_dim)"
+
+.SS "bool Loop::datacopy (\fBconst\fP std::vector< std::pair< int, std::vector< int > > > & array_ref_nums, int level, bool allow_extra_read = \fCfalse\fP, int fastest_changing_dimension = \fC\-1\fP, int padding_stride = \fC1\fP, int padding_alignment = \fC4\fP, int memory_type = \fC0\fP)"
+
+.PP
+Datacopy function by reffering arrays by numbers\&. for example 
+.PP
+.nf
+A[i] = A[i-1] + B[i];
+
+.fi
+.PP
+.PP
+parameter array_ref_num=[0,2] means to copy data touched by A[i-1] and A[i]
+.PP
+\fBParameters\fP
+.RS 4
+\fIarray_ref_nums\fP 
+.br
+\fIlevel\fP 
+.br
+\fIallow_extra_read\fP 
+.br
+\fIfastest_changing_dimension\fP 
+.br
+\fIpadding_stride\fP 
+.br
+\fIpadding_alignment\fP 
+.br
+\fImemory_type\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+.RE
+.PP
+
+.SS "bool Loop::datacopy (int stmt_num, int level, \fBconst\fP std::string & array_name, bool allow_extra_read = \fCfalse\fP, int fastest_changing_dimension = \fC\-1\fP, int padding_stride = \fC1\fP, int padding_alignment = \fC4\fP, int memory_type = \fC0\fP)"
+
+.PP
+Datacopy function by reffering arrays by name\&. parameter array_name=A means to copy data touched by A[i-1] and A[i] 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstmt_num\fP 
+.br
+\fIlevel\fP 
+.br
+\fIarray_name\fP 
+.br
+\fIallow_extra_read\fP 
+.br
+\fIfastest_changing_dimension\fP 
+.br
+\fIpadding_stride\fP 
+.br
+\fIpadding_alignment\fP 
+.br
+\fImemory_type\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+.RE
+.PP
+
+.SS "bool Loop::datacopy_privatized (\fBconst\fP std::vector< std::pair< int, std::vector< int > > > & array_ref_nums, int level, \fBconst\fP std::vector< int > & privatized_levels, bool allow_extra_read = \fCfalse\fP, int fastest_changing_dimension = \fC\-1\fP, int padding_stride = \fC1\fP, int padding_alignment = \fC1\fP, int memory_type = \fC0\fP)"
+
+.SS "bool Loop::datacopy_privatized (\fBconst\fP std::vector< std::pair< int, std::vector< \fBIR_ArrayRef\fP * > > > & stmt_refs, int level, \fBconst\fP std::vector< int > & privatized_levels, bool allow_extra_read, int fastest_changing_dimension, int padding_stride, int padding_alignment, int memory_type = \fC0\fP)"
+
+.SS "bool Loop::datacopy_privatized (int stmt_num, int level, \fBconst\fP std::string & array_name, \fBconst\fP std::vector< int > & privatized_levels, bool allow_extra_read = \fCfalse\fP, int fastest_changing_dimension = \fC\-1\fP, int padding_stride = \fC1\fP, int padding_alignment = \fC1\fP, int memory_type = \fC0\fP)"
+
+.SS "void Loop::debugRelations () const"
+
+.SS "std::vector< std::pair< std::string, std::string > > Loop::depRelsForParallelization (int parallelLoopLevel = \fC0\fP)"
+Mahdi: This functions extarcts and returns the data dependence relations that are needed for generating inspectors for wavefront paralleization of a specific loop level \fBLoop\fP levels start with 0 (being outer most loop), outer most loop is the default Input: loop level for parallelization Output: dependence relations in teh form of strings that are in ISL (IEGenLib) syntax 
+.br
+ 
+.SS "void Loop::diagonal_map (int stmt_num, \fBconst\fP std::pair< int, int > & levels, int offset)\fC [inline]\fP"
+
+.SS "void Loop::distribute (\fBconst\fP \fBstd::set\fP< int > & stmt_nums, int level)"
+
+.SS "void Loop::dump () const"
+
+.SS "void Loop::ELLify (int stmt_num, std::vector< std::string > arrays_to_pad, int pad_to, bool dense_pad = \fCfalse\fP, std::string dense_pad_pos_array = \fC''\fP)"
+Design decisions for paper
+.SS "bool Loop::find_stencil_shape (int stmt_num)"
+
+.SS "void Loop::flatten (int stmt_num, std::string index_name, std::vector< int > & loop_levels, std::string inspector_name)"
+
+.SS "void Loop::fuse (\fBconst\fP \fBstd::set\fP< int > & stmt_nums, int level)"
+
+.SS "void Loop::generate_ghostcells_v2 (std::vector< int > stmt, int loop_num, int ghost_value, int hold_inner_loop_constant = \fC0\fP)"
+
+.SS "int Loop::get_dep_dim_of (int stmt, int level) const\fC [protected]\fP"
+
+.SS "int Loop::get_last_dep_dim_before (int stmt, int level) const\fC [protected]\fP"
+
+.SS "\fBCG_outputRepr\fP * Loop::getCode (int effort = \fC3\fP) const"
+
+.SS "std::vector< int > Loop::getLexicalOrder (int stmt_num) const\fC [protected]\fP"
+
+.PP
+Get the lexical order of a statment as a vector\&. 
+.PP
+\fBReturns\fP
+.RS 4
+a 2*level+1 vector with real \fBLoop\fP set to 0 
+.RE
+.PP
+
+.SS "int Loop::getLexicalOrder (int stmt_num, int level) const\fC [protected]\fP"
+
+.PP
+Get the lexical ordering of the statement at level\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIlevel\fP loop level starting with 1 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+.RE
+.PP
+
+.SS "int Loop::getMinLexValue (\fBstd::set\fP< int > stmts, int level)\fC [protected]\fP"
+
+.SS "std::vector< \fBRelation\fP > Loop::getNewIS () const\fC [protected]\fP"
+
+.SS "\fBomega::Relation\fP Loop::getNewIS (int stmt_num) const\fC [protected]\fP"
+
+.SS "\fBstd::set\fP< int > Loop::getStatements (\fBconst\fP std::vector< int > & lex, int dim) const\fC [protected]\fP"
+
+.SS "\fBstd::set\fP< int > Loop::getSubLoopNest (int stmt_num, int level) const\fC [protected]\fP"
+
+.SS "\fBCG_outputRepr\fP * Loop::iegen_parser (std::string & str, std::vector< std::string > & index_names)"
+
+.SS "bool Loop::init_loop (std::vector< \fBir_tree_node\fP * > & ir_tree, std::vector< \fBir_tree_node\fP * > & ir_stmt)\fC [protected]\fP"
+
+.SS "void Loop::invalidateCodeGen ()\fC [inline]\fP"
+
+.PP
+invalidate saved codegen computation Must be called whenever changes are made to the IS, even with auxiliary loop indices\&. 
+.SS "bool Loop::is_dependence_valid_based_on_lex_order (int i, int j, \fBconst\fP \fBDependenceVector\fP & dv, bool before)"
+
+.SS "bool Loop::isInitialized () const"
+
+.SS "void Loop::make_dense (int stmt_num, int loop_level, std::string new_loop_index)"
+
+.SS "void Loop::modular_partition (int stmt_num, int level, int stride)\fC [inline]\fP"
+
+.SS "void Loop::modular_shift (int stmt_num, int level, int shift_amount)\fC [inline]\fP"
+
+.SS "bool Loop::nonsingular (\fBconst\fP std::vector< std::vector< int > > & M)"
+
+.PP
+legacy unimodular transformations for perfectly nested loops e\&.g\&. $M*(i,j)^T = (i',j')^T or M*(i,j,1)^T = (i',j')^T$ 
+.SS "void Loop::normalize (int stmt_num, int loop_level)"
+
+.SS "int Loop::num_statement () const\fC [inline]\fP"
+
+.SS "void Loop::omp_apply_pragmas () const\fC [protected]\fP"
+
+.SS "void Loop::omp_mark_parallel_for (int stmt, int level, \fBconst\fP std::vector< std::string > & privitized_vars, \fBconst\fP std::vector< std::string > & shared_vars)"
+
+.SS "void Loop::omp_mark_pragma (int stmt, int level, std::string name)"
+
+.SS "void Loop::original ()"
+
+.SS "\fBomega::Relation\fP Loop::parseExpWithWhileToRel (\fBomega::CG_outputRepr\fP * repr, \fBomega::Relation\fP & R, int loc)\fC [protected]\fP"
+
+.SS "void Loop::peel (int stmt_num, int level, int peel_amount = \fC1\fP)"
+
+.SS "void Loop::permute (\fBconst\fP \fBstd::set\fP< int > & active, \fBconst\fP std::vector< int > & pi)"
+
+.SS "void Loop::permute (\fBconst\fP std::vector< int > & pi)"
+
+.SS "void Loop::permute (int stmt_num, int level, \fBconst\fP std::vector< int > & pi)"
+
+.SS "void Loop::pragma (int stmt_num, int level, \fBconst\fP std::string & pragmaText)"
+
+.SS "void Loop::prefetch (int stmt_num, int level, \fBconst\fP std::string & arrName, int hint)"
+
+.SS "void Loop::print_internal_loop_structure () const"
+
+.SS "void Loop::printCode (int effort = \fC3\fP) const"
+
+.SS "void Loop::printDependenceGraph () const"
+
+.SS "void Loop::printIterationSpace () const"
+
+.SS "void Loop::reduce (int stmt_num, std::vector< int > & level, int param, std::string func_name, std::vector< int > & seq_levels, std::vector< int > cudaized_levels = \fCstd::vector<int>()\fP, int bound_level = \fC\-1\fP)"
+
+.SS "void Loop::removeDependence (int stmt_num_from, int stmt_num_to)"
+
+.SS "int Loop::replaceCode ()\fC [inline]\fP"
+
+.SS "void Loop::reverse (\fBconst\fP \fBstd::set\fP< int > & stmt_nums, int level)"
+
+.SS "void Loop::scalar_expand (int stmt_num, \fBconst\fP std::vector< int > & levels, std::string arrName, int memory_type = \fC0\fP, int padding_alignment = \fC0\fP, int assign_then_accumulate = \fC1\fP, int padding_stride = \fC0\fP)"
+
+.SS "void Loop::scale (\fBconst\fP \fBstd::set\fP< int > & stmt_nums, int level, int scale_amount)"
+
+.SS "void Loop::set_array_size (std::string name, int size)"
+
+.SS "void Loop::setLexicalOrder (int dim, \fBconst\fP \fBstd::set\fP< int > & active, int starting_order = \fC0\fP, std::vector< std::vector< std::string > > idxNames = \fCstd::vector< std::vector<std::string> >()\fP)\fC [protected]\fP"
+
+.PP
+Assign the lexical order of statements according to dependences\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdim\fP The dimension to set starting with 0 
+.br
+\fIactive\fP Set of statements to set order 
+.br
+\fIstarting_order\fP 
+.br
+\fIidxNamesopp_\fP 
+.RE
+.PP
+
+.SS "void Loop::shift (\fBconst\fP \fBstd::set\fP< int > & stmt_nums, int level, int shift_amount)"
+
+.SS "void Loop::shift_to (int stmt_num, int level, int absolute_position)"
+
+.SS "void Loop::shiftLexicalOrder (\fBconst\fP std::vector< int > & lex, int dim, int amount)\fC [protected]\fP"
+
+.PP
+Shift the Lexical order of the statements\&. Shift only when <dim have the same lexical order and when amount >= 0, all the statment after lex or when amount <= 0, all the statement before lex 
+.SS "void Loop::skew (\fBconst\fP \fBstd::set\fP< int > & stmt_nums, int level, \fBconst\fP std::vector< int > & skew_amount)"
+
+.SS "std::vector< \fBstd::set\fP< int > > Loop::sort_by_same_loops (\fBstd::set\fP< int > active, int level)"
+
+.SS "\fBstd::set\fP< int > Loop::split (int stmt_num, int level, \fBconst\fP \fBomega::Relation\fP & cond)"
+
+.SS "void Loop::split_with_alignment (int stmt_num, int level, int alignment, int direction = \fC0\fP)"
+
+.SS "void Loop::stencilASEPadded (int stmt_num)"
+
+.SS "void Loop::tile (int stmt_num, int level, int tile_size, int outer_level = \fC1\fP, \fBTilingMethodType\fP method = \fC\fBStridedTile\fP\fP, int alignment_offset = \fC0\fP, int alignment_multiple = \fC1\fP)"
+
+.SS "std::vector< \fBstd::set\fP< int > > Loop::typed_fusion (Graph< \fBstd::set\fP< int >, bool > g, std::vector< bool > & types)"
+
+.SS "\fBstd::set\fP< int > Loop::unroll (int stmt_num, int level, int unroll_amount, std::vector< std::vector< std::string > > idxNames = \fCstd::vector< std::vector<std::string> >()\fP, int cleanup_split_level = \fC0\fP)"
+
+.SS "\fBstd::set\fP< int > Loop::unroll_extra (int stmt_num, int level, int unroll_amount, int cleanup_split_level = \fC0\fP)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBomega::CG_outputRepr\fP*> Loop::actual_code"
+
+.SS "\fBstd::map\fP<std::string, int> Loop::array_dims"
+
+.SS "\fBomega::CG_outputRepr\fP* Loop::cleanup_code"
+
+.SS "\fBDependenceGraph\fP Loop::dep"
+
+.SS "std::vector<std::pair<std::string, std::string > > Loop::dep_rel_for_iegen"
+
+.SS "std::vector<\fBomega::Relation\fP> Loop::dep_relation"
+
+.SS "std::vector<\fBomega::Free_Var_Decl\fP*> Loop::freevar"
+
+.SS "std::vector<\fBPragmaInfo\fP> Loop::general_pragma_info"
+
+.SS "std::vector<std::string> Loop::index\fC [protected]\fP"
+
+.SS "\fBomega::CG_outputRepr\fP* Loop::init_code"
+
+.SS "\fBIR_Code\fP* Loop::ir"
+
+.SS "std::vector<\fBir_tree_node\fP *> Loop::ir_stmt"
+
+.SS "std::vector<\fBir_tree_node\fP *> Loop::ir_tree"
+
+.SS "\fBomega::Relation\fP Loop::known"
+
+.SS "\fBomega::CodeGen\fP* Loop::last_compute_cg_\fC [mutable]\fP, \fC [protected]\fP"
+
+.SS "\fBomega::CG_result\fP* Loop::last_compute_cgr_\fC [mutable]\fP, \fC [protected]\fP"
+
+.SS "int Loop::last_compute_effort_\fC [mutable]\fP, \fC [protected]\fP"
+
+.SS "int Loop::num_dep_dim"
+
+.SS "std::vector<\fBOMPPragmaInfo\fP> Loop::omp_pragma_info"
+
+.SS "\fBstd::map\fP<int, std::vector<\fBomega::Free_Var_Decl\fP *> > Loop::overflow"
+
+.SS "int Loop::overflow_var_name_counter\fC [protected]\fP"
+
+.SS "\fBconst\fP std::string Loop::overflow_var_name_prefix = std::string('over')\fC [static]\fP, \fC [protected]\fP"
+
+.SS "std::vector<\fBIR_PointerSymbol\fP *> Loop::ptr_variables"
+
+.SS "\fBstd::map\fP<int, std::pair<int, std::string> > Loop::reduced_statements\fC [protected]\fP"
+
+.SS "\fBstd::set\fP<std::string> Loop::reduced_write_refs"
+
+.SS "\fBstd::map\fP<int, \fBomega::CG_outputRepr\fP *> Loop::replace\fC [protected]\fP"
+
+.SS "int Loop::replaceCode_ind"
+
+.SS "std::vector<\fBStatement\fP> Loop::stmt"
+
+.SS "std::vector<int> Loop::stmt_nesting_level_\fC [protected]\fP"
+
+.SS "int Loop::tmp_loop_var_name_counter\fC [protected]\fP"
+
+.SS "\fBconst\fP std::string Loop::tmp_loop_var_name_prefix = std::string('chill_t')\fC [static]\fP, \fC [protected]\fP"
+
+.SS "std::vector<\fBstd::map\fP<std::string, std::vector<\fBomega::Relation\fP > > > Loop::unin_rel"
+
+.SS "\fBstd::map\fP<std::string, \fBstd::set\fP<std::string > > Loop::unin_symbol_args"
+
+.SS "\fBstd::map\fP<std::string, std::string > Loop::unin_symbol_for_iegen"
+
+.SS "std::vector<\fBstd::map\fP<std::string, std::vector<\fBomega::CG_outputRepr\fP * > > > Loop::uninterpreted_symbols"
+
+.SS "std::vector<\fBstd::map\fP<std::string, std::vector<\fBomega::CG_outputRepr\fP * > > > Loop::uninterpreted_symbols_stringrepr"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

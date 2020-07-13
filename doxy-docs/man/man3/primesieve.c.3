@@ -1,0 +1,102 @@
+.TH "lib/gmp/primesieve.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/gmp/primesieve.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'gmp\&.h'\fP
+.br
+\fC#include 'gmp\-impl\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLOOP_ON_SIEVE_CONTINUE\fP(prime,  end,  sieve)"
+.br
+.ti -1c
+.RI "#define \fBLOOP_ON_SIEVE_BEGIN\fP(prime,  \fBstart\fP,  end,  off,  sieve)"
+.br
+.ti -1c
+.RI "#define \fBLOOP_ON_SIEVE_STOP\fP"
+.br
+.ti -1c
+.RI "#define \fBLOOP_ON_SIEVE_END\fP"
+.br
+.ti -1c
+.RI "#define \fBSIEVE_SEED\fP   \fBCNST_LIMB\fP(0x3294C9E069128480)"
+.br
+.ti -1c
+.RI "#define \fBSEED_LIMIT\fP   202"
+.br
+.ti -1c
+.RI "#define \fBBLOCK_SIZE\fP   2048"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBmp_limb_t\fP \fBgmp_primesieve\fP (\fBmp_ptr\fP bit_array, \fBmp_limb_t\fP \fBn\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BLOCK_SIZE   2048"
+
+.SS "#define LOOP_ON_SIEVE_BEGIN(prime, \fBstart\fP, end, off, sieve)"
+\fBValue:\fP
+.PP
+.nf
+  do {                             \
+    mp_limb_t __mask, __index, __max_i, __i;            \
+                                \
+    __i = (start)-(off);                    \
+    __index = __i / GMP_LIMB_BITS;              \
+    __mask = CNST_LIMB(1) << (__i % GMP_LIMB_BITS);     \
+    __i += (off);                       \\
+								\\
+    LOOP_ON_SIEVE_CONTINUE(prime,end,sieve)
+.fi
+.SS "#define LOOP_ON_SIEVE_CONTINUE(prime, end, sieve)"
+\fBValue:\fP
+.PP
+.nf
+    __max_i = (end);                       \
+                                \
+    do {                            \
+      ++__i;                            \
+      if (((sieve)[__index] & __mask) == 0)         \
+    {                           \
+      (prime) = id_to_n(__i)
+.fi
+.SS "#define LOOP_ON_SIEVE_END"
+\fBValue:\fP
+.PP
+.nf
+    LOOP_ON_SIEVE_STOP;                        \
+  } while (0)
+.fi
+.SS "#define LOOP_ON_SIEVE_STOP"
+\fBValue:\fP
+.PP
+.nf
+  }                           \
+      __mask = __mask << 1 | __mask >> (GMP_LIMB_BITS-1);   \
+      __index += __mask & 1;                    \
+    }  while (__i <= __max_i)                   \
+.fi
+.SS "#define SEED_LIMIT   202"
+
+.SS "#define SIEVE_SEED   \fBCNST_LIMB\fP(0x3294C9E069128480)"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fBmp_limb_t\fP gmp_primesieve (\fBmp_ptr\fP bit_array, \fBmp_limb_t\fP n)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

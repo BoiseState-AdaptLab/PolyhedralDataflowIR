@@ -1,0 +1,363 @@
+\hypertarget{structomega_1_1_c_g__result}{}\doxysection{omega\+::C\+G\+\_\+result Struct Reference}
+\label{structomega_1_1_c_g__result}\index{omega::CG\_result@{omega::CG\_result}}
+
+
+Tree-\/like structure holding the iteration space.  
+
+
+
+
+{\ttfamily \#include $<$C\+G.\+h$>$}
+
+
+
+Inheritance diagram for omega\+::C\+G\+\_\+result\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structomega_1_1_c_g__result__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for omega\+::C\+G\+\_\+result\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=322pt]{structomega_1_1_c_g__result__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structomega_1_1_c_g__result_ad3a0a2ae13fcb1c32b2f7ef30f5a2b2c}{C\+G\+\_\+result}} ()
+\item 
+virtual \mbox{\hyperlink{structomega_1_1_c_g__result_add47a6b2a2c8c4f72ccab246d617d7cf}{$\sim$\+C\+G\+\_\+result}} ()
+\item 
+virtual \mbox{\hyperlink{structomega_1_1_c_g__result}{C\+G\+\_\+result}} $\ast$ \mbox{\hyperlink{structomega_1_1_c_g__result_a13bc1e023e5fc95073261b68b5f64d8c}{recompute}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_bool_set}{Bool\+Set}}$<$$>$ \&parent\+\_\+active, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&known, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&restriction)=0
+\begin{DoxyCompactList}\small\item\em break down the complete iteration space condition to levels of bound/guard condtions \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{structomega_1_1_c_g__result_a7e26d6330e8c00c024feffa313bf1cf7}{populate\+Depth}} ()=0
+\begin{DoxyCompactList}\small\item\em calculate each loop\textquotesingle{}s nesting depth Used in lift\+Overhead -\/ depth start with 0 at leaf \end{DoxyCompactList}\item 
+virtual std\+::pair$<$ \mbox{\hyperlink{structomega_1_1_c_g__result}{C\+G\+\_\+result}} $\ast$, \mbox{\hyperlink{classomega_1_1_relation}{Relation}} $>$ \mbox{\hyperlink{structomega_1_1_c_g__result_a00aa8f49cd58a4922223bd2bb1d17b25}{lift\+Overhead}} (int \mbox{\hyperlink{namespaceomega_a4f798a7c2e390b15d82eb0b27ecf60fc}{depth}}, bool propagate\+\_\+up)=0
+\begin{DoxyCompactList}\small\item\em redistribute guard condition locations by additional splittings \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \mbox{\hyperlink{structomega_1_1_c_g__result_a942209ec6c389789000cae8cc4e22c59}{hoist\+Guard}} ()=0
+\begin{DoxyCompactList}\small\item\em Hoist guard conditions for non-\/loop levels Enables proper if-\/condition simplication when outputting actual code. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structomega_1_1_c_g__result_a170684a429ec6508b17286e3db90f57d}{remove\+Guard}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&guard)=0
+\item 
+virtual \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ \mbox{\hyperlink{structomega_1_1_c_g__result_ac5e8237516c724cd2678adbe5f890a0b}{print\+Repr}} (int indent, \mbox{\hyperlink{classomega_1_1_c_g__output_builder}{C\+G\+\_\+output\+Builder}} $\ast$ocg, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ \&stmts, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$, int $>$ $>$ \&assigned\+\_\+on\+\_\+the\+\_\+fly, std\+::vector$<$ \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ $>$ unin, bool \mbox{\hyperlink{structomega_1_1_c_g__result_ab7568abe557653869d71f73639eeb0f9}{print\+String}}=false) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} =0
+\begin{DoxyCompactList}\small\item\em Signature for print\+Repr of actual node types. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ \mbox{\hyperlink{structomega_1_1_c_g__result_addd1c7cb7e6030dad38c376b99d48e77}{print\+Repr}} (\mbox{\hyperlink{classomega_1_1_c_g__output_builder}{C\+G\+\_\+output\+Builder}} $\ast$ocg, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ \&stmts, std\+::vector$<$ \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ $>$uninterpreted\+\_\+symbols, bool \mbox{\hyperlink{structomega_1_1_c_g__result_ab7568abe557653869d71f73639eeb0f9}{print\+String}}=false) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Main entry point for codegen. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{structomega_1_1_c_g__result_ab7568abe557653869d71f73639eeb0f9}{print\+String}} (std\+::vector$<$ \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ $>$uninterpreted\+\_\+symbols=std\+::vector$<$ \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ $>$()) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Using string\+Builder to generate loop representation. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{structomega_1_1_c_g__result_ad1bbd349bacbba5c959d1b10bdfcdf7b}{num\+\_\+level}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Total number of levels. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{structomega_1_1_c_g__result}{C\+G\+\_\+result}} $\ast$ \mbox{\hyperlink{structomega_1_1_c_g__result_ab7d0caafd3f2b63f395d5c9197682cff}{clone}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} =0
+\begin{DoxyCompactList}\small\item\em A deep clone of the tree. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structomega_1_1_c_g__result_ab297281ab738f5b18fe6c9f4eb546a32}{dump}} (int indent) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Dump content for debug information. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structomega_1_1_c_g__result_af83d60acde753b26981962781b7cec4d}{add\+Pragma}} (int stmt, int loop\+\_\+level, std\+::string \mbox{\hyperlink{isl__test_8c_a8f8f80d37794cde9472343e4487ba3eb}{name}})=0
+\begin{DoxyCompactList}\small\item\em Add pragma info prior to code generation. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structomega_1_1_c_g__result_af3c4d4813db5a3da61dd11ccb9f4d1f9}{add\+Omp\+Pragma}} (int stmt, int loop\+\_\+level, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::string $>$ \&, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::string $>$ \&)=0
+\begin{DoxyCompactList}\small\item\em Add omp pragma info prior to code generation. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structomega_1_1_c_g__result_a631644e1a08455777127ea6768327fac}{collect\+Iteration\+Variable\+Names}} (\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ std\+::string $>$ \&) noexcept=0
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classomega_1_1_code_gen}{Code\+Gen}} $\ast$ \mbox{\hyperlink{structomega_1_1_c_g__result_ae61830fa44de0ad23af0882458a031a8}{codegen\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Reference to the codegen. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classomega_1_1_bool_set}{Bool\+Set}} \mbox{\hyperlink{structomega_1_1_c_g__result_ad3def0351f32de68475588360a469a16}{active\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Active set of statements. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Tree-\/like structure holding the iteration space. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_ad3a0a2ae13fcb1c32b2f7ef30f5a2b2c}\label{structomega_1_1_c_g__result_ad3a0a2ae13fcb1c32b2f7ef30f5a2b2c}} 
+\index{omega::CG\_result@{omega::CG\_result}!CG\_result@{CG\_result}}
+\index{CG\_result@{CG\_result}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{CG\_result()}{CG\_result()}}
+{\footnotesize\ttfamily omega\+::\+C\+G\+\_\+result\+::\+C\+G\+\_\+result (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structomega_1_1_c_g__result_add47a6b2a2c8c4f72ccab246d617d7cf}\label{structomega_1_1_c_g__result_add47a6b2a2c8c4f72ccab246d617d7cf}} 
+\index{omega::CG\_result@{omega::CG\_result}!````~CG\_result@{$\sim$CG\_result}}
+\index{````~CG\_result@{$\sim$CG\_result}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{$\sim$CG\_result()}{~CG\_result()}}
+{\footnotesize\ttfamily virtual omega\+::\+C\+G\+\_\+result\+::$\sim$\+C\+G\+\_\+result (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_af3c4d4813db5a3da61dd11ccb9f4d1f9}\label{structomega_1_1_c_g__result_af3c4d4813db5a3da61dd11ccb9f4d1f9}} 
+\index{omega::CG\_result@{omega::CG\_result}!addOmpPragma@{addOmpPragma}}
+\index{addOmpPragma@{addOmpPragma}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{addOmpPragma()}{addOmpPragma()}}
+{\footnotesize\ttfamily virtual void omega\+::\+C\+G\+\_\+result\+::add\+Omp\+Pragma (\begin{DoxyParamCaption}\item[{int}]{stmt,  }\item[{int}]{loop\+\_\+level,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::string $>$ \&}]{,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::string $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Add omp pragma info prior to code generation. 
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_a8ec35ebe2b8eb953c423bcc790bbf3b0}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_a0608c2f86749f507f32838a78d465e17}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_a82ab9c0f55858a8be6f7712e801659ba}{omega\+::\+C\+G\+\_\+split}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structomega_1_1_c_g__result_af3c4d4813db5a3da61dd11ccb9f4d1f9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_af83d60acde753b26981962781b7cec4d}\label{structomega_1_1_c_g__result_af83d60acde753b26981962781b7cec4d}} 
+\index{omega::CG\_result@{omega::CG\_result}!addPragma@{addPragma}}
+\index{addPragma@{addPragma}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{addPragma()}{addPragma()}}
+{\footnotesize\ttfamily virtual void omega\+::\+C\+G\+\_\+result\+::add\+Pragma (\begin{DoxyParamCaption}\item[{int}]{stmt,  }\item[{int}]{loop\+\_\+level,  }\item[{std\+::string}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Add pragma info prior to code generation. 
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_af04df8e3c7962d9e6a2fb88e8e714ac8}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_afc1b9f5a3048fa4d01144775cf53fb96}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_a6b6ca99def5ae59747801c959192076e}{omega\+::\+C\+G\+\_\+split}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structomega_1_1_c_g__result_af83d60acde753b26981962781b7cec4d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_ab7d0caafd3f2b63f395d5c9197682cff}\label{structomega_1_1_c_g__result_ab7d0caafd3f2b63f395d5c9197682cff}} 
+\index{omega::CG\_result@{omega::CG\_result}!clone@{clone}}
+\index{clone@{clone}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{structomega_1_1_c_g__result}{C\+G\+\_\+result}}$\ast$ omega\+::\+C\+G\+\_\+result\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+A deep clone of the tree. 
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_a4fdfb75db57c9c586bb72400eea2d343}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_af6e2cc831a9e7cc3bd4607369ffb1c5f}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_ae509f2d76ab03856b34dec886d37def6}{omega\+::\+C\+G\+\_\+split}}.
+
+\mbox{\Hypertarget{structomega_1_1_c_g__result_a631644e1a08455777127ea6768327fac}\label{structomega_1_1_c_g__result_a631644e1a08455777127ea6768327fac}} 
+\index{omega::CG\_result@{omega::CG\_result}!collectIterationVariableNames@{collectIterationVariableNames}}
+\index{collectIterationVariableNames@{collectIterationVariableNames}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{collectIterationVariableNames()}{collectIterationVariableNames()}}
+{\footnotesize\ttfamily virtual void omega\+::\+C\+G\+\_\+result\+::collect\+Iteration\+Variable\+Names (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gmp__compat_8h_a1e8c092646181d922b1412a0b41dcfde}{std\+::set}}$<$ std\+::string $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_a151bd6dd35d8aec6a8612288eec5fde9}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_a0276a39175761ef59ab2f1eabe8ebcfc}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_a4c981e5a14f11ffb44cc4cdb6eb7583a}{omega\+::\+C\+G\+\_\+split}}.
+
+\mbox{\Hypertarget{structomega_1_1_c_g__result_ab297281ab738f5b18fe6c9f4eb546a32}\label{structomega_1_1_c_g__result_ab297281ab738f5b18fe6c9f4eb546a32}} 
+\index{omega::CG\_result@{omega::CG\_result}!dump@{dump}}
+\index{dump@{dump}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{dump()}{dump()}}
+{\footnotesize\ttfamily virtual void omega\+::\+C\+G\+\_\+result\+::dump (\begin{DoxyParamCaption}\item[{int}]{indent }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Dump content for debug information. 
+
+
+
+Reimplemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_a6f6d46abace311d0c62a735d0c7cf579}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_a9e8d1a2e74de494f66221f47ea280407}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_a2bda7c628ea797de823088c4eeef9065}{omega\+::\+C\+G\+\_\+split}}.
+
+\mbox{\Hypertarget{structomega_1_1_c_g__result_a942209ec6c389789000cae8cc4e22c59}\label{structomega_1_1_c_g__result_a942209ec6c389789000cae8cc4e22c59}} 
+\index{omega::CG\_result@{omega::CG\_result}!hoistGuard@{hoistGuard}}
+\index{hoistGuard@{hoistGuard}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{hoistGuard()}{hoistGuard()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classomega_1_1_relation}{Relation}} omega\+::\+C\+G\+\_\+result\+::hoist\+Guard (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Hoist guard conditions for non-\/loop levels Enables proper if-\/condition simplication when outputting actual code. 
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_a5486da6c1118cfd68ed9ed6935d41435}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_a6167c798b3e70496e5af75bd5e95da6a}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_a858ea83466b20d2862d325db8a524e03}{omega\+::\+C\+G\+\_\+split}}.
+
+\mbox{\Hypertarget{structomega_1_1_c_g__result_a00aa8f49cd58a4922223bd2bb1d17b25}\label{structomega_1_1_c_g__result_a00aa8f49cd58a4922223bd2bb1d17b25}} 
+\index{omega::CG\_result@{omega::CG\_result}!liftOverhead@{liftOverhead}}
+\index{liftOverhead@{liftOverhead}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{liftOverhead()}{liftOverhead()}}
+{\footnotesize\ttfamily virtual std\+::pair$<$\mbox{\hyperlink{structomega_1_1_c_g__result}{C\+G\+\_\+result}} $\ast$, \mbox{\hyperlink{classomega_1_1_relation}{Relation}}$>$ omega\+::\+C\+G\+\_\+result\+::lift\+Overhead (\begin{DoxyParamCaption}\item[{int}]{depth,  }\item[{bool}]{propagate\+\_\+up }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+redistribute guard condition locations by additional splittings 
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_a7cf7739929f460946c9c123d7dddceb8}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_aba1f8c34c8a2a9740d08f12e1b8e837d}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_a25f19a3e9496baeebea55107248e0ca9}{omega\+::\+C\+G\+\_\+split}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structomega_1_1_c_g__result_a00aa8f49cd58a4922223bd2bb1d17b25_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_ad1bbd349bacbba5c959d1b10bdfcdf7b}\label{structomega_1_1_c_g__result_ad1bbd349bacbba5c959d1b10bdfcdf7b}} 
+\index{omega::CG\_result@{omega::CG\_result}!num\_level@{num\_level}}
+\index{num\_level@{num\_level}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{num\_level()}{num\_level()}}
+{\footnotesize\ttfamily int omega\+::\+C\+G\+\_\+result\+::num\+\_\+level (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Total number of levels. 
+
+\mbox{\Hypertarget{structomega_1_1_c_g__result_a7e26d6330e8c00c024feffa313bf1cf7}\label{structomega_1_1_c_g__result_a7e26d6330e8c00c024feffa313bf1cf7}} 
+\index{omega::CG\_result@{omega::CG\_result}!populateDepth@{populateDepth}}
+\index{populateDepth@{populateDepth}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{populateDepth()}{populateDepth()}}
+{\footnotesize\ttfamily virtual int omega\+::\+C\+G\+\_\+result\+::populate\+Depth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+calculate each loop\textquotesingle{}s nesting depth Used in lift\+Overhead -\/ depth start with 0 at leaf 
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_aacbcdb5141c340de6424a2bdefeb1153}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_a13452eb22ce45e1f3c95e1eba70421f6}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_ab0069ed9412824dcaad1e9855ef104c5}{omega\+::\+C\+G\+\_\+split}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structomega_1_1_c_g__result_a7e26d6330e8c00c024feffa313bf1cf7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_addd1c7cb7e6030dad38c376b99d48e77}\label{structomega_1_1_c_g__result_addd1c7cb7e6030dad38c376b99d48e77}} 
+\index{omega::CG\_result@{omega::CG\_result}!printRepr@{printRepr}}
+\index{printRepr@{printRepr}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{printRepr()}{printRepr()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ omega\+::\+C\+G\+\_\+result\+::print\+Repr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classomega_1_1_c_g__output_builder}{C\+G\+\_\+output\+Builder}} $\ast$}]{ocg,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ \&}]{stmts,  }\item[{std\+::vector$<$ \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ $>$}]{uninterpreted\+\_\+symbols,  }\item[{bool}]{print\+String = {\ttfamily false} }\end{DoxyParamCaption}) const}
+
+
+
+Main entry point for codegen. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structomega_1_1_c_g__result_addd1c7cb7e6030dad38c376b99d48e77_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_ac5e8237516c724cd2678adbe5f890a0b}\label{structomega_1_1_c_g__result_ac5e8237516c724cd2678adbe5f890a0b}} 
+\index{omega::CG\_result@{omega::CG\_result}!printRepr@{printRepr}}
+\index{printRepr@{printRepr}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{printRepr()}{printRepr()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}}$\ast$ omega\+::\+C\+G\+\_\+result\+::print\+Repr (\begin{DoxyParamCaption}\item[{int}]{indent,  }\item[{\mbox{\hyperlink{classomega_1_1_c_g__output_builder}{C\+G\+\_\+output\+Builder}} $\ast$}]{ocg,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ \&}]{stmts,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ std\+::pair$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$, int $>$ $>$ \&}]{assigned\+\_\+on\+\_\+the\+\_\+fly,  }\item[{std\+::vector$<$ \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ $>$}]{unin,  }\item[{bool}]{print\+String = {\ttfamily false} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Signature for print\+Repr of actual node types. 
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__loop_a825911b3883306394ffb1c69531abd98}{omega\+::\+C\+G\+\_\+loop}}, \mbox{\hyperlink{structomega_1_1_c_g__leaf_a845bacb8c77842d40bf02b1ca8e14bd8}{omega\+::\+C\+G\+\_\+leaf}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_a6a7c4093d2c1ba969a23b9b4ddc7643a}{omega\+::\+C\+G\+\_\+split}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structomega_1_1_c_g__result_ac5e8237516c724cd2678adbe5f890a0b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_ab7568abe557653869d71f73639eeb0f9}\label{structomega_1_1_c_g__result_ab7568abe557653869d71f73639eeb0f9}} 
+\index{omega::CG\_result@{omega::CG\_result}!printString@{printString}}
+\index{printString@{printString}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{printString()}{printString()}}
+{\footnotesize\ttfamily std\+::string omega\+::\+C\+G\+\_\+result\+::print\+String (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$ std\+::string, std\+::vector$<$ \mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}} $\ast$ $>$ $>$ $>$}]{uninterpreted\+\_\+symbols = {\ttfamily std\+:\+:vector$<$\mbox{\hyperlink{isl__test_8c_a4fddcd71ca9c907aeab13b4225b34720}{std\+::map}}$<$std\+:\+:string,~std\+:\+:vector$<$\mbox{\hyperlink{classomega_1_1_c_g__output_repr}{C\+G\+\_\+output\+Repr}}~$\ast$$>$~$>$~$>$()} }\end{DoxyParamCaption}) const}
+
+
+
+Using string\+Builder to generate loop representation. 
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structomega_1_1_c_g__result_ab7568abe557653869d71f73639eeb0f9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_a13bc1e023e5fc95073261b68b5f64d8c}\label{structomega_1_1_c_g__result_a13bc1e023e5fc95073261b68b5f64d8c}} 
+\index{omega::CG\_result@{omega::CG\_result}!recompute@{recompute}}
+\index{recompute@{recompute}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{recompute()}{recompute()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{structomega_1_1_c_g__result}{C\+G\+\_\+result}}$\ast$ omega\+::\+C\+G\+\_\+result\+::recompute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_bool_set}{Bool\+Set}}$<$$>$ \&}]{parent\+\_\+active,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{known,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{restriction }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+break down the complete iteration space condition to levels of bound/guard condtions 
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_a039eb3c889ffcf17dec75e0d2da06c3c}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_a2f6e73e96e279909820903624a74ce2c}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_a3c2e2f870631b3feea4d2e725dd6c104}{omega\+::\+C\+G\+\_\+split}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structomega_1_1_c_g__result_a13bc1e023e5fc95073261b68b5f64d8c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_a170684a429ec6508b17286e3db90f57d}\label{structomega_1_1_c_g__result_a170684a429ec6508b17286e3db90f57d}} 
+\index{omega::CG\_result@{omega::CG\_result}!removeGuard@{removeGuard}}
+\index{removeGuard@{removeGuard}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{removeGuard()}{removeGuard()}}
+{\footnotesize\ttfamily virtual void omega\+::\+C\+G\+\_\+result\+::remove\+Guard (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classomega_1_1_relation}{Relation}} \&}]{guard }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{structomega_1_1_c_g__leaf_a027df37462b6b05d2b857117afe7f326}{omega\+::\+C\+G\+\_\+leaf}}, \mbox{\hyperlink{structomega_1_1_c_g__loop_aea991e183bd5fd160b6005ac3aa8f87e}{omega\+::\+C\+G\+\_\+loop}}, and \mbox{\hyperlink{structomega_1_1_c_g__split_ab8a748815e6f4111fa20fb1802bd55de}{omega\+::\+C\+G\+\_\+split}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structomega_1_1_c_g__result_ad3def0351f32de68475588360a469a16}\label{structomega_1_1_c_g__result_ad3def0351f32de68475588360a469a16}} 
+\index{omega::CG\_result@{omega::CG\_result}!active\_@{active\_}}
+\index{active\_@{active\_}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{active\_}{active\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_bool_set}{Bool\+Set}} omega\+::\+C\+G\+\_\+result\+::active\+\_\+}
+
+
+
+Active set of statements. 
+
+\mbox{\Hypertarget{structomega_1_1_c_g__result_ae61830fa44de0ad23af0882458a031a8}\label{structomega_1_1_c_g__result_ae61830fa44de0ad23af0882458a031a8}} 
+\index{omega::CG\_result@{omega::CG\_result}!codegen\_@{codegen\_}}
+\index{codegen\_@{codegen\_}!omega::CG\_result@{omega::CG\_result}}
+\doxysubsubsection{\texorpdfstring{codegen\_}{codegen\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classomega_1_1_code_gen}{Code\+Gen}}$\ast$ omega\+::\+C\+G\+\_\+result\+::codegen\+\_\+}
+
+
+
+Reference to the codegen. 
+
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lib/chill/omega/code\+\_\+gen/include/code\+\_\+gen/\mbox{\hyperlink{_c_g_8h}{C\+G.\+h}}\item 
+lib/chill/omega/code\+\_\+gen/src/\mbox{\hyperlink{_c_g_8cc}{C\+G.\+cc}}\end{DoxyCompactItemize}

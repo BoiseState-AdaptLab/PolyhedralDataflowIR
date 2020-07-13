@@ -1,0 +1,298 @@
+.TH "lib/isl/include/isl/constraint.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/constraint.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/local_space\&.h>\fP
+.br
+\fC#include <isl/space\&.h>\fP
+.br
+\fC#include <isl/aff_type\&.h>\fP
+.br
+\fC#include <isl/set_type\&.h>\fP
+.br
+\fC#include <isl/list\&.h>\fP
+.br
+\fC#include <isl/val\&.h>\fP
+.br
+\fC#include <isl/printer\&.h>\fP
+.br
+
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBisl_constraint\fP \fBisl_constraint\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_constraint_get_ctx\fP (\fB__isl_keep\fP \fBisl_constraint\fP *\fBc\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_constraint_alloc_equality\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_constraint_alloc_inequality\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_equality_alloc\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_inequality_alloc\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "struct \fBisl_constraint\fP * \fBisl_constraint_cow\fP (struct \fBisl_constraint\fP *\fBc\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_constraint\fP * \fBisl_constraint_copy\fP (struct \fBisl_constraint\fP *\fBc\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_constraint\fP * \fBisl_constraint_free\fP (\fB__isl_take\fP \fBisl_constraint\fP *\fBc\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_map_n_constraint\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_n_constraint\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_basic_map_foreach_constraint\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_constraint\fP *\fBc\fP, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_basic_set_foreach_constraint\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_constraint\fP *\fBc\fP, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_constraint_list * \fBisl_basic_map_get_constraint_list\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP isl_constraint_list * \fBisl_basic_set_get_constraint_list\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "int \fBisl_constraint_is_equal\fP (struct \fBisl_constraint\fP *constraint1, struct \fBisl_constraint\fP *constraint2)"
+.br
+.ti -1c
+.RI "\fBisl_stat\fP \fBisl_basic_set_foreach_bound_pair\fP (\fB__isl_keep\fP \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_take\fP \fBisl_constraint\fP *lower, \fB__isl_take\fP \fBisl_constraint\fP *upper, \fB__isl_take\fP \fBisl_basic_set\fP *bset, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_add_constraint\fP (\fB__isl_take\fP \fBisl_basic_map\fP *\fBbmap\fP, \fB__isl_take\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_add_constraint\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_map_add_constraint\fP (\fB__isl_take\fP \fBisl_map\fP *\fBmap\fP, \fB__isl_take\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_set_add_constraint\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP, \fB__isl_take\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_map_has_defining_equality\fP (\fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fB__isl_give\fP \fBisl_constraint\fP **\fBc\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_has_defining_equality\fP (struct \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, int \fBpos\fP, struct \fBisl_constraint\fP **constraint)"
+.br
+.ti -1c
+.RI "int \fBisl_basic_set_has_defining_inequalities\fP (struct \fBisl_basic_set\fP *bset, enum \fBisl_dim_type\fP type, int \fBpos\fP, struct \fBisl_constraint\fP **lower, struct \fBisl_constraint\fP **upper)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_constraint_get_space\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_local_space\fP * \fBisl_constraint_get_local_space\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "int \fBisl_constraint_dim\fP (struct \fBisl_constraint\fP *constraint, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_constraint_involves_dims\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBisl_constraint_get_dim_name\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_constraint_get_constant_val\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_constraint_get_coefficient_val\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint, enum \fBisl_dim_type\fP type, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_constraint_set_constant_si\fP (\fB__isl_take\fP \fBisl_constraint\fP *constraint, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_constraint_set_constant_val\fP (\fB__isl_take\fP \fBisl_constraint\fP *constraint, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_constraint_set_coefficient_si\fP (\fB__isl_take\fP \fBisl_constraint\fP *constraint, enum \fBisl_dim_type\fP type, int \fBpos\fP, int v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_constraint_set_coefficient_val\fP (\fB__isl_take\fP \fBisl_constraint\fP *constraint, enum \fBisl_dim_type\fP type, int \fBpos\fP, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_constraint_get_div\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "struct \fBisl_constraint\fP * \fBisl_constraint_negate\fP (struct \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_constraint_is_equality\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "int \fBisl_constraint_is_div_constraint\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_constraint_is_lower_bound\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_constraint_is_upper_bound\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_map\fP * \fBisl_basic_map_from_constraint\fP (\fB__isl_take\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "struct \fBisl_basic_set\fP * \fBisl_basic_set_from_constraint\fP (struct \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_constraint_get_bound\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint, enum \fBisl_dim_type\fP type, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_constraint_get_aff\fP (\fB__isl_keep\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_equality_from_aff\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_constraint\fP * \fBisl_inequality_from_aff\fP (\fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_basic_set_drop_constraint\fP (\fB__isl_take\fP \fBisl_basic_set\fP *bset, \fB__isl_take\fP \fBisl_constraint\fP *constraint)"
+.br
+.ti -1c
+.RI "int \fBisl_constraint_plain_cmp\fP (\fB__isl_keep\fP \fBisl_constraint\fP *c1, \fB__isl_keep\fP \fBisl_constraint\fP *c2)"
+.br
+.ti -1c
+.RI "int \fBisl_constraint_cmp_last_non_zero\fP (\fB__isl_keep\fP \fBisl_constraint\fP *c1, \fB__isl_keep\fP \fBisl_constraint\fP *c2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_constraint\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_constraint\fP *\fBc\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_constraint_dump\fP (\fB__isl_keep\fP \fBisl_constraint\fP *\fBc\fP)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBisl_constraint\fP \fBisl_constraint\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_add_constraint (\fB__isl_take\fP \fBisl_basic_map\fP * bmap, \fB__isl_take\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fBisl_stat\fP isl_basic_map_foreach_constraint (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_constraint\fP *\fBc\fP, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_map\fP* isl_basic_map_from_constraint (\fB__isl_take\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fB__isl_give\fP isl_constraint_list* isl_basic_map_get_constraint_list (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "int isl_basic_map_has_defining_equality (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap, enum \fBisl_dim_type\fP type, int pos, \fB__isl_give\fP \fBisl_constraint\fP ** c)"
+
+.SS "int isl_basic_map_n_constraint (\fB__isl_keep\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_add_constraint (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_basic_set_drop_constraint (\fB__isl_take\fP \fBisl_basic_set\fP * bset, \fB__isl_take\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fBisl_stat\fP isl_basic_set_foreach_bound_pair (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, unsigned pos, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_constraint\fP *lower, \fB__isl_take\fP \fBisl_constraint\fP *upper, \fB__isl_take\fP \fBisl_basic_set\fP *bset, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fBisl_stat\fP isl_basic_set_foreach_constraint (\fB__isl_keep\fP \fBisl_basic_set\fP * bset, \fBisl_stat\fP(*)(\fB__isl_take\fP \fBisl_constraint\fP *\fBc\fP, void *\fBuser\fP) fn, void * user)"
+
+.SS "struct \fBisl_basic_set\fP* isl_basic_set_from_constraint (struct \fBisl_constraint\fP * constraint)"
+
+.SS "\fB__isl_give\fP isl_constraint_list* isl_basic_set_get_constraint_list (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "int isl_basic_set_has_defining_equality (struct \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, int pos, struct \fBisl_constraint\fP ** constraint)"
+
+.SS "int isl_basic_set_has_defining_inequalities (struct \fBisl_basic_set\fP * bset, enum \fBisl_dim_type\fP type, int pos, struct \fBisl_constraint\fP ** lower, struct \fBisl_constraint\fP ** upper)"
+
+.SS "int isl_basic_set_n_constraint (\fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_constraint_alloc_equality (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_constraint_alloc_inequality (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "int isl_constraint_cmp_last_non_zero (\fB__isl_keep\fP \fBisl_constraint\fP * c1, \fB__isl_keep\fP \fBisl_constraint\fP * c2)"
+
+.SS "struct \fBisl_constraint\fP* isl_constraint_copy (struct \fBisl_constraint\fP * c)"
+
+.SS "struct \fBisl_constraint\fP* isl_constraint_cow (struct \fBisl_constraint\fP * c)"
+
+.SS "int isl_constraint_dim (struct \fBisl_constraint\fP * constraint, enum \fBisl_dim_type\fP type)"
+
+.SS "void isl_constraint_dump (\fB__isl_keep\fP \fBisl_constraint\fP * c)"
+
+.SS "\fB__isl_null\fP \fBisl_constraint\fP* isl_constraint_free (\fB__isl_take\fP \fBisl_constraint\fP * c)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_constraint_get_aff (\fB__isl_keep\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_constraint_get_bound (\fB__isl_keep\fP \fBisl_constraint\fP * constraint, enum \fBisl_dim_type\fP type, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_constraint_get_coefficient_val (\fB__isl_keep\fP \fBisl_constraint\fP * constraint, enum \fBisl_dim_type\fP type, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_constraint_get_constant_val (\fB__isl_keep\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fBisl_ctx\fP* isl_constraint_get_ctx (\fB__isl_keep\fP \fBisl_constraint\fP * c)"
+
+.SS "\fBconst\fP char* isl_constraint_get_dim_name (\fB__isl_keep\fP \fBisl_constraint\fP * constraint, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_constraint_get_div (\fB__isl_keep\fP \fBisl_constraint\fP * constraint, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_local_space\fP* isl_constraint_get_local_space (\fB__isl_keep\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_constraint_get_space (\fB__isl_keep\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fBisl_bool\fP isl_constraint_involves_dims (\fB__isl_keep\fP \fBisl_constraint\fP * constraint, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "int isl_constraint_is_div_constraint (\fB__isl_keep\fP \fBisl_constraint\fP * constraint)"
+
+.SS "int isl_constraint_is_equal (struct \fBisl_constraint\fP * constraint1, struct \fBisl_constraint\fP * constraint2)"
+
+.SS "\fBisl_bool\fP isl_constraint_is_equality (\fB__isl_keep\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fBisl_bool\fP isl_constraint_is_lower_bound (\fB__isl_keep\fP \fBisl_constraint\fP * constraint, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "\fBisl_bool\fP isl_constraint_is_upper_bound (\fB__isl_keep\fP \fBisl_constraint\fP * constraint, enum \fBisl_dim_type\fP type, unsigned pos)"
+
+.SS "struct \fBisl_constraint\fP* isl_constraint_negate (struct \fBisl_constraint\fP * constraint)"
+
+.SS "int isl_constraint_plain_cmp (\fB__isl_keep\fP \fBisl_constraint\fP * c1, \fB__isl_keep\fP \fBisl_constraint\fP * c2)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_constraint_set_coefficient_si (\fB__isl_take\fP \fBisl_constraint\fP * constraint, enum \fBisl_dim_type\fP type, int pos, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_constraint_set_coefficient_val (\fB__isl_take\fP \fBisl_constraint\fP * constraint, enum \fBisl_dim_type\fP type, int pos, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_constraint_set_constant_si (\fB__isl_take\fP \fBisl_constraint\fP * constraint, int v)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_constraint_set_constant_val (\fB__isl_take\fP \fBisl_constraint\fP * constraint, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_equality_alloc (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_equality_from_aff (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_inequality_alloc (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_constraint\fP* isl_inequality_from_aff (\fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_map_add_constraint (\fB__isl_take\fP \fBisl_map\fP * map, \fB__isl_take\fP \fBisl_constraint\fP * constraint)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_constraint (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_constraint\fP * c)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_set_add_constraint (\fB__isl_take\fP \fBisl_set\fP * set, \fB__isl_take\fP \fBisl_constraint\fP * constraint)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

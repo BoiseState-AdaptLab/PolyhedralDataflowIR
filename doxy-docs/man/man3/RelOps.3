@@ -1,0 +1,348 @@
+.TH "RelOps" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RelOps \- Operations on relations that produce a relation are assumed to destroy the old relation\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Union\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBr1\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBr2\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Intersection\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBr1\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBr2\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Extend_Domain\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP)"
+.br
+.RI "Add 1-more input variable to relation\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Extend_Domain\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP, int more)"
+.br
+.RI "Add more-more input variables to relation\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Extend_Range\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP)"
+.br
+.RI "Add 1-more output variable to relation\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Extend_Range\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP, int more)"
+.br
+.RI "Add more-more output variables to relation\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Extend_Set\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP)"
+.br
+.RI "Add 1-more variable to set\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Extend_Set\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP, int more)"
+.br
+.RI "Add more-more variables to set\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Restrict_Domain\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBr1\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBr2\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Restrict_Range\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBr1\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBr2\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Domain\fP (\fBNOT_CONST\fP \fBRelation\fP &r)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Range\fP (\fBNOT_CONST\fP \fBRelation\fP &r)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Cross_Product\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBA\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBB\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Inverse\fP (\fBNOT_CONST\fP \fBRelation\fP &r)"
+.br
+.RI "Inverse the input and output tuple\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::After\fP (\fBNOT_CONST\fP \fBRelation\fP &r, int carried_by, int new_output, int dir=1)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Deltas\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Deltas\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP, int eq_no)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::DeltasToRelation\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP, int n_input, int n_output)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Complement\fP (\fBNOT_CONST\fP \fBRelation\fP &r)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Project\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP, \fBGlobal_Var_ID\fP v)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Project\fP (\fBNOT_CONST\fP \fBRelation\fP &r, int \fBpos\fP, \fBVar_Kind\fP vkind)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Project\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBS\fP, \fBVariable_ID\fP v)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Project\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBS\fP, \fBSequence\fP< \fBVariable_ID\fP > &s)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Project_Sym\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Project_On_Sym\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBcontext\fP=\fBRelation::Null\fP())"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::GistSingleConjunct\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP, \fBNOT_CONST\fP \fBRelation\fP &R2, int effort=0)"
+.br
+.RI "Compute (gist r1 given r2)\&. Assuming that r2 has only one conjunct\&. r2 may have zero input and output OR may have # in/out vars equal to r1\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Gist\fP (\fBNOT_CONST\fP \fBRelation\fP &R1, \fBNOT_CONST\fP \fBRelation\fP &R2, int effort=0)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Difference\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBr1\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBr2\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Approximate\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBR\fP, bool strides_allowed=false)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Identity\fP (int n_inp)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Identity\fP (\fBNOT_CONST\fP \fBRelation\fP &r)"
+.br
+.ti -1c
+.RI "bool \fBomega::Must_Be_Subset\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBr1\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBr2\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::Might_Be_Subset\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBr1\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBr2\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::Is_Obvious_Subset\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBr1\fP, \fBNOT_CONST\fP \fBRelation\fP &\fBr2\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Composition\fP (\fBNOT_CONST\fP \fBRelation\fP &F, \fBNOT_CONST\fP \fBRelation\fP &\fBG\fP)"
+.br
+.ti -1c
+.RI "bool \fBomega::prepare_relations_for_composition\fP (\fBRelation\fP &F, \fBRelation\fP &\fBG\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Join\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBG\fP, \fBNOT_CONST\fP \fBRelation\fP &F)"
+.br
+.RI "Same as Composition\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::EQs_to_GEQs\fP (\fBNOT_CONST\fP \fBRelation\fP &, bool excludeStrides=false)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Symbolic_Solution\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBS\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Symbolic_Solution\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBS\fP, \fBSequence\fP< \fBVariable_ID\fP > &\fBT\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Sample_Solution\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBS\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Solution\fP (\fBNOT_CONST\fP \fBRelation\fP &\fBS\fP, \fBSequence\fP< \fBVariable_ID\fP > &\fBT\fP)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Upper_Bound\fP (\fBNOT_CONST\fP \fBRelation\fP &r)"
+.br
+.RI "Upper bound of the relation in question\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::Lower_Bound\fP (\fBNOT_CONST\fP \fBRelation\fP &r)"
+.br
+.RI "Lower bound of the relation in question\&. "
+.ti -1c
+.RI "\fBRelation\fP \fBomega::merge_rels\fP (\fBTuple\fP< \fBRelation\fP > &\fBR\fP, \fBconst\fP \fBTuple\fP< \fBstd::map\fP< \fBVariable_ID\fP, std::pair< \fBVar_Kind\fP, int > > > &mapping, \fBconst\fP \fBTuple\fP< bool > &inverse, \fBCombine_Type\fP ctype, int number_input=\-1, int number_output=\-1)"
+.br
+.ti -1c
+.RI "void \fBomega::MapRel1\fP (\fBRelation\fP &inputRel, \fBconst\fP \fBMapping\fP &\fBmap\fP, \fBCombine_Type\fP ctype, int number_input=\-1, int number_output=\-1, bool invalidate_resulting_leading_info=true, bool finalize=true)"
+.br
+.ti -1c
+.RI "\fBRelation\fP \fBomega::MapAndCombineRel2\fP (\fBRelation\fP &R1, \fBRelation\fP &R2, \fBconst\fP \fBMapping\fP &mapping1, \fBconst\fP \fBMapping\fP &mapping2, \fBCombine_Type\fP ctype, int number_input=\-1, int number_output=\-1)"
+.br
+.ti -1c
+.RI "void \fBomega::align\fP (\fBRel_Body\fP *originalr, \fBRel_Body\fP *newr, \fBF_Exists\fP *fe, \fBFormula\fP *f, \fBconst\fP \fBMapping\fP &mapping, bool &newrIsSet, \fBList\fP< int > &seen_exists, \fBVariable_ID_Tuple\fP &seen_exists_ids)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Operations on relations that produce a relation are assumed to destroy the old relation\&. 
+
+Work-around includes passing in another relation created specifically for this purpose or use Relation::copy 
+.SH "Function Documentation"
+.PP 
+.SS "\fBRelation\fP omega::After (\fBNOT_CONST\fP \fBRelation\fP & r, int carried_by, int new_output, int dir = \fC1\fP)"
+
+.SS "void omega::align (\fBRel_Body\fP * originalr, \fBRel_Body\fP * newr, \fBF_Exists\fP * fe, \fBFormula\fP * f, \fBconst\fP \fBMapping\fP & mapping, bool & newrIsSet, \fBList\fP< int > & seen_exists, \fBVariable_ID_Tuple\fP & seen_exists_ids)"
+
+.SS "\fBRelation\fP omega::Approximate (\fBNOT_CONST\fP \fBRelation\fP & R, bool strides_allowed = \fCfalse\fP)"
+Works for both relations and sets\&. For all quantified variables are designated as being able to have rational values so as to be able eliminated exactly(via Fourier variable elimination) when simplifying\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIR\fP 
+.br
+\fIstrides_allowed[in]\fP If true, quantified variables in only one constraints(stride) can't be designated as rational thus unable to be eliminated exactly\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+.RE
+.PP
+
+.SS "\fBRelation\fP omega::Complement (\fBNOT_CONST\fP \fBRelation\fP & r)"
+
+.SS "\fBRelation\fP omega::Composition (\fBNOT_CONST\fP \fBRelation\fP & F, \fBNOT_CONST\fP \fBRelation\fP & G)"
+Works for relations only\&. 
+.PP
+\fBReturns\fP
+.RS 4
+F(G(x)) or $F\circ G$ 
+.RE
+.PP
+
+.SS "\fBRelation\fP omega::Cross_Product (\fBNOT_CONST\fP \fBRelation\fP & A, \fBNOT_CONST\fP \fBRelation\fP & B)"
+Give two sets, A and B, create a relation whose domain is A and whose range is B\&. 
+.SS "\fBRelation\fP omega::Deltas (\fBNOT_CONST\fP \fBRelation\fP & R)"
+Works for relations only\&. Input arity must be the same as the output\&. \[\{z | \exists x,y: f(x,y) \wedge z = y - z\}\] 
+.PP
+\fBParameters\fP
+.RS 4
+\fIR\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+.RE
+.PP
+
+.SS "\fBRelation\fP omega::Deltas (\fBNOT_CONST\fP \fBRelation\fP & R, int eq_no)"
+Works for relations only\&. For the first \fIeq_no(p)\fP of input var and output var, $\{[c_1,\dots,c_p] | f(\overrightarrow{x},\overrightarrow{y}) \wedge \forall 1 \leq j \leq p, c_j = b_j - a_j\}$ 
+.PP
+\fBParameters\fP
+.RS 4
+\fIeq_no[in]\fP 
+.RE
+.PP
+
+.SS "\fBRelation\fP omega::DeltasToRelation (\fBNOT_CONST\fP \fBRelation\fP & R, int n_input, int n_output)"
+
+.SS "\fBRelation\fP omega::Difference (\fBNOT_CONST\fP \fBRelation\fP & r1, \fBNOT_CONST\fP \fBRelation\fP & r2)"
+Works for both relation and sets\&. Arguments must have the same arity\&. Calculate r1-r2 by (r1 and !r2)\&. 
+.SS "\fBRelation\fP omega::Domain (\fBNOT_CONST\fP \fBRelation\fP & r)"
+
+.SS "\fBRelation\fP omega::EQs_to_GEQs (\fBNOT_CONST\fP \fBRelation\fP & S, bool excludeStrides = \fCfalse\fP)"
+
+.SS "\fBRelation\fP omega::Extend_Domain (\fBNOT_CONST\fP \fBRelation\fP & R)"
+
+.PP
+Add 1-more input variable to relation\&. 
+.SS "\fBRelation\fP omega::Extend_Domain (\fBNOT_CONST\fP \fBRelation\fP & R, int more)"
+
+.PP
+Add more-more input variables to relation\&. 
+.SS "\fBRelation\fP omega::Extend_Range (\fBNOT_CONST\fP \fBRelation\fP & R)"
+
+.PP
+Add 1-more output variable to relation\&. 
+.SS "\fBRelation\fP omega::Extend_Range (\fBNOT_CONST\fP \fBRelation\fP & R, int more)"
+
+.PP
+Add more-more output variables to relation\&. 
+.SS "\fBRelation\fP omega::Extend_Set (\fBNOT_CONST\fP \fBRelation\fP & R)"
+
+.PP
+Add 1-more variable to set\&. 
+.SS "\fBRelation\fP omega::Extend_Set (\fBNOT_CONST\fP \fBRelation\fP & R, int more)"
+
+.PP
+Add more-more variables to set\&. 
+.SS "\fBRelation\fP omega::Gist (\fBNOT_CONST\fP \fBRelation\fP & R1, \fBNOT_CONST\fP \fBRelation\fP & R2, int effort = \fC0\fP)"
+Works for both relation and sets\&. The arguments must have the same arity\&. Returns $r = \{x \rightarrow y | f(x,y)\}$ such that $\forall x,y: f(x,y) \wedge f_2(x,y) \Leftrightarrow f_1(x,y)$ 
+.PP
+\fBParameters\fP
+.RS 4
+\fIeffort[in]\fP how hard we try to make f tight 
+.RE
+.PP
+
+.SS "\fBRelation\fP omega::GistSingleConjunct (\fBNOT_CONST\fP \fBRelation\fP & R, \fBNOT_CONST\fP \fBRelation\fP & R2, int effort = \fC0\fP)"
+
+.PP
+Compute (gist r1 given r2)\&. Assuming that r2 has only one conjunct\&. r2 may have zero input and output OR may have # in/out vars equal to r1\&. 
+.SS "\fBRelation\fP omega::Identity (int n_inp)"
+
+.SS "\fBRelation\fP omega::Identity (\fBNOT_CONST\fP \fBRelation\fP & r)"
+
+.SS "\fBRelation\fP omega::Intersection (\fBNOT_CONST\fP \fBRelation\fP & r1, \fBNOT_CONST\fP \fBRelation\fP & r2)"
+
+.SS "\fBRelation\fP omega::Inverse (\fBNOT_CONST\fP \fBRelation\fP & r)"
+
+.PP
+Inverse the input and output tuple\&. 
+.SS "bool omega::Is_Obvious_Subset (\fBNOT_CONST\fP \fBRelation\fP & r1, \fBNOT_CONST\fP \fBRelation\fP & r2)"
+
+.SS "\fBRelation\fP omega::Join (\fBNOT_CONST\fP \fBRelation\fP & G, \fBNOT_CONST\fP \fBRelation\fP & F)"
+
+.PP
+Same as Composition\&. 
+.SS "\fBRelation\fP omega::Lower_Bound (\fBNOT_CONST\fP \fBRelation\fP & r)"
+
+.PP
+Lower bound of the relation in question\&. Return s such that $s \subseteq r$ is exact\&. Works by interpreting all UNKNOWN constraints as false\&. 
+.SS "\fBRelation\fP omega::MapAndCombineRel2 (\fBRelation\fP & R1, \fBRelation\fP & R2, \fBconst\fP \fBMapping\fP & mapping1, \fBconst\fP \fBMapping\fP & mapping2, \fBCombine_Type\fP ctype, int number_input = \fC\-1\fP, int number_output = \fC\-1\fP)"
+Discouraged when there are higher level substitutes\&. \fBMap\fP the variables from input relations to output relation\&. 
+.SS "void omega::MapRel1 (\fBRelation\fP & inputRel, \fBconst\fP \fBMapping\fP & map, \fBCombine_Type\fP ctype, int number_input = \fC\-1\fP, int number_output = \fC\-1\fP, bool invalidate_resulting_leading_info = \fCtrue\fP, bool finalize = \fCtrue\fP)"
+Discouraged when there are higher level substitutes\&. \fBMap\fP the variables from input relations to output relation\&. 
+.SS "\fBRelation\fP omega::merge_rels (\fBTuple\fP< \fBRelation\fP > & R, \fBconst\fP \fBTuple\fP< \fBstd::map\fP< \fBVariable_ID\fP, std::pair< \fBVar_Kind\fP, int > > > & mapping, \fBconst\fP \fBTuple\fP< bool > & inverse, \fBCombine_Type\fP ctype, int number_input = \fC\-1\fP, int number_output = \fC\-1\fP)"
+Scramble each relation's variables and merge these relations together\&. Support variable mapping to and from existentials\&. Unspecified variables in mapping are mapped to themselves by default\&. It intends to replace MapRel1 and MapAndCombineRel2 functions (the time saved by grafting formula tree might be negligible when compared to the simplification cost)\&. 
+.SS "bool omega::Might_Be_Subset (\fBNOT_CONST\fP \fBRelation\fP & r1, \fBNOT_CONST\fP \fBRelation\fP & r2)"
+
+.SS "bool omega::Must_Be_Subset (\fBNOT_CONST\fP \fBRelation\fP & r1, \fBNOT_CONST\fP \fBRelation\fP & r2)"
+
+.SS "bool omega::prepare_relations_for_composition (\fBRelation\fP & F, \fBRelation\fP & G)"
+
+.SS "\fBRelation\fP omega::Project (\fBNOT_CONST\fP \fBRelation\fP & R, \fBGlobal_Var_ID\fP v)"
+
+.SS "\fBRelation\fP omega::Project (\fBNOT_CONST\fP \fBRelation\fP & r, int pos, \fBVar_Kind\fP vkind)"
+
+.SS "\fBRelation\fP omega::Project (\fBNOT_CONST\fP \fBRelation\fP & S, \fBSequence\fP< \fBVariable_ID\fP > & s)"
+
+.SS "\fBRelation\fP omega::Project (\fBNOT_CONST\fP \fBRelation\fP & S, \fBVariable_ID\fP v)"
+Works for both relations and sets\&. Return a new relation with all occurrences of v replaced by existentially quantified z\&. 
+.SS "\fBRelation\fP omega::Project_On_Sym (\fBNOT_CONST\fP \fBRelation\fP & R, \fBNOT_CONST\fP \fBRelation\fP & context = \fC\fBRelation::Null\fP()\fP)"
+Works with both relations and sets\&. All input and output variables projected\&. 
+.SS "\fBRelation\fP omega::Project_Sym (\fBNOT_CONST\fP \fBRelation\fP & R)"
+Works with both relations and sets\&. All global variables projected\&. 
+.SS "\fBRelation\fP omega::Range (\fBNOT_CONST\fP \fBRelation\fP & r)"
+
+.SS "\fBRelation\fP omega::Restrict_Domain (\fBNOT_CONST\fP \fBRelation\fP & r1, \fBNOT_CONST\fP \fBRelation\fP & r2)"
+
+.SS "\fBRelation\fP omega::Restrict_Range (\fBNOT_CONST\fP \fBRelation\fP & r1, \fBNOT_CONST\fP \fBRelation\fP & r2)"
+
+.SS "\fBRelation\fP omega::Sample_Solution (\fBNOT_CONST\fP \fBRelation\fP & S)"
+For a relation R, returns a relation $S\subseteq R$ where each input, output, set, or global variable in S has exactly one value\&. If R is inexact, the result may be as well\&. 
+.SS "\fBRelation\fP omega::Solution (\fBNOT_CONST\fP \fBRelation\fP & S, \fBSequence\fP< \fBVariable_ID\fP > & T)"
+
+.SS "\fBRelation\fP omega::Symbolic_Solution (\fBNOT_CONST\fP \fBRelation\fP & S)"
+For a relation R, returns a relation $S\subseteq R$ where each input, output, or set variable in S has exactly one value\&. Plus constraints on the symbolic variables\&. 
+.SS "\fBRelation\fP omega::Symbolic_Solution (\fBNOT_CONST\fP \fBRelation\fP & S, \fBSequence\fP< \fBVariable_ID\fP > & T)"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIT[in]\fP A set of extra variable to be reduced\&. 
+.RE
+.PP
+
+.SS "\fBRelation\fP omega::Union (\fBNOT_CONST\fP \fBRelation\fP & r1, \fBNOT_CONST\fP \fBRelation\fP & r2)"
+
+.SS "\fBRelation\fP omega::Upper_Bound (\fBNOT_CONST\fP \fBRelation\fP & r)"
+
+.PP
+Upper bound of the relation in question\&. Return s such that $r \subseteq s$ is exact\&. Works by interpreting all UNKNOWN constraints as true\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

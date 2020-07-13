@@ -1,0 +1,173 @@
+.TH "artifact/src/pdfl/csr_bsr_insp.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+artifact/src/pdfl/csr_bsr_insp.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <sys/time\&.h>\fP
+.br
+\fC#include <iegen_util\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBcsr_data_t\fP"
+.br
+.ti -1c
+.RI "struct \fBbsr_data_t\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBintdiv\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBn\fP,  d)   \fBintdiv\fP((\fBn\fP),(d))"
+.br
+.ti -1c
+.RI "#define \fBread\fP()   \fBcsr_read\fP(path,\fBcsr\fP)"
+.br
+.ti -1c
+.RI "#define \fBlookup\fP(ii,  \fBi\fP,  \fBj\fP,  \fBk\fP)   \fBb\fP=b_set[(\fBk\fP)/\fBC\fP]"
+.br
+.ti -1c
+.RI "#define \fBextract\fP(ii,  \fBi\fP,  \fBj\fP,  \fBk\fP)"
+.br
+.ti -1c
+.RI "#define \fBcount\fP(ii,  \fBi\fP,  \fBj\fP,  \fBk\fP)   nb += !\fBb\fP"
+.br
+.ti -1c
+.RI "#define \fBinsert\fP(ii,  \fBi\fP,  \fBj\fP,  \fBk\fP)   { b_set[(\fBk\fP)/\fBC\fP] = \fBb\fP ? \fBb\fP : nb; \fBb\fP=b_set[(\fBk\fP)/\fBC\fP]; }"
+.br
+.ti -1c
+.RI "#define \fBoffset\fP(ii,  \fBi\fP,  \fBj\fP,  \fBk\fP)   b_index[(ii)+1] = nb"
+.br
+.ti -1c
+.RI "#define \fBcopy\fP(ii,  \fBi\fP,  \fBj\fP,  \fBk\fP)   A_prime[\fBoffset3\fP((\fBb\fP)\-1,((\fBi\fP)\-(ii)*\fBR\fP),((\fBk\fP)\-((\fBk\fP)/\fBC\fP)*\fBC\fP),\fBR\fP,\fBC\fP)]=\fBA\fP[(\fBj\fP)]"
+.br
+.ti -1c
+.RI "#define \fBclear\fP(ii)   memset(b_set, 0, (\fBN_C\fP/\fBC\fP+1) * sizeof(\fBitype\fP))"
+.br
+.ti -1c
+.RI "#define \fBwrite\fP(ii,  jj)   fprintf(out, '%d,%d,%\fBd\\n\fP', (ii), (jj), bsr\->b_col[(jj)])"
+.br
+.ti -1c
+.RI "#define \fBspmv\fP(ii,  jj,  \fBi\fP,  \fBk\fP,  s,  \fBt\fP)   ytmp[(s)]+=A_prime[\fBoffset3\fP((jj),(\fBi\fP)+(s)\-\fBR\fP*(ii), (\fBk\fP)+(\fBt\fP)\-\fBC\fP*b_col[(jj)], \fBR\fP, \fBC\fP)]*xtmp[(\fBt\fP)]"
+.br
+.ti -1c
+.RI "#define \fBcsr\fP(\fBi\fP,  \fBj\fP)   \fBy\fP[(\fBi\fP)]+=\fBA\fP[(\fBj\fP)]*\fBx\fP[\fBcol\fP[(\fBj\fP)]]"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef float \fBreal\fP"
+.br
+.ti -1c
+.RI "typedef unsigned \fBitype\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "double \fBget_time\fP ()"
+.br
+.ti -1c
+.RI "\fBcsr_data_t\fP * \fBcsr_bsr_setup\fP (\fBconst\fP char *path, \fBreal\fP **\fBx\fP, \fBreal\fP **\fBy\fP)"
+.br
+.ti -1c
+.RI "\fBbsr_data_t\fP * \fBcsr_bsr_insp\fP (\fBcsr_data_t\fP \fBconst\fP *\fBcsr\fP, \fBitype\fP \fBR\fP, \fBitype\fP \fBC\fP)"
+.br
+.ti -1c
+.RI "void \fBbsr_write\fP (\fBbsr_data_t\fP \fBconst\fP *bsr)"
+.br
+.ti -1c
+.RI "void \fBcsr_bsr_exec\fP (\fBcsr_data_t\fP \fBconst\fP *\fBcsr\fP, \fBbsr_data_t\fP \fBconst\fP *bsr, \fBreal\fP \fBconst\fP *\fBx\fP, \fBreal\fP *\fBy\fP)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, \fBconst\fP char **argv)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define clear(ii)   memset(b_set, 0, (\fBN_C\fP/\fBC\fP+1) * sizeof(\fBitype\fP))"
+
+.SS "#define copy(ii, \fBi\fP, \fBj\fP, \fBk\fP)   A_prime[\fBoffset3\fP((\fBb\fP)\-1,((\fBi\fP)\-(ii)*\fBR\fP),((\fBk\fP)\-((\fBk\fP)/\fBC\fP)*\fBC\fP),\fBR\fP,\fBC\fP)]=\fBA\fP[(\fBj\fP)]"
+
+.SS "#define count(ii, \fBi\fP, \fBj\fP, \fBk\fP)   nb += !\fBb\fP"
+
+.SS "#define csr(\fBi\fP, \fBj\fP)   \fBy\fP[(\fBi\fP)]+=\fBA\fP[(\fBj\fP)]*\fBx\fP[\fBcol\fP[(\fBj\fP)]]"
+
+.SS "#define extract(ii, \fBi\fP, \fBj\fP, \fBk\fP)"
+\fBValue:\fP
+.PP
+.nf
+  { if (nb == nb_est) {\
+  nb_est *= gf;\
+  b_col = realloc(b_col, nb_est * sizeof(itype));\
+  A_prime = realloc(A_prime, nb_est * R * C * sizeof(real)); }\
+b_col[nb]=(k)/C; }
+.fi
+.SS "#define floord(\fBn\fP, d)   \fBintdiv\fP((\fBn\fP),(d))"
+
+.SS "#define insert(ii, \fBi\fP, \fBj\fP, \fBk\fP)   { b_set[(\fBk\fP)/\fBC\fP] = \fBb\fP ? \fBb\fP : nb; \fBb\fP=b_set[(\fBk\fP)/\fBC\fP]; }"
+
+.SS "#define intdiv(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define lookup(ii, \fBi\fP, \fBj\fP, \fBk\fP)   \fBb\fP=b_set[(\fBk\fP)/\fBC\fP]"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset(ii, \fBi\fP, \fBj\fP, \fBk\fP)   b_index[(ii)+1] = nb"
+
+.SS "#define read()   \fBcsr_read\fP(path,\fBcsr\fP)"
+
+.SS "#define spmv(ii, jj, \fBi\fP, \fBk\fP, s, \fBt\fP)   ytmp[(s)]+=A_prime[\fBoffset3\fP((jj),(\fBi\fP)+(s)\-\fBR\fP*(ii), (\fBk\fP)+(\fBt\fP)\-\fBC\fP*b_col[(jj)], \fBR\fP, \fBC\fP)]*xtmp[(\fBt\fP)]"
+
+.SS "#define write(ii, jj)   fprintf(out, '%d,%d,%\fBd\\n\fP', (ii), (jj), bsr\->b_col[(jj)])"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef unsigned \fBitype\fP"
+
+.SS "typedef float \fBreal\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "void bsr_write (\fBbsr_data_t\fP \fBconst\fP * bsr)"
+
+.SS "void csr_bsr_exec (\fBcsr_data_t\fP \fBconst\fP * csr, \fBbsr_data_t\fP \fBconst\fP * bsr, \fBreal\fP \fBconst\fP * x, \fBreal\fP * y)\fC [inline]\fP"
+
+.SS "\fBbsr_data_t\fP * csr_bsr_insp (\fBcsr_data_t\fP \fBconst\fP * csr, \fBitype\fP R, \fBitype\fP C)\fC [inline]\fP"
+
+.SS "\fBcsr_data_t\fP * csr_bsr_setup (\fBconst\fP char * path, \fBreal\fP ** x, \fBreal\fP ** y)\fC [inline]\fP"
+
+.SS "double get_time ()"
+
+.SS "int main (int argc, \fBconst\fP char ** argv)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

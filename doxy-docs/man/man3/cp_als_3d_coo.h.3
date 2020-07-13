@@ -1,0 +1,390 @@
+.TH "out/cp_als_3d_coo.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+out/cp_als_3d_coo.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <float\&.h>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBmin\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBmax\fP(\fBx\fP,  \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBabs\fP(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+.br
+.ti -1c
+.RI "#define \fBfloord\fP(\fBx\fP,  \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset2\fP(\fBi\fP,  \fBj\fP,  M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+.br
+.ti -1c
+.RI "#define \fBoffset3\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  M,  \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBoffset4\fP(\fBi\fP,  \fBj\fP,  \fBk\fP,  l,  M,  \fBN\fP,  \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+.br
+.ti -1c
+.RI "#define \fBarrinit\fP(ptr,  \fBval\fP,  \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+.br
+.ti -1c
+.RI "#define \fBarrprnt\fP(\fBname\fP,  arr,  \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBurand\fP(\fBm\fP)   (rand()/nextafter(RAND_MAX,DBL_MAX)+(\fBm\fP))"
+.br
+.ti -1c
+.RI "#define \fBpinv\fP(\fBA\fP,  \fBAinv\fP)   (\fBmp_pinv\fP((\fBA\fP),(\fBAinv\fP),\fBR\fP))"
+.br
+.ti -1c
+.RI "#define \fBA\fP(\fBi\fP,  r)   A[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBB\fP(\fBj\fP,  r)   B[\fBoffset2\fP((\fBj\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBC\fP(\fBk\fP,  r)   C[\fBoffset2\fP((\fBk\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBV\fP(r,  q)   V[\fBoffset2\fP((r),(q),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBY\fP(r,  q)   Y[\fBoffset2\fP((r),(q),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBAnew\fP(\fBi\fP,  r)   Anew[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBX\fP(\fBm\fP)   X[(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBVinv\fP(r,  q)   Vinv[\fBoffset2\fP((r),(q),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBsums\fP(s)   sums[(s)]"
+.br
+.ti -1c
+.RI "#define \fBlmbda\fP(r)   lmbda[(r)]"
+.br
+.ti -1c
+.RI "#define \fBBnew\fP(\fBj\fP,  r)   Bnew[\fBoffset2\fP((\fBj\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBCnew\fP(\fBk\fP,  r)   Cnew[\fBoffset2\fP((\fBk\fP),(r),(\fBR\fP))]"
+.br
+.ti -1c
+.RI "#define \fBind0\fP(\fBt\fP,  \fBm\fP)   ind0[(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBind1\fP(\fBt\fP,  \fBm\fP)   ind1[(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBind2\fP(\fBt\fP,  \fBm\fP)   ind2[(\fBm\fP)]"
+.br
+.ti -1c
+.RI "#define \fBs0\fP(r,  \fBi\fP)   \fBA\fP((\fBi\fP),(r))=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs1\fP(r,  \fBj\fP)   \fBB\fP((\fBj\fP),(r))=\fBurand\fP(0)"
+.br
+.ti -1c
+.RI "#define \fBs2\fP(r,  \fBk\fP)   \fBC\fP((\fBk\fP),(r))=\fBurand\fP(0)"
+.br
+.ti -1c
+.RI "#define \fBs3\fP(\fBt\fP,  r,  q)   \fBV\fP((r),(q))=1\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs4\fP(\fBt\fP,  r,  q)   \fBY\fP((r),(q))=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs5\fP(\fBt\fP,  r,  q,  \fBj\fP)   \fBY\fP((r),(q))+=\fBB\fP((q),(\fBj\fP))*\fBB\fP((\fBj\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs6\fP(\fBt\fP,  r,  q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs7\fP(\fBt\fP,  r,  q)   \fBY\fP((r),(q))=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs8\fP(\fBt\fP,  r,  q,  \fBk\fP)   \fBY\fP((r),(q))+=\fBC\fP((q),(\fBk\fP))*\fBC\fP((\fBk\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs9\fP(\fBt\fP,  r,  q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs10\fP(\fBt\fP,  \fBm\fP,  \fBi\fP,  \fBj\fP,  \fBk\fP,  r)   \fBAnew\fP((\fBi\fP),(r))+=\fBX\fP((\fBm\fP))*\fBC\fP((\fBk\fP),(r))*\fBB\fP((\fBj\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs11\fP(\fBt\fP)   \fBVinv\fP=\fBpinv\fP(\fBV\fP,\fBVinv\fP)"
+.br
+.ti -1c
+.RI "#define \fBs12\fP(\fBt\fP,  \fBi\fP,  r,  q)   dot+=\fBAnew\fP((\fBi\fP),(q))*\fBVinv\fP((r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs13\fP(\fBt\fP,  s,  \fBi\fP)   \fBsums\fP((s))+=\fBAnew\fP((\fBi\fP),(s))*\fBAnew\fP((\fBi\fP),(s))"
+.br
+.ti -1c
+.RI "#define \fBs14\fP(\fBt\fP,  r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+.br
+.ti -1c
+.RI "#define \fBs15\fP(\fBt\fP,  s,  \fBi\fP)   \fBA\fP((\fBi\fP),(s))=\fBAnew\fP((\fBi\fP),(s))/\fBlmbda\fP((s))"
+.br
+.ti -1c
+.RI "#define \fBs16\fP(\fBt\fP,  r,  q)   \fBV\fP((r),(q))=1\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs17\fP(\fBt\fP,  r,  q)   \fBY\fP((r),(q))=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs18\fP(\fBt\fP,  r,  q,  \fBi\fP)   \fBY\fP((r),(q))+=\fBA\fP((q),(\fBi\fP))*\fBA\fP((\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs19\fP(\fBt\fP,  r,  q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs20\fP(\fBt\fP,  r,  q)   \fBY\fP((r),(q))=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs21\fP(\fBt\fP,  r,  q,  \fBk\fP)   \fBY\fP((r),(q))+=\fBC\fP((q),(\fBk\fP))*\fBC\fP((\fBk\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs22\fP(\fBt\fP,  r,  q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs23\fP(\fBt\fP,  \fBm\fP,  \fBi\fP,  \fBj\fP,  \fBk\fP,  r)   \fBBnew\fP((\fBj\fP),(r))+=\fBX\fP((\fBm\fP))*\fBC\fP((\fBk\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs24\fP(\fBt\fP)   \fBVinv\fP=\fBpinv\fP(\fBV\fP,\fBVinv\fP)"
+.br
+.ti -1c
+.RI "#define \fBs25\fP(\fBt\fP,  \fBj\fP,  r,  q)   dot+=\fBBnew\fP((\fBj\fP),(q))*\fBVinv\fP((r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs26\fP(\fBt\fP,  s,  \fBj\fP)   \fBsums\fP((s))+=\fBBnew\fP((\fBj\fP),(s))*\fBBnew\fP((\fBj\fP),(s))"
+.br
+.ti -1c
+.RI "#define \fBs27\fP(\fBt\fP,  r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+.br
+.ti -1c
+.RI "#define \fBs28\fP(\fBt\fP,  s,  \fBj\fP)   \fBB\fP((\fBj\fP),(s))=\fBBnew\fP((\fBj\fP),(s))/\fBlmbda\fP((s))"
+.br
+.ti -1c
+.RI "#define \fBs29\fP(\fBt\fP,  r,  q)   \fBV\fP((r),(q))=1\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs30\fP(\fBt\fP,  r,  q)   \fBY\fP((r),(q))=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs31\fP(\fBt\fP,  r,  q,  \fBi\fP)   \fBY\fP((r),(q))+=\fBA\fP((q),(\fBi\fP))*\fBA\fP((\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs32\fP(\fBt\fP,  r,  q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs33\fP(\fBt\fP,  r,  q)   \fBY\fP((r),(q))=0\&.000000"
+.br
+.ti -1c
+.RI "#define \fBs34\fP(\fBt\fP,  r,  q,  \fBj\fP)   \fBY\fP((r),(q))+=\fBB\fP((q),(\fBj\fP))*\fBB\fP((\fBj\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs35\fP(\fBt\fP,  r,  q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs36\fP(\fBt\fP,  \fBm\fP,  \fBi\fP,  \fBj\fP,  \fBk\fP,  r)   \fBCnew\fP((\fBk\fP),(r))+=\fBX\fP((\fBm\fP))*\fBB\fP((\fBj\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+.br
+.ti -1c
+.RI "#define \fBs37\fP(\fBt\fP)   \fBVinv\fP=\fBpinv\fP(\fBV\fP,\fBVinv\fP)"
+.br
+.ti -1c
+.RI "#define \fBs38\fP(\fBt\fP,  \fBk\fP,  r,  q)   dot+=\fBCnew\fP((\fBk\fP),(q))*\fBVinv\fP((r),(q))"
+.br
+.ti -1c
+.RI "#define \fBs39\fP(\fBt\fP,  s,  \fBk\fP)   \fBsums\fP((s))+=\fBCnew\fP((\fBk\fP),(s))*\fBCnew\fP((\fBk\fP),(s))"
+.br
+.ti -1c
+.RI "#define \fBs40\fP(\fBt\fP,  r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+.br
+.ti -1c
+.RI "#define \fBs41\fP(\fBt\fP,  s,  \fBk\fP)   \fBC\fP((\fBk\fP),(s))=\fBCnew\fP((\fBk\fP),(s))/\fBlmbda\fP((s))"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcp_als_3d_coo\fP (\fBconst\fP float *\fBX\fP, \fBconst\fP unsigned I, \fBconst\fP unsigned J, \fBconst\fP unsigned K, \fBconst\fP unsigned M, \fBconst\fP unsigned \fBR\fP, \fBconst\fP unsigned \fBT\fP, \fBconst\fP unsigned *\fBind0\fP, \fBconst\fP unsigned *\fBind1\fP, \fBconst\fP unsigned *\fBind2\fP, float *\fBA\fP, float *\fBB\fP, float *\fBC\fP, float *\fBlmbda\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define A(\fBi\fP, r)   A[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+
+.SS "#define abs(\fBx\fP)   ((\fBx\fP)<0?\-(\fBx\fP):(\fBx\fP))"
+
+.SS "#define Anew(\fBi\fP, r)   Anew[\fBoffset2\fP((\fBi\fP),(r),(\fBR\fP))]"
+
+.SS "#define arrinit(ptr, \fBval\fP, \fBsize\fP)   for(unsigned __i__=0;__i__<(\fBsize\fP);__i__++) (ptr)[__i__]=(\fBval\fP)"
+
+.SS "#define arrprnt(\fBname\fP, arr, \fBsize\fP)"
+\fBValue:\fP
+.PP
+.nf
+{\
+fprintf(stderr,"%s={",(name));\
+for(unsigned __i__=0;__i__<(size);__i__++) fprintf(stderr,"%lg,",(arr)[__i__]);\
+fprintf(stderr,"}\n");}
+.fi
+.SS "#define B(\fBj\fP, r)   B[\fBoffset2\fP((\fBj\fP),(r),(\fBR\fP))]"
+
+.SS "#define Bnew(\fBj\fP, r)   Bnew[\fBoffset2\fP((\fBj\fP),(r),(\fBR\fP))]"
+
+.SS "#define C(\fBk\fP, r)   C[\fBoffset2\fP((\fBk\fP),(r),(\fBR\fP))]"
+
+.SS "#define Cnew(\fBk\fP, r)   Cnew[\fBoffset2\fP((\fBk\fP),(r),(\fBR\fP))]"
+
+.SS "#define floord(\fBx\fP, \fBy\fP)   ((\fBx\fP)/(\fBy\fP))"
+
+.SS "#define ind0(\fBt\fP, \fBm\fP)   ind0[(\fBm\fP)]"
+
+.SS "#define ind1(\fBt\fP, \fBm\fP)   ind1[(\fBm\fP)]"
+
+.SS "#define ind2(\fBt\fP, \fBm\fP)   ind2[(\fBm\fP)]"
+
+.SS "#define lmbda(r)   lmbda[(r)]"
+
+.SS "#define max(\fBx\fP, \fBy\fP)   (((\fBx\fP)>(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define min(\fBx\fP, \fBy\fP)   (((\fBx\fP)<(\fBy\fP))?(\fBx\fP):(\fBy\fP))"
+
+.SS "#define offset2(\fBi\fP, \fBj\fP, M)   ((\fBj\fP)+(\fBi\fP)*(M))"
+
+.SS "#define offset3(\fBi\fP, \fBj\fP, \fBk\fP, M, \fBN\fP)   ((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))"
+
+.SS "#define offset4(\fBi\fP, \fBj\fP, \fBk\fP, l, M, \fBN\fP, \fBP\fP)   ((l)+((\fBk\fP)+((\fBj\fP)+(\fBi\fP)*(M))*(\fBN\fP))*(\fBP\fP))"
+
+.SS "#define pinv(\fBA\fP, \fBAinv\fP)   (\fBmp_pinv\fP((\fBA\fP),(\fBAinv\fP),\fBR\fP))"
+
+.SS "#define s0(r, \fBi\fP)   \fBA\fP((\fBi\fP),(r))=0\&.000000"
+
+.SS "#define s1(r, \fBj\fP)   \fBB\fP((\fBj\fP),(r))=\fBurand\fP(0)"
+
+.SS "#define s10(\fBt\fP, \fBm\fP, \fBi\fP, \fBj\fP, \fBk\fP, r)   \fBAnew\fP((\fBi\fP),(r))+=\fBX\fP((\fBm\fP))*\fBC\fP((\fBk\fP),(r))*\fBB\fP((\fBj\fP),(r))"
+
+.SS "#define s11(\fBt\fP)   \fBVinv\fP=\fBpinv\fP(\fBV\fP,\fBVinv\fP)"
+
+.SS "#define s12(\fBt\fP, \fBi\fP, r, q)   dot+=\fBAnew\fP((\fBi\fP),(q))*\fBVinv\fP((r),(q))"
+
+.SS "#define s13(\fBt\fP, s, \fBi\fP)   \fBsums\fP((s))+=\fBAnew\fP((\fBi\fP),(s))*\fBAnew\fP((\fBi\fP),(s))"
+
+.SS "#define s14(\fBt\fP, r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+
+.SS "#define s15(\fBt\fP, s, \fBi\fP)   \fBA\fP((\fBi\fP),(s))=\fBAnew\fP((\fBi\fP),(s))/\fBlmbda\fP((s))"
+
+.SS "#define s16(\fBt\fP, r, q)   \fBV\fP((r),(q))=1\&.000000"
+
+.SS "#define s17(\fBt\fP, r, q)   \fBY\fP((r),(q))=0\&.000000"
+
+.SS "#define s18(\fBt\fP, r, q, \fBi\fP)   \fBY\fP((r),(q))+=\fBA\fP((q),(\fBi\fP))*\fBA\fP((\fBi\fP),(r))"
+
+.SS "#define s19(\fBt\fP, r, q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+
+.SS "#define s2(r, \fBk\fP)   \fBC\fP((\fBk\fP),(r))=\fBurand\fP(0)"
+
+.SS "#define s20(\fBt\fP, r, q)   \fBY\fP((r),(q))=0\&.000000"
+
+.SS "#define s21(\fBt\fP, r, q, \fBk\fP)   \fBY\fP((r),(q))+=\fBC\fP((q),(\fBk\fP))*\fBC\fP((\fBk\fP),(r))"
+
+.SS "#define s22(\fBt\fP, r, q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+
+.SS "#define s23(\fBt\fP, \fBm\fP, \fBi\fP, \fBj\fP, \fBk\fP, r)   \fBBnew\fP((\fBj\fP),(r))+=\fBX\fP((\fBm\fP))*\fBC\fP((\fBk\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+
+.SS "#define s24(\fBt\fP)   \fBVinv\fP=\fBpinv\fP(\fBV\fP,\fBVinv\fP)"
+
+.SS "#define s25(\fBt\fP, \fBj\fP, r, q)   dot+=\fBBnew\fP((\fBj\fP),(q))*\fBVinv\fP((r),(q))"
+
+.SS "#define s26(\fBt\fP, s, \fBj\fP)   \fBsums\fP((s))+=\fBBnew\fP((\fBj\fP),(s))*\fBBnew\fP((\fBj\fP),(s))"
+
+.SS "#define s27(\fBt\fP, r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+
+.SS "#define s28(\fBt\fP, s, \fBj\fP)   \fBB\fP((\fBj\fP),(s))=\fBBnew\fP((\fBj\fP),(s))/\fBlmbda\fP((s))"
+
+.SS "#define s29(\fBt\fP, r, q)   \fBV\fP((r),(q))=1\&.000000"
+
+.SS "#define s3(\fBt\fP, r, q)   \fBV\fP((r),(q))=1\&.000000"
+
+.SS "#define s30(\fBt\fP, r, q)   \fBY\fP((r),(q))=0\&.000000"
+
+.SS "#define s31(\fBt\fP, r, q, \fBi\fP)   \fBY\fP((r),(q))+=\fBA\fP((q),(\fBi\fP))*\fBA\fP((\fBi\fP),(r))"
+
+.SS "#define s32(\fBt\fP, r, q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+
+.SS "#define s33(\fBt\fP, r, q)   \fBY\fP((r),(q))=0\&.000000"
+
+.SS "#define s34(\fBt\fP, r, q, \fBj\fP)   \fBY\fP((r),(q))+=\fBB\fP((q),(\fBj\fP))*\fBB\fP((\fBj\fP),(r))"
+
+.SS "#define s35(\fBt\fP, r, q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+
+.SS "#define s36(\fBt\fP, \fBm\fP, \fBi\fP, \fBj\fP, \fBk\fP, r)   \fBCnew\fP((\fBk\fP),(r))+=\fBX\fP((\fBm\fP))*\fBB\fP((\fBj\fP),(r))*\fBA\fP((\fBi\fP),(r))"
+
+.SS "#define s37(\fBt\fP)   \fBVinv\fP=\fBpinv\fP(\fBV\fP,\fBVinv\fP)"
+
+.SS "#define s38(\fBt\fP, \fBk\fP, r, q)   dot+=\fBCnew\fP((\fBk\fP),(q))*\fBVinv\fP((r),(q))"
+
+.SS "#define s39(\fBt\fP, s, \fBk\fP)   \fBsums\fP((s))+=\fBCnew\fP((\fBk\fP),(s))*\fBCnew\fP((\fBk\fP),(s))"
+
+.SS "#define s4(\fBt\fP, r, q)   \fBY\fP((r),(q))=0\&.000000"
+
+.SS "#define s40(\fBt\fP, r)   \fBlmbda\fP((r))=sqrt(\fBsums\fP((r)))"
+
+.SS "#define s41(\fBt\fP, s, \fBk\fP)   \fBC\fP((\fBk\fP),(s))=\fBCnew\fP((\fBk\fP),(s))/\fBlmbda\fP((s))"
+
+.SS "#define s5(\fBt\fP, r, q, \fBj\fP)   \fBY\fP((r),(q))+=\fBB\fP((q),(\fBj\fP))*\fBB\fP((\fBj\fP),(r))"
+
+.SS "#define s6(\fBt\fP, r, q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+
+.SS "#define s7(\fBt\fP, r, q)   \fBY\fP((r),(q))=0\&.000000"
+
+.SS "#define s8(\fBt\fP, r, q, \fBk\fP)   \fBY\fP((r),(q))+=\fBC\fP((q),(\fBk\fP))*\fBC\fP((\fBk\fP),(r))"
+
+.SS "#define s9(\fBt\fP, r, q)   \fBV\fP((r),(q))*=\fBY\fP((r),(q))"
+
+.SS "#define sums(s)   sums[(s)]"
+
+.SS "#define urand(\fBm\fP)   (rand()/nextafter(RAND_MAX,DBL_MAX)+(\fBm\fP))"
+
+.SS "#define V(r, q)   V[\fBoffset2\fP((r),(q),(\fBR\fP))]"
+
+.SS "#define Vinv(r, q)   Vinv[\fBoffset2\fP((r),(q),(\fBR\fP))]"
+
+.SS "#define X(\fBm\fP)   X[(\fBm\fP)]"
+
+.SS "#define Y(r, q)   Y[\fBoffset2\fP((r),(q),(\fBR\fP))]"
+
+.SH "Function Documentation"
+.PP 
+.SS "void cp_als_3d_coo (\fBconst\fP float * X, \fBconst\fP unsigned I, \fBconst\fP unsigned J, \fBconst\fP unsigned K, \fBconst\fP unsigned M, \fBconst\fP unsigned R, \fBconst\fP unsigned T, \fBconst\fP unsigned * ind0, \fBconst\fP unsigned * ind1, \fBconst\fP unsigned * ind2, float * A, float * B, float * C, float * lmbda)\fC [inline]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,192 @@
+.TH "lib/isl/isl_scheduler.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_scheduler.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl_aff_private\&.h>\fP
+.br
+\fC#include <isl/hash\&.h>\fP
+.br
+\fC#include <isl/constraint\&.h>\fP
+.br
+\fC#include <isl/schedule\&.h>\fP
+.br
+\fC#include <isl/schedule_node\&.h>\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl/union_set\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_tab\&.h>\fP
+.br
+\fC#include <isl_dim_map\&.h>\fP
+.br
+\fC#include <isl/map_to_basic_set\&.h>\fP
+.br
+\fC#include <isl_sort\&.h>\fP
+.br
+\fC#include <isl_options_private\&.h>\fP
+.br
+\fC#include <isl_tarjan\&.h>\fP
+.br
+\fC#include <isl_morph\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_schedule_constraints\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_sched_node\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_sched_edge\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_sched_graph\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_extract_edge_data\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBisl_edge_type\fP { \fBisl_edge_validity\fP = 0, \fBisl_edge_first\fP = isl_edge_validity, \fBisl_edge_coincidence\fP, \fBisl_edge_condition\fP, \fBisl_edge_conditional_validity\fP, \fBisl_edge_proximity\fP, \fBisl_edge_last\fP = isl_edge_proximity, \fBisl_edge_local\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_copy\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_on_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_context\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_validity\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_union_map\fP *validity)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_coincidence\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_union_map\fP *coincidence)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_proximity\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_union_map\fP *proximity)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_set_conditional_validity\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc, \fB__isl_take\fP \fBisl_union_map\fP *\fBcondition\fP, \fB__isl_take\fP \fBisl_union_map\fP *validity)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_schedule_constraints\fP * \fBisl_schedule_constraints_free\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_schedule_constraints_get_ctx\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_schedule_constraints_get_domain\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_constraints_get_validity\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_constraints_get_coincidence\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_constraints_get_conditional_validity\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_constraints_get_conditional_validity_condition\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "void \fBisl_schedule_constraints_dump\fP (\fB__isl_keep\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_schedule_constraints_compute_schedule\fP (\fB__isl_take\fP \fBisl_schedule_constraints\fP *sc)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule\fP * \fBisl_union_set_compute_schedule\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP, \fB__isl_take\fP \fBisl_union_map\fP *validity, \fB__isl_take\fP \fBisl_union_map\fP *proximity)"
+.br
+.in -1c
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBisl_edge_type\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIisl_edge_validity \fP\fP
+.TP
+\fB\fIisl_edge_first \fP\fP
+.TP
+\fB\fIisl_edge_coincidence \fP\fP
+.TP
+\fB\fIisl_edge_condition \fP\fP
+.TP
+\fB\fIisl_edge_conditional_validity \fP\fP
+.TP
+\fB\fIisl_edge_proximity \fP\fP
+.TP
+\fB\fIisl_edge_last \fP\fP
+.TP
+\fB\fIisl_edge_local \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_schedule_constraints_compute_schedule (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_copy (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "void isl_schedule_constraints_dump (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_null\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_free (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_constraints_get_coincidence (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_constraints_get_conditional_validity (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_constraints_get_conditional_validity_condition (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fBisl_ctx\fP* isl_schedule_constraints_get_ctx (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_schedule_constraints_get_domain (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_constraints_get_validity (\fB__isl_keep\fP \fBisl_schedule_constraints\fP * sc)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_on_domain (\fB__isl_take\fP \fBisl_union_set\fP * domain)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_coincidence (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_union_map\fP * coincidence)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_conditional_validity (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_union_map\fP * condition, \fB__isl_take\fP \fBisl_union_map\fP * validity)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_context (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_proximity (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_union_map\fP * proximity)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_constraints\fP* isl_schedule_constraints_set_validity (\fB__isl_take\fP \fBisl_schedule_constraints\fP * sc, \fB__isl_take\fP \fBisl_union_map\fP * validity)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule\fP* isl_union_set_compute_schedule (\fB__isl_take\fP \fBisl_union_set\fP * domain, \fB__isl_take\fP \fBisl_union_map\fP * validity, \fB__isl_take\fP \fBisl_union_map\fP * proximity)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

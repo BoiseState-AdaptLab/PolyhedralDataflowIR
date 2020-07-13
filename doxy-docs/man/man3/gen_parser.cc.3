@@ -1,0 +1,774 @@
+.TH "lib/iegenlib/src/parser/gen_parser.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/iegenlib/src/parser/gen_parser.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <parser/parser\&.h>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <list>\fP
+.br
+\fC#include <stack>\fP
+.br
+\fC#include <stddef\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <typeinfo>\fP
+.br
+\fC#include <sstream>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "union \fBZZSTYPE\fP"
+.br
+.ti -1c
+.RI "union \fByyalloc\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBYYBISON\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYYBISON_VERSION\fP   '3\&.0\&.4'"
+.br
+.ti -1c
+.RI "#define \fBYYSKELETON_NAME\fP   'yacc\&.c'"
+.br
+.ti -1c
+.RI "#define \fBYYPURE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYYPUSH\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYYPULL\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYYSTYPE\fP   \fBZZSTYPE\fP"
+.br
+.ti -1c
+.RI "#define \fByyparse\fP   \fBzzparse\fP"
+.br
+.ti -1c
+.RI "#define \fByylex\fP   zzlex"
+.br
+.ti -1c
+.RI "#define \fByyerror\fP   zzerror"
+.br
+.ti -1c
+.RI "#define \fByydebug\fP   \fBzzdebug\fP"
+.br
+.ti -1c
+.RI "#define \fByynerrs\fP   zznerrs"
+.br
+.ti -1c
+.RI "#define \fByylval\fP   \fBzzlval\fP"
+.br
+.ti -1c
+.RI "#define \fByychar\fP   zzchar"
+.br
+.ti -1c
+.RI "#define \fBYYERROR_VERBOSE\fP"
+.br
+.ti -1c
+.RI "#define \fBYYDEBUG\fP   1"
+.br
+.ti -1c
+.RI "#define \fByytext\fP   \fBzztext\fP"
+.br
+.ti -1c
+.RI "#define \fByylineno\fP   \fBzzlineno\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_NULLPTR\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYYERROR_VERBOSE\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYY_ZZ_GEN_PARSER_HH_INCLUDED\fP"
+.br
+.ti -1c
+.RI "#define \fBZZDEBUG\fP   1"
+.br
+.ti -1c
+.RI "#define \fBZZTOKENTYPE\fP"
+.br
+.ti -1c
+.RI "#define \fBZZSTYPE_IS_TRIVIAL\fP   1"
+.br
+.ti -1c
+.RI "#define \fBZZSTYPE_IS_DECLARED\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYYSIZE_T\fP   size_t"
+.br
+.ti -1c
+.RI "#define \fBYYSIZE_MAXIMUM\fP   ((\fBYYSIZE_T\fP) \-1)"
+.br
+.ti -1c
+.RI "#define \fBYY_\fP(Msgid)   Msgid"
+.br
+.ti -1c
+.RI "#define \fBYY_ATTRIBUTE\fP(Spec)   /* empty */"
+.br
+.ti -1c
+.RI "#define \fBYY_ATTRIBUTE_PURE\fP   \fBYY_ATTRIBUTE\fP ((__pure__))"
+.br
+.ti -1c
+.RI "#define \fBYY_ATTRIBUTE_UNUSED\fP   \fBYY_ATTRIBUTE\fP ((__unused__))"
+.br
+.ti -1c
+.RI "#define \fB_Noreturn\fP   \fBYY_ATTRIBUTE\fP ((__noreturn__))"
+.br
+.ti -1c
+.RI "#define \fBYYUSE\fP(E)   ((void) (E))"
+.br
+.ti -1c
+.RI "#define \fBYY_INITIAL_VALUE\fP(Value)   Value"
+.br
+.ti -1c
+.RI "#define \fBYY_IGNORE_MAYBE_UNINITIALIZED_BEGIN\fP"
+.br
+.ti -1c
+.RI "#define \fBYY_IGNORE_MAYBE_UNINITIALIZED_END\fP"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_ALLOC\fP   \fBYYMALLOC\fP"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_FREE\fP   \fBYYFREE\fP"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_ALLOC_MAXIMUM\fP   \fBYYSIZE_MAXIMUM\fP"
+.br
+.ti -1c
+.RI "#define \fBYYMALLOC\fP   \fBmalloc\fP"
+.br
+.ti -1c
+.RI "#define \fBYYFREE\fP   \fBfree\fP"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_GAP_MAXIMUM\fP   (sizeof (union \fByyalloc\fP) \- 1)"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_BYTES\fP(\fBN\fP)"
+.br
+.ti -1c
+.RI "#define \fBYYCOPY_NEEDED\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYYSTACK_RELOCATE\fP(Stack_alloc,  Stack)"
+.br
+.ti -1c
+.RI "#define \fBYYCOPY\fP(Dst,  Src,  Count)"
+.br
+.ti -1c
+.RI "#define \fBYYFINAL\fP   14"
+.br
+.ti -1c
+.RI "#define \fBYYLAST\fP   139"
+.br
+.ti -1c
+.RI "#define \fBYYNTOKENS\fP   31"
+.br
+.ti -1c
+.RI "#define \fBYYNNTS\fP   44"
+.br
+.ti -1c
+.RI "#define \fBYYNRULES\fP   89"
+.br
+.ti -1c
+.RI "#define \fBYYNSTATES\fP   156"
+.br
+.ti -1c
+.RI "#define \fBYYUNDEFTOK\fP   2"
+.br
+.ti -1c
+.RI "#define \fBYYMAXUTOK\fP   285"
+.br
+.ti -1c
+.RI "#define \fBYYTRANSLATE\fP(YYX)   ((unsigned int) (YYX) <= \fBYYMAXUTOK\fP ? yytranslate[YYX] : \fBYYUNDEFTOK\fP)"
+.br
+.ti -1c
+.RI "#define \fBYYPACT_NINF\fP   \-57"
+.br
+.ti -1c
+.RI "#define \fByypact_value_is_default\fP(Yystate)   (!!((Yystate) == (\-57)))"
+.br
+.ti -1c
+.RI "#define \fBYYTABLE_NINF\fP   \-84"
+.br
+.ti -1c
+.RI "#define \fByytable_value_is_error\fP(Yytable_value)   0"
+.br
+.ti -1c
+.RI "#define \fByyerrok\fP   (yyerrstatus = 0)"
+.br
+.ti -1c
+.RI "#define \fByyclearin\fP   (\fByychar\fP = \fBYYEMPTY\fP)"
+.br
+.ti -1c
+.RI "#define \fBYYEMPTY\fP   (\-2)"
+.br
+.ti -1c
+.RI "#define \fBYYEOF\fP   0"
+.br
+.ti -1c
+.RI "#define \fBYYACCEPT\fP   goto yyacceptlab"
+.br
+.ti -1c
+.RI "#define \fBYYABORT\fP   goto yyabortlab"
+.br
+.ti -1c
+.RI "#define \fBYYERROR\fP   goto yyerrorlab"
+.br
+.ti -1c
+.RI "#define \fBYYRECOVERING\fP()   (!!yyerrstatus)"
+.br
+.ti -1c
+.RI "#define \fBYYBACKUP\fP(Token,  Value)"
+.br
+.ti -1c
+.RI "#define \fBYYTERROR\fP   1"
+.br
+.ti -1c
+.RI "#define \fBYYERRCODE\fP   256"
+.br
+.ti -1c
+.RI "#define \fBYYFPRINTF\fP   fprintf"
+.br
+.ti -1c
+.RI "#define \fBYYDPRINTF\fP(Args)"
+.br
+.ti -1c
+.RI "#define \fBYY_LOCATION_PRINT\fP(File,  Loc)   ((void) 0)"
+.br
+.ti -1c
+.RI "#define \fBYY_SYMBOL_PRINT\fP(Title,  \fBType\fP,  Value,  Location)"
+.br
+.ti -1c
+.RI "#define \fBYY_STACK_PRINT\fP(Bottom,  Top)"
+.br
+.ti -1c
+.RI "#define \fBYY_REDUCE_PRINT\fP(Rule)"
+.br
+.ti -1c
+.RI "#define \fBYYINITDEPTH\fP   200"
+.br
+.ti -1c
+.RI "#define \fBYYMAXDEPTH\fP   10000"
+.br
+.ti -1c
+.RI "#define \fBYYCASE_\fP(\fBN\fP,  \fBS\fP)"
+.br
+.ti -1c
+.RI "#define \fBYYPOPSTACK\fP(\fBN\fP)   (yyvsp \-= (\fBN\fP), yyssp \-= (\fBN\fP))"
+.br
+.ti -1c
+.RI "#define \fBYYSYNTAX_ERROR\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef union \fBZZSTYPE\fP \fBZZSTYPE\fP"
+.br
+.ti -1c
+.RI "typedef unsigned char \fByytype_uint8\fP"
+.br
+.ti -1c
+.RI "typedef signed char \fByytype_int8\fP"
+.br
+.ti -1c
+.RI "typedef unsigned short int \fByytype_uint16\fP"
+.br
+.ti -1c
+.RI "typedef short int \fByytype_int16\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBzztokentype\fP { \fBLBRACE\fP = 258, \fBRBRACE\fP = 259, \fBLBRACKET\fP = 260, \fBRBRACKET\fP = 261, \fBLPAREN\fP = 262, \fBRPAREN\fP = 263, \fBCOMMA\fP = 264, \fBCOLON\fP = 265, \fBLT\fP = 266, \fBLTE\fP = 267, \fBGT\fP = 268, \fBGTE\fP = 269, \fBSEMI\fP = 270, \fBOR\fP = 271, \fBUNION\fP = 272, \fBINVERSE\fP = 273, \fBEXISTS\fP = 274, \fBEQ\fP = 275, \fBARROW\fP = 276, \fBID\fP = 277, \fBINT\fP = 278, \fBINVALID_ID\fP = 279, \fBPLUS\fP = 280, \fBDASH\fP = 281, \fBSTAR\fP = 282, \fBUMINUS\fP = 283, \fBAND\fP = 284, \fBWAND\fP = 285, \fBLBRACE\fP = 258, \fBRBRACE\fP = 259, \fBLBRACKET\fP = 260, \fBRBRACKET\fP = 261, \fBLPAREN\fP = 262, \fBRPAREN\fP = 263, \fBCOMMA\fP = 264, \fBCOLON\fP = 265, \fBLT\fP = 266, \fBLTE\fP = 267, \fBGT\fP = 268, \fBGTE\fP = 269, \fBSEMI\fP = 270, \fBOR\fP = 271, \fBUNION\fP = 272, \fBINVERSE\fP = 273, \fBEXISTS\fP = 274, \fBEQ\fP = 275, \fBARROW\fP = 276, \fBID\fP = 277, \fBINT\fP = 278, \fBINVALID_ID\fP = 279, \fBPLUS\fP = 280, \fBDASH\fP = 281, \fBSTAR\fP = 282, \fBUMINUS\fP = 283, \fBAND\fP = 284, \fBWAND\fP = 285 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fByyerror\fP (\fBconst\fP char *)"
+.br
+.ti -1c
+.RI "int \fBzzparse\fP (void)"
+.br
+.ti -1c
+.RI "void * \fBmalloc\fP (\fBYYSIZE_T\fP)"
+.br
+.ti -1c
+.RI "void \fBfree\fP (void *)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "char * \fBzztext\fP"
+.br
+.ti -1c
+.RI "int \fBzzlineno\fP"
+.br
+.ti -1c
+.RI "int \fBzzdebug\fP"
+.br
+.ti -1c
+.RI "\fBZZSTYPE\fP \fBzzlval\fP"
+.br
+.ti -1c
+.RI "int \fByydebug\fP"
+.br
+.ti -1c
+.RI "int \fByychar\fP"
+.br
+.ti -1c
+.RI "\fBYYSTYPE\fP \fByylval\fP"
+.br
+.ti -1c
+.RI "int \fByynerrs\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define _Noreturn   \fBYY_ATTRIBUTE\fP ((__noreturn__))"
+
+.SS "#define YY_(Msgid)   Msgid"
+
+.SS "#define YY_ATTRIBUTE(Spec)   /* empty */"
+
+.SS "#define YY_ATTRIBUTE_PURE   \fBYY_ATTRIBUTE\fP ((__pure__))"
+
+.SS "#define YY_ATTRIBUTE_UNUSED   \fBYY_ATTRIBUTE\fP ((__unused__))"
+
+.SS "#define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN"
+
+.SS "#define YY_IGNORE_MAYBE_UNINITIALIZED_END"
+
+.SS "#define YY_INITIAL_VALUE(Value)   Value"
+
+.SS "#define YY_LOCATION_PRINT(File, Loc)   ((void) 0)"
+
+.SS "#define YY_NULLPTR   0"
+
+.SS "#define YY_REDUCE_PRINT(Rule)"
+\fBValue:\fP
+.PP
+.nf
+do {                                    \
+  if (yydebug)                          \
+    yy_reduce_print (yyssp, yyvsp, Rule); \
+} while (0)
+.fi
+.SS "#define YY_STACK_PRINT(Bottom, Top)"
+\fBValue:\fP
+.PP
+.nf
+do {                                                            \
+  if (yydebug)                                                  \
+    yy_stack_print ((Bottom), (Top));                           \
+} while (0)
+.fi
+.SS "#define YY_SYMBOL_PRINT(Title, \fBType\fP, Value, Location)"
+\fBValue:\fP
+.PP
+.nf
+do {                                                                      \
+  if (yydebug)                                                            \
+    {                                                                     \
+      YYFPRINTF (stderr, "%s ", Title);                                   \
+      yy_symbol_print (stderr,                                            \
+                  Type, Value); \
+      YYFPRINTF (stderr, "\n");                                           \
+    }                                                                     \
+} while (0)
+.fi
+.SS "#define YY_ZZ_GEN_PARSER_HH_INCLUDED"
+
+.SS "#define YYABORT   goto yyabortlab"
+
+.SS "#define YYACCEPT   goto yyacceptlab"
+
+.SS "#define YYBACKUP(Token, Value)"
+\fBValue:\fP
+.PP
+.nf
+do                                                              \\
+  if (yychar == YYEMPTY)                                        \
+    {                                                           \
+      yychar = (Token);                                         \
+      yylval = (Value);                                         \
+      YYPOPSTACK (yylen);                                       \
+      yystate = *yyssp;                                         \
+      goto yybackup;                                            \
+    }                                                           \
+  else                                                          \
+    {                                                           \
+      yyerror (YY_("syntax error: cannot back up")); \
+      YYERROR;                                                  \
+    }                                                           \
+while (0)
+.fi
+.SS "#define YYBISON   1"
+
+.SS "#define YYBISON_VERSION   '3\&.0\&.4'"
+
+.SS "#define YYCASE_(\fBN\fP, \fBS\fP)"
+\fBValue:\fP
+.PP
+.nf
+      case N:                               \
+        yyformat = S;                       \
+      break
+.fi
+.SS "#define yychar   zzchar"
+
+.SS "#define yyclearin   (\fByychar\fP = \fBYYEMPTY\fP)"
+
+.SS "#define YYCOPY(Dst, Src, Count)"
+\fBValue:\fP
+.PP
+.nf
+      do                                        \
+        {                                       \
+          YYSIZE_T yyi;                         \
+          for (yyi = 0; yyi < (Count); yyi++)   \
+            (Dst)[yyi] = (Src)[yyi];            \
+        }                                       \
+      while (0)
+.fi
+.SS "#define YYCOPY_NEEDED   1"
+
+.SS "#define yydebug   \fBzzdebug\fP"
+
+.SS "#define YYDEBUG   1"
+
+.SS "#define YYDPRINTF(Args)"
+\fBValue:\fP
+.PP
+.nf
+do {                                            \
+  if (yydebug)                                  \
+    YYFPRINTF Args;                             \
+} while (0)
+.fi
+.SS "#define YYEMPTY   (\-2)"
+
+.SS "#define YYEOF   0"
+
+.SS "#define YYERRCODE   256"
+
+.SS "#define yyerrok   (yyerrstatus = 0)"
+
+.SS "#define yyerror   zzerror"
+
+.SS "#define YYERROR   goto yyerrorlab"
+
+.SS "#define YYERROR_VERBOSE"
+
+.SS "#define YYERROR_VERBOSE   1"
+
+.SS "#define YYFINAL   14"
+
+.SS "#define YYFPRINTF   fprintf"
+
+.SS "#define YYFREE   \fBfree\fP"
+
+.SS "#define YYINITDEPTH   200"
+
+.SS "#define YYLAST   139"
+
+.SS "#define yylex   zzlex"
+
+.SS "int yylineno   \fBzzlineno\fP"
+
+.SS "\fBYYSTYPE\fP yylval   \fBzzlval\fP"
+
+.SS "#define YYMALLOC   \fBmalloc\fP"
+
+.SS "#define YYMAXDEPTH   10000"
+
+.SS "#define YYMAXUTOK   285"
+
+.SS "#define yynerrs   zznerrs"
+
+.SS "#define YYNNTS   44"
+
+.SS "#define YYNRULES   89"
+
+.SS "#define YYNSTATES   156"
+
+.SS "#define YYNTOKENS   31"
+
+.SS "#define YYPACT_NINF   \-57"
+
+.SS "#define yypact_value_is_default(Yystate)   (!!((Yystate) == (\-57)))"
+
+.SS "int yyparse   \fBzzparse\fP"
+
+.SS "#define YYPOPSTACK(\fBN\fP)   (yyvsp \-= (\fBN\fP), yyssp \-= (\fBN\fP))"
+
+.SS "#define YYPULL   1"
+
+.SS "#define YYPURE   0"
+
+.SS "#define YYPUSH   0"
+
+.SS "#define YYRECOVERING()   (!!yyerrstatus)"
+
+.SS "#define YYSIZE_MAXIMUM   ((\fBYYSIZE_T\fP) \-1)"
+
+.SS "#define YYSIZE_T   size_t"
+
+.SS "#define YYSKELETON_NAME   'yacc\&.c'"
+
+.SS "#define YYSTACK_ALLOC   \fBYYMALLOC\fP"
+
+.SS "#define YYSTACK_ALLOC_MAXIMUM   \fBYYSIZE_MAXIMUM\fP"
+
+.SS "#define YYSTACK_BYTES(\fBN\fP)"
+\fBValue:\fP
+.PP
+.nf
+     ((N) * (sizeof (yytype_int16) + sizeof (YYSTYPE)) \
+      + YYSTACK_GAP_MAXIMUM)
+.fi
+.SS "#define YYSTACK_FREE   \fBYYFREE\fP"
+
+.SS "#define YYSTACK_GAP_MAXIMUM   (sizeof (union \fByyalloc\fP) \- 1)"
+
+.SS "#define YYSTACK_RELOCATE(Stack_alloc, Stack)"
+\fBValue:\fP
+.PP
+.nf
+    do                                                                  \
+      {                                                                 \
+        YYSIZE_T yynewbytes;                                            \
+        YYCOPY (&yyptr->Stack_alloc, Stack, yysize);                    \
+        Stack = &yyptr->Stack_alloc;                                    \
+        yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+        yyptr += yynewbytes / sizeof (*yyptr);                          \
+      }                                                                 \
+    while (0)
+.fi
+.SS "#define \fBYYSTYPE\fP   \fBZZSTYPE\fP"
+
+.SS "#define YYSYNTAX_ERROR"
+\fBValue:\fP
+.PP
+.nf
+                                        yysyntax_error (&yymsg_alloc, &yymsg, \
+                                        yyssp, yytoken)
+.fi
+.SS "#define YYTABLE_NINF   \-84"
+
+.SS "#define yytable_value_is_error(Yytable_value)   0"
+
+.SS "#define YYTERROR   1"
+
+.SS "char * yytext   \fBzztext\fP"
+
+.SS "#define YYTRANSLATE(YYX)   ((unsigned int) (YYX) <= \fBYYMAXUTOK\fP ? yytranslate[YYX] : \fBYYUNDEFTOK\fP)"
+
+.SS "#define YYUNDEFTOK   2"
+
+.SS "#define YYUSE(E)   ((void) (E))"
+
+.SS "#define ZZDEBUG   1"
+
+.SS "#define ZZSTYPE_IS_DECLARED   1"
+
+.SS "#define ZZSTYPE_IS_TRIVIAL   1"
+
+.SS "#define ZZTOKENTYPE"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef short int \fByytype_int16\fP"
+
+.SS "typedef signed char \fByytype_int8\fP"
+
+.SS "typedef unsigned short int \fByytype_uint16\fP"
+
+.SS "typedef unsigned char \fByytype_uint8\fP"
+
+.SS "typedef union \fBZZSTYPE\fP \fBZZSTYPE\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBzztokentype\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fILBRACE \fP\fP
+.TP
+\fB\fIRBRACE \fP\fP
+.TP
+\fB\fILBRACKET \fP\fP
+.TP
+\fB\fIRBRACKET \fP\fP
+.TP
+\fB\fILPAREN \fP\fP
+.TP
+\fB\fIRPAREN \fP\fP
+.TP
+\fB\fICOMMA \fP\fP
+.TP
+\fB\fICOLON \fP\fP
+.TP
+\fB\fILT \fP\fP
+.TP
+\fB\fILTE \fP\fP
+.TP
+\fB\fIGT \fP\fP
+.TP
+\fB\fIGTE \fP\fP
+.TP
+\fB\fISEMI \fP\fP
+.TP
+\fB\fIOR \fP\fP
+.TP
+\fB\fIUNION \fP\fP
+.TP
+\fB\fIINVERSE \fP\fP
+.TP
+\fB\fIEXISTS \fP\fP
+.TP
+\fB\fIEQ \fP\fP
+.TP
+\fB\fIARROW \fP\fP
+.TP
+\fB\fIID \fP\fP
+.TP
+\fB\fIINT \fP\fP
+.TP
+\fB\fIINVALID_ID \fP\fP
+.TP
+\fB\fIPLUS \fP\fP
+.TP
+\fB\fIDASH \fP\fP
+.TP
+\fB\fISTAR \fP\fP
+.TP
+\fB\fIUMINUS \fP\fP
+.TP
+\fB\fIAND \fP\fP
+.TP
+\fB\fIWAND \fP\fP
+.TP
+\fB\fILBRACE \fP\fP
+.TP
+\fB\fIRBRACE \fP\fP
+.TP
+\fB\fILBRACKET \fP\fP
+.TP
+\fB\fIRBRACKET \fP\fP
+.TP
+\fB\fILPAREN \fP\fP
+.TP
+\fB\fIRPAREN \fP\fP
+.TP
+\fB\fICOMMA \fP\fP
+.TP
+\fB\fICOLON \fP\fP
+.TP
+\fB\fILT \fP\fP
+.TP
+\fB\fILTE \fP\fP
+.TP
+\fB\fIGT \fP\fP
+.TP
+\fB\fIGTE \fP\fP
+.TP
+\fB\fISEMI \fP\fP
+.TP
+\fB\fIOR \fP\fP
+.TP
+\fB\fIUNION \fP\fP
+.TP
+\fB\fIINVERSE \fP\fP
+.TP
+\fB\fIEXISTS \fP\fP
+.TP
+\fB\fIEQ \fP\fP
+.TP
+\fB\fIARROW \fP\fP
+.TP
+\fB\fIID \fP\fP
+.TP
+\fB\fIINT \fP\fP
+.TP
+\fB\fIINVALID_ID \fP\fP
+.TP
+\fB\fIPLUS \fP\fP
+.TP
+\fB\fIDASH \fP\fP
+.TP
+\fB\fISTAR \fP\fP
+.TP
+\fB\fIUMINUS \fP\fP
+.TP
+\fB\fIAND \fP\fP
+.TP
+\fB\fIWAND \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "void free (void *)"
+
+.SS "void* malloc (\fBYYSIZE_T\fP)"
+
+.SS "void yyerror (\fBconst\fP char * s)"
+yyerror is called when an error occurs in parsing\&. It prints localion of the error as well as why the error occured to standard error\&. When an error occurs we set the parse_error; 
+.PP
+\fBParameters\fP
+.RS 4
+\fIconst\fP char pointer 
+.RE
+.PP
+
+.SS "int zzparse (void)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "int yychar"
+
+.SS "int yydebug"
+
+.SS "\fBYYSTYPE\fP yylval"
+
+.SS "int yynerrs"
+
+.SS "int zzdebug"
+
+.SS "int zzlineno"
+
+.SS "\fBZZSTYPE\fP zzlval"
+
+.SS "char* zztext"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

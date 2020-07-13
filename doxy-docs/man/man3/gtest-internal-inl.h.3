@@ -1,0 +1,207 @@
+.TH "lib/gtest/src/gtest-internal-inl.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/gtest/src/gtest-internal-inl.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <errno\&.h>\fP
+.br
+\fC#include <stddef\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include 'gtest/internal/gtest\-port\&.h'\fP
+.br
+\fC#include 'gtest/gtest\&.h'\fP
+.br
+\fC#include 'gtest/gtest\-spi\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBtesting::internal::GTestFlagSaver\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestPropertyKeyIs\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::UnitTestOptions\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::OsStackTraceGetterInterface\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::OsStackTraceGetter\fP"
+.br
+.ti -1c
+.RI "struct \fBtesting::internal::TraceInfo\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::DefaultGlobalTestPartResultReporter\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::DefaultPerThreadTestPartResultReporter\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::UnitTestImpl\fP"
+.br
+.ti -1c
+.RI "class \fBtesting::internal::TestResultAccessor\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBtesting\fP"
+.br
+.ti -1c
+.RI " \fBtesting::internal\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtesting::GTEST_DECLARE_bool_\fP (death_test_use_fork)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP TimeInMillis \fBtesting::internal::GetTimeInMillis\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ShouldUseColor\fP (bool stdout_is_tty)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::FormatTimeInMillisAsSeconds\fP (TimeInMillis ms)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::FormatEpochTimeInMillisAsIso8601\fP (TimeInMillis ms)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ParseInt32Flag\fP (\fBconst\fP char *\fBstr\fP, \fBconst\fP char *flag, Int32 *value)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::GetRandomSeedFromFlag\fP (Int32 random_seed_flag)"
+.br
+.ti -1c
+.RI "int \fBtesting::internal::GetNextRandomSeed\fP (int seed)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::CodePointToUtf8\fP (UInt32 code_point)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP std::string \fBtesting::internal::WideStringToUtf8\fP (\fBconst\fP wchar_t *\fBstr\fP, int num_chars)"
+.br
+.ti -1c
+.RI "void \fBtesting::internal::WriteToShardStatusFileIfNeeded\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ShouldShard\fP (\fBconst\fP char *total_shards_str, \fBconst\fP char *shard_index_str, bool in_subprocess_for_death_test)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP Int32 \fBtesting::internal::Int32FromEnvOrDie\fP (\fBconst\fP char *env_var, Int32 default_val)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::ShouldRunTestOnShard\fP (int total_shards, int shard_index, int test_id)"
+.br
+.ti -1c
+.RI "template<class Container , typename Predicate > int \fBtesting::internal::CountIf\fP (\fBconst\fP Container &\fBc\fP, Predicate predicate)"
+.br
+.ti -1c
+.RI "template<class Container , typename Functor > void \fBtesting::internal::ForEach\fP (\fBconst\fP Container &\fBc\fP, Functor functor)"
+.br
+.ti -1c
+.RI "template<typename E > E \fBtesting::internal::GetElementOr\fP (\fBconst\fP std::vector< E > &v, int \fBi\fP, E default_value)"
+.br
+.ti -1c
+.RI "template<typename E > void \fBtesting::internal::ShuffleRange\fP (internal::Random *random, int begin, int end, std::vector< E > *v)"
+.br
+.ti -1c
+.RI "template<typename E > void \fBtesting::internal::Shuffle\fP (internal::Random *random, std::vector< E > *v)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP FilePath \fBtesting::internal::GetCurrentExecutableName\fP ()"
+.br
+.ti -1c
+.RI "class UnitTestImpl * \fBtesting::internal::GetUnitTestImpl\fP ()"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::ParseGoogleTestFlagsOnly\fP (int *argc, char **argv)"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP void \fBtesting::internal::ParseGoogleTestFlagsOnly\fP (int *argc, wchar_t **argv)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP \fBGTEST_API_\fP TypeId \fBtesting::internal::kTestTypeIdInGoogleTest\fP = GetTestTypeId()"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kAlsoRunDisabledTestsFlag\fP [] = 'also_run_disabled_tests'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kBreakOnFailureFlag\fP [] = 'break_on_failure'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kCatchExceptionsFlag\fP [] = 'catch_exceptions'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kColorFlag\fP [] = 'color'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kFilterFlag\fP [] = 'filter'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kListTestsFlag\fP [] = 'list_tests'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kOutputFlag\fP [] = 'output'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kPrintTimeFlag\fP [] = 'print_time'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kRandomSeedFlag\fP [] = 'random_seed'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kRepeatFlag\fP [] = 'repeat'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kShuffleFlag\fP [] = 'shuffle'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kStackTraceDepthFlag\fP [] = 'stack_trace_depth'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kStreamResultToFlag\fP [] = 'stream_result_to'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kThrowOnFailureFlag\fP [] = 'throw_on_failure'"
+.br
+.ti -1c
+.RI "\fBconst\fP char \fBtesting::internal::kFlagfileFlag\fP [] = 'flagfile'"
+.br
+.ti -1c
+.RI "\fBconst\fP int \fBtesting::internal::kMaxRandomSeed\fP = 99999"
+.br
+.ti -1c
+.RI "\fBGTEST_API_\fP bool \fBtesting::internal::g_help_flag\fP = false"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

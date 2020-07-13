@@ -1,0 +1,424 @@
+.TH "lib/isl/isl_ast_build.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_ast_build.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include <isl/aff\&.h>\fP
+.br
+\fC#include <isl/constraint\&.h>\fP
+.br
+\fC#include <isl/union_set\&.h>\fP
+.br
+\fC#include <isl/union_map\&.h>\fP
+.br
+\fC#include <isl_ast_build_private\&.h>\fP
+.br
+\fC#include <isl_ast_private\&.h>\fP
+.br
+\fC#include <isl_config\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_detect_stride_data\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_ast_build_involves_data\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_ast_build_map_to_iterator\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_from_context\fP (\fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_alloc\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_copy\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_dup\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_align_params\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_space\fP *model)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_cow\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_ast_build\fP * \fBisl_ast_build_free\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_ast_build_get_ctx\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_options\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_union_map\fP *\fBoptions\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_iterators\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP isl_id_list *iterators)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_at_each_domain\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_give\fP \fBisl_ast_node\fP *(*\fBfn\fP)(\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_before_each_for\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_give\fP \fBisl_id\fP *(*\fBfn\fP)(\fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_after_each_for\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_give\fP \fBisl_ast_node\fP *(*\fBfn\fP)(\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_before_each_mark\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fBisl_stat\fP(*\fBfn\fP)(\fB__isl_keep\fP \fBisl_id\fP *\fBmark\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_after_each_mark\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_give\fP \fBisl_ast_node\fP *(*\fBfn\fP)(\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_create_leaf\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_give\fP \fBisl_ast_node\fP *(*\fBfn\fP)(\fB__isl_take\fP \fBisl_ast_build\fP *build, void *\fBuser\fP), void *\fBuser\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_clear_local_info\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP int \fBisl_ast_build_need_schedule_map\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_ast_build_get_schedule_map_multi_aff\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_ast_build_get_schedule_map\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "int \fBisl_ast_build_get_depth\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_increase_depth\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "void \fBisl_ast_build_dump\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_loop_bounds\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_basic_set\fP *bounds)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_pending_generated\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_basic_set\fP *bounds)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_restrict_generated\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_replace_pending_by_guard\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *guard)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_restrict\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_executed\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_union_map\fP *executed)"
+.br
+.ti -1c
+.RI "int \fBisl_ast_build_has_schedule_node\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_node\fP * \fBisl_ast_build_get_schedule_node\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_schedule_node\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_schedule_node\fP *node)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_reset_schedule_node\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_get_domain\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_get_pending\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_get_generated\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_ast_build_get_internal2input\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_ast_build_dim\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, enum \fBisl_dim_type\fP type)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_ast_build_get_space\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, int internal)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_ast_build_get_schedule_space\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_ast_build_get_schedule\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_ast_build_get_iterator_id\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_get_stride_constraint\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_aff\fP * \fBisl_ast_build_get_stride_expansion\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_include_stride\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_detect_strides\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_ast_build_options_involve_depth\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_insert_dim\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_scale_down\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_val\fP *\fBm\fP, \fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_product\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "int \fBisl_ast_build_aff_is_nonneg\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "int \fBisl_ast_build_has_stride\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_ast_build_get_stride\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_ast_build_get_offset\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "int \fBisl_ast_build_has_affine_value\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_ast_build_substitute_values_union_map_domain\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "int \fBisl_ast_build_has_value\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_ast_build_compute_gist_basic_set\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_compute_gist\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_specialize\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_basic_set\fP * \fBisl_ast_build_specialize_basic_set\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_ast_build_compute_gist_map_domain\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_aff\fP * \fBisl_ast_build_compute_gist_aff\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_aff\fP * \fBisl_ast_build_compute_gist_pw_aff\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_pw_aff\fP *pa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_pw_multi_aff\fP * \fBisl_ast_build_compute_gist_pw_multi_aff\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_get_option_domain\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, enum \fBisl_ast_loop_type\fP type)"
+.br
+.ti -1c
+.RI "enum \fBisl_ast_loop_type\fP \fBisl_ast_build_get_loop_type\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, int isolated)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_extract_isolated\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "int \fBisl_ast_build_has_isolated\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_get_isolated\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_map\fP * \fBisl_ast_build_get_separation_class\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_eliminate_inner\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_eliminate_divs\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_ast_build_eliminate\fP (\fB__isl_keep\fP \fBisl_ast_build\fP *build, \fB__isl_take\fP \fBisl_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_ast_build\fP * \fBisl_ast_build_set_single_valued\fP (\fB__isl_take\fP \fBisl_ast_build\fP *build, int \fBsv\fP)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int isl_ast_build_aff_is_nonneg (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_align_params (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_space\fP * model)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_alloc (\fBisl_ctx\fP * ctx)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_clear_local_info (\fB__isl_take\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_compute_gist (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_ast_build_compute_gist_aff (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_ast_build_compute_gist_basic_set (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_ast_build_compute_gist_map_domain (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_aff\fP* isl_ast_build_compute_gist_pw_aff (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_pw_aff\fP * pa)"
+
+.SS "\fB__isl_give\fP \fBisl_pw_multi_aff\fP* isl_ast_build_compute_gist_pw_multi_aff (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_copy (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_cow (\fB__isl_take\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_detect_strides (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "unsigned isl_ast_build_dim (\fB__isl_keep\fP \fBisl_ast_build\fP * build, enum \fBisl_dim_type\fP type)"
+
+.SS "void isl_ast_build_dump (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_dup (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_eliminate (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * domain)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_eliminate_divs (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_eliminate_inner (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_extract_isolated (\fB__isl_take\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_null\fP \fBisl_ast_build\fP* isl_ast_build_free (\fB__isl_take\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_from_context (\fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fBisl_ctx\fP* isl_ast_build_get_ctx (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "int isl_ast_build_get_depth (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_get_domain (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_get_generated (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_ast_build_get_internal2input (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_get_isolated (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_ast_build_get_iterator_id (\fB__isl_keep\fP \fBisl_ast_build\fP * build, int pos)"
+
+.SS "enum \fBisl_ast_loop_type\fP isl_ast_build_get_loop_type (\fB__isl_keep\fP \fBisl_ast_build\fP * build, int isolated)"
+
+.SS "\fB__isl_give\fP \fBisl_aff\fP* isl_ast_build_get_offset (\fB__isl_keep\fP \fBisl_ast_build\fP * build, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_get_option_domain (\fB__isl_keep\fP \fBisl_ast_build\fP * build, enum \fBisl_ast_loop_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_get_pending (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_ast_build_get_schedule (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_ast_build_get_schedule_map (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_ast_build_get_schedule_map_multi_aff (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_node\fP* isl_ast_build_get_schedule_node (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_ast_build_get_schedule_space (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_ast_build_get_separation_class (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_ast_build_get_space (\fB__isl_keep\fP \fBisl_ast_build\fP * build, int internal)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_ast_build_get_stride (\fB__isl_keep\fP \fBisl_ast_build\fP * build, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_get_stride_constraint (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_aff\fP* isl_ast_build_get_stride_expansion (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "int isl_ast_build_has_affine_value (\fB__isl_keep\fP \fBisl_ast_build\fP * build, int pos)"
+
+.SS "int isl_ast_build_has_isolated (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "int isl_ast_build_has_schedule_node (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "int isl_ast_build_has_stride (\fB__isl_keep\fP \fBisl_ast_build\fP * build, int pos)"
+
+.SS "int isl_ast_build_has_value (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_include_stride (\fB__isl_take\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_increase_depth (\fB__isl_take\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_insert_dim (\fB__isl_take\fP \fBisl_ast_build\fP * build, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_map\fP* isl_ast_build_map_to_iterator (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP int isl_ast_build_need_schedule_map (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "int isl_ast_build_options_involve_depth (\fB__isl_keep\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_product (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_replace_pending_by_guard (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * guard)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_reset_schedule_node (\fB__isl_take\fP \fBisl_ast_build\fP * build)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_restrict (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_restrict_generated (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_scale_down (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_val\fP * m, \fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_after_each_for (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_give\fP \fBisl_ast_node\fP *(*)(\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_after_each_mark (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_give\fP \fBisl_ast_node\fP *(*)(\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_at_each_domain (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_give\fP \fBisl_ast_node\fP *(*)(\fB__isl_take\fP \fBisl_ast_node\fP *node, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_before_each_for (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_give\fP \fBisl_id\fP *(*)(\fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_before_each_mark (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fBisl_stat\fP(*)(\fB__isl_keep\fP \fBisl_id\fP *\fBmark\fP, \fB__isl_keep\fP \fBisl_ast_build\fP *build, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_create_leaf (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_give\fP \fBisl_ast_node\fP *(*)(\fB__isl_take\fP \fBisl_ast_build\fP *build, void *\fBuser\fP) fn, void * user)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_executed (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_union_map\fP * executed)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_iterators (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP isl_id_list * iterators)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_loop_bounds (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_basic_set\fP * bounds)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_options (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_union_map\fP * options)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_pending_generated (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_basic_set\fP * bounds)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_schedule_node (\fB__isl_take\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_schedule_node\fP * node)"
+
+.SS "\fB__isl_give\fP \fBisl_ast_build\fP* isl_ast_build_set_single_valued (\fB__isl_take\fP \fBisl_ast_build\fP * build, int sv)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_ast_build_specialize (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_basic_set\fP* isl_ast_build_specialize_basic_set (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_ast_build_substitute_values_union_map_domain (\fB__isl_keep\fP \fBisl_ast_build\fP * build, \fB__isl_take\fP \fBisl_union_map\fP * umap)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

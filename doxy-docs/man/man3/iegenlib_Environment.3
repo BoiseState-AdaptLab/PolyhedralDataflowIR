@@ -1,0 +1,155 @@
+.TH "iegenlib::Environment" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::Environment
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <environment\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBEnvironment\fP ()"
+.br
+.RI "Constructs an empty environment\&. "
+.ti -1c
+.RI "\fBEnvironment\fP (\fBUninterpFunc\fP *)"
+.br
+.RI "Construct an \fBEnvironment\fP\&. "
+.ti -1c
+.RI "\fBEnvironment\fP (\fBconst\fP \fBEnvironment\fP &other)"
+.br
+.RI "Copy constructor for \fBEnvironment\fP\&. "
+.ti -1c
+.RI "\fBEnvironment\fP & \fBoperator=\fP (\fBconst\fP \fBEnvironment\fP &other)"
+.br
+.RI "Assignment operator for \fBEnvironment\fP\&. "
+.ti -1c
+.RI "\fB~Environment\fP ()"
+.br
+.RI "destructor "
+.ti -1c
+.RI "void \fBappend\fP (\fBEnvironment\fP *other)"
+.br
+.RI "append an environment to this one (adopts) "
+.ti -1c
+.RI "void \fBreset\fP ()"
+.br
+.RI "Reset the \fBEnvironment\fP to empty\&. "
+.ti -1c
+.RI "void \fBsetInverse\fP (std::string funcName, std::string inverseName)"
+.br
+.RI "Define the inverse for the given function\&. "
+.ti -1c
+.RI "std::string \fBfuncInverse\fP (\fBconst\fP std::string funcName) \fBconst\fP"
+.br
+.RI "Get the name of the inverse of the given function (or '' if none)\&. "
+.ti -1c
+.RI "bool \fBhasInverse\fP (\fBconst\fP std::string funcName) \fBconst\fP"
+.br
+.RI "Check whether the given function has a known inverse\&. "
+.ti -1c
+.RI "\fBSet\fP * \fBfuncDomain\fP (\fBconst\fP std::string funcName) \fBconst\fP"
+.br
+.RI "Returns a clone of the function's domain \fBSet\fP or NULL\&. "
+.ti -1c
+.RI "\fBSet\fP * \fBfuncRange\fP (\fBconst\fP std::string funcName) \fBconst\fP"
+.br
+.RI "Returns a clone of the function's range \fBSet\fP or NULL\&. "
+.ti -1c
+.RI "\fBMonotonicType\fP \fBfuncMonoType\fP (\fBconst\fP std::string funcName) \fBconst\fP"
+.br
+.RI "Returns whether a function is monotonistic or not and how\&. "
+.ti -1c
+.RI "std::string \fBtoString\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBaddUniQuantRule\fP (\fBUniQuantRule\fP *uqRule)"
+.br
+.RI "Add an universially quantified Rule to the environment\&. "
+.ti -1c
+.RI "int \fBgetNoUniQuantRules\fP ()"
+.br
+.RI "Get the No\&. of universially quantified Rules\&. "
+.ti -1c
+.RI "\fBUniQuantRule\fP * \fBgetUniQuantRule\fP (int idx)"
+.br
+.RI "Get the universially quantified Rule No\&. idx from\&. "
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::Environment::Environment ()\fC [inline]\fP"
+
+.PP
+Constructs an empty environment\&. 
+.SS "iegenlib::Environment::Environment (\fBUninterpFunc\fP * symfunc)"
+
+.PP
+Construct an \fBEnvironment\fP\&. Construct an environment and use given \fBUninterpFunc\fP as first member\&. The \fBEnvironment\fP owns the \fBUninterpFunc\fP pointer\&. 
+.SS "iegenlib::Environment::Environment (\fBconst\fP \fBEnvironment\fP & other)\fC [inline]\fP"
+
+.PP
+Copy constructor for \fBEnvironment\fP\&. 
+.SS "iegenlib::Environment::~Environment ()"
+
+.PP
+destructor 
+.SH "Member Function Documentation"
+.PP 
+.SS "void iegenlib::Environment::addUniQuantRule (\fBUniQuantRule\fP * uqRule)"
+
+.PP
+Add an universially quantified Rule to the environment\&. Add a universially quantified Rule to the environment\&. The environment is going to own uqRule object (user should not delete it 
+.SS "void iegenlib::Environment::append (\fBEnvironment\fP * other)"
+
+.PP
+append an environment to this one (adopts) 
+.SS "\fBSet\fP * iegenlib::Environment::funcDomain (\fBconst\fP std::string funcName) const"
+
+.PP
+Returns a clone of the function's domain \fBSet\fP or NULL\&. 
+.SS "std::string iegenlib::Environment::funcInverse (\fBconst\fP std::string funcName) const"
+
+.PP
+Get the name of the inverse of the given function (or '' if none)\&. 
+.SS "\fBMonotonicType\fP iegenlib::Environment::funcMonoType (\fBconst\fP std::string funcName) const"
+
+.PP
+Returns whether a function is monotonistic or not and how\&. 
+.SS "\fBSet\fP * iegenlib::Environment::funcRange (\fBconst\fP std::string funcName) const"
+
+.PP
+Returns a clone of the function's range \fBSet\fP or NULL\&. 
+.SS "int iegenlib::Environment::getNoUniQuantRules ()"
+
+.PP
+Get the No\&. of universially quantified Rules\&. 
+.SS "\fBUniQuantRule\fP * iegenlib::Environment::getUniQuantRule (int idx)"
+
+.PP
+Get the universially quantified Rule No\&. idx from\&. 
+.SS "bool iegenlib::Environment::hasInverse (\fBconst\fP std::string funcName) const\fC [inline]\fP"
+
+.PP
+Check whether the given function has a known inverse\&. 
+.SS "\fBEnvironment\fP & iegenlib::Environment::operator= (\fBconst\fP \fBEnvironment\fP & other)"
+
+.PP
+Assignment operator for \fBEnvironment\fP\&. 
+.SS "void iegenlib::Environment::reset ()"
+
+.PP
+Reset the \fBEnvironment\fP to empty\&. 
+.SS "void iegenlib::Environment::setInverse (std::string funcName, std::string inverseName)"
+
+.PP
+Define the inverse for the given function\&. 
+.SS "std::string iegenlib::Environment::toString () const"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

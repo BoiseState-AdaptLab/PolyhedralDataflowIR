@@ -1,0 +1,123 @@
+.TH "lib/chill/irtools.cc" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/chill/irtools.cc
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <iostream>\fP
+.br
+\fC#include <code_gen/CG_outputBuilder\&.h>\fP
+.br
+\fC#include 'irtools\&.hh'\fP
+.br
+\fC#include 'omegatools\&.hh'\fP
+.br
+\fC#include 'chill_error\&.hh'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "std::vector< \fBir_tree_node\fP * > \fBbuild_ir_tree\fP (\fBIR_Control\fP *control, \fBir_tree_node\fP *parent)"
+.br
+.RI "Build IR tree from the source code\&. "
+.ti -1c
+.RI "std::vector< \fBir_tree_node\fP * > \fBextract_ir_stmts\fP (\fBconst\fP std::vector< \fBir_tree_node\fP * > &ir_tree)"
+.br
+.RI "Extract statements from IR tree\&. "
+.ti -1c
+.RI "std::string \fBchill_ir_control_type_string\fP (\fBIR_CONTROL_TYPE\fP type)"
+.br
+.ti -1c
+.RI "std::string \fBchill_ir_node_type_string\fP (\fBir_tree_node\fP *node)"
+.br
+.ti -1c
+.RI "bool \fBis_dependence_valid\fP (\fBir_tree_node\fP *src_node, \fBir_tree_node\fP *dst_node, \fBconst\fP \fBDependenceVector\fP &dv, bool before)"
+.br
+.ti -1c
+.RI "std::vector< \fBomega::CG_outputRepr\fP * > \fBcollect_loop_inductive_and_conditionals\fP (\fBir_tree_node\fP *stmt_node)"
+.br
+.ti -1c
+.RI "std::pair< std::vector< \fBDependenceVector\fP >, std::vector< \fBDependenceVector\fP > > \fBtest_data_dependences\fP (\fBLoop\fP *loop, \fBIR_Code\fP *ir, \fBconst\fP \fBCG_outputRepr\fP *repr1, \fBconst\fP \fBRelation\fP &IS1, \fBconst\fP \fBCG_outputRepr\fP *repr2, \fBconst\fP \fBRelation\fP &IS2, std::vector< \fBFree_Var_Decl\fP * > &freevar, std::vector< std::string > index, int nestLeveli, int nestLevelj, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > &uninterpreted_symbols_stringrepr, \fBstd::map\fP< std::string, std::vector< \fBomega::Relation\fP > > &unin_rel, std::vector< \fBomega::Relation\fP > &dep_relation)"
+.br
+.ti -1c
+.RI "bool \fBfrom_same_statement\fP (\fBIR_Code\fP *ir, \fBIR_ArrayRef\fP *\fBa\fP, \fBIR_ArrayRef\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "int \fBstmtType\fP (\fBIR_Code\fP *ir, \fBconst\fP \fBCG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "\fBIR_OPERATION_TYPE\fP \fBgetReductionOperator\fP (\fBIR_Code\fP *ir, \fBconst\fP \fBCG_outputRepr\fP *repr)"
+.br
+.ti -1c
+.RI "void \fBmapRefstoStatements\fP (\fBIR_Code\fP *ir, std::vector< \fBIR_ArrayRef\fP * > access, int ref2Stmt[], \fBstd::map\fP< int, \fBstd::set\fP< int > > &rMap, \fBstd::set\fP< int > &tnrStmts, \fBstd::set\fP< int > &nrStmts)"
+.br
+.ti -1c
+.RI "void \fBcheckReductionDependence\fP (int \fBi\fP, int \fBj\fP, int nestLeveli, \fBomega::coef_t\fP lbound[], \fBomega::coef_t\fP ubound[], int ref2Stmt[], \fBstd::map\fP< int, \fBstd::set\fP< int > > &rMap, \fBDVPair\fP &dv, \fBtempResultMap\fP &trMap, \fBstd::set\fP< int > nrStmts)"
+.br
+.ti -1c
+.RI "void \fBprint_control\fP (\fBIR_Control\fP *con)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "std::vector<\fBir_tree_node\fP *> build_ir_tree (\fBIR_Control\fP * control, \fBir_tree_node\fP * parent = \fC\fBNULL\fP\fP)"
+
+.PP
+Build IR tree from the source code\&. Block type node can only be leaf, i\&.e\&., there is no further stuctures inside a block allowed
+.PP
+\fBParameters\fP
+.RS 4
+\fIcontrol\fP 
+.br
+\fIparent\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+.RE
+.PP
+
+.SS "void checkReductionDependence (int i, int j, int nestLeveli, \fBomega::coef_t\fP lbound[], \fBomega::coef_t\fP ubound[], int ref2Stmt[], \fBstd::map\fP< int, \fBstd::set\fP< int > > & rMap, \fBDVPair\fP & dv, \fBtempResultMap\fP & trMap, \fBstd::set\fP< int > nrStmts)"
+
+.SS "std::string chill_ir_control_type_string (\fBIR_CONTROL_TYPE\fP type)"
+
+.SS "std::string chill_ir_node_type_string (\fBir_tree_node\fP * node)"
+
+.SS "std::vector<\fBomega::CG_outputRepr\fP *> collect_loop_inductive_and_conditionals (\fBir_tree_node\fP * stmt_node)"
+
+.SS "std::vector<\fBir_tree_node\fP *> extract_ir_stmts (\fBconst\fP std::vector< \fBir_tree_node\fP * > & ir_tree)"
+
+.PP
+Extract statements from IR tree\&. Statements returned are ordered in lexical order in the source code
+.PP
+\fBParameters\fP
+.RS 4
+\fIir_tree\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+.RE
+.PP
+
+.SS "bool from_same_statement (\fBIR_Code\fP * ir, \fBIR_ArrayRef\fP * a, \fBIR_ArrayRef\fP * b)"
+
+.SS "\fBIR_OPERATION_TYPE\fP getReductionOperator (\fBIR_Code\fP * ir, \fBconst\fP \fBCG_outputRepr\fP * repr)"
+
+.SS "bool is_dependence_valid (\fBir_tree_node\fP * src_node, \fBir_tree_node\fP * dst_node, \fBconst\fP \fBDependenceVector\fP & dv, bool before)"
+
+.SS "void mapRefstoStatements (\fBIR_Code\fP * ir, std::vector< \fBIR_ArrayRef\fP * > access, int ref2Stmt[], \fBstd::map\fP< int, \fBstd::set\fP< int > > & rMap, \fBstd::set\fP< int > & tnrStmts, \fBstd::set\fP< int > & nrStmts)"
+
+.SS "void print_control (\fBIR_Control\fP * con)"
+
+.SS "int stmtType (\fBIR_Code\fP * ir, \fBconst\fP \fBCG_outputRepr\fP * repr)"
+
+.SS "std::pair<std::vector<\fBDependenceVector\fP>, std::vector<\fBDependenceVector\fP> > test_data_dependences (\fBLoop\fP * loop, \fBIR_Code\fP * ir, \fBconst\fP \fBCG_outputRepr\fP * repr1, \fBconst\fP \fBRelation\fP & IS1, \fBconst\fP \fBCG_outputRepr\fP * repr2, \fBconst\fP \fBRelation\fP & IS2, std::vector< \fBFree_Var_Decl\fP * > & freevar, std::vector< std::string > index, int nestLeveli, int nestLevelj, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols, \fBstd::map\fP< std::string, std::vector< \fBomega::CG_outputRepr\fP * > > & uninterpreted_symbols_stringrepr, \fBstd::map\fP< std::string, std::vector< \fBomega::Relation\fP > > & unin_rel, std::vector< \fBomega::Relation\fP > & dep_relation)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

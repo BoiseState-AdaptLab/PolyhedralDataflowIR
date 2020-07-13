@@ -1,0 +1,640 @@
+\hypertarget{isl__schedule_8c}{}\doxysection{lib/isl/isl\+\_\+schedule.c File Reference}
+\label{isl__schedule_8c}\index{lib/isl/isl\_schedule.c@{lib/isl/isl\_schedule.c}}
+{\ttfamily \#include $<$isl/ctx.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+aff\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl/map.\+h$>$}\newline
+{\ttfamily \#include $<$isl/set.\+h$>$}\newline
+{\ttfamily \#include $<$isl/schedule.\+h$>$}\newline
+{\ttfamily \#include $<$isl/schedule\+\_\+node.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+sort.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+schedule\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+schedule\+\_\+tree.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+schedule\+\_\+node\+\_\+private.\+h$>$}\newline
+{\ttfamily \#include $<$isl\+\_\+band\+\_\+private.\+h$>$}\newline
+Include dependency graph for isl\+\_\+schedule.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structisl__pad__schedule__map__data}{isl\+\_\+pad\+\_\+schedule\+\_\+map\+\_\+data}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_af074589842b14233b468175a876ed0b3}{isl\+\_\+schedule\+\_\+from\+\_\+schedule\+\_\+tree}} (\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ctx, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule__tree}{isl\+\_\+schedule\+\_\+tree}} $\ast$tree)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_aff1372b284a649839490295497a69ffc}{isl\+\_\+schedule\+\_\+from\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{union__map__type_8h_a7ebd16187c9653859611db949d88cfd8}{isl\+\_\+union\+\_\+set}} $\ast$\mbox{\hyperlink{isl__test_8c_a52e31162553211bc239fae1a464d7751}{domain}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_af8dfacb8d4490dd50d91a57f76991f3e}{isl\+\_\+schedule\+\_\+empty}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$space)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a468057f373a3890896c1db16c23cd2b9}{isl\+\_\+schedule\+\_\+copy}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$sched)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_ad24a5dc09198cb823700dd39b34899c4}{isl\+\_\+schedule\+\_\+cow}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_a452b57ad9167af3e3cf5eaa8b9a45f78}{\+\_\+\+\_\+isl\+\_\+null}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a8e65919d29b969b4b9925997708671c4}{isl\+\_\+schedule\+\_\+free}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$sched)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a5f00f1cb92ca7c6c41565917263b171e}{isl\+\_\+schedule\+\_\+set\+\_\+root}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule__tree}{isl\+\_\+schedule\+\_\+tree}} $\ast$tree)
+\item 
+\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a438fd1082f22e69cef0cc8bb6d47c259}{isl\+\_\+schedule\+\_\+get\+\_\+ctx}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule__tree}{isl\+\_\+schedule\+\_\+tree}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a002b04505c92f744c7a8acd117588487}{isl\+\_\+schedule\+\_\+peek\+\_\+leaf}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} \mbox{\hyperlink{isl__schedule_8c_aec054f758328d48c00550e5fad3a2e32}{isl\+\_\+schedule\+\_\+plain\+\_\+is\+\_\+equal}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule1, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a75a86f406ab297dd319d0551d785df62}{isl\+\_\+schedule\+\_\+get\+\_\+space}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule__node}{isl\+\_\+schedule\+\_\+node}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a60e751d1f9c76c7a316a8df825eafddc}{isl\+\_\+schedule\+\_\+get\+\_\+root}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{union__map__type_8h_a7ebd16187c9653859611db949d88cfd8}{isl\+\_\+union\+\_\+set}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_aa627156d29fc9eb2a0d7c2c1d5f25a6e}{isl\+\_\+schedule\+\_\+get\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_a24b0940e02b023913e9524010890db8b}{isl\+\_\+stat}} \mbox{\hyperlink{isl__schedule_8c_a9f577f9fcbde8627de6811c9998c6a04}{isl\+\_\+schedule\+\_\+foreach\+\_\+schedule\+\_\+node\+\_\+top\+\_\+down}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$sched, \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}}($\ast$\mbox{\hyperlink{isl__test__int_8c_a39f3ffc342ec8fff175990701317e981}{fn}})(\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule__node}{isl\+\_\+schedule\+\_\+node}} $\ast$node, void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}}), void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a531d698af1f40eb65d8be4173fa9c1ab}{isl\+\_\+schedule\+\_\+map\+\_\+schedule\+\_\+node\+\_\+bottom\+\_\+up}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule, \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule__node}{isl\+\_\+schedule\+\_\+node}} $\ast$($\ast$\mbox{\hyperlink{isl__test__int_8c_a39f3ffc342ec8fff175990701317e981}{fn}})(\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule__node}{isl\+\_\+schedule\+\_\+node}} $\ast$node, void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}}), void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_aaa4d7fb461d6a071bfd2a182626aa349}{isl\+\_\+schedule\+\_\+reset\+\_\+user}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a163a0fc62c22b1d28da15ab5af62f478}{isl\+\_\+schedule\+\_\+align\+\_\+params}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$space)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a6a5fa8316ef40704ef6b52feafb3e4f8}{isl\+\_\+schedule\+\_\+pullback\+\_\+union\+\_\+pw\+\_\+multi\+\_\+aff}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{aff__type_8h_a64627d92c3fa04d58752a024e1894a73}{isl\+\_\+union\+\_\+pw\+\_\+multi\+\_\+aff}} $\ast$upma)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a76c39ac02390786202b133510078292f}{isl\+\_\+schedule\+\_\+intersect\+\_\+domain}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{union__map__type_8h_a7ebd16187c9653859611db949d88cfd8}{isl\+\_\+union\+\_\+set}} $\ast$\mbox{\hyperlink{isl__test_8c_a52e31162553211bc239fae1a464d7751}{domain}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a74e798c2672bcbc77b9e48d041f6bb9e}{isl\+\_\+schedule\+\_\+gist\+\_\+domain\+\_\+params}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{isl__test_8c_a94f090d1fb5c71712726fcdf025b9ace}{context}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_ae5fa63df20df65f88e1b5721eb892aa4}{isl\+\_\+schedule\+\_\+get\+\_\+map}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$sched)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} isl\+\_\+band\+\_\+list $\ast$ \mbox{\hyperlink{isl__schedule_8c_a32b2771377beed281ca25c57daf2a51d}{isl\+\_\+schedule\+\_\+get\+\_\+band\+\_\+forest}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+int \mbox{\hyperlink{isl__schedule_8c_a1cbd53304afb52857b1bfaf727886fec}{isl\+\_\+schedule\+\_\+foreach\+\_\+band}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$sched, int($\ast$\mbox{\hyperlink{isl__test__int_8c_a39f3ffc342ec8fff175990701317e981}{fn}})(\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__band}{isl\+\_\+band}} $\ast$band, void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}}), void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a9943efc511d187a5ee35c0640281ecc3}{isl\+\_\+schedule\+\_\+insert\+\_\+partial\+\_\+schedule}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{aff__type_8h_ad40bbbd0b19aa0af260c1bb3f5c79b6b}{isl\+\_\+multi\+\_\+union\+\_\+pw\+\_\+aff}} $\ast$partial)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a1f759076f4bc89690c9f7d51ebc1d1a1}{isl\+\_\+schedule\+\_\+insert\+\_\+context}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$\mbox{\hyperlink{isl__test_8c_a94f090d1fb5c71712726fcdf025b9ace}{context}})
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_ac679b1e5c3879186a83d481721af3ef1}{isl\+\_\+schedule\+\_\+insert\+\_\+guard}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$guard)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_aa6e5a482a219a7299daa2a04113c38b1}{isl\+\_\+schedule\+\_\+pair}} (enum \mbox{\hyperlink{schedule__type_8h_a683700c0d372b76d3c69141974669ed9}{isl\+\_\+schedule\+\_\+node\+\_\+type}} type, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_ae4e2e68b110ead98efb06cdcd6f66b6c}{isl\+\_\+schedule\+\_\+sequence}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a3b6244ff2ab6bc86343454069f158613}{isl\+\_\+schedule\+\_\+set}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule1, \mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule2)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}} $\ast$ \mbox{\hyperlink{isl__schedule_8c_a7f62f07c9ec15768b7cdf49c9e1bee31}{isl\+\_\+printer\+\_\+print\+\_\+schedule}} (\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}} $\ast$\mbox{\hyperlink{coo__hicoo__insp_8h_a27a91efbb4d6f311c8d8ee5fdad44fd2}{p}}, \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+void \mbox{\hyperlink{isl__schedule_8c_af81a5ba5c6bc9ddbea2073509dbef8b9}{isl\+\_\+schedule\+\_\+dump}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\item 
+\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} char $\ast$ \mbox{\hyperlink{isl__schedule_8c_abf88572b2f7c3597321aa30216624e3b}{isl\+\_\+schedule\+\_\+to\+\_\+str}} (\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$schedule)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{isl__schedule_8c_a7f62f07c9ec15768b7cdf49c9e1bee31}\label{isl__schedule_8c_a7f62f07c9ec15768b7cdf49c9e1bee31}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_printer\_print\_schedule@{isl\_printer\_print\_schedule}}
+\index{isl\_printer\_print\_schedule@{isl\_printer\_print\_schedule}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_printer\_print\_schedule()}{isl\_printer\_print\_schedule()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}}$\ast$ isl\+\_\+printer\+\_\+print\+\_\+schedule (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__printer}{isl\+\_\+printer}} $\ast$}]{p,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a7f62f07c9ec15768b7cdf49c9e1bee31_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a7f62f07c9ec15768b7cdf49c9e1bee31_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a163a0fc62c22b1d28da15ab5af62f478}\label{isl__schedule_8c_a163a0fc62c22b1d28da15ab5af62f478}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_align\_params@{isl\_schedule\_align\_params}}
+\index{isl\_schedule\_align\_params@{isl\_schedule\_align\_params}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_align\_params()}{isl\_schedule\_align\_params()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+align\+\_\+params (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{space }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a163a0fc62c22b1d28da15ab5af62f478_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a468057f373a3890896c1db16c23cd2b9}\label{isl__schedule_8c_a468057f373a3890896c1db16c23cd2b9}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_copy@{isl\_schedule\_copy}}
+\index{isl\_schedule\_copy@{isl\_schedule\_copy}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_copy()}{isl\_schedule\_copy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+copy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{sched }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a468057f373a3890896c1db16c23cd2b9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_ad24a5dc09198cb823700dd39b34899c4}\label{isl__schedule_8c_ad24a5dc09198cb823700dd39b34899c4}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_cow@{isl\_schedule\_cow}}
+\index{isl\_schedule\_cow@{isl\_schedule\_cow}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_cow()}{isl\_schedule\_cow()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+cow (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_ad24a5dc09198cb823700dd39b34899c4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{isl__schedule_8c_ad24a5dc09198cb823700dd39b34899c4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_af81a5ba5c6bc9ddbea2073509dbef8b9}\label{isl__schedule_8c_af81a5ba5c6bc9ddbea2073509dbef8b9}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_dump@{isl\_schedule\_dump}}
+\index{isl\_schedule\_dump@{isl\_schedule\_dump}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_dump()}{isl\_schedule\_dump()}}
+{\footnotesize\ttfamily void isl\+\_\+schedule\+\_\+dump (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_af81a5ba5c6bc9ddbea2073509dbef8b9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_af8dfacb8d4490dd50d91a57f76991f3e}\label{isl__schedule_8c_af8dfacb8d4490dd50d91a57f76991f3e}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_empty@{isl\_schedule\_empty}}
+\index{isl\_schedule\_empty@{isl\_schedule\_empty}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_empty()}{isl\_schedule\_empty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+empty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}} $\ast$}]{space }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_af8dfacb8d4490dd50d91a57f76991f3e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_af8dfacb8d4490dd50d91a57f76991f3e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a1cbd53304afb52857b1bfaf727886fec}\label{isl__schedule_8c_a1cbd53304afb52857b1bfaf727886fec}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_foreach\_band@{isl\_schedule\_foreach\_band}}
+\index{isl\_schedule\_foreach\_band@{isl\_schedule\_foreach\_band}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_foreach\_band()}{isl\_schedule\_foreach\_band()}}
+{\footnotesize\ttfamily int isl\+\_\+schedule\+\_\+foreach\+\_\+band (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{sched,  }\item[{int($\ast$)(\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__band}{isl\+\_\+band}} $\ast$band, void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}})}]{fn,  }\item[{void $\ast$}]{user }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a1cbd53304afb52857b1bfaf727886fec_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a9f577f9fcbde8627de6811c9998c6a04}\label{isl__schedule_8c_a9f577f9fcbde8627de6811c9998c6a04}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_foreach\_schedule\_node\_top\_down@{isl\_schedule\_foreach\_schedule\_node\_top\_down}}
+\index{isl\_schedule\_foreach\_schedule\_node\_top\_down@{isl\_schedule\_foreach\_schedule\_node\_top\_down}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_foreach\_schedule\_node\_top\_down()}{isl\_schedule\_foreach\_schedule\_node\_top\_down()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a24b0940e02b023913e9524010890db8b}{isl\+\_\+stat}} isl\+\_\+schedule\+\_\+foreach\+\_\+schedule\+\_\+node\+\_\+top\+\_\+down (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{sched,  }\item[{\mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}}($\ast$)(\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule__node}{isl\+\_\+schedule\+\_\+node}} $\ast$node, void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}})}]{fn,  }\item[{void $\ast$}]{user }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a9f577f9fcbde8627de6811c9998c6a04_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a8e65919d29b969b4b9925997708671c4}\label{isl__schedule_8c_a8e65919d29b969b4b9925997708671c4}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_free@{isl\_schedule\_free}}
+\index{isl\_schedule\_free@{isl\_schedule\_free}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_free()}{isl\_schedule\_free()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a452b57ad9167af3e3cf5eaa8b9a45f78}{\+\_\+\+\_\+isl\+\_\+null}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{sched }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a8e65919d29b969b4b9925997708671c4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{isl__schedule_8c_a8e65919d29b969b4b9925997708671c4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_aff1372b284a649839490295497a69ffc}\label{isl__schedule_8c_aff1372b284a649839490295497a69ffc}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_from\_domain@{isl\_schedule\_from\_domain}}
+\index{isl\_schedule\_from\_domain@{isl\_schedule\_from\_domain}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_from\_domain()}{isl\_schedule\_from\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+from\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{union__map__type_8h_a7ebd16187c9653859611db949d88cfd8}{isl\+\_\+union\+\_\+set}} $\ast$}]{domain }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_aff1372b284a649839490295497a69ffc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_aff1372b284a649839490295497a69ffc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_af074589842b14233b468175a876ed0b3}\label{isl__schedule_8c_af074589842b14233b468175a876ed0b3}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_from\_schedule\_tree@{isl\_schedule\_from\_schedule\_tree}}
+\index{isl\_schedule\_from\_schedule\_tree@{isl\_schedule\_from\_schedule\_tree}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_from\_schedule\_tree()}{isl\_schedule\_from\_schedule\_tree()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+from\+\_\+schedule\+\_\+tree (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}} $\ast$}]{ctx,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule__tree}{isl\+\_\+schedule\+\_\+tree}} $\ast$}]{tree }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_af074589842b14233b468175a876ed0b3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_af074589842b14233b468175a876ed0b3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a32b2771377beed281ca25c57daf2a51d}\label{isl__schedule_8c_a32b2771377beed281ca25c57daf2a51d}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_get\_band\_forest@{isl\_schedule\_get\_band\_forest}}
+\index{isl\_schedule\_get\_band\_forest@{isl\_schedule\_get\_band\_forest}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_get\_band\_forest()}{isl\_schedule\_get\_band\_forest()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} isl\+\_\+band\+\_\+list$\ast$ isl\+\_\+schedule\+\_\+get\+\_\+band\+\_\+forest (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a32b2771377beed281ca25c57daf2a51d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a32b2771377beed281ca25c57daf2a51d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a438fd1082f22e69cef0cc8bb6d47c259}\label{isl__schedule_8c_a438fd1082f22e69cef0cc8bb6d47c259}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_get\_ctx@{isl\_schedule\_get\_ctx}}
+\index{isl\_schedule\_get\_ctx@{isl\_schedule\_get\_ctx}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_get\_ctx()}{isl\_schedule\_get\_ctx()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structisl__ctx}{isl\+\_\+ctx}}$\ast$ isl\+\_\+schedule\+\_\+get\+\_\+ctx (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a438fd1082f22e69cef0cc8bb6d47c259_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_aa627156d29fc9eb2a0d7c2c1d5f25a6e}\label{isl__schedule_8c_aa627156d29fc9eb2a0d7c2c1d5f25a6e}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_get\_domain@{isl\_schedule\_get\_domain}}
+\index{isl\_schedule\_get\_domain@{isl\_schedule\_get\_domain}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_get\_domain()}{isl\_schedule\_get\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{union__map__type_8h_a7ebd16187c9653859611db949d88cfd8}{isl\+\_\+union\+\_\+set}}$\ast$ isl\+\_\+schedule\+\_\+get\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_aa627156d29fc9eb2a0d7c2c1d5f25a6e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_ae5fa63df20df65f88e1b5721eb892aa4}\label{isl__schedule_8c_ae5fa63df20df65f88e1b5721eb892aa4}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_get\_map@{isl\_schedule\_get\_map}}
+\index{isl\_schedule\_get\_map@{isl\_schedule\_get\_map}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_get\_map()}{isl\_schedule\_get\_map()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__union__map}{isl\+\_\+union\+\_\+map}}$\ast$ isl\+\_\+schedule\+\_\+get\+\_\+map (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{sched }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_ae5fa63df20df65f88e1b5721eb892aa4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_ae5fa63df20df65f88e1b5721eb892aa4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a60e751d1f9c76c7a316a8df825eafddc}\label{isl__schedule_8c_a60e751d1f9c76c7a316a8df825eafddc}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_get\_root@{isl\_schedule\_get\_root}}
+\index{isl\_schedule\_get\_root@{isl\_schedule\_get\_root}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_get\_root()}{isl\_schedule\_get\_root()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule__node}{isl\+\_\+schedule\+\_\+node}}$\ast$ isl\+\_\+schedule\+\_\+get\+\_\+root (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a60e751d1f9c76c7a316a8df825eafddc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a60e751d1f9c76c7a316a8df825eafddc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a75a86f406ab297dd319d0551d785df62}\label{isl__schedule_8c_a75a86f406ab297dd319d0551d785df62}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_get\_space@{isl\_schedule\_get\_space}}
+\index{isl\_schedule\_get\_space@{isl\_schedule\_get\_space}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_get\_space()}{isl\_schedule\_get\_space()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__space}{isl\+\_\+space}}$\ast$ isl\+\_\+schedule\+\_\+get\+\_\+space (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a75a86f406ab297dd319d0551d785df62_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a75a86f406ab297dd319d0551d785df62_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a74e798c2672bcbc77b9e48d041f6bb9e}\label{isl__schedule_8c_a74e798c2672bcbc77b9e48d041f6bb9e}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_gist\_domain\_params@{isl\_schedule\_gist\_domain\_params}}
+\index{isl\_schedule\_gist\_domain\_params@{isl\_schedule\_gist\_domain\_params}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_gist\_domain\_params()}{isl\_schedule\_gist\_domain\_params()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+gist\+\_\+domain\+\_\+params (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{context }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a74e798c2672bcbc77b9e48d041f6bb9e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a1f759076f4bc89690c9f7d51ebc1d1a1}\label{isl__schedule_8c_a1f759076f4bc89690c9f7d51ebc1d1a1}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_insert\_context@{isl\_schedule\_insert\_context}}
+\index{isl\_schedule\_insert\_context@{isl\_schedule\_insert\_context}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_insert\_context()}{isl\_schedule\_insert\_context()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+insert\+\_\+context (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{context }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a1f759076f4bc89690c9f7d51ebc1d1a1_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_ac679b1e5c3879186a83d481721af3ef1}\label{isl__schedule_8c_ac679b1e5c3879186a83d481721af3ef1}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_insert\_guard@{isl\_schedule\_insert\_guard}}
+\index{isl\_schedule\_insert\_guard@{isl\_schedule\_insert\_guard}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_insert\_guard()}{isl\_schedule\_insert\_guard()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+insert\+\_\+guard (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{map__type_8h_a2e93f2ec5ec38ccfda2d65fe0c4c8154}{isl\+\_\+set}} $\ast$}]{guard }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_ac679b1e5c3879186a83d481721af3ef1_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a9943efc511d187a5ee35c0640281ecc3}\label{isl__schedule_8c_a9943efc511d187a5ee35c0640281ecc3}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_insert\_partial\_schedule@{isl\_schedule\_insert\_partial\_schedule}}
+\index{isl\_schedule\_insert\_partial\_schedule@{isl\_schedule\_insert\_partial\_schedule}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_insert\_partial\_schedule()}{isl\_schedule\_insert\_partial\_schedule()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+insert\+\_\+partial\+\_\+schedule (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{aff__type_8h_ad40bbbd0b19aa0af260c1bb3f5c79b6b}{isl\+\_\+multi\+\_\+union\+\_\+pw\+\_\+aff}} $\ast$}]{partial }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a9943efc511d187a5ee35c0640281ecc3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a76c39ac02390786202b133510078292f}\label{isl__schedule_8c_a76c39ac02390786202b133510078292f}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_intersect\_domain@{isl\_schedule\_intersect\_domain}}
+\index{isl\_schedule\_intersect\_domain@{isl\_schedule\_intersect\_domain}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_intersect\_domain()}{isl\_schedule\_intersect\_domain()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+intersect\+\_\+domain (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{union__map__type_8h_a7ebd16187c9653859611db949d88cfd8}{isl\+\_\+union\+\_\+set}} $\ast$}]{domain }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a76c39ac02390786202b133510078292f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a531d698af1f40eb65d8be4173fa9c1ab}\label{isl__schedule_8c_a531d698af1f40eb65d8be4173fa9c1ab}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_map\_schedule\_node\_bottom\_up@{isl\_schedule\_map\_schedule\_node\_bottom\_up}}
+\index{isl\_schedule\_map\_schedule\_node\_bottom\_up@{isl\_schedule\_map\_schedule\_node\_bottom\_up}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_map\_schedule\_node\_bottom\_up()}{isl\_schedule\_map\_schedule\_node\_bottom\_up()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+map\+\_\+schedule\+\_\+node\+\_\+bottom\+\_\+up (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule,  }\item[{\mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule__node}{isl\+\_\+schedule\+\_\+node}} $\ast$($\ast$)(\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule__node}{isl\+\_\+schedule\+\_\+node}} $\ast$node, void $\ast$\mbox{\hyperlink{hmap_8h_a2a6981ba9faa9d8be4420a2d84ee187f}{user}})}]{fn,  }\item[{void $\ast$}]{user }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a531d698af1f40eb65d8be4173fa9c1ab_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a531d698af1f40eb65d8be4173fa9c1ab_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_aa6e5a482a219a7299daa2a04113c38b1}\label{isl__schedule_8c_aa6e5a482a219a7299daa2a04113c38b1}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_pair@{isl\_schedule\_pair}}
+\index{isl\_schedule\_pair@{isl\_schedule\_pair}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_pair()}{isl\_schedule\_pair()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+pair (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{schedule__type_8h_a683700c0d372b76d3c69141974669ed9}{isl\+\_\+schedule\+\_\+node\+\_\+type}}}]{type,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_aa6e5a482a219a7299daa2a04113c38b1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{isl__schedule_8c_aa6e5a482a219a7299daa2a04113c38b1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a002b04505c92f744c7a8acd117588487}\label{isl__schedule_8c_a002b04505c92f744c7a8acd117588487}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_peek\_leaf@{isl\_schedule\_peek\_leaf}}
+\index{isl\_schedule\_peek\_leaf@{isl\_schedule\_peek\_leaf}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_peek\_leaf()}{isl\_schedule\_peek\_leaf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule__tree}{isl\+\_\+schedule\+\_\+tree}}$\ast$ isl\+\_\+schedule\+\_\+peek\+\_\+leaf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a002b04505c92f744c7a8acd117588487_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_aec054f758328d48c00550e5fad3a2e32}\label{isl__schedule_8c_aec054f758328d48c00550e5fad3a2e32}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_plain\_is\_equal@{isl\_schedule\_plain\_is\_equal}}
+\index{isl\_schedule\_plain\_is\_equal@{isl\_schedule\_plain\_is\_equal}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_plain\_is\_equal()}{isl\_schedule\_plain\_is\_equal()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_ae02edc8432f47efade1341acc4fc4446}{isl\+\_\+bool}} isl\+\_\+schedule\+\_\+plain\+\_\+is\+\_\+equal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule1,  }\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_aec054f758328d48c00550e5fad3a2e32_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a6a5fa8316ef40704ef6b52feafb3e4f8}\label{isl__schedule_8c_a6a5fa8316ef40704ef6b52feafb3e4f8}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_pullback\_union\_pw\_multi\_aff@{isl\_schedule\_pullback\_union\_pw\_multi\_aff}}
+\index{isl\_schedule\_pullback\_union\_pw\_multi\_aff@{isl\_schedule\_pullback\_union\_pw\_multi\_aff}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_pullback\_union\_pw\_multi\_aff()}{isl\_schedule\_pullback\_union\_pw\_multi\_aff()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+pullback\+\_\+union\+\_\+pw\+\_\+multi\+\_\+aff (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{aff__type_8h_a64627d92c3fa04d58752a024e1894a73}{isl\+\_\+union\+\_\+pw\+\_\+multi\+\_\+aff}} $\ast$}]{upma }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a6a5fa8316ef40704ef6b52feafb3e4f8_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_aaa4d7fb461d6a071bfd2a182626aa349}\label{isl__schedule_8c_aaa4d7fb461d6a071bfd2a182626aa349}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_reset\_user@{isl\_schedule\_reset\_user}}
+\index{isl\_schedule\_reset\_user@{isl\_schedule\_reset\_user}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_reset\_user()}{isl\_schedule\_reset\_user()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+reset\+\_\+user (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_aaa4d7fb461d6a071bfd2a182626aa349_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_ae4e2e68b110ead98efb06cdcd6f66b6c}\label{isl__schedule_8c_ae4e2e68b110ead98efb06cdcd6f66b6c}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_sequence@{isl\_schedule\_sequence}}
+\index{isl\_schedule\_sequence@{isl\_schedule\_sequence}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_sequence()}{isl\_schedule\_sequence()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+sequence (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_ae4e2e68b110ead98efb06cdcd6f66b6c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a3b6244ff2ab6bc86343454069f158613}\label{isl__schedule_8c_a3b6244ff2ab6bc86343454069f158613}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_set@{isl\_schedule\_set}}
+\index{isl\_schedule\_set@{isl\_schedule\_set}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_set()}{isl\_schedule\_set()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule1,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule2 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a3b6244ff2ab6bc86343454069f158613_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_a5f00f1cb92ca7c6c41565917263b171e}\label{isl__schedule_8c_a5f00f1cb92ca7c6c41565917263b171e}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_set\_root@{isl\_schedule\_set\_root}}
+\index{isl\_schedule\_set\_root@{isl\_schedule\_set\_root}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_set\_root()}{isl\_schedule\_set\_root()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}}$\ast$ isl\+\_\+schedule\+\_\+set\+\_\+root (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule,  }\item[{\mbox{\hyperlink{ctx_8h_a05d683cf7d63a7c66c72c36c5c3f971f}{\+\_\+\+\_\+isl\+\_\+take}} \mbox{\hyperlink{structisl__schedule__tree}{isl\+\_\+schedule\+\_\+tree}} $\ast$}]{tree }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_a5f00f1cb92ca7c6c41565917263b171e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{isl__schedule_8c_abf88572b2f7c3597321aa30216624e3b}\label{isl__schedule_8c_abf88572b2f7c3597321aa30216624e3b}} 
+\index{isl\_schedule.c@{isl\_schedule.c}!isl\_schedule\_to\_str@{isl\_schedule\_to\_str}}
+\index{isl\_schedule\_to\_str@{isl\_schedule\_to\_str}!isl\_schedule.c@{isl\_schedule.c}}
+\doxysubsubsection{\texorpdfstring{isl\_schedule\_to\_str()}{isl\_schedule\_to\_str()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{ctx_8h_a2e9e2f98bc1cea3dfda7d9f4e5e7850f}{\+\_\+\+\_\+isl\+\_\+give}} char$\ast$ isl\+\_\+schedule\+\_\+to\+\_\+str (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ctx_8h_a9fcad076ba94a5108734570157fba6bb}{\+\_\+\+\_\+isl\+\_\+keep}} \mbox{\hyperlink{structisl__schedule}{isl\+\_\+schedule}} $\ast$}]{schedule }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{isl__schedule_8c_abf88572b2f7c3597321aa30216624e3b_cgraph}
+\end{center}
+\end{figure}

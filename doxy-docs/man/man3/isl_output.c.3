@@ -1,0 +1,211 @@
+.TH "lib/isl/isl_output.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_output.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_map_private\&.h>\fP
+.br
+\fC#include <isl/set\&.h>\fP
+.br
+\fC#include <isl_seq\&.h>\fP
+.br
+\fC#include <isl_polynomial_private\&.h>\fP
+.br
+\fC#include <isl_printer_private\&.h>\fP
+.br
+\fC#include <isl_space_private\&.h>\fP
+.br
+\fC#include <isl_mat_private\&.h>\fP
+.br
+\fC#include <isl_vec_private\&.h>\fP
+.br
+\fC#include <isl/union_map\&.h>\fP
+.br
+\fC#include <isl/constraint\&.h>\fP
+.br
+\fC#include <isl_local_space_private\&.h>\fP
+.br
+\fC#include <isl_aff_private\&.h>\fP
+.br
+\fC#include <isl_val_private\&.h>\fP
+.br
+\fC#include <isl/ast_build\&.h>\fP
+.br
+\fC#include <isl_sort\&.h>\fP
+.br
+\fC#include <isl_output_private\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBisl_aff_split\fP"
+.br
+.ti -1c
+.RI "struct \fBisl_union_print_data\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_print_space\fP (\fB__isl_keep\fP \fBisl_space\fP *space, \fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, int rational, struct \fBisl_print_space_data\fP *data)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_basic_map\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_basic_map\fP *\fBbmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_basic_set\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_basic_set\fP *bset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_set\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_set\fP *\fBset\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_map\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_map\fP *\fBmap\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_map\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_map\fP *umap)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_set\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_set\fP *uset)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_qpolynomial\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_qpolynomial\fP *qp)"
+.br
+.ti -1c
+.RI "void \fBisl_qpolynomial_print\fP (\fB__isl_keep\fP \fBisl_qpolynomial\fP *qp, FILE *out, unsigned output_format)"
+.br
+.ti -1c
+.RI "void \fBisl_qpolynomial_fold_print\fP (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold, FILE *out, unsigned output_format)"
+.br
+.ti -1c
+.RI "void \fBisl_pw_qpolynomial_print\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP, FILE *out, unsigned output_format)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_pw_qpolynomial\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_pw_qpolynomial\fP *\fBpwqp\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_pw_qpolynomial\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP *upwqp)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_qpolynomial_fold\fP *fold)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf)"
+.br
+.ti -1c
+.RI "void \fBisl_pw_qpolynomial_fold_print\fP (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP *pwf, FILE *out, unsigned output_format)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_pw_qpolynomial_fold\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP *upwf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_constraint\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_constraint\fP *\fBc\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_space\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_local_space\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_aff\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_aff\fP *aff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_pw_aff\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_pw_aff\fP *pwaff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_pw_aff\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_pw_aff\fP *upa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_multi_aff\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_multi_aff\fP *maff)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_pw_multi_aff\fP *pma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_multi_pw_aff\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_multi_pw_aff\fP *mpa)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_multi_val\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_multi_union_pw_aff\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_multi_union_pw_aff\fP *mupa)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_print_space (\fB__isl_keep\fP \fBisl_space\fP * space, \fB__isl_take\fP \fBisl_printer\fP * p, int rational, struct \fBisl_print_space_data\fP * data)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_aff (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_aff\fP * aff)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_basic_map (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_basic_map\fP * bmap)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_basic_set (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_basic_set\fP * bset)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_constraint (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_constraint\fP * c)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_local_space (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_local_space\fP * ls)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_map (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_map\fP * map)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_multi_aff (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_multi_aff\fP * maff)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_multi_pw_aff (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_multi_pw_aff\fP * mpa)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_multi_union_pw_aff (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_multi_union_pw_aff\fP * mupa)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_multi_val (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_multi_val\fP * mv)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_pw_aff (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_pw_aff\fP * pwaff)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_pw_multi_aff (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_pw_multi_aff\fP * pma)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_pw_qpolynomial (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_qpolynomial (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_qpolynomial\fP * qp)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_qpolynomial_fold (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_set (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_set\fP * set)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_space (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_map (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_map\fP * umap)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_pw_aff (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_pw_aff\fP * upa)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_pw_multi_aff (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_pw_qpolynomial (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial\fP * upwqp)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_pw_qpolynomial_fold (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_pw_qpolynomial_fold\fP * upwf)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_union_set (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_union_set\fP * uset)"
+
+.SS "void isl_pw_qpolynomial_fold_print (\fB__isl_keep\fP \fBisl_pw_qpolynomial_fold\fP * pwf, FILE * out, unsigned output_format)"
+
+.SS "void isl_pw_qpolynomial_print (\fB__isl_keep\fP \fBisl_pw_qpolynomial\fP * pwqp, FILE * out, unsigned output_format)"
+
+.SS "void isl_qpolynomial_fold_print (\fB__isl_keep\fP \fBisl_qpolynomial_fold\fP * fold, FILE * out, unsigned output_format)"
+
+.SS "void isl_qpolynomial_print (\fB__isl_keep\fP \fBisl_qpolynomial\fP * qp, FILE * out, unsigned output_format)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

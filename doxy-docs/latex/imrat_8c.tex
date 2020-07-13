@@ -1,0 +1,827 @@
+\hypertarget{imrat_8c}{}\doxysection{lib/isl/imath/imrat.c File Reference}
+\label{imrat_8c}\index{lib/isl/imath/imrat.c@{lib/isl/imath/imrat.c}}
+{\ttfamily \#include \char`\"{}imrat.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+Include dependency graph for imrat.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{imrat_8c_a08e6022628d49fe9cbf498017763bd14}{T\+E\+MP}}(K)~(temp + (K))
+\item 
+\#define \mbox{\hyperlink{imrat_8c_a3f89c191162d33bb6c69005686d48c17}{S\+E\+T\+UP}}(E,  \mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}})~do\{\mbox{\hyperlink{taco__csr__err_8txt_ae8653b12fe86e63b0b4d4a9a3fb22649}{if}}((\mbox{\hyperlink{isl__test_8c_ab4fd73a44e0cd1bee88072b7e02d8b7c}{res}} = (E)) != \mbox{\hyperlink{imath_8h_a969059fbb84c9f78514e5759e844fc59}{M\+P\+\_\+\+OK}}) goto C\+L\+E\+A\+N\+UP; ++(\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}});\}while(0)
+\item 
+\#define \mbox{\hyperlink{imrat_8c_a6a8c0d928d100ea1a168218ae45a8487}{C\+H\+E\+CK}}(\mbox{\hyperlink{e_d_s_l_test_8cpp_aa603783175ee9c7153dba9bc4b2683a2}{T\+E\+ST}})~assert(\mbox{\hyperlink{e_d_s_l_test_8cpp_aa603783175ee9c7153dba9bc4b2683a2}{T\+E\+ST}})
+\item 
+\#define \mbox{\hyperlink{imrat_8c_aba420e826f2a74062c872559aefba7d7}{N\+R\+C\+H\+E\+CK}}(\mbox{\hyperlink{e_d_s_l_test_8cpp_aa603783175ee9c7153dba9bc4b2683a2}{T\+E\+ST}})~assert(\mbox{\hyperlink{e_d_s_l_test_8cpp_aa603783175ee9c7153dba9bc4b2683a2}{T\+E\+ST}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a6725befcca12670589915329b213b8d4}{mp\+\_\+rat\+\_\+init}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{imrat_8c_afbf9c00a6b23a3e7d2403c0f5dc26536}{mp\+\_\+rat\+\_\+alloc}} (void)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a60ea47c4030d2d0d8342c9c52b10780a}{mp\+\_\+rat\+\_\+reduce}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_ab78d483e66b7a451cacc2d305355bf87}{mp\+\_\+rat\+\_\+init\+\_\+size}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} n\+\_\+prec, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} d\+\_\+prec)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a0f97bcf45eb15ac3eb2bd6febe9fa59e}{mp\+\_\+rat\+\_\+init\+\_\+copy}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} old)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_ac7a44569e504862aa42cf22d54c53bcf}{mp\+\_\+rat\+\_\+set\+\_\+value}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}} numer, \mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}} denom)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_ae13e749b2be5041530d9875b41702140}{mp\+\_\+rat\+\_\+set\+\_\+uvalue}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_ae7dd23566c735ecd9ed797803c218287}{mp\+\_\+usmall}} numer, \mbox{\hyperlink{imath_8h_ae7dd23566c735ecd9ed797803c218287}{mp\+\_\+usmall}} denom)
+\item 
+void \mbox{\hyperlink{imrat_8c_a0e18dfc786c890827add1f4d3c124372}{mp\+\_\+rat\+\_\+clear}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+void \mbox{\hyperlink{imrat_8c_a9d3a2b26cff3add8db6f20b7af99eaa6}{mp\+\_\+rat\+\_\+free}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a13736b3103a93a1f05d3c0c22d5052f4}{mp\+\_\+rat\+\_\+numer}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}})
+\item 
+\mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} \mbox{\hyperlink{imrat_8c_af93cb6c5b628b72039064a58653a8585}{mp\+\_\+rat\+\_\+numer\+\_\+ref}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_aa4bcd03695079f1ca87b32709b831429}{mp\+\_\+rat\+\_\+denom}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} \mbox{\hyperlink{minifluxdiv-notes_8txt_ace0ef0091b4a05bdf1a6c3abd06d600a}{z}})
+\item 
+\mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} \mbox{\hyperlink{imrat_8c_a8fc5780fb5d88d7e4ee29bbd59d05f7f}{mp\+\_\+rat\+\_\+denom\+\_\+ref}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+\mbox{\hyperlink{imath_8h_ad58840c583b15ee8f304b70d2d850e51}{mp\+\_\+sign}} \mbox{\hyperlink{imrat_8c_ad6b5b86f40347ece84d1f68f1e2679ce}{mp\+\_\+rat\+\_\+sign}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a5cab6d49c9072b3093d44ad03dd6513c}{mp\+\_\+rat\+\_\+copy}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+void \mbox{\hyperlink{imrat_8c_a0a46f03d8c0e8feef0f71cd108372193}{mp\+\_\+rat\+\_\+zero}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_ae61d6a46e178c1b1c172ca89024bce2f}{mp\+\_\+rat\+\_\+abs}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_af8093ac11c690b994c42442887ee14b3}{mp\+\_\+rat\+\_\+neg}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a07cfa7367703c47a9e18ce8211b75cd8}{mp\+\_\+rat\+\_\+recip}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_aa0c0a48f6459ae15153a9fdcc7011da5}{mp\+\_\+rat\+\_\+add}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a46132293179bba03bd4240126863aa2d}{mp\+\_\+rat\+\_\+sub}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_abb8a8ae32ee041164fcf349b6e20fbd0}{mp\+\_\+rat\+\_\+mul}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a0733b9c5269bf3259d5cd3ac0d5d1e39}{mp\+\_\+rat\+\_\+div}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_ac5d39112b8d04f6d72a5fb3eab7bb78d}{mp\+\_\+rat\+\_\+add\+\_\+int}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a7b6c541b54440a485cea7f5531027f3a}{mp\+\_\+rat\+\_\+sub\+\_\+int}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_aadd233c56fbe67c172d1682cbd7ab8dc}{mp\+\_\+rat\+\_\+mul\+\_\+int}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_ae9809a305ededbdf6472d7fbe1dfd84c}{mp\+\_\+rat\+\_\+div\+\_\+int}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a6a6f8cd141a1d42edf298ee6be408c79}{mp\+\_\+rat\+\_\+expt}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{taco__csr__err_8txt_acc395ff02b0516689a2d93451c959c0e}{c}})
+\item 
+int \mbox{\hyperlink{imrat_8c_a4b814a72d42e8893ff129601f00c5d64}{mp\+\_\+rat\+\_\+compare}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}})
+\item 
+int \mbox{\hyperlink{imrat_8c_a53cc4dda0cf275bdcec5b83d9c7a7bd1}{mp\+\_\+rat\+\_\+compare\+\_\+unsigned}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a24420a9beaac7cee08b5e255a4c29db1}{a}}, \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} \mbox{\hyperlink{gen-jacobitab_8c_a41cede1b4c0d05cff170ad5761f70964}{b}})
+\item 
+int \mbox{\hyperlink{imrat_8c_a8263662e2a08bc459a03080bfc837c44}{mp\+\_\+rat\+\_\+compare\+\_\+zero}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+int \mbox{\hyperlink{imrat_8c_a7f7630d08bb6392491473ea2fb975e5f}{mp\+\_\+rat\+\_\+compare\+\_\+value}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}} \mbox{\hyperlink{notes_8txt_aeea9f7a762f57bfe5d9ce71f806a8c2c}{n}}, \mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}} d)
+\item 
+int \mbox{\hyperlink{imrat_8c_a9639924cce01bcb51d44095de448292e}{mp\+\_\+rat\+\_\+is\+\_\+integer}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a405bcb52168cdebda9d9359d6e7c036e}{mp\+\_\+rat\+\_\+to\+\_\+ints}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}} $\ast$\mbox{\hyperlink{oc__quick__kill_8cc_a86cf672daa4e0ad11ad10efc894d19c8}{num}}, \mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}} $\ast$den)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a3e9dfe70a5f9fe511c394d07d8ca0e09}{mp\+\_\+rat\+\_\+to\+\_\+string}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} radix, char $\ast$\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}}, int limit)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a5ad7d0a68554094c4011602b6b6f1dfa}{mp\+\_\+rat\+\_\+to\+\_\+decimal}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} radix, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} prec, \mbox{\hyperlink{imrat_8h_a816f77e04f184143fc3ef211f2615311}{mp\+\_\+round\+\_\+mode}} round, char $\ast$\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}}, int limit)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a4540c12b853eaa3a7d3313c2cb7b22c9}{mp\+\_\+rat\+\_\+string\+\_\+len}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} radix)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a67f495201f905a291a1623c07e7cc4b5}{mp\+\_\+rat\+\_\+decimal\+\_\+len}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} radix, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} prec)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a6400d0bc18e6e624aa4349324321f004}{mp\+\_\+rat\+\_\+read\+\_\+string}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} radix, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a69bf4253f6f978304c74cdb450fe2643}{mp\+\_\+rat\+\_\+read\+\_\+cstring}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} radix, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}}, char $\ast$$\ast$end)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a3e8f73d7c055ada2e197a3a63645a83b}{mp\+\_\+rat\+\_\+read\+\_\+ustring}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} radix, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}}, char $\ast$$\ast$end)
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a522319a2e5e000b7483c790c23b66e99}{mp\+\_\+rat\+\_\+read\+\_\+decimal}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} radix, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}})
+\item 
+\mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} \mbox{\hyperlink{imrat_8c_a3524a0545d2e4fe7bc607dc55d3034c2}{mp\+\_\+rat\+\_\+read\+\_\+cdecimal}} (\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} r, \mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}} radix, \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$\mbox{\hyperlink{isl__test_8c_af25d6dc49269fa2003ac7c7fa6f13915}{str}}, char $\ast$$\ast$end)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{imrat_8c_a6a8c0d928d100ea1a168218ae45a8487}\label{imrat_8c_a6a8c0d928d100ea1a168218ae45a8487}} 
+\index{imrat.c@{imrat.c}!CHECK@{CHECK}}
+\index{CHECK@{CHECK}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{CHECK}{CHECK}}
+{\footnotesize\ttfamily \#define C\+H\+E\+CK(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{e_d_s_l_test_8cpp_aa603783175ee9c7153dba9bc4b2683a2}{T\+E\+ST}} }\end{DoxyParamCaption})~assert(\mbox{\hyperlink{e_d_s_l_test_8cpp_aa603783175ee9c7153dba9bc4b2683a2}{T\+E\+ST}})}
+
+\mbox{\Hypertarget{imrat_8c_aba420e826f2a74062c872559aefba7d7}\label{imrat_8c_aba420e826f2a74062c872559aefba7d7}} 
+\index{imrat.c@{imrat.c}!NRCHECK@{NRCHECK}}
+\index{NRCHECK@{NRCHECK}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{NRCHECK}{NRCHECK}}
+{\footnotesize\ttfamily \#define N\+R\+C\+H\+E\+CK(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{e_d_s_l_test_8cpp_aa603783175ee9c7153dba9bc4b2683a2}{T\+E\+ST}} }\end{DoxyParamCaption})~assert(\mbox{\hyperlink{e_d_s_l_test_8cpp_aa603783175ee9c7153dba9bc4b2683a2}{T\+E\+ST}})}
+
+\mbox{\Hypertarget{imrat_8c_a3f89c191162d33bb6c69005686d48c17}\label{imrat_8c_a3f89c191162d33bb6c69005686d48c17}} 
+\index{imrat.c@{imrat.c}!SETUP@{SETUP}}
+\index{SETUP@{SETUP}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{SETUP}{SETUP}}
+{\footnotesize\ttfamily \#define S\+E\+T\+UP(\begin{DoxyParamCaption}\item[{}]{E,  }\item[{}]{\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}} }\end{DoxyParamCaption})~do\{\mbox{\hyperlink{taco__csr__err_8txt_ae8653b12fe86e63b0b4d4a9a3fb22649}{if}}((\mbox{\hyperlink{isl__test_8c_ab4fd73a44e0cd1bee88072b7e02d8b7c}{res}} = (E)) != \mbox{\hyperlink{imath_8h_a969059fbb84c9f78514e5759e844fc59}{M\+P\+\_\+\+OK}}) goto C\+L\+E\+A\+N\+UP; ++(\mbox{\hyperlink{mttkrp__csf__cu_8h_a6747e855ca13201ef79c882a3f459b07}{C}});\}while(0)}
+
+\mbox{\Hypertarget{imrat_8c_a08e6022628d49fe9cbf498017763bd14}\label{imrat_8c_a08e6022628d49fe9cbf498017763bd14}} 
+\index{imrat.c@{imrat.c}!TEMP@{TEMP}}
+\index{TEMP@{TEMP}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{TEMP}{TEMP}}
+{\footnotesize\ttfamily \#define T\+E\+MP(\begin{DoxyParamCaption}\item[{}]{K }\end{DoxyParamCaption})~(temp + (K))}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{imrat_8c_ae61d6a46e178c1b1c172ca89024bce2f}\label{imrat_8c_ae61d6a46e178c1b1c172ca89024bce2f}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_abs@{mp\_rat\_abs}}
+\index{mp\_rat\_abs@{mp\_rat\_abs}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_abs()}{mp\_rat\_abs()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+abs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_ae61d6a46e178c1b1c172ca89024bce2f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_aa0c0a48f6459ae15153a9fdcc7011da5}\label{imrat_8c_aa0c0a48f6459ae15153a9fdcc7011da5}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_add@{mp\_rat\_add}}
+\index{mp\_rat\_add@{mp\_rat\_add}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_add()}{mp\_rat\_add()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{b,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imrat_8c_ac5d39112b8d04f6d72a5fb3eab7bb78d}\label{imrat_8c_ac5d39112b8d04f6d72a5fb3eab7bb78d}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_add\_int@{mp\_rat\_add\_int}}
+\index{mp\_rat\_add\_int@{mp\_rat\_add\_int}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_add\_int()}{mp\_rat\_add\_int()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+add\+\_\+int (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}}}]{b,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_ac5d39112b8d04f6d72a5fb3eab7bb78d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_afbf9c00a6b23a3e7d2403c0f5dc26536}\label{imrat_8c_afbf9c00a6b23a3e7d2403c0f5dc26536}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_alloc@{mp\_rat\_alloc}}
+\index{mp\_rat\_alloc@{mp\_rat\_alloc}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_alloc()}{mp\_rat\_alloc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}} mp\+\_\+rat\+\_\+alloc (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_afbf9c00a6b23a3e7d2403c0f5dc26536_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a0e18dfc786c890827add1f4d3c124372}\label{imrat_8c_a0e18dfc786c890827add1f4d3c124372}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_clear@{mp\_rat\_clear}}
+\index{mp\_rat\_clear@{mp\_rat\_clear}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_clear()}{mp\_rat\_clear()}}
+{\footnotesize\ttfamily void mp\+\_\+rat\+\_\+clear (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a0e18dfc786c890827add1f4d3c124372_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=327pt]{imrat_8c_a0e18dfc786c890827add1f4d3c124372_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a4b814a72d42e8893ff129601f00c5d64}\label{imrat_8c_a4b814a72d42e8893ff129601f00c5d64}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_compare@{mp\_rat\_compare}}
+\index{mp\_rat\_compare@{mp\_rat\_compare}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_compare()}{mp\_rat\_compare()}}
+{\footnotesize\ttfamily int mp\+\_\+rat\+\_\+compare (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{b }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a4b814a72d42e8893ff129601f00c5d64_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a4b814a72d42e8893ff129601f00c5d64_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a53cc4dda0cf275bdcec5b83d9c7a7bd1}\label{imrat_8c_a53cc4dda0cf275bdcec5b83d9c7a7bd1}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_compare\_unsigned@{mp\_rat\_compare\_unsigned}}
+\index{mp\_rat\_compare\_unsigned@{mp\_rat\_compare\_unsigned}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_compare\_unsigned()}{mp\_rat\_compare\_unsigned()}}
+{\footnotesize\ttfamily int mp\+\_\+rat\+\_\+compare\+\_\+unsigned (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{b }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a53cc4dda0cf275bdcec5b83d9c7a7bd1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a53cc4dda0cf275bdcec5b83d9c7a7bd1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a7f7630d08bb6392491473ea2fb975e5f}\label{imrat_8c_a7f7630d08bb6392491473ea2fb975e5f}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_compare\_value@{mp\_rat\_compare\_value}}
+\index{mp\_rat\_compare\_value@{mp\_rat\_compare\_value}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_compare\_value()}{mp\_rat\_compare\_value()}}
+{\footnotesize\ttfamily int mp\+\_\+rat\+\_\+compare\+\_\+value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}}}]{n,  }\item[{\mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}}}]{d }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a7f7630d08bb6392491473ea2fb975e5f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a8263662e2a08bc459a03080bfc837c44}\label{imrat_8c_a8263662e2a08bc459a03080bfc837c44}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_compare\_zero@{mp\_rat\_compare\_zero}}
+\index{mp\_rat\_compare\_zero@{mp\_rat\_compare\_zero}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_compare\_zero()}{mp\_rat\_compare\_zero()}}
+{\footnotesize\ttfamily int mp\+\_\+rat\+\_\+compare\+\_\+zero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a8263662e2a08bc459a03080bfc837c44_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=321pt]{imrat_8c_a8263662e2a08bc459a03080bfc837c44_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a5cab6d49c9072b3093d44ad03dd6513c}\label{imrat_8c_a5cab6d49c9072b3093d44ad03dd6513c}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_copy@{mp\_rat\_copy}}
+\index{mp\_rat\_copy@{mp\_rat\_copy}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_copy()}{mp\_rat\_copy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+copy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a5cab6d49c9072b3093d44ad03dd6513c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=289pt]{imrat_8c_a5cab6d49c9072b3093d44ad03dd6513c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a67f495201f905a291a1623c07e7cc4b5}\label{imrat_8c_a67f495201f905a291a1623c07e7cc4b5}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_decimal\_len@{mp\_rat\_decimal\_len}}
+\index{mp\_rat\_decimal\_len@{mp\_rat\_decimal\_len}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_decimal\_len()}{mp\_rat\_decimal\_len()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+decimal\+\_\+len (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{radix,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{prec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a67f495201f905a291a1623c07e7cc4b5_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_aa4bcd03695079f1ca87b32709b831429}\label{imrat_8c_aa4bcd03695079f1ca87b32709b831429}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_denom@{mp\_rat\_denom}}
+\index{mp\_rat\_denom@{mp\_rat\_denom}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_denom()}{mp\_rat\_denom()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+denom (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}}}]{z }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_aa4bcd03695079f1ca87b32709b831429_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a8fc5780fb5d88d7e4ee29bbd59d05f7f}\label{imrat_8c_a8fc5780fb5d88d7e4ee29bbd59d05f7f}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_denom\_ref@{mp\_rat\_denom\_ref}}
+\index{mp\_rat\_denom\_ref@{mp\_rat\_denom\_ref}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_denom\_ref()}{mp\_rat\_denom\_ref()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} mp\+\_\+rat\+\_\+denom\+\_\+ref (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=275pt]{imrat_8c_a8fc5780fb5d88d7e4ee29bbd59d05f7f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a0733b9c5269bf3259d5cd3ac0d5d1e39}\label{imrat_8c_a0733b9c5269bf3259d5cd3ac0d5d1e39}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_div@{mp\_rat\_div}}
+\index{mp\_rat\_div@{mp\_rat\_div}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_div()}{mp\_rat\_div()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+div (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{b,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a0733b9c5269bf3259d5cd3ac0d5d1e39_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_ae9809a305ededbdf6472d7fbe1dfd84c}\label{imrat_8c_ae9809a305ededbdf6472d7fbe1dfd84c}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_div\_int@{mp\_rat\_div\_int}}
+\index{mp\_rat\_div\_int@{mp\_rat\_div\_int}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_div\_int()}{mp\_rat\_div\_int()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+div\+\_\+int (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}}}]{b,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_ae9809a305ededbdf6472d7fbe1dfd84c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a6a6f8cd141a1d42edf298ee6be408c79}\label{imrat_8c_a6a6f8cd141a1d42edf298ee6be408c79}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_expt@{mp\_rat\_expt}}
+\index{mp\_rat\_expt@{mp\_rat\_expt}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_expt()}{mp\_rat\_expt()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+expt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}}}]{b,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a6a6f8cd141a1d42edf298ee6be408c79_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a9d3a2b26cff3add8db6f20b7af99eaa6}\label{imrat_8c_a9d3a2b26cff3add8db6f20b7af99eaa6}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_free@{mp\_rat\_free}}
+\index{mp\_rat\_free@{mp\_rat\_free}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_free()}{mp\_rat\_free()}}
+{\footnotesize\ttfamily void mp\+\_\+rat\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a9d3a2b26cff3add8db6f20b7af99eaa6_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a6725befcca12670589915329b213b8d4}\label{imrat_8c_a6725befcca12670589915329b213b8d4}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_init@{mp\_rat\_init}}
+\index{mp\_rat\_init@{mp\_rat\_init}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_init()}{mp\_rat\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a6725befcca12670589915329b213b8d4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a6725befcca12670589915329b213b8d4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a0f97bcf45eb15ac3eb2bd6febe9fa59e}\label{imrat_8c_a0f97bcf45eb15ac3eb2bd6febe9fa59e}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_init\_copy@{mp\_rat\_init\_copy}}
+\index{mp\_rat\_init\_copy@{mp\_rat\_init\_copy}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_init\_copy()}{mp\_rat\_init\_copy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+init\+\_\+copy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{old }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a0f97bcf45eb15ac3eb2bd6febe9fa59e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_ab78d483e66b7a451cacc2d305355bf87}\label{imrat_8c_ab78d483e66b7a451cacc2d305355bf87}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_init\_size@{mp\_rat\_init\_size}}
+\index{mp\_rat\_init\_size@{mp\_rat\_init\_size}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_init\_size()}{mp\_rat\_init\_size()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+init\+\_\+size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{n\+\_\+prec,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{d\+\_\+prec }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_ab78d483e66b7a451cacc2d305355bf87_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a9639924cce01bcb51d44095de448292e}\label{imrat_8c_a9639924cce01bcb51d44095de448292e}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_is\_integer@{mp\_rat\_is\_integer}}
+\index{mp\_rat\_is\_integer@{mp\_rat\_is\_integer}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_is\_integer()}{mp\_rat\_is\_integer()}}
+{\footnotesize\ttfamily int mp\+\_\+rat\+\_\+is\+\_\+integer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a9639924cce01bcb51d44095de448292e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_abb8a8ae32ee041164fcf349b6e20fbd0}\label{imrat_8c_abb8a8ae32ee041164fcf349b6e20fbd0}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_mul@{mp\_rat\_mul}}
+\index{mp\_rat\_mul@{mp\_rat\_mul}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_mul()}{mp\_rat\_mul()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+mul (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{b,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_abb8a8ae32ee041164fcf349b6e20fbd0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{imrat_8c_abb8a8ae32ee041164fcf349b6e20fbd0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_aadd233c56fbe67c172d1682cbd7ab8dc}\label{imrat_8c_aadd233c56fbe67c172d1682cbd7ab8dc}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_mul\_int@{mp\_rat\_mul\_int}}
+\index{mp\_rat\_mul\_int@{mp\_rat\_mul\_int}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_mul\_int()}{mp\_rat\_mul\_int()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+mul\+\_\+int (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}}}]{b,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_aadd233c56fbe67c172d1682cbd7ab8dc_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_af8093ac11c690b994c42442887ee14b3}\label{imrat_8c_af8093ac11c690b994c42442887ee14b3}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_neg@{mp\_rat\_neg}}
+\index{mp\_rat\_neg@{mp\_rat\_neg}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_neg()}{mp\_rat\_neg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+neg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_af8093ac11c690b994c42442887ee14b3_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a13736b3103a93a1f05d3c0c22d5052f4}\label{imrat_8c_a13736b3103a93a1f05d3c0c22d5052f4}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_numer@{mp\_rat\_numer}}
+\index{mp\_rat\_numer@{mp\_rat\_numer}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_numer()}{mp\_rat\_numer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+numer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}}}]{z }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a13736b3103a93a1f05d3c0c22d5052f4_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_af93cb6c5b628b72039064a58653a8585}\label{imrat_8c_af93cb6c5b628b72039064a58653a8585}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_numer\_ref@{mp\_rat\_numer\_ref}}
+\index{mp\_rat\_numer\_ref@{mp\_rat\_numer\_ref}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_numer\_ref()}{mp\_rat\_numer\_ref()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}} mp\+\_\+rat\+\_\+numer\+\_\+ref (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=275pt]{imrat_8c_af93cb6c5b628b72039064a58653a8585_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a3524a0545d2e4fe7bc607dc55d3034c2}\label{imrat_8c_a3524a0545d2e4fe7bc607dc55d3034c2}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_read\_cdecimal@{mp\_rat\_read\_cdecimal}}
+\index{mp\_rat\_read\_cdecimal@{mp\_rat\_read\_cdecimal}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_read\_cdecimal()}{mp\_rat\_read\_cdecimal()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+read\+\_\+cdecimal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{radix,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{str,  }\item[{char $\ast$$\ast$}]{end }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a3524a0545d2e4fe7bc607dc55d3034c2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a3524a0545d2e4fe7bc607dc55d3034c2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a69bf4253f6f978304c74cdb450fe2643}\label{imrat_8c_a69bf4253f6f978304c74cdb450fe2643}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_read\_cstring@{mp\_rat\_read\_cstring}}
+\index{mp\_rat\_read\_cstring@{mp\_rat\_read\_cstring}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_read\_cstring()}{mp\_rat\_read\_cstring()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+read\+\_\+cstring (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{radix,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{str,  }\item[{char $\ast$$\ast$}]{end }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a69bf4253f6f978304c74cdb450fe2643_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{imrat_8c_a69bf4253f6f978304c74cdb450fe2643_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a522319a2e5e000b7483c790c23b66e99}\label{imrat_8c_a522319a2e5e000b7483c790c23b66e99}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_read\_decimal@{mp\_rat\_read\_decimal}}
+\index{mp\_rat\_read\_decimal@{mp\_rat\_read\_decimal}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_read\_decimal()}{mp\_rat\_read\_decimal()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+read\+\_\+decimal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{radix,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{str }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a522319a2e5e000b7483c790c23b66e99_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a6400d0bc18e6e624aa4349324321f004}\label{imrat_8c_a6400d0bc18e6e624aa4349324321f004}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_read\_string@{mp\_rat\_read\_string}}
+\index{mp\_rat\_read\_string@{mp\_rat\_read\_string}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_read\_string()}{mp\_rat\_read\_string()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+read\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{radix,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{str }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a6400d0bc18e6e624aa4349324321f004_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a3e8f73d7c055ada2e197a3a63645a83b}\label{imrat_8c_a3e8f73d7c055ada2e197a3a63645a83b}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_read\_ustring@{mp\_rat\_read\_ustring}}
+\index{mp\_rat\_read\_ustring@{mp\_rat\_read\_ustring}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_read\_ustring()}{mp\_rat\_read\_ustring()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+read\+\_\+ustring (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{radix,  }\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} char $\ast$}]{str,  }\item[{char $\ast$$\ast$}]{end }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a3e8f73d7c055ada2e197a3a63645a83b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a07cfa7367703c47a9e18ce8211b75cd8}\label{imrat_8c_a07cfa7367703c47a9e18ce8211b75cd8}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_recip@{mp\_rat\_recip}}
+\index{mp\_rat\_recip@{mp\_rat\_recip}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_recip()}{mp\_rat\_recip()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+recip (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a07cfa7367703c47a9e18ce8211b75cd8_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a60ea47c4030d2d0d8342c9c52b10780a}\label{imrat_8c_a60ea47c4030d2d0d8342c9c52b10780a}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_reduce@{mp\_rat\_reduce}}
+\index{mp\_rat\_reduce@{mp\_rat\_reduce}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_reduce()}{mp\_rat\_reduce()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+reduce (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{imrat_8c_a60ea47c4030d2d0d8342c9c52b10780a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_ae13e749b2be5041530d9875b41702140}\label{imrat_8c_ae13e749b2be5041530d9875b41702140}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_set\_uvalue@{mp\_rat\_set\_uvalue}}
+\index{mp\_rat\_set\_uvalue@{mp\_rat\_set\_uvalue}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_set\_uvalue()}{mp\_rat\_set\_uvalue()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+set\+\_\+uvalue (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_ae7dd23566c735ecd9ed797803c218287}{mp\+\_\+usmall}}}]{numer,  }\item[{\mbox{\hyperlink{imath_8h_ae7dd23566c735ecd9ed797803c218287}{mp\+\_\+usmall}}}]{denom }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_ae13e749b2be5041530d9875b41702140_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{imrat_8c_ae13e749b2be5041530d9875b41702140_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_ac7a44569e504862aa42cf22d54c53bcf}\label{imrat_8c_ac7a44569e504862aa42cf22d54c53bcf}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_set\_value@{mp\_rat\_set\_value}}
+\index{mp\_rat\_set\_value@{mp\_rat\_set\_value}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_set\_value()}{mp\_rat\_set\_value()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+set\+\_\+value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}}}]{numer,  }\item[{\mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}}}]{denom }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_ac7a44569e504862aa42cf22d54c53bcf_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_ac7a44569e504862aa42cf22d54c53bcf_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_ad6b5b86f40347ece84d1f68f1e2679ce}\label{imrat_8c_ad6b5b86f40347ece84d1f68f1e2679ce}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_sign@{mp\_rat\_sign}}
+\index{mp\_rat\_sign@{mp\_rat\_sign}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_sign()}{mp\_rat\_sign()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad58840c583b15ee8f304b70d2d850e51}{mp\+\_\+sign}} mp\+\_\+rat\+\_\+sign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imrat_8c_a4540c12b853eaa3a7d3313c2cb7b22c9}\label{imrat_8c_a4540c12b853eaa3a7d3313c2cb7b22c9}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_string\_len@{mp\_rat\_string\_len}}
+\index{mp\_rat\_string\_len@{mp\_rat\_string\_len}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_string\_len()}{mp\_rat\_string\_len()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+string\+\_\+len (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{radix }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a4540c12b853eaa3a7d3313c2cb7b22c9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=270pt]{imrat_8c_a4540c12b853eaa3a7d3313c2cb7b22c9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a46132293179bba03bd4240126863aa2d}\label{imrat_8c_a46132293179bba03bd4240126863aa2d}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_sub@{mp\_rat\_sub}}
+\index{mp\_rat\_sub@{mp\_rat\_sub}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_sub()}{mp\_rat\_sub()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+sub (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{b,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{imrat_8c_a7b6c541b54440a485cea7f5531027f3a}\label{imrat_8c_a7b6c541b54440a485cea7f5531027f3a}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_sub\_int@{mp\_rat\_sub\_int}}
+\index{mp\_rat\_sub\_int@{mp\_rat\_sub\_int}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_sub\_int()}{mp\_rat\_sub\_int()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+sub\+\_\+int (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{a,  }\item[{\mbox{\hyperlink{imath_8h_a948e070276095b9e53b9788f6c6fde3c}{mp\+\_\+int}}}]{b,  }\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a7b6c541b54440a485cea7f5531027f3a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a5ad7d0a68554094c4011602b6b6f1dfa}\label{imrat_8c_a5ad7d0a68554094c4011602b6b6f1dfa}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_to\_decimal@{mp\_rat\_to\_decimal}}
+\index{mp\_rat\_to\_decimal@{mp\_rat\_to\_decimal}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_to\_decimal()}{mp\_rat\_to\_decimal()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+to\+\_\+decimal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{radix,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{prec,  }\item[{\mbox{\hyperlink{imrat_8h_a816f77e04f184143fc3ef211f2615311}{mp\+\_\+round\+\_\+mode}}}]{round,  }\item[{char $\ast$}]{str,  }\item[{int}]{limit }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a5ad7d0a68554094c4011602b6b6f1dfa_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a405bcb52168cdebda9d9359d6e7c036e}\label{imrat_8c_a405bcb52168cdebda9d9359d6e7c036e}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_to\_ints@{mp\_rat\_to\_ints}}
+\index{mp\_rat\_to\_ints@{mp\_rat\_to\_ints}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_to\_ints()}{mp\_rat\_to\_ints()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+to\+\_\+ints (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}} $\ast$}]{num,  }\item[{\mbox{\hyperlink{imath_8h_a47bc5cba2dfce9d4bcb56bb025d90fa1}{mp\+\_\+small}} $\ast$}]{den }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a405bcb52168cdebda9d9359d6e7c036e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a3e9dfe70a5f9fe511c394d07d8ca0e09}\label{imrat_8c_a3e9dfe70a5f9fe511c394d07d8ca0e09}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_to\_string@{mp\_rat\_to\_string}}
+\index{mp\_rat\_to\_string@{mp\_rat\_to\_string}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_to\_string()}{mp\_rat\_to\_string()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{imath_8h_ad07ac18a9f42c53586606a3390b771a5}{mp\+\_\+result}} mp\+\_\+rat\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r,  }\item[{\mbox{\hyperlink{imath_8h_a1213dbe90fd7e619749c98a682f6b74a}{mp\+\_\+size}}}]{radix,  }\item[{char $\ast$}]{str,  }\item[{int}]{limit }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a3e9dfe70a5f9fe511c394d07d8ca0e09_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=265pt]{imrat_8c_a3e9dfe70a5f9fe511c394d07d8ca0e09_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{imrat_8c_a0a46f03d8c0e8feef0f71cd108372193}\label{imrat_8c_a0a46f03d8c0e8feef0f71cd108372193}} 
+\index{imrat.c@{imrat.c}!mp\_rat\_zero@{mp\_rat\_zero}}
+\index{mp\_rat\_zero@{mp\_rat\_zero}!imrat.c@{imrat.c}}
+\doxysubsubsection{\texorpdfstring{mp\_rat\_zero()}{mp\_rat\_zero()}}
+{\footnotesize\ttfamily void mp\+\_\+rat\+\_\+zero (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{imrat_8h_a3287ab027f5eb797d84fc35fb4e57324}{mp\+\_\+rat}}}]{r }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{imrat_8c_a0a46f03d8c0e8feef0f71cd108372193_cgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,164 @@
+.TH "lib/isl/isl_seq.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_seq.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <sys/types\&.h>\fP
+.br
+\fC#include <isl_int\&.h>\fP
+.br
+\fC#include <isl/ctx\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBisl_seq_clr\fP (\fBisl_int\fP *\fBp\fP, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_set\fP (\fBisl_int\fP *\fBp\fP, \fBisl_int\fP v, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_set_si\fP (\fBisl_int\fP *\fBp\fP, int v, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_neg\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_cpy\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_addmul\fP (\fBisl_int\fP *dst, \fBisl_int\fP \fBf\fP, \fBisl_int\fP *src, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_submul\fP (\fBisl_int\fP *dst, \fBisl_int\fP \fBf\fP, \fBisl_int\fP *src, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_swp_or_cpy\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_scale\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, \fBisl_int\fP \fBf\fP, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_scale_down\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, \fBisl_int\fP \fBf\fP, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_cdiv_q\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, \fBisl_int\fP \fBm\fP, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_fdiv_q\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, \fBisl_int\fP \fBm\fP, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_fdiv_r\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, \fBisl_int\fP \fBm\fP, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_combine\fP (\fBisl_int\fP *dst, \fBisl_int\fP m1, \fBisl_int\fP *src1, \fBisl_int\fP m2, \fBisl_int\fP *src2, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_elim\fP (\fBisl_int\fP *dst, \fBisl_int\fP *src, unsigned \fBpos\fP, unsigned len, \fBisl_int\fP *\fBm\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_abs_max\fP (\fBisl_int\fP *\fBp\fP, unsigned len, \fBisl_int\fP *\fBmax\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_gcd\fP (\fBisl_int\fP *\fBp\fP, unsigned len, \fBisl_int\fP *\fBgcd\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_lcm\fP (\fBisl_int\fP *\fBp\fP, unsigned len, \fBisl_int\fP *\fBlcm\fP)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_normalize\fP (struct \fBisl_ctx\fP *ctx, \fBisl_int\fP *\fBp\fP, unsigned len)"
+.br
+.ti -1c
+.RI "void \fBisl_seq_inner_product\fP (\fBisl_int\fP *\fBp1\fP, \fBisl_int\fP *\fBp2\fP, unsigned len, \fBisl_int\fP *prod)"
+.br
+.ti -1c
+.RI "int \fBisl_seq_first_non_zero\fP (\fBisl_int\fP *\fBp\fP, unsigned len)"
+.br
+.ti -1c
+.RI "int \fBisl_seq_last_non_zero\fP (\fBisl_int\fP *\fBp\fP, unsigned len)"
+.br
+.ti -1c
+.RI "int \fBisl_seq_abs_min_non_zero\fP (\fBisl_int\fP *\fBp\fP, unsigned len)"
+.br
+.ti -1c
+.RI "int \fBisl_seq_eq\fP (\fBisl_int\fP *\fBp1\fP, \fBisl_int\fP *\fBp2\fP, unsigned len)"
+.br
+.ti -1c
+.RI "int \fBisl_seq_cmp\fP (\fBisl_int\fP *\fBp1\fP, \fBisl_int\fP *\fBp2\fP, unsigned len)"
+.br
+.ti -1c
+.RI "int \fBisl_seq_is_neg\fP (\fBisl_int\fP *\fBp1\fP, \fBisl_int\fP *\fBp2\fP, unsigned len)"
+.br
+.ti -1c
+.RI "uint32_t \fBisl_seq_get_hash\fP (\fBisl_int\fP *\fBp\fP, unsigned len)"
+.br
+.ti -1c
+.RI "uint32_t \fBisl_seq_get_hash_bits\fP (\fBisl_int\fP *\fBp\fP, unsigned len, unsigned bits)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "void isl_seq_abs_max (\fBisl_int\fP * p, unsigned len, \fBisl_int\fP * max)"
+
+.SS "int isl_seq_abs_min_non_zero (\fBisl_int\fP * p, unsigned len)"
+
+.SS "void isl_seq_addmul (\fBisl_int\fP * dst, \fBisl_int\fP f, \fBisl_int\fP * src, unsigned len)"
+
+.SS "void isl_seq_cdiv_q (\fBisl_int\fP * dst, \fBisl_int\fP * src, \fBisl_int\fP m, unsigned len)"
+
+.SS "void isl_seq_clr (\fBisl_int\fP * p, unsigned len)"
+
+.SS "int isl_seq_cmp (\fBisl_int\fP * p1, \fBisl_int\fP * p2, unsigned len)"
+
+.SS "void isl_seq_combine (\fBisl_int\fP * dst, \fBisl_int\fP m1, \fBisl_int\fP * src1, \fBisl_int\fP m2, \fBisl_int\fP * src2, unsigned len)"
+
+.SS "void isl_seq_cpy (\fBisl_int\fP * dst, \fBisl_int\fP * src, unsigned len)"
+
+.SS "void isl_seq_elim (\fBisl_int\fP * dst, \fBisl_int\fP * src, unsigned pos, unsigned len, \fBisl_int\fP * m)"
+
+.SS "int isl_seq_eq (\fBisl_int\fP * p1, \fBisl_int\fP * p2, unsigned len)"
+
+.SS "void isl_seq_fdiv_q (\fBisl_int\fP * dst, \fBisl_int\fP * src, \fBisl_int\fP m, unsigned len)"
+
+.SS "void isl_seq_fdiv_r (\fBisl_int\fP * dst, \fBisl_int\fP * src, \fBisl_int\fP m, unsigned len)"
+
+.SS "int isl_seq_first_non_zero (\fBisl_int\fP * p, unsigned len)"
+
+.SS "void isl_seq_gcd (\fBisl_int\fP * p, unsigned len, \fBisl_int\fP * gcd)"
+
+.SS "uint32_t isl_seq_get_hash (\fBisl_int\fP * p, unsigned len)"
+
+.SS "uint32_t isl_seq_get_hash_bits (\fBisl_int\fP * p, unsigned len, unsigned bits)"
+
+.SS "void isl_seq_inner_product (\fBisl_int\fP * p1, \fBisl_int\fP * p2, unsigned len, \fBisl_int\fP * prod)"
+
+.SS "int isl_seq_is_neg (\fBisl_int\fP * p1, \fBisl_int\fP * p2, unsigned len)"
+
+.SS "int isl_seq_last_non_zero (\fBisl_int\fP * p, unsigned len)"
+
+.SS "void isl_seq_lcm (\fBisl_int\fP * p, unsigned len, \fBisl_int\fP * lcm)"
+
+.SS "void isl_seq_neg (\fBisl_int\fP * dst, \fBisl_int\fP * src, unsigned len)"
+
+.SS "void isl_seq_normalize (struct \fBisl_ctx\fP * ctx, \fBisl_int\fP * p, unsigned len)"
+
+.SS "void isl_seq_scale (\fBisl_int\fP * dst, \fBisl_int\fP * src, \fBisl_int\fP f, unsigned len)"
+
+.SS "void isl_seq_scale_down (\fBisl_int\fP * dst, \fBisl_int\fP * src, \fBisl_int\fP f, unsigned len)"
+
+.SS "void isl_seq_set (\fBisl_int\fP * p, \fBisl_int\fP v, unsigned len)"
+
+.SS "void isl_seq_set_si (\fBisl_int\fP * p, int v, unsigned len)"
+
+.SS "void isl_seq_submul (\fBisl_int\fP * dst, \fBisl_int\fP f, \fBisl_int\fP * src, unsigned len)"
+
+.SS "void isl_seq_swp_or_cpy (\fBisl_int\fP * dst, \fBisl_int\fP * src, unsigned len)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

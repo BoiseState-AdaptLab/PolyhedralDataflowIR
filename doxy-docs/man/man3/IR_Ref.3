@@ -1,0 +1,108 @@
+.TH "IR_Ref" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IR_Ref \- Base abstract class for scalar and array references\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ir_code\&.hh>\fP
+.PP
+Inherited by \fBIR_ArrayRef\fP, \fBIR_ConstantRef\fP, \fBIR_FunctionRef\fP, \fBIR_PointerArrayRef\fP, and \fBIR_ScalarRef\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fB~IR_Ref\fP ()"
+.br
+.RI "ir_ is not the responsibility of this object "
+.ti -1c
+.RI "virtual int \fBn_dim\fP () \fBconst\fP =0"
+.br
+.ti -1c
+.RI "virtual bool \fBis_write\fP () \fBconst\fP =0"
+.br
+.ti -1c
+.RI "virtual std::string \fBname\fP () \fBconst\fP =0"
+.br
+.ti -1c
+.RI "virtual bool \fBoperator==\fP (\fBconst\fP \fBIR_Ref\fP &that) \fBconst\fP =0"
+.br
+.ti -1c
+.RI "virtual bool \fBoperator!=\fP (\fBconst\fP \fBIR_Ref\fP &that) \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual \fBomega::CG_outputRepr\fP * \fBconvert\fP ()=0"
+.br
+.ti -1c
+.RI "virtual \fBIR_Ref\fP * \fBclone\fP () \fBconst\fP =0"
+.br
+.RI "shallow copy "
+.ti -1c
+.RI "virtual void \fBDump\fP () \fBconst\fP"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBconst\fP \fBIR_Code\fP * \fBir_\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Base abstract class for scalar and array references\&. 
+
+This is a place holder for related code in IR code\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "virtual IR_Ref::~IR_Ref ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+ir_ is not the responsibility of this object 
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual \fBIR_Ref\fP* IR_Ref::clone () const\fC [pure virtual]\fP"
+
+.PP
+shallow copy 
+.PP
+Implemented in \fBIR_chillPointerArrayRef\fP, \fBIR_chillArrayRef\fP, \fBIR_chillFunctionRef\fP, \fBIR_chillScalarRef\fP, and \fBIR_chillConstantRef\fP\&.
+.SS "virtual \fBomega::CG_outputRepr\fP* IR_Ref::convert ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_chillPointerArrayRef\fP, \fBIR_chillArrayRef\fP, \fBIR_chillFunctionRef\fP, \fBIR_chillScalarRef\fP, and \fBIR_chillConstantRef\fP\&.
+.SS "virtual void IR_Ref::Dump () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBIR_chillPointerArrayRef\fP, \fBIR_chillArrayRef\fP, and \fBIR_ArrayRef\fP\&.
+.SS "virtual bool IR_Ref::is_write () const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_chillPointerArrayRef\fP, \fBIR_chillArrayRef\fP, \fBIR_chillFunctionRef\fP, \fBIR_chillScalarRef\fP, and \fBIR_ConstantRef\fP\&.
+.SS "virtual int IR_Ref::n_dim () const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_PointerArrayRef\fP, \fBIR_ArrayRef\fP, \fBIR_FunctionRef\fP, \fBIR_ScalarRef\fP, and \fBIR_ConstantRef\fP\&.
+.SS "virtual std::string IR_Ref::name () const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_chillArrayRef\fP, \fBIR_PointerArrayRef\fP, \fBIR_ArrayRef\fP, \fBIR_FunctionRef\fP, \fBIR_ScalarRef\fP, and \fBIR_ConstantRef\fP\&.
+.SS "virtual bool IR_Ref::operator!= (\fBconst\fP \fBIR_Ref\fP & that) const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Reimplemented in \fBIR_chillPointerArrayRef\fP, and \fBIR_chillArrayRef\fP\&.
+.SS "virtual bool IR_Ref::operator== (\fBconst\fP \fBIR_Ref\fP & that) const\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBIR_chillPointerArrayRef\fP, \fBIR_chillArrayRef\fP, \fBIR_chillFunctionRef\fP, \fBIR_chillScalarRef\fP, and \fBIR_chillConstantRef\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBconst\fP \fBIR_Code\fP* IR_Ref::ir_"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,101 @@
+\hypertarget{dep_8hh}{}\doxysection{lib/chill/dep.hh File Reference}
+\label{dep_8hh}\index{lib/chill/dep.hh@{lib/chill/dep.hh}}
+
+
+Data dependence vector and graph.  
+
+
+{\ttfamily \#include $<$omega.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}graph.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}ir\+\_\+code.\+hh\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}chill\+\_\+error.\+hh\char`\"{}}\newline
+Include dependency graph for dep.\+hh\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dep_8hh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dep_8hh__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}}
+\item 
+class \mbox{\hyperlink{class_dependence_graph}{Dependence\+Graph}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::vector$<$ \mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}} $>$ \mbox{\hyperlink{dep_8hh_af018d01c3dea3e8a9e6da7b95a1f5686}{Dependence\+List}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981}{Dependence\+Type}} \{ \newline
+\mbox{\hyperlink{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981a29ec40ed9c33d13fc99fe08ce00adfd5}{D\+E\+P\+\_\+\+W2R}}, 
+\mbox{\hyperlink{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981a1f7b876870a21660ec72c4232ab01f16}{D\+E\+P\+\_\+\+R2W}}, 
+\mbox{\hyperlink{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981ad5ba44f8862a89cb60b2cf35b484c7e8}{D\+E\+P\+\_\+\+W2W}}, 
+\mbox{\hyperlink{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981ad5eefd87f6fad1183d5dda309f51a9d2}{D\+E\+P\+\_\+\+R2R}}, 
+\newline
+\mbox{\hyperlink{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981aaf23448c4202286739f7557d50e0a7ff}{D\+E\+P\+\_\+\+C\+O\+N\+T\+R\+OL}}, 
+\mbox{\hyperlink{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981a2ecb8e2e432f95489643eedfbcf1241a}{D\+E\+P\+\_\+\+U\+N\+K\+N\+O\+WN}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Data dependence vector and graph. 
+
+All dependence vectors are normalized, i.\+e., the first non-\/zero distance must be positve. Thus the correct dependence meaning can be given based on source/destination pair\textquotesingle{}s read/write type. Suppose for a dependence vector 1, 0$\sim$5, -\/3), we want to permute the first and the second dimension, the result would be two dependence vectors (0, 1, -\/3) and (1$\sim$5, 1, -\/3). All operations on dependence vectors are non-\/destructive, i.\+e., new dependence vectors are returned. 
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{dep_8hh_af018d01c3dea3e8a9e6da7b95a1f5686}\label{dep_8hh_af018d01c3dea3e8a9e6da7b95a1f5686}} 
+\index{dep.hh@{dep.hh}!DependenceList@{DependenceList}}
+\index{DependenceList@{DependenceList}!dep.hh@{dep.hh}}
+\doxysubsubsection{\texorpdfstring{DependenceList}{DependenceList}}
+{\footnotesize\ttfamily typedef std\+::vector$<$\mbox{\hyperlink{struct_dependence_vector}{Dependence\+Vector}}$>$ \mbox{\hyperlink{dep_8hh_af018d01c3dea3e8a9e6da7b95a1f5686}{Dependence\+List}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981}\label{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981}} 
+\index{dep.hh@{dep.hh}!DependenceType@{DependenceType}}
+\index{DependenceType@{DependenceType}!dep.hh@{dep.hh}}
+\doxysubsubsection{\texorpdfstring{DependenceType}{DependenceType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981}{Dependence\+Type}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEP\_W2R@{DEP\_W2R}!dep.hh@{dep.hh}}\index{dep.hh@{dep.hh}!DEP\_W2R@{DEP\_W2R}}}\mbox{\Hypertarget{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981a29ec40ed9c33d13fc99fe08ce00adfd5}\label{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981a29ec40ed9c33d13fc99fe08ce00adfd5}} 
+D\+E\+P\+\_\+\+W2R&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEP\_R2W@{DEP\_R2W}!dep.hh@{dep.hh}}\index{dep.hh@{dep.hh}!DEP\_R2W@{DEP\_R2W}}}\mbox{\Hypertarget{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981a1f7b876870a21660ec72c4232ab01f16}\label{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981a1f7b876870a21660ec72c4232ab01f16}} 
+D\+E\+P\+\_\+\+R2W&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEP\_W2W@{DEP\_W2W}!dep.hh@{dep.hh}}\index{dep.hh@{dep.hh}!DEP\_W2W@{DEP\_W2W}}}\mbox{\Hypertarget{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981ad5ba44f8862a89cb60b2cf35b484c7e8}\label{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981ad5ba44f8862a89cb60b2cf35b484c7e8}} 
+D\+E\+P\+\_\+\+W2W&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEP\_R2R@{DEP\_R2R}!dep.hh@{dep.hh}}\index{dep.hh@{dep.hh}!DEP\_R2R@{DEP\_R2R}}}\mbox{\Hypertarget{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981ad5eefd87f6fad1183d5dda309f51a9d2}\label{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981ad5eefd87f6fad1183d5dda309f51a9d2}} 
+D\+E\+P\+\_\+\+R2R&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEP\_CONTROL@{DEP\_CONTROL}!dep.hh@{dep.hh}}\index{dep.hh@{dep.hh}!DEP\_CONTROL@{DEP\_CONTROL}}}\mbox{\Hypertarget{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981aaf23448c4202286739f7557d50e0a7ff}\label{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981aaf23448c4202286739f7557d50e0a7ff}} 
+D\+E\+P\+\_\+\+C\+O\+N\+T\+R\+OL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEP\_UNKNOWN@{DEP\_UNKNOWN}!dep.hh@{dep.hh}}\index{dep.hh@{dep.hh}!DEP\_UNKNOWN@{DEP\_UNKNOWN}}}\mbox{\Hypertarget{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981a2ecb8e2e432f95489643eedfbcf1241a}\label{dep_8hh_a2a4e3f06b433f85a6eb587e875ea9981a2ecb8e2e432f95489643eedfbcf1241a}} 
+D\+E\+P\+\_\+\+U\+N\+K\+N\+O\+WN&\\
+\hline
+
+\end{DoxyEnumFields}

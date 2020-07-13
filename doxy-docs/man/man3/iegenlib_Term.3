@@ -1,0 +1,334 @@
+.TH "iegenlib::Term" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+iegenlib::Term \- A coefficient multiplied by one\&. Subclasses are multiplied by other entities\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <expression\&.h>\fP
+.PP
+Inherited by \fBiegenlib::TupleExpTerm\fP, \fBiegenlib::TupleVarTerm\fP, \fBiegenlib::UFCallTerm\fP, and \fBiegenlib::VarTerm\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTerm\fP (int coeff)"
+.br
+.RI "Default constructor\&. "
+.ti -1c
+.RI "\fBTerm\fP (\fBconst\fP \fBTerm\fP &other)"
+.br
+.RI "Copy constructor\&. "
+.ti -1c
+.RI "virtual \fBTerm\fP & \fBoperator=\fP (\fBconst\fP \fBTerm\fP &other)"
+.br
+.RI "Copy assignment\&. "
+.ti -1c
+.RI "virtual \fB~Term\fP ()"
+.br
+.RI "Destructor\&. "
+.ti -1c
+.RI "virtual bool \fBoperator<\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "Comparison operator -- lexicographic order\&. "
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "equality operator "
+.ti -1c
+.RI "virtual \fBTerm\fP * \fBclone\fP () \fBconst\fP"
+.br
+.RI "Create a copy of this \fBTerm\fP (and of the same subclass) "
+.ti -1c
+.RI "virtual std::string \fBtoString\fP (bool absValue=false) \fBconst\fP"
+.br
+.RI "Creates a compact string to help with debugging\&. "
+.ti -1c
+.RI "virtual std::string \fBprettyPrintString\fP (\fBconst\fP \fBTupleDecl\fP &aTupleDecl, bool absValue=false) \fBconst\fP"
+.br
+.RI "Creates a compact string pretty printed\&. "
+.ti -1c
+.RI "virtual std::string \fBtoDotString\fP (bool absValue=false) \fBconst\fP"
+.br
+.RI "Creates a brief compact string to help with DOT output\&. "
+.ti -1c
+.RI "int \fBcoefficient\fP () \fBconst\fP"
+.br
+.RI "Get the coefficient of this term\&. "
+.ti -1c
+.RI "void \fBsetCoefficient\fP (int coeff)"
+.br
+.RI "\fBSet\fP the coefficient of this term\&. "
+.ti -1c
+.RI "virtual bool \fBisUFCall\fP () \fBconst\fP"
+.br
+.RI "Returns true if the \fBTerm\fP is really a \fBUFCallTerm\fP\&. "
+.ti -1c
+.RI "virtual bool \fBisTupleExp\fP () \fBconst\fP"
+.br
+.RI "Returns true if the \fBTerm\fP is really a \fBTupleExpTerm\fP\&. "
+.ti -1c
+.RI "virtual bool \fBisConst\fP () \fBconst\fP"
+.br
+.RI "Returns true if the \fBTerm\fP is a const\&. "
+.ti -1c
+.RI "void \fBmultiplyBy\fP (int constant)"
+.br
+.RI "Returns true if the \fBTerm\fP is a \fBVarTerm\fP\&. "
+.ti -1c
+.RI "void \fBdivideBy\fP (int divisor)"
+.br
+.RI "Divide the coefficient by a constant\&. "
+.ti -1c
+.RI "virtual bool \fBfactorMatches\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.RI "Returns true if this term can be combined with the given term\&. "
+.ti -1c
+.RI "virtual bool \fBcombine\fP (\fBTerm\fP *other)"
+.br
+.ti -1c
+.RI "virtual std::string \fBtype\fP () \fBconst\fP"
+.br
+.RI "Returns string of subclass type\&. "
+.ti -1c
+.RI "virtual \fBExp\fP * \fBcollapseNestedInvertibleFunctions\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "virtual void \fBacceptVisitor\fP (\fBVisitor\fP *v)"
+.br
+.RI "\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. "
+.in -1c
+.SS "Protected Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBtermtype\fP { \fBTupleVar\fP, \fBSymConst\fP, \fBUFCall\fP, \fBConstVal\fP, \fBTupleExp\fP }"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtermtype\fP \fBgetTermType\fP () \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBsetTermType\fP (\fBtermtype\fP tt)"
+.br
+.ti -1c
+.RI "int \fBcompareTermTypes\fP (\fBconst\fP \fBTerm\fP &other) \fBconst\fP"
+.br
+.ti -1c
+.RI "void \fBcoeffToStream\fP (std::stringstream &ss, bool absValue) \fBconst\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A coefficient multiplied by one\&. Subclasses are multiplied by other entities\&. 
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBiegenlib::Term::termtype\fP\fC [protected]\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fITupleVar \fP\fP
+.TP
+\fB\fISymConst \fP\fP
+.TP
+\fB\fIUFCall \fP\fP
+.TP
+\fB\fIConstVal \fP\fP
+.TP
+\fB\fITupleExp \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "iegenlib::Term::Term (int coeff)\fC [inline]\fP"
+
+.PP
+Default constructor\&. 
+.SS "iegenlib::Term::Term (\fBconst\fP \fBTerm\fP & other)"
+
+.PP
+Copy constructor\&. 
+.SS "virtual iegenlib::Term::~Term ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Destructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void iegenlib::Term::acceptVisitor (\fBVisitor\fP * v)\fC [virtual]\fP"
+
+.PP
+\fBVisitor\fP design pattern, see \fBVisitor\&.h\fP for usage\&. The acceptVisitor code does the traversal of the data structure and calls a particular \fBVisitor\fP subclass visit methods for a node after children nodes in the data structure have been visited\&. 
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP, \fBiegenlib::VarTerm\fP, \fBiegenlib::TupleVarTerm\fP, and \fBiegenlib::UFCallTerm\fP\&.
+.SS "\fBTerm\fP * iegenlib::Term::clone () const\fC [virtual]\fP"
+
+.PP
+Create a copy of this \fBTerm\fP (and of the same subclass) We need a clone method because \fBTerm\fP has subclasses\&. We don't always know what copy constructor to use\&. 
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP, \fBiegenlib::VarTerm\fP, \fBiegenlib::TupleVarTerm\fP, and \fBiegenlib::UFCallTerm\fP\&.
+.SS "int iegenlib::Term::coefficient () const\fC [inline]\fP"
+
+.PP
+Get the coefficient of this term\&. 
+.SS "void iegenlib::Term::coeffToStream (std::stringstream & ss, bool absValue) const\fC [protected]\fP"
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIabsValue\fP Will use absolute value of coeff if true\&.
+.RE
+.PP
+coeffToStream: output the coefficient to the stream, if it is not equal to one; this is used mainly by the subclasses, as part of their \fBtoString()\fP process\&. 
+.SS "\fBExp\fP * iegenlib::Term::collapseNestedInvertibleFunctions () const\fC [virtual]\fP"
+Return a new \fBExp\fP with all nested functions such as f ( f_inv ( i ) ) changed to i\&. 
+.PP
+Reimplemented in \fBiegenlib::UFCallTerm\fP\&.
+.SS "bool iegenlib::Term::combine (\fBTerm\fP * other)\fC [virtual]\fP"
+Combine another term into this one, if possible, by adding coefficients of corresponding factors\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIother\fP -- term to attempt to combine with this one\&.(adopt) 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if other was combined with this one; false otherwise 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP\&.
+.SS "int iegenlib::Term::compareTermTypes (\fBconst\fP \fBTerm\fP & other) const\fC [protected]\fP"
+Return -1 if this mTermType < other\&.mTermType, 1 if this mTermType > other\&.mTermType, and 0 if the mTermTypes are identical\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.SS "void iegenlib::Term::divideBy (int divisor)"
+
+.PP
+Divide the coefficient by a constant\&. 
+.SS "bool iegenlib::Term::factorMatches (\fBconst\fP \fBTerm\fP & other) const\fC [virtual]\fP"
+
+.PP
+Returns true if this term can be combined with the given term\&. Returns true if this term has the same factor (i\&.e\&. everything except the coefficient) as the given other term\&. 
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP, \fBiegenlib::VarTerm\fP, \fBiegenlib::TupleVarTerm\fP, and \fBiegenlib::UFCallTerm\fP\&.
+.SS "\fBtermtype\fP iegenlib::Term::getTermType () const\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "virtual bool iegenlib::Term::isConst () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the \fBTerm\fP is a const\&. 
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP, \fBiegenlib::VarTerm\fP, \fBiegenlib::TupleVarTerm\fP, and \fBiegenlib::UFCallTerm\fP\&.
+.SS "virtual bool iegenlib::Term::isTupleExp () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the \fBTerm\fP is really a \fBTupleExpTerm\fP\&. 
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP\&.
+.SS "virtual bool iegenlib::Term::isUFCall () const\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Returns true if the \fBTerm\fP is really a \fBUFCallTerm\fP\&. 
+.PP
+Reimplemented in \fBiegenlib::UFCallTerm\fP\&.
+.SS "void iegenlib::Term::multiplyBy (int constant)"
+
+.PP
+Returns true if the \fBTerm\fP is a \fBVarTerm\fP\&. Returns true if the \fBTerm\fP is a \fBTupleVarTerm\fP Multiply the coefficient by a constant\&. 
+.SS "bool iegenlib::Term::operator< (\fBconst\fP \fBTerm\fP & other) const\fC [virtual]\fP"
+
+.PP
+Comparison operator -- lexicographic order\&. Compare two terms in a canonical order, defined as follows:
+.IP "1." 4
+by term type: TupleVar, SymConst, UFCall, ConstVal
+.IP "2." 4
+within each type, in alphabetical or numeric order\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIother,object\fP to be compared 
+.RE
+.PP
+
+.PP
+
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP, \fBiegenlib::VarTerm\fP, \fBiegenlib::TupleVarTerm\fP, and \fBiegenlib::UFCallTerm\fP\&.
+.SS "\fBTerm\fP & iegenlib::Term::operator= (\fBconst\fP \fBTerm\fP & other)\fC [virtual]\fP"
+
+.PP
+Copy assignment\&. 
+.SS "bool iegenlib::Term::operator== (\fBconst\fP \fBTerm\fP & other) const\fC [inline]\fP"
+
+.PP
+equality operator 
+.SS "std::string iegenlib::Term::prettyPrintString (\fBconst\fP \fBTupleDecl\fP & aTupleDecl, bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Creates a compact string pretty printed\&. Creates a compact string, pretty printed\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIaTupleDecl\fP name or constant for each tuple var 
+.br
+\fIabsValue\fP Will use absolute value of coeff if true\&. 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP, \fBiegenlib::VarTerm\fP, \fBiegenlib::TupleVarTerm\fP, and \fBiegenlib::UFCallTerm\fP\&.
+.SS "void iegenlib::Term::setCoefficient (int coeff)\fC [inline]\fP"
+
+.PP
+\fBSet\fP the coefficient of this term\&. 
+.SS "void iegenlib::Term::setTermType (\fBtermtype\fP tt)\fC [inline]\fP, \fC [protected]\fP"
+
+.SS "std::string iegenlib::Term::toDotString (bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Creates a brief compact string to help with DOT output\&. Creates a brief compact string to help with DOT output\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIabsValue\fP Will use absolute value of coeff if true\&. 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP, and \fBiegenlib::UFCallTerm\fP\&.
+.SS "std::string iegenlib::Term::toString (bool absValue = \fCfalse\fP) const\fC [virtual]\fP"
+
+.PP
+Creates a compact string to help with debugging\&. Creates a compact string to help with debugging\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIabsValue\fP Will use absolute value of coeff if true\&. 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP, \fBiegenlib::VarTerm\fP, \fBiegenlib::TupleVarTerm\fP, and \fBiegenlib::UFCallTerm\fP\&.
+.SS "std::string iegenlib::Term::type () const\fC [virtual]\fP"
+
+.PP
+Returns string of subclass type\&. 
+.PP
+Reimplemented in \fBiegenlib::TupleExpTerm\fP, \fBiegenlib::VarTerm\fP, \fBiegenlib::TupleVarTerm\fP, and \fBiegenlib::UFCallTerm\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

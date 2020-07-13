@@ -1,0 +1,71 @@
+.TH "lib/isl/include/isl/multi.h" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/include/isl/multi.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/space\&.h>\fP
+.br
+\fC#include <isl/list\&.h>\fP
+.br
+\fC#include <isl/set_type\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBISL_DECLARE_MULTI\fP(\fBBASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBISL_DECLARE_MULTI_NEG\fP(\fBBASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBISL_DECLARE_MULTI_DIMS\fP(\fBBASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBISL_DECLARE_MULTI_WITH_DOMAIN\fP(\fBBASE\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ISL_DECLARE_MULTI(\fBBASE\fP)"
+
+.SS "#define ISL_DECLARE_MULTI_DIMS(\fBBASE\fP)"
+\fBValue:\fP
+.PP
+.nf
+isl_bool isl_multi_##BASE##_involves_dims(              \
+    __isl_keep isl_multi_##BASE *multi, enum isl_dim_type type, \
+    unsigned first, unsigned n);                    \
+__isl_give isl_multi_##BASE *isl_multi_##BASE##_insert_dims(        \
+    __isl_take isl_multi_##BASE *multi, enum isl_dim_type type, \
+    unsigned first, unsigned n);                    \
+__isl_give isl_multi_##BASE *isl_multi_##BASE##_add_dims(       \
+    __isl_take isl_multi_##BASE *multi, enum isl_dim_type type, \
+    unsigned n);
+.fi
+.SS "#define ISL_DECLARE_MULTI_NEG(\fBBASE\fP)"
+\fBValue:\fP
+.PP
+.nf
+__isl_give isl_multi_##BASE *isl_multi_##BASE##_neg(         \
+    __isl_take isl_multi_##BASE *multi);
+.fi
+.SS "#define ISL_DECLARE_MULTI_WITH_DOMAIN(\fBBASE\fP)"
+\fBValue:\fP
+.PP
+.nf
+__isl_export                             \
+__isl_give isl_multi_##BASE *isl_multi_##BASE##_product(        \
+    __isl_take isl_multi_##BASE *multi1,                \
+    __isl_take isl_multi_##BASE *multi2);               \
+__isl_give isl_multi_##BASE *isl_multi_##BASE##_splice(         \
+    __isl_take isl_multi_##BASE *multi1, unsigned in_pos,       \
+    unsigned out_pos, __isl_take isl_multi_##BASE *multi2);
+.fi
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,302 @@
+.TH "Benchmark" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Benchmark
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Benchmark\&.h>\fP
+.PP
+Inherited by \fBBCSRBenchmark\fP, and \fBMiniFluxBenchmark\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBenchmark\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~Benchmark\fP ()"
+.br
+.ti -1c
+.RI "bool \fBvalid\fP ()"
+.br
+.ti -1c
+.RI "double \fBrunTime\fP ()"
+.br
+.ti -1c
+.RI "double \fBspeedup\fP ()"
+.br
+.ti -1c
+.RI "string & \fBname\fP ()"
+.br
+.ti -1c
+.RI "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> & \fBexecFunction\fP ()"
+.br
+.ti -1c
+.RI "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> & \fBevalFunction\fP ()"
+.br
+.ti -1c
+.RI "function< bool(\fBDType\fP **, \fBDType\fP **, \fBConfiguration\fP &, vector< int > &)> \fBcompFunction\fP ()"
+.br
+.ti -1c
+.RI "void \fBstart\fP ()"
+.br
+.ti -1c
+.RI "void \fBstop\fP ()"
+.br
+.ti -1c
+.RI "bool \fBsetNumThreads\fP (int nThreads)"
+.br
+.ti -1c
+.RI "virtual void \fBinit\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBfinish\fP ()=0"
+.br
+.ti -1c
+.RI "virtual string \fBerror\fP ()=0"
+.br
+.ti -1c
+.RI "void \fBrun\fP ()"
+.br
+.ti -1c
+.RI "void \fBreport\fP ()"
+.br
+.ti -1c
+.RI "\fBBenchmark\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~Benchmark\fP ()"
+.br
+.ti -1c
+.RI "bool \fBvalid\fP ()"
+.br
+.ti -1c
+.RI "double \fBrunTime\fP ()"
+.br
+.ti -1c
+.RI "double \fBspeedup\fP ()"
+.br
+.ti -1c
+.RI "string & \fBname\fP ()"
+.br
+.ti -1c
+.RI "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> & \fBexecFunction\fP ()"
+.br
+.ti -1c
+.RI "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> & \fBevalFunction\fP ()"
+.br
+.ti -1c
+.RI "function< bool(\fBDType\fP **, \fBDType\fP **, \fBConfiguration\fP &, vector< int > &)> \fBcompFunction\fP ()"
+.br
+.ti -1c
+.RI "void \fBstart\fP ()"
+.br
+.ti -1c
+.RI "void \fBstop\fP ()"
+.br
+.ti -1c
+.RI "bool \fBsetNumThreads\fP (int nThreads)"
+.br
+.ti -1c
+.RI "virtual void \fBinit\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBfinish\fP ()=0"
+.br
+.ti -1c
+.RI "virtual string \fBerror\fP ()=0"
+.br
+.ti -1c
+.RI "void \fBrun\fP ()"
+.br
+.ti -1c
+.RI "void \fBreport\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBConfiguration\fP \fB_config\fP"
+.br
+.ti -1c
+.RI "\fBMeasurements\fP \fB_meas\fP"
+.br
+.ti -1c
+.RI "bool \fB_status\fP = false"
+.br
+.ti -1c
+.RI "bool \fB_verify\fP = false"
+.br
+.ti -1c
+.RI "double \fB_startTime\fP = 0\&.0"
+.br
+.ti -1c
+.RI "double \fB_stopTime\fP = 0\&.0"
+.br
+.ti -1c
+.RI "double \fB_runTime\fP = 0\&.0"
+.br
+.ti -1c
+.RI "double \fB_evalTime\fP = 0\&.0"
+.br
+.ti -1c
+.RI "\fBDType\fP ** \fB_inputData\fP = nullptr"
+.br
+.ti -1c
+.RI "\fBDType\fP ** \fB_outputData\fP = nullptr"
+.br
+.ti -1c
+.RI "\fBDType\fP ** \fB_verifyData\fP = nullptr"
+.br
+.ti -1c
+.RI "int \fB_nRows\fP = 0"
+.br
+.ti -1c
+.RI "int \fB_nCols\fP = 1"
+.br
+.ti -1c
+.RI "string \fB_name\fP = ''"
+.br
+.ti -1c
+.RI "vector< int > \fB_errorLoc\fP"
+.br
+.ti -1c
+.RI "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> \fB_execFxn\fP"
+.br
+.ti -1c
+.RI "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> \fB_evalFxn\fP"
+.br
+.ti -1c
+.RI "function< bool(\fBDType\fP **, \fBDType\fP **, \fBConfiguration\fP &, vector< int > &)> \fB_compFxn\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Benchmark::Benchmark ()\fC [inline]\fP"
+
+.SS "virtual Benchmark::~Benchmark ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SS "Benchmark::Benchmark ()\fC [inline]\fP"
+
+.SS "virtual Benchmark::~Benchmark ()\fC [inline]\fP, \fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "function< bool(\fBDType\fP **, \fBDType\fP **, \fBConfiguration\fP &, vector< int > &)> Benchmark::compFunction ()"
+
+.SS "function<bool(\fBDType\fP**, \fBDType\fP**, \fBConfiguration\fP&, vector<int>&)> Benchmark::compFunction ()"
+
+.SS "virtual string Benchmark::error ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBBCSRBenchmark\fP, \fBMiniFluxBenchmark\fP, \fBMiniFluxBenchmark\fP, and \fBMiniFluxBenchmark\fP\&.
+.SS "virtual string Benchmark::error ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBBCSRBenchmark\fP, \fBMiniFluxBenchmark\fP, \fBMiniFluxBenchmark\fP, and \fBMiniFluxBenchmark\fP\&.
+.SS "function<void(\fBDType\fP**, \fBDType\fP**, \fBDType\fP*, \fBConfiguration\fP&)>& Benchmark::evalFunction ()"
+
+.SS "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> & Benchmark::evalFunction ()"
+
+.SS "function<void(\fBDType\fP**, \fBDType\fP**, \fBDType\fP*, \fBConfiguration\fP&)>& Benchmark::execFunction ()"
+
+.SS "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> & Benchmark::execFunction ()"
+
+.SS "virtual void Benchmark::finish ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBBCSRBenchmark\fP, \fBMiniFluxBenchmark\fP, \fBMiniFluxBenchmark\fP, and \fBMiniFluxBenchmark\fP\&.
+.SS "virtual void Benchmark::finish ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBBCSRBenchmark\fP, \fBMiniFluxBenchmark\fP, \fBMiniFluxBenchmark\fP, and \fBMiniFluxBenchmark\fP\&.
+.SS "virtual void Benchmark::init ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBMiniFluxBenchmark\fP, \fBMiniFluxBenchmark\fP, \fBMiniFluxBenchmark\fP, and \fBBCSRBenchmark\fP\&.
+.SS "virtual void Benchmark::init ()\fC [pure virtual]\fP"
+
+.PP
+Implemented in \fBMiniFluxBenchmark\fP, \fBMiniFluxBenchmark\fP, \fBMiniFluxBenchmark\fP, and \fBBCSRBenchmark\fP\&.
+.SS "string& Benchmark::name ()"
+
+.SS "string & Benchmark::name ()"
+
+.SS "void Benchmark::report ()"
+
+.SS "void Benchmark::report ()"
+
+.SS "void Benchmark::run ()"
+
+.SS "void Benchmark::run ()"
+
+.SS "double Benchmark::runTime ()"
+
+.SS "double Benchmark::runTime ()"
+
+.SS "bool Benchmark::setNumThreads (int nThreads)"
+
+.SS "bool Benchmark::setNumThreads (int nThreads)"
+
+.SS "double Benchmark::speedup ()"
+
+.SS "double Benchmark::speedup ()"
+
+.SS "void Benchmark::start ()"
+
+.SS "void Benchmark::start ()"
+
+.SS "void Benchmark::stop ()"
+
+.SS "void Benchmark::stop ()"
+
+.SS "bool Benchmark::valid ()"
+
+.SS "bool Benchmark::valid ()"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "function< bool(\fBDType\fP **, \fBDType\fP **, \fBConfiguration\fP &, vector< int > &)> Benchmark::_compFxn\fC [protected]\fP"
+
+.SS "\fBConfiguration\fP Benchmark::_config\fC [protected]\fP"
+
+.SS "vector< int > Benchmark::_errorLoc\fC [protected]\fP"
+
+.SS "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> Benchmark::_evalFxn\fC [protected]\fP"
+
+.SS "double Benchmark::_evalTime = 0\&.0\fC [protected]\fP"
+
+.SS "function< void(\fBDType\fP **, \fBDType\fP **, \fBDType\fP *, \fBConfiguration\fP &)> Benchmark::_execFxn\fC [protected]\fP"
+
+.SS "\fBDType\fP ** Benchmark::_inputData = nullptr\fC [protected]\fP"
+
+.SS "\fBMeasurements\fP Benchmark::_meas\fC [protected]\fP"
+
+.SS "string Benchmark::_name = ''\fC [protected]\fP"
+
+.SS "int Benchmark::_nCols = 1\fC [protected]\fP"
+
+.SS "int Benchmark::_nRows = 0\fC [protected]\fP"
+
+.SS "\fBDType\fP ** Benchmark::_outputData = nullptr\fC [protected]\fP"
+
+.SS "double Benchmark::_runTime = 0\&.0\fC [protected]\fP"
+
+.SS "double Benchmark::_startTime = 0\&.0\fC [protected]\fP"
+
+.SS "bool Benchmark::_status = false\fC [protected]\fP"
+
+.SS "double Benchmark::_stopTime = 0\&.0\fC [protected]\fP"
+
+.SS "bool Benchmark::_verify = false\fC [protected]\fP"
+
+.SS "\fBDType\fP ** Benchmark::_verifyData = nullptr\fC [protected]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

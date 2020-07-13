@@ -1,0 +1,464 @@
+.TH "lib/isl/isl_schedule_tree.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_schedule_tree.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl/map\&.h>\fP
+.br
+\fC#include <isl_schedule_band\&.h>\fP
+.br
+\fC#include <isl_schedule_private\&.h>\fP
+.br
+\fC#include <isl_list_templ\&.h>\fP
+.br
+\fC#include <isl_list_templ\&.c>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBEL\fP   \fBisl_schedule_tree\fP"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   schedule_tree"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBisl_schedule_tree_is_leaf\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_take\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_dup\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_cow\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_copy\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_free\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_leaf\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_band\fP (\fB__isl_take\fP \fBisl_schedule_band\fP *band)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_context\fP (\fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_domain\fP (\fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_expansion\fP (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *contraction, \fB__isl_take\fP \fBisl_union_map\fP *expansion)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_extension\fP (\fB__isl_take\fP \fBisl_union_map\fP *extension)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_filter\fP (\fB__isl_take\fP \fBisl_union_set\fP *filter)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_guard\fP (\fB__isl_take\fP \fBisl_set\fP *guard)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_mark\fP (\fB__isl_take\fP \fBisl_id\fP *\fBmark\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_schedule_tree_is_subtree_anchored\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "int \fBisl_schedule_tree_is_anchored\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_update_anchored\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_children\fP (enum \fBisl_schedule_node_type\fP type, \fB__isl_take\fP isl_schedule_tree_list *list)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_from_pair\fP (enum \fBisl_schedule_node_type\fP type, \fB__isl_take\fP \fBisl_schedule_tree\fP *tree1, \fB__isl_take\fP \fBisl_schedule_tree\fP *tree2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_sequence_pair\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree1, \fB__isl_take\fP \fBisl_schedule_tree\fP *tree2)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_schedule_tree_get_ctx\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "enum \fBisl_schedule_node_type\fP \fBisl_schedule_tree_get_type\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_schedule_tree_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree1, \fB__isl_keep\fP \fBisl_schedule_tree\fP *tree2)"
+.br
+.ti -1c
+.RI "int \fBisl_schedule_tree_has_children\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "int \fBisl_schedule_tree_n_children\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_get_child\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_child\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_reset_children\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_drop_child\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_replace_child\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP, \fB__isl_take\fP \fBisl_schedule_tree\fP *child)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_set_children\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP isl_schedule_tree_list *children)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_insert_band\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_schedule_band\fP *band)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_insert_context\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_insert_domain\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_insert_expansion\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *contraction, \fB__isl_take\fP \fBisl_union_map\fP *expansion)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_insert_extension\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_map\fP *extension)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_insert_filter\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_set\fP *filter)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_children_insert_filter\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_set\fP *filter)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_insert_guard\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_set\fP *guard)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_insert_mark\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_id\fP *\fBmark\fP)"
+.br
+.ti -1c
+.RI "unsigned \fBisl_schedule_tree_band_n_member\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_schedule_tree_band_member_get_coincident\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_member_set_coincident\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP, int coincident)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_schedule_tree_band_get_permutable\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_set_permutable\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, int permutable)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_schedule_tree_band_get_space\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_intersect_domain\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP * \fBisl_schedule_tree_band_get_partial_schedule\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_set_partial_schedule\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *schedule)"
+.br
+.ti -1c
+.RI "enum \fBisl_ast_loop_type\fP \fBisl_schedule_tree_band_member_get_ast_loop_type\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_member_set_ast_loop_type\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP, enum \fBisl_ast_loop_type\fP type)"
+.br
+.ti -1c
+.RI "enum \fBisl_ast_loop_type\fP \fBisl_schedule_tree_band_member_get_isolate_ast_loop_type\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_member_set_isolate_ast_loop_type\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP, enum \fBisl_ast_loop_type\fP type)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_schedule_tree_band_get_ast_build_options\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_set_ast_build_options\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_set\fP *\fBoptions\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_schedule_tree_context_get_context\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_schedule_tree_domain_get_domain\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_domain_set_domain\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_set\fP *\fBdomain\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP * \fBisl_schedule_tree_expansion_get_contraction\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_tree_expansion_get_expansion\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_expansion_set_contraction_and_expansion\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *contraction, \fB__isl_take\fP \fBisl_union_map\fP *expansion)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_tree_extension_get_extension\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_extension_set_extension\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_map\fP *extension)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_set\fP * \fBisl_schedule_tree_filter_get_filter\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_filter_set_filter\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_set\fP *filter)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_set\fP * \fBisl_schedule_tree_guard_get_guard\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_id\fP * \fBisl_schedule_tree_mark_get_id\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_first_schedule_descendant\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_keep\fP \fBisl_schedule_tree\fP *leaf)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_union_map\fP * \fBisl_schedule_tree_get_subtree_schedule_union_map\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_scale\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_scale_down\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_mod\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_multi_val\fP *mv)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_shift\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP *shift)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_sequence_splice\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP, \fB__isl_take\fP \fBisl_schedule_tree\fP *child)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_tile\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_multi_val\fP *sizes)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_split\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, int \fBpos\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_append_to_leaves\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree1, \fB__isl_take\fP \fBisl_schedule_tree\fP *tree2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_reset_user\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_align_params\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_pullback_union_pw_multi_aff\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP *upma)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_schedule_tree\fP * \fBisl_schedule_tree_band_gist\fP (\fB__isl_take\fP \fBisl_schedule_tree\fP *tree, \fB__isl_take\fP \fBisl_union_set\fP *\fBcontext\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_schedule_tree_mark\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_schedule_tree\fP *tree, int n_ancestor, int *child_pos)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_schedule_tree\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.ti -1c
+.RI "void \fBisl_schedule_tree_dump\fP (\fB__isl_keep\fP \fBisl_schedule_tree\fP *tree)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BASE   schedule_tree"
+
+.SS "#define EL   \fBisl_schedule_tree\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_schedule_tree (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_schedule_tree_mark (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_schedule_tree\fP * tree, int n_ancestor, int * child_pos)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_align_params (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_append_to_leaves (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree1, \fB__isl_take\fP \fBisl_schedule_tree\fP * tree2)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_schedule_tree_band_get_ast_build_options (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_union_pw_aff\fP* isl_schedule_tree_band_get_partial_schedule (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fBisl_bool\fP isl_schedule_tree_band_get_permutable (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_schedule_tree_band_get_space (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_gist (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_intersect_domain (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_set\fP * domain)"
+
+.SS "enum \fBisl_ast_loop_type\fP isl_schedule_tree_band_member_get_ast_loop_type (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree, int pos)"
+
+.SS "\fBisl_bool\fP isl_schedule_tree_band_member_get_coincident (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree, int pos)"
+
+.SS "enum \fBisl_ast_loop_type\fP isl_schedule_tree_band_member_get_isolate_ast_loop_type (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_member_set_ast_loop_type (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, int pos, enum \fBisl_ast_loop_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_member_set_coincident (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, int pos, int coincident)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_member_set_isolate_ast_loop_type (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, int pos, enum \fBisl_ast_loop_type\fP type)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_mod (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_multi_val\fP * mv)"
+
+.SS "unsigned isl_schedule_tree_band_n_member (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_scale (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_multi_val\fP * mv)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_scale_down (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_multi_val\fP * mv)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_set_ast_build_options (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_set\fP * options)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_set_partial_schedule (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * schedule)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_set_permutable (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, int permutable)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_shift (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_multi_union_pw_aff\fP * shift)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_split (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_band_tile (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_multi_val\fP * sizes)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_child (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, int pos)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_children_insert_filter (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_set\fP * filter)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_schedule_tree_context_get_context (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_copy (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_cow (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_schedule_tree_domain_get_domain (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_domain_set_domain (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_set\fP * domain)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_drop_child (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, int pos)"
+
+.SS "void isl_schedule_tree_dump (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_take\fP \fBisl_schedule_tree\fP* isl_schedule_tree_dup (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_union_pw_multi_aff\fP* isl_schedule_tree_expansion_get_contraction (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_tree_expansion_get_expansion (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_expansion_set_contraction_and_expansion (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * contraction, \fB__isl_take\fP \fBisl_union_map\fP * expansion)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_tree_extension_get_extension (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_extension_set_extension (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_map\fP * extension)"
+
+.SS "\fB__isl_give\fP \fBisl_union_set\fP* isl_schedule_tree_filter_get_filter (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_filter_set_filter (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_set\fP * filter)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_first_schedule_descendant (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_keep\fP \fBisl_schedule_tree\fP * leaf)"
+
+.SS "\fB__isl_null\fP \fBisl_schedule_tree\fP* isl_schedule_tree_free (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_band (\fB__isl_take\fP \fBisl_schedule_band\fP * band)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_children (enum \fBisl_schedule_node_type\fP type, \fB__isl_take\fP isl_schedule_tree_list * list)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_context (\fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_domain (\fB__isl_take\fP \fBisl_union_set\fP * domain)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_expansion (\fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * contraction, \fB__isl_take\fP \fBisl_union_map\fP * expansion)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_extension (\fB__isl_take\fP \fBisl_union_map\fP * extension)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_filter (\fB__isl_take\fP \fBisl_union_set\fP * filter)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_guard (\fB__isl_take\fP \fBisl_set\fP * guard)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_mark (\fB__isl_take\fP \fBisl_id\fP * mark)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_from_pair (enum \fBisl_schedule_node_type\fP type, \fB__isl_take\fP \fBisl_schedule_tree\fP * tree1, \fB__isl_take\fP \fBisl_schedule_tree\fP * tree2)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_get_child (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree, int pos)"
+
+.SS "\fBisl_ctx\fP* isl_schedule_tree_get_ctx (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_union_map\fP* isl_schedule_tree_get_subtree_schedule_union_map (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "enum \fBisl_schedule_node_type\fP isl_schedule_tree_get_type (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_set\fP* isl_schedule_tree_guard_get_guard (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "int isl_schedule_tree_has_children (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_insert_band (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_schedule_band\fP * band)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_insert_context (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_set\fP * context)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_insert_domain (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_set\fP * domain)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_insert_expansion (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * contraction, \fB__isl_take\fP \fBisl_union_map\fP * expansion)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_insert_extension (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_map\fP * extension)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_insert_filter (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_set\fP * filter)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_insert_guard (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_set\fP * guard)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_insert_mark (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_id\fP * mark)"
+
+.SS "int isl_schedule_tree_is_anchored (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "int isl_schedule_tree_is_leaf (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fBisl_bool\fP isl_schedule_tree_is_subtree_anchored (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_leaf (\fBisl_ctx\fP * ctx)"
+
+.SS "\fB__isl_give\fP \fBisl_id\fP* isl_schedule_tree_mark_get_id (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "int isl_schedule_tree_n_children (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fBisl_bool\fP isl_schedule_tree_plain_is_equal (\fB__isl_keep\fP \fBisl_schedule_tree\fP * tree1, \fB__isl_keep\fP \fBisl_schedule_tree\fP * tree2)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_pullback_union_pw_multi_aff (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP \fBisl_union_pw_multi_aff\fP * upma)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_replace_child (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, int pos, \fB__isl_take\fP \fBisl_schedule_tree\fP * child)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_reset_children (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_reset_user (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_sequence_pair (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree1, \fB__isl_take\fP \fBisl_schedule_tree\fP * tree2)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_sequence_splice (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, int pos, \fB__isl_take\fP \fBisl_schedule_tree\fP * child)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_set_children (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree, \fB__isl_take\fP isl_schedule_tree_list * children)"
+
+.SS "\fB__isl_give\fP \fBisl_schedule_tree\fP* isl_schedule_tree_update_anchored (\fB__isl_take\fP \fBisl_schedule_tree\fP * tree)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

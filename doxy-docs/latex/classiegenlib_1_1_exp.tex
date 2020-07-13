@@ -1,0 +1,963 @@
+\hypertarget{classiegenlib_1_1_exp}{}\doxysection{iegenlib\+::Exp Class Reference}
+\label{classiegenlib_1_1_exp}\index{iegenlib::Exp@{iegenlib::Exp}}
+
+
+An affine expression that allows uninterpreted function call terms.  
+
+
+
+
+{\ttfamily \#include $<$expression.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_exp_ab6f0fd50aaf88266fbb79a214c49c0d4}{Exp}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classiegenlib_1_1_exp_a62abb4b1d0bf63bf4bb7e17372184c57}{Exp}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. Performs a deep copy. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \& \mbox{\hyperlink{classiegenlib_1_1_exp_a946acfa0d8309bd2b49aa8902da0ba5a}{operator=}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy assignment. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_aa3bbc437ff96892acb45928a43208336}{reset}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classiegenlib_1_1_exp_a5e2ee8bf01f6d2a750f9f72b3b7c2271}{$\sim$\+Exp}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$ \mbox{\hyperlink{classiegenlib_1_1_exp_acc612ac703e80e859675237e8d2b7ae1}{clone}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Create a copy of this \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} (and of the same subclass) \end{DoxyCompactList}\item 
+virtual std\+::string \mbox{\hyperlink{classiegenlib_1_1_exp_a3b4b80d89cb3fed917cf3966df869e39}{to\+String}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Creates a compact string to help with debugging. \end{DoxyCompactList}\item 
+virtual std\+::string \mbox{\hyperlink{classiegenlib_1_1_exp_afa7b42e8d70edf6ef5c190d6be5a8866}{pretty\+Print\+String}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_tuple_decl}{Tuple\+Decl}} \&a\+Tuple\+Decl) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Convert to a human-\/readable string (substitute in tuple vars). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_ae8fb5182c5bf4ba759cdb1d3b927d4a4}{add\+Term}} (\mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$term)
+\begin{DoxyCompactList}\small\item\em Add a term to this expression. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_a86c8b709083fc08fa16fda2a922c152d}{add\+Exp}} (\mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$exp)
+\begin{DoxyCompactList}\small\item\em Add another expression to this one. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_a1a6b86abe42b0a036d2ac03713161f4d}{multiply\+By}} (int constant)
+\begin{DoxyCompactList}\small\item\em Multiply all terms in this expression by a constant. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_a77a43b9de53d171a5bb98154033942a4}{is\+Divisible}} (int divisor) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_af5f82a6792ea85d72bd8344ac12d754b}{divide\+By}} (int divisor)
+\begin{DoxyCompactList}\small\item\em Divide all coefficients and the constant term by the given divisor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$ \mbox{\hyperlink{classiegenlib_1_1_exp_a8a0e8cb99a2c1e1bd7c7855bfe0c5222}{solve\+For\+Factor}} (\mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$\mbox{\hyperlink{gen-psqr_8c_a3780a003ed134be1cdcc69b3cdf84c45}{factor}}) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$ \mbox{\hyperlink{classiegenlib_1_1_exp_a37ac41a4e3da43c1d59b7acd94397f5f}{invert\+Func\+To\+Expose\+Factor}} (\mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$\mbox{\hyperlink{gen-psqr_8c_a3780a003ed134be1cdcc69b3cdf84c45}{factor}}) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em F\+I\+X\+ME\+: should only work on equality expressions. Really? \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_a94857663a08bd6db7ec3351a936ae721}{substitute}} (\mbox{\hyperlink{classiegenlib_1_1_sub_map}{Sub\+Map}} \&search\+Term\+To\+Sub\+Exp)
+\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_a962593123e1dfcceb7dd1346c8cd7fa5}{normalize\+For\+Equality}} ()
+\begin{DoxyCompactList}\small\item\em F\+I\+X\+ME\+: should only work on equality expressions. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$ \mbox{\hyperlink{classiegenlib_1_1_exp_a08e999d4959af7f31432f2ee0f351b6c}{collapse\+Nested\+Invertible\+Functions}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_a593281d60fa517c60cd9ef7afe080253}{depends\+On}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_term}{Term}} \&\mbox{\hyperlink{gen-psqr_8c_a3780a003ed134be1cdcc69b3cdf84c45}{factor}}) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_adb04ce59994fa50575868e4ffb379372}{has\+Indexed\+U\+F\+Call}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_u_f_call_term}{U\+F\+Call\+Term}} $\ast$ \mbox{\hyperlink{classiegenlib_1_1_exp_a5acbaf56d1d447c707f10cb4c216db56}{clone\+Indexed\+U\+F\+Call\+Term}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_af77989f6a057a52a4c165cb573476b34}{equals\+Zero}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_a9daa3a8938f9ecaebce90582d6665021}{operator==}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_term}{Term}} \&other) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Returns true if this expression equals the given term. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_a427f71c0553e510d76865d5cdf92c2a9}{operator$<$}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \&other) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Less than operator. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_aa61e1d2d3416bdc27b7238ef95998e98}{operator==}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \&other) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Equality operator. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_ac9097f66e7424be0131f9f15932960af}{remap\+Tuple\+Vars}} (\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ int $>$ \&old\+To\+New\+Locs)
+\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_aba7568b7b72532341458e0f955bd4aed}{set\+Expression}} ()
+\begin{DoxyCompactList}\small\item\em Calls the Exp\+Case for the visitor design pattern. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_a26403dd09f5bf109690ff3754535dcda}{set\+Inequality}} ()
+\begin{DoxyCompactList}\small\item\em Sets m\+Exp\+Type to Inequality, to indicate \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $>$= 0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_ab049e13905e408b197ac4a0bc3015569}{set\+Equality}} ()
+\begin{DoxyCompactList}\small\item\em Sets m\+Exp\+Type to Equality, to indicate \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} == 0. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_a19e7e6c43269ca524191a014f7223ef9}{is\+Expression}} ()
+\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_a99594f5b0646c6bfbc8e70d5b85db671}{is\+Inequality}} ()
+\begin{DoxyCompactList}\small\item\em Returns true if the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} is an inequality, ie expression $>$= 0. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_a0c6b056e1ba61b1cbe3b5af0f3da97d2}{is\+Equality}} ()
+\begin{DoxyCompactList}\small\item\em Returns true if the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} is an equality, ie expression == 0. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_aa41bb2bd1df16a42acbf1efbbdd5c6d0}{is\+Const}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Returns true if only have a constant term. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classiegenlib_1_1_exp_afeacfa495c0b97bb19b3a7f6623dfafa}{is\+Contradiction}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\begin{DoxyCompactList}\small\item\em Returns true if we have something like\+: 2 = 0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$ \mbox{\hyperlink{classiegenlib_1_1_exp_a841e308eba8e00c536d04438543aa691}{get\+Term}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$ \mbox{\hyperlink{classiegenlib_1_1_exp_a69fad308b1c2ff88763f1ac6a0f708bc}{get\+Const\+Term}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+std\+::string \mbox{\hyperlink{classiegenlib_1_1_exp_a020842f1176a19ab885fb230f57e3caf}{to\+Dot\+String}} (int \&next\+\_\+id) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+std\+::string \mbox{\hyperlink{classiegenlib_1_1_exp_a4d757e17160a5519463ddd000c25a938}{to\+Dot\+String}} (int parent\+\_\+id, int \&next\+\_\+id) \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_string_iterator}{String\+Iterator}} $\ast$ \mbox{\hyperlink{classiegenlib_1_1_exp_a17c11aeea4006b1b285ef434dee4749d}{get\+Symbol\+Iterator}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\item 
+void \mbox{\hyperlink{classiegenlib_1_1_exp_a2f524286691e95fcbbc8b3294e254f15}{accept\+Visitor}} (\mbox{\hyperlink{class_visitor}{Visitor}} $\ast$v)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_visitor}{Visitor}} design pattern, see \mbox{\hyperlink{_visitor_8h}{Visitor.\+h}} for usage. \end{DoxyCompactList}\item 
+std\+::list$<$ \mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$ $>$ \mbox{\hyperlink{classiegenlib_1_1_exp_a2ad9daa554067dab43e66088e7883d67}{get\+Term\+List}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55}{exptype}} \{ \mbox{\hyperlink{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55a8fe4346a1f8320a8e4897151be964c4b}{Expression}}, 
+\mbox{\hyperlink{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55a9e98da3e351d5df4920178f2dc393581}{Inequality}}, 
+\mbox{\hyperlink{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55a53081cd398187365ad9fecc3b6972c58}{Equality}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55}{exptype}} \mbox{\hyperlink{classiegenlib_1_1_exp_a4b0dbf5924e3ffe17fdff979cbb37c77}{get\+Exp\+Type}} () \mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An affine expression that allows uninterpreted function call terms. 
+
+Memory management\+: the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} manages its own copies of any terms it contains, copies those when the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} itself is copied, and deletes them when the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} is destroyed. 
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55}\label{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!exptype@{exptype}}
+\index{exptype@{exptype}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{exptype}{exptype}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55}{iegenlib\+::\+Exp\+::exptype}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Expression@{Expression}!iegenlib::Exp@{iegenlib::Exp}}\index{iegenlib::Exp@{iegenlib::Exp}!Expression@{Expression}}}\mbox{\Hypertarget{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55a8fe4346a1f8320a8e4897151be964c4b}\label{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55a8fe4346a1f8320a8e4897151be964c4b}} 
+Expression&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Inequality@{Inequality}!iegenlib::Exp@{iegenlib::Exp}}\index{iegenlib::Exp@{iegenlib::Exp}!Inequality@{Inequality}}}\mbox{\Hypertarget{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55a9e98da3e351d5df4920178f2dc393581}\label{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55a9e98da3e351d5df4920178f2dc393581}} 
+Inequality&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Equality@{Equality}!iegenlib::Exp@{iegenlib::Exp}}\index{iegenlib::Exp@{iegenlib::Exp}!Equality@{Equality}}}\mbox{\Hypertarget{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55a53081cd398187365ad9fecc3b6972c58}\label{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55a53081cd398187365ad9fecc3b6972c58}} 
+Equality&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_ab6f0fd50aaf88266fbb79a214c49c0d4}\label{classiegenlib_1_1_exp_ab6f0fd50aaf88266fbb79a214c49c0d4}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!Exp@{Exp}}
+\index{Exp@{Exp}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{Exp()}{Exp()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily iegenlib\+::\+Exp\+::\+Exp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Default constructor. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_ab6f0fd50aaf88266fbb79a214c49c0d4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_ab6f0fd50aaf88266fbb79a214c49c0d4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a62abb4b1d0bf63bf4bb7e17372184c57}\label{classiegenlib_1_1_exp_a62abb4b1d0bf63bf4bb7e17372184c57}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!Exp@{Exp}}
+\index{Exp@{Exp}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{Exp()}{Exp()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily iegenlib\+::\+Exp\+::\+Exp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Copy constructor. Performs a deep copy. 
+
+Copy constructor. \mbox{\Hypertarget{classiegenlib_1_1_exp_a5e2ee8bf01f6d2a750f9f72b3b7c2271}\label{classiegenlib_1_1_exp_a5e2ee8bf01f6d2a750f9f72b3b7c2271}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!````~Exp@{$\sim$Exp}}
+\index{````~Exp@{$\sim$Exp}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{$\sim$Exp()}{~Exp()}}
+{\footnotesize\ttfamily iegenlib\+::\+Exp\+::$\sim$\+Exp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Destructor. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{classiegenlib_1_1_exp_a5e2ee8bf01f6d2a750f9f72b3b7c2271_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a2f524286691e95fcbbc8b3294e254f15}\label{classiegenlib_1_1_exp_a2f524286691e95fcbbc8b3294e254f15}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!acceptVisitor@{acceptVisitor}}
+\index{acceptVisitor@{acceptVisitor}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{acceptVisitor()}{acceptVisitor()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::accept\+Visitor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_visitor}{Visitor}} $\ast$}]{v }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{class_visitor}{Visitor}} design pattern, see \mbox{\hyperlink{_visitor_8h}{Visitor.\+h}} for usage. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a2f524286691e95fcbbc8b3294e254f15_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a86c8b709083fc08fa16fda2a922c152d}\label{classiegenlib_1_1_exp_a86c8b709083fc08fa16fda2a922c152d}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!addExp@{addExp}}
+\index{addExp@{addExp}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{addExp()}{addExp()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::add\+Exp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$}]{exp }\end{DoxyParamCaption})}
+
+
+
+Add another expression to this one. 
+
+Add another expression to this one. ~\newline
+ /param term (adopted) Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a86c8b709083fc08fa16fda2a922c152d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a86c8b709083fc08fa16fda2a922c152d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_ae8fb5182c5bf4ba759cdb1d3b927d4a4}\label{classiegenlib_1_1_exp_ae8fb5182c5bf4ba759cdb1d3b927d4a4}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!addTerm@{addTerm}}
+\index{addTerm@{addTerm}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{addTerm()}{addTerm()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::add\+Term (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$}]{term }\end{DoxyParamCaption})}
+
+
+
+Add a term to this expression. 
+
+Add a term to this expression. /param term (adopted) Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_ae8fb5182c5bf4ba759cdb1d3b927d4a4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_ae8fb5182c5bf4ba759cdb1d3b927d4a4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_acc612ac703e80e859675237e8d2b7ae1}\label{classiegenlib_1_1_exp_acc612ac703e80e859675237e8d2b7ae1}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!clone@{clone}}
+\index{clone@{clone}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$ iegenlib\+::\+Exp\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Create a copy of this \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} (and of the same subclass) 
+
+Create a copy of this \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} (of the same subclass) Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_acc612ac703e80e859675237e8d2b7ae1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_acc612ac703e80e859675237e8d2b7ae1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a5acbaf56d1d447c707f10cb4c216db56}\label{classiegenlib_1_1_exp_a5acbaf56d1d447c707f10cb4c216db56}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!cloneIndexedUFCallTerm@{cloneIndexedUFCallTerm}}
+\index{cloneIndexedUFCallTerm@{cloneIndexedUFCallTerm}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{cloneIndexedUFCallTerm()}{cloneIndexedUFCallTerm()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_u_f_call_term}{U\+F\+Call\+Term}} $\ast$ iegenlib\+::\+Exp\+::clone\+Indexed\+U\+F\+Call\+Term (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Returns a clone of the single indexed U\+F\+Call in expression. If there are none or more than one then an exception is thrown. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a5acbaf56d1d447c707f10cb4c216db56_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=318pt]{classiegenlib_1_1_exp_a5acbaf56d1d447c707f10cb4c216db56_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a08e999d4959af7f31432f2ee0f351b6c}\label{classiegenlib_1_1_exp_a08e999d4959af7f31432f2ee0f351b6c}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!collapseNestedInvertibleFunctions@{collapseNestedInvertibleFunctions}}
+\index{collapseNestedInvertibleFunctions@{collapseNestedInvertibleFunctions}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{collapseNestedInvertibleFunctions()}{collapseNestedInvertibleFunctions()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$ iegenlib\+::\+Exp\+::collapse\+Nested\+Invertible\+Functions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Return a new \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} with all nested functions such as f ( f\+\_\+inv ( i ) ) changed to i.
+
+Return a new \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} with all nested functions such as f ( f\+\_\+inv ( i ) ) changed to i. g(g\+\_\+inv(x)\mbox{[}0\mbox{]}, g\+\_\+inv(x)\mbox{[}1\mbox{]}) changed to x Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a08e999d4959af7f31432f2ee0f351b6c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a08e999d4959af7f31432f2ee0f351b6c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a593281d60fa517c60cd9ef7afe080253}\label{classiegenlib_1_1_exp_a593281d60fa517c60cd9ef7afe080253}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!dependsOn@{dependsOn}}
+\index{dependsOn@{dependsOn}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{dependsOn()}{dependsOn()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::depends\+On (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_term}{Term}} \&}]{factor }\end{DoxyParamCaption}) const}
+
+Search for the given factor anywhere in this expression (including within \mbox{\hyperlink{classiegenlib_1_1_u_f_call_term}{U\+F\+Call\+Term}} arguments, recursively). Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a593281d60fa517c60cd9ef7afe080253_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a593281d60fa517c60cd9ef7afe080253_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_af5f82a6792ea85d72bd8344ac12d754b}\label{classiegenlib_1_1_exp_af5f82a6792ea85d72bd8344ac12d754b}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!divideBy@{divideBy}}
+\index{divideBy@{divideBy}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{divideBy()}{divideBy()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::divide\+By (\begin{DoxyParamCaption}\item[{int}]{divisor }\end{DoxyParamCaption})}
+
+
+
+Divide all coefficients and the constant term by the given divisor. 
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_af5f82a6792ea85d72bd8344ac12d754b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_af77989f6a057a52a4c165cb573476b34}\label{classiegenlib_1_1_exp_af77989f6a057a52a4c165cb573476b34}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!equalsZero@{equalsZero}}
+\index{equalsZero@{equalsZero}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{equalsZero()}{equalsZero()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::equals\+Zero (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Return true iff this expression has no terms, or has only a constant term equal to 0. Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_af77989f6a057a52a4c165cb573476b34_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a69fad308b1c2ff88763f1ac6a0f708bc}\label{classiegenlib_1_1_exp_a69fad308b1c2ff88763f1ac6a0f708bc}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!getConstTerm@{getConstTerm}}
+\index{getConstTerm@{getConstTerm}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{getConstTerm()}{getConstTerm()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$ iegenlib\+::\+Exp\+::get\+Const\+Term (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Return Term$\ast$ for constant term if there is one. Otherwise return N\+U\+LL. This expression still owns the \mbox{\hyperlink{classiegenlib_1_1_term}{Term}}. \mbox{\Hypertarget{classiegenlib_1_1_exp_a4b0dbf5924e3ffe17fdff979cbb37c77}\label{classiegenlib_1_1_exp_a4b0dbf5924e3ffe17fdff979cbb37c77}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!getExpType@{getExpType}}
+\index{getExpType@{getExpType}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{getExpType()}{getExpType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_exp_a36f4ee2b9644e332adcc6b4894209c55}{exptype}} iegenlib\+::\+Exp\+::get\+Exp\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a4b0dbf5924e3ffe17fdff979cbb37c77_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a17c11aeea4006b1b285ef434dee4749d}\label{classiegenlib_1_1_exp_a17c11aeea4006b1b285ef434dee4749d}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!getSymbolIterator@{getSymbolIterator}}
+\index{getSymbolIterator@{getSymbolIterator}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{getSymbolIterator()}{getSymbolIterator()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_string_iterator}{String\+Iterator}} $\ast$ iegenlib\+::\+Exp\+::get\+Symbol\+Iterator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Returns an iterator over symbolic constant variables. Assumes all \mbox{\hyperlink{classiegenlib_1_1_var_term}{Var\+Term}}\textquotesingle{}s are symbolic constants.
+
+Creates iterator over all symbolic constants in the expression. Caller is responsible for deleting the \mbox{\hyperlink{classiegenlib_1_1_string_iterator}{String\+Iterator}}. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a17c11aeea4006b1b285ef434dee4749d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=306pt]{classiegenlib_1_1_exp_a17c11aeea4006b1b285ef434dee4749d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a841e308eba8e00c536d04438543aa691}\label{classiegenlib_1_1_exp_a841e308eba8e00c536d04438543aa691}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!getTerm@{getTerm}}
+\index{getTerm@{getTerm}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{getTerm()}{getTerm()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$ iegenlib\+::\+Exp\+::get\+Term (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Return Term$\ast$ if the expression has only one \mbox{\hyperlink{classiegenlib_1_1_term}{Term}}. Otherwise returns N\+U\+LL. this still owns \mbox{\hyperlink{classiegenlib_1_1_term}{Term}}.
+
+Return Term$\ast$ if the expression has only one \mbox{\hyperlink{classiegenlib_1_1_term}{Term}}. Otherwise returns N\+U\+LL. Still owns \mbox{\hyperlink{classiegenlib_1_1_term}{Term}}. Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a841e308eba8e00c536d04438543aa691_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a2ad9daa554067dab43e66088e7883d67}\label{classiegenlib_1_1_exp_a2ad9daa554067dab43e66088e7883d67}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!getTermList@{getTermList}}
+\index{getTermList@{getTermList}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{getTermList()}{getTermList()}}
+{\footnotesize\ttfamily std\+::list$<$ \mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$ $>$ iegenlib\+::\+Exp\+::get\+Term\+List (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Get a list of pointers to the terms in this expression. All pointers in this list are still owned by the expression. Caller should N\+OT modify expressions or delete them.
+
+Get a list of pointers to the terms in this expression. All pointers in this list will be owned by caller. \mbox{\Hypertarget{classiegenlib_1_1_exp_adb04ce59994fa50575868e4ffb379372}\label{classiegenlib_1_1_exp_adb04ce59994fa50575868e4ffb379372}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!hasIndexedUFCall@{hasIndexedUFCall}}
+\index{hasIndexedUFCall@{hasIndexedUFCall}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{hasIndexedUFCall()}{hasIndexedUFCall()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::has\+Indexed\+U\+F\+Call (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Returns true if this expression contains a \mbox{\hyperlink{classiegenlib_1_1_u_f_call_term}{U\+F\+Call\+Term}} that is being indexed. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_adb04ce59994fa50575868e4ffb379372_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_adb04ce59994fa50575868e4ffb379372_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a37ac41a4e3da43c1d59b7acd94397f5f}\label{classiegenlib_1_1_exp_a37ac41a4e3da43c1d59b7acd94397f5f}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!invertFuncToExposeFactor@{invertFuncToExposeFactor}}
+\index{invertFuncToExposeFactor@{invertFuncToExposeFactor}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{invertFuncToExposeFactor()}{invertFuncToExposeFactor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$ iegenlib\+::\+Exp\+::invert\+Func\+To\+Expose\+Factor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$}]{factor\+\_\+ptr }\end{DoxyParamCaption}) const}
+
+
+
+F\+I\+X\+ME\+: should only work on equality expressions. Really? 
+
+Search this expression for the given factor and invert a function to expose the factor. Return a new expression (which is an equality constraint, exp=0, that exposes the term with the factor. Returns N\+U\+LL if can\textquotesingle{}t do this.
+
+Creates an expression by inverting a function and exposing the given factor if the given factor is in an argument expression to a bijective uninterpreted function. For example, this \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}}\+: \+\_\+\+\_\+tv0 + x + f( y ) factor\+: y returns\+: y -\/ f\+\_\+inv(-\/\+\_\+tv0 -\/ x)
+
+If can\textquotesingle{}t expose the given factor, then returns N\+U\+LL. Owns given factor but caller is responsible for deallocating space for returned expression. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a37ac41a4e3da43c1d59b7acd94397f5f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a37ac41a4e3da43c1d59b7acd94397f5f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_aa41bb2bd1df16a42acbf1efbbdd5c6d0}\label{classiegenlib_1_1_exp_aa41bb2bd1df16a42acbf1efbbdd5c6d0}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!isConst@{isConst}}
+\index{isConst@{isConst}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{isConst()}{isConst()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::is\+Const (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns true if only have a constant term. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_aa41bb2bd1df16a42acbf1efbbdd5c6d0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=290pt]{classiegenlib_1_1_exp_aa41bb2bd1df16a42acbf1efbbdd5c6d0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_afeacfa495c0b97bb19b3a7f6623dfafa}\label{classiegenlib_1_1_exp_afeacfa495c0b97bb19b3a7f6623dfafa}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!isContradiction@{isContradiction}}
+\index{isContradiction@{isContradiction}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{isContradiction()}{isContradiction()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::is\+Contradiction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Returns true if we have something like\+: 2 = 0. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_afeacfa495c0b97bb19b3a7f6623dfafa_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a77a43b9de53d171a5bb98154033942a4}\label{classiegenlib_1_1_exp_a77a43b9de53d171a5bb98154033942a4}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!isDivisible@{isDivisible}}
+\index{isDivisible@{isDivisible}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{isDivisible()}{isDivisible()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::is\+Divisible (\begin{DoxyParamCaption}\item[{int}]{divisor }\end{DoxyParamCaption}) const}
+
+Return whether all coefficients in this expression are evenly divisible by the given integer. Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a77a43b9de53d171a5bb98154033942a4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a0c6b056e1ba61b1cbe3b5af0f3da97d2}\label{classiegenlib_1_1_exp_a0c6b056e1ba61b1cbe3b5af0f3da97d2}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!isEquality@{isEquality}}
+\index{isEquality@{isEquality}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{isEquality()}{isEquality()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::is\+Equality (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} is an equality, ie expression == 0. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a0c6b056e1ba61b1cbe3b5af0f3da97d2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a0c6b056e1ba61b1cbe3b5af0f3da97d2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a19e7e6c43269ca524191a014f7223ef9}\label{classiegenlib_1_1_exp_a19e7e6c43269ca524191a014f7223ef9}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!isExpression@{isExpression}}
+\index{isExpression@{isExpression}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{isExpression()}{isExpression()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::is\+Expression (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns true if the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} is a simple expression, not a constraint Does not mean it is a U\+F\+Call param. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a19e7e6c43269ca524191a014f7223ef9_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a99594f5b0646c6bfbc8e70d5b85db671}\label{classiegenlib_1_1_exp_a99594f5b0646c6bfbc8e70d5b85db671}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!isInequality@{isInequality}}
+\index{isInequality@{isInequality}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{isInequality()}{isInequality()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::is\+Inequality (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns true if the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} is an inequality, ie expression $>$= 0. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a99594f5b0646c6bfbc8e70d5b85db671_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a1a6b86abe42b0a036d2ac03713161f4d}\label{classiegenlib_1_1_exp_a1a6b86abe42b0a036d2ac03713161f4d}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!multiplyBy@{multiplyBy}}
+\index{multiplyBy@{multiplyBy}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{multiplyBy()}{multiplyBy()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::multiply\+By (\begin{DoxyParamCaption}\item[{int}]{constant }\end{DoxyParamCaption})}
+
+
+
+Multiply all terms in this expression by a constant. 
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a1a6b86abe42b0a036d2ac03713161f4d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a962593123e1dfcceb7dd1346c8cd7fa5}\label{classiegenlib_1_1_exp_a962593123e1dfcceb7dd1346c8cd7fa5}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!normalizeForEquality@{normalizeForEquality}}
+\index{normalizeForEquality@{normalizeForEquality}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{normalizeForEquality()}{normalizeForEquality()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::normalize\+For\+Equality (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+F\+I\+X\+ME\+: should only work on equality expressions. 
+
+Normalize this expression for use in an equality expression. This is called when we know this expression is equal to zero; in that case, it\textquotesingle{}s valid to multiply the whole expression by -\/1. So we do so, in order to ensure the first term has a positive coefficient, so that equivalent expressions can be reliably compared. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a962593123e1dfcceb7dd1346c8cd7fa5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a962593123e1dfcceb7dd1346c8cd7fa5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a427f71c0553e510d76865d5cdf92c2a9}\label{classiegenlib_1_1_exp_a427f71c0553e510d76865d5cdf92c2a9}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::operator$<$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \&}]{other }\end{DoxyParamCaption}) const}
+
+
+
+Less than operator. 
+
+Less than operator. Compare two \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} in the following order\+:
+\begin{DoxyEnumerate}
+\item by size\+: number of terms in m\+Terms
+\item by sorted term values\+: using Term\+::operator$<$(\+Term) This operator assumes that the list of terms (m\+Terms) is sorted for both \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} being compared. 
+\begin{DoxyParams}{Parameters}
+{\em other,object} & to be compared \\
+\hline
+\end{DoxyParams}
+
+\end{DoxyEnumerate}\mbox{\Hypertarget{classiegenlib_1_1_exp_a946acfa0d8309bd2b49aa8902da0ba5a}\label{classiegenlib_1_1_exp_a946acfa0d8309bd2b49aa8902da0ba5a}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!operator=@{operator=}}
+\index{operator=@{operator=}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \& iegenlib\+::\+Exp\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Copy assignment. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a946acfa0d8309bd2b49aa8902da0ba5a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_aa61e1d2d3416bdc27b7238ef95998e98}\label{classiegenlib_1_1_exp_aa61e1d2d3416bdc27b7238ef95998e98}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!operator==@{operator==}}
+\index{operator==@{operator==}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} \&}]{other }\end{DoxyParamCaption}) const}
+
+
+
+Equality operator. 
+
+Equality operator. Compare two \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} for equality. This operator assumes operator$<$(\+Exp) is well defined. 
+\begin{DoxyParams}{Parameters}
+{\em other,object} & to be compared \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a9daa3a8938f9ecaebce90582d6665021}\label{classiegenlib_1_1_exp_a9daa3a8938f9ecaebce90582d6665021}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!operator==@{operator==}}
+\index{operator==@{operator==}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool iegenlib\+::\+Exp\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_term}{Term}} \&}]{other }\end{DoxyParamCaption}) const}
+
+
+
+Returns true if this expression equals the given term. 
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a9daa3a8938f9ecaebce90582d6665021_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_afa7b42e8d70edf6ef5c190d6be5a8866}\label{classiegenlib_1_1_exp_afa7b42e8d70edf6ef5c190d6be5a8866}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!prettyPrintString@{prettyPrintString}}
+\index{prettyPrintString@{prettyPrintString}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{prettyPrintString()}{prettyPrintString()}}
+{\footnotesize\ttfamily std\+::string iegenlib\+::\+Exp\+::pretty\+Print\+String (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} \mbox{\hyperlink{classiegenlib_1_1_tuple_decl}{Tuple\+Decl}} \&}]{a\+Tuple\+Decl }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Convert to a human-\/readable string (substitute in tuple vars). 
+
+Creates a compact string, pretty printed. Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=305pt]{classiegenlib_1_1_exp_afa7b42e8d70edf6ef5c190d6be5a8866_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_ac9097f66e7424be0131f9f15932960af}\label{classiegenlib_1_1_exp_ac9097f66e7424be0131f9f15932960af}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!remapTupleVars@{remapTupleVars}}
+\index{remapTupleVars@{remapTupleVars}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{remapTupleVars()}{remapTupleVars()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::remap\+Tuple\+Vars (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{gen-psqr_8c_a2c212835823e3c54a8ab6d95c652660e}{const}} std\+::vector$<$ int $>$ \&}]{old\+To\+New\+Locs }\end{DoxyParamCaption})}
+
+Find any Tuple\+Var\+Terms in this expression (and subexpressions) and remap the locations according to the old\+To\+New\+Locs vector, where old\+To\+New\+Locs\mbox{[}i\mbox{]} = j means that old location i becomes new location j (i.\+e. \+\_\+\+\_\+tvi -\/$>$ \+\_\+\+\_\+tvj). Throws an exception if an old location is out of range for the given old\+To\+New\+Locs. The new location will be -\/1 for old locations that are not being remapped. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_ac9097f66e7424be0131f9f15932960af_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=332pt]{classiegenlib_1_1_exp_ac9097f66e7424be0131f9f15932960af_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_aa3bbc437ff96892acb45928a43208336}\label{classiegenlib_1_1_exp_aa3bbc437ff96892acb45928a43208336}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!reset@{reset}}
+\index{reset@{reset}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destructor. 
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_aa3bbc437ff96892acb45928a43208336_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_ab049e13905e408b197ac4a0bc3015569}\label{classiegenlib_1_1_exp_ab049e13905e408b197ac4a0bc3015569}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!setEquality@{setEquality}}
+\index{setEquality@{setEquality}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{setEquality()}{setEquality()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::set\+Equality (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets m\+Exp\+Type to Equality, to indicate \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} == 0. 
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_ab049e13905e408b197ac4a0bc3015569_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_aba7568b7b72532341458e0f955bd4aed}\label{classiegenlib_1_1_exp_aba7568b7b72532341458e0f955bd4aed}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!setExpression@{setExpression}}
+\index{setExpression@{setExpression}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{setExpression()}{setExpression()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::set\+Expression (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Calls the Exp\+Case for the visitor design pattern. 
+
+Sets m\+Exp\+Type to Expression, for a simple expression Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_aba7568b7b72532341458e0f955bd4aed_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a26403dd09f5bf109690ff3754535dcda}\label{classiegenlib_1_1_exp_a26403dd09f5bf109690ff3754535dcda}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!setInequality@{setInequality}}
+\index{setInequality@{setInequality}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{setInequality()}{setInequality()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::set\+Inequality (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets m\+Exp\+Type to Inequality, to indicate \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $>$= 0. 
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a26403dd09f5bf109690ff3754535dcda_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a8a0e8cb99a2c1e1bd7c7855bfe0c5222}\label{classiegenlib_1_1_exp_a8a0e8cb99a2c1e1bd7c7855bfe0c5222}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!solveForFactor@{solveForFactor}}
+\index{solveForFactor@{solveForFactor}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{solveForFactor()}{solveForFactor()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} $\ast$ iegenlib\+::\+Exp\+::solve\+For\+Factor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_term}{Term}} $\ast$}]{factor }\end{DoxyParamCaption}) const}
+
+Assumes the equality \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}}=0 and solves for the given factor. F\+I\+X\+ME\+: should only work on equality expressions. Really? /param factor (adopted) ~\newline
+ Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a8a0e8cb99a2c1e1bd7c7855bfe0c5222_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a8a0e8cb99a2c1e1bd7c7855bfe0c5222_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a94857663a08bd6db7ec3351a936ae721}\label{classiegenlib_1_1_exp_a94857663a08bd6db7ec3351a936ae721}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!substitute@{substitute}}
+\index{substitute@{substitute}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{substitute()}{substitute()}}
+{\footnotesize\ttfamily void iegenlib\+::\+Exp\+::substitute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classiegenlib_1_1_sub_map}{Sub\+Map}} \&}]{search\+Term\+To\+Sub\+Exp }\end{DoxyParamCaption})}
+
+Substitute each expression for the factor (i.\+e. the non-\/coefficient part of a term), which is its key. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a94857663a08bd6db7ec3351a936ae721_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{classiegenlib_1_1_exp_a94857663a08bd6db7ec3351a936ae721_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a020842f1176a19ab885fb230f57e3caf}\label{classiegenlib_1_1_exp_a020842f1176a19ab885fb230f57e3caf}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!toDotString@{toDotString}}
+\index{toDotString@{toDotString}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{toDotString()}{toDotString()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::string iegenlib\+::\+Exp\+::to\+Dot\+String (\begin{DoxyParamCaption}\item[{int \&}]{next\+\_\+id }\end{DoxyParamCaption}) const}
+
+Output the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} in dot format. Note here, we still need to provide \char`\"{}digraph name \{\char`\"{} and \char`\"{}\}\char`\"{} Pass in the parent node id and the next node id. The next node id will be set upon exit from this routine. If no parent id is given then will not draw edge from parent to self.
+
+Output the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} in dot format. Pass in the next node id. The next node id will be set to next id upon exit from this routine. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a020842f1176a19ab885fb230f57e3caf_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a020842f1176a19ab885fb230f57e3caf_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a4d757e17160a5519463ddd000c25a938}\label{classiegenlib_1_1_exp_a4d757e17160a5519463ddd000c25a938}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!toDotString@{toDotString}}
+\index{toDotString@{toDotString}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{toDotString()}{toDotString()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::string iegenlib\+::\+Exp\+::to\+Dot\+String (\begin{DoxyParamCaption}\item[{int}]{parent\+\_\+id,  }\item[{int \&}]{next\+\_\+id }\end{DoxyParamCaption}) const}
+
+Output the \mbox{\hyperlink{classiegenlib_1_1_exp}{Exp}} in dot format. Pass in the parent node id and the next node id. The next node id will be set upon exit from this routine. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classiegenlib_1_1_exp_a4d757e17160a5519463ddd000c25a938_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classiegenlib_1_1_exp_a3b4b80d89cb3fed917cf3966df869e39}\label{classiegenlib_1_1_exp_a3b4b80d89cb3fed917cf3966df869e39}} 
+\index{iegenlib::Exp@{iegenlib::Exp}!toString@{toString}}
+\index{toString@{toString}!iegenlib::Exp@{iegenlib::Exp}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily std\+::string iegenlib\+::\+Exp\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Creates a compact string to help with debugging. 
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=292pt]{classiegenlib_1_1_exp_a3b4b80d89cb3fed917cf3966df869e39_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+lib/iegenlib/src/set\+\_\+relation/\mbox{\hyperlink{expression_8h}{expression.\+h}}\item 
+lib/iegenlib/src/set\+\_\+relation/\mbox{\hyperlink{expression_8cc}{expression.\+cc}}\end{DoxyCompactItemize}

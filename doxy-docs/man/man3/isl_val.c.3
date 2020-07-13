@@ -1,0 +1,484 @@
+.TH "lib/isl/isl_val.c" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+lib/isl/isl_val.c
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <isl_int\&.h>\fP
+.br
+\fC#include <isl_ctx_private\&.h>\fP
+.br
+\fC#include <isl_val_private\&.h>\fP
+.br
+\fC#include <isl_list_templ\&.c>\fP
+.br
+\fC#include <isl_multi_templ\&.c>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBBASE\fP   \fBval\fP"
+.br
+.ti -1c
+.RI "#define \fBBASE\fP   \fBval\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_DOMAIN\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_IDENTITY\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_FROM_BASE\fP"
+.br
+.ti -1c
+.RI "#define \fBNO_MOVE_DIMS\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_alloc\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_zero\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_one\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_negone\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_nan\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_set_nan\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_infty\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_neginfty\fP (\fBisl_ctx\fP *ctx)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_int_from_si\fP (\fBisl_ctx\fP *ctx, long \fBi\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_set_si\fP (\fB__isl_take\fP \fBisl_val\fP *v, long \fBi\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_set_zero\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_int_from_ui\fP (\fBisl_ctx\fP *ctx, unsigned long \fBu\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_int_from_isl_int\fP (\fBisl_ctx\fP *ctx, \fBisl_int\fP \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_rat_from_isl_int\fP (\fBisl_ctx\fP *ctx, \fBisl_int\fP \fBn\fP, \fBisl_int\fP d)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_copy\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_dup\fP (\fB__isl_keep\fP \fBisl_val\fP *\fBval\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_cow\fP (\fB__isl_take\fP \fBisl_val\fP *\fBval\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_null\fP \fBisl_val\fP * \fBisl_val_free\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "long \fBisl_val_get_num_si\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "int \fBisl_val_get_num_isl_int\fP (\fB__isl_keep\fP \fBisl_val\fP *v, \fBisl_int\fP *\fBn\fP)"
+.br
+.ti -1c
+.RI "long \fBisl_val_get_den_si\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_get_den_val\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "double \fBisl_val_get_d\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_ctx\fP * \fBisl_val_get_ctx\fP (\fB__isl_keep\fP \fBisl_val\fP *\fBval\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_normalize\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_neg\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_inv\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_abs\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_floor\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_ceil\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_trunc\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_2exp\fP (\fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_min\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_max\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_add\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_add_ui\fP (\fB__isl_take\fP \fBisl_val\fP *v1, unsigned long v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_sub\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_sub_ui\fP (\fB__isl_take\fP \fBisl_val\fP *v1, unsigned long v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_mul\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_scale_val\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_mul_ui\fP (\fB__isl_take\fP \fBisl_val\fP *v1, unsigned long v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_div\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_scale_down_val\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_divisible_by\fP (\fB__isl_keep\fP \fBisl_val\fP *v1, \fB__isl_keep\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_mod\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_mod_val\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_gcd\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_gcdext\fP (\fB__isl_take\fP \fBisl_val\fP *v1, \fB__isl_take\fP \fBisl_val\fP *v2, \fB__isl_give\fP \fBisl_val\fP **\fBx\fP, \fB__isl_give\fP \fBisl_val\fP **\fBy\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_int\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_rat\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_nan\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_infty\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_neginfty\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_zero\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_one\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_negone\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_pos\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_neg\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_nonneg\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_is_nonpos\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "int \fBisl_val_sgn\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_lt\fP (\fB__isl_keep\fP \fBisl_val\fP *v1, \fB__isl_keep\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_gt\fP (\fB__isl_keep\fP \fBisl_val\fP *v1, \fB__isl_keep\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_le\fP (\fB__isl_keep\fP \fBisl_val\fP *v1, \fB__isl_keep\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_ge\fP (\fB__isl_keep\fP \fBisl_val\fP *v1, \fB__isl_keep\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "int \fBisl_val_cmp_si\fP (\fB__isl_keep\fP \fBisl_val\fP *v, long \fBi\fP)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_eq\fP (\fB__isl_keep\fP \fBisl_val\fP *v1, \fB__isl_keep\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_abs_eq\fP (\fB__isl_keep\fP \fBisl_val\fP *v1, \fB__isl_keep\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fBisl_bool\fP \fBisl_val_ne\fP (\fB__isl_keep\fP \fBisl_val\fP *v1, \fB__isl_keep\fP \fBisl_val\fP *v2)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_printer\fP * \fBisl_printer_print_val\fP (\fB__isl_take\fP \fBisl_printer\fP *\fBp\fP, \fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "int \fBisl_val_plain_is_equal\fP (\fB__isl_keep\fP \fBisl_val\fP *val1, \fB__isl_keep\fP \fBisl_val\fP *val2)"
+.br
+.ti -1c
+.RI "int \fBisl_val_involves_dims\fP (\fB__isl_keep\fP \fBisl_val\fP *v, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_insert_dims\fP (\fB__isl_take\fP \fBisl_val\fP *v, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_drop_dims\fP (\fB__isl_take\fP \fBisl_val\fP *v, enum \fBisl_dim_type\fP type, unsigned first, unsigned \fBn\fP)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_set_dim_name\fP (\fB__isl_take\fP \fBisl_val\fP *v, enum \fBisl_dim_type\fP type, unsigned \fBpos\fP, \fBconst\fP char *s)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_space\fP * \fBisl_val_get_space\fP (\fB__isl_keep\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_reset_domain_space\fP (\fB__isl_take\fP \fBisl_val\fP *v, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_align_params\fP (\fB__isl_take\fP \fBisl_val\fP *v, \fB__isl_take\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_realign_domain\fP (\fB__isl_take\fP \fBisl_val\fP *v, \fB__isl_take\fP \fBisl_reordering\fP *r)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_val\fP * \fBisl_val_zero_on_domain\fP (\fB__isl_take\fP \fBisl_local_space\fP *ls)"
+.br
+.ti -1c
+.RI "int \fBisl_val_matching_params\fP (\fB__isl_keep\fP \fBisl_val\fP *v, \fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "int \fBisl_val_check_match_domain_space\fP (\fB__isl_keep\fP \fBisl_val\fP *v, \fB__isl_keep\fP \fBisl_space\fP *space)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_val\fP * \fBisl_multi_val_add_val\fP (\fB__isl_take\fP \fBisl_multi_val\fP *mv, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.ti -1c
+.RI "\fB__isl_give\fP \fBisl_multi_val\fP * \fBisl_multi_val_mod_val\fP (\fB__isl_take\fP \fBisl_multi_val\fP *mv, \fB__isl_take\fP \fBisl_val\fP *v)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BASE   \fBval\fP"
+
+.SS "#define BASE   \fBval\fP"
+
+.SS "#define NO_DOMAIN"
+
+.SS "#define NO_FROM_BASE"
+
+.SS "#define NO_IDENTITY"
+
+.SS "#define NO_MOVE_DIMS"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fB__isl_give\fP \fBisl_multi_val\fP* isl_multi_val_add_val (\fB__isl_take\fP \fBisl_multi_val\fP * mv, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_multi_val\fP* isl_multi_val_mod_val (\fB__isl_take\fP \fBisl_multi_val\fP * mv, \fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_printer\fP* isl_printer_print_val (\fB__isl_take\fP \fBisl_printer\fP * p, \fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_2exp (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_abs (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_abs_eq (\fB__isl_keep\fP \fBisl_val\fP * v1, \fB__isl_keep\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_add (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_add_ui (\fB__isl_take\fP \fBisl_val\fP * v1, unsigned long v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_align_params (\fB__isl_take\fP \fBisl_val\fP * v, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_alloc (\fBisl_ctx\fP * ctx)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_ceil (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "int isl_val_check_match_domain_space (\fB__isl_keep\fP \fBisl_val\fP * v, \fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "int isl_val_cmp_si (\fB__isl_keep\fP \fBisl_val\fP * v, long i)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_copy (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_cow (\fB__isl_take\fP \fBisl_val\fP * val)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_div (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_drop_dims (\fB__isl_take\fP \fBisl_val\fP * v, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_dup (\fB__isl_keep\fP \fBisl_val\fP * val)"
+
+.SS "\fBisl_bool\fP isl_val_eq (\fB__isl_keep\fP \fBisl_val\fP * v1, \fB__isl_keep\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_floor (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_null\fP \fBisl_val\fP* isl_val_free (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_gcd (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_gcdext (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2, \fB__isl_give\fP \fBisl_val\fP ** x, \fB__isl_give\fP \fBisl_val\fP ** y)"
+
+.SS "\fBisl_bool\fP isl_val_ge (\fB__isl_keep\fP \fBisl_val\fP * v1, \fB__isl_keep\fP \fBisl_val\fP * v2)"
+
+.SS "\fBisl_ctx\fP* isl_val_get_ctx (\fB__isl_keep\fP \fBisl_val\fP * val)"
+
+.SS "double isl_val_get_d (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "long isl_val_get_den_si (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_get_den_val (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "int isl_val_get_num_isl_int (\fB__isl_keep\fP \fBisl_val\fP * v, \fBisl_int\fP * n)"
+
+.SS "long isl_val_get_num_si (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_space\fP* isl_val_get_space (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_gt (\fB__isl_keep\fP \fBisl_val\fP * v1, \fB__isl_keep\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_infty (\fBisl_ctx\fP * ctx)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_insert_dims (\fB__isl_take\fP \fBisl_val\fP * v, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_int_from_isl_int (\fBisl_ctx\fP * ctx, \fBisl_int\fP n)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_int_from_si (\fBisl_ctx\fP * ctx, long i)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_int_from_ui (\fBisl_ctx\fP * ctx, unsigned long u)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_inv (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "int isl_val_involves_dims (\fB__isl_keep\fP \fBisl_val\fP * v, enum \fBisl_dim_type\fP type, unsigned first, unsigned n)"
+
+.SS "\fBisl_bool\fP isl_val_is_divisible_by (\fB__isl_keep\fP \fBisl_val\fP * v1, \fB__isl_keep\fP \fBisl_val\fP * v2)"
+
+.SS "\fBisl_bool\fP isl_val_is_infty (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_int (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_nan (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_neg (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_neginfty (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_negone (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_nonneg (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_nonpos (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_one (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_pos (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_rat (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_is_zero (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fBisl_bool\fP isl_val_le (\fB__isl_keep\fP \fBisl_val\fP * v1, \fB__isl_keep\fP \fBisl_val\fP * v2)"
+
+.SS "\fBisl_bool\fP isl_val_lt (\fB__isl_keep\fP \fBisl_val\fP * v1, \fB__isl_keep\fP \fBisl_val\fP * v2)"
+
+.SS "int isl_val_matching_params (\fB__isl_keep\fP \fBisl_val\fP * v, \fB__isl_keep\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_max (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_min (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_mod (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_mod_val (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_mul (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_mul_ui (\fB__isl_take\fP \fBisl_val\fP * v1, unsigned long v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_nan (\fBisl_ctx\fP * ctx)"
+
+.SS "\fBisl_bool\fP isl_val_ne (\fB__isl_keep\fP \fBisl_val\fP * v1, \fB__isl_keep\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_neg (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_neginfty (\fBisl_ctx\fP * ctx)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_negone (\fBisl_ctx\fP * ctx)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_normalize (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_one (\fBisl_ctx\fP * ctx)"
+
+.SS "int isl_val_plain_is_equal (\fB__isl_keep\fP \fBisl_val\fP * val1, \fB__isl_keep\fP \fBisl_val\fP * val2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_rat_from_isl_int (\fBisl_ctx\fP * ctx, \fBisl_int\fP n, \fBisl_int\fP d)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_realign_domain (\fB__isl_take\fP \fBisl_val\fP * v, \fB__isl_take\fP \fBisl_reordering\fP * r)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_reset_domain_space (\fB__isl_take\fP \fBisl_val\fP * v, \fB__isl_take\fP \fBisl_space\fP * space)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_scale_down_val (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_scale_val (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_set_dim_name (\fB__isl_take\fP \fBisl_val\fP * v, enum \fBisl_dim_type\fP type, unsigned pos, \fBconst\fP char * s)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_set_nan (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_set_si (\fB__isl_take\fP \fBisl_val\fP * v, long i)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_set_zero (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "int isl_val_sgn (\fB__isl_keep\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_sub (\fB__isl_take\fP \fBisl_val\fP * v1, \fB__isl_take\fP \fBisl_val\fP * v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_sub_ui (\fB__isl_take\fP \fBisl_val\fP * v1, unsigned long v2)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_trunc (\fB__isl_take\fP \fBisl_val\fP * v)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_zero (\fBisl_ctx\fP * ctx)"
+
+.SS "\fB__isl_give\fP \fBisl_val\fP* isl_val_zero_on_domain (\fB__isl_take\fP \fBisl_local_space\fP * ls)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

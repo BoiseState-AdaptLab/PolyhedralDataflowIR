@@ -1,0 +1,238 @@
+.TH "isl_arg" 3 "Sun Jul 12 2020" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+isl_arg
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <arg\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "enum \fBisl_arg_type\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "char \fBshort_name\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBlong_name\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBargument_name\fP"
+.br
+.ti -1c
+.RI "size_t \fBoffset\fP"
+.br
+.ti -1c
+.RI "\fBconst\fP char * \fBhelp_msg\fP"
+.br
+.ti -1c
+.RI "unsigned \fBflags\fP"
+.br
+.ti -1c
+.RI "union {"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      struct \fBisl_arg_choice\fP * \fBchoice\fP"
+.br
+.ti -1c
+.RI "      unsigned \fBdefault_value\fP"
+.br
+.ti -1c
+.RI "      unsigned \fBdefault_selected\fP"
+.br
+.ti -1c
+.RI "      int(* \fBset\fP )(void *opt, unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "   } \fBchoice\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      struct \fBisl_arg_flags\fP * \fBflags\fP"
+.br
+.ti -1c
+.RI "      unsigned \fBdefault_value\fP"
+.br
+.ti -1c
+.RI "   } \fBflags\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      unsigned \fBdefault_value\fP"
+.br
+.ti -1c
+.RI "      int(* \fBset\fP )(void *opt, unsigned \fBval\fP)"
+.br
+.ti -1c
+.RI "   } \fBb\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      int \fBdefault_value\fP"
+.br
+.ti -1c
+.RI "   } \fBi\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      long \fBdefault_value\fP"
+.br
+.ti -1c
+.RI "      long \fBdefault_selected\fP"
+.br
+.ti -1c
+.RI "      int(* \fBset\fP )(void *opt, long \fBval\fP)"
+.br
+.ti -1c
+.RI "   } \fBl\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      unsigned long \fBdefault_value\fP"
+.br
+.ti -1c
+.RI "   } \fBul\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      \fBconst\fP char * \fBdefault_value\fP"
+.br
+.ti -1c
+.RI "   } \fBstr\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      size_t \fBoffset_n\fP"
+.br
+.ti -1c
+.RI "   } \fBstr_list\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      struct \fBisl_args\fP * \fBchild\fP"
+.br
+.ti -1c
+.RI "   } \fBchild\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      void(* \fBprint_version\fP )(void)"
+.br
+.ti -1c
+.RI "   } \fBversion\fP"
+.br
+.ti -1c
+.RI "   struct {"
+.br
+.ti -1c
+.RI "      int(* \fBinit\fP )(void *)"
+.br
+.ti -1c
+.RI "      void(* \fBclear\fP )(void *)"
+.br
+.ti -1c
+.RI "   } \fBuser\fP"
+.br
+.ti -1c
+.RI "} \fBu\fP"
+.br
+.in -1c
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBconst\fP char* isl_arg::argument_name"
+
+.SS "struct { \&.\&.\&. }  isl_arg::b"
+
+.SS "struct \fBisl_args\fP* isl_arg::child"
+
+.SS "struct { \&.\&.\&. }  isl_arg::child"
+
+.SS "struct \fBisl_arg_choice\fP* isl_arg::choice"
+
+.SS "struct { \&.\&.\&. }  isl_arg::choice"
+
+.SS "void(* isl_arg::clear) (void *)"
+
+.SS "unsigned isl_arg::default_selected"
+
+.SS "long isl_arg::default_selected"
+
+.SS "unsigned isl_arg::default_value"
+
+.SS "int isl_arg::default_value"
+
+.SS "long isl_arg::default_value"
+
+.SS "unsigned long isl_arg::default_value"
+
+.SS "\fBconst\fP char* isl_arg::default_value"
+
+.SS "unsigned isl_arg::flags"
+
+.SS "struct \fBisl_arg_flags\fP* isl_arg::flags"
+
+.SS "struct { \&.\&.\&. }  isl_arg::flags"
+
+.SS "\fBconst\fP char* isl_arg::help_msg"
+
+.SS "struct { \&.\&.\&. }  isl_arg::i"
+
+.SS "int(* isl_arg::init) (void *)"
+
+.SS "struct { \&.\&.\&. }  isl_arg::l"
+
+.SS "\fBconst\fP char* isl_arg::long_name"
+
+.SS "size_t isl_arg::offset"
+
+.SS "size_t isl_arg::offset_n"
+
+.SS "void(* isl_arg::print_version) (void)"
+
+.SS "int(* isl_arg::set) (void *opt, long \fBval\fP)"
+
+.SS "char isl_arg::short_name"
+
+.SS "struct { \&.\&.\&. }  isl_arg::str"
+
+.SS "struct { \&.\&.\&. }  isl_arg::str_list"
+
+.SS "enum \fBisl_arg_type\fP isl_arg::type"
+
+.SS "union { \&.\&.\&. }  isl_arg::u"
+
+.SS "struct { \&.\&.\&. }  isl_arg::ul"
+
+.SS "struct { \&.\&.\&. }  isl_arg::user"
+
+.SS "struct { \&.\&.\&. }  isl_arg::version"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.
