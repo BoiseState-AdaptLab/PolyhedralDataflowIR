@@ -206,7 +206,7 @@ if (TESTING)
 
 elseif (MAKELIB)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3")
-    add_library(polylib STATIC ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
+    add_library(polylib SHARED ${EDSL_FILES} ${IEGEN_FILES} ${ISL_FILES} ${OMEGA_FILES})
 
 elseif (PARBUILD)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -ftree-vectorize -funroll-all-loops -O3")

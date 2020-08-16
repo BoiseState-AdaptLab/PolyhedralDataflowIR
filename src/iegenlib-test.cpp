@@ -5,10 +5,9 @@
  *  @author Geoffrey Meier
  */
 
-#include "libpolylib.a"
 
-//#include <libpolylib/iegenlib.h>
-//#include <libpolylib/omega/OmegaLib.hpp>
+#include <iegenlib/src/iegenlib.h>
+#include <omega/OmegaLib.hpp>
 #include <iostream>
 
 using namespace iegenlib;
