@@ -10,7 +10,7 @@ purposes. See deployment for notes on how to deploy the project on a live system
 
 ### Prerequisites
 
-The project requires Git, CMake, GCC, and Python3.
+The project requires Git, CMake, GCC, Flex, and Python3.
 
 ```
 $ git --version
@@ -21,6 +21,9 @@ cmake version 3.12.1
 
 $ g++ --version
 g++ (Ubuntu 8.3.0-6ubuntu1~18.10) 8.3.0
+
+$ flex --version
+flex 2.6.4
 
 $ python3 --version
 Python 3.6.7
@@ -69,7 +72,7 @@ $ make install
 
 ## Included Packages
 
-* [CHiLL](https://github.com/CtopCsUtahEdu/chill-dev) - Omega+ calculator performs polyhedral code generation.
+* [CHiLL](https://github.com//chill-dev) - Omega+ calculator performs polyhedral code generation.
 * [IEGenLib](https://github.com/CompOpt4Apps/IEGenLib) - Set and relation library with uninterpreted function symbols.
 * [ISL](https://github.com/Meinersbur/isl) - Integer Set Library (required by IEGenLib).
 * [GMP](https://gmplib.org) - GNU Multiple Precision Arithmetic Library (required by ISL).
